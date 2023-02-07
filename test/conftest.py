@@ -2,7 +2,6 @@ import pytest
 
 from config import settings
 from allthethings.app import create_app
-from allthethings.extensions import db as _db
 
 
 @pytest.fixture(scope="session")

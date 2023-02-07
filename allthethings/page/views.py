@@ -24,9 +24,10 @@ import traceback
 import urllib.parse
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import db, es, babel, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s
+from allthethings.extensions import engine, es, babel, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
+from sqlalchemy.orm import defaultload, Session
 from flask_babel import gettext, ngettext, get_translations, force_locale, get_locale
 
 import allthethings.utils
@@ -254,7 +255,7 @@ def localeselector():
 
 @functools.cache
 def last_data_refresh_date():
-    with db.engine.connect() as conn:
+    with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
         libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
         latest_time = max([libgenrs_time, libgenli_time])
@@ -293,14 +294,15 @@ def home_page():
         "7849ad74f44619db11c17b85f1a7f5c8", # Lord of the rings
         "6ed2d768ec1668c73e4fa742e3df78d6", # Physics
     ]
-    md5_dicts = get_md5_dicts_elasticsearch(db.session, popular_md5s)
-    md5_dicts.sort(key=lambda md5_dict: popular_md5s.index(md5_dict['md5']))
+    with Session(engine) as session:
+        md5_dicts = get_md5_dicts_elasticsearch(session, popular_md5s)
+        md5_dicts.sort(key=lambda md5_dict: popular_md5s.index(md5_dict['md5']))
 
-    return render_template(
-        "page/home.html",
-        header_active="home",
-        md5_dicts=md5_dicts,
-    )
+        return render_template(
+            "page/home.html",
+            header_active="home",
+            md5_dicts=md5_dicts,
+        )
 
 
 @page.get("/about")
@@ -315,7 +317,7 @@ def donate_page():
 
 @page.get("/datasets")
 def datasets_page():
-    with db.engine.connect() as conn:
+    with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
         libgenrs_date = str(libgenrs_time.date())
         libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
@@ -369,25 +371,26 @@ def get_zlib_book_dicts(session, key, values):
 
 @page.get("/zlib/<int:zlib_id>")
 def zlib_book_page(zlib_id):
-    zlib_book_dicts = get_zlib_book_dicts(db.session, "zlibrary_id", [zlib_id])
+    with Session(engine) as session:
+        zlib_book_dicts = get_zlib_book_dicts(session, "zlibrary_id", [zlib_id])
 
-    if len(zlib_book_dicts) == 0:
-        return render_template("page/zlib_book.html", header_active="search", zlib_id=zlib_id), 404
+        if len(zlib_book_dicts) == 0:
+            return render_template("page/zlib_book.html", header_active="search", zlib_id=zlib_id), 404
 
-    zlib_book_dict = zlib_book_dicts[0]
-    return render_template(
-        "page/zlib_book.html",
-        header_active="search",
-        zlib_id=zlib_id,
-        zlib_book_dict=zlib_book_dict,
-        zlib_book_json=nice_json(zlib_book_dict),
-    )
+        zlib_book_dict = zlib_book_dicts[0]
+        return render_template(
+            "page/zlib_book.html",
+            header_active="search",
+            zlib_id=zlib_id,
+            zlib_book_dict=zlib_book_dict,
+            zlib_book_json=nice_json(zlib_book_dict),
+        )
 
 @page.get("/ol/<string:ol_book_id>")
 def ol_book_page(ol_book_id):
     ol_book_id = ol_book_id[0:20]
 
-    with db.engine.connect() as conn:
+    with engine.connect() as conn:
         ol_book = conn.execute(select(OlBase).where(OlBase.ol_key == f"/books/{ol_book_id}").limit(1)).first()
 
         if ol_book == None:
@@ -587,19 +590,20 @@ def get_lgrsnf_book_dicts(session, key, values):
 
 @page.get("/lgrs/nf/<int:lgrsnf_book_id>")
 def lgrsnf_book_page(lgrsnf_book_id):
-    lgrs_book_dicts = get_lgrsnf_book_dicts(db.session, "ID", [lgrsnf_book_id])
+    with Session(engine) as session:
+        lgrs_book_dicts = get_lgrsnf_book_dicts(session, "ID", [lgrsnf_book_id])
 
-    if len(lgrs_book_dicts) == 0:
-        return render_template("page/lgrs_book.html", header_active="search", lgrs_type='nf', lgrs_book_id=lgrsnf_book_id), 404
+        if len(lgrs_book_dicts) == 0:
+            return render_template("page/lgrs_book.html", header_active="search", lgrs_type='nf', lgrs_book_id=lgrsnf_book_id), 404
 
-    return render_template(
-        "page/lgrs_book.html",
-        header_active="search",
-        lgrs_type='nf',
-        lgrs_book_id=lgrsnf_book_id,
-        lgrs_book_dict=lgrs_book_dicts[0],
-        lgrs_book_dict_json=nice_json(lgrs_book_dicts[0]),
-    )
+        return render_template(
+            "page/lgrs_book.html",
+            header_active="search",
+            lgrs_type='nf',
+            lgrs_book_id=lgrsnf_book_id,
+            lgrs_book_dict=lgrs_book_dicts[0],
+            lgrs_book_dict_json=nice_json(lgrs_book_dicts[0]),
+        )
 
 
 def get_lgrsfic_book_dicts(session, key, values):
@@ -649,19 +653,20 @@ def get_lgrsfic_book_dicts(session, key, values):
 
 @page.get("/lgrs/fic/<int:lgrsfic_book_id>")
 def lgrsfic_book_page(lgrsfic_book_id):
-    lgrs_book_dicts = get_lgrsfic_book_dicts(db.session, "ID", [lgrsfic_book_id])
+    with Session(engine) as session:
+        lgrs_book_dicts = get_lgrsfic_book_dicts(session, "ID", [lgrsfic_book_id])
 
-    if len(lgrs_book_dicts) == 0:
-        return render_template("page/lgrs_book.html", header_active="search", lgrs_type='fic', lgrs_book_id=lgrsfic_book_id), 404
+        if len(lgrs_book_dicts) == 0:
+            return render_template("page/lgrs_book.html", header_active="search", lgrs_type='fic', lgrs_book_id=lgrsfic_book_id), 404
 
-    return render_template(
-        "page/lgrs_book.html",
-        header_active="search",
-        lgrs_type='fic',
-        lgrs_book_id=lgrsfic_book_id,
-        lgrs_book_dict=lgrs_book_dicts[0],
-        lgrs_book_dict_json=nice_json(lgrs_book_dicts[0]),
-    )
+        return render_template(
+            "page/lgrs_book.html",
+            header_active="search",
+            lgrs_type='fic',
+            lgrs_book_id=lgrsfic_book_id,
+            lgrs_book_dict=lgrs_book_dicts[0],
+            lgrs_book_dict_json=nice_json(lgrs_book_dicts[0]),
+        )
 
 libgenli_elem_descr_output = None
 def libgenli_elem_descr(conn):
@@ -857,11 +862,11 @@ def get_lgli_file_dicts(session, key, values):
         select(LibgenliFiles)
             .where(getattr(LibgenliFiles, key).in_(values))
             .options(
-                db.defaultload("add_descrs").load_only("key", "value", "value_add1", "value_add2", "value_add3"),
-                db.defaultload("editions.add_descrs").load_only("key", "value", "value_add1", "value_add2", "value_add3"),
-                db.defaultload("editions.series").load_only("title", "publisher", "volume", "volume_name"),
-                db.defaultload("editions.series.issn_add_descrs").load_only("value"),
-                db.defaultload("editions.add_descrs.publisher").load_only("title"),
+                defaultload("add_descrs").load_only("key", "value", "value_add1", "value_add2", "value_add3"),
+                defaultload("editions.add_descrs").load_only("key", "value", "value_add1", "value_add2", "value_add3"),
+                defaultload("editions.series").load_only("title", "publisher", "volume", "volume_name"),
+                defaultload("editions.series.issn_add_descrs").load_only("value"),
+                defaultload("editions.add_descrs.publisher").load_only("title"),
             )
     ).all()
 
@@ -1023,49 +1028,50 @@ def get_lgli_file_dicts(session, key, values):
 
 @page.get("/lgli/file/<int:lgli_file_id>")
 def lgli_file_page(lgli_file_id):
-    lgli_file_dicts = get_lgli_file_dicts(db.session, "f_id", [lgli_file_id])
+    with Session(engine) as session:
+        lgli_file_dicts = get_lgli_file_dicts(session, "f_id", [lgli_file_id])
 
-    if len(lgli_file_dicts) == 0:
-        return render_template("page/lgli_file.html", header_active="search", lgli_file_id=lgli_file_id), 404
+        if len(lgli_file_dicts) == 0:
+            return render_template("page/lgli_file.html", header_active="search", lgli_file_id=lgli_file_id), 404
 
-    lgli_file_dict = lgli_file_dicts[0]
+        lgli_file_dict = lgli_file_dicts[0]
 
-    lgli_file_top = { 'title': '', 'author': '', 'description': '' }
-    if len(lgli_file_dict['editions']) > 0:
-        for edition_dict in lgli_file_dict['editions']:
-            if len(edition_dict['title'].strip()) > 0:
-                lgli_file_top['title'] = edition_dict['title'].strip()
-                break
-        if len(lgli_file_top['title'].strip()) == 0:
-            lgli_file_top['title'] = lgli_file_dict['locator'].split('\\')[-1].strip()
-        else:
-            lgli_file_top['description'] = lgli_file_dict['locator'].split('\\')[-1].strip()
-        for edition_dict in lgli_file_dict['editions']:
-            if len(edition_dict['authors_normalized']) > 0:
-                lgli_file_top['author'] = edition_dict['authors_normalized']
-                break
-        for edition_dict in lgli_file_dict['editions']:
-            if len(edition_dict['descriptions_mapped'].get('description_multiple') or []) > 0:
-                lgli_file_top['description'] = strip_description("\n\n".join(edition_dict['descriptions_mapped']['description_multiple']))
-        for edition_dict in lgli_file_dict['editions']:
-            if len(edition_dict['edition_varia_normalized']) > 0:
-                lgli_file_top['description'] = strip_description(edition_dict['edition_varia_normalized']) + ('\n\n' if len(lgli_file_top['description']) > 0 else '') + lgli_file_top['description']
-                break
-    if len(lgli_file_dict['scimag_archive_path']) > 0:
-        lgli_file_top['title'] = lgli_file_dict['scimag_archive_path']
+        lgli_file_top = { 'title': '', 'author': '', 'description': '' }
+        if len(lgli_file_dict['editions']) > 0:
+            for edition_dict in lgli_file_dict['editions']:
+                if len(edition_dict['title'].strip()) > 0:
+                    lgli_file_top['title'] = edition_dict['title'].strip()
+                    break
+            if len(lgli_file_top['title'].strip()) == 0:
+                lgli_file_top['title'] = lgli_file_dict['locator'].split('\\')[-1].strip()
+            else:
+                lgli_file_top['description'] = lgli_file_dict['locator'].split('\\')[-1].strip()
+            for edition_dict in lgli_file_dict['editions']:
+                if len(edition_dict['authors_normalized']) > 0:
+                    lgli_file_top['author'] = edition_dict['authors_normalized']
+                    break
+            for edition_dict in lgli_file_dict['editions']:
+                if len(edition_dict['descriptions_mapped'].get('description_multiple') or []) > 0:
+                    lgli_file_top['description'] = strip_description("\n\n".join(edition_dict['descriptions_mapped']['description_multiple']))
+            for edition_dict in lgli_file_dict['editions']:
+                if len(edition_dict['edition_varia_normalized']) > 0:
+                    lgli_file_top['description'] = strip_description(edition_dict['edition_varia_normalized']) + ('\n\n' if len(lgli_file_top['description']) > 0 else '') + lgli_file_top['description']
+                    break
+        if len(lgli_file_dict['scimag_archive_path']) > 0:
+            lgli_file_top['title'] = lgli_file_dict['scimag_archive_path']
 
-    return render_template(
-        "page/lgli_file.html",
-        header_active="search",
-        lgli_file_id=lgli_file_id,
-        lgli_file_dict=lgli_file_dict,
-        lgli_file_top=lgli_file_top,
-        lgli_file_dict_json=nice_json(lgli_file_dict),
-        lgli_topic_mapping=lgli_topic_mapping,
-        lgli_edition_type_mapping=lgli_edition_type_mapping,
-        lgli_identifiers=lgli_identifiers,
-        lgli_classifications=lgli_classifications,
-    )
+        return render_template(
+            "page/lgli_file.html",
+            header_active="search",
+            lgli_file_id=lgli_file_id,
+            lgli_file_dict=lgli_file_dict,
+            lgli_file_top=lgli_file_top,
+            lgli_file_dict_json=nice_json(lgli_file_dict),
+            lgli_topic_mapping=lgli_topic_mapping,
+            lgli_edition_type_mapping=lgli_edition_type_mapping,
+            lgli_identifiers=lgli_identifiers,
+            lgli_classifications=lgli_classifications,
+        )
 
 @page.get("/isbn/<string:isbn_input>")
 def isbn_page(isbn_input):
@@ -1102,7 +1108,7 @@ def isbn_page(isbn_input):
     if isbn_dict['isbn10']:
         isbn_dict['mask10'] = isbnlib.mask(isbn_dict['isbn10'])
 
-    with db.engine.connect() as conn:
+    with engine.connect() as conn:
         isbndb_books = {}
         if isbn_dict['isbn10']:
             isbndb10_all = conn.execute(select(IsbndbIsbns).where(IsbndbIsbns.isbn10 == isbn_dict['isbn10']).limit(100)).all()
@@ -1708,22 +1714,23 @@ def md5_page(md5_input):
     if canonical_md5 != md5_input:
         return redirect(f"/md5/{canonical_md5}", code=301)
 
-    md5_dicts = get_md5_dicts_elasticsearch(db.session, [canonical_md5])
+    with Session(engine) as session:
+        md5_dicts = get_md5_dicts_elasticsearch(session, [canonical_md5])
 
-    if len(md5_dicts) == 0:
-        return render_template("page/md5.html", header_active="search", md5_input=md5_input)
+        if len(md5_dicts) == 0:
+            return render_template("page/md5.html", header_active="search", md5_input=md5_input)
 
-    md5_dict = add_additional_to_md5_dict(md5_dicts[0])
-    
-    return render_template(
-        "page/md5.html",
-        header_active="search",
-        md5_input=md5_input,
-        md5_dict=md5_dict,
-        md5_dict_json=nice_json(md5_dict),
-        md5_content_type_mapping=get_md5_content_type_mapping(get_locale().language),
-        md5_problem_type_mapping=get_md5_problem_type_mapping(),
-    )
+        md5_dict = add_additional_to_md5_dict(md5_dicts[0])
+        
+        return render_template(
+            "page/md5.html",
+            header_active="search",
+            md5_input=md5_input,
+            md5_dict=md5_dict,
+            md5_dict_json=nice_json(md5_dict),
+            md5_content_type_mapping=get_md5_content_type_mapping(get_locale().language),
+            md5_problem_type_mapping=get_md5_problem_type_mapping(),
+        )
 
 
 sort_search_md5_dicts_script = """

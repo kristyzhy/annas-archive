@@ -11,7 +11,7 @@ from flask_babel import get_locale
 from allthethings.page.views import page
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
-from allthethings.extensions import db, es, babel, debug_toolbar, flask_static_digest, Base, Reflected
+from allthethings.extensions import engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected
 
 def create_celery_app(app=None):
     """
@@ -72,11 +72,10 @@ def extensions(app):
     :return: None
     """
     debug_toolbar.init_app(app)
-    db.init_app(app)
     flask_static_digest.init_app(app)
     with app.app_context():
         try:
-            Reflected.prepare(db.engine)
+            Reflected.prepare(engine)
         except:
             print("Error in loading tables; comment out the following 'raise' in app.py to prevent restarts; and then reset using './run flask cli dbreset'")
             raise
