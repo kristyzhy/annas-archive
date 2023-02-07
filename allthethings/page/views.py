@@ -29,6 +29,8 @@ from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from flask_babel import gettext, ngettext, get_translations, force_locale, get_locale
 
+import allthethings.utils
+
 page = Blueprint("page", __name__, template_folder="templates")
 
 # Per https://annas-software.org/AnnaArchivist/annas-archive/-/issues/37
@@ -157,9 +159,6 @@ for language in ol_languages_json:
 # * http://localhost:8000/isbn/9780316769174
 # * http://localhost:8000/md5/8fcb740b8c13f202e89e05c4937c09ac
 
-def validate_canonical_md5s(canonical_md5s):
-    return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])
-         
 
 def looks_like_doi(string):
     return string.startswith('10.') and ('/' in string) and (' ' not in string)
@@ -1218,7 +1217,7 @@ def sort_by_length_and_filter_subsequences_with_longest_string(strings):
     return strings_filtered
 
 def get_md5_dicts_elasticsearch(session, canonical_md5s):
-    if not validate_canonical_md5s(canonical_md5s):
+    if not allthethings.utils.validate_canonical_md5s(canonical_md5s):
         raise Exception("Non-canonical md5")
 
     # Filter out bad data
@@ -1275,7 +1274,7 @@ def md5_dict_score_base(md5_dict):
     return score
 
 def get_md5_dicts_mysql(session, canonical_md5s):
-    if not validate_canonical_md5s(canonical_md5s):
+    if not allthethings.utils.validate_canonical_md5s(canonical_md5s):
         raise Exception("Non-canonical md5")
 
     # Filter out bad data
@@ -1703,7 +1702,7 @@ def md5_page(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
 
-    if not validate_canonical_md5s([canonical_md5]):
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
         return render_template("page/md5.html", header_active="search", md5_input=md5_input)
 
     if canonical_md5 != md5_input:

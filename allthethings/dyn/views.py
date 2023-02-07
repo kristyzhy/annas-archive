@@ -1,15 +1,18 @@
 from flask import Blueprint, request
-from flask_cors import CORS
+from flask_cors import cross_origin
+from sqlalchemy import select, func, text, inspect
 
 from allthethings.extensions import db
 from allthethings.initializers import redis
 
-
-up = Blueprint("up", __name__, template_folder="templates", url_prefix="/up")
-CORS(up)
+import allthethings.utils
 
 
-@up.get("/")
+dyn = Blueprint("dyn", __name__, template_folder="templates", url_prefix="/dyn")
+
+
+@dyn.get("/up/")
+@cross_origin()
 def index():
     # For testing, uncomment:
     # if "testing_redirects" not in request.headers['Host']:
@@ -17,7 +20,7 @@ def index():
     return ""
 
 
-@up.get("/databases")
+@dyn.get("/up/databases/")
 def databases():
     # redis.ping()
     db.engine.execute("SELECT 1 FROM zlib_book LIMIT 1")

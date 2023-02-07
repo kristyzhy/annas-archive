@@ -9,7 +9,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_babel import get_locale
 
 from allthethings.page.views import page
-from allthethings.up.views import up
+from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
 from allthethings.extensions import db, es, babel, debug_toolbar, flask_static_digest, Base, Reflected
 
@@ -55,7 +55,7 @@ def create_app(settings_override=None):
 
     middleware(app)
 
-    app.register_blueprint(up)
+    app.register_blueprint(dyn)
     app.register_blueprint(page)
     app.register_blueprint(cli)
 
