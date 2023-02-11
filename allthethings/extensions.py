@@ -28,12 +28,18 @@ mariapersist_host = os.getenv("MARIAPERSIST_HOST", "mariapersist")
 mariapersist_port = os.getenv("MARIAPERSIST_PORT", "3333")
 mariapersist_db = os.getenv("MARIAPERSIST_DATABASE", mariapersist_user)
 mariapersist_url = f"mysql+pymysql://{mariapersist_user}:{mariapersist_password}@{mariapersist_host}:{mariapersist_port}/{mariapersist_db}"
-mariapersist_engine = create_engine(mariapersist_url, future=True)
+mariapersist_engine = create_engine(mariapersist_url, future=True, isolation_level="READ COMMITTED")
 
 class Reflected(DeferredReflection, Base):
     __abstract__ = True
     def to_dict(self):
         unloaded = inspect(self).unloaded
+        return dict((col.name, getattr(self, col.name)) for col in self.__table__.columns if col.name not in unloaded)
+
+class ReflectedMariapersist(DeferredReflection, Base):
+    __abstract__ = True
+    def to_dict(self):
+        unloaded = db.inspect(self).unloaded
         return dict((col.name, getattr(self, col.name)) for col in self.__table__.columns if col.name not in unloaded)
 
 class ZlibBook(Reflected):
@@ -102,3 +108,8 @@ class OlBase(Reflected):
 
 class ComputedAllMd5s(Reflected):
     __tablename__ = "computed_all_md5s"
+
+
+class MariapersistDownloadsTotalByMd5(ReflectedMariapersist):
+    __tablename__ = "mariapersist_downloads_total_by_md5"
+

@@ -11,7 +11,7 @@ from flask_babel import get_locale
 from allthethings.page.views import page
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
-from allthethings.extensions import engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected
+from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist
 
 def create_celery_app(app=None):
     """
@@ -79,6 +79,10 @@ def extensions(app):
         except:
             print("Error in loading tables; comment out the following 'raise' in app.py to prevent restarts; and then reset using './run flask cli dbreset'")
             raise
+        try:
+            ReflectedMariapersist.prepare(mariapersist_engine)
+        except:
+            print("Error in loading 'mariapersist' db; continuing since it's optional")
     es.init_app(app)
     babel.init_app(app)
 
