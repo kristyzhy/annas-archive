@@ -33,7 +33,7 @@ def databases():
         mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))
     return ""
 
-@dyn.get("/downloads/increment/<string:md5_input>")
+@dyn.post("/downloads/increment/<string:md5_input>")
 def downloads_increment(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
