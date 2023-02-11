@@ -28,7 +28,8 @@ docker-compose up -d --no-deps --build
 
 # You can also run these in parallel in multiple terminal windows.
 # We recommend looking through each script in detail before running it.
-docker exec -it aa-data-import--mariadb /scripts/libgenli.sh # Look at data-imports/scripts/libgen_li_proxies_template.sh to speed up downloading.
+docker exec -it aa-data-import--mariadb /scripts/libgenli.sh # Look at data-imports/scripts/libgenli_proxies_template.sh to speed up downloading.
+# E.g.: docker exec -it aa-data-import--mariadb /scripts/libgenli_proxies.sh; docker exec -it aa-data-import--mariadb /scripts/libgenli.sh
 docker exec -it aa-data-import--mariadb /scripts/libgenrs.sh
 docker exec -it aa-data-import--mariadb /scripts/openlib.sh
 docker exec -it aa-data-import--mariadb /scripts/pilimi_isbndb.sh
@@ -44,9 +45,7 @@ docker exec -it aa-data-import--mariadb /scripts/check_after_imports.sh
 docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
 
 # Calculate derived data:
-docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s
-docker exec -it aa-data-import--web flask cli elastic_reset_md5_dicts
-docker exec -it aa-data-import--web flask cli elastic_build_md5_dicts
+docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s && docker exec -it aa-data-import--web flask cli elastic_reset_md5_dicts && docker exec -it aa-data-import--web flask cli elastic_build_md5_dicts
 
 # Make sure to fully stop the databases, so we can move some files around.
 docker-compose down
