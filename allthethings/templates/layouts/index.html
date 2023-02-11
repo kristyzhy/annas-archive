@@ -223,6 +223,8 @@
               const initialCheckMs = 2000;
               const intervalBetweenChecksMs = 10000;
               const domainsToNavigateTo = ["annas-archive.org", "annas-archive.gs"];
+              // For some domains, don't check if it's up right now, just always navigate away from it if we have the chance.
+              const domainsToAlwaysNavigateAwayFrom = ["annas-archive.gs"];
               // For testing:
               // const domainsToNavigateTo = ["localtest.me:8000", "testing_redirects.localtest.me:8000"];
 
@@ -259,8 +261,8 @@
               }
 
               // Check if there are other domains that are still up. Use the first one that responds.
+              let foundOtherDomain = false;
               function checkOtherDomains() {
-                let foundOtherDomain = false;
                 const fetchOptions = { mode: "cors", method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
                 for (const domain of domainsToNavigateTo) {
                   if (currentDomainToReplace !== domain) {
@@ -282,21 +284,26 @@
                 }
               }
 
-              // Keep checking the current domain to see if it's still up.
-              function checkCurrentDomain() {
-                const fetchOptions = { method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
-                fetch('/dyn/up/?' + getRandomString(), fetchOptions).then(function(response) {
-                  // Only do something in the case of an actual error code from Cloudflare, not if the users network is bad.
-                  if (response.status >= 500 && response.status <= 599) {
-                    checkOtherDomains()
-                  }
-                }).catch(function() {
-                  // Ignore; see above.
-                }).finally(function() {
-                  setTimeout(checkCurrentDomain, intervalBetweenChecksMs);
-                });
+              if (domainsToAlwaysNavigateAwayFrom.some((domain) => location.origin.includes(domain))) {
+                checkOtherDomains();
+                setInterval(checkOtherDomains, intervalBetweenChecksMs);
+              } else {
+                // Keep checking the current domain to see if it's still up.
+                function checkCurrentDomain() {
+                  const fetchOptions = { method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
+                  fetch('/dyn/up/?' + getRandomString(), fetchOptions).then(function(response) {
+                    // Only do something in the case of an actual error code from Cloudflare, not if the users network is bad.
+                    if (response.status >= 500 && response.status <= 599) {
+                      checkOtherDomains()
+                    }
+                  }).catch(function() {
+                    // Ignore; see above.
+                  }).finally(function() {
+                    setTimeout(checkCurrentDomain, intervalBetweenChecksMs);
+                  });
+                }
+                setTimeout(checkCurrentDomain, initialCheckMs);
               }
-              setTimeout(checkCurrentDomain, initialCheckMs);
             })();
           </script>
         </p>
