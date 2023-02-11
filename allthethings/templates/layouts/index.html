@@ -221,7 +221,7 @@
               const domainsToReplace = ["annas-archive.org", "annas-archive.gs", "localtest.me:8000", "localtest.me"];
               // For checking and redirecting if our current host is down (but if Cloudflare still responds).
               const initialCheckMs = 2000;
-              const intervalBetweenChecksMs = 10000;
+              const intervalBetweenChecksMs = 60000;
               const domainsToNavigateTo = ["annas-archive.org", "annas-archive.gs"];
               // For some domains, don't check if it's up right now, just always navigate away from it if we have the chance.
               const domainsToAlwaysNavigateAwayFrom = ["annas-archive.gs"];
