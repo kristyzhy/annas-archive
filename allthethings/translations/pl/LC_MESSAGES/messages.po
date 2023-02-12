@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-09 11:18+0000\n"
-"PO-Revision-Date: 2023-02-09 11:18+0000\n"
-"Last-Translator: Andrzej Czarnek <bookandrzej@elude.in>\n"
+"PO-Revision-Date: 2023-02-13 02:40+0000\n"
+"Last-Translator: Andrzej Książka <bookandrzej@elude.in>\n"
 "Language-Team: Polish <https://translate.annas-software.org/projects/"
 "annas-archive/main-website/pl/>\n"
 "Language: pl\n"
@@ -91,7 +91,7 @@ msgstr ""
 
 #: allthethings/page/views.py:1686
 msgid "page.md5.box.download.scihub"
-msgstr ""
+msgstr "Sci-Hub: %(doi)s"
 
 #: allthethings/page/views.py:1688 allthethings/page/views.py:1689
 #: allthethings/page/views.py:1690
@@ -105,7 +105,7 @@ msgstr "(być może będziesz musiał spróbować kilka razy z IPFS)"
 #: allthethings/page/views.py:1692 allthethings/page/views.py:1693
 #: allthethings/page/views.py:1694 allthethings/page/views.py:1695
 msgid "page.md5.box.download.zlib_anon"
-msgstr ""
+msgstr "Anonimowy mirror Z-Library #%(num)d"
 
 #: allthethings/page/views.py:1697
 msgid "page.md5.box.download.zlib_tor"
@@ -126,10 +126,21 @@ msgstr "O"
 #: allthethings/page/templates/page/about.html:9
 msgid "page.about.text1"
 msgstr ""
+"Anna's Archive jest non-profit, otwarto-źródłową wyszukiwarką dla \"<a href="
+"\"https://en.wikipedia.org/wiki/Shadow_library\">bibliotek cienia</a>\". "
+"Została stworzona przez <a href=\"http://annas-blog.org\">Annę</a>, "
+"odpowiadającą także za <a href=\"http://pilimi.org\">Pirate Library Mirror</"
+"a> - kopię zapasową biblioteki Z-Library. Uważała ona, że potrzebna jest "
+"centralna wyszukiwarka książek, prac naukowych, komiksów, magazynów, i "
+"innych dokumentów."
 
 #: allthethings/page/templates/page/about.html:13
 msgid "page.about.text2"
 msgstr ""
+"Mocno wierzymy w wolny przepływ informacji, jak i w ochronę kultury i "
+"wiedzy. Tą wyszukiwarką stoimy na barkach olbrzymów. Głęboko szanujemy "
+"ciężką pracę ludzi, którzy stworzyli przeróżne biblioteki cienia, i mamy "
+"nadzieję, że ta wyszukiwarka poszerzy ich zasięg."
 
 #: allthethings/page/templates/page/about.html:17
 msgid "page.about.text3"
@@ -238,6 +249,9 @@ msgstr "Podarować"
 #: allthethings/page/templates/page/donate.html:9
 msgid "page.donate.text1"
 msgstr ""
+"Anna's Archive jest otwarto-źródłowym projektem non-profit, obsługiwanym w "
+"pełni przez wolontariuszy. Przyjmujemy donacje na pokrycie naszych kosztów, "
+"w tym hostingu, nazw domen, rozwoju oprogramowania, i innych wydatków."
 
 #: allthethings/page/templates/page/donate.html:13
 msgid "page.donate.text2"
@@ -248,10 +262,15 @@ msgstr ""
 #: allthethings/page/templates/page/donate.html:17
 msgid "page.donate.text3"
 msgstr ""
+"Ostatnie donacje: %(donations)s. Dziękujemy wszystkim za waszą szczodrość. "
+"Naprawdę doceniamy zaufanie nam z jakąkolwiek kwotą, na jaką możecie sobie "
+"pozwolić."
 
 #: allthethings/page/templates/page/donate.html:21
 msgid "page.donate.text4"
 msgstr ""
+"By nas wesprzeć, wybierz metodę płatności poniżej. Jeśli napotkasz jakieś "
+"problemy, proszę, skontaktuj się z nami pod %(email)s."
 
 #: allthethings/page/templates/page/donate.html:55
 msgid "page.donate.nav.paypal"
@@ -267,11 +286,11 @@ msgstr "Kryptowaluty"
 
 #: allthethings/page/templates/page/donate.html:58
 msgid "page.donate.nav.alipay"
-msgstr ""
+msgstr "Alipay"
 
 #: allthethings/page/templates/page/donate.html:59
 msgid "page.donate.nav.pix"
-msgstr ""
+msgstr "Pix"
 
 #: allthethings/page/templates/page/donate.html:60
 msgid "page.donate.nav.faq"
@@ -284,11 +303,16 @@ msgstr "Paypal"
 #: allthethings/page/templates/page/donate.html:67
 msgid "page.donate.paypal.text"
 msgstr ""
+"Otwórz %(link_open_tag)stą stronę</a> i podążaj za instrukcjami, skanując "
+"kod QR, albo klikając link do “paypal.me”. Jeśli coś nie działa, możesz "
+"spróbować odświeżyć stronę, by dostać inne, działające konto."
 
 #: allthethings/page/templates/page/donate.html:71
 #: allthethings/page/templates/page/donate.html:132
 msgid "page.donate.strange_account"
 msgstr ""
+"Nazwa lub zdjęcie konta mogę wyglądać dziwnie, ale nie martw się! Te konta "
+"są zarządzane przez naszych partnerów. Nie zostały one przejęte."
 
 #: allthethings/page/templates/page/donate.html:75
 #: allthethings/page/templates/page/donate.html:101
@@ -298,26 +322,31 @@ msgstr ""
 #: allthethings/page/templates/page/donate.html:202
 msgid "page.donate.text_thank_you"
 msgstr ""
+"Bardzo dziękujemy za wsparcie! Ten projekt nie byłby możliwy bez ciebie."
 
 #: allthethings/page/templates/page/donate.html:80
 msgid "page.donate.cc.header"
-msgstr ""
+msgstr "Karta płatnicza"
 
 #: allthethings/page/templates/page/donate.html:83
 msgid "page.donate.cc.text1"
 msgstr ""
+"Używamy Sendwyre, by pieniądze trafiły prosto do naszego portfela Bitcoin. "
+"To powinno potrwać około 5 minut."
 
 #: allthethings/page/templates/page/donate.html:87
 msgid "page.donate.cc.text2"
 msgstr ""
+"Ta metoda pozwala na transakcje o wartości przynajmniej $30, i pobiera około "
+"$5 opłaty."
 
 #: allthethings/page/templates/page/donate.html:91
 msgid "page.donate.cc.steps.header"
-msgstr ""
+msgstr "Kroki:"
 
 #: allthethings/page/templates/page/donate.html:95
 msgid "page.donate.cc.steps.list1"
-msgstr ""
+msgstr "1. Skopiuj adres naszego portfela Bitcoin (BTC): %(address)s"
 
 #: allthethings/page/templates/page/donate.html:96
 msgid "page.donate.cc.steps.list2"
@@ -333,11 +362,11 @@ msgstr ""
 
 #: allthethings/page/templates/page/donate.html:109
 msgid "page.donate.crypto.intro"
-msgstr ""
+msgstr "Jeśli posiadasz już kryptowaluty, to są nasze adresy:"
 
 #: allthethings/page/templates/page/donate.html:113
 msgid "page.donate.crypto.btc_bch_note"
-msgstr ""
+msgstr "(także działa dla BCH)"
 
 #: allthethings/page/templates/page/donate.html:125
 msgid "page.donate.alipay.header"
@@ -372,6 +401,11 @@ msgstr ""
 #: allthethings/page/templates/page/donate.html:216
 msgid "page.donate.faq.text_other_payment1"
 msgstr ""
+"<div class=\"font-bold\">Czy obsługujecie inne metody płatności?</div> Póki "
+"co nie. Wielu ludzi nie chce, by istniały archiwa takie jak nasze, więc "
+"musimy być ostrożni. Jeśli jesteś w stanie pomóc nam bezpiecznie obsługiwać "
+"inne (bardziej wygodne) metody płatności, proszę się z nami skontaktować pod "
+"%(email)s."
 
 #: allthethings/page/templates/page/donate.html:220
 msgid "page.donate.faq.text_other_payment2"
@@ -388,6 +422,12 @@ msgstr ""
 #: allthethings/page/templates/page/home.html:5
 msgid "page.home.intro"
 msgstr ""
+"<span class=\"italic font-bold\">Anna's Archive</span> jest projektem "
+"chcącym skatalogować wszystkie istniejące książki, zbierając dane z różnych "
+"źródeł. Śledzimy także postęp ludzkości ku umożliwieniu łatwego dostępu do "
+"wszystkich tych książek w formie cyfrowej poprzez “<a href=\"https://en."
+"wikipedia.org/wiki/Shadow_library\">biblioteki cienia</a>” <a href=\"/about\""
+">Dowiedz się więcej.</a>"
 
 #: allthethings/page/templates/page/home.html:8
 msgid "page.home.search.header"
@@ -395,7 +435,7 @@ msgstr "Szukaj"
 
 #: allthethings/page/templates/page/home.html:11
 msgid "page.home.search.intro"
-msgstr ""
+msgstr "Przeszukaj nasz katalog bibliotek cienia."
 
 #: allthethings/page/templates/page/home.html:16
 #: allthethings/page/templates/page/search.html:50
@@ -410,7 +450,7 @@ msgstr "Szukaj"
 
 #: allthethings/page/templates/page/home.html:21
 msgid "page.home.explore.header"
-msgstr ""
+msgstr "Przeglądaj książki"
 
 #: allthethings/page/templates/page/home.html:24
 msgid "page.home.explore.intro"
@@ -422,43 +462,55 @@ msgstr ""
 
 #: allthethings/page/templates/page/isbn.html:6
 msgid "page.isbn.breadcrumbs"
-msgstr ""
+msgstr "Zbiory danych ▶ISBN ▶ %(isbn_input)s"
 
 #: allthethings/page/templates/page/isbn.html:9
 msgid "page.isbn.invalid.header"
-msgstr ""
+msgstr "Nie znaleziono"
 
 #: allthethings/page/templates/page/isbn.html:11
 msgid "page.isbn.invalid.text"
 msgstr ""
+"“%(isbn_input)s” nie jest poprawnym numerem ISBN. Mają one po 10 lub 13 "
+"znaków, nie licząc opcjonalnych myślników. Wszystkie znaki muszą być "
+"cyframi, poza ostatnim, który może także być “X”em. Jest on “znakiem "
+"kontrolnym”, wyliczonym na podstawie pozostałych cyfr. Cały ten numer musi "
+"także być w poprawnym zakresie przyznanym przez Międzynarodową Agencję ISBN."
 
 #: allthethings/page/templates/page/isbn.html:29
 msgid "page.isbn.results.text"
-msgstr ""
+msgstr "Pasujące pliki w naszej bazie danych:"
 
 #: allthethings/page/templates/page/isbn.html:52
 msgid "page.isbn.results.none"
-msgstr ""
+msgstr "Nie znaleziono pasujących plików w naszej bazie danych."
 
 #: allthethings/page/templates/page/md5.html:12
 msgid "page.md5.breadcrumbs"
-msgstr ""
+msgstr "Zbiory danych ▶ Pliki ▶ MD5 %(md5_input)s"
 
 #: allthethings/page/templates/page/md5.html:15
 msgid "page.md5.invalid.header"
-msgstr ""
+msgstr "Nie znaleziono"
 
 #: allthethings/page/templates/page/md5.html:17
 msgid "page.md5.invalid.text"
-msgstr ""
+msgstr "Nie znaleziono “%(md5_input)s” w naszej bazie danych."
 
 #: allthethings/page/templates/page/md5.html:30
 msgid "page.md5.box.issues.text1"
 msgstr ""
+"<span class=\"font-bold\">❌ Ten plik może mieć problemy, i został ukryty z "
+"jednej z bibliotek.</span> Czasem to jest spowodowane żądaniem właściciela "
+"praw autorskich, czasem dostępnością lepszej alternatywy, lecz czasem jest "
+"to spowodowane problemem z samym plikiem. Być może dalej nadaje się do "
+"pobrania, ale polecamy najpierw poszukać alternatywnego pliku. Więcej detali:"
 
 #: allthethings/page/templates/page/md5.html:37
 msgid "page.md5.box.issues.text2"
 msgstr ""
+"Jeśli mimo tego chcesz pobrać ten plik, upewnij się, by otwierać go tylko "
+"zaufanym, w pełni zaaktualizowanym oprogramowaniem."
 
 #: allthethings/page/templates/page/md5.html:39
 msgid "page.md5.box.download.text"
@@ -466,11 +518,13 @@ msgstr "Pobierz darmowy ebook/plik %(extension)s z:"
 
 #: allthethings/page/templates/page/md5.html:44
 msgid "page.md5.box.download.option"
-msgstr ""
+msgstr "Opcja #%(num)d: %(link)s %(extra)s"
 
 #: allthethings/page/templates/page/md5.html:48
 msgid "page.md5.box.download.no_issues_download_options_explanation"
 msgstr ""
+"Mamy kilka metod pobierania, na wypadek gdyby jedna z nich nie działała. "
+"Każdą z nich pobierzesz dokładnie ten sam plik."
 
 #: allthethings/page/templates/page/md5.html:50
 msgid "page.md5.box.download.no_issues_notice"
@@ -486,23 +540,29 @@ msgstr ""
 
 #: allthethings/page/templates/page/search.html:4
 msgid "page.search.title.results"
-msgstr ""
+msgstr "%(search_input)s - Szukaj"
 
 #: allthethings/page/templates/page/search.html:4
 msgid "page.search.title.new"
-msgstr ""
+msgstr "Nowe wyszukiwanie"
 
 #: allthethings/page/templates/page/search.html:10
 msgid "page.search.breadcrumbs.results_more"
 msgstr ""
+"Wyszukiwarka ▶ %(num)d wyników dla <span class=\"italic\">%(search_input)s</"
+"span> (w metadanych bibliotek cienia)"
 
 #: allthethings/page/templates/page/search.html:10
 msgid "page.search.breadcrumbs.results"
 msgstr ""
+"Wyszukiwarka ▶ %(num)d wyników dla <span class=\"italic\">%(search_input)s</"
+"span> (w metadanych bibliotek cienia)"
 
 #: allthethings/page/templates/page/search.html:12
 msgid "page.search.breadcrumbs.error"
 msgstr ""
+"Wyszukiwarka ▶ Błąd wyszukiwania dla <span class=\"italic\""
+">%(search_input)s</span>"
 
 #: allthethings/page/templates/page/search.html:15
 msgid "page.search.breadcrumbs.new"
@@ -511,6 +571,9 @@ msgstr "Szukaj ▶ Nowe wyszukiwanie"
 #: allthethings/page/templates/page/search.html:18
 msgid "page.search.header.update_info"
 msgstr ""
+"Zasoby wyszukiwarki są aktualizowane co miesiąc. Teraz zawierają dane aż do "
+"%(last_data_refresh_date)s. Dla bardziej szczegółowych informacji, spójrz na "
+"%(link_open_tag)sstronę o zasobach</a>."
 
 #: allthethings/page/templates/page/search.html:23
 msgid "page.search.filters.language.header"
@@ -538,11 +601,11 @@ msgstr "Najstarszy"
 
 #: allthethings/page/templates/page/search.html:44
 msgid "page.search.filters.sorting.largest"
-msgstr ""
+msgstr "Malejąco rozmiarami"
 
 #: allthethings/page/templates/page/search.html:45
 msgid "page.search.filters.sorting.smallest"
-msgstr ""
+msgstr "Rosnąco rozmiarami"
 
 #: allthethings/page/templates/page/search.html:57
 msgid "page.search.results.error.header"
@@ -551,22 +614,28 @@ msgstr "Błąd podczas wyszukiwania."
 #: allthethings/page/templates/page/search.html:59
 msgid "page.search.results.error.text"
 msgstr ""
+"Spróbuj <a href=\"javascript:location.reload()\">odświeżyć stronę</a>. Jeśli "
+"problemy nie ustąpią, skontaktuj się z nami na <a href=\"https://twitter.com/"
+"AnnaArchivist\">Twitterze</a> lub <a href=\"https://www.reddit.com/user/"
+"AnnaArchivist\">Reddicie</a>."
 
 #: allthethings/page/templates/page/search.html:62
 msgid "page.search.results.none"
 msgstr ""
+"<span class=\"font-bold\">Brak wyników.</span> Spróbuj inaczej sformułować "
+"zapytanie, używając mniej wyrazów i filtrów lub zmieniając je."
 
 #: allthethings/page/templates/page/search.html:68
 msgid "page.search.results.partial_more"
-msgstr ""
+msgstr "%(num)d+ częściowo pasujących wyników"
 
 #: allthethings/page/templates/page/search.html:68
 msgid "page.search.results.partial"
-msgstr ""
+msgstr "%(num)d częściowo pasujących wyników"
 
 #: allthethings/page/templates/page/search.html:85
 msgid "page.search.results.issues"
-msgstr ""
+msgstr "❌ Z tym plikiem mogą występować problemy."
 
 #: allthethings/templates/layouts/index.html:4
 msgid "layout.index.title"
@@ -575,6 +644,9 @@ msgstr "Archiwum Anny"
 #: allthethings/templates/layouts/index.html:24
 msgid "layout.index.header.banner.new_donation_method"
 msgstr ""
+"Dostępna jest nowa metoda donacji: %(method_name)s. Proszę, rozważ "
+"%(donate_link_open_tag)swsparcie nas</a> — utrzymanie tej strony nie jest "
+"tanie, więc twoja donacja ma znaczenie. Dziękujemy."
 
 #: allthethings/templates/layouts/index.html:54
 msgid "layout.index.header.title"
@@ -625,7 +697,7 @@ msgstr "Podarować"
 
 #: allthethings/templates/layouts/index.html:193
 msgid "layout.index.footer.list1.datasets"
-msgstr ""
+msgstr "Zbiory danych"
 
 #: allthethings/templates/layouts/index.html:206
 msgid "layout.index.footer.list2.header"
@@ -645,7 +717,7 @@ msgstr "Subreddit"
 
 #: allthethings/templates/layouts/index.html:208
 msgid "layout.index.footer.list2.blog"
-msgstr ""
+msgstr "Blog Anny"
 
 #: allthethings/templates/layouts/index.html:209
 msgid "layout.index.footer.list2.software"
@@ -653,7 +725,7 @@ msgstr ""
 
 #: allthethings/templates/layouts/index.html:215
 msgid "layout.index.footer.list3.header"
-msgstr ""
+msgstr "Alternatywy"
 
 #~ msgid "page.md5.box.download.mirror"
 #~ msgstr "Lustro nr %(num)d: %(link)s %(extra)s"
