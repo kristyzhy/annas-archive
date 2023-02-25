@@ -1,0 +1,109 @@
+{% extends "layouts/blog.html" %}
+
+{% block title %}Anna’s Update: fully open source archive, ElasticSearch, 300GB+ of book covers{% endblock %}
+
+{% block meta_tags %}
+<meta name="description" content="We’ve been working around the clock to provide a good alternative with Anna’s Archive. Here are some of the things we achieved recently." />
+<meta name="twitter:card" value="summary">
+<meta name="twitter:creator" content="@AnnaArchivist"/>
+<meta property="og:title" content="Anna’s Update: fully open source archive, ElasticSearch, 300GB+ of book covers" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://annas-blog.org/help-seed-zlibrary-on-ipfs.html" />
+<meta property="og:description" content="We’ve been working around the clock to provide a good alternative with Anna’s Archive. Here are some of the things we achieved recently." />
+{% endblock %}
+
+{% block body %}
+  <h1>Anna’s Update: fully open source archive, ElasticSearch, 300GB+ of book covers</h1>
+  <p style="font-style: italic">
+    annas-blog.org, 2022-12-09
+  </p>
+
+  <p>
+    With Z-Library going down and its (alleged) founders getting arrested, we’ve been working around the clock to provide a good alternative with Anna’s Archive (we won’t link it here, but you can Google it). Here are some of the things we achieved recently.
+  </p>
+
+  <h2>Anna’s Archive is fully open source</h2>
+
+  <p>
+    We believe that information should be free, and our own code is no exception. We have released all of our code on our privately hosted Gitlab instance: <a href="https://annas-software.org/">Anna’s Software</a>. We also use the issue tracker to organize our work. If you want to engage with our development, this is a great place to start.
+  </p>
+
+  <p>
+    To give you a taste of the things we are working on, take our recent work on client-side performance improvements. Since we haven’t implemented pagination yet, we would often return very long search pages, with 100-200 results. We didn’t want to cut off the search results too soon, but this did mean that it would slow down some devices. For this, we implemented a little trick: we wrapped most search results in HTML comments (<code>&lt;!-- --&gt;</code>), and then wrote a little Javascript that would detect when a result should become visible, at which moment we would unwrap the comment:
+  </p>
+
+  <code><pre style="overflow-x: auto;">var lastAnimationFrame = undefined;
+var topByElement = {};
+function render() {
+window.cancelAnimationFrame(lastAnimationFrame);
+lastAnimationFrame = window.requestAnimationFrame(() => {
+var bottomEdge = window.scrollY + window.innerHeight * 3; // Load 3 pages worth
+for (element of document.querySelectorAll('.js-scroll-hidden')) {
+  if (!topByElement[element.id]) {
+    topByElement[element.id] = element.getBoundingClientRect().top + window.scrollY;
+  }
+  if (topByElement[element.id] <= bottomEdge) {
+    element.classList.remove("js-scroll-hidden");
+    element.innerHTML = element.innerHTML.replace('<' + '!--', '').replace('-' + '->', '')
+  }
+}
+});
+}
+document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('scroll', () => {
+render();
+});
+render();
+});</pre></code>
+
+  <p>
+    DOM "virtualization" implemented in 23 lines, no need for fancy libraries! This is the sort of quick pragmatic code that you end up with when you have limited time, and real problems that need to be solved. It has been reported that our search now works well on slow devices!
+  </p>
+
+  <p>
+    Another big effort was to automate building the database. When we launched, we just haphazardly pulled different sources together. Now we want to keep them updated, so we wrote a bunch of scripts to download new metadata from the two Library Genesis forks, and integrates them. The goal is to not just make this useful for our archive, but to make things easy for anyone who wants to play around with shadow library metadata. The goal would be a Jupyter notebook that has all sorts of interesting metadata available, so we can do more research like figuring out what <a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">percentage of ISBNs are preserved forever</a>.
+  </p>
+
+  <p>
+    Finally, we revamped our donation system. You can now use a credit card to directly deposit money into our crypto wallets, without really needing to know anything about cryptocurrencies. We’ll keep monitoring how well this works in practice, but this is a big deal.
+  </p>
+
+  <h2>Switch to ElasticSearch</h2>
+
+  <p>
+    One of our <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/6">tickets</a> was a grab-bag of issues with our search system. We used MySQL full-text search, since we had all our data in MySQL anyway. But it had its limits:
+  </p>
+
+  <ul>
+    <li>Some queries took super long, to the point where they would hog all the open connections (until we added a <a href="https://twitter.com/AnnaArchivist/status/1594602710221086721">hacky timeout</a>).</li>
+    <li>By default MySQL has a minimum word length, or your index can get really large. People reported not being able to search for “Ben Hur”.</li>
+    <li>Search was only somewhat fast when fully loaded in memory, which required us to get a more expensive machine to run this on, plus some commands to preload the index on startup.</li>
+    <li>We wouldn’t have been able to extend it easily to build new features, like better <a href="https://en.wikipedia.org/wiki/CJK_characters">tokenization for non-whitespaced languages</a>, filtering/faceting, sorting, "did you mean" suggestions, autocomplete, and so on.</li>
+  </ul>
+
+  <p>
+    After talking to a bunch of experts, we settled on ElasticSearch. It hasn’t been perfect (their default “did you mean” suggestions and autocomplete features suck), but overall it’s been a lot better than MySQL for search. We’re still not <a href="https://www.youtube.com/watch?v=QdkS6ZjeR7Q">too keen</a> on using it for any mission-critical data (though they’ve made a lot of <a href="https://www.elastic.co/guide/en/elasticsearch/resiliency/current/index.html">progress</a>), but overall we’re quite happy with the switch.
+  </p>
+
+  <p>
+    For now, we’ve implemented much faster search, better language support, better relevancy sorting, different sorting options, and filtering on language/book type/file type. If you’re curious how it works, <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/648b425f91cf49107fc67194ad9e8afe2398243e/allthethings/cli/views.py#L140">have</a> <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/648b425f91cf49107fc67194ad9e8afe2398243e/allthethings/page/views.py#L1115">a</a> <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/648b425f91cf49107fc67194ad9e8afe2398243e/allthethings/page/views.py#L1635">look</a>. It’s fairly accessible, though it could use some more comments…
+  </p>
+
+  <h2>300GB+ of book covers released</h2>
+
+  <p>
+    Finally, we’re happy to announce a small release. In collaboration with the folks who operate the Libgen.rs fork, we’re sharing all their book covers through torrents and IPFS. This will distribute the load of viewing the covers among more machines, and will preserve them better. In many (but not all) cases, the book covers are included in the files themselves, so this is kind of “derived data”. But having it in IPFS is still very useful for daily operation of both Anna’s Archive and the various Library Genesis forks.
+  </p>
+
+  <p>
+    As usual, you can find this release at the Pirate Library Mirror. We won’t link to it here, but you can easily find it.
+  </p>
+
+  <p>
+    Hopefully we can relax our pace a little, now that we have a decent alternative to Z-Library. This workload is not particularly sustainable. If you are interested in helping out with programming, server operations, or preservation work, definitely reach out to us. There is still a lot of <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues">work to be done</a>. Thanks for your interest and support.
+  </p>
+
+  <p>
+    - Anna and the Pirate Library Mirror team (<a href="https://twitter.com/AnnaArchivist">Twitter</a>, <a href="https://www.reddit.com/user/AnnaArchivist">Reddit</a>)
+  </p>
+{% endblock %}

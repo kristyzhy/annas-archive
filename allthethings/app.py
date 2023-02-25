@@ -8,10 +8,25 @@ from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_babel import get_locale
 
+from allthethings.blog.views import blog
 from allthethings.page.views import page
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
 from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist
+
+# Rewrite `annas-blog.org` to `/blog` as a workaround for Flask not nicely supporting multiple domains.
+# Also strip `/blog` if we encounter it directly, to avoid duplicating it.
+class BlogMiddleware(object):
+    def __init__(self, app):
+        self.app = app
+    def __call__(self, environ, start_response):
+        if environ['HTTP_HOST'].startswith('annas-blog.org'): # `startswith` so we can test using http://annas-blog.org.localtest.me:8000/
+            environ['PATH_INFO'] = '/blog' + environ['PATH_INFO']
+        elif environ['PATH_INFO'].startswith('/blog'): # Don't allow the /blog path directly to avoid duplication between annas-blog.org and /blog
+            # Note that this HAS to be in an `elif`, because some blog paths actually start with `/blog`, e.g. `/blog-introducing.html`!
+            environ['PATH_INFO'] = environ['PATH_INFO'][len('/blog'):]
+        return self.app(environ, start_response)
+
 
 def create_celery_app(app=None):
     """
@@ -55,6 +70,7 @@ def create_app(settings_override=None):
 
     middleware(app)
 
+    app.register_blueprint(blog)
     app.register_blueprint(dyn)
     app.register_blueprint(page)
     app.register_blueprint(cli)
@@ -125,7 +141,7 @@ def middleware(app):
         app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
     # Set the real IP address into request.remote_addr when behind a proxy.
-    app.wsgi_app = ProxyFix(app.wsgi_app)
+    app.wsgi_app = BlogMiddleware(ProxyFix(app.wsgi_app))
 
     return None
 
