@@ -170,9 +170,49 @@
           <div style="position: relative; left: calc(5% + 20px); width: calc(90% - 20px); top: 8px; font-size: 90%; color: #555">{{ gettext('layout.index.header.progress_bar.text', info_icon=('<a href="/about" style="text-decoration: none !important;">ⓘ</a>' | safe)) }}</div>
         </div>
         <div class="header-bar">
-          <div class="header-links">
-            <a href="/" class="{{ 'header-link-active' if header_active == 'home' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.home') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.home') }}</span></a>
-            <a href="/about" class="{{ 'header-link-active' if header_active == 'about' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.about') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.about') }}</span></a>
+          <div class="header-links relative">
+            <script>
+              function topMenuToggle(event, className) {
+                const el = document.querySelector("." + className);
+                if (el.style.display === "block") {
+                  el.style.display = "none";
+                  el.setAttribute('aria-expanded', "false");
+                } else {
+                  el.style.display = "block";
+                  el.setAttribute('aria-expanded', "true");
+                  function clickOutside(innerEvent) {
+                    if (!el.contains(innerEvent.target)) {
+                      el.style.display = "none";
+                      el.setAttribute('aria-expanded', "false")
+                      document.removeEventListener('click', clickOutside);
+                      innerEvent.preventDefault();
+                      return false;
+                    }
+                  }
+                  setTimeout(function() {
+                    document.addEventListener('click', clickOutside);
+                  }, 0);
+                }
+                event.preventDefault();
+                return false;
+              }
+            </script>
+            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="{{ 'header-link-active' if header_active in ['home', 'about'] }}">
+              <span class="header-link-normal">
+                {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
+                {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
+                ▾
+              </span>
+              <span class="header-link-bold">
+                {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
+                {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
+                ▾
+              </span>
+            </a>
+            <div class="absolute left-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
+              <a class="custom-a block py-1 {% if header_active == 'home'     %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'about'    %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
+            </div>
             <a href="/donate" class="{{ 'header-link-active' if header_active == 'donate' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.donate') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.donate') }}</span></a>
             <a href="/search" class="{{ 'header-link-active' if header_active == 'search' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.search') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.search') }}</span></a>
           </div>
