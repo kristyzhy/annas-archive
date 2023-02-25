@@ -52,14 +52,15 @@ docker-compose down
 
 # Quickly swap out the new MySQL+ES folders in a production setting.
 # cd ..
-# docker-compose stop mariadb elasticsearch kibana
+# docker-compose stop mariadb elasticsearch kibana web
 # export NOW=$(date +"%Y_%m_%d_%H_%M")
 # mv ../allthethings-mysql-data ../allthethings-mysql-data--backup-$NOW
 # mv ../allthethings-elastic-data ../allthethings-elastic-data--backup-$NOW
 # mv ../aa-data-import--allthethings-mysql-data ../allthethings-mysql-data
 # mv ../aa-data-import--allthethings-elastic-data ../allthethings-elastic-data
-# docker-compose up -d --no-deps --build
+# docker-compose up -d --no-deps --build; docker-compose stop web
 # docker-compose logs --tail 20 --follow
+# docker-compose start web
 
 # To restore the backup:
 # docker-compose stop mariadb elasticsearch kibana
