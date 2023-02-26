@@ -1,0 +1,30 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Datasets{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <div class="mb-4">Datasets ▶ Open Library</div>
+
+    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
+      <p class="mb-4">
+        The International ISBN Agency regularly releases the ranges that it has allocated to national ISBN agencies.
+        From this we can derive what country, region, or language group this ISBN belongs.
+        We currently use this data indirectly, through the <a href="https://pypi.org/project/isbnlib/">isbnlib</a> Python library.
+      </p>
+
+      <p><strong>Resources</strong></p>
+      <ul class="list-inside mb-4 ml-1">
+        <li class="list-disc">Last updated: 2022-02-11 (git <a href="https://github.com/xlcnd/isbnlib/commit/8d944ee456cb7b465aff67e2f8d200e8d7de7d0b">isbnlib#8d944ee</a>)</li>
+        <li class="list-disc"><a href="/isbn/9780060512804">Example record on Anna’s Archive</a></li>
+        <li class="list-disc"><a href="https://www.isbn-international.org/range_file_generation">Main website</a></li>
+        <li class="list-disc"><a href="https://www.isbn-international.org/export_rangemessage.xml">Metadata</a></li>
+        <li class="list-disc"><a href="https://pypi.org/project/isbnlib/3.10.10/">isbnlib 3.10.10</a></li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

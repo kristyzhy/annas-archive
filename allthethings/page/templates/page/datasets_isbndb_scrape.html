@@ -1,0 +1,60 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Datasets{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <div class="mb-4">Datasets ▶ ISBNdb scrape</div>
+
+    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
+      <p class="mb-4">
+        ISBNdb is a company that scrapes various online bookstores to find ISBN metadata.
+        Anna’s Archive has been making backups of the ISBNdb book metadata.
+        This metadata is available through Anna’s Archive (though not currently in search, except if you explicitly search for an ISBN number).
+      </p>
+
+      <p class="mb-4">
+        For technical details, see below.
+        At some point we can use it to determine which books are still missing from shadow libraries, in order to prioritize which books to find and/or scan.
+      </p>
+
+      <p><strong>Resources</strong></p>
+      <ul class="list-inside mb-4 ml-1">
+        <li class="list-disc">Last updated: 2022-09</li>
+        <li class="list-disc"><a href="/isbn/9780060512804">Example record on Anna’s Archive</a></li>
+        <li class="list-disc"><a href="http://2urmf2mk2dhmz4km522u4yfy2ynbzkbejf2cvmpcbzhpffvcuksrz6ad.onion">Torrents by Anna’s Archive (metadata)</a></li>
+        <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
+        <li class="list-disc"><a href="https://isbndb.com/">Main website</a></li>
+      </ul>
+    </div>
+
+    <h2 class="mt-4 mb-4 text-3xl font-bold">ISBNdb scrape</h2>
+
+    <p><strong>Release 1 (2022-10-31)</strong></p>
+
+    <p class="mb-4">
+      This is a dump of a lot of calls to isbndb.com during September 2022. We tried to cover all ISBN ranges. These are about 30.9 million records. On their website they claim that they actually have 32.6 million records, so we might somehow have missed some, or <em>they</em> could be doing something wrong.
+    </p>
+
+    <p class="mb-4">
+      The JSON responses are pretty much raw from their server. One data quality issue that we noticed, is that for ISBN-13 numbers that start with a different prefix than "978-", they still include an "isbn" field that simply is the ISBN-13 number with the first 3 numbers chopped off (and the check digit recalculated). This is obviously wrong, but this is how they seem to do it, so we didn't alter it.
+    </p>
+
+    <p class="mb-4">
+      Another potential issue that you might run into, is the fact that the "isbn13" field has duplicates, so you cannot use it as a primary key in a database. "isbn13"+"isbn" fields combined do seem to be unique.
+    </p>
+
+    <p class="mb-4">
+      Currently we have a single torrent, that contains a 4.4GB gzipped <a href="https://jsonlines.org/">JSON Lines</a> file (20GB unzipped): "isbndb_2022_09.jsonl.gz". To import a ".jsonl" file into PostgreSQL, you can use something like <a href="https://gist.github.com/JeffCarpenter/757be2645a8671a2ce92aadc7568e5d0">this script</a>. You can even pipe it directly using something like "zcat isbndb_2022_09.jsonl.gz | " so it decompresses on the fly.
+    </p>
+
+    <p class="mb-4">
+      Since we don’t directly host any content on Anna’s Archive, please find <a href="http://2urmf2mk2dhmz4km522u4yfy2ynbzkbejf2cvmpcbzhpffvcuksrz6ad.onion">our data on Tor</a>.
+    </p>
+
+  </div>
+{% endblock %}

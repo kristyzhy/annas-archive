@@ -322,13 +322,55 @@ def datasets_page():
         libgenrs_date = str(libgenrs_time.date())
         libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
         libgenli_date = str(libgenli_time.date())
+        # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
+        openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL11%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
+        openlib_date = str(openlib_time.date())
 
     return render_template(
         "page/datasets.html",
         header_active="datasets",
         libgenrs_date=libgenrs_date,
         libgenli_date=libgenli_date,
+        openlib_date=openlib_date,
     )
+
+@page.get("/datasets/libgen_aux")
+def datasets_libgen_aux_page():
+    return render_template("page/datasets_libgen_aux.html", header_active="datasets")
+
+@page.get("/datasets/zlib_scrape")
+def datasets_zlib_scrape_page():
+    return render_template("page/datasets_zlib_scrape.html", header_active="datasets")
+
+@page.get("/datasets/isbndb_scrape")
+def datasets_isbndb_scrape_page():
+    return render_template("page/datasets_isbndb_scrape.html", header_active="datasets")
+
+@page.get("/datasets/libgen_rs")
+def datasets_libgen_rs_page():
+    with engine.connect() as conn:
+        libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
+        libgenrs_date = str(libgenrs_time.date())
+    return render_template("page/datasets_libgen_rs.html", header_active="datasets", libgenrs_date=libgenrs_date)
+
+@page.get("/datasets/libgen_li")
+def datasets_libgen_li_page():
+    with engine.connect() as conn:
+        libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
+        libgenli_date = str(libgenli_time.date())
+    return render_template("page/datasets_libgen_li.html", header_active="datasets", libgenli_date=libgenli_date)
+
+@page.get("/datasets/openlib")
+def datasets_openlib_page():
+    with engine.connect() as conn:
+        # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
+        openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL11%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
+        openlib_date = str(openlib_time.date())
+    return render_template("page/datasets_openlib.html", header_active="datasets", openlib_date=openlib_date)
+
+@page.get("/datasets/isbn_ranges")
+def datasets_isbn_ranges_page():
+    return render_template("page/datasets_isbn_ranges.html", header_active="datasets")
 
 
 def get_zlib_book_dicts(session, key, values):

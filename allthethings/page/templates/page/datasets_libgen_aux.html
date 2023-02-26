@@ -1,0 +1,62 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Datasets{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <div class="mb-4">Datasets ▶ Libgen auxiliary data</div>
+
+    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
+      <p class="mb-4">
+        Library Genesis is an open shadow library. In order to make it even more open and mirror-able, we worked together with the people running the <a href="/datasets/libgen_rs">".rs-fork"</a> to make more data available.
+      </p>
+
+      <p class="mb-4">
+        So far we have made book covers available.
+        For technical details, see below.
+        Note that we have not integrated this data into Anna’s Archive yet.
+      </p>
+
+      <p><strong>Resources</strong></p>
+      <ul class="list-inside mb-4 ml-1">
+        <li class="list-disc">Last updated: 2022-12-09</li>
+        <li class="list-disc"><a href="http://2urmf2mk2dhmz4km522u4yfy2ynbzkbejf2cvmpcbzhpffvcuksrz6ad.onion">Torrents by Anna’s Archive (book covers)</a></li>
+        <li class="list-disc"><a href="https://libgen.rs/">Main website</a></li>
+      </ul>
+    </div>
+
+    <h2 class="mt-4 mb-1 text-3xl font-bold">Libgen auxiliary data</h2>
+
+    <p class="mb-4">
+      Library Genesis is known for already generously making their data available in bulk through torrents. Our Libgen collection consists of auxiliary data that they do not release directly, in partnership with them. Much thanks to everyone involved with Library Genesis for working with us!
+    </p>
+
+    <p><strong>Release 1 (2022-12-09)</strong></p>
+
+    <p class="mb-4">
+      This first release is pretty small: about 300GB of book covers from the Libgen.rs fork, both fiction and non-fiction. They are organized in the same way as how they appear on libgen.rs, e.g.:
+    </p>
+
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc"><code>https://libgen.rs/covers/110000/8336332bf5877e3adbfb60ac70720cd5-d.jpg</code> for a non-fiction book.</li>
+      <li class="list-disc"><code>https://libgen.rs/fictioncovers/2208000/3f84cf4b822ec4bb5f0fb63af8348b1d-g.jpg</code> for a fiction book.</li>
+    </ul>
+
+    <p class="mb-4">
+      Just like with the Z-Library collection, we put them all in a big .tar file, which can be mounted using <a href="https://github.com/mxmlnkn/ratarmount">ratarmount</a> if you want to serve the files directly.
+    </p>
+
+    <p class="mb-4">
+      We’d also like to invite you to seed this on IPFS. This time we’re using this command: <code>ipfs add --nocopy --recursive --hash=blake3 --chunker=size-1048576</code>. The main change since last time is that we now use the “blake3” hash function. Finally, please refer to our <a href="https://annas-blog.org/help-seed-zlibrary-on-ipfs.html">last</a> <a href="https://annas-blog.org/putting-5,998,794-books-on-ipfs.html">two</a> blog posts for our notes on how to set up IPFS.
+    </p>
+
+    <p>
+      Since we don’t directly host any content on Anna’s Archive, please find <a href="http://2urmf2mk2dhmz4km522u4yfy2ynbzkbejf2cvmpcbzhpffvcuksrz6ad.onion">our data on Tor</a>.
+    </p>
+
+  </div>
+{% endblock %}

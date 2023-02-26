@@ -8,321 +8,98 @@
   {% endif %}
 
   <div lang="en">
-    <p class="mt-4 mb-4">
-      We currently pull data from the following sources. We describe them in more detail below.
-    </p>
-
-    <ul class="list-inside mb-4">
-      <li class="list-disc">Library Genesis <a href="http://libgen.rs/">".rs-fork"</a> / <a href="http://libgen.fun">".fun"</a></li>
-      <li class="list-disc">Library Genesis <a href="http://libgen.li/">".li-fork"</a> (which includes most of <a href="http://sci-hub.ru/">Sci-Hub</a>)</li>
-      <li class="list-disc">Z-Library (currently only available through <a href="http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/">TOR</a>; requires a <a href="https://www.torproject.org/download/">TOR browser</a>)</li>
-      <li class="list-disc"><a href="https://www.isbn-international.org/range_file_generation">International ISBN Agency Ranges XML</a></li>
-      <li class="list-disc"><a href="https://isbndb.com/">ISBNdb</a></li>
-      <li class="list-disc"><a href="https://openlibrary.org/">Open Library</a></li>
-    </ul>
+    <h2 class="mt-4 mb-1 text-3xl font-bold">Datasets</h2>
 
     <p class="mb-4">
-      Currently the first three (both Library Genesis forks and Z-Library) can be searched.
+      Our mission is to archive all the books in the world, and make them widely accessible. To this end, we believe that all books should be mirrored far and wide. This ensures redundancy and resiliency.
     </p>
 
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Library Genesis</h2>
+    <p><strong>Our projects</strong></p>
 
     <p class="mb-4">
-      The quick story of the different Library Genesis forks, is that over time, the different people involved with Library Genesis had a falling out, and went their separate ways.
+      We manage a number of projects ourselves. Our work was previously called the “Pirate Library Mirror”, but we’ve now merged this work with Anna’s Archive. Since we don’t directly host any content on Anna’s Archive, please find <a href="http://2urmf2mk2dhmz4km522u4yfy2ynbzkbejf2cvmpcbzhpffvcuksrz6ad.onion">our data on Tor</a>.
     </p>
+      
+    <table class="mb-4 w-[100%]">
+      <tr>
+        <th class="p-2 align-top text-left" width="25%"></th>
+        <th class="p-2 align-top text-left" width="15%">Updated</th>
+        <th class="p-2 align-top text-left" width="22%">Type</th>
+        <th class="p-2 align-top text-left" width="38%">Status</th>
+      </tr>
+      <tr class="bg-[#f2f2f2]">
+        <td class="p-2 align-top"><a href="/datasets/zlib_scrape">Z-Library scrape</a></td>
+        <td class="p-2 align-top whitespace-nowrap">2022-11-22</td>
+        <td class="p-2 align-top">Books</td>
+        <td class="p-2 align-top">• Will update when situation stabilizes</td>
+      </tr>
+      <tr>
+        <td class="p-2 align-top"><a href="/datasets/isbndb_scrape">ISBNdb scrape</a></td>
+        <td class="p-2 align-top whitespace-nowrap">2022-09</td>
+        <td class="p-2 align-top">Book metadata</td>
+        <td class="p-2 align-top">• Update planned later in 2023<br>• Not yet used in search results</td>
+      </tr>
+      <tr class="bg-[#f2f2f2]">
+        <td class="p-2 align-top"><a href="/datasets/libgen_aux">Libgen auxiliary data</a></td>
+        <td class="p-2 align-top whitespace-nowrap">2022-12-09</td>
+        <td class="p-2 align-top">Book covers</td>
+        <td class="p-2 align-top">• No updates planned<br>• Not used in Anna’s Archive</td>
+      </tr>
+    </table>
 
-    <ul class="list-inside mb-4">
-      <li class="list-disc">The ".fun" version was created by the original founder. It is being revamped in favor of a new, more distributed version.</li>
-      <li class="list-disc">The ".rs" version has very similar data, and most consistently releases their collection in bulk torrents. It is roughly split into a "fiction" and a "non-fiction" section.</li>
-      <li class="list-disc">The ".li" version has a massive collection of comics, as well as other content, that is not (yet) available for bulk download through torrents. It also contains the metadata of Sci-Hub in its database.</li>
-    </ul>
+    <p><strong>Shadow library sources</strong></p>
 
     <p class="mb-4">
-      We use data from the ".rs" and ".li" forks, since they have the most easily accessible metadata.
+      In addition to our own projects, we use data that is freely shared by <a href="https://en.wikipedia.org/wiki/Shadow_library">shadow libraries</a>.
+      Shadow libraries are libraries or archives that are not legal in every country around the world.
     </p>
 
-    <p class="mt-8 mb-4 font-bold">Library Genesis ".rs-fork" <a href="#lgrs" id="lgrs" class="text-sm font-normal color-gray">#lgrs</a></p>
+    <table class="mb-4 w-[100%]">
+      <tr>
+        <th class="p-2 align-top text-left" width="25%"></th>
+        <th class="p-2 align-top text-left" width="15%">Updated</th>
+        <th class="p-2 align-top text-left" width="22%">Type</th>
+        <th class="p-2 align-top text-left" width="38%">Status</th>
+      </tr>
+      <tr class="bg-[#f2f2f2]" class="bg-[#f2f2f2]">
+        <td class="p-2 align-top"><a href="/datasets/libgen_rs">Library Genesis ".rs-fork"</a></td>
+        <td class="p-2 align-top whitespace-nowrap">{{ libgenrs_date }}</td>
+        <td class="p-2 align-top">Books, papers</td>
+        <td class="p-2 align-top">• Monthly updated<br>• Fully open and widely mirrored</td>
+      </tr>
+      <tr>
+        <td class="p-2 align-top"><a href="/datasets/libgen_li">Library Genesis ".li-fork"</a></td>
+        <td class="p-2 align-top whitespace-nowrap">{{ libgenli_date }}</td>
+        <td class="p-2 align-top">Books, papers, comics, magazines, standard documents</td>
+        <td class="p-2 align-top">• Monthly updated<br>• Open metadata<br>• Partially open content</td>
+      </tr>
+    </table>
 
-    <div class="mb-4">
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Library Genesis ".rs-fork" Data Dump (Fiction and Non-Fiction)</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://libgen.rs/dbdumps/">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Internal URL</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/datasets#lgrs</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#lgrs" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Release date</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">{{ libgenrs_date }}</div>
-        <div></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Bulk torrents</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Non-Fiction: https://libgen.rs/repository_torrent/</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://libgen.rs/repository_torrent/">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1"></div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Fiction: https://libgen.rs/fiction/repository_torrent/</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://libgen.rs/fiction/repository_torrent/">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Example data</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/lgrs/fic/617509</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/lgrs/fic/617509" class="anna">anna</a></div>
-      </div>
-    </div>
-
-    <p class="mt-8 mb-4 font-bold">Library Genesis ".li-fork" <a href="#lgli" id="lgli" class="text-sm font-normal color-gray">#lgli</a></p>
-
-    <div class="mb-4">
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Library Genesis ".li-fork" Data Dump</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://libgen.li/dirlist.php?dir=dbdumps">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Internal URL</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/datasets#lgli</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#lgli" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Release date</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">{{ libgenli_date }}</div>
-        <div></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Bulk torrents</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">https://libgen.gs/torrents/</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://libgen.gs/torrents/">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Example data</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/lgli/file/4663167</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/lgli/file/4663167" class="anna">anna</a></div>
-      </div>
-    </div>
-
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Z-Library <a href="#zlib" id="zlib" class="text-sm font-normal color-gray">#zlib</a></h2>
+    <p><strong>Open sources</strong></p>
 
     <p class="mb-4">
-      Z-Library has its roots in the Library Genesis community, and originally bootstrapped with their data.
-      Since then, it has professionalized considerably, and has a much more modern interface.
-      They are therefore able to get many more donations, both monitarily to keep improving their website, as well as donations of new books.
-      They have amassed a large collection in addition to Library Genesis.
+      We also include fully open sources of data. These are projects that aim to be fully legal around the world.
     </p>
 
-    <p class="mb-4">
-      Since they don't release bulk torrents or metadata, the creator of this website, <a href="http://annas-blog.org">Anna</a>, started a project to scrape them, called the <a href="http://pilimi.org">Pirate Library Mirror</a>.
-    </p>
-
-    <div class="mb-4">
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Pirate Library Mirror Z-Library Collection</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="http://pilimi.org/zlib.html">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Internal URL</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/datasets#zlib</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#zlib" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Torrent filename</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">pilimi-zlib2-index-2022-08-24-fixed.torrent</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="http://pilimi.org/zlib-downloads.html#pilimi-zlib2-index-2022-08-24-fixed.torrent">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Release date</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">2022-09-25</div>
-        <div></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Scrape date</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">2022-08-24</div>
-        <div></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Bulk torrents</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">http://pilimi.org/zlib-downloads.html</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="http://pilimi.org/zlib-downloads.html">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Example data</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/zlib/1837947</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/zlib/1837947" class="anna">anna</a></div>
-      </div>
-    </div>
-
-    <h2 class="mt-12 mb-1 text-3xl font-bold">ISBN</h2>
-
-    <p class="mb-4">
-      International Standard Book Number (ISBN) numbers have been assigned to books since the 1970s.
-      However, there is no central database, so our ISBN collection is compiled from different sources.
-      ISBN ranges are assigned to language groups and countries, which then assign ranges to publishers, which then assign individual numbers to their books.
-    </p>
-
-    <p class="mb-4">
-      Currently we do not have separate pages for the different sources, only a single page per ISBN number that shows what information we have available.
-    </p>
-
-    <p class="mt-8 mb-4 font-bold">International ISBN Agency Ranges XML <a href="#isbn-xml-2022-02-11" id="isbn-xml-2022-02-11" class="text-sm font-normal color-gray">#isbn-xml-2022-02-11</a></p>
-
-    <p class="mb-4">
-      The International ISBN Agency regularly releases the ranges that it has allocated to national ISBN agencies.
-      From this we can derive what country, region, or language group this ISBN belongs.
-      We currently use this data indirectly, through the <a href="https://pypi.org/project/isbnlib/">isbnlib</a> Python library.
-    </p>
-
-    <div class="mb-4">
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">International ISBN Agency Ranges XML</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://www.isbn-international.org/range_file_generation">url</a> <a href="https://www.isbn-international.org/export_rangemessage.xml">xml</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Internal URL</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/datasets#isbn-xml-2022-02-11</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#isbn-xml-2022-02-11" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">isbnlib version</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">3.10.10</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://pypi.org/project/isbnlib/3.10.10/">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">XML scrape date</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">2022-02-11 (git isbnlib#8d944ee)</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://github.com/xlcnd/isbnlib/commit/8d944ee456cb7b465aff67e2f8d200e8d7de7d0b">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Example data</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/isbn/9780060512804</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/isbn/9780060512804" class="anna">anna</a></div>
-      </div>
-    </div>
-
-    <p class="mt-8 mb-4 font-bold">ISBNdb <a href="#isbndb-2022-09" id="isbndb-2022-09" class="text-sm font-normal color-gray">#isbndb-2022-09</a></p>
-
-    <p class="mb-4">
-      ISBNdb is a company that scrapes various online bookstores to find ISBN metadata.
-      The creators of this website scraped their database, and made it available for bulk download.
-      We make it available on this website on an individual basis (as a search engine), to enrich the metadata of books.
-      At some point we can also use it to determine which books are still missing from the shadow libraries, so we prioritize which books to find and/or scan.
-    </p>
-
-    <div class="mb-4">
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Pirate Library Mirror ISBNdb Collection</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="http://pilimi.org/isbndb.html">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Internal URL</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/datasets#isbndb-2022-09</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#isbndb-2022-09" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Torrent filename</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">isbndb_2022_09.torrent</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="http://pilimi.org/isbndb-downloads.html">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Release date</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">2022-10-31</div>
-        <div></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Scrape date</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">2022-09</div>
-        <div></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Example data</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/isbn/9780060512804</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/isbn/9780060512804" class="anna">anna</a></div>
-      </div>
-    </div>
-
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Open Library <a href="#ol-2022-09-30" id="ol-2022-09-30" class="text-sm font-normal color-gray">#ol-2022-09-30</a></h2>
-
-    <p class="mb-4">
-      Open Library is a project by the Internet Archive to catalog every book in the world.
-      It has one of the world's largest book scanning operations, and has many books available for digital lending.
-      Its book metadata catalog is freely available for download, and is included on this website.
-    </p>
-
-    <div class="mb-4">
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Open Library Data Dump</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://openlibrary.org/developers/dumps">url</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Internal URL</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/datasets#ol-2022-09-30</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#ol-2022-09-30" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Release date</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">2022-09-30</div>
-        <div></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Example data</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/ol/OL27280121M</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/ol/OL27280121M" class="anna">anna</a></div>
-      </div>
-    </div>
-
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Files / MD5 <a href="#files" id="files" class="text-sm font-normal color-gray">#files</a></h2>
-
-    <p class="mb-4">
-      We have pages on individual files, indexed by MD5 hash.
-      This is not a source dataset, but rather a synthesis of the shadow library datasets (both Library Genesis datasets and Z-Library).
-      Most of the time the metadata in these libraries agree with each other, but on occasion one is wrong.
-      This is something to look at in the future, to see if we can detect which metadata is more accurate.
-    </p>
-
-    <p class="mb-4">
-      These file pages are what currently show up in the search results, since typically this is what people are looking for.
-    </p>
-
-    <div class="mb-4">
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Files from shadow libraries, combined by MD5</div>
-        <div></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Internal URL</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/datasets#files</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#files" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Source datasets</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Library Genesis ".rs-fork" Data Dump (Fiction and Non-Fiction)</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#lgrs" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1"></div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Library Genesis ".li-fork" Data Dump</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#lgli" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1"></div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">Pirate Library Mirror Z-Library Collection</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#zlib" class="anna">anna</a></div>
-      </div>
-      <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-        <div class="flex-none w-[150] px-2 py-1">Example data</div>
-        <div class="px-2 py-1 grow break-words line-clamp-[8]">/md5/61a1797d76fc9a511fb4326f265c957b</div>
-        <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/md5/61a1797d76fc9a511fb4326f265c957b" class="anna">anna</a></div>
-      </div>
-    </div>
+    <table class="mb-4 w-[100%]">
+      <tr>
+        <th class="p-2 align-top text-left" width="25%"></th>
+        <th class="p-2 align-top text-left" width="15%">Updated</th>
+        <th class="p-2 align-top text-left" width="22%">Type</th>
+        <th class="p-2 align-top text-left" width="38%">Status</th>
+      </tr>
+      <tr class="bg-[#f2f2f2]">
+        <td class="p-2 align-top"><a href="/datasets/openlib">Open Library</a></td>
+        <td class="p-2 align-top whitespace-nowrap">{{ openlib_date }}</td>
+        <td class="p-2 align-top">Book metadata</td>
+        <td class="p-2 align-top">• Monthly updated<br>• Not yet used in search results</td>
+      </tr>
+      <tr>
+        <td class="p-2 align-top"><a href="/datasets/isbn_ranges">International ISBN Agency Ranges</a></td>
+        <td class="p-2 align-top whitespace-nowrap">2022-02-11</td>
+        <td class="p-2 align-top">ISBN country information</td>
+        <td class="p-2 align-top">• Updated infrequently<br>• Not yet used in search results</td>
+      </tr>
+    </table>
   </div>
-
 {% endblock %}

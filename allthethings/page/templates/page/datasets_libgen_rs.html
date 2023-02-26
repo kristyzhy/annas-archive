@@ -1,0 +1,49 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Datasets{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <div class="mb-4">Datasets ▶ Library Genesis ".rs-fork"</div>
+
+    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
+      <p class="mb-4">
+        The quick story of the different Library Genesis (or “Libgen”) forks, is that over time, the different people involved with Library Genesis had a falling out, and went their separate ways.
+      </p>
+
+      <ul class="list-inside mb-4 ml-1">
+        <li class="list-disc">The “.fun" version was created by the original founder. It is being revamped in favor of a new, more distributed version.</li>
+        <li class="list-disc">The “.rs” version has very similar data, and most consistently releases their collection in bulk torrents. It is roughly split into a “fiction” and a “non-fiction” section.</li>
+        <li class="list-disc">The <a href="/datasets/libgen_li">“.li” version</a> has a massive collection of comics, as well as other content, that is not (yet) available for bulk download through torrents. It also contains the metadata of Sci-Hub in its database.</li>
+        <li class="list-disc"><a href="/datasets/zlib_scrape">Z-Library</a> in some sense is also a fork of Library Genesis, though they used a different name for their project.</li>
+      </ul>
+
+      <p class="mb-4">
+        This page is about the “.rs” version. It is known for consistently publishing both its metadata and the full contents of its book catalog. Its book collection is split between a fiction and non-fiction portion.
+      </p>
+
+      <p class="mb-4">
+        They also helped create torrents for the Sci-Hub project, a large collection of academic papers. This collection is also called “scimag”. The torrents for the contents are hosted by the Libgen “.rs-fork”, though the metadata itself is hosted on the Sci-Hub website. Note that the <a href="/datasets/libgen_li">Libgen “.li-fork”</a> metadata also contains the Sci-Hub metadata.
+      </p>
+
+      <p><strong>Resources</strong></p>
+      <ul class="list-inside mb-4 ml-1">
+        <li class="list-disc">Last updated: {{ libgenrs_date }}</li>
+        <li class="list-disc"><a href="/lgrs/fic/617509">Example record on Anna’s Archive</a></li>
+        <li class="list-disc"><a href="https://libgen.rs/">Main website</a></li>
+        <li class="list-disc"><a href="https://libgen.rs/dbdumps/">Metadata</a></li>
+        <li class="list-disc"><a href="https://libgen.rs/repository_torrent/">Non-fiction torrents</a></li>
+        <li class="list-disc"><a href="https://libgen.rs/fiction/repository_torrent/">Fiction torrents</a></li>
+        <li class="list-disc"><a href="https://sci-hub.ru/">Sci-Hub website</a></li>
+        <li class="list-disc"><a href="https://sci-hub.ru/database">Sci-Hub metadata</a></li>
+        <li class="list-disc"><a href="https://libgen.rs/scimag/repository_torrent/">Sci-Hub torrents</a></li>
+        <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
+        <li class="list-disc"><a href="https://forum.mhut.org/">Discussion forum</a></li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

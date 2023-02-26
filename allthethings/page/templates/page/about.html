@@ -21,7 +21,7 @@
     {{ gettext('page.about.text4', email=('<a href="mailto:AnnaDMCA@proton.me">AnnaDMCA@&#8203;proton.&#8203;me</a>' | safe)) }}
   </p>
   
-  <h2 class="mt-12 mb-1 text-3xl font-bold">{{ gettext('page.about.help.header') }}</h2>
+  <p><strong>{{ gettext('page.about.help.header') }}</strong></p>
 
   <ol class="list-inside mb-4">
     {{ gettext('page.about.help.text') }}
@@ -32,13 +32,13 @@
   {% endif %}
 
   <div lang="en">
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Uploading books</h2>
+    <p><strong>Uploading books</strong></p>
 
     <p class="mb-4">
       We suggest uploading new books to the Library Genesis forks. Here is a <a href="https://wiki.mhut.org/content:how_to_upload">handy guide</a>. Note that both forks that we index on this website pull from this same upload system.
     </p>
 
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Progress bar</h2>
+    <p><strong>Progress bar</strong></p>
 
     <p class="mb-4">
       The progress bar on the home page is currently not meaningful.
@@ -52,63 +52,17 @@
       For now, the progress bar highlights our ambition and philosophy. We hope to inspire you to join us on this mission.
     </p>
 
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Open source</h2>
-
-    <p class="mb-4">
-      The source code for this website is available in the public domain, on <a href="https://annas-software.org/">Anna’s Software</a>.
-    </p>
-
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Further reading</h2>
-
-    <p class="mb-4">
-      Anna regularly puts out blog posts, which you can find on <a href="http://annas-blog.org">Anna’s Blog</a>:
-    </p>
+    <p><strong>Resources</strong></p>
 
     <ul class="list-inside mb-4">
-      <li class="list-disc">2022-12-09 <a href="http://annas-blog.org/annas-update-open-source-elasticsearch-covers.html">Anna’s Update: fully open source archive, ElasticSearch, 300GB+ of book covers</a></li>
-      <li class="list-disc">2022-11-22 <a href="http://annas-blog.org/help-seed-zlibrary-on-ipfs.html">Help seed Z-Library on IPFS</a></li>
-      <li class="list-disc">2022-11-19 <a href="http://annas-blog.org/putting-5,998,794-books-on-ipfs.html">Putting 5,998,794 books on IPFS</a></li>
-      <li class="list-disc">2022-10-31 <a href="http://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">ISBNdb dump, or How Many Books Are Preserved Forever?</a></li>
-      <li class="list-disc">2022-10-17 <a href="http://annas-blog.org/blog-how-to-become-a-pirate-archivist.html">How to become a pirate archivist</a></li>
-      <li class="list-disc">2022-09-25 <a href="http://annas-blog.org/blog-3x-new-books.html">3x new books added to the Pirate Library Mirror (+24TB, 3.8 million books)</a></li>
-      <li class="list-disc">2022-07-01 <a href="http://annas-blog.org/blog-introducing.html">Introducing the Pirate Library Mirror: Preserving 7TB of books (that are not in Libgen)</a></li>
+      <li class="list-disc"><a href="https://annas-blog.org">Anna’s Blog</a> — regular updates</li>
+      <li class="list-disc"><a href="https://annas-software.org">Anna’s Software</a> — our open source code</li>
+      <li class="list-disc"><a href="https://translate.annas-software.org">Translate on Anna’s Software</a> — our translation system</li>
+      <li class="list-disc"><a href="/datasets">Datasets</a> & <a href="/torrents">Torrents</a> — about the data</li>
+      <li class="list-disc"><a href="https://annas-archive.org">annas-archive.org</a> & <a href="https://annas-archive.gs">annas-archive.gs</a> — alternative domains</li>
     </ul>
 
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Metadata downloads</h2>
-
-    <p class="mb-4">
-      All the data on this website comes from publicly available metadata:
-    </p>
-
-    <ul class="list-inside mb-4">
-      <li class="list-disc"><a href="https://libgen.rs/dbdumps/">Library Genesis ".rs-fork" Data Dump (Fiction and Non-Fiction)</a></li>
-      <li class="list-disc"><a href="https://libgen.li/dirlist.php?dir=dbdumps">Library Genesis ".li-fork" Data Dump</a></li>
-      <li class="list-disc"><a href="http://pilimi.org/zlib.html">Pirate Library Mirror Z-Library Collection</a></li>
-      <li class="list-disc"><a href="https://www.isbn-international.org/range_file_generation">International ISBN Agency Ranges XML</a></li>
-      <li class="list-disc"><a href="http://pilimi.org/isbndb.html">Pirate Library Mirror ISBNdb Collection</a></li>
-      <li class="list-disc"><a href="https://openlibrary.org/developers/dumps">Open Library Data Dump</a></li>
-    </ul>
-
-    <p class="mb-4">
-      For more details on exactly the data that we use, see the <a href="/datasets">Datasets</a> page.
-    </p>
-
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Bulk torrent downloads</h2>
-
-    <p class="mb-4">
-      Most (but currently not all) of the content linked to from here can be downloaded in bulk. If you have spare storage and bandwidth, you can help our preservation efforts by seeding these torrents:
-    </p>
-
-    <ul class="list-inside mb-4">
-      <li class="list-disc"><a href="https://libgen.rs/repository_torrent/">Library Genesis ".rs-fork" Non-Fiction</a></li>
-      <li class="list-disc"><a href="https://libgen.rs/fiction/repository_torrent/">Library Genesis ".rs-fork" Fiction</a></li>
-      <li class="list-disc"><a href="https://libgen.rs/scimag/repository_torrent/">Library Genesis / Sci-Hub "scimag" Papers</a></li>
-      <li class="list-disc"><a href="https://libgen.gs/torrents/">Library Genesis ".li-fork"</a> (mostly the same as ".rs-fork", and does not currently include comics, magazines, and standard documents)</li>
-      <li class="list-disc"><a href="http://pilimi.org/zlib.html">Pirate Library Mirror Z-Library Collection</a></li>
-      <li class="list-disc"><a href="http://pilimi.org/isbndb.html">Pirate Library Mirror ISBNdb Collection</a></li>
-    </ul>
-
-    <h2 class="mt-12 mb-1 text-3xl font-bold">Content complaints</h2>
+    <p><strong>Content complaints</strong></p>
 
     <p class="mb-4">
       We do not host any copyrighted materials here. We are a search engine, and as such only index metadata that is already publicly available.
