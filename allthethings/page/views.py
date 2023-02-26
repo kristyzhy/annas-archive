@@ -325,7 +325,7 @@ def datasets_page():
 
     return render_template(
         "page/datasets.html",
-        header_active="about",
+        header_active="datasets",
         libgenrs_date=libgenrs_date,
         libgenli_date=libgenli_date,
     )

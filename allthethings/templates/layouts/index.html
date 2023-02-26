@@ -183,14 +183,16 @@
                 return false;
               }
             </script>
-            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="{{ 'header-link-active' if header_active in ['home', 'about'] }}">
+            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="{{ 'header-link-active' if header_active in ['home', 'about', 'datasets'] }}">
               <span class="header-link-normal">
                 {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
+                {% elif header_active == 'datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                 ▾
               </span>
               <span class="header-link-bold">
                 {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
+                {% elif header_active == 'datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                 ▾
               </span>
@@ -198,6 +200,7 @@
             <div class="absolute left-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
               <a class="custom-a block py-1 {% if header_active == 'home'     %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
               <a class="custom-a block py-1 {% if header_active == 'about'    %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'datasets'    %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
             </div>
             <a href="/donate" class="{{ 'header-link-active' if header_active == 'donate' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.donate') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.donate') }}</span></a>
             <a href="/search" class="{{ 'header-link-active' if header_active == 'search' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.search') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.search') }}</span></a>
