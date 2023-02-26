@@ -1,11 +1,28 @@
 {% extends "layouts/index.html" %}
 
 {% block body %}
-  <p class="mt-4 mb-4">
+  <div class="bg-[#f2f2f2] p-2 rounded-lg">
+    <div style="position: relative; height: 16px; margin-top: 16px;">
+      <div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: white; overflow: hidden; border-radius: 16px; box-shadow: 0px 2px 4px 0px #00000038">
+        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 5%; background: #0095ff"></div>
+      </div>
+      <div style="position: absolute; left: 5%; top: 50%; width: 16px; height: 16px; transform: translate(-50%, -50%)">
+        <div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: #0095ff66; border-radius: 100%; animation: header-ping 1.5s cubic-bezier(0,0,.2,1) infinite"></div>
+        <div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: white; border-radius: 100%; box-shadow: 0 0 3px #00000069;"></div>
+      </div>
+    </div>
+
+    <div style="position: relative; padding-bottom: 20px">
+      <div style="width: 14px; height: 14px; border-left: 1px solid gray; border-bottom: 1px solid gray; position: absolute; top: 5px; left: calc(5% - 1px)"></div>
+      <div style="position: relative; left: calc(5% + 20px); width: calc(90% - 20px); top: 8px; font-size: 90%; color: #555">{{ gettext('page.home.progress_bar.text', info_icon=('<a href="/about" style="text-decoration: none !important;">ⓘ</a>' | safe)) }}</div>
+    </div>
+  </div>
+
+  <p class="mt-4 mb-8">
     {{ gettext('page.home.intro') }}
   </p>
 
-  <h2 class="mt-12 mb-1 text-3xl font-bold">{{ gettext('page.home.search.header') }}</h2>
+  <h2 class="mt-8 mb-1 text-3xl font-bold">{{ gettext('page.home.search.header') }}</h2>
 
   <p class="mb-4">
     {{ gettext('page.home.search.intro') }}
