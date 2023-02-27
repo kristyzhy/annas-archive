@@ -5,7 +5,7 @@
 
 
 {% block body %}
-  <div class="mb-4">Datasets ▶ Library Genesis ".li-fork" ▶ Book ID #{{lgli_file_id}}</div>
+  <div class="mb-4">Datasets ▶ Libgen.li ▶ Book ID #{{lgli_file_id}}</div>
 
   {% if gettext('common.english_only') | trim %}
     <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
@@ -15,13 +15,13 @@
     {% if not(lgli_file_dict is defined) %}
       <h2 class="mt-12 mb-1 text-3xl font-bold">Not found</h2>
       <p class="mb-4">
-        This file ID was not found in the Library Genesis ".li-fork" dataset.
+        This file ID was not found in the Libgen.li dataset.
       </p>
     {% else %}
       <h2 class="mt-12 mb-1 text-3xl font-bold">File metadata</h2>
 
       <p class="mb-4">
-        This is a book in Library Genesis ".li-fork", a shadow library that hosts a large collection of content, freely available to download, and easily mirrored by using its torrents (for some of its collections). There are multiple independently run instances of Library Genesis that have slightly different collections, and this is the "libgen.li" variant.
+        This is a book in Libgen.li, a shadow library that hosts a large collection of content, freely available to download, and easily mirrored by using its torrents (for some of its collections). There are multiple independently run instances of Library Genesis that have slightly different collections, and this is the "libgen.li" variant.
       </p>
 
       <p class="mb-4">
@@ -31,11 +31,11 @@
       <div class="mb-4">
         <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
           <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-          <div class="px-2 py-1 grow break-words line-clamp-[8]">Library Genesis ".li-fork" Data Dump</div>
+          <div class="px-2 py-1 grow break-words line-clamp-[8]">Libgen.li Data Dump</div>
           <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#lgli" class="anna">anna</a> <a href="https://libgen.li/dirlist.php?dir=dbdumps">url</a></div>
         </div>
         <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-          <div class="flex-none w-[150] px-2 py-1">Library Genesis ".li-fork" File ID</div>
+          <div class="flex-none w-[150] px-2 py-1">Libgen.li File ID</div>
           <div class="px-2 py-1 grow break-words line-clamp-[8]">{{lgli_file_dict.f_id}}</div>
           <div></div>
         </div>
@@ -373,7 +373,7 @@
       {% else %}
         <div class="mb-4">
           <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">First Library Genesis ".li-fork" Edition ID</div>
+            <div class="flex-none w-[150] px-2 py-1">First Libgen.li Edition ID</div>
             <div class="px-2 py-1 grow break-words line-clamp-[8]">{{lgli_file_dict.editions[0].e_id}}</div>
             <div></div>
           </div>

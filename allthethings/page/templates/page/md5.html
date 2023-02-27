@@ -339,22 +339,22 @@
         <h2 class="mt-12 mb-1 text-3xl font-bold">Shadow libraries</h2>
 
         <p class="mb-4">
-          If a file appears in multiple shadow libraries, it's often the case that it was uploaded to Library Genesis ".rs-fork" first, and then taken over by Library Genesis ".gs" Fork and/or Z-Library. But it can also mean that the file was independently uploaded. The metadata might differ for the different libraries, even when one library initially just copied the metadata from another one, since contributors of the different libraries can subsequently change the metadata independently.
+          If a file appears in multiple shadow libraries, it's often the case that it was uploaded to Libgen.rs first, and then taken over by Library Genesis ".gs" Fork and/or Z-Library. But it can also mean that the file was independently uploaded. The metadata might differ for the different libraries, even when one library initially just copied the metadata from another one, since contributors of the different libraries can subsequently change the metadata independently.
         </p>
 
         <div class="mb-4">
           <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">Library Genesis ".rs-fork" Non-Fiction</div>
+            <div class="flex-none w-[150] px-2 py-1">Libgen.rs Non-Fiction</div>
             <div class="px-2 py-1 grow break-words line-clamp-[8]">{% if md5_dict.lgrsnf_book %}✅ Book ID #{{md5_dict.lgrsnf_book.id}}{% else %}❌{% endif %}</div>
             <div class="px-2 py-1 whitespace-nowrap text-right">{% if md5_dict.lgrsnf_book %}<a href="/lgrs/nf/{{md5_dict.lgrsnf_book.id}}" class="anna">anna</a>{% endif %}</div>
           </div>
           <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">Library Genesis ".rs-fork" Fiction</div>
+            <div class="flex-none w-[150] px-2 py-1">Libgen.rs Fiction</div>
             <div class="px-2 py-1 grow break-words line-clamp-[8]">{% if md5_dict.lgrsfic_book %}✅ Book ID #{{md5_dict.lgrsfic_book.id}}{% else %}❌{% endif %}</div>
             <div class="px-2 py-1 whitespace-nowrap text-right">{% if md5_dict.lgrsfic_book %}<a href="/lgrs/fic/{{md5_dict.lgrsfic_book.id}}" class="anna">anna</a>{% endif %}</div>
           </div>
           <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">Library Genesis ".li-fork" Files</div>
+            <div class="flex-none w-[150] px-2 py-1">Libgen.li Files</div>
             <div class="px-2 py-1 grow break-words line-clamp-[8]">{% if md5_dict.lgli_file %}✅ File ID #{{md5_dict.lgli_file.f_id}}{% else %}❌{% endif %}</div>
             <div class="px-2 py-1 whitespace-nowrap text-right">{% if md5_dict.lgli_file %}<a href="/lgli/file/{{md5_dict.lgli_file.f_id}}" class="anna">anna</a>{% endif %}</div>
           </div>
@@ -368,7 +368,7 @@
         <h2 class="mt-12 mb-1 text-3xl font-bold">Individual file downloads</h2>
 
         <p class="mb-4">
-          Depending on the libraries that this file is in, it may be downloaded from various sources. Most Library Genesis ".rs-fork" files are hosted on IPFS, which make them accessible through IPFS proxies. Library Genesis ".gs" and Z-Library have files that they host exclusively.
+          Depending on the libraries that this file is in, it may be downloaded from various sources. Most Libgen.rs files are hosted on IPFS, which make them accessible through IPFS proxies. Library Genesis ".gs" and Z-Library have files that they host exclusively.
         </p>
 
         <div class="mb-4">
@@ -387,17 +387,17 @@
             </div>
           {% endfor %}
           <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">Library Genesis ".rs-fork" Non-Fiction</div>
+            <div class="flex-none w-[150] px-2 py-1">Libgen.rs Non-Fiction</div>
             <div class="px-2 py-1 grow break-words line-clamp-[8]">{% if md5_dict.lgrsnf_book %}http://library.lol/main/{{md5_dict.lgrsnf_book.md5 | lower}}{% else %}-{% endif %}</div>
             <div class="px-2 py-1 whitespace-nowrap text-right">{% if md5_dict.lgrsnf_book %}<a itemprop="sameAs" content="http://library.lol/main/{{md5_dict.lgrsnf_book.md5 | lower}}" href="http://library.lol/main/{{md5_dict.lgrsnf_book.md5 | lower}}">url</a>{% endif %}</div>
           </div>
           <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">Library Genesis ".rs-fork" Fiction</div>
+            <div class="flex-none w-[150] px-2 py-1">Libgen.rs Fiction</div>
             <div class="px-2 py-1 grow break-words line-clamp-[8]">{% if md5_dict.lgrsfic_book %}http://library.lol/fiction/{{md5_dict.lgrsfic_book.md5 | lower}}{% else %}-{% endif %}</div>
             <div class="px-2 py-1 whitespace-nowrap text-right">{% if md5_dict.lgrsfic_book %}<a itemprop="sameAs" content="http://library.lol/fiction/{{md5_dict.lgrsfic_book.md5 | lower}}" href="http://library.lol/fiction/{{md5_dict.lgrsfic_book.md5 | lower}}">url</a>{% endif %}</div>
           </div>
           <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">Library Genesis ".li-fork"</div>
+            <div class="flex-none w-[150] px-2 py-1">Libgen.li</div>
             <div class="px-2 py-1 grow break-words line-clamp-[8]">{% if md5_dict.lgli_file %}http://libgen.li/ads.php?md5={{md5_dict.lgli_file.md5 | lower}}{% else %}-{% endif %}</div>
             <div class="px-2 py-1 whitespace-nowrap text-right">{% if md5_dict.lgli_file %}<a itemprop="sameAs" content="http://libgen.li/ads.php?md5={{md5_dict.lgli_file.md5 | lower}}" href="http://libgen.li/ads.php?md5={{md5_dict.lgli_file.md5 | lower}}">url</a>{% endif %}</div>
           </div>
@@ -411,7 +411,7 @@
         <h2 class="mt-12 mb-1 text-3xl font-bold">Torrent downloads</h2>
 
         <p class="mb-4">
-          For some files, they are available as bulk download. This is generally available for the Library Genesis ".rs-fork" collection, books in the Library Genesis ".li-fork" collection (but not comics, magazines, etc), and books in the Z-Library collection.
+          For some files, they are available as bulk download. This is generally available for the Libgen.rs collection, books in the Libgen.li collection (but not comics, magazines, etc), and books in the Z-Library collection.
         </p>
 
         <p class="mb-4">
@@ -455,7 +455,7 @@
           {% elif md5_dict.lgrsnf_book %}
             <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
               <div class="flex-none w-[150] px-2 py-1">Torrent available</div>
-              <div class="px-2 py-1 grow break-words line-clamp-[8]">✅ Library Genesis ".rs-fork" Non-Fiction torrent</div>
+              <div class="px-2 py-1 grow break-words line-clamp-[8]">✅ Libgen.rs Non-Fiction torrent</div>
               <div></div>
             </div>
             <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
@@ -471,7 +471,7 @@
           {% elif md5_dict.lgrsfic_book %}
             <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
               <div class="flex-none w-[150] px-2 py-1">Torrent available</div>
-              <div class="px-2 py-1 grow break-words line-clamp-[8]">✅ Library Genesis ".rs-fork" Fiction torrent</div>
+              <div class="px-2 py-1 grow break-words line-clamp-[8]">✅ Libgen.rs Fiction torrent</div>
               <div></div>
             </div>
             <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
@@ -487,7 +487,7 @@
           {% elif md5_dict.lgli_file and md5_dict.lgli_file.libgen_topic in ['l', 'f'] %}
             <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
               <div class="flex-none w-[150] px-2 py-1">Torrent available</div>
-              <div class="px-2 py-1 grow break-words line-clamp-[8]">❓ Might be in Library Genesis ".li-fork" torrents</div>
+              <div class="px-2 py-1 grow break-words line-clamp-[8]">❓ Might be in Libgen.li torrents</div>
               <div></div>
             </div>
             <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">

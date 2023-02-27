@@ -7,7 +7,7 @@
 
 
 {% block body %}
-  <div class="mb-4">Datasets ▶ Library Genesis ".rs-fork" {{ "Non-Fiction" if lgrs_type == "nf" else "Fiction" }} ▶ Book ID #{{lgrs_book_id}}</div>
+  <div class="mb-4">Datasets ▶ Libgen.rs {{ "Non-Fiction" if lgrs_type == "nf" else "Fiction" }} ▶ Book ID #{{lgrs_book_id}}</div>
 
   {% if gettext('common.english_only') | trim %}
     <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
@@ -17,13 +17,13 @@
     {% if not(lgrs_book_dict is defined) %}
       <h2 class="mt-12 mb-1 text-3xl font-bold">Not found</h2>
       <p class="mb-4">
-        This ID was not found in the Library Genesis ".rs-fork" {{ "Non-Fiction" if lgrs_type == "nf" else "Fiction" }} dataset.
+        This ID was not found in the Libgen.rs {{ "Non-Fiction" if lgrs_type == "nf" else "Fiction" }} dataset.
       </p>
     {% else %}
       <h2 class="mt-12 mb-1 text-3xl font-bold">Book metadata</h2>
 
       <p class="mb-4">
-        This is a book in Library Genesis ".rs-fork" ({{ "Non-Fiction" if lgrs_type == "nf" else "Fiction" }}), a shadow library that hosts a large collection of books, freely available to download, and easily mirrored by using its torrents. There are multiple independently run instances of Library Genesis that have slightly different collections, and this is the "libgen.rs" variant.
+        This is a book in Libgen.rs ({{ "Non-Fiction" if lgrs_type == "nf" else "Fiction" }}), a shadow library that hosts a large collection of books, freely available to download, and easily mirrored by using its torrents. There are multiple independently run instances of Library Genesis that have slightly different collections, and this is the "libgen.rs" variant.
       </p>
 
       <p class="mb-4">
@@ -33,7 +33,7 @@
       <div class="mb-4">
         <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
           <div class="flex-none w-[150] px-2 py-1">Dataset</div>
-          <div class="px-2 py-1 grow break-words line-clamp-[8]">Library Genesis ".rs-fork" Data Dump ({{ "Non-Fiction" if lgrs_type == "nf" else "Fiction" }})</div>
+          <div class="px-2 py-1 grow break-words line-clamp-[8]">Libgen.rs Data Dump ({{ "Non-Fiction" if lgrs_type == "nf" else "Fiction" }})</div>
           <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/datasets#lgrs" class="anna">anna</a> <a href="https://libgen.rs/dbdumps/">url</a></div>
         </div>
         <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
