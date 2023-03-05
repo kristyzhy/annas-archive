@@ -7,7 +7,7 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5
-from allthethings.initializers import redis
+# from allthethings.initializers import redis
 
 import allthethings.utils
 

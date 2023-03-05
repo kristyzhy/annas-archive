@@ -1,3 +1,5 @@
+version: '3.6'
+
 x-app: &default-app
   build:
     context: "."
@@ -42,6 +44,7 @@ x-assets: &default-assets
 services:
   mariadb:
     container_name: mariadb
+    network_mode: "${NETWORK_MODE:-bridge}"
     deploy:
       resources:
         limits:
@@ -62,8 +65,6 @@ services:
     volumes:
       - "../allthethings-mysql-data:/var/lib/mysql/"
       - "./mariadb-conf:/etc/mysql/conf.d"
-    ports:
-      - "${MARIADB_PORT_FORWARD:-127.0.0.1:3306}:3306"
     ulimits:
       memlock:
         soft: -1
@@ -75,6 +76,7 @@ services:
 
   mariapersist:
     container_name: mariapersist
+    network_mode: "${NETWORK_MODE:-bridge}"
     deploy:
       resources:
         limits:
@@ -95,8 +97,6 @@ services:
     volumes:
       - "../allthethings-mariapersist-data:/var/lib/mysql/"
       - "./mariapersist-conf:/etc/mysql/conf.d"
-    ports:
-      - "${MARIAPERSIST_PORT_FORWARD:-127.0.0.1:3333}:3333"
     ulimits:
       memlock:
         soft: -1
@@ -106,23 +106,25 @@ services:
         soft: 65535
         hard: 65535
 
-  redis:
-    container_name: redis
-    deploy:
-      resources:
-        limits:
-          cpus: "${DOCKER_REDIS_CPUS:-0}"
-          memory: "${DOCKER_REDIS_MEMORY:-0}"
-    image: "redis:7.0.5-bullseye"
-    profiles: ["redis"]
-    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
-    stop_grace_period: "3s"
-    volumes:
-      - "redis:/data"
+  # redis:
+  #   container_name: redis
+  #   network_mode: "${NETWORK_MODE:-bridge}"
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: "${DOCKER_REDIS_CPUS:-0}"
+  #         memory: "${DOCKER_REDIS_MEMORY:-0}"
+  #   image: "redis:7.0.5-bullseye"
+  #   profiles: ["redis"]
+  #   restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+  #   stop_grace_period: "3s"
+  #   volumes:
+  #     - "redis:/data"
 
   web:
     <<: *default-app
     container_name: web
+    network_mode: "${NETWORK_MODE:-bridge}"
     deploy:
       resources:
         limits:
@@ -134,32 +136,34 @@ services:
       timeout: "3s"
       start_period: "5s"
       retries: 3
-    ports:
-      - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:8000}:${PORT:-8000}"
     profiles: ["web"]
 
-  worker:
-    <<: *default-app
-    container_name: worker
-    command: celery -A "allthethings.app.celery_app" worker -l "${CELERY_LOG_LEVEL:-info}"
-    entrypoint: []
-    deploy:
-      resources:
-        limits:
-          cpus: "${DOCKER_WORKER_CPUS:-0}"
-          memory: "${DOCKER_WORKER_MEMORY:-0}"
-    profiles: ["worker"]
+  # worker:
+  #   <<: *default-app
+  #   container_name: worker
+  #   network_mode: "${NETWORK_MODE:-bridge}"
+  #   command: celery -A "allthethings.app.celery_app" worker -l "${CELERY_LOG_LEVEL:-info}"
+  #   entrypoint: []
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: "${DOCKER_WORKER_CPUS:-0}"
+  #         memory: "${DOCKER_WORKER_MEMORY:-0}"
+  #   profiles: ["worker"]
 
   js:
     <<: *default-assets
+    container_name: js
     command: "../run yarn:build:js"
 
   css:
     <<: *default-assets
+    container_name: css
     command: "../run yarn:build:css"
 
   elasticsearch:
     container_name: elasticsearch
+    network_mode: "${NETWORK_MODE:-bridge}"
     build:
       context: .
       dockerfile: Dockerfile-elasticsearch
@@ -170,8 +174,6 @@ services:
       - xpack.security.enabled=false
     cap_add:
       - IPC_LOCK
-    ports:
-      - "${ELASTICSEARCH_PORT_FORWARD:-127.0.0.1:9200}:9200"
     ulimits:
       memlock:
         soft: -1
@@ -187,15 +189,14 @@ services:
 
   kibana:
     container_name: kibana
+    network_mode: "${NETWORK_MODE:-bridge}"
     image: docker.elastic.co/kibana/kibana:8.5.2
     environment:
       ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
-    ports:
-      - "${KIBANA_PORT_FORWARD:-127.0.0.1:5601}:5601"
     restart: unless-stopped
     depends_on:
       - "elasticsearch"
     profiles: ["kibana"]
 
-volumes:
-  redis: {}
+# volumes:
+#   redis: {}

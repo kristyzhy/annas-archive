@@ -1,6 +1,6 @@
-from redis import Redis
+# from redis import Redis
 
-from config.settings import REDIS_URL
+# from config.settings import REDIS_URL
 
 
-redis = Redis.from_url(REDIS_URL)
+# redis = Redis.from_url(REDIS_URL)
