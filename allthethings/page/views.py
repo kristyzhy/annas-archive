@@ -161,7 +161,7 @@ for language in ol_languages_json:
 # * http://localhost:8000/isbn/9780316769174
 # * http://localhost:8000/md5/8fcb740b8c13f202e89e05c4937c09ac
 
-def normalized_doi(string):
+def normalize_doi(string):
     if not (('/' in string) and (' ' not in string)):
         return ''
     if string.startswith('doi:10.'):
@@ -169,6 +169,15 @@ def normalized_doi(string):
     if string.startswith('10.'):
         return string
     return ''
+
+def normalize_isbn(string):
+    canonical_isbn13 = isbnlib.get_canonical_isbn(string, output='isbn13')
+    try: 
+        if (not isbnlib.is_isbn10(isbnlib.to_isbn10(canonical_isbn13))) or len(canonical_isbn13) != 13 or len(isbnlib.info(canonical_isbn13)) == 0:
+            return ''
+    except:
+        return ''
+    return canonical_isbn13
 
 # Example: http://193.218.118.109/zlib2/pilimi-zlib2-0-14679999-extra/11078831.pdf
 def make_temp_anon_zlib_link(domain, zlibrary_id, pilimi_torrent, extension):
@@ -1122,8 +1131,8 @@ def lgli_file_page(lgli_file_id):
 def isbn_page(isbn_input):
     isbn_input = isbn_input[0:20]
 
-    canonical_isbn13 = isbnlib.get_canonical_isbn(isbn_input, output='isbn13')
-    if len(canonical_isbn13) != 13 or len(isbnlib.info(canonical_isbn13)) == 0:
+    canonical_isbn13 = normalize_isbn(isbn_input)
+    if canonical_isbn13 == '':
         # TODO, check if a different prefix would help, like in
         # https://github.com/inventaire/isbn3/blob/d792973ac0e13a48466d199b39326c96026b7fc3/lib/audit.js
         return render_template("page/isbn.html", header_active="search", isbn_input=isbn_input)
@@ -1222,7 +1231,7 @@ def isbn_page(isbn_input):
 
 @page.get("/doi/<path:doi_input>")
 def doi_page(doi_input):
-    doi_input = normalized_doi(doi_input[0:100])
+    doi_input = normalize_doi(doi_input[0:100])
 
     if doi_input == '':
         return render_template("page/doi.html", header_active="search", doi_input=doi_input), 404
@@ -1861,16 +1870,13 @@ def search_page():
     if bool(re.match(r"^OL\d+M$", search_input)):
         return redirect(f"/ol/{search_input}", code=301)
 
-    potential_doi = normalized_doi(search_input)
+    potential_doi = normalize_doi(search_input)
     if potential_doi != '':
         return redirect(f"/doi/{potential_doi}", code=301)
 
-    try:
-        canonical_isbn13 = isbnlib.get_canonical_isbn(search_input, output='isbn13')
-        if len(canonical_isbn13) == 13 and len(isbnlib.info(canonical_isbn13)) > 0:
-            return redirect(f"/isbn/{canonical_isbn13}", code=301)
-    except:
-        pass
+    canonical_isbn13 = normalize_isbn(search_input)
+    if canonical_isbn13 != '':
+        return redirect(f"/isbn/{canonical_isbn13}", code=301)
 
     post_filter = []
     for filter_key, filter_value in filter_values.items():
