@@ -45,13 +45,9 @@ class ReflectedMariapersist(DeferredReflection, Base):
 class ZlibBook(Reflected):
     __tablename__ = "zlib_book"
     isbns = relationship("ZlibIsbn", lazy="selectin")
-    ipfs = relationship("ZlibIpfs", lazy="joined")
 class ZlibIsbn(Reflected):
     __tablename__ = "zlib_isbn"
     zlibrary_id = Column(Integer, ForeignKey("zlib_book.zlibrary_id"))
-class ZlibIpfs(Reflected):
-    __tablename__ = "zlib_ipfs"
-    zlibrary_id = Column(Integer, ForeignKey("zlib_book.zlibrary_id"), primary_key=True)
 
 class IsbndbIsbns(Reflected):
     __tablename__ = "isbndb_isbns"

@@ -403,9 +403,6 @@ def get_zlib_book_dicts(session, key, values):
         if len((zlib_book_dict.get('year') or '').strip()) > 0:
             edition_varia_normalized.append(zlib_book_dict['year'].strip())
         zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
-        zlib_book_dict['ipfs_cid'] = ''
-        if len(zlib_book.ipfs) > 0:
-            zlib_book_dict['ipfs_cid'] = zlib_book.ipfs[0].ipfs_cid
         zlib_book_dict['normalized_filename'] = make_normalized_filename(f"{zlib_book_dict['title']} {zlib_book_dict['author']} {zlib_book_dict['edition_varia_normalized']}", zlib_book_dict['extension'], "zlib", zlib_book_dict['zlibrary_id'])
         zlib_book_dicts.append(zlib_book_dict)
 
@@ -1351,9 +1348,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             md5_dict['ipfs_infos'].append({ 'ipfs_cid': md5_dict['lgrsnf_book']['ipfs_cid'].lower(), 'filename': md5_dict['lgrsnf_book']['normalized_filename'], 'from': 'lgrsnf' })
         if md5_dict['lgrsfic_book'] and len(md5_dict['lgrsfic_book'].get('ipfs_cid') or '') > 0:
             md5_dict['ipfs_infos'].append({ 'ipfs_cid': md5_dict['lgrsfic_book']['ipfs_cid'].lower(), 'filename': md5_dict['lgrsfic_book']['normalized_filename'], 'from': 'lgrsfic' })
-        if md5_dict['zlib_book'] and len(md5_dict['zlib_book'].get('ipfs_cid') or '') > 0:
-            md5_dict['ipfs_infos'].append({ 'ipfs_cid': md5_dict['zlib_book']['ipfs_cid'].lower(), 'filename': md5_dict['zlib_book']['normalized_filename'], 'from': 'zlib' })
-
+        
         md5_dict['file_unified_data'] = {}
 
         original_filename_multiple = [
