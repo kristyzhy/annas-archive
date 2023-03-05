@@ -51,6 +51,7 @@ search_filtered_bad_md5s = [
     "02973f6d111c140510fcdf84b1d00c35",
     "d4c01f9370c5ac93eb5ee5c2037ac794",
     "08499f336fbf8d31f8e7fadaaa517477",
+    "351024f9b101ac7797c648ff43dcf76e",
 ]
 
 ES_TIMEOUT = "5s"
