@@ -125,7 +125,7 @@
     <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.donate.alipay.header') }}</h3>
 
     <p class="mb-4">
-      {{ gettext('page.donate.alipay.intro') }}
+      {{ gettext('page.donate.alipay.intro', link_open_tag=('<a href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">' | safe)) }}
     </p>
 
     <p class="mb-4">
@@ -133,13 +133,8 @@
     </p>
 
     <p class="mb-4">
-      <button class="mt-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow mr-2" onclick="document.querySelector('.js-alipay-iframe').src += '&'">🔄</button>
       <a href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">{{ gettext('page.donate.alipay.url') }}</a>
     </p>
-
-    <div class="h-[500px] overflow-hidden">
-      <iframe class="w-[350px] h-[600px] js-alipay-iframe" src="https://gotopaypay.top/Home/pay?method=alipay"></iframe>
-    </div>
 
     <p class="mb-4 mt-4">
       {{ gettext('page.donate.text_thank_you') }}
@@ -153,7 +148,7 @@
 
     <div class="hidden">
       <p class="mb-4">
-        {{ gettext('page.donate.alipay.intro') }}
+        {{ gettext('page.donate.alipay.intro', link_open_tag=('<a href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">' | safe)) }}
       </p>
 
       <div class="mb-4">
