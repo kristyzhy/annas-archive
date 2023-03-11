@@ -1,14 +1,29 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-10 08:24+0000\n"
+"PO-Revision-Date: 2023-03-11 19:26+0000\n"
+"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
+"Language-Team: Russian <https://translate.annas-software.org/projects/annas-archive/main-website/ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.15\n"
+
 #: allthethings/page/views.py:1657
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
-msgstr "Не видимый в Libgen.rs не-Вымысел"
+msgstr "Невидимая в Libgen.rs Художественная Литература"
 
 #: allthethings/page/views.py:1658
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
-msgstr "Не видимый в Libgen.rs Вымысел"
+msgstr "Невидимая в Libgen.rs Документальная Литература"
 
 #: allthethings/page/views.py:1659
 msgid "common.md5_problem_type_mapping.lgli_visible"
-msgstr "Не видимый в Libgen.li"
+msgstr "Невидимый в Libgen.li"
 
 #: allthethings/page/views.py:1660
 msgid "common.md5_problem_type_mapping.lgli_broken"
@@ -16,7 +31,7 @@ msgstr "Помечено как сломанное в библиотеке Genes
 
 #: allthethings/page/views.py:1661
 msgid "common.md5_problem_type_mapping.zlib_missing"
-msgstr "Отсутствует из Z-Library"
+msgstr "Отсутствует в Z-Library"
 
 #: allthethings/page/views.py:1667
 msgid "common.md5_content_type_mapping.book_unknown"
@@ -24,11 +39,11 @@ msgstr "Книга (неизвестно)"
 
 #: allthethings/page/views.py:1668
 msgid "common.md5_content_type_mapping.book_nonfiction"
-msgstr "Книга (не-Вымысел)"
+msgstr "Книга (Документальная)"
 
 #: allthethings/page/views.py:1669
 msgid "common.md5_content_type_mapping.book_fiction"
-msgstr "Художественная литература"
+msgstr "Книга (Художественная Литература)"
 
 #: allthethings/page/views.py:1670
 msgid "common.md5_content_type_mapping.journal_article"
@@ -52,7 +67,7 @@ msgstr "Книга (любая)"
 
 #: allthethings/page/views.py:1720
 msgid "page.md5.box.download.lgrsnf"
-msgstr "Библиотека Genesis \".rs-fork\" Научно-популярная литература"
+msgstr "Библиотека Genesis \".rs-fork\" Документальная Литература"
 
 #: allthethings/page/views.py:1720 allthethings/page/views.py:1723
 #: allthethings/page/views.py:1726
@@ -66,7 +81,7 @@ msgstr "(нажмите \"GET\" вверху)"
 
 #: allthethings/page/views.py:1723
 msgid "page.md5.box.download.lgrsfic"
-msgstr "Библиотека Genesis \".rs-fork\" Художественная литература"
+msgstr "Библиотека Genesis \".rs-fork\" Художественная Литература"
 
 #: allthethings/page/views.py:1726
 msgid "page.md5.box.download.lgli"
@@ -75,7 +90,7 @@ msgstr "Библиотека Genesis \".li-fork\""
 #: allthethings/page/views.py:1729 allthethings/page/views.py:1730
 #: allthethings/page/views.py:1731
 msgid "page.md5.box.download.ipfs_gateway"
-msgstr ""
+msgstr "IPFS-портал №%(num)d"
 
 #: allthethings/page/views.py:1729
 msgid "page.md5.box.download.ipfs_gateway_extra"
@@ -84,7 +99,7 @@ msgstr "(вам может потребоваться несколько поп�
 #: allthethings/page/views.py:1733 allthethings/page/views.py:1734
 #: allthethings/page/views.py:1735 allthethings/page/views.py:1736
 msgid "page.md5.box.download.zlib_anon"
-msgstr "Z-Библиотека Анонимное Зеркало #%(num)d"
+msgstr "Z-Library Анонимное Зеркало #%(num)d"
 
 #: allthethings/page/views.py:1738
 msgid "page.md5.box.download.scihub"
@@ -92,11 +107,11 @@ msgstr "Sci-Hub: %(doi)s"
 
 #: allthethings/page/views.py:1738
 msgid "page.md5.box.download.scihub_maybe"
-msgstr ""
+msgstr "(соответствующий цифровой идентификатор объекта (DOI) может быть недоступен на Sci-Hub - интернет-ресурсе, предоставляющем автоматический и бесплатный доступ к полным текстам научных работ)"
 
 #: allthethings/page/views.py:1740
 msgid "page.md5.box.download.zlib_tor"
-msgstr "Z-Библиотека ТОР"
+msgstr "Z-Библиотека в ТОРе"
 
 #: allthethings/page/views.py:1740
 msgid "page.md5.box.download.zlib_tor_extra"
@@ -116,7 +131,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/about.html:13
 msgid "page.about.text2"
-msgstr "Мы твердо верим в свободный поток информации и сохранении знаний и культуры. С этой поисковой машиной, мы строим на плечах гигантов. Мы глубоко уважаем тяжелую работу людей, создавших различные теневые библиотеки, и надеемся, что эта поисковая система расширит их возможности."
+msgstr "Мы твердо верим в свободный поток информации и сохранении знаний и культуры. С этой поисковой машиной, мы сооружаем на плечах гигантов. Мы глубоко уважаем тяжелую работу людей, создавших различные теневые библиотеки, и надеемся, что эта поисковая система расширит их возможности."
 
 #: allthethings/page/templates/page/about.html:17
 msgid "page.about.text3"
@@ -183,7 +198,7 @@ msgstr "Не найдено"
 
 #: allthethings/page/templates/page/doi.html:11
 msgid "page.doi.invalid.text"
-msgstr "\"%(doi_input)s\" это не похоже на DOI. Он должен начинаться с \"10.\", дальше должен следовать знак слэш."
+msgstr "\"%(doi_input)s\" это не похоже на DOI. Он должен начинаться с \"10.\" и дальше должен следовать знак слэш."
 
 #: allthethings/page/templates/page/doi.html:15
 msgid "page.doi.box.header"
@@ -221,7 +236,7 @@ msgstr "Пожертвовать"
 
 #: allthethings/page/templates/page/donate.html:9
 msgid "page.donate.text1"
-msgstr "Архив Анны это не коммерческая организация, проект с открытых исходным кодом, запущенный только волонтерами. Мы принимаем пожертвования для компенсации наших расходов, которые включают хостинг, доменные имена, разработку и другие расходы."
+msgstr "Архив Анны - это некоммерческая организация, проект с открытым исходным кодом, полностью управляемый волонтерами. Мы принимаем пожертвования для компенсации наших расходов, которые включают хостинг, доменные имена, разработку и другие расходы."
 
 #: allthethings/page/templates/page/donate.html:13
 msgid "page.donate.text2"
@@ -270,7 +285,7 @@ msgstr ""
 #: allthethings/page/templates/page/donate.html:71
 #: allthethings/page/templates/page/donate.html:132
 msgid "page.donate.strange_account"
-msgstr ""
+msgstr "Обратите внимание, что имя учетной записи или картинка могут выглядеть странно. Не беспокойтесь! Этими учётными записями управляют наши партнеры,  работающие с пожертвованиями. Наши счета не были взломаны."
 
 #: allthethings/page/templates/page/donate.html:75
 #: allthethings/page/templates/page/donate.html:101
@@ -658,4 +673,3 @@ msgstr "Альтернативы"
 
 #~ msgid "page.md5.box.download.mirror"
 #~ msgstr "Зеркало №%(num)d: %(link)s %(extra)s"
-
