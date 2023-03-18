@@ -271,10 +271,13 @@ def localeselector():
 @functools.cache
 def last_data_refresh_date():
     with engine.connect() as conn:
-        libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
-        libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
-        latest_time = max([libgenrs_time, libgenli_time])
-        return latest_time.date()
+        try:
+            libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
+            libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
+            latest_time = max([libgenrs_time, libgenli_time])
+            return latest_time.date()
+        except:
+            return ''
 
 translations_with_english_fallback = set()
 @page.before_request

@@ -15,7 +15,9 @@
     <div class="mb-4">{{ gettext('page.search.breadcrumbs.new') }}</div>
   {% endif %}
 
-  <div class="mb-4" style="font-size: 90%; color: #555">{{ gettext('page.search.header.update_info', last_data_refresh_date=(g.last_data_refresh_date | dateformat('long')), link_open_tag=('<a href="/datasets">' | safe)) }}</div>
+  {% if g.last_data_refresh_date %}
+    <div class="mb-4" style="font-size: 90%; color: #555">{{ gettext('page.search.header.update_info', last_data_refresh_date=(g.last_data_refresh_date | dateformat('long')), link_open_tag=('<a href="/datasets">' | safe)) }}</div>
+  {% endif %}
 
   <form action="/search" method="get" role="search">
     <div class="flex mb-4 max-w-[600px]" style="font-size: 87%">
