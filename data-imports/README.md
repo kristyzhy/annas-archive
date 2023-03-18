@@ -10,7 +10,8 @@ Roughly the steps are:
 ```bash
 [ -e ../../aa-data-import--allthethings-mysql-data ] && (echo '../../aa-data-import--allthethings-mysql-data already exists; aborting'; exit 1)
 [ -e ../../aa-data-import--allthethings-elastic-data ] && (echo '../../aa-data-import--allthethings-elastic-data already exists; aborting'; exit 1)
-[ -e ../../aa-data-import--temp-dir ] && (echo '../../aa-data-import--temp-dir already exists; aborting'; exit 1)
+# If you wish to download everything from scratch, you should make sure the aa-data-import--temp-dir dir is deleted.
+# [ -e ../../aa-data-import--temp-dir ] && (echo '../../aa-data-import--temp-dir already exists; aborting'; exit 1)
 
 mkdir ../../aa-data-import--allthethings-elastic-data
 chown 1000 ../../aa-data-import--allthethings-elastic-data
@@ -26,14 +27,22 @@ docker-compose up -d --no-deps --build
 # It's a good idea here to look at the Docker logs (e.g. in a different terminal):
 # docker-compose logs --tail=20 -f
 
+# Download the data. You can skip any of these scripts if you have already downloaded the data and don't want to repeat it.
 # You can also run these in parallel in multiple terminal windows.
 # We recommend looking through each script in detail before running it.
-docker exec -it aa-data-import--mariadb /scripts/libgenli.sh # Look at data-imports/scripts/libgenli_proxies_template.sh to speed up downloading.
-# E.g.: docker exec -it aa-data-import--mariadb /scripts/libgenli_proxies.sh; docker exec -it aa-data-import--mariadb /scripts/libgenli.sh
-docker exec -it aa-data-import--mariadb /scripts/libgenrs.sh
-docker exec -it aa-data-import--mariadb /scripts/openlib.sh
-docker exec -it aa-data-import--mariadb /scripts/pilimi_isbndb.sh
-docker exec -it aa-data-import--mariadb /scripts/pilimi_zlib.sh
+docker exec -it aa-data-import--mariadb /scripts/download_libgenli.sh # Look at data-imports/scripts/download_libgenli_proxies_template.sh to speed up downloading.
+# E.g.: docker exec -it aa-data-import--mariadb /scripts/download_libgenli_proxies.sh; docker exec -it aa-data-import--mariadb /scripts/download_libgenli.sh
+docker exec -it aa-data-import--mariadb /scripts/download_libgenrs.sh
+docker exec -it aa-data-import--mariadb /scripts/download_openlib.sh
+docker exec -it aa-data-import--mariadb /scripts/download_pilimi_isbndb.sh
+docker exec -it aa-data-import--mariadb /scripts/download_pilimi_zlib.sh
+
+# Load the data.
+docker exec -it aa-data-import--mariadb /scripts/load_libgenli.sh
+docker exec -it aa-data-import--mariadb /scripts/load_libgenrs.sh
+docker exec -it aa-data-import--mariadb /scripts/load_openlib.sh
+docker exec -it aa-data-import--mariadb /scripts/load_pilimi_isbndb.sh
+docker exec -it aa-data-import--mariadb /scripts/load_pilimi_zlib.sh
 
 # If you ever want to see what is going on in MySQL as these scripts run:
 # docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SHOW PROCESSLIST;'
