@@ -93,8 +93,11 @@ def extensions(app):
         try:
             Reflected.prepare(engine)
         except:
-            print("Error in loading tables; comment out the following 'raise' in app.py to prevent restarts; and then reset using './run flask cli dbreset'")
-            raise
+            if os.getenv("DATA_IMPORTS_MODE", "") == "1":
+                print("Ignoring db error because DATA_IMPORTS_MODE=1")
+            else:
+                print("Error in loading tables; comment out the following 'raise' in app.py to prevent restarts; and then reset using './run flask cli dbreset'")
+                raise
         try:
             ReflectedMariapersist.prepare(mariapersist_engine)
         except:
