@@ -256,7 +256,17 @@ def elastic_build_md5_dicts_job(canonical_md5s):
                 md5_dict['_id'] = md5_dict['md5']
                 del md5_dict['md5']
                 
-            elasticsearch.helpers.bulk(es, md5_dicts, request_timeout=30)
+            try:
+                elasticsearch.helpers.bulk(es, md5_dicts, request_timeout=30)
+            except Exception as err:
+                print(repr(err))
+                print("Got the above error; retrying..")
+                try:
+                    elasticsearch.helpers.bulk(es, md5_dicts, request_timeout=30)
+                except Exception as err:
+                    print(repr(err))
+                    print("Got the above error; retrying one more time..")
+                    elasticsearch.helpers.bulk(es, md5_dicts, request_timeout=30)
             # print(f"Processed {len(md5_dicts)} md5s")
     except Exception as err:
         print(repr(err))
@@ -264,9 +274,9 @@ def elastic_build_md5_dicts_job(canonical_md5s):
         raise err
 
 def elastic_build_md5_dicts_internal():
-    THREADS = 50
-    CHUNK_SIZE = 50
-    BATCH_SIZE = 50000
+    THREADS = 70
+    CHUNK_SIZE = 30
+    BATCH_SIZE = 100000
 
     first_md5 = ''
     # Uncomment to resume from a given md5, e.g. after a crash
