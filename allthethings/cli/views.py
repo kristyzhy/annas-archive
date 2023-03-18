@@ -264,9 +264,9 @@ def elastic_build_md5_dicts_job(canonical_md5s):
         raise err
 
 def elastic_build_md5_dicts_internal():
-    THREADS = 70
+    THREADS = 50
     CHUNK_SIZE = 50
-    BATCH_SIZE = 100000
+    BATCH_SIZE = 50000
 
     first_md5 = ''
     # Uncomment to resume from a given md5, e.g. after a crash
@@ -280,7 +280,7 @@ def elastic_build_md5_dicts_internal():
         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
             for batch in query_yield_batches(conn, select(ComputedAllMd5s.md5).where(ComputedAllMd5s.md5 >= first_md5), ComputedAllMd5s.md5, BATCH_SIZE):
                 with multiprocessing.Pool(THREADS) as executor:
-                    print(f"Processing {len(batch)} md5s from computed_all_md5s (starting md5: {batch[0][0]})...")
+                    print(f"Processing {len(batch)} md5s from computed_all_md5s ( starting md5: {batch[0][0]} )...")
                     executor.map(elastic_build_md5_dicts_job, chunks([item[0] for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 

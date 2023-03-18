@@ -18,5 +18,4 @@ DESCRIBE libgenrs_updated;
 DESCRIBE ol_base;
 DESCRIBE ol_isbn13;
 DESCRIBE zlib_book;
-DESCRIBE zlib_ipfs;
 DESCRIBE zlib_isbn;
