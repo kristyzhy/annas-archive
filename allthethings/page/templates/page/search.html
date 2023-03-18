@@ -1,5 +1,9 @@
 {% extends "layouts/index.html" %}
 
+{% block meta_tags %}
+  <meta property="robots" content="noindex" />
+{% endblock %}
+
 {% block title %}
 {% if (search_input | length) > 0 %}{{ gettext('page.search.title.results', search_input=search_input) }}{% else %}{{ gettext('page.search.title.new') }}{% endif %}
 {% endblock %}
