@@ -3,12 +3,16 @@ from rfeed import *
 from flask import Blueprint, request, render_template, make_response
 
 # Note that /blog is not a real path; we do a trick with BlogMiddleware in app.py to rewrite annas-blog.org here.
+# For local testing, use http://annas-blog.org.localtest.me:8000/
 blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blog")
 
 @blog.get("/")
 def index():
     return render_template("index.html")
 
+@blog.get("/how-to-run-a-shadow-library.html")
+def how_to_run_a_shadow_library():
+    return render_template("how-to-run-a-shadow-library.html")
 @blog.get("/annas-update-open-source-elasticsearch-covers.html")
 def annas_update_open_source_elasticsearch_covers():
     return render_template("annas-update-open-source-elasticsearch-covers.html")
@@ -38,50 +42,57 @@ def rss_xml():
             title = "Introducing the Pirate Library Mirror: Preserving 7TB of books (that are not in Libgen)",
             link = "https://annas-blog.org/blog-introducing.html",
             description = "The first library that we have mirrored is Z-Library. This is a popular (and illegal) library.",
-            author = "Anna and the Pirate Library Mirror team",
+            author = "Anna and the team",
             pubDate = datetime.datetime(2022,7,1),
         ),
         Item(
             title = "3x new books added to the Pirate Library Mirror (+24TB, 3.8 million books)",
             link = "https://annas-blog.org/blog-3x-new-books.html",
             description = "We have also gone back and scraped some books that we missed the first time around. All in all, this new collection is about 24TB, which is much bigger than the last one (7TB).",
-            author = "Anna and the Pirate Library Mirror team",
+            author = "Anna and the team",
             pubDate = datetime.datetime(2022,9,25),
         ),
         Item(
             title = "How to become a pirate archivist",
             link = "https://annas-blog.org/blog-how-to-become-a-pirate-archivist.html",
             description = "The first challenge might be a supriring one. It is not a technical problem, or a legal problem. It is a psychological problem.",
-            author = "Anna and the Pirate Library Mirror team",
+            author = "Anna and the team",
             pubDate = datetime.datetime(2022,10,17),
         ),
         Item(
             title = "ISBNdb dump, or How Many Books Are Preserved Forever?",
             link = "https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html",
             description = "If we were to properly deduplicate the files from shadow libraries, what percentage of all the books in the world have we preserved?",
-            author = "Anna and the Pirate Library Mirror team",
+            author = "Anna and the team",
             pubDate = datetime.datetime(2022,10,31),
         ),
         Item(
             title = "Putting 5,998,794 books on IPFS",
             link = "https://annas-blog.org/putting-5,998,794-books-on-ipfs.html",
             description = "Putting dozens of terabytes of data on IPFS is no joke.",
-            author = "Anna and the Pirate Library Mirror team",
+            author = "Anna and the team",
             pubDate = datetime.datetime(2022,11,19),
         ),
         Item(
             title = "Help seed Z-Library on IPFS",
             link = "https://annas-blog.org/help-seed-zlibrary-on-ipfs.html",
             description = "YOU can help preserve access to this collection.",
-            author = "Anna and the Pirate Library Mirror team",
+            author = "Anna and the team",
             pubDate = datetime.datetime(2022,11,22),
         ),
         Item(
             title = "Anna’s Update: fully open source archive, ElasticSearch, 300GB+ of book covers",
             link = "https://annas-blog.org/annas-update-open-source-elasticsearch-covers.html",
             description = "We’ve been working around the clock to provide a good alternative with Anna’s Archive. Here are some of the things we achieved recently.",
-            author = "Anna and the Pirate Library Mirror team",
+            author = "Anna and the team",
             pubDate = datetime.datetime(2022,12,9),
+        ),
+        Item(
+            title = "How to run a shadow library: operations at Anna’s Archive",
+            link = "https://annas-blog.org/how-to-run-a-shadow-library.html",
+            description = "There is no “AWS for shadow charities”, so how do we run Anna’s Archive?",
+            author = "Anna and the team",
+            pubDate = datetime.datetime(2023,3,19),
         ),
     ]
 
