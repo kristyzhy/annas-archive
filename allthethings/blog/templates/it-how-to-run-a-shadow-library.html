@@ -1,0 +1,263 @@
+{% extends "layouts/blog.html" %}
+
+{% block title %}Come gestire una biblioteca in ombra: le operazioni dell'Archivio di Anna{% endblock %}
+
+{% block meta_tags %}
+<meta name="description" content="" />
+<meta name="twitter:card" value="summary">
+<meta name="twitter:creator" content="@AnnaArchivist"/>
+<meta property="og:title" content="Come gestire una biblioteca in ombra: le operazioni dell'Archivio di Anna" />
+<meta property="og:image" content="http://annas-blog.org/copyright-bell-curve.png" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="it-how-to-run-a-shadow-library.html" />
+<meta property="og:description" content="" />
+{% endblock %}
+
+{% block body %}
+  <h1>Come gestire una biblioteca in ombra: le operazioni dell'Archivio di Anna</h1>
+  <p style="font-style: italic">
+    annas-blog.org, 2023-03-19
+  </p>
+
+  <p>
+    Gestisco <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna's Archive,</a> il più grande motore di ricerca open-source non-profit al mondo per le <a href="https://en.wikipedia.org/wiki/Shadow_library">biblioteche in ombra</a>, come Sci-Hub, Library Genesis e Z-Library. Il nostro obiettivo è rendere la conoscenza e la cultura facilmente accessibili e, in ultima analisi, costruire una comunità di persone che insieme archiviano e conservano <a href="blog-isbndb-dump-how-many-books-are-preserved-forever.html">tutti i libri del mondo</a> (e li danno in pasto <a href="https://twitter.com/AnnaArchivist/status/1626487905550999552">all'Archivista di Roko</a> 😜).
+  </p>
+
+  <p>
+    In questo articolo
+mostrerò come gestiamo questo sito web e le sfide uniche che
+derivano dalla gestione di un sito web con uno status legale
+discutibile, dal momento che non esiste un &quot;AWS per le
+associazioni di beneficenza ombra&quot;.
+  </p>
+
+  <h2>Tocken di innovazione</h2>
+
+  <p>
+    Cominciamo con il
+nostro stack tecnologico. È volutamente noioso. Utilizziamo Flask,
+MariaDB ed ElasticSearch. Questo è letteralmente tutto. La ricerca è
+un problema ampiamente risolto e non abbiamo intenzione di
+reinventarlo. Inoltre, dobbiamo spendere i <a href="https://mcfunley.com/choose-boring-technology">nostri gettoni di
+innovazione</a> per qualcos'altro: non essere eliminati dalle autorità.
+  </p>
+
+  <p>
+    Quanto è legale o
+illegale l'Archivio di Anna? Dipende soprattutto dalla giurisdizione.
+Nella maggior parte dei Paesi esiste una forma di diritto d'autore,
+il che significa che alle persone o alle aziende viene assegnato un
+monopolio esclusivo su determinati tipi di opere per un certo periodo
+di tempo. A parte questo, noi di Anna's Archive crediamo che, sebbene
+vi siano alcuni benefici, il copyright sia complessivamente negativo
+per la società, ma questa è una storia per un'altra volta.
+  </p>
+
+  <img src="copyright-bell-curve.png" style="max-width: 100%">
+
+  <p>
+    Questo
+monopolio esclusivo su alcune opere significa che è illegale per
+chiunque al di fuori di questo monopolio distribuire direttamente
+quelle opere - compresi noi. Ma Anna's Archive è un motore di
+ricerca che non distribuisce direttamente quelle opere (almeno non
+sul nostro sito web clearnet), quindi dovremmo essere a posto,
+giusto? Non esattamente. In molte giurisdizioni non solo è illegale
+distribuire opere protette da copyright, ma anche linkare a luoghi
+che lo fanno. Un esempio classico è la legge DMCA degli Stati Uniti.
+  </p>
+
+  <p>
+    Questa è l'estremità
+più severa dello spettro. All'altro estremo dello spettro, in
+teoria, potrebbero esserci Paesi senza alcuna legge sul copyright, ma
+in realtà non esistono. Quasi tutti i Paesi hanno una qualche forma
+di legge sul copyright. L'applicazione è un'altra storia. Ci sono
+molti paesi con governi che non si preoccupano di far rispettare le
+leggi sul copyright. Ci sono anche paesi che si collocano tra i due
+estremi, che vietano la distribuzione di opere protette da copyright,
+ma non vietano il collegamento a tali opere.
+  </p>
+
+  <p>
+    Un'altra
+considerazione riguarda l'azienda. Se un'azienda opera in una
+giurisdizione che non si preoccupa del copyright, ma l'azienda stessa
+non è disposta a correre alcun rischio, potrebbe chiudere il vostro
+sito web non appena qualcuno se ne lamenta.
+  </p>
+
+  <p>
+    Infine, una
+considerazione importante riguarda i pagamenti. Poiché dobbiamo
+mantenere l'anonimato, non possiamo utilizzare i metodi di pagamento
+tradizionali. Rimangono le criptovalute, che sono supportate solo da
+un piccolo gruppo di aziende (esistono carte di debito virtuali
+pagate con criptovalute, ma spesso non sono accettate).
+  </p>
+
+  <h2>Architettura del
+sistema</h2>
+
+  <p>
+    Supponiamo che
+abbiate trovato alcune aziende disposte a ospitare il vostro sito web
+senza farvi chiudere - chiamiamole &quot;fornitori amanti della
+libertà&quot; 😄. Scoprirete subito che ospitare tutto con loro è
+piuttosto costoso, quindi potreste trovare alcuni &quot;provider
+economici&quot; e fare l'hosting vero e proprio lì, passando
+attraverso i provider che amano la libertà. Se lo fate bene, i
+provider economici non sapranno mai cosa state ospitando e non
+riceveranno mai lamentele.
+  </p>
+
+  <img src="diagram1.svg" style="max-width: 100%">
+
+  <p>
+    Con
+tutti questi fornitori c'è il rischio che vi chiudano comunque,
+quindi è necessaria anche la ridondanza. Ne abbiamo bisogno a tutti
+i livelli del nostro stack.
+  </p>
+
+  <img src="diagram2.svg" style="max-width: 100%">
+
+  <p>
+    Un'azienda
+in qualche modo amante della libertà che si è messa in una
+posizione interessante è Cloudflare. <a href="https://blog.cloudflare.com/cloudflares-abuse-policies-and-approach/">L'azienda</a> ha sostenuto di non
+essere un fornitore di hosting, ma una utility, come un ISP.
+Pertanto, non sono soggetti alle richieste di rimozione DMCA o di
+altro tipo e inoltrano le richieste all'effettivo fornitore di
+hosting. Si sono spinti fino ad arrivare in tribunale per proteggere
+questa struttura. Possiamo quindi utilizzarli come ulteriore livello
+di caching e protezione.
+  </p>
+
+  <img src="diagram3.svg" style="max-width: 100%">
+
+  <p>
+    Cloudflare
+non accetta pagamenti anonimi, quindi possiamo utilizzare solo il
+piano gratuito. Ciò significa che non possiamo utilizzare le loro
+funzioni di bilanciamento del carico o di failover. Per questo
+motivo, <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/0f730afd4cc9612ef0c12c0f1b46505a4fd1c724/allthethings/templates/layouts/index.html#L255">abbiamo implementato il tutto a livello di dominio</a>. Al
+caricamento della pagina, il browser verifica se il dominio corrente
+è ancora disponibile e, in caso contrario, riscrive tutti gli URL su
+un dominio diverso. Poiché Cloudflare memorizza nella cache molte
+pagine, ciò significa che un utente può arrivare sul nostro dominio
+principale, anche se il server proxy è inattivo, e poi, al
+successivo clic, essere spostato su un altro dominio.
+  </p>
+
+  <p>
+    Dobbiamo comunque
+occuparci delle normali questioni operative, come il monitoraggio
+dello stato di salute del server, la registrazione degli errori del
+backend e del frontend e così via. La nostra architettura di
+failover consente una maggiore robustezza anche su questo fronte, ad
+esempio eseguendo un set di server completamente diverso su uno dei
+domini. Possiamo anche eseguire versioni precedenti del codice e dei
+set di dati su questo dominio separato, nel caso in cui un bug
+critico nella versione principale passi inosservato.
+  </p>
+
+  <img src="diagram4.svg" style="max-width: 100%">
+
+  <p>
+    Possiamo
+anche evitare che Cloudflare ci si rivolti contro, rimuovendolo da
+uno dei domini, come questo dominio separato. Sono possibili diverse
+permutazioni di queste idee.
+  </p>
+
+  <h2>Gli strumenti</h2>
+
+  <p>
+    Vediamo quali
+strumenti utilizziamo per realizzare tutto questo. Si tratta di
+strumenti in continua evoluzione, in quanto ci imbattiamo in nuovi
+problemi e troviamo nuove soluzioni.
+  </p>
+
+  <ul>
+    <li>Server di applicazioni: Flask, MariaDB, ElasticSearch, Docker.</li>
+    <li>Server proxy: Varnish.</li>
+    <li>Gestione del server: Ansible, Checkmk, UFW.</li>
+    <li>Sviluppo: Gitlab, Weblate, Zulip.</li>
+    <li>Onion hosting statico: Tor, Nginx.</li>
+  </ul>
+
+  <p>
+    Ci sono alcune
+decisioni su cui siamo andati avanti e indietro. Una è la
+comunicazione tra i server: prima usavamo Wireguard per questo, ma
+abbiamo scoperto che occasionalmente smetteva di trasmettere i dati o
+li trasmetteva solo in una direzione. Questo è successo con diverse
+configurazioni di Wireguard che abbiamo provato, come <a href="https://github.com/costela/wesher">wesher</a> e
+<a href="https://github.com/k4yt3x/wg-meshconf">wg-meshconf</a>. Abbiamo anche provato il tunneling delle porte su SSH,
+usando autossh e sshuttle, ma abbiamo riscontrato <a href="https://github.com/sshuttle/sshuttle/issues/830">dei problemi</a> (anche
+se non mi è ancora chiaro se autossh soffra di problemi di
+TCP-over-TCP o meno - mi sembra solo una soluzione insignificante, ma
+forse va davvero bene).
+  </p>
+
+  <p>
+    Invece, siamo tornati
+alle connessioni dirette tra i server, nascondendo che un server è
+in esecuzione su provider economici utilizzando il filtraggio IP con
+UFW. Questo ha lo svantaggio che Docker non funziona bene con UFW, a
+meno che non si usi network_mode: &quot;host&quot;. Tutto questo è
+un po' più soggetto a errori, perché si rischia di esporre il
+server a Internet con una piccola configurazione errata. Forse
+dovremmo tornare ad autossh - un feedback sarebbe molto gradito.
+  </p>
+
+  <p>
+    Abbiamo anche
+discusso su Varnish e Nginx. Al momento ci piace Varnish, ma ha le
+sue stranezze e le sue asperità. Lo stesso vale per Checkmk: non lo
+amiamo, ma per ora funziona. Weblate è stato buono ma non
+incredibile: a volte temo che perda i miei dati ogni volta che cerco
+di sincronizzarlo con il nostro repo git. Flask è stato
+complessivamente buono, ma presenta alcune stranezze che hanno
+comportato un notevole dispendio di tempo per il debug, come la
+configurazione di domini personalizzati o problemi con l'integrazione
+di SqlAlchemy.
+  </p>
+
+  <p>
+    Finora gli altri
+strumenti si sono rivelati ottimi: non abbiamo avuto serie lamentele
+su MariaDB, ElasticSearch, Gitlab, Zulip, Docker e Tor. Tutti questi
+strumenti hanno avuto qualche problema, ma niente di eccessivamente
+grave o che richieda molto tempo.
+  </p>
+
+  <h2>Conclusione</h2>
+
+  <p>
+    È stata
+un'esperienza interessante imparare a configurare un motore di
+ricerca robusto e resistente per le librerie in ombra. Ci sono molti
+altri dettagli da condividere nei prossimi post, quindi fatemi sapere
+cosa vorreste saperne di più!
+  </p>
+
+  <p>
+    Come sempre, siamo
+alla ricerca di donazioni per sostenere questo lavoro, quindi
+assicuratevi di controllare la pagina delle donazioni sull'Archivio
+di Anna. Cerchiamo anche altri tipi di sostegno, come sovvenzioni,
+sponsor a lungo termine, fornitori di pagamenti ad alto rischio e
+forse anche pubblicità (di buon gusto!). E se volete contribuire con
+il vostro tempo e le vostre capacità, siamo sempre alla ricerca di
+sviluppatori, traduttori e così via. Grazie per il vostro interesse
+e il vostro sostegno.
+  </p>
+
+  <p>
+    - Anna and the team (<a href="https://twitter.com/AnnaArchivist">Twitter</a>, <a href="https://www.reddit.com/r/Annas_Archive/">Reddit</a>, <a href="https://chat.annas-software.org/">Zulip chat</a>)
+  </p>
+
+{% endblock %}

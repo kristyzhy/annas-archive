@@ -13,6 +13,9 @@ def index():
 @blog.get("/how-to-run-a-shadow-library.html")
 def how_to_run_a_shadow_library():
     return render_template("how-to-run-a-shadow-library.html")
+@blog.get("/it-how-to-run-a-shadow-library.html")
+def it_how_to_run_a_shadow_library():
+    return render_template("it-how-to-run-a-shadow-library.html")
 @blog.get("/annas-update-open-source-elasticsearch-covers.html")
 def annas_update_open_source_elasticsearch_covers():
     return render_template("annas-update-open-source-elasticsearch-covers.html")
