@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-03-21 04:14+0000\n"
-"Last-Translator: waringhu <waringhu@gmail.com>\n"
+"PO-Revision-Date: 2023-03-23 22:04+0000\n"
+"Last-Translator: 汪鸿闻 <huameiruyu@qq.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.annas-software.org/projects/annas-archive/main-website/zh_Hant/>\n"
 "Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
@@ -160,3 +160,510 @@ msgstr "<li>1. 在 <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a> 或
 #: allthethings/page/templates/page/doi.html:9
 msgid "page.doi.invalid.header"
 msgstr "未找到"
+
+#: allthethings/page/views.py:1672
+msgid "common.md5_problem_type_mapping.lgrsfic_visible"
+msgstr "在 Library Genesis 「.rs-fork」 的小說板塊中不可見"
+
+#: allthethings/page/views.py:1673
+msgid "common.md5_problem_type_mapping.lgli_visible"
+msgstr "在 Library Genesis 「.li-fork」 中不可見"
+
+#: allthethings/page/views.py:1674
+msgid "common.md5_problem_type_mapping.lgli_broken"
+msgstr "在 Library Genesis “.li-fork” 中被標記為損壞"
+
+#: allthethings/page/views.py:1734
+msgid "page.md5.box.download.lgrsnf"
+msgstr "Library Genesis中的 \".rs-fork\"類型的非虛構文學"
+
+#: allthethings/page/views.py:1737
+msgid "page.md5.box.download.lgrsfic"
+msgstr "Library Genesis “.rs-fork” 的小說板塊"
+
+#: allthethings/page/views.py:1740
+msgid "page.md5.box.download.lgli"
+msgstr "Libgen.li"
+
+#: allthethings/page/views.py:1754
+msgid "page.md5.box.download.zlib_tor"
+msgstr "Z-Library TOR"
+
+#: allthethings/page/templates/page/doi.html:3
+msgid "page.doi.title"
+msgstr "DOI %(doi_input)s"
+
+#: allthethings/page/templates/page/doi.html:6
+msgid "page.doi.breadcrumbs"
+msgstr "數據集 ▶ DOIs ▶ DOI %(doi_input)s"
+
+#: allthethings/page/templates/page/doi.html:15
+msgid "page.doi.box.header"
+msgstr "doi:%(doi_input)s"
+
+#: allthethings/page/templates/page/doi.html:18
+msgid "page.doi.box.canonical_url"
+msgstr "規範的網址：%(link)s"
+
+#: allthethings/page/templates/page/doi.html:22
+msgid "page.doi.box.scihub"
+msgstr "該文件可能在%(link_open_tag)sSci-Hub</a>中。"
+
+#: allthethings/page/templates/page/doi.html:27
+msgid "page.doi.results.text"
+msgstr "在數據庫中找到以下匹配的文件："
+
+#: allthethings/page/templates/page/doi.html:47
+msgid "page.doi.results.none"
+msgstr "沒有在數據庫中找到匹配的文件。"
+
+#: allthethings/page/templates/page/donate.html:3
+msgid "page.donate.title"
+msgstr "捐贈"
+
+#: allthethings/page/templates/page/donate.html:6
+msgid "page.donate.header"
+msgstr "捐贈"
+
+#: allthethings/page/templates/page/donate.html:13
+msgid "page.donate.text2"
+msgstr "因為有您的貢獻，我們才得以保持該網站的運行，改進其功能，並保存更多的藏書。"
+
+#: allthethings/page/templates/page/donate.html:17
+msgid "page.donate.text3"
+msgstr "最近的捐款：%(donations)s。感謝你們每一個人的慷慨解囊！無論您捐贈的數額是多少，我們都非常感激您對我們的信任。"
+
+#: allthethings/page/templates/page/donate.html:21
+msgid "page.donate.text4"
+msgstr "請從下列方式中選擇您喜歡的方式進行捐款。如果你遇到了任何問題，請通過%(email)s聯繫我們。"
+
+#: allthethings/page/templates/page/donate.html:55
+msgid "page.donate.nav.paypal"
+msgstr "PayPal"
+
+#: allthethings/page/templates/page/donate.html:56
+msgid "page.donate.nav.cc"
+msgstr "信用卡/借記卡"
+
+#: allthethings/page/templates/page/donate.html:57
+msgid "page.donate.nav.crypto"
+msgstr "加密貨幣"
+
+#: allthethings/page/templates/page/donate.html:58
+msgid "page.donate.nav.alipay"
+msgstr "支付寶"
+
+#: allthethings/page/templates/page/donate.html:59
+msgid "page.donate.nav.pix"
+msgstr "Pix"
+
+#: allthethings/page/templates/page/donate.html:64
+msgid "page.donate.paypal.header"
+msgstr "Paypal"
+
+#: allthethings/page/templates/page/donate.html:75
+#: allthethings/page/templates/page/donate.html:101
+#: allthethings/page/templates/page/donate.html:120
+#: allthethings/page/templates/page/donate.html:140
+#: allthethings/page/templates/page/donate.html:184
+#: allthethings/page/templates/page/donate.html:197
+msgid "page.donate.text_thank_you"
+msgstr "非常感謝您的幫助！沒有像您這樣的人，這個項目就不可能成為現實。"
+
+#: allthethings/page/templates/page/donate.html:80
+msgid "page.donate.cc.header"
+msgstr "信用卡/借記卡"
+
+#: allthethings/page/templates/page/donate.html:83
+msgid "page.donate.cc.text1"
+msgstr "我們使用 Sendwyre 將錢直接存入我們的比特幣錢包。 這大約需要 5 分鐘。"
+
+#: allthethings/page/templates/page/donate.html:87
+msgid "page.donate.cc.text2"
+msgstr "這種方法的最低交易金額為 30 美元，手續費大約為 5 美元。"
+
+#: allthethings/page/templates/page/donate.html:91
+msgid "page.donate.cc.steps.header"
+msgstr "步驟："
+
+#: allthethings/page/templates/page/donate.html:95
+msgid "page.donate.cc.steps.list1"
+msgstr "1. 複製我們的比特幣錢包地址：%(address)s"
+
+#: allthethings/page/templates/page/donate.html:96
+msgid "page.donate.cc.steps.list2"
+msgstr "2. 前往%(link_open_tag)s這個頁面</a>並點擊\"buy crypto instantly\""
+
+#: allthethings/page/templates/page/donate.html:97
+msgid "page.donate.cc.steps.list3"
+msgstr "3.粘貼我們的錢包地址，然後按照指示操作"
+
+#: allthethings/page/templates/page/donate.html:106
+msgid "page.donate.crypto.header"
+msgstr "加密貨幣"
+
+#: allthethings/page/templates/page/donate.html:109
+msgid "page.donate.crypto.intro"
+msgstr "如果您已經擁有加密貨幣，這些是我們的地址："
+
+#: allthethings/page/templates/page/donate.html:113
+msgid "page.donate.crypto.btc_bch_note"
+msgstr "（同時適用於比特幣現金BCH）"
+
+#: allthethings/page/templates/page/donate.html:125
+msgid "page.donate.alipay.header"
+msgstr "支付寶"
+
+#: allthethings/page/templates/page/donate.html:136
+msgid "page.donate.alipay.url"
+msgstr "網址"
+
+#: allthethings/page/templates/page/donate.html:190
+msgid "page.donate.pix.header"
+msgstr "Pix"
+
+#: allthethings/page/templates/page/donate.html:193
+msgid "page.donate.pix.text"
+msgstr "請使用%(link_open_tag)s此頁面</a>發送您的捐款。如果不能用，請刷新本頁，即有可能切換到另外一個捐款賬號。"
+
+#: allthethings/page/templates/page/donate.html:208
+msgid "page.donate.faq.header"
+msgstr "常見問題"
+
+#: allthethings/page/templates/page/donate.html:215
+msgid "page.donate.faq.text_other_payment2"
+msgstr "如果您的付款方式不在列表中，最簡單的方法是在您的手機上下載 <a href=\"https://www.coinbase.com/\">Coinbase</a>，然後購買一些比特幣。 隨後您可以將其發送到我們的地址：%(address)s。 在大多數國家/地區，這應該只需要幾分鐘即可完成設置。"
+
+#: allthethings/page/templates/page/donate.html:223
+msgid "page.donate.faq.text_other_contribs"
+msgstr "<div class=\"font-bold\">我可以通過其它方式做出貢獻嗎？</div>當然可以！請參見<a href=\"/about\">關於頁面</a>「如何幫助」下面的內容。"
+
+#: allthethings/page/templates/page/home.html:25
+msgid "page.home.search.header"
+msgstr "搜索"
+
+#: allthethings/page/templates/page/home.html:28
+msgid "page.home.search.intro"
+msgstr "搜索我們的影子圖書館目錄。"
+
+#: allthethings/page/templates/page/home.html:33
+#: allthethings/page/templates/page/search.html:50
+#: allthethings/templates/layouts/index.html:214
+msgid "common.search.placeholder"
+msgstr "搜索標題、作者、語言、文件類型、ISBN、MD5、……"
+
+#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/search.html:51
+msgid "common.search.submit"
+msgstr "搜索"
+
+#: allthethings/page/templates/page/home.html:38
+msgid "page.home.explore.header"
+msgstr "瀏覽書籍"
+
+#: allthethings/page/templates/page/home.html:41
+msgid "page.home.explore.intro"
+msgstr "這裡有比較受歡迎的書籍，以及對影子圖書館和數字保存世界具有特殊意義的書籍。"
+
+#: allthethings/page/templates/page/isbn.html:3
+msgid "page.isbn.title"
+msgstr "ISBN %(isbn_input)s"
+
+#: allthethings/page/templates/page/isbn.html:6
+msgid "page.isbn.breadcrumbs"
+msgstr "數據集 ▶ ISBNs ▶ ISBN %(isbn_input)s"
+
+#: allthethings/page/templates/page/isbn.html:9
+msgid "page.isbn.invalid.header"
+msgstr "未找到"
+
+#: allthethings/page/templates/page/isbn.html:29
+msgid "page.isbn.results.text"
+msgstr "我們數據庫中的匹配文件："
+
+#: allthethings/page/templates/page/md5.html:15
+msgid "page.md5.invalid.header"
+msgstr "未找到"
+
+#: allthethings/page/templates/page/md5.html:17
+msgid "page.md5.invalid.text"
+msgstr "未在我們的數據庫中找到與「%(md5_input)s」匹配的文件。"
+
+#: allthethings/page/templates/page/md5.html:37
+msgid "page.md5.box.issues.text2"
+msgstr "如果您仍想下載此文件，請確保僅使用受信任的最新軟件打開它。"
+
+#: allthethings/page/templates/page/md5.html:44
+msgid "page.md5.box.download.option"
+msgstr "選擇 #%(num)d: %(link)s %(extra)s"
+
+#: allthethings/page/templates/page/md5.html:50
+msgid "page.md5.box.download.no_issues_notice"
+msgstr "所有鏡像都提供相同的文件，使用起來應該是安全的。 也就是說，下載文件時始終要小心。 例如，確保您的設備保持更新。"
+
+#: allthethings/page/templates/page/md5.html:39
+msgid "page.md5.box.download.text"
+msgstr "从以下位置下载免费电子书/文件："
+
+#: allthethings/page/templates/page/search.html:4
+msgid "page.search.title.new"
+msgstr "新的搜索"
+
+#: allthethings/page/templates/page/search.html:10
+msgid "page.search.breadcrumbs.results"
+msgstr "搜索 ▶ %(num)d的 <span class=\"italic\">%(search_input)s</span> 個結果（在影子庫元數據中）"
+
+#: allthethings/page/templates/page/search.html:15
+msgid "page.search.breadcrumbs.new"
+msgstr "搜索 ▶ 新搜索"
+
+#: allthethings/page/templates/page/search.html:23
+msgid "page.search.filters.language.header"
+msgstr "語言"
+
+#: allthethings/page/templates/page/search.html:29
+msgid "page.search.filters.content.header"
+msgstr "內容"
+
+#: allthethings/page/templates/page/search.html:35
+msgid "page.search.filters.filetype.header"
+msgstr "文件類型"
+
+#: allthethings/page/templates/page/search.html:41
+msgid "page.search.filters.sorting.most_relevant"
+msgstr "最相關"
+
+#: allthethings/page/templates/page/search.html:42
+msgid "page.search.filters.sorting.newest"
+msgstr "最新"
+
+#: allthethings/page/templates/page/search.html:43
+msgid "page.search.filters.sorting.oldest"
+msgstr "最舊"
+
+#: allthethings/page/templates/page/search.html:44
+msgid "page.search.filters.sorting.largest"
+msgstr "最大"
+
+#: allthethings/page/templates/page/search.html:45
+msgid "page.search.filters.sorting.smallest"
+msgstr "最小"
+
+#: allthethings/page/templates/page/search.html:57
+msgid "page.search.results.error.header"
+msgstr "搜索時發生了錯誤。"
+
+#: allthethings/page/templates/page/search.html:62
+msgid "page.search.results.none"
+msgstr "<span class=\"font-bold\">未找到文件。</span>嘗試更少或不同的搜索詞和過濾器。"
+
+#: allthethings/page/templates/page/search.html:68
+msgid "page.search.results.partial_more"
+msgstr "%(num)d+ 部分匹配"
+
+#: allthethings/page/templates/page/search.html:68
+msgid "page.search.results.partial"
+msgstr "%(num)d 部分匹配"
+
+#: allthethings/page/templates/page/search.html:85
+msgid "page.search.results.issues"
+msgstr "❌ 這個文件可能有問題。"
+
+#: allthethings/templates/layouts/index.html:4
+msgid "layout.index.title"
+msgstr "安娜的檔案"
+
+#: allthethings/templates/layouts/index.html:56
+msgid "layout.index.header.title"
+msgstr "安娜的檔案"
+
+#: allthethings/templates/layouts/index.html:158
+msgid "layout.index.header.tagline"
+msgstr "🔍影子圖書館搜尋引擎：書籍、論文、漫畫、雜誌。 ⭐️ Z-Library、Library Genesis、Sci-Hub。 ⚙️ 通過開原始碼和數據完全容災。 ❤️ 廣而告之：這裏歡迎每一個人！"
+
+#: allthethings/templates/layouts/index.html:191
+#: allthethings/templates/layouts/index.html:197
+#: allthethings/templates/layouts/index.html:205
+msgid "layout.index.header.nav.datasets"
+msgstr "數據集"
+
+#: allthethings/templates/layouts/index.html:192
+#: allthethings/templates/layouts/index.html:198
+#: allthethings/templates/layouts/index.html:203
+msgid "layout.index.header.nav.home"
+msgstr "主頁"
+
+#: allthethings/templates/layouts/index.html:207
+msgid "layout.index.header.nav.annassoftware"
+msgstr "安娜的軟件 ↗"
+
+#: allthethings/templates/layouts/index.html:208
+msgid "layout.index.header.nav.translate"
+msgstr "翻譯 ↗"
+
+#: allthethings/templates/layouts/index.html:210
+msgid "layout.index.header.nav.donate"
+msgstr "捐贈"
+
+#: allthethings/templates/layouts/index.html:211
+msgid "layout.index.header.nav.search"
+msgstr "搜索"
+
+#: allthethings/templates/layouts/index.html:224
+msgid "layout.index.footer.list1.home"
+msgstr "首頁"
+
+#: allthethings/templates/layouts/index.html:225
+msgid "layout.index.footer.list1.about"
+msgstr "關於"
+
+#: allthethings/templates/layouts/index.html:226
+msgid "layout.index.footer.list1.donate"
+msgstr "捐贈"
+
+#: allthethings/templates/layouts/index.html:227
+msgid "layout.index.footer.list1.datasets"
+msgstr "數據集"
+
+#: allthethings/templates/layouts/index.html:240
+msgid "layout.index.footer.list2.header"
+msgstr "保持聯繫"
+
+#: allthethings/templates/layouts/index.html:241
+msgid "layout.index.footer.list2.twitter"
+msgstr "Twitter"
+
+#: allthethings/templates/layouts/index.html:241
+msgid "layout.index.footer.list2.reddit"
+msgstr "Reddit"
+
+#: allthethings/templates/layouts/index.html:241
+msgid "layout.index.footer.list2.subreddit"
+msgstr "Reddit 版塊"
+
+#: allthethings/templates/layouts/index.html:242
+msgid "layout.index.footer.list2.blog"
+msgstr "安娜的博客"
+
+#: allthethings/templates/layouts/index.html:243
+msgid "layout.index.footer.list2.software"
+msgstr "安娜的軟件"
+
+#: allthethings/templates/layouts/index.html:244
+msgid "layout.index.footer.list2.translate"
+msgstr "翻譯"
+
+#: allthethings/page/templates/page/doi.html:11
+msgid "page.doi.invalid.text"
+msgstr "“%(doi_input)s”看起來不像 DOI。 它應該以「10.」開頭並包含一個正斜槓（/）。"
+
+#: allthethings/page/templates/page/doi.html:51
+#: allthethings/page/templates/page/isbn.html:58
+#: allthethings/page/templates/page/md5.html:83
+msgid "common.tech_details"
+msgstr "顯示技術細節（僅英文）"
+
+#: allthethings/page/templates/page/donate.html:9
+msgid "page.donate.text1"
+msgstr "安娜的檔案是一個非盈利、開源的項目，完全由志願者運營。 我們接受捐款來支付我們的費用，其中包括託管、域名、開發和其他費用。"
+
+#: allthethings/page/templates/page/donate.html:60
+msgid "page.donate.nav.faq"
+msgstr "問題"
+
+#: allthethings/page/templates/page/donate.html:67
+msgid "page.donate.paypal.text"
+msgstr "前往%(link_open_tag)s這個頁面並且按照頁面所示步驟執行，也可通過掃描二維碼或點擊「paypal.me」鏈接，如果以上內容不起作用，嘗試刷新頁面。"
+
+#: allthethings/page/templates/page/donate.html:71
+#: allthethings/page/templates/page/donate.html:132
+msgid "page.donate.strange_account"
+msgstr "賬戶名或圖像可能會有點奇怪不必擔心！這個賬戶由我們的捐贈夥伴管理，我們的賬戶沒有被骇入。"
+
+#: allthethings/page/templates/page/donate.html:128
+#: allthethings/page/templates/page/donate.html:151
+msgid "page.donate.alipay.intro"
+msgstr "請使用%(link_open_tag)s此支付寶賬戶</a>發送您的捐款。"
+
+#: allthethings/page/templates/page/donate.html:145
+#: allthethings/page/templates/page/donate.html:202
+msgid "page.donate.out_of_order"
+msgstr "此捐贈選項目前不可用。 請稍後再回來查看。 感謝您願意捐贈，我們真的很感激！"
+
+#: allthethings/page/templates/page/donate.html:211
+msgid "page.donate.faq.text_other_payment1"
+msgstr "<div class=\"font-bold\">你們有其它支付方式嗎？</div>目前還沒有。許多人不希望這樣的檔案能夠存在，所以我們必須保持謹慎。如果您可以幫助我們安全地建立別的（更便利的）支付方式，請通過%(email)s聯繫我們。"
+
+#: allthethings/page/templates/page/donate.html:219
+msgid "page.donate.faq.text_large_donation"
+msgstr "<div class=\"font-bold\">我可以進行大額的捐款嗎？</div>這太酷了！對於數千美元及以上的捐款，請直接通過%(email)s聯繫我們。"
+
+#: allthethings/page/templates/page/home.html:17
+msgid "page.home.progress_bar.text"
+msgstr "5%% 的人類書面遺產得到永久保存 %(info_icon)s"
+
+#: allthethings/page/templates/page/home.html:22
+msgid "page.home.intro"
+msgstr "<span class=\"italic font-bold\">安娜的檔案</span>是一個旨在通過匯總各種來源的數據，以對所有現有書籍進行分類的項目。我們也跟進人們在通過「<a href=\"https://zh.wikipedia.org/wiki/%%E5%%BD%%B1%%E5%%AD%%90%%E5%%9C%%96%%E6%%9B%%B8%%E9%%A4%%A8\">影子圖書館</a>」以數字形式輕鬆獲取所有這些書籍方面取得的進展。了解更多<a href=\"/about\">關於我們的信息。</a>"
+
+#: allthethings/page/templates/page/isbn.html:11
+msgid "page.isbn.invalid.text"
+msgstr "「%(isbn_input)s」不是有效的 ISBN 編號。 ISBN 的長度為 10 或 13 個字符（不包括可選的破折號）。 所有字符都必須是數字，但最後一個字符除外，它也可能是「X」。 最後一個字符是「校驗位」，它必須與根據其他數字計算得出的校驗和值相匹配。 它還必須在國際 ISBN 機構分配的有效範圍內。"
+
+#: allthethings/page/templates/page/isbn.html:52
+msgid "page.isbn.results.none"
+msgstr "我們的數據庫中沒有匹配的文件。"
+
+#: allthethings/page/templates/page/md5.html:12
+msgid "page.md5.breadcrumbs"
+msgstr "數據集 ▶ 文件 ▶ MD5 %(md5_input)s"
+
+#: allthethings/page/templates/page/md5.html:30
+msgid "page.md5.box.issues.text1"
+msgstr "<span class=\"font-bold\">❌ 此文件可能有問題，已從源庫中隱藏。</span> 有時這是應版權所有者的要求，有時是因為有更好的選擇， 但有時是因為文件本身有問題。 下載可能仍然沒問題，但我們建議先搜索替代文件。 更多細節："
+
+#: allthethings/page/templates/page/md5.html:48
+msgid "page.md5.box.download.no_issues_download_options_explanation"
+msgstr "我們提供了多個下載選項，以免其中一個失效。它們都指向完全相同的文件。"
+
+#: allthethings/page/templates/page/md5.html:53
+msgid "page.md5.box.download.no_hosting"
+msgstr "注意，Anna’s Archive 本身並不保存任何書籍正文。我們只是鏈接到了其他人的網站。如果你覺得你確實有正當的 DMCA 投訴，請參閱%(about_link)s「關於」頁面</a>。"
+
+#: allthethings/page/templates/page/search.html:4
+msgid "page.search.title.results"
+msgstr "%(search_input)s - 搜索"
+
+#: allthethings/page/templates/page/search.html:10
+msgid "page.search.breadcrumbs.results_more"
+msgstr "搜索 ▶ %(num)d的 <span class=\"italic\">%(search_input)s</span> 多個結果（在影子庫元數據中）"
+
+#: allthethings/page/templates/page/search.html:12
+msgid "page.search.breadcrumbs.error"
+msgstr "搜索 ▶ 搜索<span class=\"italic\">%(search_input)s</span>時發生錯誤"
+
+#: allthethings/page/templates/page/search.html:18
+msgid "page.search.header.update_info"
+msgstr "檢索索引每月更新。目前它包含截至 %(last_data_refresh_date)s 的條目。欲了解更多技術信息，參見 %(link_open_tag)s數據集頁面</a>。"
+
+#: allthethings/page/templates/page/search.html:59
+msgid "page.search.results.error.text"
+msgstr "請嘗試<a href=\"javascript:location.reload()\">刷新頁面</a>。如果這個問題一直發生，請通過<a href=\"https://twitter.com/AnnaArchivist\">Twitter</a> 或者<a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>告知我們。"
+
+#: allthethings/templates/layouts/index.html:24
+msgid "layout.index.header.banner.new_donation_method"
+msgstr "我們現在有了一種新的捐款途徑： %(method_name)s.懇請考慮 %(donate_link_open_tag)s 向我們捐款 </a> — 運營這個網站花費了很大的心血和資金，而大家的每一點捐款都可以發揮很大的作用。非常感謝！"
+
+#: allthethings/templates/layouts/index.html:190
+#: allthethings/templates/layouts/index.html:196
+#: allthethings/templates/layouts/index.html:204
+msgid "layout.index.header.nav.about"
+msgstr "關於"
+
+#: allthethings/templates/layouts/index.html:206
+msgid "layout.index.header.nav.annasblog"
+msgstr "安娜的博客 ↗"
+
+#: allthethings/templates/layouts/index.html:223
+msgid "layout.index.footer.list1.header"
+msgstr "安娜的檔案"
