@@ -450,7 +450,7 @@ def ol_book_page(ol_book_id):
     with engine.connect() as conn:
         ol_book = conn.execute(select(OlBase).where(OlBase.ol_key == f"/books/{ol_book_id}").limit(1)).first()
 
-        if ol_book == None:
+        if ol_book is None:
             return render_template("page/ol_book.html", header_active="search", ol_book_id=ol_book_id), 404
 
         ol_book_dict = dict(ol_book)
@@ -728,7 +728,7 @@ def lgrsfic_book_page(lgrsfic_book_id):
 libgenli_elem_descr_output = None
 def libgenli_elem_descr(conn):
     global libgenli_elem_descr_output
-    if libgenli_elem_descr_output == None:
+    if libgenli_elem_descr_output is None:
         all_descr = conn.execute(select(LibgenliElemDescr).limit(10000)).all()
         output = {}
         for descr in all_descr:
@@ -1603,7 +1603,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             md5_dict['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '' })
 
         md5_dict['file_unified_data']['content_type'] = 'book_unknown'
-        if md5_dict['lgli_file'] != None:
+        if md5_dict['lgli_file'] is not None:
             if md5_dict['lgli_file']['libgen_topic'] == 'l':
                 md5_dict['file_unified_data']['content_type'] = 'book_nonfiction'
             if md5_dict['lgli_file']['libgen_topic'] == 'f':
@@ -1624,23 +1624,23 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             md5_dict['file_unified_data']['content_type'] = 'book_fiction'
 
 
-        if md5_dict['lgrsnf_book'] != None:
+        if md5_dict['lgrsnf_book'] is not None:
             md5_dict['lgrsnf_book'] = {
                 'id': md5_dict['lgrsnf_book']['id'],
                 'md5': md5_dict['lgrsnf_book']['md5'],
             }
-        if md5_dict['lgrsfic_book'] != None:
+        if md5_dict['lgrsfic_book'] is not None:
             md5_dict['lgrsfic_book'] = {
                 'id': md5_dict['lgrsfic_book']['id'],
                 'md5': md5_dict['lgrsfic_book']['md5'],
             }
-        if md5_dict['lgli_file'] != None:
+        if md5_dict['lgli_file'] is not None:
             md5_dict['lgli_file'] = {
                 'f_id': md5_dict['lgli_file']['f_id'],
                 'md5': md5_dict['lgli_file']['md5'],
                 'libgen_topic': md5_dict['lgli_file']['libgen_topic'],
             }
-        if md5_dict['zlib_book'] != None:
+        if md5_dict['zlib_book'] is not None:
             md5_dict['zlib_book'] = {
                 'zlibrary_id': md5_dict['zlib_book']['zlibrary_id'],
                 'md5': md5_dict['zlib_book']['md5'],
@@ -1733,27 +1733,27 @@ def add_additional_to_md5_dict(md5_dict):
     additional['isbns_rich'] = make_isbns_rich(md5_dict['file_unified_data']['sanitized_isbns'])
     additional['download_urls'] = []
     shown_click_get = False
-    if md5_dict['lgrsnf_book'] != None:
+    if md5_dict['lgrsnf_book'] is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{md5_dict['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
-    if md5_dict['lgrsfic_book'] != None:
+    if md5_dict['lgrsfic_book'] is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{md5_dict['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
-    if md5_dict['lgli_file'] != None:
+    if md5_dict['lgli_file'] is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={md5_dict['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
     if len(md5_dict['ipfs_infos']) > 0:
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://cloudflare-ipfs.com/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={md5_dict['ipfs_infos'][0]['filename']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={md5_dict['ipfs_infos'][0]['filename']}", ""))
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={md5_dict['ipfs_infos'][0]['filename']}", ""))
-    if md5_dict['zlib_book'] != None and len(md5_dict['zlib_book']['pilimi_torrent'] or '') > 0:
+    if md5_dict['zlib_book'] is not None and len(md5_dict['zlib_book']['pilimi_torrent'] or '') > 0:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=1), make_temp_anon_zlib_link("https://ktxr.rs", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=2), make_temp_anon_zlib_link("https://nrzr.li", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=3), make_temp_anon_zlib_link("http://193.218.118.109", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=4), make_temp_anon_zlib_link("http://193.218.118.54", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
     for doi in md5_dict['file_unified_data']['doi_multiple']:
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
-    if md5_dict['zlib_book'] != None:
+    if md5_dict['zlib_book'] is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{md5_dict['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
     return { **md5_dict, 'additional': additional }
 
