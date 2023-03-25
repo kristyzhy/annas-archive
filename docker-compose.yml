@@ -198,5 +198,9 @@ services:
       - "elasticsearch"
     profiles: ["kibana"]
 
-# volumes:
-#   redis: {}
+  mailpit:
+    container_name: 'mailpit'
+    image: 'axllent/mailpit'
+    network_mode: "${NETWORK_MODE:-bridge}"
+    restart: unless-stopped
+    profiles: ["mailpit"]

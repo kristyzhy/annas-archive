@@ -7,12 +7,14 @@ from sqlalchemy import Column, Integer, ForeignKey, inspect, create_engine
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.ext.declarative import DeferredReflection
 from flask_elasticsearch import FlaskElasticsearch
+from flask_mail import Mail
 
 debug_toolbar = DebugToolbarExtension()
 flask_static_digest = FlaskStaticDigest()
 Base = declarative_base()
 es = FlaskElasticsearch()
 babel = Babel()
+mail = Mail()
 
 mariadb_user = os.getenv("MARIADB_USER", "allthethings")
 mariadb_password = os.getenv("MARIADB_PASSWORD", "password")

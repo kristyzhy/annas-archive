@@ -14,3 +14,15 @@ SECRET_KEY = os.getenv("SECRET_KEY", None)
 # }
 
 ELASTICSEARCH_HOST = os.getenv("ELASTICSEARCH_HOST", "http://elasticsearch:9200")
+
+MAIL_USERNAME = 'anna@annas-mail.org'
+MAIL_DEFAULT_SENDER = ('Anna’s Archive', 'anna@annas-mail.org')
+MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
+if len(MAIL_PASSWORD) == 0:
+    MAIL_SERVER = 'mailpit'
+    MAIL_PORT = 1025
+    MAIL_DEBUG = True
+else:
+    MAIL_SERVER = 'mail.annas-mail.org'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True

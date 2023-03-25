@@ -24,10 +24,12 @@ import time
 import pathlib
 import ftlangdetect
 import traceback
+import flask_mail
+import click
 
 from config import settings
 from flask import Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import engine, mariadb_url, es, Reflected
+from allthethings.extensions import engine, mariadb_url, es, Reflected, mail
 from sqlalchemy import select, func, text, create_engine
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session
@@ -373,3 +375,12 @@ def mariapersist_reset_internal():
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_001.sql')).read_text())
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_002.sql')).read_text())
     cursor.close()
+
+#################################################################################################
+# Send test email
+# ./run flask cli send_test_email <email_addr>
+@cli.cli.command('send_test_email')
+@click.argument("email_addr")
+def send_test_email(email_addr):
+    email_msg = flask_mail.Message("Hello", recipients=[email_addr])
+    mail.send(email_msg)

@@ -12,7 +12,7 @@ from allthethings.blog.views import blog
 from allthethings.page.views import page
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
-from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist
+from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist, mail
 
 # Rewrite `annas-blog.org` to `/blog` as a workaround for Flask not nicely supporting multiple domains.
 # Also strip `/blog` if we encounter it directly, to avoid duplicating it.
@@ -104,6 +104,7 @@ def extensions(app):
             print("Error in loading 'mariapersist' db; continuing since it's optional")
     es.init_app(app)
     babel.init_app(app)
+    mail.init_app(app)
 
     # https://stackoverflow.com/a/57950565
     app.jinja_env.trim_blocks = True

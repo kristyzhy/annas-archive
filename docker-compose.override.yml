@@ -1,0 +1,40 @@
+# Override only for local development; do not sync to prod servers.
+
+services:
+  mariadb:
+    ports:
+      - "${MARIADB_PORT_FORWARD:-127.0.0.1:3306}:3306"
+    networks:
+      - "mynetwork"
+
+  mariapersist:
+    ports:
+      - "${MARIAPERSIST_PORT_FORWARD:-127.0.0.1:3333}:3333"
+    networks:
+      - "mynetwork"
+  web:
+    ports:
+      - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:8000}:${PORT:-8000}"
+    networks:
+      - "mynetwork"
+
+  elasticsearch:
+    ports:
+      - "${ELASTICSEARCH_PORT_FORWARD:-127.0.0.1:9200}:9200"
+    networks:
+      - "mynetwork"
+
+  kibana:
+    ports:
+      - "${KIBANA_PORT_FORWARD:-127.0.0.1:5601}:5601"
+    networks:
+      - "mynetwork"
+
+  mailpit:
+    ports:
+      - '127.0.0.1:8025:8025' # web ui
+    networks:
+      - "mynetwork"
+
+networks:
+  mynetwork:
