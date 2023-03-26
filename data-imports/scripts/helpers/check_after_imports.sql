@@ -16,6 +16,6 @@ DESCRIBE libgenrs_hashes;
 DESCRIBE libgenrs_topics;
 DESCRIBE libgenrs_updated;
 DESCRIBE ol_base;
-DESCRIBE ol_isbn13;
+-- DESCRIBE ol_isbn13;
 DESCRIBE zlib_book;
 DESCRIBE zlib_isbn;
