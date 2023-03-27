@@ -1,18 +1,21 @@
 import hashlib
 import os
+import functools
 
 from celery import Celery
-from flask import Flask
+from flask import Flask, request, g, session
 from werkzeug.security import safe_join
 from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.proxy_fix import ProxyFix
-from flask_babel import get_locale
+from flask_babel import get_locale, get_translations, force_locale
 
+from allthethings.account.views import account
 from allthethings.blog.views import blog
 from allthethings.page.views import page
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
 from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist, mail
+from config.settings import SECRET_KEY
 
 # Rewrite `annas-blog.org` to `/blog` as a workaround for Flask not nicely supporting multiple domains.
 # Also strip `/blog` if we encounter it directly, to avoid duplicating it.
@@ -68,8 +71,12 @@ def create_app(settings_override=None):
     if settings_override:
         app.config.update(settings_override)
 
+    if not app.debug and len(SECRET_KEY) < 30:
+        raise Exception("Use longer SECRET_KEY!")
+
     middleware(app)
 
+    app.register_blueprint(account)
     app.register_blueprint(blog)
     app.register_blueprint(dyn)
     app.register_blueprint(page)
@@ -129,6 +136,70 @@ def extensions(app):
             with open(filepath, 'rb') as static_file:
                 filehash = hashlib.md5(static_file.read()).hexdigest()[:20]
                 values['hash'] = hash_cache[filename] = filehash
+
+    @functools.cache
+    def get_display_name_for_lang(lang_code, display_lang):
+        result = langcodes.Language.make(lang_code).display_name(display_lang)
+        if '[' not in result:
+            result = result + ' [' + lang_code + ']'
+        return result.replace(' []', '')
+
+    @babel.localeselector
+    def localeselector():
+        potential_locale = request.headers['Host'].split('.')[0]
+        if potential_locale in [locale.language for locale in babel.list_translations()]:
+            return potential_locale
+        return 'en'
+
+    @functools.cache
+    def last_data_refresh_date():
+        with engine.connect() as conn:
+            try:
+                libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
+                libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
+                latest_time = max([libgenrs_time, libgenli_time])
+                return latest_time.date()
+            except:
+                return ''
+
+    translations_with_english_fallback = set()
+    @app.before_request
+    def before_req():
+        session.permanent = True
+
+        # Add English as a fallback language to all translations.
+        translations = get_translations()
+        if translations not in translations_with_english_fallback:
+            with force_locale('en'):
+                translations.add_fallback(get_translations())
+            translations_with_english_fallback.add(translations)
+
+        g.base_domain = 'annas-archive.org'
+        valid_other_domains = ['annas-archive.gs']
+        if app.debug:
+            valid_other_domains.append('localtest.me:8000')
+            valid_other_domains.append('localhost:8000')
+        for valid_other_domain in valid_other_domains:
+            if request.headers['Host'].endswith(valid_other_domain):
+                g.base_domain = valid_other_domain
+                break
+
+        g.current_lang_code = get_locale().language
+
+        g.secure_domain = g.base_domain not in ['localtest.me:8000', 'localhost:8000']
+        g.full_domain = g.base_domain
+        if g.current_lang_code != 'en':
+            g.full_domain = g.current_lang_code + '.' + g.base_domain
+        if g.secure_domain:
+            g.full_domain = 'https://' + g.full_domain
+        else:
+            g.full_domain = 'http://' + g.full_domain
+
+        g.languages = [(locale.language, locale.get_display_name()) for locale in babel.list_translations()]
+        g.languages.sort()
+
+        g.last_data_refresh_date = last_data_refresh_date()
+
 
     return None
 

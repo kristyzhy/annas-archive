@@ -28,7 +28,7 @@ from allthethings.extensions import engine, es, babel, ZlibBook, ZlibIsbn, Isbnd
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
-from flask_babel import gettext, ngettext, get_translations, force_locale, get_locale
+from flask_babel import gettext, ngettext, force_locale, get_locale
 
 import allthethings.utils
 
@@ -260,42 +260,6 @@ def get_display_name_for_lang(lang_code, display_lang):
     if '[' not in result:
         result = result + ' [' + lang_code + ']'
     return result.replace(' []', '')
-
-@babel.localeselector
-def localeselector():
-    potential_locale = request.headers['Host'].split('.')[0]
-    if potential_locale in [locale.language for locale in babel.list_translations()]:
-        return potential_locale
-    return 'en'
-
-@functools.cache
-def last_data_refresh_date():
-    with engine.connect() as conn:
-        try:
-            libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
-            libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
-            latest_time = max([libgenrs_time, libgenli_time])
-            return latest_time.date()
-        except:
-            return ''
-
-translations_with_english_fallback = set()
-@page.before_request
-def before_req():
-    # Add English as a fallback language to all translations.
-    translations = get_translations()
-    if translations not in translations_with_english_fallback:
-        with force_locale('en'):
-            translations.add_fallback(get_translations())
-        translations_with_english_fallback.add(translations)
-
-    g.current_lang_code = get_locale().language
-
-    g.languages = [(locale.language, locale.get_display_name()) for locale in babel.list_translations()]
-    g.languages.sort()
-
-    g.last_data_refresh_date = last_data_refresh_date()
-
 
 @page.get("/")
 def home_page():
@@ -2066,3 +2030,4 @@ def search_page():
             search_input=search_input,
             search_dict=None,
         ), 500
+

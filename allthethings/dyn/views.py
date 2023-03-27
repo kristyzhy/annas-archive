@@ -1,13 +1,17 @@
 import time
 import ipaddress
+import json
+import flask_mail
+import datetime
+import jwt
 
-from flask import Blueprint, request
+from flask import Blueprint, request, g, make_response
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5
-# from allthethings.initializers import redis
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail
+from config.settings import SECRET_KEY
 
 import allthethings.utils
 
@@ -64,3 +68,31 @@ def downloads_increment(md5_input):
         session.commit()
         return ""
 
+@dyn.put("/account/access/")
+def account_access():
+    email = request.form['email']
+    jwt_payload = jwt.encode(
+        payload={ "m": email, "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=1) },
+        key=SECRET_KEY,
+        algorithm="HS256"
+    )
+
+    url = g.full_domain + '/account/access/' + allthethings.utils.strip_jwt_prefix(jwt_payload)
+    subject = "Log in to Anna’s Archive"
+    body = "Hi! Please use the following link to log in to Anna’s Archive:\n\n" + url + "\n\nIf you run into any issues, feel free to reply to this email.\n-Anna"
+
+    email_msg = flask_mail.Message(subject=subject, body=body, recipients=[email])
+    mail.send(email_msg)
+    return ""
+
+@dyn.put("/account/logout/")
+def account_logout():
+    request.cookies[allthethings.utils.ACCOUNT_COOKIE_NAME] # Error if cookie is not set.
+    resp = make_response("")
+    resp.set_cookie(
+        key=allthethings.utils.ACCOUNT_COOKIE_NAME,
+        httponly=True,
+        secure=g.secure_domain,
+        domain=g.base_domain,
+    )
+    return resp
