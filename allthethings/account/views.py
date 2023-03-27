@@ -5,7 +5,7 @@ import flask_mail
 import datetime
 import jwt
 
-from flask import Blueprint, request, g, render_template, session, make_response, redirect
+from flask import Blueprint, request, g, render_template, make_response, redirect
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session

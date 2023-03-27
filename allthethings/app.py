@@ -3,7 +3,7 @@ import os
 import functools
 
 from celery import Celery
-from flask import Flask, request, g, session
+from flask import Flask, request, g
 from werkzeug.security import safe_join
 from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -165,8 +165,6 @@ def extensions(app):
     translations_with_english_fallback = set()
     @app.before_request
     def before_req():
-        session.permanent = True
-
         # Add English as a fallback language to all translations.
         translations = get_translations()
         if translations not in translations_with_english_fallback:
