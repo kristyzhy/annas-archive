@@ -33,11 +33,11 @@ def account_index_page():
         account_id = account_data["a"]
 
     if account_id is None:
-        return render_template("index.html", header_active="", email=None)
+        return render_template("index.html", header_active="account", email=None)
     else:
         with mariapersist_engine.connect() as conn:
             account = conn.execute(select(MariapersistAccounts).where(MariapersistAccounts.id == account_id).limit(1)).first()
-            return render_template("index.html", header_active="", email=account.email_verified)
+            return render_template("index.html", header_active="account", email=account.email_verified)
 
 
 @account.get("/access/<string:partial_jwt_token>")

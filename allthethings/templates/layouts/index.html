@@ -157,34 +157,34 @@
 
         <div class="mb-[10px]">{{ gettext('layout.index.header.tagline') }}</div>
 
+        <script>
+          function topMenuToggle(event, className) {
+            const el = document.querySelector("." + className);
+            if (el.style.display === "block") {
+              el.style.display = "none";
+              el.setAttribute('aria-expanded', "false");
+            } else {
+              el.style.display = "block";
+              el.setAttribute('aria-expanded', "true");
+              function clickOutside(innerEvent) {
+                if (!el.contains(innerEvent.target)) {
+                  el.style.display = "none";
+                  el.setAttribute('aria-expanded', "false")
+                  document.removeEventListener('click', clickOutside);
+                  innerEvent.preventDefault();
+                  return false;
+                }
+              }
+              setTimeout(function() {
+                document.addEventListener('click', clickOutside);
+              }, 0);
+            }
+            event.preventDefault();
+            return false;
+          }
+        </script>
         <div class="header-bar">
           <div class="header-links relative z-10">
-            <script>
-              function topMenuToggle(event, className) {
-                const el = document.querySelector("." + className);
-                if (el.style.display === "block") {
-                  el.style.display = "none";
-                  el.setAttribute('aria-expanded', "false");
-                } else {
-                  el.style.display = "block";
-                  el.setAttribute('aria-expanded', "true");
-                  function clickOutside(innerEvent) {
-                    if (!el.contains(innerEvent.target)) {
-                      el.style.display = "none";
-                      el.setAttribute('aria-expanded', "false")
-                      document.removeEventListener('click', clickOutside);
-                      innerEvent.preventDefault();
-                      return false;
-                    }
-                  }
-                  setTimeout(function() {
-                    document.addEventListener('click', clickOutside);
-                  }, 0);
-                }
-                event.preventDefault();
-                return false;
-              }
-            </script>
             <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="{{ 'header-link-active' if header_active in ['home', 'about', 'datasets'] }}">
               <span class="header-link-normal">
                 {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
@@ -210,9 +210,25 @@
             <a href="/donate" class="{{ 'header-link-active' if header_active == 'donate' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.donate') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.donate') }}</span></a>
             <a href="/search" class="{{ 'header-link-active' if header_active == 'search' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.search') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.search') }}</span></a>
           </div>
-          <form class="header-search" action="/search" method="get" role="search">
-            <input name="q" type="text" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}">
+          <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
+            <input class="rounded" name="q" type="text" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}">
           </form>
+          <!-- 
+          <div class="header-links header-links-right relative z-10">
+            <a href="/account" class="{{ 'header-link-active' if header_active == 'account' }}"><span class="header-link-normal">Log in / Register</span><span class="header-link-bold">Log in / Register</span></a>
+            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="{{ 'header-link-active' if header_active in ['account'] }}">
+              <span class="header-link-normal">
+                Account ▾
+              </span>
+              <span class="header-link-bold">
+                Account ▾
+              </span>
+            </a>
+            <div class="absolute right-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-account hidden">
+              <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account">Account</a>
+            </div>
+          </div>
+          -->
         </div>
       </div>
     </div>
