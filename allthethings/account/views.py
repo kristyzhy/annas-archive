@@ -52,7 +52,7 @@ def account_access_page(partial_jwt_token):
     normalized_email = token_data["m"].lower()
 
     with Session(mariapersist_engine) as session:
-        account = session.execute(select(MariapersistAccounts).where(MariapersistAccounts.email_verified == normalized_email).limit(1)).first()    
+        account = session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.email_verified == normalized_email).limit(1)).first()
 
         account_id = None
         if account is not None:
@@ -61,7 +61,7 @@ def account_access_page(partial_jwt_token):
             for _ in range(5):
                 insert_data = { 'id': shortuuid.random(length=7), 'email_verified': normalized_email }
                 try:
-                    session.execute('INSERT INTO mariapersist_accounts (id, email_verified, display_name) VALUES (:id, :email_verified, :id)', insert_data)
+                    session.connection().execute('INSERT INTO mariapersist_accounts (id, email_verified, display_name) VALUES (:id, :email_verified, :id)', insert_data)
                     session.commit()
                     account_id = insert_data['id']
                     break
