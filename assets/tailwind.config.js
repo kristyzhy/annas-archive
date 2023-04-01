@@ -1,3 +1,5 @@
+const { addDynamicIconSelectors } = require('@iconify/tailwind');
+
 module.exports = {
   content: [
     '/app/assets/js/**/*.js',
@@ -6,5 +8,6 @@ module.exports = {
   ],
   plugins: [
     require('@tailwindcss/line-clamp'),
+    addDynamicIconSelectors(),
   ],
 }

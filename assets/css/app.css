@@ -6,6 +6,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+:root {
+--header-link-spacing: 12px;
+}
 select, input, a, button {
 outline-color: #00000055;
 }
@@ -50,8 +53,10 @@ font-weight: 900;
 }
 .header-bar {
 display: flex;
+flex-wrap: wrap;
 align-items: center;
 justify-content: space-between;
+margin-bottom: -4px;
 }
 .header-links {
 flex-shrink: 0;
@@ -59,17 +64,25 @@ white-space: nowrap;
 display: flex;
 flex-wrap: wrap;
 max-width: 100%;
-margin-bottom: -12px;
 }
 .header-links > a {
-margin-right: 1em;
-padding-bottom: 3px;
-margin-bottom: 8px;
+margin-right: var(--header-link-spacing);
+padding-bottom: 0px;
+margin-top: 6px;
+margin-bottom: 2px;
 position: relative;
+border-bottom: 3px solid transparent;
 }
 .header-links-right > a {
-margin-left: 1em;
+margin-left: var(--header-link-spacing);
 margin-right: 0;
+}
+.header-links-right > a.header-link-first {
+margin-left: 0;
+}
+.header-links > a.header-link-first .header-link-normal {
+left: 0;
+transform: none;
 }
 .header-link-normal {
 position: absolute;
@@ -82,7 +95,7 @@ visibility: hidden;
 }
 .header-links > a.header-link-active {
 color: black;
-border-bottom: 3px solid #0095ff;
+border-bottom-color: #0095ff;
 }
 .header-links > a.header-link-active > .header-link-normal {
 visibility: hidden;
@@ -95,6 +108,7 @@ overflow: hidden;
 flex-grow: 1;
 max-width: 400px;
 /*max-width: 300px;*/
+/*margin-right: var(--header-link-spacing);*/
 }
 .header-search > select {
 border: none;
@@ -107,7 +121,7 @@ font-size: 0.9em;
 flex-grow: 1;
 border: none;
 outline-offset: -1px;
-padding: 0 0.5em;
+padding: 0 0.5em 1px;
 font-size: 0.9em;
 height: 2em;
 background: white;

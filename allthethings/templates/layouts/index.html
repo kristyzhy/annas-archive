@@ -140,19 +140,13 @@
               }
             })();
           </script>
-          <div class="absolute invisible pointer-events-none js-globe-size" aria-hidden="true">🌐</div>
-          <select class="py-1 rounded text-gray-500 max-w-[50px] mt-1 ml-2 appearance-none text-center js-header-language-select" onchange="handleChangeLang(event)">
-            <option>🌐</option>
+          <div class="absolute invisible pointer-events-none" aria-hidden="true">🌐</div>
+          <select class="text-lg icon-[twemoji--globe-with-meridians] py-1 rounded text-gray-500 max-w-[50px] mt-1 ml-2 appearance-none" style="width: 1.8em; height: 1.6em; background-color: white; background-size: 1em; color: transparent;" onchange="handleChangeLang(event)">
+            <option></option>
             {% for lang_code, lang_name in g.languages %}
               <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.current_lang_code %} ☑️{% endif %}</option>
             {% endfor %}
           </select>
-          <script>
-            (function() {
-              var width = 16 + document.querySelector('.js-globe-size').offsetWidth;
-              document.querySelector('.js-header-language-select').style.maxWidth = width + 'px';
-            })();
-          </script>
         </div>
 
         <div class="mb-[10px]">{{ gettext('layout.index.header.tagline') }}</div>
@@ -185,18 +179,18 @@
         </script>
         <div class="header-bar">
           <div class="header-links relative z-10">
-            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="{{ 'header-link-active' if header_active in ['home', 'about', 'datasets'] }}">
+            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="header-link-first {{ 'header-link-active' if header_active in ['home', 'about', 'datasets'] }}" style="margin-right: 24px;">
               <span class="header-link-normal">
                 {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
                 {% elif header_active == 'datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
-                ▾
+                <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
                 {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
                 {% elif header_active == 'datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
-                ▾
+                <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
             </a>
             <div class="absolute left-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
@@ -213,34 +207,34 @@
           <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
             <input class="rounded" name="q" type="text" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}">
           </form>
-          <!-- 
-          <div class="header-links header-links-right relative z-10">
-            <a href="/account" class="{{ 'header-link-active' if header_active == 'account' }}"><span class="header-link-normal">Log in / Register</span><span class="header-link-bold">Log in / Register</span></a>
-            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="{{ 'header-link-active' if header_active in ['account'] }}">
+          <!-- <div class="header-links header-links-right relative z-10">
+            <a href="/account" class="header-link-first {{ 'header-link-active' if header_active == 'account' }}"><span class="header-link-normal">Log in / Register</span><span class="header-link-bold">Log in / Register</span></a>
+            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active in ['account'] }}" style="margin-right: 8px;">
               <span class="header-link-normal">
-                Account ▾
+                Account
+                <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
-                Account ▾
+                Account
+                <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
             </a>
             <div class="absolute right-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-account hidden">
               <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account">Account</a>
             </div>
-          </div>
-          -->
+          </div> -->
         </div>
       </div>
     </div>
     <main class="main">{% block body %}{% endblock %}</main>
-    <footer class="bg-[#0000000d]" style="box-shadow: 0px 0px 7px rgb(0 0 0 / 30%)">
+    <footer class="bg-[#0000000d] text-[#777]" style="box-shadow: 0px 0px 7px rgb(0 0 0 / 30%)">
       <div class="max-w-[850px] mx-auto p-[12px] leading-relaxed flex flex-wrap">
-        <p class="mr-4 mb-4" style="flex-grow: 1">
-          <strong class="font-bold">{{ gettext('layout.index.footer.list1.header') }}</strong><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="/">{{ gettext('layout.index.footer.list1.home') }}</a><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="/about">{{ gettext('layout.index.footer.list1.about') }}</a><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="/donate">{{ gettext('layout.index.footer.list1.donate') }}</a><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="/datasets">{{ gettext('layout.index.footer.list1.datasets') }}</a><br>
+        <div class="mr-4 mb-4" style="flex-grow: 1">
+          <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list1.header') }}</strong><br>
+          <a class="custom-a hover:text-[#333]" href="/">{{ gettext('layout.index.footer.list1.home') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="/about">{{ gettext('layout.index.footer.list1.about') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.footer.list1.donate') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.footer.list1.datasets') }}</a><br>
           <select class="p-1 rounded text-gray-500 mt-1" onchange="handleChangeLang(event)">
             {% for lang_code, lang_name in g.languages %}
               {% if g.current_lang_code == lang_code %}
@@ -251,105 +245,105 @@
               <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.current_lang_code %} ☑️{% endif %}</option>
             {% endfor %}
           </select>
-        </p>
-        <p class="mr-4 mb-4" style="flex-grow: 1">
-          <strong class="font-bold">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="https://twitter.com/AnnaArchivist">{{ gettext('layout.index.footer.list2.twitter') }}</a> / <a class="custom-a text-[#777] hover:text-[#333]" href="https://www.reddit.com/user/AnnaArchivist">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a text-[#777] hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.subreddit') }}</a><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="https://annas-blog.org">{{ gettext('layout.index.footer.list2.blog') }}</a><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.footer.list2.software') }}</a><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="https://translate.annas-software.org">{{ gettext('layout.index.footer.list2.translate') }}</a><br>
-          <a class="custom-a text-[#777] hover:text-[#333]" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a><br>
-          DMCA: <a class="custom-a text-[#777] hover:text-[#333]" href="mailto:AnnaDMCA@proton.me">AnnaDMCA@&#8203;proton.&#8203;me</a><br>
-        </p>
+        </div>
+        <div class="mr-4 mb-4" style="flex-grow: 1">
+          <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
+          <a class="custom-a hover:text-[#333]" href="https://twitter.com/AnnaArchivist">{{ gettext('layout.index.footer.list2.twitter') }}</a> / <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/user/AnnaArchivist">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.subreddit') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="https://annas-blog.org">{{ gettext('layout.index.footer.list2.blog') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.footer.list2.software') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="https://translate.annas-software.org">{{ gettext('layout.index.footer.list2.translate') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a><br>
+          DMCA: <a class="custom-a hover:text-[#333]" href="mailto:AnnaDMCA@proton.me">AnnaDMCA@&#8203;proton.&#8203;me</a><br>
+        </div>
 
-        <p style="flex-grow: 2">
-          <strong class="font-bold">{{ gettext('layout.index.footer.list3.header') }}</strong><br>
-          <a class="custom-a text-[#777] hover:text-[#333] js-annas-archive-org" href="https://annas-archive.org">annas-archive.org</a></a><br>
-          <a class="custom-a text-[#777] hover:text-[#333] js-annas-archive-gs" href="https://annas-archive.gs">annas-archive.gs</a><br>
-          <script>
-            (function() {
-              // Possible domains we can encounter:
-              const domainsToReplace = ["annas-archive.org", "annas-archive.gs", "localtest.me:8000", "localtest.me"];
-              // For checking and redirecting if our current host is down (but if Cloudflare still responds).
-              const initialCheckMs = 500;
-              const intervalCheckOtherDomains = 10000;
-              const domainsToNavigateTo = ["annas-archive.org", "annas-archive.gs"];
-              // For testing:
-              // const domainsToNavigateTo = ["localtest.me:8000", "testing_redirects.localtest.me:8000"];
+        <div style="flex-grow: 2">
+          <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list3.header') }}</strong><br>
+          <a class="custom-a hover:text-[#333] js-annas-archive-org" href="https://annas-archive.org">annas-archive.org</a></a><br>
+          <a class="custom-a hover:text-[#333] js-annas-archive-gs" href="https://annas-archive.gs">annas-archive.gs</a><br>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (function() {
+        // Possible domains we can encounter:
+        const domainsToReplace = ["annas-archive.org", "annas-archive.gs", "localtest.me:8000", "localtest.me"];
+        // For checking and redirecting if our current host is down (but if Cloudflare still responds).
+        const initialCheckMs = 500;
+        const intervalCheckOtherDomains = 10000;
+        const domainsToNavigateTo = ["annas-archive.org", "annas-archive.gs"];
+        // For testing:
+        // const domainsToNavigateTo = ["localtest.me:8000", "testing_redirects.localtest.me:8000"];
 
-              // First, set the mirror links at the bottom of the page.
-              const loc = "" + window.location;
-              let currentDomainToReplace = "localtest.me";
-              for (const domain of domainsToReplace) {
-                if (loc.includes(domain)) {
-                  currentDomainToReplace = domain;
-                  break;
-                }
-              }
-              document.querySelector(".js-annas-archive-org").href = loc.replace(currentDomainToReplace, "annas-archive.org");
-              document.querySelector(".js-annas-archive-gs").href = loc.replace(currentDomainToReplace, "annas-archive.gs");
+        // First, set the mirror links at the bottom of the page.
+        const loc = "" + window.location;
+        let currentDomainToReplace = "localtest.me";
+        for (const domain of domainsToReplace) {
+          if (loc.includes(domain)) {
+            currentDomainToReplace = domain;
+            break;
+          }
+        }
+        document.querySelector(".js-annas-archive-org").href = loc.replace(currentDomainToReplace, "annas-archive.org");
+        document.querySelector(".js-annas-archive-gs").href = loc.replace(currentDomainToReplace, "annas-archive.gs");
 
-              // Use the new domain in all links and forms.
-              let areUsingOtherDomain = false;
-              function useOtherDomain(domain) {
-                if (areUsingOtherDomain) {
-                  return;
-                }
-                areUsingOtherDomain = true;
-                const newOrigin = window.location.origin.replace(currentDomainToReplace, domain);
-                for (const el of document.querySelectorAll("a")) {
-                  el.href = el.href.replace(currentDomainToReplace, domain);
-                }
-                for (const el of document.querySelectorAll("form")) {
-                  el.action = el.action.replace(currentDomainToReplace, domain);
-                }
-              }
+        // Use the new domain in all links and forms.
+        let areUsingOtherDomain = false;
+        function useOtherDomain(domain) {
+          if (areUsingOtherDomain) {
+            return;
+          }
+          areUsingOtherDomain = true;
+          const newOrigin = window.location.origin.replace(currentDomainToReplace, domain);
+          for (const el of document.querySelectorAll("a")) {
+            el.href = el.href.replace(currentDomainToReplace, domain);
+          }
+          for (const el of document.querySelectorAll("form")) {
+            el.action = el.action.replace(currentDomainToReplace, domain);
+          }
+        }
 
-              function getRandomString() {
-                return Math.random() + "." + Math.random() + "." + Math.random();
-              }
+        function getRandomString() {
+          return Math.random() + "." + Math.random() + "." + Math.random();
+        }
 
-              // Check if there are other domains that are still up. Use the first one that responds.
-              let foundOtherDomain = false;
-              function checkOtherDomains() {
+        // Check if there are other domains that are still up. Use the first one that responds.
+        let foundOtherDomain = false;
+        function checkOtherDomains() {
+          if (foundOtherDomain) {
+            return;
+          }
+          const fetchOptions = { mode: "cors", method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
+          for (const domain of domainsToNavigateTo) {
+            if (currentDomainToReplace !== domain) {
+              fetch('//' + domain + '/dyn/up/?' + getRandomString(), fetchOptions).then(function(response) {
                 if (foundOtherDomain) {
                   return;
                 }
-                const fetchOptions = { mode: "cors", method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
-                for (const domain of domainsToNavigateTo) {
-                  if (currentDomainToReplace !== domain) {
-                    fetch('//' + domain + '/dyn/up/?' + getRandomString(), fetchOptions).then(function(response) {
-                      if (foundOtherDomain) {
-                        return;
-                      }
-                      if (!(response.status >= 500 && response.status <= 599)) {
-                        foundOtherDomain = true;
-                        useOtherDomain(domain);
-                      }
-                    }).catch(function() {
-                      // Ignore.
-                    });
-                  }
+                if (!(response.status >= 500 && response.status <= 599)) {
+                  foundOtherDomain = true;
+                  useOtherDomain(domain);
                 }
-              }
+              }).catch(function() {
+                // Ignore.
+              });
+            }
+          }
+        }
 
-              // Keep checking the current domain once, to see if it's still up.
-              function checkCurrentDomain() {
-                const fetchOptions = { method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
-                fetch('/dyn/up/?' + getRandomString(), fetchOptions).then(function(response) {
-                  // Only do something in the case of an actual error code from Cloudflare, not if the users network is bad.
-                  if (response.status >= 500 && response.status <= 599) {
-                    // Keep checking in case one comes online.
-                    setInterval(checkOtherDomains, intervalCheckOtherDomains);
-                  }
-                }).catch(function() {
-                  // Ignore; see above.
-                });
-              }
-              setTimeout(checkCurrentDomain, initialCheckMs);
-            })();
-          </script>
-        </p>
-      </div>
-    </footer>
+        // Keep checking the current domain once, to see if it's still up.
+        function checkCurrentDomain() {
+          const fetchOptions = { method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
+          fetch('/dyn/up/?' + getRandomString(), fetchOptions).then(function(response) {
+            // Only do something in the case of an actual error code from Cloudflare, not if the users network is bad.
+            if (response.status >= 500 && response.status <= 599) {
+              // Keep checking in case one comes online.
+              setInterval(checkOtherDomains, intervalCheckOtherDomains);
+            }
+          }).catch(function() {
+            // Ignore; see above.
+          });
+        }
+        setTimeout(checkCurrentDomain, initialCheckMs);
+      })();
+    </script>
   </body>
