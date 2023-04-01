@@ -1,3 +1,5 @@
+# When adding one of these, be sure to update mariapersist_reset_internal and mariapersist_drop_all.sql!
+
 CREATE TABLE mariapersist_downloads (
     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     `md5` BINARY(16) NOT NULL,

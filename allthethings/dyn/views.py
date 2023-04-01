@@ -1,6 +1,7 @@
 import time
 import ipaddress
 import json
+import orjson
 import flask_mail
 import datetime
 import jwt
@@ -67,6 +68,20 @@ def downloads_increment(md5_input):
         session.execute('INSERT IGNORE INTO mariapersist_downloads (md5, ip) VALUES (:md5, :ip)', data)
         session.commit()
         return ""
+
+
+@dyn.get("/downloads/total/<string:md5_input>")
+def downloads_total(md5_input):
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
+        raise Exception("Non-canonical md5")
+
+    with mariapersist_engine.connect() as conn:
+        record = conn.execute(select(MariapersistDownloadsTotalByMd5).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).first()
+        return orjson.dumps(record.count)
+
 
 @dyn.put("/account/access/")
 def account_access():

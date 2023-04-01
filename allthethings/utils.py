@@ -5,7 +5,7 @@ def validate_canonical_md5s(canonical_md5s):
 
 JWT_PREFIX = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
 
-ACCOUNT_COOKIE_NAME = "aa_account_test"
+ACCOUNT_COOKIE_NAME = "aa_account_id"
 
 def strip_jwt_prefix(jwt_payload):
     if not jwt_payload.startswith(JWT_PREFIX):
