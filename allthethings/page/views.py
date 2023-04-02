@@ -286,6 +286,9 @@ def home_page():
             md5_dicts=md5_dicts,
         )
 
+@page.get("/login")
+def login_page():
+    return render_template("page/login.html", header_active="account")
 
 @page.get("/about")
 def about_page():

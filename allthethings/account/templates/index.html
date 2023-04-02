@@ -3,8 +3,6 @@
 {% block title %}Account{% endblock %}
 
 {% block body %}
-  <div class="mb-4">Account ▶ Login or Register</div>
-
   <script>
     function accountOnSubmit(event, url) {
       event.preventDefault();
@@ -41,6 +39,8 @@
   </script>
 
   {% if email %}
+    <h2 class="mt-4 mb-1 text-3xl font-bold">Account</h2>
+
     <script>window.globalUpdateAaLoggedIn(1);</script>
     <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/logout/')">
       <fieldset class="mb-4">
@@ -52,6 +52,8 @@
       <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
     </form>
   {% else %}
+    <h2 class="mt-4 mb-1 text-3xl font-bold">Log in / Register</h2>
+    
     <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/access/')">
       <fieldset class="mb-4">
         <p class="mb-4">Enter your email address. If you don’t have an account yet, a new one will be created.</p>
