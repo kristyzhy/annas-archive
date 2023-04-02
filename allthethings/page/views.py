@@ -305,7 +305,7 @@ def datasets_page():
         libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
         libgenli_date = str(libgenli_time.date())
         # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
-        openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL11%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
+        openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL111%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
         openlib_date = str(openlib_time.date())
 
     return render_template(
