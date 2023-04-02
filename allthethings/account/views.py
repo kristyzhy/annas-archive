@@ -27,7 +27,7 @@ def account_index_page():
         return render_template("index.html", header_active="account", email=None)
     else:
         with mariapersist_engine.connect() as conn:
-            account = conn.execute(select(MariapersistAccounts).where(MariapersistAccounts.id == account_id).limit(1)).first()
+            account = conn.execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
             return render_template("index.html", header_active="account", email=account.email_verified)
 
 
@@ -47,20 +47,23 @@ def account_access_page(partial_jwt_token):
 
         account_id = None
         if account is not None:
-            account_id = account.id
+            account_id = account.account_id
         else:
             for _ in range(5):
-                insert_data = { 'id': shortuuid.random(length=7), 'email_verified': normalized_email }
+                insert_data = { 'account_id': shortuuid.random(length=7), 'email_verified': normalized_email }
                 try:
-                    session.connection().execute(text('INSERT INTO mariapersist_accounts (id, email_verified, display_name) VALUES (:id, :email_verified, :id)').bindparams(**insert_data))
+                    session.connection().execute(text('INSERT INTO mariapersist_accounts (account_id, email_verified, display_name) VALUES (:account_id, :email_verified, :account_id)').bindparams(**insert_data))
                     session.commit()
-                    account_id = insert_data['id']
+                    account_id = insert_data['account_id']
                     break
                 except Exception as err:
                     print("Account creation error", err)
                     pass
             if account_id is None:
                 raise Exception("Failed to create account after multiple attempts")
+        session.connection().execute(text('INSERT INTO mariapersist_account_logins (account_id, ip) VALUES (:account_id, :ip)')
+            .bindparams(account_id=account_id, ip=allthethings.utils.canonical_ip_bytes(request.remote_addr)))
+        session.commit()
 
         account_token = jwt.encode(
             payload={ "a": account_id, "iat": datetime.datetime.now(tz=datetime.timezone.utc) },

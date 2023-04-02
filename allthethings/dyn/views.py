@@ -1,5 +1,4 @@
 import time
-import ipaddress
 import json
 import orjson
 import flask_mail
@@ -53,15 +52,10 @@ def downloads_increment(md5_input):
     if not es.exists(index="md5_dicts", id=canonical_md5):
         raise Exception("Md5 not found")
 
-    # Canonicalize to IPv6
-    ipv6 = ipaddress.ip_address(request.remote_addr)
-    if ipv6.version == 4:
-        ipv6 = ipaddress.ip_address('2002::' + request.remote_addr)
-
     with Session(mariapersist_engine) as session:
         data_hour_since_epoch = int(time.time() / 3600)
         data_md5 = bytes.fromhex(canonical_md5)
-        data_ip = ipv6.packed
+        data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
         session.connection().execute(text('INSERT INTO mariapersist_downloads_hourly_by_ip (ip, hour_since_epoch, count) VALUES (:ip, :hour_since_epoch, 1) ON DUPLICATE KEY UPDATE count = count + 1').bindparams(hour_since_epoch=data_hour_since_epoch, ip=data_ip))
         session.connection().execute(text('INSERT INTO mariapersist_downloads_hourly_by_md5 (md5, hour_since_epoch, count) VALUES (:md5, :hour_since_epoch, 1) ON DUPLICATE KEY UPDATE count = count + 1').bindparams(hour_since_epoch=data_hour_since_epoch, md5=data_md5))
         session.connection().execute(text('INSERT INTO mariapersist_downloads_total_by_md5 (md5, count) VALUES (:md5, 1) ON DUPLICATE KEY UPDATE count = count + 1').bindparams(md5=data_md5))

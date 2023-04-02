@@ -1,5 +1,6 @@
 import jwt
 import re
+import ipaddress
 
 from config.settings import SECRET_KEY
 
@@ -43,3 +44,17 @@ def get_full_lang_code(locale):
 
 def get_base_lang_code(locale):
     return locale.language
+
+# Example to convert back from MySQL to IPv4:
+# import ipaddress
+# ipaddress.ip_address(0x2002AC16000100000000000000000000).sixtofour
+# ipaddress.ip_address().sixtofour
+def canonical_ip_bytes(ip):
+    # Canonicalize to IPv6
+    ipv6 = ipaddress.ip_address(ip)
+    if ipv6.version == 4:
+        # https://stackoverflow.com/a/19853184
+        prefix = int(ipaddress.IPv6Address('2002::'))
+        ipv6 = ipaddress.ip_address(prefix | (int(ipv6) << 80))
+    return ipv6.packed
+
