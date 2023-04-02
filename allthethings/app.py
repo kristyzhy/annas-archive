@@ -17,6 +17,8 @@ from allthethings.cli.views import cli
 from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist, mail
 from config.settings import SECRET_KEY
 
+import allthethings.utils
+
 # Rewrite `annas-blog.org` to `/blog` as a workaround for Flask not nicely supporting multiple domains.
 # Also strip `/blog` if we encounter it directly, to avoid duplicating it.
 class BlogMiddleware(object):
@@ -147,8 +149,8 @@ def extensions(app):
     @babel.localeselector
     def localeselector():
         potential_locale = request.headers['Host'].split('.')[0]
-        if potential_locale in [locale.language for locale in babel.list_translations()]:
-            return potential_locale
+        if potential_locale in [allthethings.utils.get_domain_lang_code(locale) for locale in babel.list_translations()]:
+            return allthethings.utils.domain_lang_code_to_full_lang_code(potential_locale)
         return 'en'
 
     @functools.cache
@@ -182,18 +184,19 @@ def extensions(app):
                 g.base_domain = valid_other_domain
                 break
 
-        g.current_lang_code = get_locale().language
+        g.domain_lang_code = allthethings.utils.get_domain_lang_code(get_locale())
+        g.full_lang_code = allthethings.utils.get_full_lang_code(get_locale())
 
         g.secure_domain = g.base_domain not in ['localtest.me:8000', 'localhost:8000']
         g.full_domain = g.base_domain
-        if g.current_lang_code != 'en':
-            g.full_domain = g.current_lang_code + '.' + g.base_domain
+        if g.domain_lang_code != 'en':
+            g.full_domain = g.domain_lang_code + '.' + g.base_domain
         if g.secure_domain:
             g.full_domain = 'https://' + g.full_domain
         else:
             g.full_domain = 'http://' + g.full_domain
 
-        g.languages = [(locale.language, locale.get_display_name()) for locale in babel.list_translations()]
+        g.languages = [(allthethings.utils.get_domain_lang_code(locale), locale.get_display_name()) for locale in babel.list_translations()]
         g.languages.sort()
 
         g.last_data_refresh_date = last_data_refresh_date()

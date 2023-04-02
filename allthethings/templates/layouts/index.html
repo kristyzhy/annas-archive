@@ -1,4 +1,4 @@
-<html lang="{{ g.current_lang_code }}">
+<html lang="{{ g.full_lang_code }}">
   <head>
     <meta charset="utf-8">
     <title>{% if self.title() %}{% block title %}{% endblock %} - {% endif %}{{ gettext('layout.index.title') }}</title>
@@ -125,9 +125,14 @@
                 if (!cookieLangMatch) {
                   // See if the user's browser language is one that we support directly.
                   for (const langCode of navigator.languages) {
+                    let domainLangCode = langCode;
+                    if (langCode.toLowerCase().includes("-hant") || langCode.toLowerCase().includes("-tw")) {
+                      domainLangCode = "tw";
+                    }
+
                     // Take the first language that we support.
-                    if (langCodes.includes(langCode)) {
-                      setLangCookie(langCode);
+                    if (langCodes.includes(domainLangCode)) {
+                      setLangCookie(domainLangCode);
                       // Bail out so we don't redirect to a suboptimal language.
                       break;
                     }
@@ -155,7 +160,7 @@
           <select class="text-lg icon-[twemoji--globe-with-meridians] py-1 rounded text-gray-500 max-w-[50px] mt-1 ml-2 appearance-none" style="width: 1.8em; height: 1.6em; background-color: white; background-size: 1em; color: transparent;" onchange="handleChangeLang(event)">
             <option></option>
             {% for lang_code, lang_name in g.languages %}
-              <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.current_lang_code %} ☑️{% endif %}</option>
+              <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.domain_lang_code %} ☑️{% endif %}</option>
             {% endfor %}
           </select>
         </div>
@@ -248,12 +253,12 @@
           <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.footer.list1.datasets') }}</a><br>
           <select class="p-1 rounded text-gray-500 mt-1" onchange="handleChangeLang(event)">
             {% for lang_code, lang_name in g.languages %}
-              {% if g.current_lang_code == lang_code %}
+              {% if g.domain_lang_code == lang_code %}
                 <option value="{{ lang_code }}">🌐 {{ lang_name }} [{{ lang_code }}]</option>
               {% endif %}
             {% endfor %}
             {% for lang_code, lang_name in g.languages %}
-              <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.current_lang_code %} ☑️{% endif %}</option>
+              <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.domain_lang_code %} ☑️{% endif %}</option>
             {% endfor %}
           </select>
         </div>

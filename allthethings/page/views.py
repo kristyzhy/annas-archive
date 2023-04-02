@@ -1155,7 +1155,7 @@ def isbn_page(isbn_input):
 
         for isbndb_dict in isbn_dict['isbndb']:
             isbndb_dict['language_codes'] = get_bcp47_lang_codes(isbndb_dict['json'].get('language') or '')
-            isbndb_dict['languages_and_codes'] = [(get_display_name_for_lang(lang_code, get_locale().language), lang_code) for lang_code in isbndb_dict['language_codes']]
+            isbndb_dict['languages_and_codes'] = [(get_display_name_for_lang(lang_code, allthethings.utils.get_full_lang_code(get_locale())), lang_code) for lang_code in isbndb_dict['language_codes']]
 
         if len(isbn_dict['isbndb']) > 0:
             isbn_dict['top_box'] = {
@@ -1669,7 +1669,7 @@ def format_filesize(num):
 
 def add_additional_to_md5_dict(md5_dict):
     additional = {}
-    additional['most_likely_language_name'] = (get_display_name_for_lang(md5_dict['file_unified_data'].get('most_likely_language_code', None) or '', get_locale().language) if md5_dict['file_unified_data'].get('most_likely_language_code', None) else '')
+    additional['most_likely_language_name'] = (get_display_name_for_lang(md5_dict['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if md5_dict['file_unified_data'].get('most_likely_language_code', None) else '')
     additional['top_box'] = {
         'meta_information': [item for item in [
                 md5_dict['file_unified_data'].get('title_best', None) or '',
@@ -1747,7 +1747,7 @@ def md5_page(md5_input):
             md5_input=md5_input,
             md5_dict=md5_dict,
             md5_dict_json=nice_json(md5_dict),
-            md5_content_type_mapping=get_md5_content_type_mapping(get_locale().language),
+            md5_content_type_mapping=get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale())),
             md5_problem_type_mapping=get_md5_problem_type_mapping(),
         )
 
@@ -1872,7 +1872,7 @@ def search_page():
                     "query": { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
                     "script": {
                         "source": sort_search_md5_dicts_script,
-                        "params": { "lang_code": get_locale().language, "boost": 100000 }
+                        "params": { "lang_code": allthethings.utils.get_base_lang_code(get_locale()), "boost": 100000 }
                     }
                 }
             }],
@@ -1881,7 +1881,7 @@ def search_page():
                     "query": { "simple_query_string": {"query": search_input, "fields": ["search_only_fields.search_text"], "default_operator": "and"} },
                     "script": {
                         "source": sort_search_md5_dicts_script,
-                        "params": { "lang_code": get_locale().language, "boost": 0 }
+                        "params": { "lang_code": allthethings.utils.get_base_lang_code(get_locale()), "boost": 0 }
                     }
                 }
             }]
@@ -1903,7 +1903,7 @@ def search_page():
             timeout=ES_TIMEOUT,
         )
 
-        all_aggregations = all_search_aggs(get_locale().language)
+        all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()))
 
         doc_counts = {}
         doc_counts['most_likely_language_code'] = {}

@@ -25,3 +25,21 @@ def get_account_id(cookies):
         )
         return account_data["a"]
     return None
+
+def get_domain_lang_code(locale):
+    if locale.script == 'Hant':
+        return 'tw'
+    else:
+        return str(locale)
+
+def domain_lang_code_to_full_lang_code(domain_lang_code):
+    if domain_lang_code == "tw":
+        return 'zh_Hant'
+    else:
+        return domain_lang_code
+
+def get_full_lang_code(locale):
+    return str(locale)
+
+def get_base_lang_code(locale):
+    return locale.language
