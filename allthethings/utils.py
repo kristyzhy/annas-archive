@@ -1,4 +1,7 @@
+import jwt
 import re
+
+from config.settings import SECRET_KEY
 
 def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])
@@ -11,3 +14,14 @@ def strip_jwt_prefix(jwt_payload):
     if not jwt_payload.startswith(JWT_PREFIX):
         raise Exception("Invalid jwt_payload; wrong prefix")
     return jwt_payload[len(JWT_PREFIX):]
+
+def get_account_id(cookies):
+    if len(cookies.get(ACCOUNT_COOKIE_NAME, "")) > 0:
+        account_data = jwt.decode(
+            jwt=JWT_PREFIX + cookies[ACCOUNT_COOKIE_NAME],
+            key=SECRET_KEY,
+            algorithms=["HS256"],
+            options={ "verify_signature": True, "require": ["iat"], "verify_iat": True }
+        )
+        return account_data["a"]
+    return None

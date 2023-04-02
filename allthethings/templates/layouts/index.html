@@ -15,6 +15,17 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+    <script>
+      window.globalUpdateAaLoggedIn = function(aa_logged_in) {
+        localStorage['aa_logged_in'] = aa_logged_in;
+        if (localStorage['aa_logged_in'] === '1') {
+          document.documentElement.classList.add("aa-logged-in");
+        } else {
+          document.documentElement.classList.remove("aa-logged-in");
+        }
+      }
+      window.globalUpdateAaLoggedIn(localStorage['aa_logged_in'] || 0);
+    </script>
   </head>
   <body>
     <div class="header" role="navigation">
@@ -209,7 +220,7 @@
           </form>
           <!-- <div class="header-links header-links-right relative z-10">
             <a href="/account" class="header-link-first {{ 'header-link-active' if header_active == 'account' }}"><span class="header-link-normal">Log in / Register</span><span class="header-link-bold">Log in / Register</span></a>
-            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active in ['account'] }}" style="margin-right: 8px;">
+            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active in ['account'] }} [html:not(.aa-logged-in)_&]:hidden" style="margin-right: 8px;">
               <span class="header-link-normal">
                 Account
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
@@ -268,7 +279,7 @@
         // Possible domains we can encounter:
         const domainsToReplace = ["annas-archive.org", "annas-archive.gs", "localtest.me:8000", "localtest.me"];
         // For checking and redirecting if our current host is down (but if Cloudflare still responds).
-        const initialCheckMs = 500;
+        const initialCheckMs = 0;
         const intervalCheckOtherDomains = 10000;
         const domainsToNavigateTo = ["annas-archive.org", "annas-archive.gs"];
         // For testing:
@@ -312,10 +323,10 @@
           if (foundOtherDomain) {
             return;
           }
-          const fetchOptions = { mode: "cors", method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
+          const otherFetchOptions = { mode: "cors", method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
           for (const domain of domainsToNavigateTo) {
             if (currentDomainToReplace !== domain) {
-              fetch('//' + domain + '/dyn/up/?' + getRandomString(), fetchOptions).then(function(response) {
+              fetch('//' + domain + '/dyn/up/?' + getRandomString(), otherFetchOptions).then(function(response) {
                 if (foundOtherDomain) {
                   return;
                 }
@@ -332,12 +343,17 @@
 
         // Keep checking the current domain once, to see if it's still up.
         function checkCurrentDomain() {
-          const fetchOptions = { method: "GET", credentials: "omit", cache: "no-cache", redirect: "error" };
-          fetch('/dyn/up/?' + getRandomString(), fetchOptions).then(function(response) {
+          const currentFetchOptions = { method: "GET", credentials: "same-origin", cache: "no-cache", redirect: "error" };
+          fetch('/dyn/up/?' + getRandomString(), currentFetchOptions).then(function(response) {
             // Only do something in the case of an actual error code from Cloudflare, not if the users network is bad.
             if (response.status >= 500 && response.status <= 599) {
               // Keep checking in case one comes online.
               setInterval(checkOtherDomains, intervalCheckOtherDomains);
+            }
+            if (response.status === 200) {
+              return response.json().then(function(jsonResponse) {
+                window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in);
+              });
             }
           }).catch(function() {
             // Ignore; see above.

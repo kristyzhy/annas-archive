@@ -22,16 +22,7 @@ account = Blueprint("account", __name__, template_folder="templates", url_prefix
 
 @account.get("/")
 def account_index_page():
-    account_id = None
-    if len(request.cookies.get(allthethings.utils.ACCOUNT_COOKIE_NAME, "")) > 0:
-        account_data = jwt.decode(
-            jwt=allthethings.utils.JWT_PREFIX + request.cookies[allthethings.utils.ACCOUNT_COOKIE_NAME],
-            key=SECRET_KEY,
-            algorithms=["HS256"],
-            options={ "verify_signature": True, "require": ["iat"], "verify_iat": True }
-        )
-        account_id = account_data["a"]
-
+    account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
         return render_template("index.html", header_active="account", email=None)
     else:
@@ -61,11 +52,12 @@ def account_access_page(partial_jwt_token):
             for _ in range(5):
                 insert_data = { 'id': shortuuid.random(length=7), 'email_verified': normalized_email }
                 try:
-                    session.connection().execute('INSERT INTO mariapersist_accounts (id, email_verified, display_name) VALUES (:id, :email_verified, :id)', insert_data)
+                    session.connection().execute(text('INSERT INTO mariapersist_accounts (id, email_verified, display_name) VALUES (:id, :email_verified, :id)').bindparams(**insert_data))
                     session.commit()
                     account_id = insert_data['id']
                     break
-                except:
+                except Exception as err:
+                    print("Account creation error", err)
                     pass
             if account_id is None:
                 raise Exception("Failed to create account after multiple attempts")

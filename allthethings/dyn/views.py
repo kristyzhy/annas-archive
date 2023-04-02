@@ -26,7 +26,10 @@ def index():
     # For testing, uncomment:
     # if "testing_redirects" not in request.headers['Host']:
     #     return "Simulate server down", 513
-    return ""
+
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    aa_logged_in = 0 if account_id is None else 1
+    return orjson.dumps({ "aa_logged_in": aa_logged_in })
 
 
 @dyn.get("/up/databases/")
@@ -78,7 +81,7 @@ def downloads_total(md5_input):
 
     with mariapersist_engine.connect() as conn:
         record = conn.execute(select(MariapersistDownloadsTotalByMd5).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).first()
-        return orjson.dumps(record.count)
+        return orjson.dumps({ "count": record.count })
 
 
 @dyn.put("/account/access/")
@@ -96,12 +99,12 @@ def account_access():
 
     email_msg = flask_mail.Message(subject=subject, body=body, recipients=[email])
     mail.send(email_msg)
-    return ""
+    return "{}"
 
 @dyn.put("/account/logout/")
 def account_logout():
     request.cookies[allthethings.utils.ACCOUNT_COOKIE_NAME] # Error if cookie is not set.
-    resp = make_response("")
+    resp = make_response(orjson.dumps({ "aa_logged_in": 0 }))
     resp.set_cookie(
         key=allthethings.utils.ACCOUNT_COOKIE_NAME,
         httponly=True,

@@ -17,8 +17,13 @@
       fetch(url, { method: "PUT", body: new FormData(currentTarget) })
         .then(function(response) {
           if (!response.ok) { throw "error"; }
-          fieldset.classList.add("hidden");
-          currentTarget.querySelector(".js-success").classList.remove("hidden");
+          return response.json().then(function(jsonResponse) {
+            if (jsonResponse.aa_logged_in !== undefined) {
+              window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in);
+            }
+            fieldset.classList.add("hidden");
+            currentTarget.querySelector(".js-success").classList.remove("hidden");
+          });
         })
         .catch(function() {
           fieldset.removeAttribute("disabled", "disabled");
@@ -36,6 +41,7 @@
   </script>
 
   {% if email %}
+    <script>window.globalUpdateAaLoggedIn(1);</script>
     <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/logout/')">
       <fieldset class="mb-4">
         <p class="mb-4">You are logged in as {{ email }}.</p>
