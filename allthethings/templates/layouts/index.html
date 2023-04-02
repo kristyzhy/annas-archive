@@ -25,6 +25,18 @@
         }
       }
       window.globalUpdateAaLoggedIn(localStorage['aa_logged_in'] || 0);
+
+      // Focus search field when pressing "/".
+      document.addEventListener("keydown", e => {
+        if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (/^(?:input|textarea|select|button)$/i.test(e.target.tagName)) return;
+        e.preventDefault();
+        const fields = document.querySelectorAll('form[role=search] input[type=text]');
+        const field = fields[fields.length - 1];
+        if (field) {
+          field.select();
+        }
+      });
     </script>
   </head>
   <body>
