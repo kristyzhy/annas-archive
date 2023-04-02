@@ -53,7 +53,7 @@
     </div>
 
     <div class="flex mb-4">
-      <input type="text" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="grow bg-[#00000011] px-2 py-1 mr-2 rounded" autofocus>
+      <input type="text" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="grow bg-[#00000011] px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %}>
       <button class="text-[#777] hover:text-[#333]" type="submit">{{ gettext('common.search.submit') }}</button>
     </div>
   </form>
@@ -76,7 +76,7 @@
 
           <div class="h-[125] {% if loop.index0 > 10 %}js-scroll-hidden{% endif %}" id="link-index-{{loop.index0}}">
             {% if loop.index0 > 10 %}<!--{% endif %}
-            <a href="/md5/{{search_md5_dict.md5}}" class="custom-a flex items-center relative left-[-10px] w-[calc(100%+20px)] px-[10] py-2 hover:bg-[#00000011] {% if (search_md5_dict.file_unified_data.problems | length) > 0 %}opacity-[40%]{% endif %}">
+            <a href="/md5/{{search_md5_dict.md5}}" class="js-vim-focus custom-a flex items-center relative left-[-10px] w-[calc(100%+20px)] px-[10px] py-2 outline-offset-[-2px] rounded-[3px] hover:bg-[#00000011] {% if (search_md5_dict.file_unified_data.problems | length) > 0 %}opacity-[40%]{% endif %}">
               <div class="flex-none">
                 <div class="relative overflow-hidden w-[72] h-[108] flex flex-col justify-center">
                   <div class="absolute w-[100%] h-[90]" style="background-color: hsl({{ (loop.index0 % 4) * (256//3) + (range(0, 256//3) | random) }}deg 43% 73%)"></div>
@@ -119,6 +119,31 @@
             render();
           });
           render();
+        });
+
+
+        document.addEventListener("keydown", e => {
+          if (e.ctrlKey || e.metaKey || e.altKey) return;
+          if (/^(?:input|textarea|select|button)$/i.test(e.target.tagName)) return;
+          if (e.key === "j" || e.key === "k") {
+            e.preventDefault();
+            const fields = Array.from(document.querySelectorAll('.js-vim-focus'));
+            if (fields.length === 0) {
+              return;
+            }
+            const activeIndex = fields.indexOf(document.activeElement);
+            if (activeIndex === -1) {
+              fields[0].focus();
+            } else {
+              if (e.key === "j") {
+                const newIndex = Math.min(activeIndex+1, fields.length-1);
+                fields[newIndex].focus();
+              } else {
+                const newIndex = Math.max(activeIndex-1, 0);
+                fields[newIndex].focus();
+              }
+            }
+          }
         });
       </script>
     {% endif %}
