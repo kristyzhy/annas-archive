@@ -206,7 +206,7 @@
           }
         </script>
         <div class="header-bar">
-          <div class="header-links relative z-10">
+          <div class="header-links relative z-20">
             <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="header-link-first {{ 'header-link-active' if header_active in ['home', 'about', 'datasets'] }}" style="margin-right: 24px;">
               <span class="header-link-normal">
                 {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
@@ -235,8 +235,8 @@
           <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
             <input class="rounded" name="q" type="text" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}">
           </form>
-          <!-- <div class="header-links header-links-right relative z-10">
-            <a href="/login" class="header-link-first {{ 'header-link-active' if header_active == 'account' }}"><span class="header-link-normal">Log in / Register</span><span class="header-link-bold">Log in / Register</span></a>
+          <!-- <div class="header-links header-links-right relative z-10 ml-auto">
+            <a href="/login" class="header-link-first {{ 'header-link-active' if header_active == 'account' }} [html.aa-logged-in_&]:hidden"><span class="header-link-normal">Log in / Register</span><span class="header-link-bold">Log in / Register</span></a>
             <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active in ['account'] }} [html:not(.aa-logged-in)_&]:hidden" style="margin-right: 8px;">
               <span class="header-link-normal">
                 Account
