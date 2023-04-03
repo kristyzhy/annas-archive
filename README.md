@@ -38,6 +38,7 @@ This is roughly the structure:
 * Heavy caching in front of web servers (e.g. Cloudflare)
 * 1+ read-only MariaDB db with MyISAM tables of data ("mariadb")
 * 1 read/write MariaDB db for persistent data ("mariapersist")
+* 1 persistent data replica ("mariapersistreplica") set up with backups ("mariabackup").
 
 Practically, you also want proxy servers in front of the web servers, so you can control who gets DMCA notices.
 
@@ -64,6 +65,16 @@ pybabel init -i messages.pot -d allthethings/translations -l es
 ```
 
 Try it out by going to `http://es.localhost` (on some systems you might have to add this to your `/etc/hosts` file).
+
+## Production deployment
+
+Be sure to exclude a bunch of stuff, most importantly `docker-compose.override.yml` which is just for local use. E.g.:
+
+```bash
+rsync --exclude=.git --exclude=.env --exclude=.DS_Store --exclude=docker-compose.override.yml -av --delete ..
+```
+
+To set up mariapersistreplica and mariabackup, check out `mariapersistreplica-conf/README.txt`.
 
 ## Contribute
 
