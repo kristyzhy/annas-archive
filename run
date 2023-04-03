@@ -84,6 +84,12 @@ function mariapersist {
  _dc mariapersist mysql -u "${MARIAPERSIST_USER}" -p${MARIAPERSIST_PASSWORD} "${MARIAPERSIST_DATABASE}"
 }
 
+function mariapersistreplica {
+  # Connect to MariaDB
+  # shellcheck disable=SC1091
+  . .env
+ _dc mariapersistreplica mysql -u "${MARIAPERSIST_USER}" -p${MARIAPERSIST_PASSWORD} "${MARIAPERSIST_DATABASE}"
+}
 
 # function redis-cli {
 #   # Connect to Redis

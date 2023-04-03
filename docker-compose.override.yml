@@ -12,6 +12,11 @@ services:
       - "${MARIAPERSIST_PORT_FORWARD:-127.0.0.1:3333}:3333"
     networks:
       - "mynetwork"
+
+  mariapersistreplica:
+    networks:
+      - "mynetwork"
+
   web:
     ports:
       - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:8000}:${PORT:-8000}"

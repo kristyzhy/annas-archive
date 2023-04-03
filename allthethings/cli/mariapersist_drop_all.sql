@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS `mariapersist_accounts`;
+DROP TABLE IF EXISTS `mariapersist_account_logins`;
 DROP TABLE IF EXISTS `mariapersist_downloads`;
 DROP TABLE IF EXISTS `mariapersist_downloads_hourly`;
 DROP TABLE IF EXISTS `mariapersist_downloads_hourly_by_ip`;

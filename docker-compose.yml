@@ -106,6 +106,38 @@ services:
         soft: 65535
         hard: 65535
 
+  mariapersistreplica:
+    container_name: mariapersistreplica
+    network_mode: "${NETWORK_MODE:-bridge}"
+    deploy:
+      resources:
+        limits:
+          cpus: "${DOCKER_MARIAPERSIST_REPLICA_CPUS:-0}"
+          memory: "${DOCKER_MARIAPERSIST_REPLICA_MEMORY:-0}"
+    environment:
+      MARIADB_USER: "${MARIAPERSIST_USER}"
+      MARIADB_PASSWORD: "${MARIAPERSIST_PASSWORD}"
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+      MARIADB_DATABASE: "${MARIAPERSIST_DATABASE}"
+      MARIADB_INITDB_SKIP_TZINFO: "1" # https://github.com/MariaDB/mariadb-docker/issues/262#issuecomment-672375238
+    image: "mariadb:10.10.2"
+    profiles: ["mariapersistreplica"]
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "3s"
+    command: "--init-file /etc/mysql/conf.d/init.sql"
+    # entrypoint: mysqld_safe --skip-grant-tables --user=mysql
+    volumes:
+      - "../allthethings-mariapersistreplica-data:/var/lib/mysql/"
+      - "./mariapersistreplica-conf:/etc/mysql/conf.d"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+
   # redis:
   #   container_name: redis
   #   network_mode: "${NETWORK_MODE:-bridge}"
