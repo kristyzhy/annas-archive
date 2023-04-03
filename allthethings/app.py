@@ -8,13 +8,14 @@ from werkzeug.security import safe_join
 from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_babel import get_locale, get_translations, force_locale
+from sqlalchemy import select
 
 from allthethings.account.views import account
 from allthethings.blog.views import blog
 from allthethings.page.views import page
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
-from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist, mail
+from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist, mail, LibgenrsUpdated, LibgenliFiles
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -153,16 +154,19 @@ def extensions(app):
             return allthethings.utils.domain_lang_code_to_full_lang_code(potential_locale)
         return 'en'
 
+
     @functools.cache
     def last_data_refresh_date():
         with engine.connect() as conn:
+            libgenrs_statement = select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)
+            libgenli_statement = select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)
             try:
-                libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
-                libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
-                latest_time = max([libgenrs_time, libgenli_time])
-                return latest_time.date()
+                libgenrs_time = conn.execute(libgenrs_statement).scalars().first()
+                libgenli_time = conn.execute(libgenli_statement).scalars().first()
             except:
                 return ''
+            latest_time = max([libgenrs_time, libgenli_time])
+            return latest_time.date()
 
     translations_with_english_fallback = set()
     @app.before_request
