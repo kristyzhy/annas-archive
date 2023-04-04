@@ -27,22 +27,8 @@
           {{ gettext('page.doi.results.text') }}
         </p>
 
-        {% for search_md5_dict in (doi_dict.search_md5_dicts) %}
-          <a href="/md5/{{search_md5_dict.md5}}" class="custom-a flex items-center relative left-[-10] px-[10] py-2 hover:bg-[#00000011]">
-            <div class="flex-none">
-              <div class="relative overflow-hidden w-[72] h-[108] flex flex-col justify-center">
-                <div class="absolute w-[100%] h-[90]" style="background-color: hsl({{ (loop.index0 % 4) * (256//3) + (range(0, 256//3) | random) }}deg 43% 73%)"></div>
-                <img class="relative inline-block" src="{{search_md5_dict.file_unified_data.cover_url_best if 'zlibcdn2' not in search_md5_dict.file_unified_data.cover_url_best}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
-              </div>
-            </div>
-            <div class="relative top-[-1] pl-4 grow overflow-hidden">
-              <div class="truncate text-xs text-gray-500">{{search_md5_dict.additional.most_likely_language_name + ", " if search_md5_dict.additional.most_likely_language_name | length > 0}}{{search_md5_dict.file_unified_data.extension_best}}, {% if search_md5_dict.file_unified_data.filesize_best | default(0, true) < 1000000 %}&lt;1MB{% else %}{{search_md5_dict.file_unified_data.filesize_best | default(0, true) | filesizeformat | replace(' ', '')}}{% endif %}{{', "' + search_md5_dict.file_unified_data.original_filename_best_name_only + '"' if search_md5_dict.file_unified_data.original_filename_best_name_only}}</div>
-              <h3 class="truncate text-xl font-bold">{{search_md5_dict.file_unified_data.title_best}}</h3>
-              <div class="truncate text-sm">{{search_md5_dict.file_unified_data.publisher_best}}{% if search_md5_dict.file_unified_data.publisher_best and search_md5_dict.file_unified_data.edition_varia_best %},  {% endif %}{{search_md5_dict.file_unified_data.edition_varia_best}}</div>
-              <div class="truncate italic">{{search_md5_dict.file_unified_data.author_best}}</div>
-            </div>
-          </a>
-        {% endfor %}
+        {% from 'macros/md5_list.html' import md5_list %}
+        {{ md5_list(doi_dict.search_md5_dicts) }}
       {% else %}
         {{ gettext('page.doi.results.none') }}
       {% endif %}

@@ -1,6 +1,10 @@
 {% extends "layouts/index.html" %}
 
 {% block body %}
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
   <h2 class="mt-4 mb-1 text-3xl font-bold">Log in / Register</h2>
 
   <p class="mt-4 mb-4">

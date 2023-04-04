@@ -20,3 +20,7 @@ CREATE TABLE mariapersist_account_logins (
     PRIMARY KEY (`account_id`, `created`, `ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+ALTER TABLE mariapersist_downloads ADD COLUMN `account_id` CHAR(7) NULL;
+ALTER TABLE mariapersist_downloads ADD CONSTRAINT `mariapersist_downloads_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
+ALTER TABLE mariapersist_account_logins ADD CONSTRAINT `mariapersist_account_logins_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
+ALTER TABLE mariapersist_downloads ADD INDEX `account_id_timestamp` (`account_id`, `timestamp`);

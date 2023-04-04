@@ -11,7 +11,8 @@ from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistAccounts, mail
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads
+from allthethings.page.views import get_md5_dicts_elasticsearch
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -25,11 +26,23 @@ def account_index_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
         return render_template("account/index.html", header_active="account", email=None)
-    else:
-        with mariapersist_engine.connect() as conn:
-            account = conn.execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
-            return render_template("account/index.html", header_active="account", email=account.email_verified)
 
+    with Session(mariapersist_engine) as session:
+        account = session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
+        return render_template("account/index.html", header_active="account", email=account.email_verified)
+
+@account.get("/downloaded")
+def account_downloaded_page():
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return redirect(f"/account/", code=302)
+
+    with Session(mariapersist_engine) as session:
+        downloads = session.connection().execute(select(MariapersistDownloads).where(MariapersistDownloads.account_id == account_id).order_by(MariapersistDownloads.timestamp.desc()).limit(100)).all()
+        md5_dicts_downloaded = []
+        if len(downloads) > 0:
+            md5_dicts_downloaded = get_md5_dicts_elasticsearch(session, [download.md5.hex() for download in downloads])
+        return render_template("account/downloaded.html", header_active="account/downloaded", md5_dicts_downloaded=md5_dicts_downloaded)
 
 @account.get("/access/<string:partial_jwt_token>")
 def account_access_page(partial_jwt_token):

@@ -112,3 +112,5 @@ class MariapersistDownloadsTotalByMd5(ReflectedMariapersist):
     __tablename__ = "mariapersist_downloads_total_by_md5"
 class MariapersistAccounts(ReflectedMariapersist):
     __tablename__ = "mariapersist_accounts"
+class MariapersistDownloads(ReflectedMariapersist):
+    __tablename__ = "mariapersist_downloads"

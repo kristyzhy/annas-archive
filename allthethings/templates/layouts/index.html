@@ -207,24 +207,24 @@
         </script>
         <div class="header-bar">
           <div class="header-links relative z-20">
-            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="header-link-first {{ 'header-link-active' if header_active in ['home', 'about', 'datasets'] }}" style="margin-right: 24px;">
+            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="header-link-first {{ 'header-link-active' if header_active.startswith('home') }}" style="margin-right: 24px;">
               <span class="header-link-normal">
-                {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
-                {% elif header_active == 'datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
+                {% if header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
+                {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
-                {% if header_active == 'about' %}{{ gettext('layout.index.header.nav.about') }}
-                {% elif header_active == 'datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
+                {% if header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
+                {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
             </a>
             <div class="absolute left-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
               <a class="custom-a block py-1 {% if header_active == 'home'     %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
-              <a class="custom-a block py-1 {% if header_active == 'about'    %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
-              <a class="custom-a block py-1 {% if header_active == 'datasets' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'home/about'    %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'home/datasets' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
               <a class="custom-a block py-1 text-[#000000a3] hover:text-black" href="https://annas-blog.org" target="_blank">{{ gettext('layout.index.header.nav.annasblog') }}</a>
               <a class="custom-a block py-1 text-[#000000a3] hover:text-black" href="https://annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.annassoftware') }}</a>
               <a class="custom-a block py-1 text-[#000000a3] hover:text-black" href="https://translate.annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.translate') }}</a>
@@ -235,22 +235,26 @@
           <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
             <input class="rounded" name="q" type="text" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}">
           </form>
-          <!-- <div class="header-links header-links-right relative z-10 ml-auto">
-            <a href="/login" class="header-link-first {{ 'header-link-active' if header_active == 'account' }} [html.aa-logged-in_&]:hidden"><span class="header-link-normal">Log in / Register</span><span class="header-link-bold">Log in / Register</span></a>
-            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active in ['account'] }} [html:not(.aa-logged-in)_&]:hidden" style="margin-right: 8px;">
+          <div class="header-links header-links-right relative z-10 ml-auto items-center">
+            <div class="mr-1 bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">beta</div>
+            <a href="/login" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html.aa-logged-in_&]:hidden"><span class="header-link-normal">Log in / Register</span><span class="header-link-bold">Log in / Register</span></a>
+            <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html:not(.aa-logged-in)_&]:hidden" style="margin-right: 8px;">
               <span class="header-link-normal">
-                Account
+                {% if header_active == 'account/downloaded' %}Downloaded files
+                {% else %}Account{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
-                Account
+                {% if header_active == 'account/downloaded' %}Downloaded files
+                {% else %}Account{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
             </a>
             <div class="absolute right-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-account hidden">
               <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account">Account</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/downloaded' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/downloaded">Downloaded files</a>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>

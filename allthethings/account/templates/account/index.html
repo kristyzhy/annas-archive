@@ -38,19 +38,25 @@
     }
   </script>
 
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
   {% if email %}
     <h2 class="mt-4 mb-1 text-3xl font-bold">Account</h2>
 
     <script>window.globalUpdateAaLoggedIn(1);</script>
-    <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/logout/')">
+    <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/logout/')" class="mb-8">
       <fieldset class="mb-4">
-        <p class="mb-4">You are logged in as {{ email }}.</p>
-        <button type="submit" class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Logout</button>
+        <p class="mb-2">You are logged in as {{ email }}.</p>
+        <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Logout</button>
         <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
       </fieldset>
       <div class="hidden js-success">✅ You are now logged out. Reload the page to log in again.</div>
       <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
     </form>
+
+    <p><a href="/account/downloaded">Downloaded files</a></p>
   {% else %}
     <h2 class="mt-4 mb-1 text-3xl font-bold">Log in / Register</h2>
 
@@ -63,7 +69,7 @@
         <button type="submit" class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Send login email</button>
         <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
       </fieldset>
-      <div class="hidden js-success">✅ Sent! Check your email inbox. If you don’t see anything, wait a minute, and check your spam folder.</div>
+      <div class="hidden js-success">✅ Sent! Check your email inbox. If you don’t see anything, wait a minute, and check your spam folder. If that doesn’t work, contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>.</div>
       <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
     </form>
   {% endif %}

@@ -292,7 +292,7 @@ def login_page():
 
 @page.get("/about")
 def about_page():
-    return render_template("page/about.html", header_active="about")
+    return render_template("page/about.html", header_active="home/about")
 
 
 @page.get("/donate")
@@ -313,7 +313,7 @@ def datasets_page():
 
     return render_template(
         "page/datasets.html",
-        header_active="datasets",
+        header_active="home/datasets",
         libgenrs_date=libgenrs_date,
         libgenli_date=libgenli_date,
         openlib_date=openlib_date,
@@ -321,29 +321,29 @@ def datasets_page():
 
 @page.get("/datasets/libgen_aux")
 def datasets_libgen_aux_page():
-    return render_template("page/datasets_libgen_aux.html", header_active="datasets")
+    return render_template("page/datasets_libgen_aux.html", header_active="home/datasets")
 
 @page.get("/datasets/zlib_scrape")
 def datasets_zlib_scrape_page():
-    return render_template("page/datasets_zlib_scrape.html", header_active="datasets")
+    return render_template("page/datasets_zlib_scrape.html", header_active="home/datasets")
 
 @page.get("/datasets/isbndb_scrape")
 def datasets_isbndb_scrape_page():
-    return render_template("page/datasets_isbndb_scrape.html", header_active="datasets")
+    return render_template("page/datasets_isbndb_scrape.html", header_active="home/datasets")
 
 @page.get("/datasets/libgen_rs")
 def datasets_libgen_rs_page():
     with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
         libgenrs_date = str(libgenrs_time.date())
-    return render_template("page/datasets_libgen_rs.html", header_active="datasets", libgenrs_date=libgenrs_date)
+    return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", libgenrs_date=libgenrs_date)
 
 @page.get("/datasets/libgen_li")
 def datasets_libgen_li_page():
     with engine.connect() as conn:
         libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
         libgenli_date = str(libgenli_time.date())
-    return render_template("page/datasets_libgen_li.html", header_active="datasets", libgenli_date=libgenli_date)
+    return render_template("page/datasets_libgen_li.html", header_active="home/datasets", libgenli_date=libgenli_date)
 
 @page.get("/datasets/openlib")
 def datasets_openlib_page():
@@ -351,11 +351,11 @@ def datasets_openlib_page():
         # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
         openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL11%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
         openlib_date = str(openlib_time.date())
-    return render_template("page/datasets_openlib.html", header_active="datasets", openlib_date=openlib_date)
+    return render_template("page/datasets_openlib.html", header_active="home/datasets", openlib_date=openlib_date)
 
 @page.get("/datasets/isbn_ranges")
 def datasets_isbn_ranges_page():
-    return render_template("page/datasets_isbn_ranges.html", header_active="datasets")
+    return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets")
 
 
 def get_zlib_book_dicts(session, key, values):
@@ -1257,7 +1257,7 @@ def get_md5_dicts_elasticsearch(session, canonical_md5s):
     # return get_md5_dicts_mysql(session, canonical_md5s)
 
     search_results_raw = es.mget(index="md5_dicts", ids=canonical_md5s)
-    return [{'md5': result['_id'], **result['_source']} for result in search_results_raw['docs'] if result['found']]
+    return [add_additional_to_md5_dict({'md5': result['_id'], **result['_source']}) for result in search_results_raw['docs'] if result['found']]
 
 def md5_dict_score_base(md5_dict):
     if len(md5_dict['file_unified_data'].get('problems') or []) > 0:
@@ -1742,7 +1742,7 @@ def md5_page(md5_input):
         if len(md5_dicts) == 0:
             return render_template("page/md5.html", header_active="search", md5_input=md5_input)
 
-        md5_dict = add_additional_to_md5_dict(md5_dicts[0])
+        md5_dict = md5_dicts[0]
         
         return render_template(
             "page/md5.html",
