@@ -60,7 +60,7 @@
   {% else %}
     <h2 class="mt-4 mb-1 text-3xl font-bold">Log in / Register</h2>
 
-    <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/access/')">
+    <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/access/')" class="mb-4">
       <fieldset class="mb-4">
         <p class="mb-4">Enter your email address. If you don’t have an account yet, a new one will be created.</p>
         <p class="mb-4">We will never share or display your email address.</p>
@@ -72,5 +72,11 @@
       <div class="hidden js-success">✅ Sent! Check your email inbox. If you don’t see anything, wait a minute, and check your spam folder. If that doesn’t work, contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>.</div>
       <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
     </form>
+    <p class="mb-4">
+      We are currently having issues delivering to Microsoft accounts: outlook.com, hotmail.com, live.com, msn.com. Please use a different email.
+    </p>
+    <p class="mb-4">
+      If you need a quick email address because your main email doesn’t work, or because you want to stay anonymous, we recommend using <a href="https://proton.me/" rel="noopener noreferrer" target="_blank">Proton Mail</a> (free).
+    </p>
   {% endif %}
 {% endblock %}
