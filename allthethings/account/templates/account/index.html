@@ -48,7 +48,7 @@
     <script>window.globalUpdateAaLoggedIn(1);</script>
     <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/logout/')" class="mb-8">
       <fieldset class="mb-4">
-        <p class="mb-2">You are logged in as {{ email }}.</p>
+        <p class="mb-2">You are logged in as <strong>{{ email }}</strong> (this email address will never be publicly displayed).</p>
         <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Logout</button>
         <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
       </fieldset>
