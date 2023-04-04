@@ -8,35 +8,35 @@ blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blo
 
 @blog.get("/")
 def index():
-    return render_template("index.html")
+    return render_template("blog/index.html")
 
 @blog.get("/how-to-run-a-shadow-library.html")
 def how_to_run_a_shadow_library():
-    return render_template("how-to-run-a-shadow-library.html")
+    return render_template("blog/how-to-run-a-shadow-library.html")
 @blog.get("/it-how-to-run-a-shadow-library.html")
 def it_how_to_run_a_shadow_library():
-    return render_template("it-how-to-run-a-shadow-library.html")
+    return render_template("blog/it-how-to-run-a-shadow-library.html")
 @blog.get("/annas-update-open-source-elasticsearch-covers.html")
 def annas_update_open_source_elasticsearch_covers():
-    return render_template("annas-update-open-source-elasticsearch-covers.html")
+    return render_template("blog/annas-update-open-source-elasticsearch-covers.html")
 @blog.get("/help-seed-zlibrary-on-ipfs.html")
 def help_seed_zlibrary_on_ipfs():
-    return render_template("help-seed-zlibrary-on-ipfs.html")
+    return render_template("blog/help-seed-zlibrary-on-ipfs.html")
 @blog.get("/putting-5,998,794-books-on-ipfs.html")
 def putting_5998794_books_on_ipfs():
-    return render_template("putting-5,998,794-books-on-ipfs.html")
+    return render_template("blog/putting-5,998,794-books-on-ipfs.html")
 @blog.get("/blog-isbndb-dump-how-many-books-are-preserved-forever.html")
 def blog_isbndb_dump_how_many_books_are_preserved_forever():
-    return render_template("blog-isbndb-dump-how-many-books-are-preserved-forever.html")
+    return render_template("blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html")
 @blog.get("/blog-how-to-become-a-pirate-archivist.html")
 def blog_how_to_become_a_pirate_archivist():
-    return render_template("blog-how-to-become-a-pirate-archivist.html")
+    return render_template("blog/blog-how-to-become-a-pirate-archivist.html")
 @blog.get("/blog-3x-new-books.html")
 def blog_3x_new_books():
-    return render_template("blog-3x-new-books.html")
+    return render_template("blog/blog-3x-new-books.html")
 @blog.get("/blog-introducing.html")
 def blog_introducing():
-    return render_template("blog-introducing.html")
+    return render_template("blog/blog-introducing.html")
 
 @blog.get("/rss.xml")
 def rss_xml():

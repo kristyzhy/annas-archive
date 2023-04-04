@@ -24,11 +24,11 @@ account = Blueprint("account", __name__, template_folder="templates", url_prefix
 def account_index_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
-        return render_template("index.html", header_active="account", email=None)
+        return render_template("account/index.html", header_active="account", email=None)
     else:
         with mariapersist_engine.connect() as conn:
             account = conn.execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
-            return render_template("index.html", header_active="account", email=account.email_verified)
+            return render_template("account/index.html", header_active="account", email=account.email_verified)
 
 
 @account.get("/access/<string:partial_jwt_token>")
