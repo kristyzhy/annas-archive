@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>{% if self.title() %}{% block title %}{% endblock %} - {% endif %}{{ gettext('layout.index.title') }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     {% if self.meta_tags() %}
       {% block meta_tags %}{% endblock %}
     {% else %}
