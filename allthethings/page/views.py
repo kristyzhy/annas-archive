@@ -299,6 +299,10 @@ def about_page():
 def donate_page():
     return render_template("page/donate.html", header_active="donate")
 
+@page.get("/mobile")
+def mobile_page():
+    return render_template("page/mobile.html", header_active="home/mobile")
+
 
 @page.get("/datasets")
 def datasets_page():

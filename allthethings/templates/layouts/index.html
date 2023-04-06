@@ -212,12 +212,14 @@
               <span class="header-link-normal">
                 {% if header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
                 {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
+                {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
                 {% if header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
                 {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
+                {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
@@ -226,6 +228,7 @@
               <a class="custom-a block py-1 {% if header_active == 'home'     %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
               <a class="custom-a block py-1 {% if header_active == 'home/about'    %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
               <a class="custom-a block py-1 {% if header_active == 'home/datasets' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'home/mobile' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/mobile">{{ gettext('layout.index.header.nav.mobile') }}</a>
               <a class="custom-a block py-1 text-[#000000a3] hover:text-black" href="https://annas-blog.org" target="_blank">{{ gettext('layout.index.header.nav.annasblog') }}</a>
               <a class="custom-a block py-1 text-[#000000a3] hover:text-black" href="https://annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.annassoftware') }}</a>
               <a class="custom-a block py-1 text-[#000000a3] hover:text-black" href="https://translate.annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.translate') }}</a>
@@ -268,6 +271,7 @@
           <a class="custom-a hover:text-[#333]" href="/about">{{ gettext('layout.index.footer.list1.about') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.footer.list1.donate') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.footer.list1.datasets') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="/mobile">{{ gettext('layout.index.footer.list1.mobile') }}</a><br>
           <select class="p-1 rounded text-gray-500 mt-1" onchange="handleChangeLang(event)">
             {% for lang_code, lang_name in g.languages %}
               {% if g.domain_lang_code == lang_code %}
@@ -281,7 +285,7 @@
         </div>
         <div class="mr-4 mb-4" style="flex-grow: 1">
           <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
-          <a class="custom-a hover:text-[#333]" href="https://twitter.com/AnnaArchivist">{{ gettext('layout.index.footer.list2.twitter') }}</a> / <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/user/AnnaArchivist">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.subreddit') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="https://twitter.com/AnnaArchivist">{{ gettext('layout.index.footer.list2.twitter') }}</a> / <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://t.me/annasarchiveorg">{{ gettext('layout.index.footer.list2.telegram') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="https://annas-blog.org">{{ gettext('layout.index.footer.list2.blog') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.footer.list2.software') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="https://translate.annas-software.org">{{ gettext('layout.index.footer.list2.translate') }}</a><br>
