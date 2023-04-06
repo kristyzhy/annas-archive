@@ -43,9 +43,12 @@
   <body>
     <div class="header" role="navigation">
       <div class="bg-[#0195ff] hidden js-top-banner">
-        <div class="max-w-[850px] mx-auto px-4 py-2 text-[#fff] flex">
+        <!-- <div>
+          {{ gettext('layout.index.header.banner.new_donation_method', method_name=('<strong>Paypal</strong>' | safe), donate_link_open_tag=('<a href="/donate" class="custom-a text-[#fff] hover:text-[#ddd] underline">' | safe)) }}
+        </div> -->
+        <div class="max-w-[850px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
           <div>
-            {{ gettext('layout.index.header.banner.new_donation_method', method_name=('<strong>Paypal</strong>' | safe), donate_link_open_tag=('<a href="/donate" class="custom-a text-[#fff] hover:text-[#ddd] underline">' | safe)) }}
+            We now have a <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://t.me/annasarchiveorg">Telegram</a> channel. Join us and discuss the future of Anna’s Archive.<br/>You can still also follow us on <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://twitter.com/AnnaArchivist">Twitter</a> and <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://www.reddit.com/r/Annas_Archive">Reddit</a>.
           </div>
           <div>
             <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
@@ -54,8 +57,7 @@
       </div>
       <script>
         (function() {
-          /*
-          var latestTopBannerType = '1';
+          var latestTopBannerType = '2';
           var topBannerMatch = document.cookie.match(/top_banner_hidden=([^$ ;}]+)/);
           var topBannerType = '';
           if (topBannerMatch) {
@@ -72,7 +74,6 @@
               return false;
             });
           }
-          */
         })();
       </script>
       <div class="header-inner">
