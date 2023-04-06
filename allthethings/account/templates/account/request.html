@@ -1,0 +1,24 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Request books{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+  
+  <h2 class="mt-4 mb-4 text-3xl font-bold">Request books</h2>
+
+  <p class="">
+    For now, can you please requests eBooks on the <a href="https://forum.mhut.org">Libgen.rs forum</a>? You can create an account there and post in one of these threads:
+  </p>
+
+  <ul class="list-inside">
+    <li class="list-disc">For eBooks, use <a href="https://forum.mhut.org/viewtopic.php?f=17&t=6399">this thread</a>.</li>
+    <li class="list-disc">For books that are not available as eBooks, use <a href="https://forum.mhut.org/viewtopic.php?f=10&t=7588">this thread</a>.</li>
+  </ul>
+
+  <p class="mb-4">
+    In both cases, be sure to follow the rules mentioned in the threads.
+  </p>
+{% endblock %}

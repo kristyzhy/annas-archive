@@ -94,3 +94,12 @@ def account_access_page(partial_jwt_token):
             domain=g.base_domain,
         )
         return resp
+
+@account.get("/request")
+def request_page():
+    return render_template("account/request.html", header_active="account/request")
+
+@account.get("/upload")
+def upload_page():
+    return render_template("account/upload.html", header_active="account/upload")
+

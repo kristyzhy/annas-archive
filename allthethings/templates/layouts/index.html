@@ -245,11 +245,15 @@
             <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html:not(.aa-logged-in)_&]:hidden" style="margin-right: 8px;">
               <span class="header-link-normal">
                 {% if header_active == 'account/downloaded' %}Downloaded files
+                {% elif header_active == 'account/request' %}Request books
+                {% elif header_active == 'account/upload' %}Upload
                 {% else %}Account{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
                 {% if header_active == 'account/downloaded' %}Downloaded files
+                {% elif header_active == 'account/request' %}Request books
+                {% elif header_active == 'account/upload' %}Upload
                 {% else %}Account{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
@@ -257,6 +261,8 @@
             <div class="absolute right-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-account hidden">
               <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account">Account</a>
               <a class="custom-a block py-1 {% if header_active == 'account/downloaded' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/downloaded">Downloaded files</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/request">Request books</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/upload">Upload</a>
             </div>
           </div>
         </div>
