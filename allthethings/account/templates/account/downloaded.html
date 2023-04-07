@@ -6,13 +6,15 @@
   {% if gettext('common.english_only') | trim %}
     <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
   {% endif %}
-  
-  <h2 class="mt-4 mb-4 text-3xl font-bold">Downloaded files</h2>
 
-  {% if md5_dicts_downloaded | length == 0 %}
-    <p>No files downloaded yet.</p>
-  {% else %}
-    {% from 'macros/md5_list.html' import md5_list %}
-    {{ md5_list(md5_dicts_downloaded) }}
-  {% endif %}
+  <div lang="en">
+    <h2 class="mt-4 mb-4 text-3xl font-bold">Downloaded files</h2>
+
+    {% if md5_dicts_downloaded | length == 0 %}
+      <p>No files downloaded yet.</p>
+    {% else %}
+      {% from 'macros/md5_list.html' import md5_list %}
+      {{ md5_list(md5_dicts_downloaded) }}
+    {% endif %}
+  </div>
 {% endblock %}

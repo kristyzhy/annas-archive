@@ -79,45 +79,47 @@
     <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
   {% endif %}
 
-  {% if email %}
-    <h2 class="mt-4 mb-4 text-3xl font-bold">Account</h2>
+  <div lang="en">
+    {% if email %}
+      <h2 class="mt-4 mb-4 text-3xl font-bold">Account</h2>
 
-    <script>window.globalUpdateAaLoggedIn(1);</script>
-    <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/logout/')" class="mb-8">
-      <fieldset class="mb-4">
-        <p class="mb-2">You are logged in as <strong>{{ email }}</strong> (this email address will never be publicly displayed).</p>
-        <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Logout</button>
-        <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-      </fieldset>
-      <div class="hidden js-success">✅ You are now logged out. Reload the page to log in again.</div>
-      <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
-    </form>
-
-    <p><a href="/account/downloaded">Downloaded files</a></p>
-    <p><a href="/account/request">Request books</a></p>
-    <p><a href="/account/upload">Upload</a></p>
-  {% else %}
-    <h2 class="mt-4 mb-4 text-3xl font-bold">Log in / Register</h2>
-
-    <form autocomplete="on" onsubmit="if (accountValidateEmail(event)) {accountOnSubmit(event, '/dyn/account/access/'); document.querySelector('.js-account-sent-email').innerText = document.getElementById('email').value }" class="mb-4">
-      <fieldset class="mb-4">
-        <p class="mb-4">Enter your email address. If you don’t have an account yet, a new one will be created.</p>
-        <p class="mb-4">We will never share or display your email address.</p>
-        <input type="email" id="email" name="email" required placeholder="anna@example.org" class="js-account-email w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-4" />
-        <div class="js-account-email-validation-error-msg hidden mb-4 text-red-500"></div>
-        <div class="mb-4">
-          <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Send login email</button>
+      <script>window.globalUpdateAaLoggedIn(1);</script>
+      <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/logout/')" class="mb-8">
+        <fieldset class="mb-4">
+          <p class="mb-2">You are logged in as <strong>{{ email }}</strong> (this email address will never be publicly displayed).</p>
+          <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Logout</button>
           <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-        </div>
-        <p class="mb-4">
-          We are currently having issues delivering to Microsoft accounts: outlook.com, hotmail.com, live.com, msn.com. Please use a different email.
-        </p>
-        <p class="mb-4">
-          If you need a quick email address because your main email doesn’t work, we recommend using <a href="https://proton.me/" rel="noopener noreferrer" target="_blank">Proton Mail</a> (free).
-        </p>
-      </fieldset>
-      <div class="hidden js-success">✅ Sent to <strong class="js-account-sent-email"></strong>! Check your email inbox. If you don’t see anything, wait a minute, and check your spam folder. If that doesn’t work, contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>.</div>
-      <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
-    </form>
-  {% endif %}
+        </fieldset>
+        <div class="hidden js-success">✅ You are now logged out. Reload the page to log in again.</div>
+        <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
+      </form>
+
+      <p><a href="/account/downloaded">Downloaded files</a></p>
+      <p><a href="/account/request">Request books</a></p>
+      <p><a href="/account/upload">Upload</a></p>
+    {% else %}
+      <h2 class="mt-4 mb-4 text-3xl font-bold">Log in / Register</h2>
+
+      <form autocomplete="on" onsubmit="if (accountValidateEmail(event)) {accountOnSubmit(event, '/dyn/account/access/'); document.querySelector('.js-account-sent-email').innerText = document.getElementById('email').value }" class="mb-4">
+        <fieldset class="mb-4">
+          <p class="mb-4">Enter your email address. If you don’t have an account yet, a new one will be created.</p>
+          <p class="mb-4">We will never share or display your email address.</p>
+          <input type="email" id="email" name="email" required placeholder="anna@example.org" class="js-account-email w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-4" />
+          <div class="js-account-email-validation-error-msg hidden mb-4 text-red-500"></div>
+          <div class="mb-4">
+            <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Send login email</button>
+            <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+          </div>
+          <p class="mb-4">
+            We are currently having issues delivering to Microsoft accounts: outlook.com, hotmail.com, live.com, msn.com. Please use a different email.
+          </p>
+          <p class="mb-4">
+            If you need a quick email address because your main email doesn’t work, we recommend using <a href="https://proton.me/" rel="noopener noreferrer" target="_blank">Proton Mail</a> (free).
+          </p>
+        </fieldset>
+        <div class="hidden js-success">✅ Sent to <strong class="js-account-sent-email"></strong>! Check your email inbox. If you don’t see anything, wait a minute, and check your spam folder. If that doesn’t work, contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>.</div>
+        <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
+      </form>
+    {% endif %}
+  </div>
 {% endblock %}
