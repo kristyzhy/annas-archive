@@ -133,26 +133,28 @@
                 }
               }
 
-              {
-                const cookieLangMatch = document.cookie.match(/selected_lang=([^$ ;}]+)/);
-                // If there's no cookie yet, let's try to set one.
-                if (!cookieLangMatch) {
-                  // See if the user's browser language is one that we support directly.
-                  for (const langCode of navigator.languages) {
-                    let domainLangCode = langCode;
-                    if (langCode.toLowerCase().includes("-hant") || langCode.toLowerCase().includes("-tw")) {
-                      domainLangCode = "tw";
-                    }
+              // Browser-based language detection is too unreliable.
+              // Disable for now.
+              // {
+              //   const cookieLangMatch = document.cookie.match(/selected_lang=([^$ ;}]+)/);
+              //   // If there's no cookie yet, let's try to set one.
+              //   if (!cookieLangMatch) {
+              //     // See if the user's browser language is one that we support directly.
+              //     for (const langCode of navigator.languages) {
+              //       let domainLangCode = langCode;
+              //       if (langCode.toLowerCase().includes("-hant") || langCode.toLowerCase().includes("-tw")) {
+              //         domainLangCode = "tw";
+              //       }
 
-                    // Take the first language that we support.
-                    if (langCodes.includes(domainLangCode)) {
-                      setLangCookie(domainLangCode);
-                      // Bail out so we don't redirect to a suboptimal language.
-                      break;
-                    }
-                  }
-                }
-              }
+              //       // Take the first language that we support.
+              //       if (langCodes.includes(domainLangCode)) {
+              //         setLangCookie(domainLangCode);
+              //         // Bail out so we don't redirect to a suboptimal language.
+              //         break;
+              //       }
+              //     }
+              //   }
+              // }
 
               {
                 const cookieLangMatch = document.cookie.match(/selected_lang=([^$ ;}]+)/);
