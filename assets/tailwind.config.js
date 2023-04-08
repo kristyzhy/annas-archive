@@ -7,7 +7,6 @@ module.exports = {
     '/app/allthethings/**/*.html'
   ],
   plugins: [
-    require('@tailwindcss/line-clamp'),
     addDynamicIconSelectors(),
   ],
 }

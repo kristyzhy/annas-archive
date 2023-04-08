@@ -17,152 +17,164 @@
       {{ gettext('page.md5.invalid.text', md5_input=md5_input) }}
     </p>
   {% else %}
-    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
+    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
       <img class="float-right max-w-[25%] ml-4" src="{{md5_dict.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
-      <div class="text-xs text-gray-500">{{md5_dict.additional.top_box.top_row}}</div>
-      <div class="text-xl font-bold">{{md5_dict.additional.top_box.title}}</div>
-      <div class="text-sm">{{md5_dict.additional.top_box.publisher_and_edition}}</div>
+      <div class="text-sm text-gray-500">{{md5_dict.additional.top_box.top_row}}</div>
+      <div class="text-3xl font-bold">{{md5_dict.additional.top_box.title}}</div>
+      <div class="text-md">{{md5_dict.additional.top_box.publisher_and_edition}}</div>
       <div class="italic">{{md5_dict.additional.top_box.author}}</div>
       <div class="mt-4 line-clamp-[6]">{% if md5_dict.additional.top_box.description %}“{{md5_dict.additional.top_box.description | escape | replace('\n', '<br>' | safe)}}”{% endif %}</div>
+    </div>
 
+    <div class="flex flex-wrap mb-3" role="tablist" aria-label="file tabs">
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="true" id="md5-tab-download" aria-controls="md5-panel-download" tabindex="-1">Download</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="false" id="md5-tab-quality" aria-controls="md5-panel-quality" tabindex="0">File quality</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
+    </div>
+
+    <div id="md5-panel-download" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-download">
       {% if (md5_dict.additional.download_urls | length) > 0 %}
         {% if (md5_dict.file_unified_data.problems | length) > 0 %}
-          <div class="mt-4">{{ gettext('page.md5.box.issues.text1') }}</div>
-          <ul class="list-inside">
+          <div>{{ gettext('page.md5.box.issues.text1') }}</div>
+          <ul class="list-inside mb-4">
             {% for problem in md5_dict.file_unified_data.problems %}
             <li>- {{ md5_problem_type_mapping[problem.type] }}{% if problem.descr %} ("{{problem.descr}}"){% endif %}</li>
             {% endfor %}
           </ul>
 
-          <div class="mt-4">{{ gettext('page.md5.box.issues.text2') }}</div>
-        {% else %}
-          <div class="mt-4 font-bold">{{ gettext('page.md5.box.download.text', extension=(md5_dict.file_unified_data.extension_best | lower)) }}</div>
+          <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
         {% endif %}
       
-        <ul>
+        <ul class="mb-4">
           {% for label, url, extra in md5_dict.additional.download_urls %}
             <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" target="_blank" class="js-download-link">' + label + '</a>') | safe), extra=extra) }}</li>
           {% endfor %}
         </ul>
         {% if (md5_dict.file_unified_data.problems | length) == 0 %}
-          <div class="mt-4">{{ gettext('page.md5.box.download.no_issues_download_options_explanation') }}</div>
+          <div class="mb-4">{{ gettext('page.md5.box.download.no_issues_download_options_explanation') }}</div>
 
-          <div class="mt-4">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
+          <div class="mb-4">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
         {% endif %}
 
-        <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow mt-4" onclick="document.querySelector('.js-report-file-problems').classList.remove('hidden')">Report file problems</button>
+        <script>
+          (function() {
+            const md5 = {{ md5_input | tojson }};
+            for (const el of document.querySelectorAll(".js-download-link")) {
+              // Increase counter when clicked.
+              el.addEventListener("click", function() {
+                try {
+                  if (window.localStorage['md5_download_counted_' + md5] === "1") {
+                    return;
+                  }
+                  window.localStorage['md5_download_counted_' + md5] = "1";
+                } catch(e) {
+                  console.error("Error with localStorage: ", e);
+                }
+                navigator.sendBeacon("/dyn/downloads/increment/" + md5);
+              });
 
-        <div class="js-report-file-problems hidden mt-4">
-          <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to report a problem with this file.</div>
-
-          <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ md5_input | tojson }})'>
-            <fieldset>
-              <p class="mb-2">
-                What is wrong with this file?
-              </p>
-              <select name="type" class="bg-[#00000011] px-2 py-1 rounded" oninput="for (el of document.querySelectorAll('.js-report-file-problems-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-problems-submenu-' + this.value).classList.remove('hidden')">
-                <option></option>
-                <option value="metadata">Incorrect metadata (e.g. title, description, cover image)</option>
-                <option value="download">Downloading problems (e.g. can’t connect, error message, very slow)</option>
-                <option value="broken">File can’t be opened (e.g. corrupted file, DRM)</option>
-                <option value="pages">Poor quality (e.g. formatting issues, poor scan quality, missing pages)</option>
-                <option value="spam">Spam / file should be removed (e.g. advertising, abusive content)</option>
-                <option value="copyright">Copyright claim</option>
-                <option value="other">Other</option>
-              </select>
-
-              <div class="hidden mt-4 js-report-file-problems-submenu js-report-file-problems-submenu-copyright">
-                <p class="">
-                  Please use the <a href="/copyright">DMCA / Copyright claim form</a>.
-                </p>
-              </div>
-
-              <div class="hidden mt-4 js-report-file-problems-submenu js-report-file-problems-submenu-metadata">
-                <p class="mb-4">
-                  Please report metadata errors at the source library. If there are multiple source libraries, know that we pull metadata from top to bottom, so the first one might be sufficient.
-                </p>
-
-                {% if md5_dict.lgrsnf_book %}
-                  - <strong>Libgen.rs Non-Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
-                  <a href="http://library.lol/main/{{md5_dict['lgrsnf_book']['md5'].lower()}}" target="_blank">http://library.lol/main/{{md5_dict['lgrsnf_book']['md5'].lower()}}</a><br>
-                {% endif %}
-                {% if md5_dict.lgrsfic_book %}
-                  - <strong>Libgen.rs Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
-                  <a href="http://library.lol/fiction/{{md5_dict['lgrsfic_book']['md5'].lower()}}" target="_blank">http://library.lol/fiction/{{md5_dict['lgrsfic_book']['md5'].lower()}}</a><br>
-                {% endif %}
-                {% if md5_dict.lgli_file %}
-                  - <strong>Libgen.li:</strong> Go to <a href="https://libgen.li/file.php?md5={{md5_dict['lgli_file']['md5'].lower()}}" target="_blank">this page</a> and click “Report an error”. Alternatively, create a new post in <a href="https://libgen.li/community/viewforum.php?f=2" target="_blank">this forum thread</a>.<br>
-                {% endif %}
-                {% if md5_dict.lgli_file %}
-                  - <strong>Z-Library:</strong> Go to <a href="https://libgen.li/file.php?md5=http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{{md5_dict['zlib_book']['md5_reported'].lower()}}" target="_blank">this page</a> (requires TOR browser), and click on “Something wrong?” => “Suggest correction”.<br>
-                {% endif %}
-              </div>
-
-              <div class="hidden mt-4 js-report-file-problems-submenu js-report-file-problems-submenu-download js-report-file-problems-submenu-broken js-report-file-problems-submenu-pages js-report-file-problems-submenu-spam js-report-file-problems-submenu-other">
-                <p class="mb-1">
-                  Describe the issue (required)
-                </p>
-                <textarea required name="description" class="grow bg-white px-2 py-1 mb-4 rounded w-[100%] h-[120px]" placeholder="Issue description"></textarea>
-                <p class="mb-2">
-                  MD5 of the closest good version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension), which people should use instead of this file.
-                </p>
-                <p class="mb-2">
-                  If you can only find a file with a different file extension (but which matches otherwise), then that is okay, please use that.
-                </p>
-                <p class="mb-1">
-                  You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ md5_input }}</strong>
-                </p>
-                <input type="text" name="better_md5" class="grow bg-white px-2 py-1 mb-4 rounded w-[100%]" placeholder="{{ md5_input }}" minlength="32" maxlength="32" />
-                <p class="mb-4">
-                  If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
-                </p>
-                <div class="">
-                  <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Submit report</button>
-                  <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-                </div>
-              </div>
-            </fieldset>
-            <div class="hidden js-success">✅ Thank you for submitting your report. We will review it as soon as possible.</div>
-            <div class="hidden js-failure mt-4">❌ Something went wrong. Please reload the page and try again.</div>
-          </form>
-        </div>
+              // Prime IPFS caches.
+              if (el.href.includes('/ipfs/')) {
+                fetch(el.href, { method: "HEAD", mode: "no-cors", referrerPolicy: "no-referrer", credentials: "omit" });
+              }
+            }
+          })();
+        </script>
+      {% else %}
+        <p>No downloads found.</p>
+      {% endif %}
+    </div>
+    <div id="md5-panel-quality" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-quality" hidden>
+      {% if gettext('common.english_only') | trim %}
+        <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
       {% endif %}
 
-      <script>
-        (function() {
-          const md5 = {{ md5_input | tojson }};
-          for (const el of document.querySelectorAll(".js-download-link")) {
-            // Increase counter when clicked.
-            el.addEventListener("click", function() {
-              try {
-                if (window.localStorage['md5_download_counted_' + md5] === "1") {
-                  return;
-                }
-                window.localStorage['md5_download_counted_' + md5] = "1";
-              } catch(e) {
-                console.error("Error with localStorage: ", e);
-              }
-              navigator.sendBeacon("/dyn/downloads/increment/" + md5);
-            });
+      <p class="mb-4">If there are issues with the file quality, click the button below to report it.</p>
 
-            // Prime IPFS caches.
-            if (el.href.includes('/ipfs/')) {
-              fetch(el.href, { method: "HEAD", mode: "no-cors", referrerPolicy: "no-referrer", credentials: "omit" });
-            }
-          }
-        })();
-      </script>
+      <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow mb-4" onclick="document.querySelector('.js-report-file-problems').classList.remove('hidden')">Report file problems</button>
+
+      <div class="js-report-file-problems hidden mb-4">
+        <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to report a problem with this file.</div>
+
+        <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ md5_input | tojson }})'>
+          <fieldset>
+            <p class="mb-2">
+              What is wrong with this file?
+            </p>
+            <select name="type" class="bg-[#00000011] px-2 py-1 rounded mb-4" oninput="for (el of document.querySelectorAll('.js-report-file-problems-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-problems-submenu-' + this.value).classList.remove('hidden')">
+              <option></option>
+              <option value="metadata">Incorrect metadata (e.g. title, description, cover image)</option>
+              <option value="download">Downloading problems (e.g. can’t connect, error message, very slow)</option>
+              <option value="broken">File can’t be opened (e.g. corrupted file, DRM)</option>
+              <option value="pages">Poor quality (e.g. formatting issues, poor scan quality, missing pages)</option>
+              <option value="spam">Spam / file should be removed (e.g. advertising, abusive content)</option>
+              <option value="copyright">Copyright claim</option>
+              <option value="other">Other</option>
+            </select>
+
+            <div class="hidden mb-4 js-report-file-problems-submenu js-report-file-problems-submenu-copyright">
+              <p class="">
+                Please use the <a href="/copyright">DMCA / Copyright claim form</a>.
+              </p>
+            </div>
+
+            <div class="hidden mb-4 js-report-file-problems-submenu js-report-file-problems-submenu-metadata">
+              <p class="mb-4">
+                Please report metadata errors at the source library. If there are multiple source libraries, know that we pull metadata from top to bottom, so the first one might be sufficient.
+              </p>
+
+              {% if md5_dict.lgrsnf_book %}
+                - <strong>Libgen.rs Non-Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
+                <a href="http://library.lol/main/{{md5_dict['lgrsnf_book']['md5'].lower()}}" target="_blank">http://library.lol/main/{{md5_dict['lgrsnf_book']['md5'].lower()}}</a><br>
+              {% endif %}
+              {% if md5_dict.lgrsfic_book %}
+                - <strong>Libgen.rs Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
+                <a href="http://library.lol/fiction/{{md5_dict['lgrsfic_book']['md5'].lower()}}" target="_blank">http://library.lol/fiction/{{md5_dict['lgrsfic_book']['md5'].lower()}}</a><br>
+              {% endif %}
+              {% if md5_dict.lgli_file %}
+                - <strong>Libgen.li:</strong> Go to <a href="https://libgen.li/file.php?md5={{md5_dict['lgli_file']['md5'].lower()}}" target="_blank">this page</a> and click “Report an error”. Alternatively, create a new post in <a href="https://libgen.li/community/viewforum.php?f=2" target="_blank">this forum thread</a>.<br>
+              {% endif %}
+              {% if md5_dict.lgli_file %}
+                - <strong>Z-Library:</strong> Go to <a href="https://libgen.li/file.php?md5=http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{{md5_dict['zlib_book']['md5_reported'].lower()}}" target="_blank">this page</a> (requires TOR browser), and click on “Something wrong?” => “Suggest correction”.<br>
+              {% endif %}
+            </div>
+
+            <div class="hidden mb-4 js-report-file-problems-submenu js-report-file-problems-submenu-download js-report-file-problems-submenu-broken js-report-file-problems-submenu-pages js-report-file-problems-submenu-spam js-report-file-problems-submenu-other">
+              <p class="mb-1">
+                Describe the issue (required)
+              </p>
+              <textarea required name="description" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%] h-[120px]" placeholder="Issue description"></textarea>
+              <p class="mb-2">
+                MD5 of the closest good version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension), which people should use instead of this file.
+              </p>
+              <p class="mb-2">
+                If you can only find a file with a different file extension (but which matches otherwise), then that is okay, please use that.
+              </p>
+              <p class="mb-1">
+                You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ md5_input }}</strong>
+              </p>
+              <input type="text" name="better_md5" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%]" placeholder="{{ md5_input }}" minlength="32" maxlength="32" />
+              <p class="mb-4">
+                If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
+              </p>
+              <div class="">
+                <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Submit report</button>
+                <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+              </div>
+            </div>
+          </fieldset>
+          <div class="hidden js-success">✅ Thank you for submitting your report. We will review it as soon as possible.</div>
+          <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
+        </form>
+      </div>
     </div>
-
-    <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow mb-4 mt-8" onclick="document.querySelector('.js-technical-details').classList.remove('hidden'); this.classList.add('hidden')">{{ gettext('common.tech_details') }}</button>
-
-    <div class="js-technical-details hidden" itemscope="" itemtype="https://schema.org/Book">
+    <div id="md5-panel-details" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-details" hidden itemscope="" itemtype="https://schema.org/Book">
       {% if gettext('common.english_only') | trim %}
         <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
       {% endif %}
 
       <div lang="en">
-        <h2 class="mt-12 mb-1 text-3xl font-bold">Unified file information</h2>
+        <h2 class="mb-1 text-2xl font-bold">Unified file information</h2>
 
         <p class="mb-4">
           A "file MD5" is a hash that gets computed from the file contents, and is reasonably unique based on that content. All shadow libraries that we have indexed on here primarily use MD5s to identify files.
@@ -410,7 +422,7 @@
           {% endfor %}
         </div>
 
-        <h2 class="mt-12 mb-1 text-3xl font-bold">Shadow libraries</h2>
+        <h2 class="mt-12 mb-1 text-2xl font-bold">Shadow libraries</h2>
 
         <p class="mb-4">
           If a file appears in multiple shadow libraries, it's often the case that it was uploaded to Libgen.rs first, and then taken over by Library Genesis ".gs" Fork and/or Z-Library. But it can also mean that the file was independently uploaded. The metadata might differ for the different libraries, even when one library initially just copied the metadata from another one, since contributors of the different libraries can subsequently change the metadata independently.
@@ -439,7 +451,7 @@
           </div>
         </div>
 
-        <h2 class="mt-12 mb-1 text-3xl font-bold">Individual file downloads</h2>
+        <h2 class="mt-12 mb-1 text-2xl font-bold">Individual file downloads</h2>
 
         <p class="mb-4">
           Depending on the libraries that this file is in, it may be downloaded from various sources. Most Libgen.rs files are hosted on IPFS, which make them accessible through IPFS proxies. Library Genesis ".gs" and Z-Library have files that they host exclusively.
@@ -482,7 +494,7 @@
           </div>
         </div>
 
-        <h2 class="mt-12 mb-1 text-3xl font-bold">Torrent downloads</h2>
+        <h2 class="mt-12 mb-1 text-2xl font-bold">Torrent downloads</h2>
 
         <p class="mb-4">
           For some files, they are available as bulk download. This is generally available for the Libgen.rs collection, books in the Libgen.li collection (but not comics, magazines, etc), and books in the Z-Library collection.
@@ -614,7 +626,7 @@
           {% endif %}
         </div>
 
-        <h2 class="mt-12 mb-1 text-3xl font-bold">Raw JSON</h2>
+        <h2 class="mt-12 mb-1 text-2xl font-bold">Raw JSON</h2>
 
         <p class="mb-4">
           This is the raw JSON used to render this page.
@@ -622,6 +634,7 @@
 
         <div class="text-xs p-4 font-mono break-words bg-[#0000000d]">{{ md5_dict_json | escape | replace('\n', '<br>' | safe) | replace('  ', '&nbsp;&nbsp;' | safe) }}</div>
       </div>
+
     </div>
   {% endif %}
 {% endblock %}
