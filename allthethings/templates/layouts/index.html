@@ -125,13 +125,14 @@
                 redirectLang(langCode);
               };
 
-              {
-                // If our referrer was (likely) a different domain of our website (with the same lang code),
-                // then behave as if that lang code was set as a cookie all along.
-                if (document.referrer.includes("://" + subDomainLangCode + ".")) {
-                  setLangCookie(subDomainLangCode);
-                }
-              }
+              // Let's also (for now) not set a cookie when getting referred.
+              // {
+              //   // If our referrer was (likely) a different domain of our website (with the same lang code),
+              //   // then behave as if that lang code was set as a cookie all along.
+              //   if (document.referrer.includes("://" + subDomainLangCode + ".")) {
+              //     setLangCookie(subDomainLangCode);
+              //   }
+              // }
 
               // Browser-based language detection is too unreliable.
               // Disable for now.
