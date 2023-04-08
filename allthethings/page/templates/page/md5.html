@@ -50,35 +50,109 @@
           <div class="mt-4">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
         {% endif %}
 
-        <div class="mt-4">{{ gettext('page.md5.box.download.no_hosting', about_link=('<a href="/about">' | safe)) }}</div>
+        <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow mt-4" onclick="document.querySelector('.js-report-file-problems').classList.remove('hidden')">Report file problems</button>
+
+        <div class="js-report-file-problems hidden mt-4">
+          <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to report a problem with this file.</div>
+
+          <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ md5_input | tojson }})'>
+            <fieldset>
+              <p class="mb-2">
+                What is wrong with this file?
+              </p>
+              <select name="type" class="bg-[#00000011] px-2 py-1 rounded" oninput="for (el of document.querySelectorAll('.js-report-file-problems-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-problems-submenu-' + this.value).classList.remove('hidden')">
+                <option></option>
+                <option value="metadata">Incorrect metadata (e.g. title, description, cover image)</option>
+                <option value="download">Downloading problems (e.g. can’t connect, error message, very slow)</option>
+                <option value="broken">File can’t be opened (e.g. corrupted file, DRM)</option>
+                <option value="pages">Poor quality (e.g. formatting issues, poor scan quality, missing pages)</option>
+                <option value="spam">Spam / file should be removed (e.g. advertising, abusive content)</option>
+                <option value="copyright">Copyright claim</option>
+                <option value="other">Other</option>
+              </select>
+
+              <div class="hidden mt-4 js-report-file-problems-submenu js-report-file-problems-submenu-copyright">
+                <p class="">
+                  Please use the <a href="/copyright">DMCA / Copyright claim form</a>.
+                </p>
+              </div>
+
+              <div class="hidden mt-4 js-report-file-problems-submenu js-report-file-problems-submenu-metadata">
+                <p class="mb-4">
+                  Please report metadata errors at the source library. If there are multiple source libraries, know that we pull metadata from top to bottom, so the first one might be sufficient.
+                </p>
+
+                {% if md5_dict.lgrsnf_book %}
+                  - <strong>Libgen.rs Non-Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
+                  <a href="http://library.lol/main/{{md5_dict['lgrsnf_book']['md5'].lower()}}" target="_blank">http://library.lol/main/{{md5_dict['lgrsnf_book']['md5'].lower()}}</a><br>
+                {% endif %}
+                {% if md5_dict.lgrsfic_book %}
+                  - <strong>Libgen.rs Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
+                  <a href="http://library.lol/fiction/{{md5_dict['lgrsfic_book']['md5'].lower()}}" target="_blank">http://library.lol/fiction/{{md5_dict['lgrsfic_book']['md5'].lower()}}</a><br>
+                {% endif %}
+                {% if md5_dict.lgli_file %}
+                  - <strong>Libgen.li:</strong> Go to <a href="https://libgen.li/file.php?md5={{md5_dict['lgli_file']['md5'].lower()}}" target="_blank">this page</a> and click “Report an error”. Alternatively, create a new post in <a href="https://libgen.li/community/viewforum.php?f=2" target="_blank">this forum thread</a>.<br>
+                {% endif %}
+                {% if md5_dict.lgli_file %}
+                  - <strong>Z-Library:</strong> Go to <a href="https://libgen.li/file.php?md5=http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{{md5_dict['zlib_book']['md5_reported'].lower()}}" target="_blank">this page</a> (requires TOR browser), and click on “Something wrong?” => “Suggest correction”.<br>
+                {% endif %}
+              </div>
+
+              <div class="hidden mt-4 js-report-file-problems-submenu js-report-file-problems-submenu-download js-report-file-problems-submenu-broken js-report-file-problems-submenu-pages js-report-file-problems-submenu-spam js-report-file-problems-submenu-other">
+                <p class="mb-1">
+                  Describe the issue (required)
+                </p>
+                <textarea required name="description" class="grow bg-white px-2 py-1 mb-4 rounded w-[100%] h-[120px]" placeholder="Issue description"></textarea>
+                <p class="mb-2">
+                  MD5 of the closest good version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension), which people should use instead of this file.
+                </p>
+                <p class="mb-2">
+                  If you can only find a file with a different file extension (but which matches otherwise), then that is okay, please use that.
+                </p>
+                <p class="mb-1">
+                  You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ md5_input }}</strong>
+                </p>
+                <input type="text" name="better_md5" class="grow bg-white px-2 py-1 mb-4 rounded w-[100%]" placeholder="{{ md5_input }}" minlength="32" maxlength="32" />
+                <p class="mb-4">
+                  If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
+                </p>
+                <div class="">
+                  <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Submit report</button>
+                  <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+                </div>
+              </div>
+            </fieldset>
+            <div class="hidden js-success">✅ Thank you for submitting your report. We will review it as soon as possible.</div>
+            <div class="hidden js-failure mt-4">❌ Something went wrong. Please reload the page and try again.</div>
+          </form>
+        </div>
       {% endif %}
-    </div>
 
-    <script>
-      (function() {
-        const md5 = {{ md5_input | tojson }};
-        for (const el of document.querySelectorAll(".js-download-link")) {
-          // Increase counter when clicked.
-          el.addEventListener("click", function() {
-            try {
-              if (window.localStorage['md5_download_counted_' + md5] === "1") {
-                return;
+      <script>
+        (function() {
+          const md5 = {{ md5_input | tojson }};
+          for (const el of document.querySelectorAll(".js-download-link")) {
+            // Increase counter when clicked.
+            el.addEventListener("click", function() {
+              try {
+                if (window.localStorage['md5_download_counted_' + md5] === "1") {
+                  return;
+                }
+                window.localStorage['md5_download_counted_' + md5] = "1";
+              } catch(e) {
+                console.error("Error with localStorage: ", e);
               }
-              window.localStorage['md5_download_counted_' + md5] = "1";
-            } catch(e) {
-              console.error("Error with localStorage: ", e);
+              navigator.sendBeacon("/dyn/downloads/increment/" + md5);
+            });
+
+            // Prime IPFS caches.
+            if (el.href.includes('/ipfs/')) {
+              fetch(el.href, { method: "HEAD", mode: "no-cors", referrerPolicy: "no-referrer", credentials: "omit" });
             }
-            navigator.sendBeacon("/dyn/downloads/increment/" + md5);
-          });
-
-          // Prime IPFS caches.
-          if (el.href.includes('/ipfs/')) {
-            fetch(el.href, { method: "HEAD", mode: "no-cors", referrerPolicy: "no-referrer", credentials: "omit" });
           }
-        }
-      })();
-
-    </script>
+        })();
+      </script>
+    </div>
 
     <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow mb-4 mt-8" onclick="document.querySelector('.js-technical-details').classList.remove('hidden'); this.classList.add('hidden')">{{ gettext('common.tech_details') }}</button>
 

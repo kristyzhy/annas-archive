@@ -116,3 +116,39 @@ def copyright():
         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_copyright_claims (ip, json) VALUES (:ip, :json)').bindparams(ip=data_ip, json=data_json))
         mariapersist_session.commit()
         return "{}"
+
+@dyn.put("/md5_report/<string:md5_input>")
+def md5_report(md5_input):
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
+        raise Exception("Non-canonical md5")
+
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    report_type = request.form['type']
+    if report_type not in ["download", "broken", "pages", "spam", "other"]:
+        raise Exception("Incorrect report_type")
+
+    description = request.form['description']
+    if len(description) == 0:
+        raise Exception("Empty description")
+
+    better_md5 = request.form['better_md5'][0:50]
+    canonical_better_md5 = better_md5.strip().lower()
+    if (len(canonical_better_md5) == 0) or (canonical_better_md5 == canonical_md5):
+        canonical_better_md5 = None
+    elif not allthethings.utils.validate_canonical_md5s([canonical_better_md5]):
+        raise Exception("Non-canonical better_md5")
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        data_md5 = bytes.fromhex(canonical_md5)
+        data_better_md5 = None
+        if canonical_better_md5 is not None:
+            data_better_md5 = bytes.fromhex(canonical_better_md5)
+        data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
+        mariapersist_session.connection().execute(text('INSERT INTO mariapersist_md5_report (md5, account_id, ip, type, description, better_md5) VALUES (:md5, :account_id, :ip, :type, :description, :better_md5)').bindparams(md5=data_md5, account_id=account_id, ip=data_ip, type=report_type, description=description, better_md5=data_better_md5))
+        mariapersist_session.commit()
+        return "{}"
