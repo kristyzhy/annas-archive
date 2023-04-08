@@ -10,7 +10,7 @@ from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -65,9 +65,23 @@ def downloads_increment(md5_input):
         mariapersist_session.commit()
         return ""
 
+# TODO: hourly caching
+@dyn.get("/downloads/stats/")
+def downloads_stats_total():
+    with mariapersist_engine.connect() as mariapersist_conn:
+        hour_now = int(time.time() / 3600)
+        hour_week_ago = hour_now - 24*31
+        timeseries = mariapersist_conn.execute(select(MariapersistDownloadsHourly.hour_since_epoch, MariapersistDownloadsHourly.count).where(MariapersistDownloadsHourly.hour_since_epoch >= hour_week_ago).limit(hour_week_ago+1)).all()
+        timeseries_by_hour = {}
+        for t in timeseries:
+            timeseries_by_hour[t.hour_since_epoch] = t.count
+        timeseries_x = list(range(hour_week_ago, hour_now+1))
+        timeseries_y = [timeseries_by_hour.get(x, 0) for x in timeseries_x]
+        return orjson.dumps({ "timeseries_x": timeseries_x, "timeseries_y": timeseries_y })
 
+# TODO: hourly caching
 @dyn.get("/downloads/stats/<string:md5_input>")
-def downloads_total(md5_input):
+def downloads_stats_md5(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
 
@@ -76,8 +90,15 @@ def downloads_total(md5_input):
 
     with mariapersist_engine.connect() as mariapersist_conn:
         total = mariapersist_conn.execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).scalars().first() or 0
-        last_week = mariapersist_conn.execute(select(func.sum(MariapersistDownloadsHourlyByMd5.count)).where((MariapersistDownloadsHourlyByMd5.md5 == bytes.fromhex(canonical_md5)) and (MariapersistDownloadsHourlyByMd5.hour >= int(time.time() / 3600) - 24*7)).limit(1)).scalars().first() or 0
-        return orjson.dumps({ "total": int(total), "last_week": int(last_week) })
+        hour_now = int(time.time() / 3600)
+        hour_week_ago = hour_now - 24*31
+        timeseries = mariapersist_conn.execute(select(MariapersistDownloadsHourlyByMd5.hour_since_epoch, MariapersistDownloadsHourlyByMd5.count).where((MariapersistDownloadsHourlyByMd5.md5 == bytes.fromhex(canonical_md5)) & (MariapersistDownloadsHourlyByMd5.hour_since_epoch >= hour_week_ago)).limit(hour_week_ago+1)).all()
+        timeseries_by_hour = {}
+        for t in timeseries:
+            timeseries_by_hour[t.hour_since_epoch] = t.count
+        timeseries_x = list(range(hour_week_ago, hour_now+1))
+        timeseries_y = [timeseries_by_hour.get(x, 0) for x in timeseries_x]
+        return orjson.dumps({ "total": int(total), "timeseries_x": timeseries_x, "timeseries_y": timeseries_y })
 
 
 @dyn.put("/account/access/")

@@ -1,5 +1,8 @@
 import emailMisspelled, { microsoft, all } from "email-misspelled";
 import AriaTablist from 'aria-tablist';
+import Plotly from 'plotly.js-dist-min'
+
+window.Plotly = Plotly;
 
 window.emailMisspelled = {
     emailMisspelled, microsoft, all
