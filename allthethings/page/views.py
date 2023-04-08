@@ -363,7 +363,7 @@ def datasets_isbn_ranges_page():
 
 @page.get("/copyright")
 def copyright_page():
-    return render_template("page/copyright.html", header_active="home")
+    return render_template("page/copyright.html", header_active="")
 
 
 def get_zlib_book_dicts(session, key, values):
