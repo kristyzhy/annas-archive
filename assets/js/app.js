@@ -8,8 +8,7 @@ window.emailMisspelled = {
     emailMisspelled, microsoft, all
 };
 
-document.addEventListener("readystatechange", (event) => {
-  if (event.target.readyState === "interactive") {
+document.addEventListener("DOMContentLoaded", () => {
     for (const el of document.querySelectorAll('[role="tablist"]')) {
         AriaTablist(el, {
             onOpen: (panel, tab) => {
@@ -17,5 +16,4 @@ document.addEventListener("readystatechange", (event) => {
             },
         });
     }
-  }
 });
