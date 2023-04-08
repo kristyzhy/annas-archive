@@ -1405,10 +1405,10 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         lgli_all_editions = md5_dict['lgli_file']['editions'] if md5_dict.get('lgli_file') else []
 
         title_multiple = [
-            ((md5_dict['zlib_book'] or {}).get('title') or '').strip(),
             ((md5_dict['lgrsnf_book'] or {}).get('title') or '').strip(),
             ((md5_dict['lgrsfic_book'] or {}).get('title') or '').strip(),
             ((lgli_single_edition or {}).get('title') or '').strip(),
+            ((md5_dict['zlib_book'] or {}).get('title') or '').strip(),
         ]
         md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
@@ -1419,10 +1419,10 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != md5_dict['file_unified_data']['title_best']]
 
         author_multiple = [
-            (md5_dict['zlib_book'] or {}).get('author', '').strip(),
             (md5_dict['lgrsnf_book'] or {}).get('author', '').strip(),
             (md5_dict['lgrsfic_book'] or {}).get('author', '').strip(),
             (lgli_single_edition or {}).get('authors_normalized', '').strip(),
+            (md5_dict['zlib_book'] or {}).get('author', '').strip(),
         ]
         md5_dict['file_unified_data']['author_best'] = max(author_multiple, key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
@@ -1431,10 +1431,10 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['author_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(author_multiple) if s != md5_dict['file_unified_data']['author_best']]
 
         publisher_multiple = [
-            ((md5_dict['zlib_book'] or {}).get('publisher') or '').strip(),
             ((md5_dict['lgrsnf_book'] or {}).get('publisher') or '').strip(),
             ((md5_dict['lgrsfic_book'] or {}).get('publisher') or '').strip(),
             ((lgli_single_edition or {}).get('publisher_normalized') or '').strip(),
+            ((md5_dict['zlib_book'] or {}).get('publisher') or '').strip(),
         ]
         md5_dict['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
@@ -1443,10 +1443,10 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['publisher_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(publisher_multiple) if s != md5_dict['file_unified_data']['publisher_best']]
 
         edition_varia_multiple = [
-            ((md5_dict['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((md5_dict['lgrsnf_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((md5_dict['lgrsfic_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((lgli_single_edition or {}).get('edition_varia_normalized') or '').strip(),
+            ((md5_dict['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
         ]
         md5_dict['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
@@ -1455,11 +1455,11 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['edition_varia_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(edition_varia_multiple) if s != md5_dict['file_unified_data']['edition_varia_best']]
 
         year_multiple_raw = [
-            ((md5_dict['zlib_book'] or {}).get('year') or '').strip(),
             ((md5_dict['lgrsnf_book'] or {}).get('year') or '').strip(),
             ((md5_dict['lgrsfic_book'] or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('issue_year_number') or '').strip(),
+            ((md5_dict['zlib_book'] or {}).get('year') or '').strip(),
         ]
         # Filter out years in for which we surely don't have books (famous last words..)
         year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple_raw]
@@ -1496,10 +1496,10 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['comments_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(comments_multiple) if s != md5_dict['file_unified_data']['comments_best']]
 
         stripped_description_multiple = [
-            ((md5_dict['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((md5_dict['lgrsnf_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((md5_dict['lgrsfic_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((lgli_single_edition or {}).get('stripped_description') or '').strip()[0:5000],
+            ((md5_dict['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
         ]
         md5_dict['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
@@ -1508,10 +1508,10 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['stripped_description_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(stripped_description_multiple) if s != md5_dict['file_unified_data']['stripped_description_best']]
 
         md5_dict['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
-            ((md5_dict['zlib_book'] or {}).get('language_codes') or []),
             ((md5_dict['lgrsnf_book'] or {}).get('language_codes') or []),
             ((md5_dict['lgrsfic_book'] or {}).get('language_codes') or []),
             ((lgli_single_edition or {}).get('language_codes') or []),
+            ((md5_dict['zlib_book'] or {}).get('language_codes') or []),
         ])
         if len(md5_dict['file_unified_data']['language_codes']) == 0:
             md5_dict['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
@@ -1541,10 +1541,10 @@ def get_md5_dicts_mysql(session, canonical_md5s):
  
 
         md5_dict['file_unified_data']['sanitized_isbns'] = list(set([
-            *((md5_dict['zlib_book'] or {}).get('sanitized_isbns') or []),
             *((md5_dict['lgrsnf_book'] or {}).get('sanitized_isbns') or []),
             *((md5_dict['lgrsfic_book'] or {}).get('sanitized_isbns') or []),
             *([isbn for edition in lgli_all_editions for isbn in (edition.get('sanitized_isbns') or [])]),
+            *((md5_dict['zlib_book'] or {}).get('sanitized_isbns') or []),
         ]))
         md5_dict['file_unified_data']['asin_multiple'] = list(set(item for item in [
             (md5_dict['lgrsnf_book'] or {}).get('asin', '').strip(),
