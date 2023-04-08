@@ -26,11 +26,11 @@
       <div class="mt-4 line-clamp-[6]">{% if md5_dict.additional.top_box.description %}“{{md5_dict.additional.top_box.description | escape | replace('\n', '<br>' | safe)}}”{% endif %}</div>
     </div>
 
-    <div class="flex flex-wrap mb-3" role="tablist" aria-label="file tabs">
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="true" id="md5-tab-download" aria-controls="md5-panel-download" tabindex="-1">Download</button>
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="false" id="md5-tab-quality" aria-controls="md5-panel-quality" tabindex="0">File quality</button>
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats</button>
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
+    <div class="flex flex-wrap mb-3 text-[#000000a3]" role="tablist" aria-label="file tabs">
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="true" id="md5-tab-download" aria-controls="md5-panel-download" tabindex="-1">Download</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-quality" aria-controls="md5-panel-quality" tabindex="0">Report issues</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
     </div>
 
     <div id="md5-panel-download" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-download">
