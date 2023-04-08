@@ -4,39 +4,6 @@
 
 {% block body %}
   <script>
-    function accountOnSubmit(event, url) {
-      event.preventDefault();
-
-      const currentTarget = event.currentTarget;
-      const fieldset = currentTarget.querySelector("fieldset");
-      currentTarget.querySelector(".js-failure").classList.add("hidden");
-
-      // Before disabling the fieldset.
-      fetch(url, { method: "PUT", body: new FormData(currentTarget) })
-        .then(function(response) {
-          if (!response.ok) { throw "error"; }
-          return response.json().then(function(jsonResponse) {
-            if (jsonResponse.aa_logged_in !== undefined) {
-              window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in);
-            }
-            fieldset.classList.add("hidden");
-            currentTarget.querySelector(".js-success").classList.remove("hidden");
-          });
-        })
-        .catch(function() {
-          fieldset.removeAttribute("disabled", "disabled");
-          fieldset.style.opacity = 1;
-          currentTarget.querySelector(".js-failure").classList.remove("hidden");
-        })
-        .finally(function() {
-          currentTarget.querySelector(".js-spinner").classList.add("invisible");
-        });
-
-      fieldset.setAttribute("disabled", "disabled");
-      fieldset.style.opacity = 0.5;
-      currentTarget.querySelector(".js-spinner").classList.remove("invisible");
-    }
-
     let accountEmailUsedForError;
     function accountShowError(email, msg) {
       accountEmailUsedForError = email;
@@ -84,7 +51,7 @@
       <h2 class="mt-4 mb-4 text-3xl font-bold">Account</h2>
 
       <script>window.globalUpdateAaLoggedIn(1);</script>
-      <form autocomplete="on" onsubmit="accountOnSubmit(event, '/dyn/account/logout/')" class="mb-8">
+      <form autocomplete="on" onsubmit="window.submitForm(event, '/dyn/account/logout/')" class="mb-8">
         <fieldset class="mb-4">
           <p class="mb-2">You are logged in as <strong>{{ email }}</strong> (this email address will never be publicly displayed).</p>
           <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Logout</button>
@@ -100,7 +67,7 @@
     {% else %}
       <h2 class="mt-4 mb-4 text-3xl font-bold">Log in / Register</h2>
 
-      <form autocomplete="on" onsubmit="if (accountValidateEmail(event)) {accountOnSubmit(event, '/dyn/account/access/'); document.querySelector('.js-account-sent-email').innerText = document.getElementById('email').value }" class="mb-4">
+      <form autocomplete="on" onsubmit="if (accountValidateEmail(event)) {window.submitForm(event, '/dyn/account/access/'); document.querySelector('.js-account-sent-email').innerText = document.getElementById('email').value }" class="mb-4">
         <fieldset class="mb-4">
           <p class="mb-4">Enter your email address. If you don’t have an account yet, a new one will be created.</p>
           <p class="mb-4">We will never share or display your email address.</p>

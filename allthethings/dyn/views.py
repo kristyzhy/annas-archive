@@ -115,4 +115,4 @@ def copyright():
         data_json = orjson.dumps(request.form)
         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_copyright_claims (ip, json) VALUES (:ip, :json)').bindparams(ip=data_ip, json=data_json))
         mariapersist_session.commit()
-        return ""
+        return "{}"

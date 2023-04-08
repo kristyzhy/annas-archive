@@ -171,6 +171,39 @@
                   }
                 }
               }
+
+              window.submitForm = function(event, url) {
+                event.preventDefault();
+
+                const currentTarget = event.currentTarget;
+                const fieldset = currentTarget.querySelector("fieldset");
+                currentTarget.querySelector(".js-failure").classList.add("hidden");
+
+                // Before disabling the fieldset.
+                fetch(url, { method: "PUT", body: new FormData(currentTarget) })
+                  .then(function(response) {
+                    if (!response.ok) { throw "error"; }
+                    return response.json().then(function(jsonResponse) {
+                      if (jsonResponse.aa_logged_in !== undefined) {
+                        window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in);
+                      }
+                      fieldset.classList.add("hidden");
+                      currentTarget.querySelector(".js-success").classList.remove("hidden");
+                    });
+                  })
+                  .catch(function() {
+                    fieldset.removeAttribute("disabled", "disabled");
+                    fieldset.style.opacity = 1;
+                    currentTarget.querySelector(".js-failure").classList.remove("hidden");
+                  })
+                  .finally(function() {
+                    currentTarget.querySelector(".js-spinner").classList.add("invisible");
+                  });
+
+                fieldset.setAttribute("disabled", "disabled");
+                fieldset.style.opacity = 0.5;
+                currentTarget.querySelector(".js-spinner").classList.remove("invisible");
+              };
             })();
           </script>
           <div class="absolute invisible pointer-events-none" aria-hidden="true">🌐</div>

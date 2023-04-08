@@ -7,36 +7,6 @@
     <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
   {% endif %}
 
-  <script>
-    function copyrightOnSubmit(event, url) {
-      event.preventDefault();
-
-      const currentTarget = event.currentTarget;
-      const fieldset = currentTarget.querySelector("fieldset");
-      currentTarget.querySelector(".js-failure").classList.add("hidden");
-
-      // Before disabling the fieldset.
-      fetch(url, { method: "PUT", body: new FormData(currentTarget) })
-        .then(function(response) {
-          if (!response.ok) { throw "error"; }
-          fieldset.classList.add("hidden");
-          currentTarget.querySelector(".js-success").classList.remove("hidden");
-        })
-        .catch(function() {
-          fieldset.removeAttribute("disabled", "disabled");
-          fieldset.style.opacity = 1;
-          currentTarget.querySelector(".js-failure").classList.remove("hidden");
-        })
-        .finally(function() {
-          currentTarget.querySelector(".js-spinner").classList.add("invisible");
-        });
-
-      fieldset.setAttribute("disabled", "disabled");
-      fieldset.style.opacity = 0.5;
-      currentTarget.querySelector(".js-spinner").classList.remove("invisible");
-    }
-  </script>
-
   <div lang="en">
     <h2 class="mt-4 mb-4 text-3xl font-bold">DMCA / Copyright claim form</h2>
 
@@ -44,7 +14,7 @@
       If you have a DCMA or other copyright claim, please fill out this form as precisely as possible. If you run into any issues, please contact us at our dedicated DMCA address: <a href="mailto:AnnaDMCA@proton.me">AnnaDMCA@&#8203;proton.&#8203;me</a>. Note that claims emailed to this address will not be processed, it is only for questions. Please use the form below to submit your claims.
     </p>
 
-    <form autocomplete="on" onsubmit="copyrightOnSubmit(event, '/dyn/copyright/')" class="mb-4">
+    <form autocomplete="on" onsubmit="window.submitForm(event, '/dyn/copyright/')" class="mb-4">
       <fieldset class="mb-4">
         <p class="mb-1">
           URLs on Anna’s Archive (required). One per line. Please only include URLs that describe the exact same edition of a book. If you want to make a claim for multiple books or multiple editions, please submit this form multiple times. <strong>Claims that bundle multiple books or editions together will be rejected.</strong>
