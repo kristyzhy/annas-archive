@@ -66,7 +66,7 @@ def downloads_increment(md5_input):
         return ""
 
 
-@dyn.get("/downloads/total/<string:md5_input>")
+@dyn.get("/downloads/stats/<string:md5_input>")
 def downloads_total(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -75,8 +75,8 @@ def downloads_total(md5_input):
         raise Exception("Non-canonical md5")
 
     with mariapersist_engine.connect() as mariapersist_conn:
-        record = mariapersist_conn.execute(select(MariapersistDownloadsTotalByMd5).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).first()
-        return orjson.dumps({ "count": record.count })
+        result = mariapersist_conn.execute(select(MariapersistDownloadsTotalByMd5).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).first()
+        return orjson.dumps({ "total": result.count if result is not None else 0 })
 
 
 @dyn.put("/account/access/")

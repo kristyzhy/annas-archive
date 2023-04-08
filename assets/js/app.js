@@ -8,7 +8,11 @@ window.emailMisspelled = {
 document.addEventListener("readystatechange", (event) => {
   if (event.target.readyState === "interactive") {
     for (const el of document.querySelectorAll('[role="tablist"]')) {
-        AriaTablist(el);
+        AriaTablist(el, {
+            onOpen: (panel, tab) => {
+                panel.dispatchEvent(new Event("panelOpen"));
+            },
+        });
     }
   }
 });

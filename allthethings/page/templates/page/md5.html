@@ -29,6 +29,7 @@
     <div class="flex flex-wrap mb-3" role="tablist" aria-label="file tabs">
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="true" id="md5-tab-download" aria-controls="md5-panel-download" tabindex="-1">Download</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="false" id="md5-tab-quality" aria-controls="md5-panel-quality" tabindex="0">File quality</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
     </div>
 
@@ -167,6 +168,19 @@
           <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
         </form>
       </div>
+    </div>
+    <div id="md5-panel-stats" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-stats" hidden>
+      <p class="mb-4">
+        Total downloads: <span class="js-md5-stats-total-downloads"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></span>
+      </p>
+      <script>
+        document.getElementById('md5-panel-stats').addEventListener("panelOpen", () => {
+          const md5 = {{ md5_input | tojson }};
+          fetch("/dyn/downloads/stats/" + md5).then((response) => response.json()).then((json) => {
+            document.querySelector(".js-md5-stats-total-downloads").innerText = json.total;
+          });
+        });
+      </script>
     </div>
     <div id="md5-panel-details" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-details" hidden itemscope="" itemtype="https://schema.org/Book">
       {% if gettext('common.english_only') | trim %}
