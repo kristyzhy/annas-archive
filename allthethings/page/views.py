@@ -361,6 +361,10 @@ def datasets_openlib_page():
 def datasets_isbn_ranges_page():
     return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets")
 
+@page.get("/copyright")
+def copyright_page():
+    return render_template("page/copyright.html", header_active="home")
+
 
 def get_zlib_book_dicts(session, key, values):
     # Filter out bad data

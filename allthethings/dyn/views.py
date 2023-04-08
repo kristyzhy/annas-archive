@@ -107,3 +107,12 @@ def account_logout():
         domain=g.base_domain,
     )
     return resp
+
+@dyn.put("/copyright/")
+def copyright():
+    with Session(mariapersist_engine) as mariapersist_session:
+        data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
+        data_json = orjson.dumps(request.form)
+        mariapersist_session.connection().execute(text('INSERT INTO mariapersist_copyright_claims (ip, json) VALUES (:ip, :json)').bindparams(ip=data_ip, json=data_json))
+        mariapersist_session.commit()
+        return ""
