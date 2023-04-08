@@ -10,7 +10,7 @@ from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -75,8 +75,9 @@ def downloads_total(md5_input):
         raise Exception("Non-canonical md5")
 
     with mariapersist_engine.connect() as mariapersist_conn:
-        result = mariapersist_conn.execute(select(MariapersistDownloadsTotalByMd5).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).first()
-        return orjson.dumps({ "total": result.count if result is not None else 0 })
+        total = mariapersist_conn.execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).scalars().first() or 0
+        last_week = mariapersist_conn.execute(select(func.sum(MariapersistDownloadsHourlyByMd5.count)).where((MariapersistDownloadsHourlyByMd5.md5 == bytes.fromhex(canonical_md5)) and (MariapersistDownloadsHourlyByMd5.hour >= int(time.time() / 3600) - 24*7)).limit(1)).scalars().first() or 0
+        return orjson.dumps({ "total": int(total), "last_week": int(last_week) })
 
 
 @dyn.put("/account/access/")

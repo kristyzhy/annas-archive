@@ -171,13 +171,15 @@
     </div>
     <div id="md5-panel-stats" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-stats" hidden>
       <p class="mb-4">
-        Total downloads: <span class="js-md5-stats-total-downloads"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></span>
+        Total downloads: <span class="js-md5-stats-total-downloads"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></span><br>
+        Last 7 days: <span class="js-md5-stats-downloads-last-week"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></span>
       </p>
       <script>
         document.getElementById('md5-panel-stats').addEventListener("panelOpen", () => {
           const md5 = {{ md5_input | tojson }};
           fetch("/dyn/downloads/stats/" + md5).then((response) => response.json()).then((json) => {
             document.querySelector(".js-md5-stats-total-downloads").innerText = json.total;
+            document.querySelector(".js-md5-stats-downloads-last-week").innerText = json.last_week;
           });
         });
       </script>
