@@ -46,12 +46,15 @@ def account_downloaded_page():
 
 @account.get("/access/<string:partial_jwt_token>")
 def account_access_page(partial_jwt_token):
-    token_data = jwt.decode(
-        jwt=allthethings.utils.JWT_PREFIX + partial_jwt_token,
-        key=SECRET_KEY,
-        algorithms=["HS256"],
-        options={ "verify_signature": True, "require": ["exp"], "verify_exp": True }
-    )
+    try:
+        token_data = jwt.decode(
+            jwt=allthethings.utils.JWT_PREFIX + partial_jwt_token,
+            key=SECRET_KEY,
+            algorithms=["HS256"],
+            options={ "verify_signature": True, "require": ["exp"], "verify_exp": True }
+        )
+    except jwt.exceptions.ExpiredSignatureError:
+        return render_template("account/expired.html", header_active="account")
 
     normalized_email = token_data["m"].lower()
 
