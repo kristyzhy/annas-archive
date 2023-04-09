@@ -157,7 +157,7 @@ def md5_reports(md5_input):
     with Session(mariapersist_engine) as mariapersist_session:
         data_md5 = bytes.fromhex(canonical_md5)
         reports = mariapersist_session.connection().execute(
-                select(MariapersistMd5Report.created, MariapersistMd5Report.type, MariapersistMd5Report.description, MariapersistMd5Report.better_md5, MariapersistAccounts.display_name)
+                select(MariapersistMd5Report.created, MariapersistMd5Report.type, MariapersistMd5Report.account_id, MariapersistMd5Report.description, MariapersistMd5Report.better_md5, MariapersistAccounts.display_name)
                 .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistMd5Report.account_id)
                 .where(MariapersistMd5Report.md5 == data_md5)
                 .limit(10000)
@@ -209,5 +209,24 @@ def md5_report(md5_input):
             data_better_md5 = bytes.fromhex(canonical_better_md5)
         data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_md5_report (md5, account_id, ip, type, description, better_md5) VALUES (:md5, :account_id, :ip, :type, :description, :better_md5)').bindparams(md5=data_md5, account_id=account_id, ip=data_ip, type=report_type, description=description, better_md5=data_better_md5))
+        mariapersist_session.commit()
+        return "{}"
+
+@dyn.put("/account/display_name/")
+@allthethings.utils.no_cache()
+def display_name():
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    display_name = request.form['display_name'].strip()
+
+    if len(display_name) < 4:
+        return "", 500
+    if len(display_name) > 20:
+        return "", 500
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        mariapersist_session.connection().execute(text('UPDATE mariapersist_accounts SET display_name = :display_name WHERE account_id = :account_id').bindparams(display_name=display_name, account_id=account_id))
         mariapersist_session.commit()
         return "{}"

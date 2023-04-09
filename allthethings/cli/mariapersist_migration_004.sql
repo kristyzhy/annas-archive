@@ -26,3 +26,5 @@ CREATE TABLE mariapersist_md5_report (
     INDEX (`better_md5`,`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 ALTER TABLE mariapersist_md5_report ADD CONSTRAINT `mariapersist_md5_report_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
+
+ALTER TABLE mariapersist_accounts DROP INDEX display_name;

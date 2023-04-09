@@ -1,12 +1,12 @@
 {% for report_dict in report_dicts %}
   <div class="mb-4">
-    <div><span class="font-bold">{{ report_dict.display_name }}</span>, <span title="{{ report_dict.created | datetimeformat(format='long') }}">{{ report_dict.created_delta | timedeltaformat(add_direction=True) }}</span></div>
+    <div><span class="font-bold">{{ report_dict.display_name }} ({{ report_dict.account_id }})</span>, <span title="{{ report_dict.created | datetimeformat(format='long') }}">{{ report_dict.created_delta | timedeltaformat(add_direction=True) }}</span></div>
     <div class="italic">{{ md5_report_type_mapping[report_dict.type] }}</div>
     {% if report_dict.better_md5 %}<div><a href="/md5/{{ report_dict.better_md5 }}">Better version</a></div>{% endif %}
     <div>{{ report_dict.description }}</div>
   </div>
 {% else %}
   <div class="mb-4">
-    No reports found.
+    No issues found.
   </div>
 {% endfor %}
