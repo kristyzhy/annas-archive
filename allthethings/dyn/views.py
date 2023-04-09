@@ -20,6 +20,7 @@ dyn = Blueprint("dyn", __name__, template_folder="templates", url_prefix="/dyn")
 
 
 @dyn.get("/up/")
+@allthethings.utils.no_cache()
 @cross_origin()
 def index():
     # For testing, uncomment:
@@ -32,6 +33,7 @@ def index():
 
 
 @dyn.get("/up/databases/")
+@allthethings.utils.no_cache()
 def databases():
     # redis.ping()
     with engine.connect() as conn:
@@ -41,6 +43,7 @@ def databases():
     return ""
 
 @dyn.post("/downloads/increment/<string:md5_input>")
+@allthethings.utils.no_cache()
 def downloads_increment(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -65,8 +68,8 @@ def downloads_increment(md5_input):
         mariapersist_session.commit()
         return ""
 
-# TODO: hourly caching
 @dyn.get("/downloads/stats/")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60)
 def downloads_stats_total():
     with mariapersist_engine.connect() as mariapersist_conn:
         hour_now = int(time.time() / 3600)
@@ -75,12 +78,12 @@ def downloads_stats_total():
         timeseries_by_hour = {}
         for t in timeseries:
             timeseries_by_hour[t.hour_since_epoch] = t.count
-        timeseries_x = list(range(hour_week_ago, hour_now+1))
+        timeseries_x = list(range(hour_week_ago, hour_now))
         timeseries_y = [timeseries_by_hour.get(x, 0) for x in timeseries_x]
         return orjson.dumps({ "timeseries_x": timeseries_x, "timeseries_y": timeseries_y })
 
-# TODO: hourly caching
 @dyn.get("/downloads/stats/<string:md5_input>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60)
 def downloads_stats_md5(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -96,12 +99,13 @@ def downloads_stats_md5(md5_input):
         timeseries_by_hour = {}
         for t in timeseries:
             timeseries_by_hour[t.hour_since_epoch] = t.count
-        timeseries_x = list(range(hour_week_ago, hour_now+1))
+        timeseries_x = list(range(hour_week_ago, hour_now))
         timeseries_y = [timeseries_by_hour.get(x, 0) for x in timeseries_x]
         return orjson.dumps({ "total": int(total), "timeseries_x": timeseries_x, "timeseries_y": timeseries_y })
 
 
 @dyn.put("/account/access/")
+@allthethings.utils.no_cache()
 def account_access():
     email = request.form['email']
     jwt_payload = jwt.encode(
@@ -119,6 +123,7 @@ def account_access():
     return "{}"
 
 @dyn.put("/account/logout/")
+@allthethings.utils.no_cache()
 def account_logout():
     request.cookies[allthethings.utils.ACCOUNT_COOKIE_NAME] # Error if cookie is not set.
     resp = make_response(orjson.dumps({ "aa_logged_in": 0 }))
@@ -131,6 +136,7 @@ def account_logout():
     return resp
 
 @dyn.put("/copyright/")
+@allthethings.utils.no_cache()
 def copyright():
     with Session(mariapersist_engine) as mariapersist_session:
         data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
@@ -140,6 +146,7 @@ def copyright():
         return "{}"
 
 @dyn.put("/md5_report/<string:md5_input>")
+@allthethings.utils.no_cache()
 def md5_report(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]

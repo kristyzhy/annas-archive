@@ -1,6 +1,9 @@
 import jwt
 import re
 import ipaddress
+import flask
+import functools
+import datetime
 
 from config.settings import SECRET_KEY
 
@@ -58,3 +61,26 @@ def canonical_ip_bytes(ip):
         ipv6 = ipaddress.ip_address(prefix | (int(ipv6) << 80))
     return ipv6.packed
 
+
+def public_cache(shared_minutes=0, minutes=0):
+    def fwrap(f):
+        @functools.wraps(f)
+        def wrapped_f(*args, **kwargs):
+            r = flask.make_response(f(*args, **kwargs))
+            if r.status_code <= 299:
+                r.headers.add('Cache-Control', f"public,max-age={int(60 * minutes)},s-maxage={int(60 * shared_minutes)}")
+            else:
+                r.headers.add('Cache-Control', f"no-cache")
+            return r
+        return wrapped_f
+    return fwrap
+
+def no_cache():
+    def fwrap(f):
+        @functools.wraps(f)
+        def wrapped_f(*args, **kwargs):
+            r = flask.make_response(f(*args, **kwargs))
+            r.headers.add('Cache-Control', f"no-cache")
+            return r
+        return wrapped_f
+    return fwrap

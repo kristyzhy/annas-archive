@@ -22,6 +22,7 @@ account = Blueprint("account", __name__, template_folder="templates", url_prefix
 
 
 @account.get("/")
+@allthethings.utils.no_cache()
 def account_index_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
@@ -32,6 +33,7 @@ def account_index_page():
         return render_template("account/index.html", header_active="account", email=account.email_verified)
 
 @account.get("/downloaded")
+@allthethings.utils.no_cache()
 def account_downloaded_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
@@ -45,6 +47,7 @@ def account_downloaded_page():
         return render_template("account/downloaded.html", header_active="account/downloaded", md5_dicts_downloaded=md5_dicts_downloaded)
 
 @account.get("/access/<string:partial_jwt_token>")
+@allthethings.utils.no_cache()
 def account_access_page(partial_jwt_token):
     try:
         token_data = jwt.decode(
@@ -99,10 +102,12 @@ def account_access_page(partial_jwt_token):
         return resp
 
 @account.get("/request")
+@allthethings.utils.no_cache()
 def request_page():
     return render_template("account/request.html", header_active="account/request")
 
 @account.get("/upload")
+@allthethings.utils.no_cache()
 def upload_page():
     return render_template("account/upload.html", header_active="account/upload")
 

@@ -262,6 +262,7 @@ def get_display_name_for_lang(lang_code, display_lang):
     return result.replace(' []', '')
 
 @page.get("/")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def home_page():
     popular_md5s = [
         "8336332bf5877e3adbfb60ac70720cd5", # Against intellectual monopoly
@@ -287,24 +288,29 @@ def home_page():
         )
 
 @page.get("/login")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def login_page():
     return render_template("page/login.html", header_active="account")
 
 @page.get("/about")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def about_page():
     return render_template("page/about.html", header_active="home/about")
 
 
 @page.get("/donate")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def donate_page():
     return render_template("page/donate.html", header_active="donate")
 
 @page.get("/mobile")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def mobile_page():
     return render_template("page/mobile.html", header_active="home/mobile")
 
 
 @page.get("/datasets")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def datasets_page():
     with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
@@ -324,18 +330,22 @@ def datasets_page():
     )
 
 @page.get("/datasets/libgen_aux")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def datasets_libgen_aux_page():
     return render_template("page/datasets_libgen_aux.html", header_active="home/datasets")
 
 @page.get("/datasets/zlib_scrape")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def datasets_zlib_scrape_page():
     return render_template("page/datasets_zlib_scrape.html", header_active="home/datasets")
 
 @page.get("/datasets/isbndb_scrape")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def datasets_isbndb_scrape_page():
     return render_template("page/datasets_isbndb_scrape.html", header_active="home/datasets")
 
 @page.get("/datasets/libgen_rs")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def datasets_libgen_rs_page():
     with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
@@ -343,6 +353,7 @@ def datasets_libgen_rs_page():
     return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", libgenrs_date=libgenrs_date)
 
 @page.get("/datasets/libgen_li")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def datasets_libgen_li_page():
     with engine.connect() as conn:
         libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
@@ -350,6 +361,7 @@ def datasets_libgen_li_page():
     return render_template("page/datasets_libgen_li.html", header_active="home/datasets", libgenli_date=libgenli_date)
 
 @page.get("/datasets/openlib")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def datasets_openlib_page():
     with engine.connect() as conn:
         # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
@@ -358,10 +370,12 @@ def datasets_openlib_page():
     return render_template("page/datasets_openlib.html", header_active="home/datasets", openlib_date=openlib_date)
 
 @page.get("/datasets/isbn_ranges")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def datasets_isbn_ranges_page():
     return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets")
 
 @page.get("/copyright")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def copyright_page():
     return render_template("page/copyright.html", header_active="")
 
@@ -402,6 +416,7 @@ def get_zlib_book_dicts(session, key, values):
     return zlib_book_dicts
 
 @page.get("/zlib/<int:zlib_id>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def zlib_book_page(zlib_id):
     with Session(engine) as session:
         zlib_book_dicts = get_zlib_book_dicts(session, "zlibrary_id", [zlib_id])
@@ -419,6 +434,7 @@ def zlib_book_page(zlib_id):
         )
 
 @page.get("/ol/<string:ol_book_id>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def ol_book_page(ol_book_id):
     ol_book_id = ol_book_id[0:20]
 
@@ -621,6 +637,7 @@ def get_lgrsnf_book_dicts(session, key, values):
 
 
 @page.get("/lgrs/nf/<int:lgrsnf_book_id>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def lgrsnf_book_page(lgrsnf_book_id):
     with Session(engine) as session:
         lgrs_book_dicts = get_lgrsnf_book_dicts(session, "ID", [lgrsnf_book_id])
@@ -684,6 +701,7 @@ def get_lgrsfic_book_dicts(session, key, values):
 
 
 @page.get("/lgrs/fic/<int:lgrsfic_book_id>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def lgrsfic_book_page(lgrsfic_book_id):
     with Session(engine) as session:
         lgrs_book_dicts = get_lgrsfic_book_dicts(session, "ID", [lgrsfic_book_id])
@@ -1059,6 +1077,7 @@ def get_lgli_file_dicts(session, key, values):
 
 
 @page.get("/lgli/file/<int:lgli_file_id>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def lgli_file_page(lgli_file_id):
     with Session(engine) as session:
         lgli_file_dicts = get_lgli_file_dicts(session, "f_id", [lgli_file_id])
@@ -1106,6 +1125,7 @@ def lgli_file_page(lgli_file_id):
         )
 
 @page.get("/isbn/<string:isbn_input>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def isbn_page(isbn_input):
     isbn_input = isbn_input[0:20]
 
@@ -1208,6 +1228,7 @@ def isbn_page(isbn_input):
         )
 
 @page.get("/doi/<path:doi_input>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def doi_page(doi_input):
     doi_input = normalize_doi(doi_input[0:100])
 
@@ -1734,6 +1755,7 @@ def add_additional_to_md5_dict(md5_dict):
 
 
 @page.get("/md5/<string:md5_input>")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def md5_page(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -1833,6 +1855,7 @@ def all_search_aggs(display_lang):
 
 
 @page.get("/search")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def search_page():
     search_input = request.args.get("q", "").strip()
     filter_values = {

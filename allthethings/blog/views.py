@@ -2,43 +2,56 @@ import datetime
 from rfeed import *
 from flask import Blueprint, request, render_template, make_response
 
+import allthethings.utils
+
 # Note that /blog is not a real path; we do a trick with BlogMiddleware in app.py to rewrite annas-blog.org here.
 # For local testing, use http://annas-blog.org.localtest.me:8000/
 blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blog")
 
 @blog.get("/")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def index():
     return render_template("blog/index.html")
 
 @blog.get("/how-to-run-a-shadow-library.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def how_to_run_a_shadow_library():
     return render_template("blog/how-to-run-a-shadow-library.html")
 @blog.get("/it-how-to-run-a-shadow-library.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def it_how_to_run_a_shadow_library():
     return render_template("blog/it-how-to-run-a-shadow-library.html")
 @blog.get("/annas-update-open-source-elasticsearch-covers.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def annas_update_open_source_elasticsearch_covers():
     return render_template("blog/annas-update-open-source-elasticsearch-covers.html")
 @blog.get("/help-seed-zlibrary-on-ipfs.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def help_seed_zlibrary_on_ipfs():
     return render_template("blog/help-seed-zlibrary-on-ipfs.html")
 @blog.get("/putting-5,998,794-books-on-ipfs.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def putting_5998794_books_on_ipfs():
     return render_template("blog/putting-5,998,794-books-on-ipfs.html")
 @blog.get("/blog-isbndb-dump-how-many-books-are-preserved-forever.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def blog_isbndb_dump_how_many_books_are_preserved_forever():
     return render_template("blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html")
 @blog.get("/blog-how-to-become-a-pirate-archivist.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def blog_how_to_become_a_pirate_archivist():
     return render_template("blog/blog-how-to-become-a-pirate-archivist.html")
 @blog.get("/blog-3x-new-books.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def blog_3x_new_books():
     return render_template("blog/blog-3x-new-books.html")
 @blog.get("/blog-introducing.html")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def blog_introducing():
     return render_template("blog/blog-introducing.html")
 
 @blog.get("/rss.xml")
+@allthethings.utils.public_cache(minutes=5, shared_minutes=60*24*7)
 def rss_xml():
     items = [
         Item(
