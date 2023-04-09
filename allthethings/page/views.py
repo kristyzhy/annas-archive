@@ -1899,97 +1899,112 @@ def search_page():
         }
     }
 
-    try:
-        max_display_results = 200
-        max_additional_display_results = 50
+    max_display_results = 200
+    max_additional_display_results = 50
 
+    search_results_raw = es.search(
+        index="md5_dicts", 
+        size=max_display_results, 
+        query=search_query,
+        aggs=search_query_aggs,
+        post_filter={ "bool": { "filter": post_filter } },
+        sort=custom_search_sorting+['_score'],
+        track_total_hits=False,
+        timeout=ES_TIMEOUT,
+    )
+
+    all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()))
+
+    doc_counts = {}
+    doc_counts['most_likely_language_code'] = {}
+    doc_counts['content_type'] = {}
+    doc_counts['extension_best'] = {}
+    if search_input == '':
+        for bucket in all_aggregations['most_likely_language_code']:
+            doc_counts['most_likely_language_code'][bucket['key']] = bucket['doc_count']
+        for bucket in all_aggregations['content_type']:
+            doc_counts['content_type'][bucket['key']] = bucket['doc_count']
+        for bucket in all_aggregations['extension_best']:
+            doc_counts['extension_best'][bucket['key']] = bucket['doc_count']
+    else:
+        for bucket in search_results_raw['aggregations']['most_likely_language_code']['buckets']:
+            doc_counts['most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
+        # Special casing for "book_any":
+        doc_counts['content_type']['book_any'] = 0
+        for bucket in search_results_raw['aggregations']['content_type']['buckets']:
+            doc_counts['content_type'][bucket['key']] = bucket['doc_count']
+            if bucket['key'] in md5_content_type_book_any_subtypes:
+                doc_counts['content_type']['book_any'] += bucket['doc_count']
+        for bucket in search_results_raw['aggregations']['extension_best']['buckets']:
+            doc_counts['extension_best'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
+
+    aggregations = {}
+    aggregations['most_likely_language_code'] = [{
+            **bucket,
+            'doc_count': doc_counts['most_likely_language_code'].get(bucket['key'], 0),
+            'selected':  (bucket['key'] == filter_values['most_likely_language_code']),
+        } for bucket in all_aggregations['most_likely_language_code']]
+    aggregations['content_type'] = [{
+            **bucket,
+            'doc_count': doc_counts['content_type'].get(bucket['key'], 0),
+            'selected':  (bucket['key'] == filter_values['content_type']),
+        } for bucket in all_aggregations['content_type']]
+    aggregations['extension_best'] = [{
+            **bucket,
+            'doc_count': doc_counts['extension_best'].get(bucket['key'], 0),
+            'selected':  (bucket['key'] == filter_values['extension_best']),
+        } for bucket in all_aggregations['extension_best']]
+
+    aggregations['most_likely_language_code'] = sorted(aggregations['most_likely_language_code'], key=lambda bucket: bucket['doc_count'], reverse=True)
+    aggregations['content_type']              = sorted(aggregations['content_type'],              key=lambda bucket: bucket['doc_count'], reverse=True)
+    aggregations['extension_best']            = sorted(aggregations['extension_best'],            key=lambda bucket: bucket['doc_count'], reverse=True)
+
+
+    search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in search_filtered_bad_md5s]
+
+    max_search_md5_dicts_reached = False
+    max_additional_search_md5_dicts_reached = False
+    additional_search_md5_dicts = []
+
+    if len(search_md5_dicts) < max_display_results:
+        # For partial matches, first try our original query again but this time without filters.
+        seen_md5s = set([md5_dict['md5'] for md5_dict in search_md5_dicts])
         search_results_raw = es.search(
             index="md5_dicts", 
-            size=max_display_results, 
+            size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
             query=search_query,
-            aggs=search_query_aggs,
-            post_filter={ "bool": { "filter": post_filter } },
             sort=custom_search_sorting+['_score'],
             track_total_hits=False,
             timeout=ES_TIMEOUT,
         )
+        if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
+            max_additional_search_md5_dicts_reached = True
+        additional_search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in seen_md5s and md5_dict['_id'] not in search_filtered_bad_md5s]
 
-        all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()))
-
-        doc_counts = {}
-        doc_counts['most_likely_language_code'] = {}
-        doc_counts['content_type'] = {}
-        doc_counts['extension_best'] = {}
-        if search_input == '':
-            for bucket in all_aggregations['most_likely_language_code']:
-                doc_counts['most_likely_language_code'][bucket['key']] = bucket['doc_count']
-            for bucket in all_aggregations['content_type']:
-                doc_counts['content_type'][bucket['key']] = bucket['doc_count']
-            for bucket in all_aggregations['extension_best']:
-                doc_counts['extension_best'][bucket['key']] = bucket['doc_count']
-        else:
-            for bucket in search_results_raw['aggregations']['most_likely_language_code']['buckets']:
-                doc_counts['most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
-            # Special casing for "book_any":
-            doc_counts['content_type']['book_any'] = 0
-            for bucket in search_results_raw['aggregations']['content_type']['buckets']:
-                doc_counts['content_type'][bucket['key']] = bucket['doc_count']
-                if bucket['key'] in md5_content_type_book_any_subtypes:
-                    doc_counts['content_type']['book_any'] += bucket['doc_count']
-            for bucket in search_results_raw['aggregations']['extension_best']['buckets']:
-                doc_counts['extension_best'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
-
-        aggregations = {}
-        aggregations['most_likely_language_code'] = [{
-                **bucket,
-                'doc_count': doc_counts['most_likely_language_code'].get(bucket['key'], 0),
-                'selected':  (bucket['key'] == filter_values['most_likely_language_code']),
-            } for bucket in all_aggregations['most_likely_language_code']]
-        aggregations['content_type'] = [{
-                **bucket,
-                'doc_count': doc_counts['content_type'].get(bucket['key'], 0),
-                'selected':  (bucket['key'] == filter_values['content_type']),
-            } for bucket in all_aggregations['content_type']]
-        aggregations['extension_best'] = [{
-                **bucket,
-                'doc_count': doc_counts['extension_best'].get(bucket['key'], 0),
-                'selected':  (bucket['key'] == filter_values['extension_best']),
-            } for bucket in all_aggregations['extension_best']]
-
-        aggregations['most_likely_language_code'] = sorted(aggregations['most_likely_language_code'], key=lambda bucket: bucket['doc_count'], reverse=True)
-        aggregations['content_type']              = sorted(aggregations['content_type'],              key=lambda bucket: bucket['doc_count'], reverse=True)
-        aggregations['extension_best']            = sorted(aggregations['extension_best'],            key=lambda bucket: bucket['doc_count'], reverse=True)
-
-
-        search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in search_filtered_bad_md5s]
-
-        max_search_md5_dicts_reached = False
-        max_additional_search_md5_dicts_reached = False
-        additional_search_md5_dicts = []
-
-        if len(search_md5_dicts) < max_display_results:
-            # For partial matches, first try our original query again but this time without filters.
-            seen_md5s = set([md5_dict['md5'] for md5_dict in search_md5_dicts])
+        # Then do an "OR" query, but this time with the filters again.
+        if len(search_md5_dicts) + len(additional_search_md5_dicts) < max_display_results:
+            seen_md5s = seen_md5s.union(set([md5_dict['md5'] for md5_dict in additional_search_md5_dicts]))
             search_results_raw = es.search(
-                index="md5_dicts", 
-                size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
-                query=search_query,
+                index="md5_dicts",
+                size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
+                # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
                 sort=custom_search_sorting+['_score'],
                 track_total_hits=False,
                 timeout=ES_TIMEOUT,
             )
             if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_md5_dicts_reached = True
-            additional_search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in seen_md5s and md5_dict['_id'] not in search_filtered_bad_md5s]
+            additional_search_md5_dicts += [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in seen_md5s and md5_dict['_id'] not in search_filtered_bad_md5s]
 
-            # Then do an "OR" query, but this time with the filters again.
+            # If we still don't have enough, do another OR query but this time without filters.
             if len(search_md5_dicts) + len(additional_search_md5_dicts) < max_display_results:
                 seen_md5s = seen_md5s.union(set([md5_dict['md5'] for md5_dict in additional_search_md5_dicts]))
                 search_results_raw = es.search(
                     index="md5_dicts",
                     size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                     # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                    query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
+                    query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
                     sort=custom_search_sorting+['_score'],
                     track_total_hits=False,
                     timeout=ES_TIMEOUT,
@@ -1997,48 +2012,21 @@ def search_page():
                 if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                     max_additional_search_md5_dicts_reached = True
                 additional_search_md5_dicts += [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in seen_md5s and md5_dict['_id'] not in search_filtered_bad_md5s]
+    else:
+        max_search_md5_dicts_reached = True
 
-                # If we still don't have enough, do another OR query but this time without filters.
-                if len(search_md5_dicts) + len(additional_search_md5_dicts) < max_display_results:
-                    seen_md5s = seen_md5s.union(set([md5_dict['md5'] for md5_dict in additional_search_md5_dicts]))
-                    search_results_raw = es.search(
-                        index="md5_dicts",
-                        size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
-                        # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                        query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
-                        sort=custom_search_sorting+['_score'],
-                        track_total_hits=False,
-                        timeout=ES_TIMEOUT,
-                    )
-                    if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
-                        max_additional_search_md5_dicts_reached = True
-                    additional_search_md5_dicts += [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in seen_md5s and md5_dict['_id'] not in search_filtered_bad_md5s]
-        else:
-            max_search_md5_dicts_reached = True
+    
+    search_dict = {}
+    search_dict['search_md5_dicts'] = search_md5_dicts[0:max_display_results]
+    search_dict['additional_search_md5_dicts'] = additional_search_md5_dicts[0:max_additional_display_results]
+    search_dict['max_search_md5_dicts_reached'] = max_search_md5_dicts_reached
+    search_dict['max_additional_search_md5_dicts_reached'] = max_additional_search_md5_dicts_reached
+    search_dict['aggregations'] = aggregations
+    search_dict['sort_value'] = sort_value
 
-        
-        search_dict = {}
-        search_dict['search_md5_dicts'] = search_md5_dicts[0:max_display_results]
-        search_dict['additional_search_md5_dicts'] = additional_search_md5_dicts[0:max_additional_display_results]
-        search_dict['max_search_md5_dicts_reached'] = max_search_md5_dicts_reached
-        search_dict['max_additional_search_md5_dicts_reached'] = max_additional_search_md5_dicts_reached
-        search_dict['aggregations'] = aggregations
-        search_dict['sort_value'] = sort_value
-
-        return render_template(
-            "page/search.html",
-            header_active="search",
-            search_input=search_input,
-            search_dict=search_dict,
-        )
-    except Exception as err:
-        raise
-        print("Search error: ", err)
-
-        return render_template(
-            "page/search.html",
-            header_active="search",
-            search_input=search_input,
-            search_dict=None,
-        ), 500
-
+    return render_template(
+        "page/search.html",
+        header_active="search",
+        search_input=search_input,
+        search_dict=search_dict,
+    )
