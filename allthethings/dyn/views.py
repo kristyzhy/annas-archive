@@ -5,12 +5,13 @@ import flask_mail
 import datetime
 import jwt
 
-from flask import Blueprint, request, g, make_response
+from flask import Blueprint, request, g, make_response, render_template
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
+from flask_babel import format_timedelta
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -144,6 +145,35 @@ def copyright():
         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_copyright_claims (ip, json) VALUES (:ip, :json)').bindparams(ip=data_ip, json=data_json))
         mariapersist_session.commit()
         return "{}"
+
+@dyn.get("/md5_reports/<string:md5_input>")
+@allthethings.utils.no_cache()
+def md5_reports(md5_input):
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
+        raise Exception("Non-canonical md5")
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        data_md5 = bytes.fromhex(canonical_md5)
+        reports = mariapersist_session.connection().execute(
+                select(MariapersistMd5Report.created, MariapersistMd5Report.type, MariapersistMd5Report.description, MariapersistMd5Report.better_md5, MariapersistAccounts.display_name)
+                .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistMd5Report.account_id)
+                .where(MariapersistMd5Report.md5 == data_md5)
+                .limit(10000)
+            ).all()
+        report_dicts = [{ 
+            **report,
+            'created_delta': report.created - datetime.datetime.now(),
+            'better_md5': report.better_md5.hex() if report.better_md5 is not None else None,
+        } for report in reports]
+
+        return render_template(
+            "dyn/md5_reports.html",
+            report_dicts=report_dicts,
+            md5_report_type_mapping=allthethings.utils.get_md5_report_type_mapping(),
+        )
+
 
 @dyn.put("/md5_report/<string:md5_input>")
 @allthethings.utils.no_cache()

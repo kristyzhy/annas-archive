@@ -84,3 +84,14 @@ def no_cache():
             return r
         return wrapped_f
     return fwrap
+
+def get_md5_report_type_mapping():
+    return {
+        'metadata': 'Incorrect metadata (e.g. title, description, cover image)',
+        'download': 'Downloading problems (e.g. can’t connect, error message, very slow)',
+        'broken': 'File can’t be opened (e.g. corrupted file, DRM)',
+        'pages': 'Poor quality (e.g. formatting issues, poor scan quality, missing pages)',
+        'spam': 'Spam / file should be removed (e.g. advertising, abusive content)',
+        'copyright': 'Copyright claim',
+        'other': 'Other',
+    }

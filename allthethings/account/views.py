@@ -30,7 +30,7 @@ def account_index_page():
 
     with Session(mariapersist_engine) as mariapersist_session:
         account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
-        return render_template("account/index.html", header_active="account", email=account.email_verified)
+        return render_template("account/index.html", header_active="account", account_dict=dict(account))
 
 @account.get("/downloaded")
 @allthethings.utils.no_cache()

@@ -28,7 +28,7 @@
 
     <div class="flex flex-wrap mb-3 text-[#000000a3]" role="tablist" aria-label="file tabs">
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="true" id="md5-tab-download" aria-controls="md5-panel-download" tabindex="-1">Download</button>
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-quality" aria-controls="md5-panel-quality" tabindex="0">Report issues</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-issues" aria-controls="md5-panel-issues" tabindex="0">File issues</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
     </div>
@@ -85,7 +85,7 @@
         <p>No downloads found.</p>
       {% endif %}
     </div>
-    <div id="md5-panel-quality" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-quality" hidden>
+    <div id="md5-panel-issues" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-issues" hidden>
       {% if gettext('common.english_only') | trim %}
         <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
       {% endif %}
@@ -93,9 +93,9 @@
       <div lang="en">
         <p class="mb-4">If there are issues with the file quality, click the button below to report it.</p>
 
-        <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow mb-4" onclick="document.querySelector('.js-report-file-problems').classList.remove('hidden')">Report file problems</button>
+        <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow mb-4" onclick="document.querySelector('.js-report-file-issues').classList.toggle('hidden')">New report</button>
 
-        <div class="js-report-file-problems hidden mb-4">
+        <div class="js-report-file-issues hidden mb-4">
           <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to report a problem with this file.</div>
 
           <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ md5_input | tojson }})'>
@@ -103,24 +103,20 @@
               <p class="mb-2">
                 What is wrong with this file?
               </p>
-              <select name="type" class="bg-[#00000011] px-2 py-1 rounded mb-4" oninput="for (el of document.querySelectorAll('.js-report-file-problems-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-problems-submenu-' + this.value).classList.remove('hidden')">
+              <select name="type" class="bg-[#00000011] px-2 py-1 rounded mb-4" oninput="for (el of document.querySelectorAll('.js-report-file-issues-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-issues-submenu-' + this.value).classList.remove('hidden')">
                 <option></option>
-                <option value="metadata">Incorrect metadata (e.g. title, description, cover image)</option>
-                <option value="download">Downloading problems (e.g. can’t connect, error message, very slow)</option>
-                <option value="broken">File can’t be opened (e.g. corrupted file, DRM)</option>
-                <option value="pages">Poor quality (e.g. formatting issues, poor scan quality, missing pages)</option>
-                <option value="spam">Spam / file should be removed (e.g. advertising, abusive content)</option>
-                <option value="copyright">Copyright claim</option>
-                <option value="other">Other</option>
+                {% for type in md5_report_type_mapping %}
+                  <option value="{{ type }}">{{ md5_report_type_mapping[type] }}</option>
+                {% endfor %}
               </select>
 
-              <div class="hidden mb-4 js-report-file-problems-submenu js-report-file-problems-submenu-copyright">
+              <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-copyright">
                 <p class="">
                   Please use the <a href="/copyright">DMCA / Copyright claim form</a>.
                 </p>
               </div>
 
-              <div class="hidden mb-4 js-report-file-problems-submenu js-report-file-problems-submenu-metadata">
+              <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-metadata">
                 <p class="mb-4">
                   Please report metadata errors at the source library. If there are multiple source libraries, know that we pull metadata from top to bottom, so the first one might be sufficient.
                 </p>
@@ -141,7 +137,7 @@
                 {% endif %}
               </div>
 
-              <div class="hidden mb-4 js-report-file-problems-submenu js-report-file-problems-submenu-download js-report-file-problems-submenu-broken js-report-file-problems-submenu-pages js-report-file-problems-submenu-spam js-report-file-problems-submenu-other">
+              <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-download js-report-file-issues-submenu-broken js-report-file-issues-submenu-pages js-report-file-issues-submenu-spam js-report-file-issues-submenu-other">
                 <p class="mb-1">
                   Describe the issue (required)
                 </p>
@@ -159,6 +155,9 @@
                 <p class="mb-4">
                   If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
                 </p>
+                <p class="mb-4">
+                  Your report will be shown on this page, as well as reviewed manually by Anna (until we have a proper moderation system).
+                </p>
                 <div class="">
                   <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow">Submit report</button>
                   <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
@@ -169,6 +168,19 @@
             <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
           </form>
         </div>
+
+        <h2 class="mb-1 text-2xl font-bold">Reported issues</h2>
+
+        <div class="js-md5-issues-reports"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
+
+        <script>
+          document.getElementById('md5-panel-issues').addEventListener("panelOpen", () => {
+            const md5 = {{ md5_input | tojson }};
+            fetch("/dyn/md5_reports/" + md5).then((response) => response.ok ? response.text() : 'Error 827151').then((text) => {
+              document.querySelector(".js-md5-issues-reports").innerHTML = text;
+            });
+          });
+        </script>
       </div>
     </div>
     <div id="md5-panel-stats" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-stats" hidden>
