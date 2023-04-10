@@ -28,10 +28,20 @@
 
     <div class="flex flex-wrap mb-3 text-[#000000a3]" role="tablist" aria-label="file tabs">
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="true" id="md5-tab-download" aria-controls="md5-panel-download" tabindex="-1">Download</button>
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-issues" aria-controls="md5-panel-issues" tabindex="0">File issues</button>
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-issues" aria-selected="false" id="md5-tab-issues" aria-controls="md5-panel-issues" tabindex="0">File issues (–)</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-stats" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats (–)</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const md5 = {{ md5_input | tojson }};
+        fetch("/dyn/md5/summary/" + md5).then((response) => response.json()).then((json) => {
+          document.querySelector(".js-md5-tab-issues").innerText = 'File issues (' + json.reports_count + ')';
+          document.querySelector(".js-md5-tab-stats").innerText = 'Stats (' + json.downloads_total + ')';
+        });
+      });
+    </script>
 
     <div id="md5-panel-download" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-download">
       {% if (md5_dict.additional.download_urls | length) > 0 %}

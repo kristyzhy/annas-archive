@@ -93,7 +93,7 @@ def downloads_stats_md5(md5_input):
         raise Exception("Non-canonical md5")
 
     with mariapersist_engine.connect() as mariapersist_conn:
-        total = mariapersist_conn.execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).scalars().first() or 0
+        total = mariapersist_conn.execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).scalar() or 0
         hour_now = int(time.time() / 3600)
         hour_week_ago = hour_now - 24*31
         timeseries = mariapersist_conn.execute(select(MariapersistDownloadsHourlyByMd5.hour_since_epoch, MariapersistDownloadsHourlyByMd5.count).where((MariapersistDownloadsHourlyByMd5.md5 == bytes.fromhex(canonical_md5)) & (MariapersistDownloadsHourlyByMd5.hour_since_epoch >= hour_week_ago)).limit(hour_week_ago+1)).all()
@@ -173,6 +173,20 @@ def md5_reports(md5_input):
             report_dicts=report_dicts,
             md5_report_type_mapping=allthethings.utils.get_md5_report_type_mapping(),
         )
+
+@dyn.get("/md5/summary/<string:md5_input>")
+@allthethings.utils.public_cache(minutes=0, shared_minutes=1)
+def md5_summary(md5_input):
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
+        raise Exception("Non-canonical md5")
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        data_md5 = bytes.fromhex(canonical_md5)
+        reports_count = mariapersist_session.connection().execute(select(func.count(MariapersistMd5Report.md5_report_id)).where(MariapersistMd5Report.md5 == data_md5).limit(1)).scalar()
+        downloads_total = mariapersist_session.connection().execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).scalar() or 0
+        return orjson.dumps({ "reports_count": reports_count, "downloads_total": downloads_total })
 
 
 @dyn.put("/md5_report/<string:md5_input>")
