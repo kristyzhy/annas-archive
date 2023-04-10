@@ -222,6 +222,13 @@ def display_name():
         mariapersist_session.commit()
         return "{}"
 
+def get_resource_type(resource):
+    if bool(re.match(r"^md5:[a-f\d]{32}$", resource)):
+        return 'md5'
+    if bool(re.match(r"^comment:[\d]+$", resource)):
+        return 'comment'
+    return None
+
 @dyn.put("/comments/<string:resource>")
 @allthethings.utils.no_cache()
 def put_comment(resource):
@@ -229,14 +236,23 @@ def put_comment(resource):
     if account_id is None:
         return "", 403
 
-    if not bool(re.match(r"^md5:[a-f\d]{32}$", resource)):
-        raise Exception("resource")
-
     content = request.form['content'].strip()
     if len(content) == 0:
         raise Exception("Empty content")
 
     with Session(mariapersist_engine) as mariapersist_session:
+        resource_type = get_resource_type(resource)
+        if resource_type not in ['md5', 'comment']:
+            raise Exception("Invalid resource")
+
+        if resource_type == 'comment':
+            parent_resource = mariapersist_session.connection().execute(select(MariapersistComments.resource).where(MariapersistComments.comment_id == int(resource[len('comment:'):])).limit(1)).scalar()
+            if parent_resource is None:
+                raise Exception("No parent comment")
+            parent_resource_type = get_resource_type(parent_resource)
+            if parent_resource_type == 'comment':
+                raise Exception("Parent comment is itself a reply")
+
         mariapersist_session.connection().execute(
             text('INSERT INTO mariapersist_comments (account_id, resource, content) VALUES (:account_id, :resource, :content)')
                 .bindparams(account_id=account_id, resource=resource, content=content))
@@ -251,12 +267,19 @@ def get_comment_dicts(mariapersist_session, resources):
             .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistComments.account_id)
             .join(MariapersistCommentReactions, (MariapersistCommentReactions.comment_id == MariapersistComments.comment_id) & (MariapersistCommentReactions.account_id == account_id), isouter=True)
             .where(MariapersistComments.resource.in_(resources))
-            .order_by(MariapersistComments.created.desc())
+            .limit(10000)
+        ).all()
+    replies = mariapersist_session.connection().execute(
+            select(MariapersistComments, MariapersistAccounts.display_name, MariapersistCommentReactions.type.label('user_reaction'))
+            .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistComments.account_id)
+            .join(MariapersistCommentReactions, (MariapersistCommentReactions.comment_id == MariapersistComments.comment_id) & (MariapersistCommentReactions.account_id == account_id), isouter=True)
+            .where(MariapersistComments.resource.in_([f"comment:{comment.comment_id}" for comment in comments]))
+            .order_by(MariapersistComments.comment_id.asc())
             .limit(10000)
         ).all()
     comment_reactions = mariapersist_session.connection().execute(
             select(MariapersistCommentReactions.comment_id, MariapersistCommentReactions.type, func.count(MariapersistCommentReactions.account_id).label('count'))
-            .where(MariapersistCommentReactions.comment_id.in_([comment.comment_id for comment in comments]))
+            .where(MariapersistCommentReactions.comment_id.in_([comment.comment_id for comment in (comments+replies)]))
             .group_by(MariapersistCommentReactions.comment_id, MariapersistCommentReactions.type)
             .limit(10000)
         ).all()
@@ -264,13 +287,27 @@ def get_comment_dicts(mariapersist_session, resources):
     for reaction in comment_reactions:
         comment_reactions_by_id[reaction['comment_id']][reaction['type']] = reaction['count']
 
+    reply_dicts_by_parent_comment_id = collections.defaultdict(list)
+    for reply in replies: # Note: these are already sorted chronologically.
+        reply_dicts_by_parent_comment_id[int(reply.resource[len('comment:'):])].append({ 
+            **reply,
+            'created_delta': reply.created - datetime.datetime.now(),
+            'abuse_total': comment_reactions_by_id[reply.comment_id].get(1, 0),
+            'thumbs_up': comment_reactions_by_id[reply.comment_id].get(2, 0),
+            'thumbs_down': comment_reactions_by_id[reply.comment_id].get(3, 0),
+        })
+
     comment_dicts = [{ 
         **comment,
         'created_delta': comment.created - datetime.datetime.now(),
         'abuse_total': comment_reactions_by_id[comment.comment_id].get(1, 0),
         'thumbs_up': comment_reactions_by_id[comment.comment_id].get(2, 0),
         'thumbs_down': comment_reactions_by_id[comment.comment_id].get(3, 0),
+        'reply_dicts': reply_dicts_by_parent_comment_id[comment.comment_id],
+        'can_have_replies': True,
     } for comment in comments]
+
+
 
     comment_dicts.sort(reverse=True, key=lambda c: 100000*(c['thumbs_up']-c['thumbs_down']-c['abuse_total']*5) + c['comment_id'] )
     return comment_dicts
@@ -280,7 +317,7 @@ def get_comment_dicts(mariapersist_session, resources):
 @allthethings.utils.no_cache()
 def get_comments(resource):
     if not bool(re.match(r"^md5:[a-f\d]{32}$", resource)):
-        raise Exception("resource")
+        raise Exception("Invalid resource")
 
     with Session(mariapersist_engine) as mariapersist_session:
         comment_dicts = get_comment_dicts(mariapersist_session, [resource])        
@@ -336,11 +373,7 @@ def put_comment_reaction(reaction_type, comment_id):
         raise Exception("Invalid type")
 
     with Session(mariapersist_engine) as mariapersist_session:
-        comment_account_id = mariapersist_session.connection().execute(
-                select(MariapersistComments.account_id)
-                .where(MariapersistComments.comment_id == comment_id)
-                .limit(1)
-            ).scalar()
+        comment_account_id = mariapersist_session.connection().execute(select(MariapersistComments.account_id).where(MariapersistComments.comment_id == comment_id).limit(1)).scalar()
         if comment_account_id == account_id:
             return "", 403
 

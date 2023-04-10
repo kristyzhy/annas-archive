@@ -13,7 +13,7 @@
   })();
 </script>
 
-{% for comment_dict in comment_dicts %}
+{% macro comment_base(comment_dict) %}
   {% if (comment_dict.abuse_total >= 2) or ((comment_dict.thumbs_up - comment_dict.thumbs_down) <= -3) %}
   <div>
     <a href="#" class="mb-2 text-sm" onclick="event.preventDefault(); this.parentNode.querySelector('.js-comments-comment-inner').classList.toggle('hidden')">hidden comment</a>
@@ -23,7 +23,7 @@
     <div class="mb-6">
   {% endif %}
       <div>
-        <span class="font-bold {% if comment_dict.account_id == current_account_id %}underline{% endif %}">{% if comment_dict.display_name != comment_dict.account_id %}{{ comment_dict.display_name }} {% endif %}#{{ comment_dict.account_id }}</span>
+        <span class="font-bold {% if comment_dict.account_id == current_account_id %}italic{% endif %}">{% if comment_dict.display_name != comment_dict.account_id %}{{ comment_dict.display_name }} {% endif %}#{{ comment_dict.account_id }}</span>
         <span class="ml-2 text-[#000000a3] text-sm" title="{{ comment_dict.created | datetimeformat(format='long') }}">{{ comment_dict.created_delta | timedeltaformat(add_direction=True) }}</span>
         {% if current_account_id and (comment_dict.account_id != current_account_id) and comment_dict.user_reaction != 1 %}
           <span class="relative">
@@ -44,16 +44,53 @@
 
       <div class="whitespace-pre-line mb-1">{{ comment_dict.content }}</div>
 
-      {% if comment_dict.user_reaction == 1 %}
-        <div class="italic text-sm text-[#555]">You reported this user for abuse.</div>
-      {% else %}
-        <div>
-          <button {% if (not current_account_id) or (comment_dict.account_id == current_account_id) %}disabled{% endif %} class="mb-[-3px] text-xl color-[#777] hover:color-black align-[-4px] {% if comment_dict.user_reaction == 2 %}icon-[tabler--thumb-up-filled]{% else %}icon-[tabler--thumb-up]{% endif %}" onclick='event.preventDefault(); fetch("/dyn/comments/reactions/{% if comment_dict.user_reaction == 2 %}0{% else %}2{% endif %}/{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]())'></button>
+      <div>
+        {% if comment_dict.user_reaction == 1 %}
+          <span class="italic text-sm text-[#555]">You reported this user for abuse.</span>
+        {% else %}
+          <button {% if (not current_account_id) or (comment_dict.account_id == current_account_id) %}disabled class="text-[#aaa]{% else %}class="hover:text-black{% endif %} mb-[-3px] text-xl text-[#777] align-[-4px] {% if comment_dict.user_reaction == 2 %}icon-[tabler--thumb-up-filled]{% else %}icon-[tabler--thumb-up]{% endif %}" onclick='event.preventDefault(); fetch("/dyn/comments/reactions/{% if comment_dict.user_reaction == 2 %}0{% else %}2{% endif %}/{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]())'></button>
           {% if comment_dict.thumbs_up > 0 %}{{ comment_dict.thumbs_up }}{% endif %}
-          <button {% if (not current_account_id) or (comment_dict.account_id == current_account_id) %}disabled{% endif %} class="ml-2 mb-[-3px] text-xl color-[#777] hover:color-black align-[-4px] {% if comment_dict.user_reaction == 3 %}icon-[tabler--thumb-down-filled]{% else %}icon-[tabler--thumb-down]{% endif %}" onclick='event.preventDefault(); fetch("/dyn/comments/reactions/{% if comment_dict.user_reaction == 3 %}0{% else %}3{% endif %}/{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]())'></button>
+          <button {% if (not current_account_id) or (comment_dict.account_id == current_account_id) %}disabled class="text-[#aaa]{% else %}class="hover:text-black{% endif %} ml-2 mb-[-3px] text-xl text-[#777] align-[-4px] {% if comment_dict.user_reaction == 3 %}icon-[tabler--thumb-down-filled]{% else %}icon-[tabler--thumb-down]{% endif %}" onclick='event.preventDefault(); fetch("/dyn/comments/reactions/{% if comment_dict.user_reaction == 3 %}0{% else %}3{% endif %}/{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]())'></button>
           {% if comment_dict.thumbs_down > 0 %}{{ comment_dict.thumbs_down }}{% endif %}
+        {% endif %}
+
+        {% if comment_dict.can_have_replies and ((comment_dict.reply_dicts | length) == 0) %}
+          <button class="ml-2 text-[#777] hover:text-black" onclick='event.preventDefault(); document.querySelector(".js-comments-reply-" + {{ comment_dict.comment_id | tojson }}).classList.toggle("hidden")'>Reply</button>
+        {% endif %}
+      </div>
+
+      {% if comment_dict.can_have_replies %}
+        <div class="mx-6 sm:mx-12 mt-2">
+          {% for reply_dict in comment_dict.reply_dicts %}
+            {{ comment_base(reply_dict) }}
+          {% endfor %}
+
+          {% if comment_dict.can_have_replies and ((comment_dict.reply_dicts | length) > 0) %}
+            <div>
+              <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4" onclick='event.preventDefault(); this.classList.toggle("hidden"); document.querySelector(".js-comments-reply-" + {{ comment_dict.comment_id | tojson }}).classList.toggle("hidden")'>Reply</button>
+            </div>
+          {% endif %}
+
+          <div class="hidden js-comments-reply-{{ comment_dict.comment_id }}">
+            <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to reply.</div>
+            <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/comments/comment:" + {{ comment_dict.comment_id | tojson }})'>
+              <fieldset>
+                <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%] h-[50px] max-w-[500px]" placeholder=""></textarea>
+                <div class="">
+                  <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Reply</button>
+                  <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+                </div>
+              </fieldset>
+              <div class="hidden js-success">✅ You left a comment. It might take a minute for it to show up.</div>
+              <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
+            </form>
+          </div>
         </div>
       {% endif %}
     </div>
   </div>
+{% endmacro %}
+
+{% for comment_dict in comment_dicts %}
+  {{ comment_base(comment_dict) }}
 {% endfor %}
