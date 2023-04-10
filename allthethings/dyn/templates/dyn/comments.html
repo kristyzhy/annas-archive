@@ -1,0 +1,6 @@
+{% for comment_dict in comment_dicts %}
+  <div class="mb-4">
+    <div><span class="font-bold">{{ comment_dict.display_name }} ({{ comment_dict.account_id }})</span> <span class="text-[#000000a3] text-sm" title="{{ comment_dict.created | datetimeformat(format='long') }}">{{ comment_dict.created_delta | timedeltaformat(add_direction=True) }}</span></div>
+    <div class="whitespace-pre-line">{{ comment_dict.content }}</div>
+  </div>
+{% endfor %}

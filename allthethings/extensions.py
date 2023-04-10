@@ -120,3 +120,5 @@ class MariapersistDownloadsHourly(ReflectedMariapersist):
     __tablename__ = "mariapersist_downloads_hourly"
 class MariapersistMd5Report(ReflectedMariapersist):
     __tablename__ = "mariapersist_md5_report"
+class MariapersistComments(ReflectedMariapersist):
+    __tablename__ = "mariapersist_comments"

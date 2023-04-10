@@ -4,6 +4,7 @@ import orjson
 import flask_mail
 import datetime
 import jwt
+import re
 
 from flask import Blueprint, request, g, make_response, render_template
 from flask_cors import cross_origin
@@ -11,7 +12,7 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -157,9 +158,11 @@ def md5_reports(md5_input):
     with Session(mariapersist_engine) as mariapersist_session:
         data_md5 = bytes.fromhex(canonical_md5)
         reports = mariapersist_session.connection().execute(
-                select(MariapersistMd5Report.created, MariapersistMd5Report.type, MariapersistMd5Report.account_id, MariapersistMd5Report.description, MariapersistMd5Report.better_md5, MariapersistAccounts.display_name)
+                select(MariapersistMd5Report.created, MariapersistMd5Report.type, MariapersistMd5Report.account_id, MariapersistMd5Report.better_md5, MariapersistAccounts.display_name, MariapersistComments.content)
                 .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistMd5Report.account_id)
+                .join(MariapersistComments, MariapersistComments.resource == func.concat('md5_report:', MariapersistMd5Report.md5_report_id))
                 .where(MariapersistMd5Report.md5 == data_md5)
+                .order_by(MariapersistMd5Report.created.desc())
                 .limit(10000)
             ).all()
         report_dicts = [{ 
@@ -185,8 +188,9 @@ def md5_summary(md5_input):
     with Session(mariapersist_engine) as mariapersist_session:
         data_md5 = bytes.fromhex(canonical_md5)
         reports_count = mariapersist_session.connection().execute(select(func.count(MariapersistMd5Report.md5_report_id)).where(MariapersistMd5Report.md5 == data_md5).limit(1)).scalar()
+        comments_count = mariapersist_session.connection().execute(select(func.count(MariapersistComments.comment_id)).where(MariapersistComments.resource == f"md5:{data_md5}").limit(1)).scalar()
         downloads_total = mariapersist_session.connection().execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).scalar() or 0
-        return orjson.dumps({ "reports_count": reports_count, "downloads_total": downloads_total })
+        return orjson.dumps({ "reports_count": reports_count, "comments_count": comments_count, "downloads_total": downloads_total })
 
 
 @dyn.put("/md5_report/<string:md5_input>")
@@ -205,9 +209,9 @@ def md5_report(md5_input):
     if report_type not in ["download", "broken", "pages", "spam", "other"]:
         raise Exception("Incorrect report_type")
 
-    description = request.form['description']
-    if len(description) == 0:
-        raise Exception("Empty description")
+    content = request.form['content']
+    if len(content) == 0:
+        raise Exception("Empty content")
 
     better_md5 = request.form['better_md5'][0:50]
     canonical_better_md5 = better_md5.strip().lower()
@@ -221,8 +225,10 @@ def md5_report(md5_input):
         data_better_md5 = None
         if canonical_better_md5 is not None:
             data_better_md5 = bytes.fromhex(canonical_better_md5)
-        data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
-        mariapersist_session.connection().execute(text('INSERT INTO mariapersist_md5_report (md5, account_id, ip, type, description, better_md5) VALUES (:md5, :account_id, :ip, :type, :description, :better_md5)').bindparams(md5=data_md5, account_id=account_id, ip=data_ip, type=report_type, description=description, better_md5=data_better_md5))
+        md5_report_id = mariapersist_session.connection().execute(text('INSERT INTO mariapersist_md5_report (md5, account_id, type, better_md5) VALUES (:md5, :account_id, :type, :better_md5) RETURNING md5_report_id').bindparams(md5=data_md5, account_id=account_id, type=report_type, better_md5=data_better_md5)).scalar()
+        mariapersist_session.connection().execute(
+            text('INSERT INTO mariapersist_comments (account_id, resource, content) VALUES (:account_id, :resource, :content)')
+                .bindparams(account_id=account_id, resource=f"md5_report:{md5_report_id}", content=content))
         mariapersist_session.commit()
         return "{}"
 
@@ -244,3 +250,48 @@ def display_name():
         mariapersist_session.connection().execute(text('UPDATE mariapersist_accounts SET display_name = :display_name WHERE account_id = :account_id').bindparams(display_name=display_name, account_id=account_id))
         mariapersist_session.commit()
         return "{}"
+
+@dyn.put("/comments/<string:resource>")
+@allthethings.utils.no_cache()
+def put_comment(resource):
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    if not bool(re.match(r"^md5:[a-f\d]{32}$", resource)):
+        raise Exception("resource")
+
+    content = request.form['content'].strip()
+    if len(content) == 0:
+        raise Exception("Empty content")
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        mariapersist_session.connection().execute(
+            text('INSERT INTO mariapersist_comments (account_id, resource, content) VALUES (:account_id, :resource, :content)')
+                .bindparams(account_id=account_id, resource=resource, content=content))
+        mariapersist_session.commit()
+        return "{}"
+
+@dyn.get("/comments/<string:resource>")
+@allthethings.utils.no_cache()
+def get_comments(resource):
+    if not bool(re.match(r"^md5:[a-f\d]{32}$", resource)):
+        raise Exception("resource")
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        comments = mariapersist_session.connection().execute(
+                select(MariapersistComments, MariapersistAccounts.display_name)
+                .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistComments.account_id)
+                .where(MariapersistComments.resource == resource)
+                .order_by(MariapersistComments.created.desc())
+                .limit(10000)
+            ).all()
+        comment_dicts = [{ 
+            **comment,
+            'created_delta': comment.created - datetime.datetime.now(),
+        } for comment in comments]
+
+        return render_template(
+            "dyn/comments.html",
+            comment_dicts=comment_dicts,
+        )
