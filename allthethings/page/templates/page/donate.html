@@ -52,11 +52,11 @@
   </script>
 
   <div class="mb-4 flex flex-wrap items-center">
-    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow js-main-button js-main-button-paypal" onclick="openSection('.js-paypal', '.js-main-button-paypal')">{{ gettext('page.donate.nav.paypal') }}</button>
-    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow js-main-button js-main-button-cc" onclick="openSection('.js-cc', '.js-main-button-cc')">{{ gettext('page.donate.nav.cc') }}</button>
-    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow js-main-button js-main-button-crypto" onclick="openSection('.js-crypto', '.js-main-button-crypto')">{{ gettext('page.donate.nav.crypto') }}</button>
-    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow js-main-button js-main-button-alipay {% if get_locale().language == 'zh' %}order-first{% endif %}" onclick="openSection('.js-alipay', '.js-main-button-alipay')">{{ gettext('page.donate.nav.alipay') }}</button>
-    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow js-main-button js-main-button-pix {% if get_locale().language == 'pt' %}order-first{% endif %}" onclick="openSection('.js-pix', '.js-main-button-pix')">{{ gettext('page.donate.nav.pix') }}</button>
+    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow js-main-button js-main-button-paypal" onclick="openSection('.js-paypal', '.js-main-button-paypal')">{{ gettext('page.donate.nav.paypal') }}</button>
+    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow js-main-button js-main-button-cc" onclick="openSection('.js-cc', '.js-main-button-cc')">{{ gettext('page.donate.nav.cc') }}</button>
+    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow js-main-button js-main-button-crypto" onclick="openSection('.js-crypto', '.js-main-button-crypto')">{{ gettext('page.donate.nav.crypto') }}</button>
+    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow js-main-button js-main-button-alipay {% if get_locale().language == 'zh' %}order-first{% endif %}" onclick="openSection('.js-alipay', '.js-main-button-alipay')">{{ gettext('page.donate.nav.alipay') }}</button>
+    <button class="mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow js-main-button js-main-button-pix {% if get_locale().language == 'pt' %}order-first{% endif %}" onclick="openSection('.js-pix', '.js-main-button-pix')">{{ gettext('page.donate.nav.pix') }}</button>
     <a href="#" class="mt-2 pl-2" onclick="openSection('.js-q', undefined); return false">{{ gettext('page.donate.nav.faq') }}</a>
   </div>
 
@@ -152,9 +152,9 @@
       </p>
 
       <div class="mb-4">
-        <button class="mt-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow js-alipay-button" onclick="setAlipayImage(0)">1</button>
-        <button class="mt-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow js-alipay-button" onclick="setAlipayImage(1)">2</button>
-        <button class="mt-2 bg-[#777] hover:bg-[#999] text-white font-bold py-2 px-4 rounded shadow js-alipay-button" onclick="setAlipayImage(2)">3</button>
+        <button class="mt-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow js-alipay-button" onclick="setAlipayImage(0)">1</button>
+        <button class="mt-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow js-alipay-button" onclick="setAlipayImage(1)">2</button>
+        <button class="mt-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow js-alipay-button" onclick="setAlipayImage(2)">3</button>
       </div>
 
       <div class="mb-4 relative">
