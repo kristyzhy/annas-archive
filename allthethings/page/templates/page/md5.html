@@ -9,8 +9,6 @@
 {% endblock %}
 
 {% block body %}
-  <div class="mb-4 truncate">{{ gettext('page.md5.breadcrumbs', md5_input=md5_input) }}</div>
-
   {% if not(md5_dict is defined) %}
     <h2 class="mt-12 mb-1 text-3xl font-bold">{{ gettext('page.md5.invalid.header') }}</h2>
     <p class="mb-4 italic">
@@ -130,7 +128,9 @@
         document.getElementById('md5-panel-comments').addEventListener("panelOpen", () => {
           const md5 = {{ md5_input | tojson }};
           fetch("/dyn/comments/md5:" + md5).then((response) => response.ok ? response.text() : 'Error 4817518').then((text) => {
-            document.querySelector(".js-md5-comments-list").innerHTML = text;
+            const reloadNode = document.querySelector(".js-md5-comments-list");
+            reloadNode.innerHTML = text;
+            window.executeScriptElements(reloadNode);
           });
         });
       </script>
@@ -233,7 +233,9 @@
           document.getElementById('md5-panel-issues').addEventListener("panelOpen", () => {
             const md5 = {{ md5_input | tojson }};
             fetch("/dyn/md5_reports/" + md5).then((response) => response.ok ? response.text() : 'Error 827151').then((text) => {
-              document.querySelector(".js-md5-issues-reports").innerHTML = text;
+              const reloadNode = document.querySelector(".js-md5-issues-reports");
+              reloadNode.innerHTML = text;
+              window.executeScriptElements(reloadNode);
             });
           });
         </script>

@@ -5,6 +5,7 @@ import flask_mail
 import datetime
 import jwt
 import re
+import collections
 
 from flask import Blueprint, request, g, make_response, render_template
 from flask_cors import cross_origin
@@ -12,7 +13,7 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistCommentReactions
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -147,36 +148,6 @@ def copyright():
         mariapersist_session.commit()
         return "{}"
 
-@dyn.get("/md5_reports/<string:md5_input>")
-@allthethings.utils.no_cache()
-def md5_reports(md5_input):
-    md5_input = md5_input[0:50]
-    canonical_md5 = md5_input.strip().lower()[0:32]
-    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        raise Exception("Non-canonical md5")
-
-    with Session(mariapersist_engine) as mariapersist_session:
-        data_md5 = bytes.fromhex(canonical_md5)
-        reports = mariapersist_session.connection().execute(
-                select(MariapersistMd5Report.created, MariapersistMd5Report.type, MariapersistMd5Report.account_id, MariapersistMd5Report.better_md5, MariapersistAccounts.display_name, MariapersistComments.content)
-                .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistMd5Report.account_id)
-                .join(MariapersistComments, MariapersistComments.resource == func.concat('md5_report:', MariapersistMd5Report.md5_report_id))
-                .where(MariapersistMd5Report.md5 == data_md5)
-                .order_by(MariapersistMd5Report.created.desc())
-                .limit(10000)
-            ).all()
-        report_dicts = [{ 
-            **report,
-            'created_delta': report.created - datetime.datetime.now(),
-            'better_md5': report.better_md5.hex() if report.better_md5 is not None else None,
-        } for report in reports]
-
-        return render_template(
-            "dyn/md5_reports.html",
-            report_dicts=report_dicts,
-            md5_report_type_mapping=allthethings.utils.get_md5_report_type_mapping(),
-        )
-
 @dyn.get("/md5/summary/<string:md5_input>")
 @allthethings.utils.public_cache(minutes=0, shared_minutes=1)
 def md5_summary(md5_input):
@@ -272,6 +243,39 @@ def put_comment(resource):
         mariapersist_session.commit()
         return "{}"
 
+def get_comment_dicts(mariapersist_session, resources):
+    account_id = allthethings.utils.get_account_id(request.cookies)
+
+    comments = mariapersist_session.connection().execute(
+            select(MariapersistComments, MariapersistAccounts.display_name, MariapersistCommentReactions.type.label('user_reaction'))
+            .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistComments.account_id)
+            .join(MariapersistCommentReactions, (MariapersistCommentReactions.comment_id == MariapersistComments.comment_id) & (MariapersistCommentReactions.account_id == account_id), isouter=True)
+            .where(MariapersistComments.resource.in_(resources))
+            .order_by(MariapersistComments.created.desc())
+            .limit(10000)
+        ).all()
+    comment_reactions = mariapersist_session.connection().execute(
+            select(MariapersistCommentReactions.comment_id, MariapersistCommentReactions.type, func.count(MariapersistCommentReactions.account_id).label('count'))
+            .where(MariapersistCommentReactions.comment_id.in_([comment.comment_id for comment in comments]))
+            .group_by(MariapersistCommentReactions.comment_id, MariapersistCommentReactions.type)
+            .limit(10000)
+        ).all()
+    comment_reactions_by_id = collections.defaultdict(dict)
+    for reaction in comment_reactions:
+        comment_reactions_by_id[reaction['comment_id']][reaction['type']] = reaction['count']
+
+    comment_dicts = [{ 
+        **comment,
+        'created_delta': comment.created - datetime.datetime.now(),
+        'abuse_total': comment_reactions_by_id[comment.comment_id].get(1, 0),
+        'thumbs_up': comment_reactions_by_id[comment.comment_id].get(2, 0),
+        'thumbs_down': comment_reactions_by_id[comment.comment_id].get(3, 0),
+    } for comment in comments]
+
+    comment_dicts.sort(reverse=True, key=lambda c: 100000*(c['thumbs_up']-c['thumbs_down']-c['abuse_total']*5) + c['comment_id'] )
+    return comment_dicts
+
+
 @dyn.get("/comments/<string:resource>")
 @allthethings.utils.no_cache()
 def get_comments(resource):
@@ -279,19 +283,70 @@ def get_comments(resource):
         raise Exception("resource")
 
     with Session(mariapersist_engine) as mariapersist_session:
-        comments = mariapersist_session.connection().execute(
-                select(MariapersistComments, MariapersistAccounts.display_name)
-                .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistComments.account_id)
-                .where(MariapersistComments.resource == resource)
-                .order_by(MariapersistComments.created.desc())
-                .limit(10000)
-            ).all()
-        comment_dicts = [{ 
-            **comment,
-            'created_delta': comment.created - datetime.datetime.now(),
-        } for comment in comments]
+        comment_dicts = get_comment_dicts(mariapersist_session, [resource])        
 
         return render_template(
             "dyn/comments.html",
             comment_dicts=comment_dicts,
+            current_account_id=allthethings.utils.get_account_id(request.cookies),
+            reload_url=f"/dyn/comments/{resource}",
         )
+
+@dyn.get("/md5_reports/<string:md5_input>")
+@allthethings.utils.no_cache()
+def md5_reports(md5_input):
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
+        raise Exception("Non-canonical md5")
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        data_md5 = bytes.fromhex(canonical_md5)
+        reports = mariapersist_session.connection().execute(
+                select(MariapersistMd5Report.md5_report_id, MariapersistMd5Report.type, MariapersistMd5Report.better_md5)
+                .where(MariapersistMd5Report.md5 == data_md5)
+                .order_by(MariapersistMd5Report.created.desc())
+                .limit(10000)
+            ).all()
+        report_dicts_by_resource = {}
+        for r in reports:
+            report_dicts_by_resource[f"md5_report:{r.md5_report_id}"] = dict(r)
+
+        comment_dicts = [{ 
+            **comment_dict,
+            'report_dict': report_dicts_by_resource[comment_dict['resource']],
+        } for comment_dict in get_comment_dicts(mariapersist_session, report_dicts_by_resource.keys())]
+
+        return render_template(
+            "dyn/comments.html",
+            comment_dicts=comment_dicts,
+            current_account_id=allthethings.utils.get_account_id(request.cookies),
+            reload_url=f"/dyn/md5_reports/{canonical_md5}",
+            md5_report_type_mapping=allthethings.utils.get_md5_report_type_mapping(),
+        )
+
+@dyn.put("/comments/reactions/<int:reaction_type>/<int:comment_id>")
+@allthethings.utils.no_cache()
+def put_comment_reaction(reaction_type, comment_id):
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    if reaction_type not in [0,1,2,3]:
+        raise Exception("Invalid type")
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        comment_account_id = mariapersist_session.connection().execute(
+                select(MariapersistComments.account_id)
+                .where(MariapersistComments.comment_id == comment_id)
+                .limit(1)
+            ).scalar()
+        if comment_account_id == account_id:
+            return "", 403
+
+        if reaction_type == 0:
+            mariapersist_session.connection().execute(text('DELETE FROM mariapersist_comment_reactions WHERE account_id = :account_id AND comment_id = :comment_id').bindparams(account_id=account_id, comment_id=comment_id))
+        else:
+            mariapersist_session.connection().execute(text('INSERT INTO mariapersist_comment_reactions (account_id, comment_id, type) VALUES (:account_id, :comment_id, :type) ON DUPLICATE KEY UPDATE type = :type').bindparams(account_id=account_id, comment_id=comment_id, type=reaction_type))
+        mariapersist_session.commit()
+        return "{}"
