@@ -62,15 +62,17 @@ def canonical_ip_bytes(ip):
     return ipv6.packed
 
 
-def public_cache(shared_minutes=0, minutes=0):
+def public_cache(cloudflare_minutes=0, minutes=0):
     def fwrap(f):
         @functools.wraps(f)
         def wrapped_f(*args, **kwargs):
             r = flask.make_response(f(*args, **kwargs))
             if r.status_code <= 299:
-                r.headers.add('Cache-Control', f"public,max-age={int(60 * minutes)},s-maxage={int(60 * shared_minutes)}")
+                r.headers.add('Cache-Control', f"public,max-age={int(60 * minutes)},s-maxage={int(60 * minutes)}")
+                r.headers.add('Cloudflare-CDN-Cache-Control', f"max-age={int(60 * cloudflare_minutes)}")
             else:
-                r.headers.add('Cache-Control', f"no-cache")
+                r.headers.add('Cache-Control', 'no-cache')
+                r.headers.add('Cloudflare-CDN-Cache-Control', 'no-cache')
             return r
         return wrapped_f
     return fwrap
@@ -80,7 +82,8 @@ def no_cache():
         @functools.wraps(f)
         def wrapped_f(*args, **kwargs):
             r = flask.make_response(f(*args, **kwargs))
-            r.headers.add('Cache-Control', f"no-cache")
+            r.headers.add('Cache-Control', 'no-cache')
+            r.headers.add('Cloudflare-CDN-Cache-Control', 'no-cache')
             return r
         return wrapped_f
     return fwrap

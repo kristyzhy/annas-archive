@@ -72,7 +72,7 @@ def downloads_increment(md5_input):
         return ""
 
 @dyn.get("/downloads/stats/")
-@allthethings.utils.public_cache(minutes=5, shared_minutes=60)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def downloads_stats_total():
     with mariapersist_engine.connect() as mariapersist_conn:
         hour_now = int(time.time() / 3600)
@@ -86,7 +86,7 @@ def downloads_stats_total():
         return orjson.dumps({ "timeseries_x": timeseries_x, "timeseries_y": timeseries_y })
 
 @dyn.get("/downloads/stats/<string:md5_input>")
-@allthethings.utils.public_cache(minutes=5, shared_minutes=60)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def downloads_stats_md5(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -149,7 +149,7 @@ def copyright():
         return "{}"
 
 @dyn.get("/md5/summary/<string:md5_input>")
-@allthethings.utils.public_cache(minutes=0, shared_minutes=1)
+@allthethings.utils.public_cache(minutes=0, cloudflare_minutes=1)
 def md5_summary(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
