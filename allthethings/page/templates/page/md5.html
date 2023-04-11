@@ -83,8 +83,7 @@
 
     <div lang="en">
       <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
-        <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-comments" aria-selected="false" id="md5-tab-comments" aria-controls="md5-panel-comments" tabindex="0">Comments (–)</button>
-        <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-issues" aria-selected="false" id="md5-tab-issues" aria-controls="md5-panel-issues" tabindex="0">File issues (–)</button>
+        <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-discussion" aria-selected="false" id="md5-tab-discussion" aria-controls="md5-panel-discussion" tabindex="0">Discussion (–)</button>
         <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-stats" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats (–)</button>
         <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
       </div>
@@ -93,61 +92,16 @@
         document.addEventListener("DOMContentLoaded", () => {
           const md5 = {{ md5_input | tojson }};
           fetch("/dyn/md5/summary/" + md5).then((response) => response.json()).then((json) => {
-            document.querySelector(".js-md5-tab-comments").innerText = 'Comments (' + json.comments_count + ')';
-            document.querySelector(".js-md5-tab-issues").innerText = 'File issues (' + json.reports_count + ')';
+            document.querySelector(".js-md5-tab-discussion").innerText = 'Discussion (' + (json.comments_count + json.reports_count) + ')';
             document.querySelector(".js-md5-tab-stats").innerText = 'Stats (' + json.downloads_total + ')';
           });
         });
       </script>
 
-      <div id="md5-panel-comments" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-comments" hidden>
-        <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4" onclick="document.querySelector('.js-new-comment').classList.toggle('hidden'); this.classList.toggle('hidden')">New comment</button>
-
-        <div class="js-new-comment hidden mb-4">
-          <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to leave a comment.</div>
-
-          <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/comments/md5:" + {{ md5_input | tojson }})'>
-            <fieldset>
-              <p class="mb-1">
-                - For issues with files, please use the “File issues” tab.<br>
-                - Otherwise, leave a comment! 😄
-              </p>
-              <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%] h-[80px]" placeholder="I loved this book!"></textarea>
-              <div class="">
-                <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Leave comment</button>
-                <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-              </div>
-            </fieldset>
-            <div class="hidden js-success">✅ You left a comment. It might take a minute for it to show up.</div>
-            <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
-          </form>
-        </div>
-
-        <div class="js-md5-comments-list"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
-
-        <script>
-          (function() {
-            function fetchComments() {
-              const md5 = {{ md5_input | tojson }};
-              fetch("/dyn/comments/md5:" + md5).then((response) => response.ok ? response.text() : 'Error 4817518').then((text) => {
-                const reloadNode = document.querySelector(".js-md5-comments-list");
-                reloadNode.innerHTML = text;
-                window.executeScriptElements(reloadNode);
-              });
-            }
-            document.getElementById('md5-panel-comments').addEventListener("panelOpen", fetchComments);
-            document.addEventListener('DOMContentLoaded', fetchComments);
-          })();
-        </script>
-      </div>
-      <div id="md5-panel-issues" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-issues" hidden>
+      <div id="md5-panel-discussion" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-discussion" hidden>
         <div class="js-md5-issues-new-report">
-          <p class="mb-1">
-            If there are issues with the file quality, click the “New report” button.<br>
-            For help downloading or to report systemic issues, contact us on <a href="https://twitter.com/AnnaArchivist">Twitter</a>, <a href="https://www.reddit.com/r/Annas_Archive/">Reddit</a> or <a href="https://t.me/annasarchiveorg">Telegram</a>.
-          </p>
-
-          <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-6" onclick="document.querySelector('.js-report-file-issues').classList.toggle('hidden'); document.querySelector('.js-md5-issues-new-report').classList.toggle('hidden')">New report</button>
+          <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" onclick="document.querySelector('.js-report-file-issues').classList.toggle('hidden'); document.querySelector('.js-new-comment').classList.add('hidden')">Report file issue</button>
+          <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" onclick="document.querySelector('.js-new-comment').classList.toggle('hidden'); document.querySelector('.js-report-file-issues').classList.add('hidden')">Other comment</button>
         </div>
 
         <div class="js-report-file-issues hidden mb-6">
@@ -198,43 +152,54 @@
                 </p>
                 <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%] h-[120px]" placeholder="Issue description"></textarea>
                 <p class="mb-2">
-                  MD5 of the closest good version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension), which people should use instead of this file.
-                </p>
-                <p class="mb-2">
-                  If you can only find a file with a different file extension (but which matches otherwise), then that is okay, please use that.
+                  MD5 of a better version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension if you can find one), which people should use instead of this file. If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
                 </p>
                 <p class="mb-1">
                   You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ md5_input }}</strong>
                 </p>
                 <input type="text" name="better_md5" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%]" placeholder="{{ md5_input }}" minlength="32" maxlength="32" />
-                <p class="mb-4">
-                  If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
-                </p>
-                <p class="mb-4">
-                  Your report will be shown on this page, as well as reviewed manually by Anna (until we have a proper moderation system).
-                </p>
                 <div class="">
                   <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Submit report</button>
                   <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
                 </div>
               </div>
             </fieldset>
-            <div class="hidden js-success">✅ Thank you for submitting your report. We will review it as soon as possible.</div>
+            <div class="hidden js-success">✅ Thank you for submitting your report. It will be shown on this page, as well as reviewed manually by Anna (until we have a proper moderation system).</div>
             <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
           </form>
         </div>
 
-        <div class="js-md5-issues-reports"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
+        <div class="js-new-comment hidden mb-4">
+          <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to leave a comment.</div>
+
+          <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/comments/md5:" + {{ md5_input | tojson }})'>
+            <fieldset>
+              <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%] h-[80px]" placeholder="I loved this book!"></textarea>
+              <div class="">
+                <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Leave comment</button>
+                <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+              </div>
+            </fieldset>
+            <div class="hidden js-success">✅ You left a comment. It might take a minute for it to show up.</div>
+            <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
+          </form>
+        </div>
+
+        <div class="js-md5-issues-reports mt-4"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
 
         <script>
-          document.getElementById('md5-panel-issues').addEventListener("panelOpen", () => {
-            const md5 = {{ md5_input | tojson }};
-            fetch("/dyn/md5_reports/" + md5).then((response) => response.ok ? response.text() : 'Error 827151').then((text) => {
-              const reloadNode = document.querySelector(".js-md5-issues-reports");
-              reloadNode.innerHTML = text;
-              window.executeScriptElements(reloadNode);
-            });
-          });
+          (function() {
+            function fetchComments() {
+              const md5 = {{ md5_input | tojson }};
+              fetch("/dyn/md5_reports/" + md5).then((response) => response.ok ? response.text() : 'Error 827151').then((text) => {
+                const reloadNode = document.querySelector(".js-md5-issues-reports");
+                reloadNode.innerHTML = text;
+                window.executeScriptElements(reloadNode);
+              });
+            }
+            document.getElementById('md5-panel-discussion').addEventListener("panelOpen", fetchComments);
+            document.addEventListener('DOMContentLoaded', fetchComments);
+          })();
         </script>
       </div>
       <div id="md5-panel-stats" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-stats" hidden>

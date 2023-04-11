@@ -313,21 +313,21 @@ def get_comment_dicts(mariapersist_session, resources):
     return comment_dicts
 
 
-@dyn.get("/comments/<string:resource>")
-@allthethings.utils.no_cache()
-def get_comments(resource):
-    if not bool(re.match(r"^md5:[a-f\d]{32}$", resource)):
-        raise Exception("Invalid resource")
+# @dyn.get("/comments/<string:resource>")
+# @allthethings.utils.no_cache()
+# def get_comments(resource):
+#     if not bool(re.match(r"^md5:[a-f\d]{32}$", resource)):
+#         raise Exception("Invalid resource")
 
-    with Session(mariapersist_engine) as mariapersist_session:
-        comment_dicts = get_comment_dicts(mariapersist_session, [resource])        
+#     with Session(mariapersist_engine) as mariapersist_session:
+#         comment_dicts = get_comment_dicts(mariapersist_session, [resource])        
 
-        return render_template(
-            "dyn/comments.html",
-            comment_dicts=comment_dicts,
-            current_account_id=allthethings.utils.get_account_id(request.cookies),
-            reload_url=f"/dyn/comments/{resource}",
-        )
+#         return render_template(
+#             "dyn/comments.html",
+#             comment_dicts=comment_dicts,
+#             current_account_id=allthethings.utils.get_account_id(request.cookies),
+#             reload_url=f"/dyn/comments/{resource}",
+#         )
 
 @dyn.get("/md5_reports/<string:md5_input>")
 @allthethings.utils.no_cache()
@@ -351,8 +351,8 @@ def md5_reports(md5_input):
 
         comment_dicts = [{ 
             **comment_dict,
-            'report_dict': report_dicts_by_resource[comment_dict['resource']],
-        } for comment_dict in get_comment_dicts(mariapersist_session, report_dicts_by_resource.keys())]
+            'report_dict': report_dicts_by_resource.get(comment_dict['resource'], None),
+        } for comment_dict in get_comment_dicts(mariapersist_session, ([f"md5:{canonical_md5}"] + list(report_dicts_by_resource.keys())))]
 
         return render_template(
             "dyn/comments.html",

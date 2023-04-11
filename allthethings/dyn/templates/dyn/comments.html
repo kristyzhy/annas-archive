@@ -37,8 +37,8 @@
         {% endif %}
       </div>
 
-      {% if 'report_dict' in comment_dict %}
-        {% if md5_report_type_mapping %}<div class="italic">{{ md5_report_type_mapping[comment_dict.report_dict.type] }}</div>{% endif %}
+      {% if comment_dict.report_dict %}
+        {% if md5_report_type_mapping %}<div class="italic">File issue: {{ md5_report_type_mapping[comment_dict.report_dict.type] }}</div>{% endif %}
         {% if comment_dict.report_dict.better_md5 %}<div><a href="/md5/{{ comment_dict.report_dict.better_md5 }}">Better version</a></div>{% endif %}
       {% endif %}
 
