@@ -28,7 +28,7 @@
         {% if current_account_id and (comment_dict.account_id != current_account_id) and comment_dict.user_reaction != 1 %}
           <span class="relative">
             <div class="absolute right-0 top-[100%] bg-[#f2f2f2] mt-1 px-3 py-1 shadow whitespace-nowrap hidden js-comments-menu">
-              <a href="#" class="custom-a text-[#000000a3] hover:text-black" onclick='event.preventDefault(); if (confirm("Do you want to report this user for abusive or inappropriate behavior?")) { fetch("/dyn/comments/reactions/1/{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]()); }'>
+              <a href="#" class="custom-a text-[#000000a3] hover:text-black" onclick='event.preventDefault(); if (confirm("Do you want to report this user for abusive or inappropriate behavior?")) { fetch("/dyn/comments/reactions/1/comment:{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]()); }'>
                 Report abuse
               </a>
             </div>
@@ -48,9 +48,9 @@
         {% if comment_dict.user_reaction == 1 %}
           <span class="italic text-sm text-[#555]">You reported this user for abuse.</span>
         {% else %}
-          <button {% if (not current_account_id) or (comment_dict.account_id == current_account_id) %}disabled class="text-[#aaa]{% else %}class="hover:text-black{% endif %} mb-[-3px] text-xl text-[#777] align-[-4px] {% if comment_dict.user_reaction == 2 %}icon-[tabler--thumb-up-filled]{% else %}icon-[tabler--thumb-up]{% endif %}" onclick='event.preventDefault(); fetch("/dyn/comments/reactions/{% if comment_dict.user_reaction == 2 %}0{% else %}2{% endif %}/{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]())'></button>
+          <button {% if (not current_account_id) or (comment_dict.account_id == current_account_id) %}disabled class="text-[#aaa]{% else %}class="hover:text-black{% endif %} mb-[-3px] text-xl text-[#777] align-[-4px] {% if comment_dict.user_reaction == 2 %}icon-[tabler--thumb-up-filled]{% else %}icon-[tabler--thumb-up]{% endif %}" onclick='event.preventDefault(); fetch("/dyn/comments/reactions/{% if comment_dict.user_reaction == 2 %}0{% else %}2{% endif %}/comment:{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]())'></button>
           {% if comment_dict.thumbs_up > 0 %}{{ comment_dict.thumbs_up }}{% endif %}
-          <button {% if (not current_account_id) or (comment_dict.account_id == current_account_id) %}disabled class="text-[#aaa]{% else %}class="hover:text-black{% endif %} ml-2 mb-[-3px] text-xl text-[#777] align-[-4px] {% if comment_dict.user_reaction == 3 %}icon-[tabler--thumb-down-filled]{% else %}icon-[tabler--thumb-down]{% endif %}" onclick='event.preventDefault(); fetch("/dyn/comments/reactions/{% if comment_dict.user_reaction == 3 %}0{% else %}3{% endif %}/{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]())'></button>
+          <button {% if (not current_account_id) or (comment_dict.account_id == current_account_id) %}disabled class="text-[#aaa]{% else %}class="hover:text-black{% endif %} ml-2 mb-[-3px] text-xl text-[#777] align-[-4px] {% if comment_dict.user_reaction == 3 %}icon-[tabler--thumb-down-filled]{% else %}icon-[tabler--thumb-down]{% endif %}" onclick='event.preventDefault(); fetch("/dyn/comments/reactions/{% if comment_dict.user_reaction == 3 %}0{% else %}3{% endif %}/comment:{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]())'></button>
           {% if comment_dict.thumbs_down > 0 %}{{ comment_dict.thumbs_down }}{% endif %}
         {% endif %}
 

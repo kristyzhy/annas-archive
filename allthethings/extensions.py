@@ -122,5 +122,5 @@ class MariapersistMd5Report(ReflectedMariapersist):
     __tablename__ = "mariapersist_md5_report"
 class MariapersistComments(ReflectedMariapersist):
     __tablename__ = "mariapersist_comments"
-class MariapersistCommentReactions(ReflectedMariapersist):
-    __tablename__ = "mariapersist_comment_reactions"
+class MariapersistReactions(ReflectedMariapersist):
+    __tablename__ = "mariapersist_reactions"

@@ -40,15 +40,18 @@ CREATE TABLE mariapersist_comments (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 ALTER TABLE mariapersist_comments ADD CONSTRAINT `mariapersist_comments_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
 
-CREATE TABLE mariapersist_comment_reactions (
+CREATE TABLE mariapersist_reactions (
+    `reaction_id` BIGINT NOT NULL AUTO_INCREMENT,
     `account_id` CHAR(7) NOT NULL,
-    `comment_id` BIGINT NOT NULL,
+    `resource` VARCHAR(255) NOT NULL,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `type` TINYINT(1) NOT NULL,
-    PRIMARY KEY (`comment_id`, `account_id`),
+    PRIMARY KEY (`reaction_id`),
+    UNIQUE INDEX (`account_id`,`resource`),
     INDEX (`updated`),
     INDEX (`account_id`,`updated`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-ALTER TABLE mariapersist_comment_reactions ADD CONSTRAINT `mariapersist_comment_reactions_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
-ALTER TABLE mariapersist_comment_reactions ADD CONSTRAINT `mariapersist_comment_reactions_comment_id` FOREIGN KEY(`comment_id`) REFERENCES `mariapersist_comments` (`comment_id`);
+ALTER TABLE mariapersist_reactions ADD CONSTRAINT `mariapersist_reactions_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
+
+

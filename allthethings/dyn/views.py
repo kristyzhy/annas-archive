@@ -13,7 +13,7 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistCommentReactions
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -263,29 +263,29 @@ def get_comment_dicts(mariapersist_session, resources):
     account_id = allthethings.utils.get_account_id(request.cookies)
 
     comments = mariapersist_session.connection().execute(
-            select(MariapersistComments, MariapersistAccounts.display_name, MariapersistCommentReactions.type.label('user_reaction'))
+            select(MariapersistComments, MariapersistAccounts.display_name, MariapersistReactions.type.label('user_reaction'))
             .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistComments.account_id)
-            .join(MariapersistCommentReactions, (MariapersistCommentReactions.comment_id == MariapersistComments.comment_id) & (MariapersistCommentReactions.account_id == account_id), isouter=True)
+            .join(MariapersistReactions, (MariapersistReactions.resource == func.concat("comment:",MariapersistComments.comment_id)) & (MariapersistReactions.account_id == account_id), isouter=True)
             .where(MariapersistComments.resource.in_(resources))
             .limit(10000)
         ).all()
     replies = mariapersist_session.connection().execute(
-            select(MariapersistComments, MariapersistAccounts.display_name, MariapersistCommentReactions.type.label('user_reaction'))
+            select(MariapersistComments, MariapersistAccounts.display_name, MariapersistReactions.type.label('user_reaction'))
             .join(MariapersistAccounts, MariapersistAccounts.account_id == MariapersistComments.account_id)
-            .join(MariapersistCommentReactions, (MariapersistCommentReactions.comment_id == MariapersistComments.comment_id) & (MariapersistCommentReactions.account_id == account_id), isouter=True)
+            .join(MariapersistReactions, (MariapersistReactions.resource == func.concat("comment:",MariapersistComments.comment_id)) & (MariapersistReactions.account_id == account_id), isouter=True)
             .where(MariapersistComments.resource.in_([f"comment:{comment.comment_id}" for comment in comments]))
             .order_by(MariapersistComments.comment_id.asc())
             .limit(10000)
         ).all()
     comment_reactions = mariapersist_session.connection().execute(
-            select(MariapersistCommentReactions.comment_id, MariapersistCommentReactions.type, func.count(MariapersistCommentReactions.account_id).label('count'))
-            .where(MariapersistCommentReactions.comment_id.in_([comment.comment_id for comment in (comments+replies)]))
-            .group_by(MariapersistCommentReactions.comment_id, MariapersistCommentReactions.type)
+            select(MariapersistReactions.resource, MariapersistReactions.type, func.count(MariapersistReactions.account_id).label('count'))
+            .where(MariapersistReactions.resource.in_([f"comment:{comment.comment_id}" for comment in (comments+replies)]))
+            .group_by(MariapersistReactions.resource, MariapersistReactions.type)
             .limit(10000)
         ).all()
     comment_reactions_by_id = collections.defaultdict(dict)
     for reaction in comment_reactions:
-        comment_reactions_by_id[reaction['comment_id']][reaction['type']] = reaction['count']
+        comment_reactions_by_id[int(reaction['resource'][len("comment:"):])][reaction['type']] = reaction['count']
 
     reply_dicts_by_parent_comment_id = collections.defaultdict(list)
     for reply in replies: # Note: these are already sorted chronologically.
@@ -362,24 +362,32 @@ def md5_reports(md5_input):
             md5_report_type_mapping=allthethings.utils.get_md5_report_type_mapping(),
         )
 
-@dyn.put("/comments/reactions/<int:reaction_type>/<int:comment_id>")
+@dyn.put("/comments/reactions/<int:reaction_type>/<string:resource>")
 @allthethings.utils.no_cache()
-def put_comment_reaction(reaction_type, comment_id):
+def put_comment_reaction(reaction_type, resource):
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
         return "", 403
 
-    if reaction_type not in [0,1,2,3]:
-        raise Exception("Invalid type")
-
     with Session(mariapersist_engine) as mariapersist_session:
-        comment_account_id = mariapersist_session.connection().execute(select(MariapersistComments.account_id).where(MariapersistComments.comment_id == comment_id).limit(1)).scalar()
-        if comment_account_id == account_id:
-            return "", 403
+        resource_type = get_resource_type(resource)
+        if resource_type not in ['md5', 'comment']:
+            raise Exception("Invalid resource")
+        if resource_type == 'comment':
+            if reaction_type not in [0,1,2,3]:
+                raise Exception("Invalid reaction_type")
+            comment_account_id = mariapersist_session.connection().execute(select(MariapersistComments.resource).where(MariapersistComments.comment_id == int(resource[len('comment:'):])).limit(1)).scalar()
+            if comment_account_id is None:
+                raise Exception("No parent comment")
+            if comment_account_id == account_id:
+                return "", 403
+        elif resource_type == 'md5':
+            # if reaction_type not in [0,2]:
+            raise Exception("Invalid reaction_type")
 
         if reaction_type == 0:
-            mariapersist_session.connection().execute(text('DELETE FROM mariapersist_comment_reactions WHERE account_id = :account_id AND comment_id = :comment_id').bindparams(account_id=account_id, comment_id=comment_id))
+            mariapersist_session.connection().execute(text('DELETE FROM mariapersist_reactions WHERE account_id = :account_id AND resource = :resource').bindparams(account_id=account_id, resource=resource))
         else:
-            mariapersist_session.connection().execute(text('INSERT INTO mariapersist_comment_reactions (account_id, comment_id, type) VALUES (:account_id, :comment_id, :type) ON DUPLICATE KEY UPDATE type = :type').bindparams(account_id=account_id, comment_id=comment_id, type=reaction_type))
+            mariapersist_session.connection().execute(text('INSERT INTO mariapersist_reactions (account_id, resource, type) VALUES (:account_id, :resource, :type) ON DUPLICATE KEY UPDATE type = :type').bindparams(account_id=account_id, resource=resource, type=reaction_type))
         mariapersist_session.commit()
         return "{}"
