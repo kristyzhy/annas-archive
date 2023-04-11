@@ -117,7 +117,7 @@ def account_access():
         algorithm="HS256"
     )
 
-    url = g.full_domain + '/account/access/' + allthethings.utils.strip_jwt_prefix(jwt_payload)
+    url = g.full_domain + '/account/access/' + allthethings.utils.strip_jwt_prefix(jwt_payload).replace('.', '/')
     subject = "Log in to Anna’s Archive"
     body = "Hi! Please use the following link to log in to Anna’s Archive:\n\n" + url + "\n\nIf you run into any issues, feel free to reply to this email.\n-Anna"
 

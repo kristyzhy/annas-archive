@@ -46,6 +46,11 @@ def account_downloaded_page():
             md5_dicts_downloaded = get_md5_dicts_elasticsearch(mariapersist_session, [download.md5.hex() for download in downloads])
         return render_template("account/downloaded.html", header_active="account/downloaded", md5_dicts_downloaded=md5_dicts_downloaded)
 
+@account.get("/access/<string:partial_jwt_token1>/<string:partial_jwt_token2>")
+@allthethings.utils.no_cache()
+def account_access_page_split_tokens(partial_jwt_token1, partial_jwt_token2):
+    return account_access_page(f"{partial_jwt_token1}.{partial_jwt_token2}")
+
 @account.get("/access/<string:partial_jwt_token>")
 @allthethings.utils.no_cache()
 def account_access_page(partial_jwt_token):
