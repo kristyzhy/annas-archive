@@ -89,24 +89,45 @@
       </div>
 
       <script>
-        window.md5ReloadSummary = function() {
-          const md5 = {{ md5_input | tojson }};
-          fetch("/dyn/md5/summary/" + md5).then((response) => response.json()).then((json) => {
-            document.querySelector(".js-md5-tab-discussion").innerText = 'Discussion (' + (json.comments_count + json.reports_count + json.great_quality_count) + ')';
-            document.querySelector(".js-md5-tab-stats").innerText = 'Stats (' + json.downloads_total + ')';
-            document.querySelector(".js-md5-button-new-issue-label").innerText = 'Report file issue (' + json.reports_count + ')';
-            document.querySelector(".js-md5-button-great-quality-label").innerText = 'Great file quality (' + json.great_quality_count + ')';
-            document.querySelector(".js-md5-button-new-comment").innerText = 'Add comment (' + json.comments_count + ')';
-            window.md5UserReaction = json.user_reaction;
-            document.querySelector(".js-md5-button-great-quality").classList.toggle("selected", window.md5UserReaction === 2);
-            document.querySelector(".js-md5-button-new-comment").classList.toggle("disabled", window.md5UserReaction !== 2);
-            if (window.md5UserReaction !== 2) {
-              document.querySelector('.js-new-comment').classList.toggle('hidden', true);
-            }
-          });
-        };
-        document.addEventListener("DOMContentLoaded", window.md5ReloadSummary);
       </script>
+      <script>
+          (function() {
+            const md5 = {{ md5_input | tojson }};
+
+            function fetchComments() {
+              fetch("/dyn/md5_reports/" + md5).then((response) => response.ok ? response.text() : 'Error 827151').then((text) => {
+                const reloadNode = document.querySelector(".js-md5-issues-reports");
+                reloadNode.innerHTML = text;
+                window.executeScriptElements(reloadNode);
+              });
+            }
+
+            window.md5ReloadSummary = function() {
+              fetch("/dyn/md5/summary/" + md5).then((response) => response.json()).then((json) => {
+                document.querySelector(".js-md5-tab-discussion").innerText = 'Discussion (' + (json.comments_count + json.reports_count + json.great_quality_count) + ')';
+                document.querySelector(".js-md5-tab-stats").innerText = 'Stats (' + json.downloads_total + ')';
+                document.querySelector(".js-md5-button-new-issue-label").innerText = 'Report file issue (' + json.reports_count + ')';
+                document.querySelector(".js-md5-button-great-quality-label").innerText = 'Great file quality (' + json.great_quality_count + ')';
+                document.querySelector(".js-md5-button-new-comment").innerText = 'Add comment (' + json.comments_count + ')';
+                window.md5UserReaction = json.user_reaction;
+                document.querySelector(".js-md5-button-great-quality").classList.toggle("selected", window.md5UserReaction === 2);
+                document.querySelector(".js-md5-button-new-comment").classList.toggle("disabled", window.md5UserReaction !== 2);
+                if (window.md5UserReaction !== 2) {
+                  document.querySelector('.js-new-comment').classList.toggle('hidden', true);
+                }
+
+                if (json.comments_count > 0 || json.reports_count > 0) {
+                  document.getElementById('md5-panel-discussion').addEventListener("panelOpen", fetchComments);
+                  fetchComments();
+                } else {
+                  document.querySelector(".js-md5-issues-reports").classList.add("hidden");
+                }
+              });
+            };
+
+            document.addEventListener("DOMContentLoaded", window.md5ReloadSummary);
+          })();
+        </script>
 
       <div id="md5-panel-discussion" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-discussion" hidden>
         <p class="mb-4">
@@ -201,21 +222,6 @@
         </div>
 
         <div class="js-md5-issues-reports mt-4"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
-
-        <script>
-          (function() {
-            function fetchComments() {
-              const md5 = {{ md5_input | tojson }};
-              fetch("/dyn/md5_reports/" + md5).then((response) => response.ok ? response.text() : 'Error 827151').then((text) => {
-                const reloadNode = document.querySelector(".js-md5-issues-reports");
-                reloadNode.innerHTML = text;
-                window.executeScriptElements(reloadNode);
-              });
-            }
-            document.getElementById('md5-panel-discussion').addEventListener("panelOpen", fetchComments);
-            document.addEventListener('DOMContentLoaded', fetchComments);
-          })();
-        </script>
       </div>
       <div id="md5-panel-stats" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-stats" hidden>
         <p class="mb-4">
