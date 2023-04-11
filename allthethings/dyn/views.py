@@ -156,12 +156,18 @@ def md5_summary(md5_input):
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
         raise Exception("Non-canonical md5")
 
+    account_id = allthethings.utils.get_account_id(request.cookies)
+
     with Session(mariapersist_engine) as mariapersist_session:
         data_md5 = bytes.fromhex(canonical_md5)
         reports_count = mariapersist_session.connection().execute(select(func.count(MariapersistMd5Report.md5_report_id)).where(MariapersistMd5Report.md5 == data_md5).limit(1)).scalar()
-        comments_count = mariapersist_session.connection().execute(select(func.count(MariapersistComments.comment_id)).where(MariapersistComments.resource == f"md5:{data_md5}").limit(1)).scalar()
-        downloads_total = mariapersist_session.connection().execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).scalar() or 0
-        return orjson.dumps({ "reports_count": reports_count, "comments_count": comments_count, "downloads_total": downloads_total })
+        comments_count = mariapersist_session.connection().execute(select(func.count(MariapersistComments.comment_id)).where(MariapersistComments.resource == f"md5:{canonical_md5}").limit(1)).scalar()
+        downloads_total = mariapersist_session.connection().execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == data_md5).limit(1)).scalar() or 0
+        great_quality_count = mariapersist_session.connection().execute(select(func.count(MariapersistReactions.reaction_id)).where(MariapersistReactions.resource == f"md5:{canonical_md5}").limit(1)).scalar()
+        user_reaction = None
+        if account_id is not None:
+            user_reaction = mariapersist_session.connection().execute(select(MariapersistReactions.type).where((MariapersistReactions.resource == f"md5:{canonical_md5}") & (MariapersistReactions.account_id == account_id)).limit(1)).scalar()
+        return orjson.dumps({ "reports_count": reports_count, "comments_count": comments_count, "downloads_total": downloads_total, "great_quality_count": great_quality_count, "user_reaction": user_reaction })
 
 
 @dyn.put("/md5_report/<string:md5_input>")
@@ -362,7 +368,7 @@ def md5_reports(md5_input):
             md5_report_type_mapping=allthethings.utils.get_md5_report_type_mapping(),
         )
 
-@dyn.put("/comments/reactions/<int:reaction_type>/<string:resource>")
+@dyn.put("/reactions/<int:reaction_type>/<string:resource>")
 @allthethings.utils.no_cache()
 def put_comment_reaction(reaction_type, resource):
     account_id = allthethings.utils.get_account_id(request.cookies)
@@ -382,8 +388,8 @@ def put_comment_reaction(reaction_type, resource):
             if comment_account_id == account_id:
                 return "", 403
         elif resource_type == 'md5':
-            # if reaction_type not in [0,2]:
-            raise Exception("Invalid reaction_type")
+            if reaction_type not in [0,2]:
+                raise Exception("Invalid reaction_type")
 
         if reaction_type == 0:
             mariapersist_session.connection().execute(text('DELETE FROM mariapersist_reactions WHERE account_id = :account_id AND resource = :resource').bindparams(account_id=account_id, resource=resource))
