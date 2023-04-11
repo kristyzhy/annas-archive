@@ -1773,17 +1773,21 @@ def md5_page(md5_input):
             return render_template("page/md5.html", header_active="search", md5_input=md5_input)
 
         md5_dict = md5_dicts[0]
+
+        render_fields = {
+            "header_active": "search",
+            "md5_input": md5_input,
+            "md5_dict": md5_dict,
+            "md5_dict_json": nice_json(md5_dict),
+            "md5_content_type_mapping": get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale())),
+            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
+            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
+        }
         
-        return render_template(
-            "page/md5.html",
-            header_active="search",
-            md5_input=md5_input,
-            md5_dict=md5_dict,
-            md5_dict_json=nice_json(md5_dict),
-            md5_content_type_mapping=get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale())),
-            md5_problem_type_mapping=get_md5_problem_type_mapping(),
-            md5_report_type_mapping=allthethings.utils.get_md5_report_type_mapping(),
-        )
+        if request.args.get("tech_details") == "y":
+            return render_template("page/md5_tech_details.html", **render_fields)
+        else:
+            return render_template("page/md5.html", **render_fields)
 
 
 sort_search_md5_dicts_script = """
