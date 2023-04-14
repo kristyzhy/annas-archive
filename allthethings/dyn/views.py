@@ -149,7 +149,7 @@ def copyright():
         return "{}"
 
 @dyn.get("/md5/summary/<string:md5_input>")
-@allthethings.utils.public_cache(minutes=0, cloudflare_minutes=1)
+@allthethings.utils.no_cache()
 def md5_summary(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
