@@ -27,13 +27,22 @@
         return true;
       }
 
+      const otherProblematicDomains = ["21cn.com"]
+      if (otherProblematicDomains.some((domain) => email.endsWith(domain))) {
+        accountShowError(email, "We are currently having issues delivering to this provider. Please use a different email. See below for suggestions.");
+        return false;
+      }
       if (window.emailMisspelled.microsoft.some((domain) => email.endsWith(domain))) {
         accountShowError(email, "We are currently having issues delivering to Microsoft accounts. Please use a different email. See below for suggestions.");
         return false;
       }
       suggestions = window.emailMisspelled.emailMisspelled({ domains: window.emailMisspelled.all })(email);
       if (suggestions.length > 0) {
-        accountShowError(email, "Did you mean “" + suggestions[0].suggest + "”?");
+        accountShowError(email, "Did you mean “" + suggestions[0].suggest + "”? Please double check!");
+        return false;
+      }
+      if (!/^\S+@\S+\.\S+$/.test(email) || email.endsWith(".con")) {
+        accountShowError(email, "It looks like you misspelled your email address. Please double check!");
         return false;
       }
 

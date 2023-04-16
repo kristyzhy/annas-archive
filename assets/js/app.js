@@ -4,8 +4,12 @@ import Plotly from 'plotly.js-dist-min'
 
 window.Plotly = Plotly;
 
+
+const microsoftWithMsn = microsoft.concat(
+    microsoft.filter(e => e.includes('hotmail')).map(e => e.replace('hotmail', 'msn'))
+);
 window.emailMisspelled = {
-    emailMisspelled, microsoft, all
+    emailMisspelled, microsoft: microsoftWithMsn, all
 };
 
 document.addEventListener("DOMContentLoaded", () => {
