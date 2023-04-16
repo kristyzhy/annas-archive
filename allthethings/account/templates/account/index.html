@@ -90,9 +90,9 @@
 
       <form autocomplete="on" onsubmit="if (accountValidateEmail(event)) {window.submitForm(event, '/dyn/account/access/'); document.querySelector('.js-account-sent-email').innerText = document.getElementById('email').value }" class="mb-4">
         <fieldset class="mb-4">
-          <p class="mb-4">Enter your email address. If you don’t have an account yet, a new one will be created.</p>
-          <p class="mb-4">We will never share or display your email address.</p>
-          <input type="email" id="email" name="email" required placeholder="anna@example.org" class="js-account-email w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-4" />
+          <p class="mb-4">Enter your email address to login or register. We do not use passwords.</p>
+          <input type="email" id="email" name="email" required placeholder="anna@example.org" class="js-account-email w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" />
+          <p class="mb-4 text-sm text-gray-500">We never share or display your email address.</p>
           <div class="js-account-email-validation-error-msg hidden mb-4 text-red-500"></div>
           <div class="mb-4">
             <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Send login email</button>
