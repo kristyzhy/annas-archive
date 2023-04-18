@@ -6,6 +6,7 @@ import datetime
 import jwt
 import re
 import collections
+import shortuuid
 
 from flask import Blueprint, request, g, make_response, render_template
 from flask_cors import cross_origin
@@ -13,7 +14,7 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -162,12 +163,13 @@ def md5_summary(md5_input):
         data_md5 = bytes.fromhex(canonical_md5)
         reports_count = mariapersist_session.connection().execute(select(func.count(MariapersistMd5Report.md5_report_id)).where(MariapersistMd5Report.md5 == data_md5).limit(1)).scalar()
         comments_count = mariapersist_session.connection().execute(select(func.count(MariapersistComments.comment_id)).where(MariapersistComments.resource == f"md5:{canonical_md5}").limit(1)).scalar()
+        lists_count = mariapersist_session.connection().execute(select(func.count(MariapersistListEntries.list_entry_id)).where(MariapersistListEntries.resource == f"md5:{canonical_md5}").limit(1)).scalar()
         downloads_total = mariapersist_session.connection().execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == data_md5).limit(1)).scalar() or 0
         great_quality_count = mariapersist_session.connection().execute(select(func.count(MariapersistReactions.reaction_id)).where(MariapersistReactions.resource == f"md5:{canonical_md5}").limit(1)).scalar()
         user_reaction = None
         if account_id is not None:
             user_reaction = mariapersist_session.connection().execute(select(MariapersistReactions.type).where((MariapersistReactions.resource == f"md5:{canonical_md5}") & (MariapersistReactions.account_id == account_id)).limit(1)).scalar()
-        return orjson.dumps({ "reports_count": reports_count, "comments_count": comments_count, "downloads_total": downloads_total, "great_quality_count": great_quality_count, "user_reaction": user_reaction })
+        return orjson.dumps({ "reports_count": reports_count, "comments_count": comments_count, "lists_count": lists_count, "downloads_total": downloads_total, "great_quality_count": great_quality_count, "user_reaction": user_reaction })
 
 
 @dyn.put("/md5_report/<string:md5_input>")
@@ -211,7 +213,7 @@ def md5_report(md5_input):
 
 @dyn.put("/account/display_name/")
 @allthethings.utils.no_cache()
-def display_name():
+def put_display_name():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
         return "", 403
@@ -225,6 +227,23 @@ def display_name():
 
     with Session(mariapersist_engine) as mariapersist_session:
         mariapersist_session.connection().execute(text('UPDATE mariapersist_accounts SET display_name = :display_name WHERE account_id = :account_id').bindparams(display_name=display_name, account_id=account_id))
+        mariapersist_session.commit()
+        return "{}"
+
+@dyn.put("/list/name/<string:list_id>")
+@allthethings.utils.no_cache()
+def put_list_name(list_id):
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    name = request.form['name'].strip()
+    if len(name) == 0:
+        return "", 500
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        # Note, this also does validation by checking for account_id.
+        mariapersist_session.connection().execute(text('UPDATE mariapersist_lists SET name = :name WHERE account_id = :account_id AND list_id = :list_id').bindparams(name=name, account_id=account_id, list_id=list_id))
         mariapersist_session.commit()
         return "{}"
 
@@ -397,3 +416,100 @@ def put_comment_reaction(reaction_type, resource):
             mariapersist_session.connection().execute(text('INSERT INTO mariapersist_reactions (account_id, resource, type) VALUES (:account_id, :resource, :type) ON DUPLICATE KEY UPDATE type = :type').bindparams(account_id=account_id, resource=resource, type=reaction_type))
         mariapersist_session.commit()
         return "{}"
+
+@dyn.put("/lists_update/<string:resource>")
+@allthethings.utils.no_cache()
+def lists_update(resource):
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        resource_type = get_resource_type(resource)
+        if resource_type not in ['md5']:
+            raise Exception("Invalid resource")
+
+        my_lists = mariapersist_session.connection().execute(
+            select(MariapersistLists.list_id, MariapersistListEntries.list_entry_id)
+            .join(MariapersistListEntries, (MariapersistListEntries.list_id == MariapersistLists.list_id) & (MariapersistListEntries.account_id == account_id) & (MariapersistListEntries.resource == resource), isouter=True)
+            .where(MariapersistLists.account_id == account_id)
+            .order_by(MariapersistLists.updated.desc())
+            .limit(10000)
+        ).all()
+
+        selected_list_ids = set([list_id for list_id in request.form.keys() if list_id != 'list_new_name' and request.form[list_id] == 'on'])
+        list_ids_to_add = []
+        list_ids_to_remove = []
+        for list_record in my_lists:
+            if list_record.list_entry_id is None and list_record.list_id in selected_list_ids:
+                list_ids_to_add.append(list_record.list_id)
+            elif list_record.list_entry_id is not None and list_record.list_id not in selected_list_ids:
+                list_ids_to_remove.append(list_record.list_id)
+        list_new_name = request.form['list_new_name'].strip()
+
+        if len(list_new_name) > 0:
+            for _ in range(5):
+                insert_data = { 'list_id': shortuuid.random(length=7), 'account_id': account_id, 'name': list_new_name }
+                try:
+                    mariapersist_session.connection().execute(text('INSERT INTO mariapersist_lists (list_id, account_id, name) VALUES (:list_id, :account_id, :name)').bindparams(**insert_data))
+                    list_ids_to_add.append(insert_data['list_id'])
+                    break
+                except Exception as err:
+                    print("List creation error", err)
+                    pass
+
+        if len(list_ids_to_add) > 0:
+            mariapersist_session.execute('INSERT INTO mariapersist_list_entries (account_id, list_id, resource) VALUES (:account_id, :list_id, :resource)',
+                [{ 'account_id': account_id, 'list_id': list_id, 'resource': resource } for list_id in list_ids_to_add])
+        if len(list_ids_to_remove) > 0:
+            mariapersist_session.execute('DELETE FROM mariapersist_list_entries WHERE account_id = :account_id AND resource = :resource AND list_id = :list_id',
+                [{ 'account_id': account_id, 'list_id': list_id, 'resource': resource } for list_id in list_ids_to_remove])
+        mariapersist_session.commit()
+
+        return '{}'
+
+@dyn.get("/lists/<string:resource>")
+@allthethings.utils.no_cache()
+def lists(resource):
+    with Session(mariapersist_engine) as mariapersist_session:
+        resource_lists = mariapersist_session.connection().execute(
+            select(MariapersistLists.list_id, MariapersistLists.name, MariapersistAccounts.display_name, MariapersistAccounts.account_id)
+            .join(MariapersistListEntries, MariapersistListEntries.list_id == MariapersistLists.list_id)
+            .join(MariapersistAccounts, MariapersistLists.account_id == MariapersistAccounts.account_id)
+            .where(MariapersistListEntries.resource == resource)
+            .order_by(MariapersistLists.updated.desc())
+            .limit(10000)
+        ).all()
+
+        my_lists = []
+        account_id = allthethings.utils.get_account_id(request.cookies)
+        if account_id is not None:
+            my_lists = mariapersist_session.connection().execute(
+                select(MariapersistLists.list_id, MariapersistLists.name, MariapersistListEntries.list_entry_id)
+                .join(MariapersistListEntries, (MariapersistListEntries.list_id == MariapersistLists.list_id) & (MariapersistListEntries.account_id == account_id) & (MariapersistListEntries.resource == resource), isouter=True)
+                .where(MariapersistLists.account_id == account_id)
+                .order_by(MariapersistLists.updated.desc())
+                .limit(10000)
+            ).all()
+
+        return render_template(
+            "dyn/lists.html",
+            resource_list_dicts=[dict(list_record) for list_record in resource_lists],
+            my_list_dicts=[{ "list_id": list_record['list_id'], "name": list_record['name'], "selected": list_record['list_entry_id'] is not None } for list_record in my_lists],
+            reload_url=f"/dyn/lists/{resource}",
+            resource=resource,
+        )
+        
+
+
+
+
+
+
+
+
+
+
+
+
+

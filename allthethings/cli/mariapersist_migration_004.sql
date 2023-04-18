@@ -54,4 +54,31 @@ CREATE TABLE mariapersist_reactions (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 ALTER TABLE mariapersist_reactions ADD CONSTRAINT `mariapersist_reactions_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
 
+CREATE TABLE mariapersist_lists (
+    `list_id` CHAR(7) NOT NULL,
+    `account_id` CHAR(7) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`list_id`),
+    INDEX (`updated`),
+    INDEX (`account_id`,`updated`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+ALTER TABLE mariapersist_lists ADD CONSTRAINT `mariapersist_lists_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
+
+CREATE TABLE mariapersist_list_entries (
+    `list_entry_id` BIGINT NOT NULL AUTO_INCREMENT,
+    `account_id` CHAR(7) NOT NULL,
+    `list_id` CHAR(7) NOT NULL,
+    `resource` VARCHAR(255) NOT NULL,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`list_entry_id`),
+    UNIQUE INDEX (`resource`,`list_id`),
+    INDEX (`updated`),
+    INDEX (`list_id`,`updated`),
+    INDEX (`account_id`,`updated`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+ALTER TABLE mariapersist_list_entries ADD CONSTRAINT `mariapersist_list_entries_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
+ALTER TABLE mariapersist_list_entries ADD CONSTRAINT `mariapersist_list_entries_list_id` FOREIGN KEY(`list_id`) REFERENCES `mariapersist_lists` (`list_id`);
 

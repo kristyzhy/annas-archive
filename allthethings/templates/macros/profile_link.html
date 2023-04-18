@@ -1,0 +1,3 @@
+{% macro profile_link(dict, current_account_id="") -%}
+<a class="font-bold {% if dict.account_id == current_account_id %}italic{% endif %}" href="/profile/{{ dict.account_id }}">{% if dict.display_name != dict.account_id %}{{ dict.display_name }} {% endif %}#{{ dict.account_id }}</a>
+{%- endmacro %}

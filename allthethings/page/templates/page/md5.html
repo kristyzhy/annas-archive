@@ -84,6 +84,7 @@
     <div lang="en">
       <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
         <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-discussion" aria-selected="false" id="md5-tab-discussion" aria-controls="md5-panel-discussion" tabindex="0">Discussion (–)</button>
+        <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">Lists (–)</button>
         <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-stats" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats (–)</button>
         <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
       </div>
@@ -105,6 +106,7 @@
             window.md5ReloadSummary = function() {
               fetch("/dyn/md5/summary/" + md5).then((response) => response.json()).then((json) => {
                 document.querySelector(".js-md5-tab-discussion").innerText = 'Discussion (' + (json.comments_count + json.reports_count + json.great_quality_count) + ')';
+                document.querySelector(".js-md5-tab-lists").innerText = 'Lists (' + json.lists_count + ')';
                 document.querySelector(".js-md5-tab-stats").innerText = 'Stats (' + json.downloads_total + ')';
                 document.querySelector(".js-md5-button-new-issue-label").innerText = 'Report file issue (' + json.reports_count + ')';
                 document.querySelector(".js-md5-button-great-quality-label").innerText = 'Great file quality (' + json.great_quality_count + ')';
@@ -135,18 +137,19 @@
         </p>
 
         <div class="">
-          <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-quality-logged-out").classList.toggle("hidden"); return; }; document.querySelector(".js-report-file-issues").classList.toggle("hidden"); document.querySelector(".js-new-comment").classList.add("hidden")'><span class='text-[18px] align-text-bottom text-white inline-block icon-[uil--exclamation-triangle]'></span> <span class="js-md5-button-new-issue-label">Report file issue (0)</span></button>
-          <span class="inline-block mb-2"><button class="shadow js-md5-button-great-quality custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded-l border-r border-[#999] align-bottom [&.selected]:bg-[#555] [&.selected]:pt-[5px] [&.selected]:pb-[3px] [&.selected]:shadow-[inset_0px_-1px_0px_0px_rgba(255,255,255,0.2),_inset_0px_1px_5px_0px_rgba(0,0,0,0.6)]" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-quality-logged-out").classList.toggle("hidden"); return; }; fetch("/dyn/reactions/" + (window.md5UserReaction === 2 ? 0 : 2) + "/md5:" + {{ md5_input | tojson }}, { method: "PUT" }).then(() => window.md5ReloadSummary())'><span class='text-[21px] align-[-4px] text-white inline-block icon-[material-symbols--star-outline] [button.selected>&]:icon-[material-symbols--star]'></span> <span class="js-md5-button-great-quality-label">Great file quality (0)</span></button><button class="disabled shadow js-md5-button-new-comment custom bg-[#777] hover:bg-[#999] [&.disabled]:opacity-40 [&.disabled]:hover:bg-[#777] [&.disabled]:cursor-auto text-white font-bold py-1 px-3 rounded-r" onclick="if (this.classList.contains('disabled')) { return; }; document.querySelector('.js-new-comment').classList.toggle('hidden'); document.querySelector('.js-report-file-issues').classList.add('hidden')">Add comment (0)</button></span>
+          <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; document.querySelector(".js-report-file-issues").classList.toggle("hidden"); document.querySelector(".js-new-comment").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'><span class='text-[18px] align-text-bottom text-white inline-block icon-[uil--exclamation-triangle]'></span> <span class="js-md5-button-new-issue-label">Report file issue (0)</span></button>
+          
+          <span class="inline-block mb-2"><button class="shadow js-md5-button-great-quality custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded-l border-r border-[#999] align-bottom [&.selected]:bg-[#555] [&.selected]:pt-[5px] [&.selected]:pb-[3px] [&.selected]:shadow-[inset_0px_-1px_0px_0px_rgba(255,255,255,0.2),_inset_0px_1px_5px_0px_rgba(0,0,0,0.6)]" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; fetch("/dyn/reactions/" + (window.md5UserReaction === 2 ? 0 : 2) + "/md5:" + {{ md5_input | tojson }}, { method: "PUT" }).then(() => window.md5ReloadSummary())'><span class='text-[21px] align-[-4px] text-white inline-block icon-[material-symbols--star-outline] [button.selected>&]:icon-[material-symbols--star]'></span> <span class="js-md5-button-great-quality-label">Great file quality (0)</span></button><button class="disabled shadow js-md5-button-new-comment custom bg-[#777] hover:bg-[#999] [&.disabled]:opacity-40 [&.disabled]:hover:bg-[#777] [&.disabled]:cursor-auto text-white font-bold py-1 px-3 rounded-r" onclick='if (this.classList.contains("disabled")) { return; }; document.querySelector(".js-new-comment").classList.toggle("hidden"); document.querySelector(".js-report-file-issues").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'>Add comment (0)</button></span>
         </div>
 
-        <div class="js-quality-logged-out hidden">Please <a href="/login">log in</a> to report the quality of this file.</div>
+        <div class="js-discussion-logged-out hidden">Please <a href="/login">log in</a>.</div>
 
         <form class="js-report-file-issues hidden mb-6" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ md5_input | tojson }})'>
           <fieldset>
             <p class="mb-2">
               What is wrong with this file?
             </p>
-            <select name="type" class="bg-[#00000011] px-2 py-1 rounded mb-4" oninput="for (el of document.querySelectorAll('.js-report-file-issues-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-issues-submenu-' + this.value).classList.remove('hidden')">
+            <select name="type" class="bg-[#00000011] px-2 py-1 rounded mb-4 w-[100%] max-w-[400px]" oninput="for (el of document.querySelectorAll('.js-report-file-issues-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-issues-submenu-' + this.value).classList.remove('hidden')">
               <option></option>
               {% for type in md5_report_type_mapping %}
                 <option value="{{ type }}">{{ md5_report_type_mapping[type] }}</option>
@@ -202,26 +205,35 @@
           <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
         </form>
 
-        <div class="js-new-comment hidden mb-4">
-          <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to leave a comment.</div>
-
-          <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/comments/md5:" + {{ md5_input | tojson }})'>
-            <fieldset>
-              <p class="mb-1">
-                If this file has great quality, you can discuss anything about it here! If not, please use the “Report file issue” button.
-              </p>
-              <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%] h-[80px]" placeholder="I loved this book!"></textarea>
-              <div class="">
-                <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Leave comment</button>
-                <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-              </div>
-            </fieldset>
-            <div class="hidden js-success">✅ You left a comment. It might take a minute for it to show up.</div>
-            <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
-          </form>
-        </div>
+        <form class="js-new-comment hidden mb-4" onsubmit='window.submitForm(event, "/dyn/comments/md5:" + {{ md5_input | tojson }})'>
+          <fieldset>
+            <p class="mb-1">
+              If this file has great quality, you can discuss anything about it here! If not, please use the “Report file issue” button.
+            </p>
+            <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%] h-[80px]" placeholder="I loved this book!"></textarea>
+            <div class="">
+              <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Leave comment</button>
+              <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+            </div>
+          </fieldset>
+          <div class="hidden js-success">✅ You left a comment. It might take a minute for it to show up.</div>
+          <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
+        </form>
 
         <div class="js-md5-issues-reports mt-4"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
+      </div>
+      <div id="md5-panel-lists" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-lists" hidden>
+        <script>
+          document.getElementById('md5-panel-lists').addEventListener("panelOpen", () => {
+            const md5 = {{ md5_input | tojson }};
+            fetch("/dyn/lists/md5:" + md5).then((response) => response.ok ? response.text() : 'Error 921857').then((text) => {
+              const reloadNode = document.querySelector(".js-md5-lists-wrapper");
+              reloadNode.innerHTML = text;
+              window.executeScriptElements(reloadNode);
+            });
+          });
+        </script>
+        <div class="js-md5-lists-wrapper"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
       </div>
       <div id="md5-panel-stats" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-stats" hidden>
         <p class="mb-4">

@@ -8,10 +8,12 @@
       fetch(reloadUrl).then((response) => response.ok ? response.text() : 'Error 12918371').then((text) => {
         reloadNode.innerHTML = text;
         window.executeScriptElements(reloadNode);
-      });    
+      });
     };
   })();
 </script>
+
+{% from 'macros/profile_link.html' import profile_link %}
 
 {% macro comment_base(comment_dict) %}
   {% if (comment_dict.abuse_total >= 2) or ((comment_dict.thumbs_up - comment_dict.thumbs_down) <= -3) %}
@@ -23,7 +25,7 @@
     <div class="mb-6">
   {% endif %}
       <div>
-        <span class="font-bold {% if comment_dict.account_id == current_account_id %}italic{% endif %}">{% if comment_dict.display_name != comment_dict.account_id %}{{ comment_dict.display_name }} {% endif %}#{{ comment_dict.account_id }}</span>
+        {{ profile_link(comment_dict, current_account_id) }}
         <span class="ml-2 text-[#000000a3] text-sm" title="{{ comment_dict.created | datetimeformat(format='long') }}">{{ comment_dict.created_delta | timedeltaformat(add_direction=True) }}</span>
         {% if current_account_id and (comment_dict.account_id != current_account_id) and comment_dict.user_reaction != 1 %}
           <span class="relative">

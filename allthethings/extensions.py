@@ -124,3 +124,7 @@ class MariapersistComments(ReflectedMariapersist):
     __tablename__ = "mariapersist_comments"
 class MariapersistReactions(ReflectedMariapersist):
     __tablename__ = "mariapersist_reactions"
+class MariapersistLists(ReflectedMariapersist):
+    __tablename__ = "mariapersist_lists"
+class MariapersistListEntries(ReflectedMariapersist):
+    __tablename__ = "mariapersist_list_entries"
