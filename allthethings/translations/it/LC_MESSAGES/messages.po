@@ -1,28 +1,21 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-07 10:38+0000\n"
-"PO-Revision-Date: 2023-04-19 02:52+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: Italian <https://translate.annas-software.org/projects/annas-archive/main-website/it/>\n"
-"Language: it\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15\n"
-
 #: allthethings/account/templates/account/downloaded.html:6
 #: allthethings/account/templates/account/downloaded.html:7
-#: allthethings/account/templates/account/index.html:78
-#: allthethings/account/templates/account/index.html:79
+#: allthethings/account/templates/account/expired.html:6
+#: allthethings/account/templates/account/expired.html:7
+#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:55
+#: allthethings/account/templates/account/list.html:6
+#: allthethings/account/templates/account/list.html:7
+#: allthethings/account/templates/account/profile.html:6
+#: allthethings/account/templates/account/profile.html:7
 #: allthethings/account/templates/account/request.html:6
 #: allthethings/account/templates/account/request.html:7
 #: allthethings/account/templates/account/upload.html:6
 #: allthethings/account/templates/account/upload.html:7
 #: allthethings/page/templates/page/about.html:30
 #: allthethings/page/templates/page/about.html:31
+#: allthethings/page/templates/page/copyright.html:6
+#: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:6
 #: allthethings/page/templates/page/datasets.html:7
 #: allthethings/page/templates/page/datasets_isbn_ranges.html:6
@@ -41,6 +34,8 @@ msgstr ""
 #: allthethings/page/templates/page/datasets_zlib_scrape.html:7
 #: allthethings/page/templates/page/doi.html:40
 #: allthethings/page/templates/page/doi.html:41
+#: allthethings/page/templates/page/home.html:4
+#: allthethings/page/templates/page/home.html:5
 #: allthethings/page/templates/page/isbn.html:45
 #: allthethings/page/templates/page/isbn.html:46
 #: allthethings/page/templates/page/lgli_file.html:10
@@ -49,8 +44,8 @@ msgstr ""
 #: allthethings/page/templates/page/lgrs_book.html:13
 #: allthethings/page/templates/page/login.html:4
 #: allthethings/page/templates/page/login.html:5
-#: allthethings/page/templates/page/md5.html:86
-#: allthethings/page/templates/page/md5.html:87
+#: allthethings/page/templates/page/md5.html:80
+#: allthethings/page/templates/page/md5.html:81
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/ol_book.html:8
@@ -60,107 +55,107 @@ msgstr ""
 msgid "common.english_only"
 msgstr " Il testo seguente è disponibile solo in inglese. "
 
-#: allthethings/page/views.py:1645
+#: allthethings/page/views.py:1670
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Non visibile su Library Genesis\".rs-fork\" Non-Fiction"
 
-#: allthethings/page/views.py:1646
+#: allthethings/page/views.py:1671
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Non visibile su Library Genesis\".rs-fork\" Non-Fiction"
 
-#: allthethings/page/views.py:1647
+#: allthethings/page/views.py:1672
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Non visibile in Libgen.li"
 
-#: allthethings/page/views.py:1648
+#: allthethings/page/views.py:1673
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Contrassegnato non valido in Libgen.li"
 
-#: allthethings/page/views.py:1649
+#: allthethings/page/views.py:1674
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Mancante da Z-Library"
 
-#: allthethings/page/views.py:1655
+#: allthethings/page/views.py:1680
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Libro (sconosciuto)"
 
-#: allthethings/page/views.py:1656
+#: allthethings/page/views.py:1681
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Libri (saggistica)"
 
-#: allthethings/page/views.py:1657
+#: allthethings/page/views.py:1682
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Libri (romanzi)"
 
-#: allthethings/page/views.py:1658
+#: allthethings/page/views.py:1683
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Articoli scientifici"
 
-#: allthethings/page/views.py:1659
+#: allthethings/page/views.py:1684
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Documento normativo"
 
-#: allthethings/page/views.py:1660
+#: allthethings/page/views.py:1685
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Riviste"
 
-#: allthethings/page/views.py:1661
+#: allthethings/page/views.py:1686
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Fumetti"
 
-#: allthethings/page/views.py:1663
+#: allthethings/page/views.py:1688
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "Libri (tutti)"
 
-#: allthethings/page/views.py:1708
+#: allthethings/page/views.py:1733
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Non-Fiction Libgen.rs"
 
-#: allthethings/page/views.py:1708 allthethings/page/views.py:1711
-#: allthethings/page/views.py:1714
+#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
+#: allthethings/page/views.py:1739
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(fai clic anche su \"GET\" in alto)"
 
-#: allthethings/page/views.py:1708 allthethings/page/views.py:1711
-#: allthethings/page/views.py:1714
+#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
+#: allthethings/page/views.py:1739
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(fai clic su “GET” in alto)"
 
-#: allthethings/page/views.py:1711
+#: allthethings/page/views.py:1736
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Fiction Libgen.rs"
 
-#: allthethings/page/views.py:1714
+#: allthethings/page/views.py:1739
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:1717 allthethings/page/views.py:1718
-#: allthethings/page/views.py:1719
+#: allthethings/page/views.py:1742 allthethings/page/views.py:1743
+#: allthethings/page/views.py:1744
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "Gateway IPFS #%(num)d"
 
-#: allthethings/page/views.py:1717
+#: allthethings/page/views.py:1742
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(potrebbe essere necessario provare più volte con IPFS)"
 
-#: allthethings/page/views.py:1721 allthethings/page/views.py:1722
-#: allthethings/page/views.py:1723 allthethings/page/views.py:1724
+#: allthethings/page/views.py:1746 allthethings/page/views.py:1747
+#: allthethings/page/views.py:1748 allthethings/page/views.py:1749
 msgid "page.md5.box.download.zlib_anon"
 msgstr "Z-Library Mirror Anonimo #%(num)d"
 
-#: allthethings/page/views.py:1726
+#: allthethings/page/views.py:1751
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:1726
+#: allthethings/page/views.py:1751
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(il DOI associato potrebbe non essere disponibile su Sci-Hub)"
 
-#: allthethings/page/views.py:1728
+#: allthethings/page/views.py:1753
 msgid "page.md5.box.download.zlib_tor"
 msgstr "Z-Library TOR"
 
-#: allthethings/page/views.py:1728
+#: allthethings/page/views.py:1753
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(necessita di TOR browser)"
 
@@ -234,7 +229,7 @@ msgstr "Nessun file corrispondente trovato nei nostri database."
 
 #: allthethings/page/templates/page/doi.html:37
 #: allthethings/page/templates/page/isbn.html:42
-#: allthethings/page/templates/page/md5.html:83
+#: allthethings/page/templates/page/md5.html:89
 msgid "common.tech_details"
 msgstr "Dettagli tecnici (in inglese)"
 
@@ -394,38 +389,34 @@ msgstr "<div class=\"font-bold\">Posso fare una grossa donazione?</div> Sarebbe 
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div class=\"font-bold\">Posso contribuire in altre maniere?</div> Certo! Guarda <a href=\"/about\">Chi siamo</a> nella sezione “Come aiutarci”."
 
-#: allthethings/page/templates/page/home.html:5
+#: allthethings/page/templates/page/home.html:10
 msgid "page.home.intro"
 msgstr "<span class=\"italic font-bold\">L'archivio di Anna</span> è un progetto che mira a catalogare tutti i libri esistenti, aggregando dati da varie fonti. Tracciamo anche il progresso dell'umanità nel rendere tutti questi libri facilmente disponibili il formato digitale, attraverso“<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">shadow libraries</a>”. Altre informazioni <a href=\"/about\">Chi siamo.</a>"
 
-#: allthethings/page/templates/page/home.html:21
-msgid "page.home.progress_bar.text"
-msgstr "Il 5%% del patrimonio scritto dell'umanità preservato per sempre %(info_icon)s"
-
-#: allthethings/page/templates/page/home.html:25
+#: allthethings/page/templates/page/home.html:72
 msgid "page.home.search.header"
 msgstr "Ricerca"
 
-#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/home.html:75
 msgid "page.home.search.intro"
 msgstr "Ricerca nel nostro catalogo delle shadow libraries."
 
-#: allthethings/page/templates/page/home.html:33
+#: allthethings/page/templates/page/home.html:80
 #: allthethings/page/templates/page/search.html:56
-#: allthethings/templates/layouts/index.html:240
+#: allthethings/templates/layouts/index.html:277
 msgid "common.search.placeholder"
 msgstr "Cerca titolo, autore, lingua, tipo di file, ISBN, MD5, …"
 
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:81
 #: allthethings/page/templates/page/search.html:57
 msgid "common.search.submit"
 msgstr "Ricerca"
 
-#: allthethings/page/templates/page/home.html:38
+#: allthethings/page/templates/page/home.html:85
 msgid "page.home.explore.header"
 msgstr "Esplora i libri"
 
-#: allthethings/page/templates/page/home.html:41
+#: allthethings/page/templates/page/home.html:88
 msgid "page.home.explore.intro"
 msgstr "Si tratta di una combinazione di libri popolari e libri che hanno un significato speciale per il mondo delle biblioteche shadow e della conservazione digitale."
 
@@ -453,45 +444,29 @@ msgstr "File corrispondenti nel nostro database:"
 msgid "page.isbn.results.none"
 msgstr "Nessun file corrispondente trovato nel nostro database."
 
-#: allthethings/page/templates/page/md5.html:12
-msgid "page.md5.breadcrumbs"
-msgstr "Datasets ▶ Files ▶ MD5 %(md5_input)s"
-
-#: allthethings/page/templates/page/md5.html:15
+#: allthethings/page/templates/page/md5.html:13
 msgid "page.md5.invalid.header"
 msgstr "Non trovato"
 
-#: allthethings/page/templates/page/md5.html:17
+#: allthethings/page/templates/page/md5.html:15
 msgid "page.md5.invalid.text"
 msgstr "“%(md5_input)s” non è stato trovato nel nostro database."
 
-#: allthethings/page/templates/page/md5.html:30
+#: allthethings/page/templates/page/md5.html:32
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ Questo file potrebbe presentare problemi, è stato nascosto da una libreria di origine.</span> A volte questo succede su richiesta del possessore di copyright, a volte perchè c'è un alternativa migliore disponibile, ma a volte perchè c'è un problema con il file stesso. Il download potrebbe comunque andare a buon fine, ma raccomandiamo per prima cosa di cercare un file alternativo. Più dettagli:"
 
-#: allthethings/page/templates/page/md5.html:37
+#: allthethings/page/templates/page/md5.html:39
 msgid "page.md5.box.issues.text2"
 msgstr "Se desideri comunque scaricare questo file, assicurati di utilizzare solo software affidabili e aggiornati per aprirlo."
-
-#: allthethings/page/templates/page/md5.html:39
-msgid "page.md5.box.download.text"
-msgstr "Scarica gratuitamente ebook/file %(extension)s da:"
 
 #: allthethings/page/templates/page/md5.html:44
 msgid "page.md5.box.download.option"
 msgstr "Opzione #%(num)d: %(link)s %(extra)s"
 
 #: allthethings/page/templates/page/md5.html:48
-msgid "page.md5.box.download.no_issues_download_options_explanation"
-msgstr "Abbiamo più opzioni di download nel caso in cui una di esse non funzioni. Tutte le opzioni di download hanno lo stesso identico file."
-
-#: allthethings/page/templates/page/md5.html:50
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Tutti i mirror possiedono lo stesso file e dovrebbero essere sicuri da usare. Detto questo, fai sempre attenzione quando scarichi file da Internet. Ad esempio, assicurati di mantenere aggiornati i tuoi dispositivi."
-
-#: allthethings/page/templates/page/md5.html:53
-msgid "page.md5.box.download.no_hosting"
-msgstr "Nora che qui Anna’s Archive non ospita nessuno dei contenuti. Semplicemente colleghiamo a siti web di altri. Se pensi di detenere un reclamo DMCA valido, per favore vedi %(about_link)s la pagina about."
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
@@ -577,115 +552,115 @@ msgstr "%(num)d corrispondenze parziali"
 msgid "layout.index.title"
 msgstr "Archivio di Anna"
 
-#: allthethings/templates/layouts/index.html:48
+#: allthethings/templates/layouts/index.html:47
 msgid "layout.index.header.banner.new_donation_method"
 msgstr "Abbiamo un nuovo metodo di donazione:%(method_name)s. Considerate per favore %(donate_link_open_tag)sdonating</a> — , non è economico far funzionare questo sito, e la tua donazione può fare una differenza significativa. Grazie mille."
 
-#: allthethings/templates/layouts/index.html:80
+#: allthethings/templates/layouts/index.html:81
 msgid "layout.index.header.title"
 msgstr "Archivio di Anna"
 
-#: allthethings/templates/layouts/index.html:181
+#: allthethings/templates/layouts/index.html:218
 msgid "layout.index.header.tagline"
 msgstr "🔍 Motore di ricerca delle biblioteche ombra: libri, giornali, fumetti, riviste. ⭐️ Z-Library, Library Genesis, Sci-Hub. ⚙️ Completamente resiliente grazie al codice e ai dati open source. ❤️ Spargete la voce: tutti sono i benvenuti qui!"
 
-#: allthethings/templates/layouts/index.html:213
-#: allthethings/templates/layouts/index.html:220
-#: allthethings/templates/layouts/index.html:229
+#: allthethings/templates/layouts/index.html:250
+#: allthethings/templates/layouts/index.html:257
+#: allthethings/templates/layouts/index.html:266
 msgid "layout.index.header.nav.about"
 msgstr "Chi siamo"
 
-#: allthethings/templates/layouts/index.html:214
-#: allthethings/templates/layouts/index.html:221
-#: allthethings/templates/layouts/index.html:230
+#: allthethings/templates/layouts/index.html:251
+#: allthethings/templates/layouts/index.html:258
+#: allthethings/templates/layouts/index.html:267
 msgid "layout.index.header.nav.datasets"
 msgstr "Set di dati"
 
-#: allthethings/templates/layouts/index.html:215
-#: allthethings/templates/layouts/index.html:222
-#: allthethings/templates/layouts/index.html:231
+#: allthethings/templates/layouts/index.html:252
+#: allthethings/templates/layouts/index.html:259
+#: allthethings/templates/layouts/index.html:268
 msgid "layout.index.header.nav.mobile"
 msgstr "App mobile"
 
-#: allthethings/templates/layouts/index.html:216
-#: allthethings/templates/layouts/index.html:223
-#: allthethings/templates/layouts/index.html:228
+#: allthethings/templates/layouts/index.html:253
+#: allthethings/templates/layouts/index.html:260
+#: allthethings/templates/layouts/index.html:265
 msgid "layout.index.header.nav.home"
 msgstr "Home"
 
-#: allthethings/templates/layouts/index.html:232
+#: allthethings/templates/layouts/index.html:269
 msgid "layout.index.header.nav.annasblog"
 msgstr "Blog di Anna ↗"
 
-#: allthethings/templates/layouts/index.html:233
+#: allthethings/templates/layouts/index.html:270
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Software di Anna ↗"
 
-#: allthethings/templates/layouts/index.html:234
+#: allthethings/templates/layouts/index.html:271
 msgid "layout.index.header.nav.translate"
 msgstr "Traduci ↗"
 
-#: allthethings/templates/layouts/index.html:236
+#: allthethings/templates/layouts/index.html:273
 msgid "layout.index.header.nav.donate"
 msgstr "Donazioni"
 
-#: allthethings/templates/layouts/index.html:237
+#: allthethings/templates/layouts/index.html:274
 msgid "layout.index.header.nav.search"
 msgstr "Ricerca"
 
-#: allthethings/templates/layouts/index.html:275
+#: allthethings/templates/layouts/index.html:333
 msgid "layout.index.footer.list1.header"
 msgstr "Archivio di Anna"
 
-#: allthethings/templates/layouts/index.html:276
+#: allthethings/templates/layouts/index.html:334
 msgid "layout.index.footer.list1.home"
 msgstr "Home"
 
-#: allthethings/templates/layouts/index.html:277
+#: allthethings/templates/layouts/index.html:335
 msgid "layout.index.footer.list1.about"
 msgstr "Di"
 
-#: allthethings/templates/layouts/index.html:278
+#: allthethings/templates/layouts/index.html:336
 msgid "layout.index.footer.list1.donate"
 msgstr "Donazioni"
 
-#: allthethings/templates/layouts/index.html:279
+#: allthethings/templates/layouts/index.html:337
 msgid "layout.index.footer.list1.datasets"
 msgstr "Set di dati"
 
-#: allthethings/templates/layouts/index.html:280
+#: allthethings/templates/layouts/index.html:338
 msgid "layout.index.footer.list1.mobile"
 msgstr "Applicazione mobile"
 
-#: allthethings/templates/layouts/index.html:293
+#: allthethings/templates/layouts/index.html:351
 msgid "layout.index.footer.list2.header"
 msgstr "Rimani in contatto"
 
-#: allthethings/templates/layouts/index.html:294
+#: allthethings/templates/layouts/index.html:352
 msgid "layout.index.footer.list2.twitter"
 msgstr "Twitter"
 
-#: allthethings/templates/layouts/index.html:294
+#: allthethings/templates/layouts/index.html:352
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:294
+#: allthethings/templates/layouts/index.html:352
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:295
+#: allthethings/templates/layouts/index.html:353
 msgid "layout.index.footer.list2.blog"
 msgstr "Anna’s Blog"
 
-#: allthethings/templates/layouts/index.html:296
+#: allthethings/templates/layouts/index.html:354
 msgid "layout.index.footer.list2.software"
 msgstr "Anna’s Software"
 
-#: allthethings/templates/layouts/index.html:297
+#: allthethings/templates/layouts/index.html:355
 msgid "layout.index.footer.list2.translate"
 msgstr "Traduci"
 
-#: allthethings/templates/layouts/index.html:303
+#: allthethings/templates/layouts/index.html:362
 msgid "layout.index.footer.list3.header"
 msgstr "Alternative"
 
@@ -698,3 +673,19 @@ msgstr "❌ Questo file potrebbe avere problemi."
 
 #~ msgid "layout.index.footer.list2.subreddit"
 #~ msgstr "Subreddit"
+
+#~ msgid "page.home.progress_bar.text"
+#~ msgstr "Il 5%% del patrimonio scritto dell'umanità preservato per sempre %(info_icon)s"
+
+#~ msgid "page.md5.breadcrumbs"
+#~ msgstr "Datasets ▶ Files ▶ MD5 %(md5_input)s"
+
+#~ msgid "page.md5.box.download.text"
+#~ msgstr "Scarica gratuitamente ebook/file %(extension)s da:"
+
+#~ msgid "page.md5.box.download.no_issues_download_options_explanation"
+#~ msgstr "Abbiamo più opzioni di download nel caso in cui una di esse non funzioni. Tutte le opzioni di download hanno lo stesso identico file."
+
+#~ msgid "page.md5.box.download.no_hosting"
+#~ msgstr "Nora che qui Anna’s Archive non ospita nessuno dei contenuti. Semplicemente colleghiamo a siti web di altri. Se pensi di detenere un reclamo DMCA valido, per favore vedi %(about_link)s la pagina about."
+

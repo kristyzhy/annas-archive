@@ -1,28 +1,21 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-07 10:38+0000\n"
-"PO-Revision-Date: 2023-04-19 02:47+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: Slovak <https://translate.annas-software.org/projects/annas-archive/main-website/sk/>\n"
-"Language: sk\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15\n"
-
 #: allthethings/account/templates/account/downloaded.html:6
 #: allthethings/account/templates/account/downloaded.html:7
-#: allthethings/account/templates/account/index.html:78
-#: allthethings/account/templates/account/index.html:79
+#: allthethings/account/templates/account/expired.html:6
+#: allthethings/account/templates/account/expired.html:7
+#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:55
+#: allthethings/account/templates/account/list.html:6
+#: allthethings/account/templates/account/list.html:7
+#: allthethings/account/templates/account/profile.html:6
+#: allthethings/account/templates/account/profile.html:7
 #: allthethings/account/templates/account/request.html:6
 #: allthethings/account/templates/account/request.html:7
 #: allthethings/account/templates/account/upload.html:6
 #: allthethings/account/templates/account/upload.html:7
 #: allthethings/page/templates/page/about.html:30
 #: allthethings/page/templates/page/about.html:31
+#: allthethings/page/templates/page/copyright.html:6
+#: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:6
 #: allthethings/page/templates/page/datasets.html:7
 #: allthethings/page/templates/page/datasets_isbn_ranges.html:6
@@ -41,6 +34,8 @@ msgstr ""
 #: allthethings/page/templates/page/datasets_zlib_scrape.html:7
 #: allthethings/page/templates/page/doi.html:40
 #: allthethings/page/templates/page/doi.html:41
+#: allthethings/page/templates/page/home.html:4
+#: allthethings/page/templates/page/home.html:5
 #: allthethings/page/templates/page/isbn.html:45
 #: allthethings/page/templates/page/isbn.html:46
 #: allthethings/page/templates/page/lgli_file.html:10
@@ -49,8 +44,8 @@ msgstr ""
 #: allthethings/page/templates/page/lgrs_book.html:13
 #: allthethings/page/templates/page/login.html:4
 #: allthethings/page/templates/page/login.html:5
-#: allthethings/page/templates/page/md5.html:86
-#: allthethings/page/templates/page/md5.html:87
+#: allthethings/page/templates/page/md5.html:80
+#: allthethings/page/templates/page/md5.html:81
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/ol_book.html:8
@@ -60,111 +55,111 @@ msgstr ""
 msgid "common.english_only"
 msgstr "Nižšie uvedený text je len v angličtine."
 
-#: allthethings/page/views.py:1645
+#: allthethings/page/views.py:1670
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Neviditeľné v Libgen.rs literatúre faktu"
 
-#: allthethings/page/views.py:1646
+#: allthethings/page/views.py:1671
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Neviditeľné v Libgen.rs beletrii"
 
-#: allthethings/page/views.py:1647
+#: allthethings/page/views.py:1672
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Neviditeľné v Libgen.li"
 
-#: allthethings/page/views.py:1648
+#: allthethings/page/views.py:1673
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Označené ako nefunčný odkaz v knižnici Libgen.li"
 
-#: allthethings/page/views.py:1649
+#: allthethings/page/views.py:1674
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Chýba na Z-Library"
 
-#: allthethings/page/views.py:1655
+#: allthethings/page/views.py:1680
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Kniha (nezaradená)"
 
-#: allthethings/page/views.py:1656
+#: allthethings/page/views.py:1681
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Kniha (literatúra faktu)"
 
-#: allthethings/page/views.py:1657
+#: allthethings/page/views.py:1682
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Kniha (beletria)"
 
-#: allthethings/page/views.py:1658
+#: allthethings/page/views.py:1683
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Článok"
 
-#: allthethings/page/views.py:1659
+#: allthethings/page/views.py:1684
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Norma"
 
-#: allthethings/page/views.py:1660
+#: allthethings/page/views.py:1685
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Magazín"
 
-#: allthethings/page/views.py:1661
+#: allthethings/page/views.py:1686
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Komiks"
 
-#: allthethings/page/views.py:1663
+#: allthethings/page/views.py:1688
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "Kniha (hocijaká)"
 
-#: allthethings/page/views.py:1708
+#: allthethings/page/views.py:1733
 msgid "page.md5.box.download.lgrsnf"
 msgstr ""
 
-#: allthethings/page/views.py:1708 allthethings/page/views.py:1711
-#: allthethings/page/views.py:1714
+#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
+#: allthethings/page/views.py:1739
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr ""
 
-#: allthethings/page/views.py:1708 allthethings/page/views.py:1711
-#: allthethings/page/views.py:1714
+#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
+#: allthethings/page/views.py:1739
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(klikni “Získaj” hore)"
 
-#: allthethings/page/views.py:1711
+#: allthethings/page/views.py:1736
 msgid "page.md5.box.download.lgrsfic"
 msgstr ""
 
-#: allthethings/page/views.py:1714
+#: allthethings/page/views.py:1739
 msgid "page.md5.box.download.lgli"
 msgstr ""
 
-#: allthethings/page/views.py:1717 allthethings/page/views.py:1718
-#: allthethings/page/views.py:1719
+#: allthethings/page/views.py:1742 allthethings/page/views.py:1743
+#: allthethings/page/views.py:1744
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr ""
 
-#: allthethings/page/views.py:1717
+#: allthethings/page/views.py:1742
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(pre IPFS je niekedy potrebné vyskúšať stiahnutie viackrát)"
 
-#: allthethings/page/views.py:1721 allthethings/page/views.py:1722
-#: allthethings/page/views.py:1723 allthethings/page/views.py:1724
+#: allthethings/page/views.py:1746 allthethings/page/views.py:1747
+#: allthethings/page/views.py:1748 allthethings/page/views.py:1749
 msgid "page.md5.box.download.zlib_anon"
 msgstr ""
 
-#: allthethings/page/views.py:1726
+#: allthethings/page/views.py:1751
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:1726
+#: allthethings/page/views.py:1751
 msgid "page.md5.box.download.scihub_maybe"
 msgstr ""
 
-#: allthethings/page/views.py:1728
+#: allthethings/page/views.py:1753
 msgid "page.md5.box.download.zlib_tor"
 msgstr "Z-Library TOR"
 
-#: allthethings/page/views.py:1728
+#: allthethings/page/views.py:1753
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(potrebuje prehliadač TOR)"
 
@@ -238,7 +233,7 @@ msgstr "V našej databáze sa nenašli žiadne zodpovedajúce súbory."
 
 #: allthethings/page/templates/page/doi.html:37
 #: allthethings/page/templates/page/isbn.html:42
-#: allthethings/page/templates/page/md5.html:83
+#: allthethings/page/templates/page/md5.html:89
 msgid "common.tech_details"
 msgstr "Zobraziť technické podrobnosti v angličtine"
 
@@ -398,38 +393,34 @@ msgstr "<div class=\"font-bold\">Môžem vám darovať väčšie množstvo peňa
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div class=\"font-bold\">Môžem prispieť iným spôsobom?</div> Áno! Pozrite <a href=\"/about\">o nás</a> v časti “Ako pomôcť”."
 
-#: allthethings/page/templates/page/home.html:5
+#: allthethings/page/templates/page/home.html:10
 msgid "page.home.intro"
 msgstr "<span class=\"italic font-bold\">Anna’s Archive</span> je projekt, ktorého cieľom je katalogizovať všetky existujúce knihy zhromaždením údajov z rôznych zdrojov. Chceme, aby ľudstvo malo všetky knihy ľahko dostupné v digitálnej forme prostredníctvom „<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">tieňových knižníc</a>“. Prečítajte si <a href=\"/about\">o nás</a> viac informácií."
 
-#: allthethings/page/templates/page/home.html:21
-msgid "page.home.progress_bar.text"
-msgstr "5%% písomného dedičstva ľudstva zachovaného navždy %(info_icon)s"
-
-#: allthethings/page/templates/page/home.html:25
+#: allthethings/page/templates/page/home.html:72
 msgid "page.home.search.header"
 msgstr "Vyhľadávanie"
 
-#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/home.html:75
 msgid "page.home.search.intro"
 msgstr "Vyhľadajte v našom katalógu tieňových knižníc."
 
-#: allthethings/page/templates/page/home.html:33
+#: allthethings/page/templates/page/home.html:80
 #: allthethings/page/templates/page/search.html:56
-#: allthethings/templates/layouts/index.html:240
+#: allthethings/templates/layouts/index.html:277
 msgid "common.search.placeholder"
 msgstr "Vyhľadajte podľa názvu, autora, jazyka, typu súboru, ISBN, MD5, …"
 
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:81
 #: allthethings/page/templates/page/search.html:57
 msgid "common.search.submit"
 msgstr "Vyhľadať"
 
-#: allthethings/page/templates/page/home.html:38
+#: allthethings/page/templates/page/home.html:85
 msgid "page.home.explore.header"
 msgstr "Preskúmajte knihy"
 
-#: allthethings/page/templates/page/home.html:41
+#: allthethings/page/templates/page/home.html:88
 msgid "page.home.explore.intro"
 msgstr "Tieto knihy sú kombinácia populárnych kníh a kníh venujúcim sa svetu tieňových knižníc a digitálneho zachovania."
 
@@ -457,45 +448,29 @@ msgstr "Nájdené súbory v našej databáze:"
 msgid "page.isbn.results.none"
 msgstr "Žiadne súbory nájdenú v našej databáze."
 
-#: allthethings/page/templates/page/md5.html:12
-msgid "page.md5.breadcrumbs"
-msgstr ""
-
-#: allthethings/page/templates/page/md5.html:15
+#: allthethings/page/templates/page/md5.html:13
 msgid "page.md5.invalid.header"
 msgstr "Nenájdené"
 
-#: allthethings/page/templates/page/md5.html:17
+#: allthethings/page/templates/page/md5.html:15
 msgid "page.md5.invalid.text"
 msgstr "“%(md5_input)s” nebolo nájdené v našej databáze."
 
-#: allthethings/page/templates/page/md5.html:30
+#: allthethings/page/templates/page/md5.html:32
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ Tento súbor môže mať problémy a preto bol skrytý v zdrojovej knižnici.</span> Niekedy je to na žiadosť držiteľa autorských práv, inokedy je to preto, lebo je k dispozícii lepšia alternatíva. Ale niekedy je to kvôli problémom so súborom samotným. Súbor môže byť stále v poriadku na stiahnutie, ale odporúčame najprv vyhľadať alternatívny súbor. Viac informácií:"
 
-#: allthethings/page/templates/page/md5.html:37
+#: allthethings/page/templates/page/md5.html:39
 msgid "page.md5.box.issues.text2"
 msgstr "Ak si napriek tomuto chcete tento súbor stiahnuť, uistite sa, že na jeho otvorenie používate iba dôveryhodný a aktualizovaný softvér."
-
-#: allthethings/page/templates/page/md5.html:39
-msgid "page.md5.box.download.text"
-msgstr "Stiahnite si bezplatnú e-knihu/súbor %(extension)s z:"
 
 #: allthethings/page/templates/page/md5.html:44
 msgid "page.md5.box.download.option"
 msgstr ""
 
 #: allthethings/page/templates/page/md5.html:48
-msgid "page.md5.box.download.no_issues_download_options_explanation"
-msgstr "Je dostupných viacero možností na stiahnutie v prípade, že jedna z nich je mimo prevádzku. Všetky obsahujú rovnaký súbor."
-
-#: allthethings/page/templates/page/md5.html:50
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Na všetkých zrkadlách je umiestnený rovnaký súbor a ich používanie by malo byť bezpečné. Napriek tomu buďte vždy opatrný pri sťahovaní súborov z internetu. Napríklad nezabudnite aktualizovať softvér na vašich zariadeniach."
-
-#: allthethings/page/templates/page/md5.html:53
-msgid "page.md5.box.download.no_hosting"
-msgstr "Poznámka: Anna’s Archive nehostuje žiadny obsah. Len linkujeme na iné webstránky. Ak si myslíte, že máte opodstatnenú DMCA sťažnosť, prosím pozrite podstránku %(about_link)so nás</a>."
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
@@ -581,115 +556,115 @@ msgstr ""
 msgid "layout.index.title"
 msgstr "Anna’s Archive"
 
-#: allthethings/templates/layouts/index.html:48
+#: allthethings/templates/layouts/index.html:47
 msgid "layout.index.header.banner.new_donation_method"
 msgstr "Po novom je možné nás podporiť aj pomocou %(method_name)s. Prosím zvážte %(donate_link_open_tag)spodporu</a> — nie je lacný beh tejto webstránky a vaša podpora skutočne urobí rozdiel. Ďakujeme veľmi pekne."
 
-#: allthethings/templates/layouts/index.html:80
+#: allthethings/templates/layouts/index.html:81
 msgid "layout.index.header.title"
 msgstr "Anna’s Archive"
 
-#: allthethings/templates/layouts/index.html:181
+#: allthethings/templates/layouts/index.html:218
 msgid "layout.index.header.tagline"
 msgstr "Vyhľadávač v tieňových knižniciach: knihy, noviny, komiksy, časopisy. ⭐️ Z-Library, Library Genesis, Sci-Hub. ⚙️ Odolné vďaka otvorenému zdrojového kódu a dátam. ❤️ Každý je tu vítaný, šírte o nás aj ďalej!"
 
-#: allthethings/templates/layouts/index.html:213
-#: allthethings/templates/layouts/index.html:220
-#: allthethings/templates/layouts/index.html:229
+#: allthethings/templates/layouts/index.html:250
+#: allthethings/templates/layouts/index.html:257
+#: allthethings/templates/layouts/index.html:266
 msgid "layout.index.header.nav.about"
 msgstr "O nás"
 
-#: allthethings/templates/layouts/index.html:214
-#: allthethings/templates/layouts/index.html:221
-#: allthethings/templates/layouts/index.html:230
+#: allthethings/templates/layouts/index.html:251
+#: allthethings/templates/layouts/index.html:258
+#: allthethings/templates/layouts/index.html:267
 msgid "layout.index.header.nav.datasets"
 msgstr "Datasety"
 
-#: allthethings/templates/layouts/index.html:215
-#: allthethings/templates/layouts/index.html:222
-#: allthethings/templates/layouts/index.html:231
+#: allthethings/templates/layouts/index.html:252
+#: allthethings/templates/layouts/index.html:259
+#: allthethings/templates/layouts/index.html:268
 msgid "layout.index.header.nav.mobile"
 msgstr "Mobilná aplikácia"
 
-#: allthethings/templates/layouts/index.html:216
-#: allthethings/templates/layouts/index.html:223
-#: allthethings/templates/layouts/index.html:228
+#: allthethings/templates/layouts/index.html:253
+#: allthethings/templates/layouts/index.html:260
+#: allthethings/templates/layouts/index.html:265
 msgid "layout.index.header.nav.home"
 msgstr "Domov"
 
-#: allthethings/templates/layouts/index.html:232
+#: allthethings/templates/layouts/index.html:269
 msgid "layout.index.header.nav.annasblog"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:233
+#: allthethings/templates/layouts/index.html:270
 msgid "layout.index.header.nav.annassoftware"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:234
+#: allthethings/templates/layouts/index.html:271
 msgid "layout.index.header.nav.translate"
 msgstr "Preložiť ↗"
 
-#: allthethings/templates/layouts/index.html:236
+#: allthethings/templates/layouts/index.html:273
 msgid "layout.index.header.nav.donate"
 msgstr "Podporiť"
 
-#: allthethings/templates/layouts/index.html:237
+#: allthethings/templates/layouts/index.html:274
 msgid "layout.index.header.nav.search"
 msgstr "Vyhľadávanie"
 
-#: allthethings/templates/layouts/index.html:275
+#: allthethings/templates/layouts/index.html:333
 msgid "layout.index.footer.list1.header"
 msgstr "Anna’s Archive"
 
-#: allthethings/templates/layouts/index.html:276
+#: allthethings/templates/layouts/index.html:334
 msgid "layout.index.footer.list1.home"
 msgstr "Domov"
 
-#: allthethings/templates/layouts/index.html:277
+#: allthethings/templates/layouts/index.html:335
 msgid "layout.index.footer.list1.about"
 msgstr "O nás"
 
-#: allthethings/templates/layouts/index.html:278
+#: allthethings/templates/layouts/index.html:336
 msgid "layout.index.footer.list1.donate"
 msgstr "Podporiť"
 
-#: allthethings/templates/layouts/index.html:279
+#: allthethings/templates/layouts/index.html:337
 msgid "layout.index.footer.list1.datasets"
 msgstr "Datasety"
 
-#: allthethings/templates/layouts/index.html:280
+#: allthethings/templates/layouts/index.html:338
 msgid "layout.index.footer.list1.mobile"
 msgstr "Mobilná aplikácia"
 
-#: allthethings/templates/layouts/index.html:293
+#: allthethings/templates/layouts/index.html:351
 msgid "layout.index.footer.list2.header"
 msgstr "Sledujte nás na"
 
-#: allthethings/templates/layouts/index.html:294
+#: allthethings/templates/layouts/index.html:352
 msgid "layout.index.footer.list2.twitter"
 msgstr "Twitteri"
 
-#: allthethings/templates/layouts/index.html:294
+#: allthethings/templates/layouts/index.html:352
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddite"
 
-#: allthethings/templates/layouts/index.html:294
+#: allthethings/templates/layouts/index.html:352
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:295
+#: allthethings/templates/layouts/index.html:353
 msgid "layout.index.footer.list2.blog"
 msgstr "Anna’s Blog"
 
-#: allthethings/templates/layouts/index.html:296
+#: allthethings/templates/layouts/index.html:354
 msgid "layout.index.footer.list2.software"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:297
+#: allthethings/templates/layouts/index.html:355
 msgid "layout.index.footer.list2.translate"
 msgstr "Preložiť"
 
-#: allthethings/templates/layouts/index.html:303
+#: allthethings/templates/layouts/index.html:362
 msgid "layout.index.footer.list3.header"
 msgstr "Alternatívy"
 
@@ -702,3 +677,19 @@ msgstr "❌ Tento súbor môže mať problémy."
 
 #~ msgid "layout.index.footer.list2.subreddit"
 #~ msgstr "Subreddite"
+
+#~ msgid "page.home.progress_bar.text"
+#~ msgstr "5%% písomného dedičstva ľudstva zachovaného navždy %(info_icon)s"
+
+#~ msgid "page.md5.breadcrumbs"
+#~ msgstr ""
+
+#~ msgid "page.md5.box.download.text"
+#~ msgstr "Stiahnite si bezplatnú e-knihu/súbor %(extension)s z:"
+
+#~ msgid "page.md5.box.download.no_issues_download_options_explanation"
+#~ msgstr "Je dostupných viacero možností na stiahnutie v prípade, že jedna z nich je mimo prevádzku. Všetky obsahujú rovnaký súbor."
+
+#~ msgid "page.md5.box.download.no_hosting"
+#~ msgstr "Poznámka: Anna’s Archive nehostuje žiadny obsah. Len linkujeme na iné webstránky. Ak si myslíte, že máte opodstatnenú DMCA sťažnosť, prosím pozrite podstránku %(about_link)so nás</a>."
+
