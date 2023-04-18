@@ -19,7 +19,6 @@ chown 1000 ../../aa-data-import--allthethings-elastic-data
 # Uncomment if you want to start off with the existing MySQL data, e.g. if you only want to run a subset of the scripts.
 # cp -r ../../allthethings-mysql-data ../../aa-data-import--allthethings-mysql-data
 
-# You might want to comment out `raise` in app.py to prevent crashing on startup.
 # You might need to adjust the size of ElasticSearch's heap size, by changing `ES_JAVA_OPTS` in `data-imports/docker-compose.yml`.
 # If MariaDB wants too much RAM: comment out `key_buffer_size` in `data-imports/mariadb-conf/my.cnf`
 docker-compose up -d --no-deps --build
