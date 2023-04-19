@@ -13,7 +13,7 @@ set -Eeuxo pipefail
 cd /temp-dir
 
 # Delete everything so far, so we don't confuse old and new downloads.
-rm libgen_new.part*
+rm -f libgen_new.part*
 
 curl -C - --socks5-hostname (fill in a unique proxy here)  -O https://libgen.li/dbdumps/libgen_new.part001.rar &
 curl -C - --socks5-hostname (fill in a unique proxy here)  -O https://libgen.li/dbdumps/libgen_new.part002.rar &

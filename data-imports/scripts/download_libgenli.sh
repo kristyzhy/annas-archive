@@ -10,7 +10,7 @@ set -Eeuxo pipefail
 cd /temp-dir
 
 # Delete everything so far, so we don't confuse old and new downloads.
-rm libgen_new.part*
+rm -f libgen_new.part* 
 
 for i in $(seq -w 0 40); do
     # Using curl here since it only accepts one connection from any IP anyway,

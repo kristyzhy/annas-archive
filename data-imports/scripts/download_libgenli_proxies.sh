@@ -12,7 +12,7 @@ set -Eeuxo pipefail
 cd /temp-dir
 
 # Delete everything so far, so we don't confuse old and new downloads.
-rm libgen_new.part*
+rm -f libgen_new.part*
 
 curl -C - --socks5-hostname socks5://us-atl-wg-socks5-001.relays.mullvad.net:1080 -O https://libgen.li/dbdumps/libgen_new.part001.rar &
 curl -C - --socks5-hostname socks5://us-atl-wg-socks5-101.relays.mullvad.net:1080 -O https://libgen.li/dbdumps/libgen_new.part002.rar &

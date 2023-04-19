@@ -8,7 +8,7 @@ set -Eeuxo pipefail
 
 cd /temp-dir
 
-rm -rf libgen_new /var/lib/mysql/libgen_new /var/lib/mysql/libgen_new
+rm -rf libgen_new /var/lib/mysql/libgen_new/ /temp-dir/libgen_new/
 
 unrar x libgen_new.part001.rar
 

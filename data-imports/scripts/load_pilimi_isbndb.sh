@@ -8,7 +8,7 @@ set -Eeuxo pipefail
 
 cd /temp-dir
 
-rm pilimi_isbndb_processed.csv
+rm -f pilimi_isbndb_processed.csv
 
 pv isbndb_2022_09.jsonl.gz | zcat | python3 /scripts/helpers/pilimi_isbndb.py > pilimi_isbndb_processed.csv
 

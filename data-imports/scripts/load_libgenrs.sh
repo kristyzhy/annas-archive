@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 
 cd /temp-dir
 
-rm libgen.sql fiction.sql
+rm -f libgen.sql fiction.sql
 
 unrar e libgen.rar
 unrar e fiction.rar

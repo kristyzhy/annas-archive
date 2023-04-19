@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 cd /temp-dir
 
 # Delete everything so far, so we don't confuse old and new downloads.
-rm libgen.rar fiction.rar
+rm -f libgen.rar fiction.rar
 
 aria2c -c -x16 -s16 -j16 'http://libgen.rs/dbdumps/libgen.rar'
 aria2c -c -x16 -s16 -j16 'http://libgen.rs/dbdumps/fiction.rar'

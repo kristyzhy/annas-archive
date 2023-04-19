@@ -7,5 +7,5 @@ set -Eeuxo pipefail
 
 cd /temp-dir
 
-rm ol_dump_latest.txt.gz
+rm -f ol_dump_latest.txt.gz
 aria2c -c -x16 -s16 -j16 -o ol_dump_latest.txt.gz 'https://openlibrary.org/data/ol_dump_latest.txt.gz' # Explicitly adding -o since they redirect to a different filename.
