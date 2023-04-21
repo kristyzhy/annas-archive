@@ -207,7 +207,7 @@
             })();
           </script>
           <div class="absolute invisible pointer-events-none" aria-hidden="true">🌐</div>
-          <select class="text-lg icon-[twemoji--globe-with-meridians] py-1 rounded text-gray-500 max-w-[50px] mt-1 ml-2 appearance-none" style="width: 1.8em; height: 1.6em; background-color: white; background-size: 1em; color: transparent;" onchange="handleChangeLang(event)">
+          <select class="text-lg icon-[twemoji--globe-with-meridians] py-1 rounded text-gray-500 max-w-[50px] mt-1 ml-2 appearance-none" style="width: 1.8em; height: 1.6em; background-color: white; background-size: 1em;" onchange="handleChangeLang(event)">
             <option></option>
             {% for lang_code, lang_name in g.languages %}
               <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.domain_lang_code %} ☑️{% endif %}</option>
