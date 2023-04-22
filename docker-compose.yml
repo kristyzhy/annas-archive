@@ -23,6 +23,7 @@ x-app: &default-app
       max-file: "3"
       compress: "false"
       mode: "non-blocking"
+  network_mode: "${NETWORK_MODE:-bridge}"
 
 x-assets: &default-assets
   build:
@@ -165,7 +166,6 @@ services:
   web:
     <<: *default-app
     container_name: web
-    network_mode: "${NETWORK_MODE:-bridge}"
     healthcheck:
       test: "${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:8000/dyn/up/}"
       interval: "60s"
@@ -173,6 +173,12 @@ services:
       start_period: "5s"
       retries: 3
     profiles: ["web"]
+
+  cron:
+    <<: *default-app
+    container_name: cron
+    command: "flask cron infinite_loop"
+    profiles: ["cron"]
 
   # worker:
   #   <<: *default-app
