@@ -276,7 +276,7 @@ def elastic_build_md5_dicts_job(canonical_md5s):
         raise err
 
 def elastic_build_md5_dicts_internal():
-    THREADS = 50
+    THREADS = 10
     CHUNK_SIZE = 30
     BATCH_SIZE = 100000
 
