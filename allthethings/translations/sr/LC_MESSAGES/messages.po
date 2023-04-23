@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-04-23 14:32+0000\n"
+"PO-Revision-Date: 2023-04-23 15:00+0000\n"
 "Last-Translator: Stefan Novakovic <Stefan.7novakovic2001@gmail.com>\n"
 "Language-Team: Serbian <https://translate.annas-software.org/projects/annas-archive/main-website/sr/>\n"
 "Language: sr\n"
@@ -70,7 +70,7 @@ msgstr "(повезани DOI можда неће бити доступни у S
 
 #: allthethings/page/views.py:1753
 msgid "page.md5.box.download.zlib_tor_extra"
-msgstr "(захтева Тор претраживач)"
+msgstr "(захтева Tor претраживач)"
 
 #: allthethings/page/views.py:1670
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -169,7 +169,7 @@ msgstr "(тамо кликните “GET” на врху)"
 
 #: allthethings/page/views.py:1753
 msgid "page.md5.box.download.zlib_tor"
-msgstr "Z-Библиотека на Тору"
+msgstr "Z-Библиотека на Tor-у"
 
 #: allthethings/page/templates/page/about.html:24
 msgid "page.about.help.header"
@@ -210,3 +210,31 @@ msgstr "Ако имате важећу DMCA жалбу, погледајте д�
 #: allthethings/page/templates/page/about.html:13
 msgid "page.about.text2"
 msgstr "Ми снажно верујемо у слободан проток информација и очување знања и културе. Са овим претраживачем, ми стојимо на раменима великана. Дубоко поштујемо напоран рад људи који су креирали различите библиотеке сенки и надамо се да ће овај претраживач проширити свој домет."
+
+#: allthethings/page/templates/page/doi.html:11
+msgid "page.doi.invalid.text"
+msgstr "\"%(doi_input)s\" не изгледа као DOI. Требало би да почне са „10.“ и има косу црту."
+
+#: allthethings/page/templates/page/doi.html:15
+msgid "page.doi.box.header"
+msgstr "doi:%(doi_input)s"
+
+#: allthethings/page/templates/page/doi.html:18
+msgid "page.doi.box.canonical_url"
+msgstr "Canonical URL: %(link)s"
+
+#: allthethings/page/templates/page/doi.html:22
+msgid "page.doi.box.scihub"
+msgstr "Ова датотека може бити у %(link_open_tag)sSci-Hub</a>."
+
+#: allthethings/page/templates/page/doi.html:27
+msgid "page.doi.results.text"
+msgstr "Одговарајуће датотеке у нашој бази података:"
+
+#: allthethings/page/templates/page/doi.html:33
+msgid "page.doi.results.none"
+msgstr "Нема одговарајућих датотека у нашој бази података."
+
+#: allthethings/page/templates/page/about.html:27
+msgid "page.about.help.text"
+msgstr "<li>1. Запратите нас на <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a> или <a href=\"https://t.me/annasarchiveorg\">Telegram</a>.</li><li>2. Проширите глас о Аниној архиви на Twitter-у, Reddit-у, Tiktok-у, Instagram-у, у вашем локалном кафићу или библиотеци, или где год да идете! Не верујемо у ускраћивање приступа – ако нас скину, једноставно ћемо се појавити негде другде, пошто су сав наш код и подаци потпуно отвореног кода.</li><li>3. Ако сте у могућности, размотрите <a href=\"/donate\">donating</a>.</li><li>4. Помозите <a href=\"https://translate.annas-software.org/\">translate</a> наш сајт на различите језике.</li><li>5. Ако сте софтверски инжењер, размислите о доприносу нашем <a href=\"https://annas-software.org/\">open source</a>, или сејање наше <a href=\"/datasets\">torrents</a>.</li>"
