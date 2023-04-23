@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2023-04-23 16:27+0000\n"
-"Last-Translator: Марко Кажић <marko.kazic@pionir.org>\n"
+"Last-Translator: Stefan Novakovic <Stefan.7novakovic2001@gmail.com>\n"
 "Language-Team: Serbian <https://translate.annas-software.org/projects/annas-archive/main-website/sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -611,3 +611,71 @@ msgstr "Скупови података ▶ ISBN-ови ▶ ISBN %(isbn_input)s"
 #: allthethings/page/templates/page/isbn.html:9
 msgid "page.isbn.invalid.header"
 msgstr "Није нађено"
+
+#: allthethings/page/templates/page/isbn.html:11
+msgid "page.isbn.invalid.text"
+msgstr "“%(isbn_input)s” није важећи ISBN број. ISBN-ови су 10 до 13 карактера дугачки, не рачунајући необавезне цртице. Сви карактери морају бити бројеви, изузев последњег, што такође може бити „X“. Последњи карактер је “check digit”, који мора да одговара вредности контролне суме која се израчунава из других бројева. Такође мора бити у важећем опсегу, који је доделила Међународна ISBN агенција."
+
+#: allthethings/page/templates/page/isbn.html:29
+msgid "page.isbn.results.text"
+msgstr "Одговарајуће датотеке у нашој бази података:"
+
+#: allthethings/page/templates/page/isbn.html:36
+msgid "page.isbn.results.none"
+msgstr "Нема одговарајућих датотека у нашој бази података."
+
+#: allthethings/page/templates/page/md5.html:13
+msgid "page.md5.invalid.header"
+msgstr "Није пронађено"
+
+#: allthethings/page/templates/page/md5.html:15
+msgid "page.md5.invalid.text"
+msgstr "“%(md5_input)s” није пронађен у нашој бази података."
+
+#: allthethings/page/templates/page/md5.html:39
+msgid "page.md5.box.issues.text2"
+msgstr "Ако и даље желите да преузмете ову датотеку, обавезно користите само поуздани, ажурирани софтвер да бисте је отворили."
+
+#: allthethings/page/templates/page/md5.html:44
+msgid "page.md5.box.download.option"
+msgstr "Опција #%(num)d: %(link)s %(extra)s"
+
+#: allthethings/page/templates/page/md5.html:48
+msgid "page.md5.box.download.no_issues_notice"
+msgstr "Све опције преузимања имају исту датотеку и требало би да буду безбедне за коришћење. Уз то, увек будите опрезни када преузимате датотеке са интернета. На пример, будите сигурни да ажурирате своје уређаје."
+
+#: allthethings/page/templates/page/search.html:8
+msgid "page.search.title.results"
+msgstr "%(search_input)s - Претрага"
+
+#: allthethings/page/templates/page/search.html:8
+msgid "page.search.title.new"
+msgstr "Нова претрага"
+
+#: allthethings/page/templates/page/search.html:14
+msgid "page.search.breadcrumbs.results_more"
+msgstr "Претрага ▶ %(num)d+ резултате за <span class=\"italic\">%(search_input)s</span> (у бази података библиотеке сенки)"
+
+#: allthethings/page/templates/page/search.html:14
+msgid "page.search.breadcrumbs.results"
+msgstr "Претрага ▶ %(num)d резултати за <span class=\"italic\">%(search_input)s</span> (у бази података библиотеке сенки)"
+
+#: allthethings/page/templates/page/search.html:16
+msgid "page.search.breadcrumbs.error"
+msgstr "Претрага ▶ Грешка претраге за <span class=\"italic\">%(search_input)s</span>"
+
+#: allthethings/page/templates/page/search.html:19
+msgid "page.search.breadcrumbs.new"
+msgstr "Претрага ▶ Нова претрага"
+
+#: allthethings/page/templates/page/search.html:23
+msgid "page.search.header.update_info"
+msgstr "Индекс претраге се ажурира месечно. Тренутно укључује уносе до%(last_data_refresh_date)s. За више техничких информација, погледајте %(link_open_tag)sdatasets page</a>."
+
+#: allthethings/templates/layouts/index.html:47
+msgid "layout.index.header.banner.new_donation_method"
+msgstr "Доступан је нови метод донације: %(method_name)s. Размотрите %(donate_link_open_tag)sdonating</a> — вођење ове веб странице није јефтино, а ваша донација заиста чини разлику. Хвала Вам много."
+
+#: allthethings/page/templates/page/md5.html:32
+msgid "page.md5.box.issues.text1"
+msgstr "<span class=\"font-bold\">❌Ова датотека можда има проблема и сакривена је из изворне библиотеке.</span> Понекад је то на захтев носиоца ауторских права, понекад зато што је доступна боља алтернатива, али понекад је то због проблема са самом датотеком. Можда је и даље безбедно за преузимање, али препоручујемо да прво потражите алтернативну датотеку. Више детаља:"
