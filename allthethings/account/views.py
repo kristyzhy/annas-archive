@@ -173,6 +173,10 @@ def account_profile_page():
         return "", 403
     return redirect(f"/profile/{account_id}", code=302)
 
+@account.get("/account/membership")
+@allthethings.utils.no_cache()
+def membership_page():
+    return render_template("account/membership.html", header_active="account/membership")
 
 
 
