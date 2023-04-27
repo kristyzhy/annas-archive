@@ -14,9 +14,9 @@
       Anna’s Archive is a non-profit, open-source, open-data project. By becoming a member, you support our operations and development. To all our members: thank you for keeping us going!
     </p>
 
-    <!-- <p class="mb-4">
-      Memberships <strong>do not</strong> automatically renew. You can join for as long or as short as you want.
-    </p> -->
+    <p class="mb-4">
+      Memberships <strong>do not</strong> automatically renew. You can join for as long or short as you want.
+    </p>
 
     <p class="mt-4 mb-1">
       You can also make a donation without creating an account:
@@ -25,11 +25,11 @@
     <a href="/donate" class="custom-a inline-block mb-6 bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white">Make a one-time donation</a>
 
     <div class="flex flex-wrap justify-between md:overflow-hidden">
-      <div class="md:min-w-[170px] w-[calc(50%-6px)] md:w-[19%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-1" aria-selected="false">
+      <div class="md:min-w-[170px] w-[calc(50%-6px)] md:w-[19%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-2" aria-selected="false">
         <div class="whitespace-nowrap text-center mb-2">Brilliant<br>Bookworm</div>
         <div class="text-center font-bold text-xl mb-2">$5 / month</div>
         <!-- <a href="/login" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] px-2 py-1 rounded-md text-white w-[100%]">Join</a> -->
-        <button onclick="document.querySelectorAll('.js-membership-tier').forEach((el) => el.setAttribute('aria-selected', 'false')); this.parentNode.setAttribute('aria-selected', 'true')" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
+        <button onclick="window.membershipTierToggle(2)" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
           <span class="[[aria-selected=true]_&]:hidden">Join</span>
           <span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> Selected</span>
         </button>
@@ -38,11 +38,11 @@
           <li class="text-sm relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> Your username in the credits</li>
         </ul>
       </div>
-      <div class="md:min-w-[180px] w-[calc(50%-6px)] md:w-[23%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-2" aria-selected="true">
+      <div class="md:min-w-[180px] w-[calc(50%-6px)] md:w-[23%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-3" aria-selected="false">
         <div class="whitespace-nowrap text-center mb-2">Lucky<br>Librarian</div>
         <div class="text-center font-bold text-xl mb-2">$10 / month</div>
         <!-- <a href="/login" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] px-2 py-1 rounded-md text-white w-[100%]">Join</a> -->
-        <button onclick="document.querySelectorAll('.js-membership-tier').forEach((el) => el.setAttribute('aria-selected', 'false')); this.parentNode.setAttribute('aria-selected', 'true')" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
+        <button onclick="window.membershipTierToggle(3)" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
           <span class="[[aria-selected=true]_&]:hidden">Join</span>
           <span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> Selected</span>
         </button>
@@ -52,11 +52,11 @@
           <li class="text-sm relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> Early access to new features</li>
         </ul>
       </div>
-      <div class="md:min-w-[180px] w-[calc(50%-6px)] md:w-[23%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-3" aria-selected="false">
+      <div class="md:min-w-[180px] w-[calc(50%-6px)] md:w-[23%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-4" aria-selected="false">
         <div class="whitespace-nowrap text-center mb-2">Dazzling<br>Datahoarder</div>
         <div class="text-center font-bold text-xl mb-2">$30 / month</div>
         <!-- <a href="/login" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] px-2 py-1 rounded-md text-white w-[100%]">Join</a> -->
-        <button onclick="document.querySelectorAll('.js-membership-tier').forEach((el) => el.setAttribute('aria-selected', 'false')); this.parentNode.setAttribute('aria-selected', 'true')" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
+        <button onclick="window.membershipTierToggle(4)" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
           <span class="[[aria-selected=true]_&]:hidden">Join</span>
           <span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> Selected</span>
         </button>
@@ -67,11 +67,11 @@
           <li class="text-sm relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> Exclusive Telegram with behind-the-scenes updates</li>
         </ul>
       </div>
-      <div class="md:min-w-[240px] w-[calc(50%-6px)] md:w-[29%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-4" aria-selected="false">
+      <div class="md:min-w-[240px] w-[calc(50%-6px)] md:w-[29%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-5" aria-selected="false">
         <div class="whitespace-nowrap text-center mb-2">Amazing<br>Archivist</div>
         <div class="text-center font-bold text-xl mb-2">$100 / month</div>
         <!-- <a href="/login" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] px-2 py-1 rounded-md text-white w-[100%]">Join</a> -->
-        <button onclick="document.querySelectorAll('.js-membership-tier').forEach((el) => el.setAttribute('aria-selected', 'false')); this.parentNode.setAttribute('aria-selected', 'true')" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
+        <button onclick="window.membershipTierToggle(5)" class="custom-a text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
           <span class="[[aria-selected=true]_&]:hidden">Join</span>
           <span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> Selected</span>
         </button>
@@ -85,13 +85,13 @@
       </div>
     </div>
 
-    <div>
+    <div class="hidden">
       <p class="mt-4 mb-4">
         Select a payment option. We give discounts for crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, because we incur fewer fees.
       </p>
 
       <div class="mb-4 flex flex-wrap items-end">
-        <button class="js-membership-payment relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="true" onclick="document.querySelectorAll('.js-membership-payment').forEach((el) => el.setAttribute('aria-selected', 'false')); this.setAttribute('aria-selected', 'true')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Crypto <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button>
+        <button class="js-membership-payment relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="document.querySelectorAll('.js-membership-payment').forEach((el) => el.setAttribute('aria-selected', 'false')); this.setAttribute('aria-selected', 'true')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Crypto <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button>
         <button class="js-membership-payment relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="document.querySelectorAll('.js-membership-payment').forEach((el) => el.setAttribute('aria-selected', 'false')); this.setAttribute('aria-selected', 'true')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button>
         <button class="js-membership-payment relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="document.querySelectorAll('.js-membership-payment').forEach((el) => el.setAttribute('aria-selected', 'false')); this.setAttribute('aria-selected', 'true')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button>
         <button class="js-membership-payment relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="document.querySelectorAll('.js-membership-payment').forEach((el) => el.setAttribute('aria-selected', 'false')); this.setAttribute('aria-selected', 'true')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button>
@@ -106,7 +106,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="hidden">
       <p class="mt-4 mb-4">
         With crypto you can donate using BTC, BCH, ETH, XMR, and SOL. <br class="hidden sm:block">Use this option if you are already familiar with cryptocurrency.
       </p>
@@ -141,4 +141,35 @@
       </p>
     </div>
   </div>
+
+  <script>
+    function getMembershipParams() {
+      return Object.fromEntries(new URLSearchParams(location.search));
+    }
+
+    function updatePageFromUrl() {
+      document.querySelectorAll('.js-membership-tier').forEach((el) => el.setAttribute('aria-selected', 'false'));
+
+      const membershipParams = getMembershipParams();
+      console.log("updatePageFromUrl", membershipParams);
+      if (["2","3","4","5"].includes(membershipParams.tier)) {
+        document.querySelector('.js-membership-tier-' + membershipParams.tier).setAttribute('aria-selected', 'true');
+      }
+    }
+
+    window.addEventListener("popstate", updatePageFromUrl);
+    window.addEventListener("DOMContentLoaded", updatePageFromUrl);
+    updatePageFromUrl();
+
+    window.membershipTierToggle = function(tierStr) {
+      const membershipParams = getMembershipParams();
+      if (membershipParams.tier === tierStr) {
+        delete membershipParams.tier;
+      } else {
+        membershipParams.tier = tierStr;
+      }
+      window.history.replaceState(null, "", "?" + new URLSearchParams(membershipParams).toString());
+      updatePageFromUrl();
+    }
+  </script>
 {% endblock %}
