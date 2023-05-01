@@ -1,0 +1,25 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}My donations{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <h2 class="mt-4 mb-4 text-3xl font-bold">My donations</h2>
+
+    <p class="mb-4">Donations are not publicly shown.</p>
+
+    {% if donation_dicts | length == 0 %}
+      <p>No donations yet. <a href="/membership">Make my first donation.</a></p>
+    {% else %}
+      <p class="mb-4"><a href="/membership">Make another donation.</a></p>
+
+      {% for donation_dict in donation_dicts %}
+        <div class="mb-2"><a href="/account/donations/{{ donation_dict.donation_id }}">{{ donation_dict.donation_id }}</a> ${{ donation_dict.total_amount_usd }} <span class="italic">{{ ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status] }}</span></div>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

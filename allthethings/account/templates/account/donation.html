@@ -1,0 +1,99 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Donation{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') | trim %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
+      <div class="font-bold">Donation</div>
+      <div>Identifier: {{ donation_dict.donation_id }}</div>
+      <div>Total: ${{ donation_dict.total_amount_usd }} <span class="text-sm text-gray-500">(${{ donation_dict.monthly_amount_usd }} / month for {{ donation_dict.json.duration }} months{% if donation_dict.json.discounts > 0 %}, including {{ donation_dict.json.discounts }}% discount{% endif %})</span></div>
+      <div>Status: <span class="italic">{{ ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status] }}</span></div>
+
+      {% if donation_dict.processing_status == 0 %}
+        <div class="mt-2">
+          <form onsubmit='window.submitForm(event, "/dyn/account/cancel_donation/" + {{ donation_dict.donation_id | tojson }})'>
+            <fieldset>
+              <button class="button bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white" onclick="document.querySelector('.js-donation-cancel').classList.remove('hidden'); this.classList.add('hidden'); event.preventDefault()">Cancel</button>
+              <span class="js-donation-cancel hidden">Are you sure you wish to cancel? Do not cancel if you have already paid. <button type="submit" class="button bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">Yes, please cancel</button></span>
+            </fieldset>
+            <div class="hidden js-success">✅ Your donation has been canceled. <a href="/membership?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}">Make a new donation</a></div>
+            <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
+          </form>
+        </div>
+      {% elif donation_dict.processing_status != 4 %}
+        <div class="mt-2"><a href="/membership?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}" class="custom-a inline-block bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">Reorder</a></div>
+      {% endif %}
+    </div>
+
+    {% if donation_dict.processing_status == 4 %}
+      <div class='js-donation-instructions-hidden'>
+        <p class="mb-4">
+          You have already paid. If you want to review the payment instructions anyway, click here:
+        </p>
+
+        <a href="#" onclick="document.querySelector('.js-donation-instructions').classList.remove('hidden'); document.querySelector('.js-donation-instructions-hidden').classList.add('hidden')">Show old payment instructions</a>
+      </div>
+    {% elif donation_dict.processing_status != 0 %}
+      <div class='js-donation-instructions-hidden'>
+        <p class="mb-4">
+          The payment instructions are now outdated. If you would like to make another donation, use the “Reorder” button above.
+        </p>
+
+        <a href="#" onclick="document.querySelector('.js-donation-instructions').classList.remove('hidden'); document.querySelector('.js-donation-instructions-hidden').classList.add('hidden')">Show old payment instructions</a>
+      </div>
+    {% endif %}
+
+    <div class="js-donation-instructions {% if donation_dict.processing_status != 0 %}hidden{% endif %}">
+      {% if donation_dict.json.method == 'crypto' %}
+        <h2 class="mt-4 mb-4 text-xl font-bold">Crypto instructions</h2>
+
+        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Transfer to one of our crypto accounts</p>
+
+        <p class="">
+          Send the total amount of ${{ donation_dict.total_amount_usd }} to one of these addresses:
+        </p>
+
+        <ul class="list-inside mb-4">
+          <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a> {{ gettext('page.donate.crypto.btc_bch_note') }}</li>
+          <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
+          <li>- Monero XMR: <a style="word-break: break-all;" rel="payment" href="monero:445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t">445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t</a></li>
+          <li>- Solana SOL: <a style="word-break: break-all;" rel="payment" href="solana:HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP">HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP</a></li>
+        </ul>
+
+        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Email us the receipt</p>
+
+        <p class="mb-4">
+          Send a receipt or screenshot to your personal verification address:
+        </p>
+
+        <p class="mb-4 font-mono font-bold">
+          receipt+{{ donation_dict.receipt_id }}@annas-mail.org
+        </p>
+
+        <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
+          <fieldset class="mb-2">
+            <p class="mb-4">
+              When you have emailed your receipt, click this button, so Anna can manually review it (this might take a few days):
+            </p>
+
+            <input type="hidden" name="tier" value="">
+            <input type="hidden" name="method" value="">
+            <input type="hidden" name="duration" value="">
+            <input type="hidden" name="totalCentsVerification" value="">
+            <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">I emailed my receipt</button>
+            <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+          </fieldset>
+          <div class="hidden js-success">✅ Thanks for your donation! Anna will manually activate your membership within a few days.</div>
+          <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
+        </form>
+      {% endif %}
+    </div>
+
+    <!-- {{ donation_dict }} -->
+  </div>
+{% endblock %}

@@ -5,13 +5,14 @@ import flask_mail
 import datetime
 import jwt
 import shortuuid
+import orjson
 
 from flask import Blueprint, request, g, render_template, make_response, redirect
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations
 from allthethings.page.views import get_md5_dicts_elasticsearch
 from config.settings import SECRET_KEY
 
@@ -173,12 +174,72 @@ def account_profile_page():
         return "", 403
     return redirect(f"/profile/{account_id}", code=302)
 
-@account.get("/account/membership")
+@account.get("/membership")
 @allthethings.utils.no_cache()
 def membership_page():
-    return render_template("account/membership.html", header_active="account/membership")
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is not None:
+        with Session(mariapersist_engine) as mariapersist_session:
+            existing_unpaid_donation_id = mariapersist_session.connection().execute(select(MariapersistDonations.donation_id).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
+            if existing_unpaid_donation_id is not None:
+                return redirect(f"/account/donations/{existing_unpaid_donation_id}", code=302)
+    return render_template("account/membership.html", header_active="donate")
 
+ORDER_PROCESSING_STATUS_LABELS = {
+    0: 'unpaid',
+    1: 'paid',
+    2: 'cancelled',
+    3: 'expired',
+    4: 'waiting for Anna to confirm',
+}
 
+def make_donation_dict(donation):
+    donation_json = orjson.loads(donation['json'])
+    return {
+        **donation,
+        'json': donation_json,
+        'total_amount_usd': str(donation.cost_cents_usd)[:-2] + "." + str(donation.cost_cents_usd)[-2:],
+        'monthly_amount_usd': str(donation_json['monthly_cents'])[:-2] + "." + str(donation_json['monthly_cents'])[-2:],
+        'receipt_id': shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation.donation_id)),
+    }
+
+@account.get("/account/donations/<string:donation_id>")
+@allthethings.utils.no_cache()
+def donation_page(donation_id):
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        donation = mariapersist_session.connection().execute(select(MariapersistDonations).where((MariapersistDonations.account_id == account_id) & (MariapersistDonations.donation_id == donation_id)).limit(1)).first()
+        if donation is None:
+            return "", 403
+
+        donation_json = orjson.loads(donation['json'])
+
+        return render_template(
+            "account/donation.html", 
+            header_active="account/donations",
+            donation_dict=make_donation_dict(donation),
+            ORDER_PROCESSING_STATUS_LABELS=ORDER_PROCESSING_STATUS_LABELS,
+        )
+
+@account.get("/account/donations/")
+@allthethings.utils.no_cache()
+def donations_page():
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        donations = mariapersist_session.connection().execute(select(MariapersistDonations).where(MariapersistDonations.account_id == account_id).order_by(MariapersistDonations.created.desc()).limit(10000)).all()
+
+        return render_template(
+            "account/donations.html",
+            header_active="account/donations",
+            donation_dicts=[make_donation_dict(donation) for donation in donations],
+            ORDER_PROCESSING_STATUS_LABELS=ORDER_PROCESSING_STATUS_LABELS,
+        )
 
 
 

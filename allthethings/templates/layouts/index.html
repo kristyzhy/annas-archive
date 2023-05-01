@@ -307,6 +307,7 @@
               <span class="header-link-normal">
                 {% if header_active == 'account/profile' %}Public profile
                 {% elif header_active == 'account/downloaded' %}Downloaded files
+                {% elif header_active == 'account/donations' %}My donations
                 {% elif header_active == 'account/request' %}Request books
                 {% elif header_active == 'account/upload' %}Upload
                 {% else %}Account{% endif %}
@@ -315,6 +316,7 @@
               <span class="header-link-bold">
                 {% if header_active == 'account/profile' %}Public profile
                 {% elif header_active == 'account/downloaded' %}Downloaded files
+                {% elif header_active == 'account/donations' %}My donations
                 {% elif header_active == 'account/request' %}Request books
                 {% elif header_active == 'account/upload' %}Upload
                 {% else %}Account{% endif %}
@@ -325,6 +327,7 @@
               <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account">Account</a>
               <a class="custom-a block py-1 {% if header_active == 'account/profile' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/profile">Public profile</a>
               <a class="custom-a block py-1 {% if header_active == 'account/downloaded' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/downloaded">Downloaded files</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/donations' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/donations">My donations</a>
               <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/request">Request books</a>
               <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/upload">Upload</a>
             </div>

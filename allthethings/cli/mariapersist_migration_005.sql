@@ -15,3 +15,21 @@ CREATE TABLE mariapersist_download_tests (
     INDEX (`server`,`created`),
     INDEX (`url`,`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+CREATE TABLE mariapersist_donations (
+    `donation_id` CHAR(22) NOT NULL,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `account_id` CHAR(7) NOT NULL,
+    `cost_cents_usd` INT NOT NULL,
+    `processing_status` TINYINT NOT NULL, # 0=unpaid, 1=paid, 2=cancelled, 3=expired, 4=manualconfirm
+    `donation_type` SMALLINT NOT NULL, # 0=manual
+    `ip` BINARY(16) NOT NULL,
+    `json` JSON NOT NULL,
+    PRIMARY KEY (`donation_id`),
+    INDEX (`created`),
+    INDEX (`account_id`, `processing_status`, `created`),
+    INDEX (`donation_type`, `created`),
+    INDEX (`processing_status`, `created`),
+    INDEX (`cost_cents_usd`, `created`),
+    INDEX (`ip`, `created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

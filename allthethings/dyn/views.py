@@ -14,7 +14,7 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -500,6 +500,111 @@ def lists(resource):
             resource=resource,
         )
         
+@dyn.put("/account/buy_membership/")
+@allthethings.utils.no_cache()
+def account_buy_membership():
+    # tier_names = { 
+    #     # Note: keep manually in sync with HTML and JS.
+    #     "2": "Brilliant Bookworm", 
+    #     "3": "Lucky Librarian", 
+    #     "4": "Dazzling Datahoarder", 
+    #     "5": "Amazing Archivist",
+    # }
+    tier_costs = { 
+        # Note: keep manually in sync with JS (HTML is auto-updated).
+        "2": 5, "3": 10, "4": 30, "5": 100,
+    }
+    method_discounts = {
+        # Note: keep manually in sync with HTML and JS.
+        "crypto": 20,
+        "cc":     20,
+        "paypal": 20,
+        "bmc":    0,
+        "alipay": 0,
+        "pix":    0,
+    }
+    duration_discounts = {
+        # Note: keep manually in sync with HTML and JS.
+        "1": 0, "3": 5, "6": 10, "12": 15,
+    }
+    tier = request.form['tier']
+    method = request.form['method']
+    duration = request.form['duration']
+    if (tier not in tier_costs.keys()) or (method not in method_discounts.keys()) or (duration not in duration_discounts.keys()):
+        raise Exception("Invalid fields")
+
+    discounts = method_discounts[method] + duration_discounts[duration]
+    monthly_cents = round(tier_costs[tier]*(100-discounts));
+    total_cents = monthly_cents * int(duration);
+    total_cents_verification = request.form['totalCentsVerification']
+    if str(total_cents) != total_cents_verification:
+        raise Exception(f"Invalid totalCentsVerification")
+
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
+        if existing_unpaid_donations_counts > 0:
+            raise Exception(f"Existing unpaid or manualconfirm donations open")
+
+        data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
+        data = {
+            'donation_id': shortuuid.uuid(),
+            'account_id': account_id,
+            'cost_cents_usd': total_cents,
+            'processing_status': 0, # unpaid
+            'donation_type': 0, # manual
+            'ip': allthethings.utils.canonical_ip_bytes(request.remote_addr),
+            'json': orjson.dumps({
+                'tier': tier,
+                'method': method,
+                'duration': duration,
+                'monthly_cents': monthly_cents,
+                'discounts': discounts,
+            }),
+        }
+        mariapersist_session.execute('INSERT INTO mariapersist_donations (donation_id, account_id, cost_cents_usd, processing_status, donation_type, ip, json) VALUES (:donation_id, :account_id, :cost_cents_usd, :processing_status, :donation_type, :ip, :json)', [data])
+        mariapersist_session.commit()
+
+        return "{}"
+
+@dyn.put("/account/mark_manual_donation_sent/<string:donation_id>")
+@allthethings.utils.no_cache()
+def account_mark_manual_donation_sent(donation_id):
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        donation = mariapersist_session.connection().execute(select(MariapersistDonations).where((MariapersistDonations.account_id == account_id) & (MariapersistDonations.processing_status == 0) & (MariapersistDonations.donation_id == donation_id)).limit(1)).first()
+        if donation is None:
+            return "", 403
+
+        mariapersist_session.execute('UPDATE mariapersist_donations SET processing_status = 4 WHERE donation_id = :donation_id AND processing_status = 0 AND account_id = :account_id', [{ 'donation_id': donation_id, 'account_id': account_id }])
+        mariapersist_session.commit()
+        return "{}"
+
+@dyn.put("/account/cancel_donation/<string:donation_id>")
+@allthethings.utils.no_cache()
+def account_cancel_donation(donation_id):
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return "", 403
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        donation = mariapersist_session.connection().execute(select(MariapersistDonations).where((MariapersistDonations.account_id == account_id) & (MariapersistDonations.processing_status == 0) & (MariapersistDonations.donation_id == donation_id)).limit(1)).first()
+        if donation is None:
+            return "", 403
+
+        mariapersist_session.execute('UPDATE mariapersist_donations SET processing_status = 2 WHERE donation_id = :donation_id AND processing_status = 0 AND account_id = :account_id', [{ 'donation_id': donation_id, 'account_id': account_id }])
+        mariapersist_session.commit()
+        return "{}"
+
+
+
+
 
 
 
