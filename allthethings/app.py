@@ -122,6 +122,7 @@ def extensions(app):
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True
     app.jinja_env.globals['get_locale'] = get_locale
+    app.jinja_env.globals['FEATURE_FLAGS'] = allthethings.utils.FEATURE_FLAGS
 
     # https://stackoverflow.com/a/18095320
     hash_cache = {}

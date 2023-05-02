@@ -517,8 +517,8 @@ def account_buy_membership():
     method_discounts = {
         # Note: keep manually in sync with HTML and JS.
         "crypto": 20,
-        "cc":     20,
-        "paypal": 20,
+        # "cc":     20,
+        # "paypal": 20,
         "bmc":    0,
         "alipay": 0,
         "pix":    0,
