@@ -127,6 +127,19 @@ MEMBERSHIP_DURATION_DISCOUNTS = {
 def cents_to_usd_str(cents):
     return str(cents)[:-2] + "." + str(cents)[-2:]
 
+def membership_format_native_currency(native_currency_code, cost_cents_native_currency):
+    if native_currency_code == 'COFFEE':
+        return {
+            'cost_cents_native_currency_str_calculator': f"${cents_to_usd_str(cost_cents_native_currency * 500)} ({cost_cents_native_currency} ☕️) total",
+            'cost_cents_native_currency_str_button': f"${cents_to_usd_str(cost_cents_native_currency * 500)}",
+            'cost_cents_native_currency_str_donation_page': f"${cents_to_usd_str(cost_cents_native_currency * 500)} ({cost_cents_native_currency} ☕️)",
+        }
+    else:
+        return {
+            'cost_cents_native_currency_str_calculator': f"${cents_to_usd_str(cost_cents_native_currency)} total",
+            'cost_cents_native_currency_str_button': f"${cents_to_usd_str(cost_cents_native_currency)}",
+            'cost_cents_native_currency_str_donation_page': f"${cents_to_usd_str(cost_cents_native_currency)}",
+        }
 
 @functools.cache
 def membership_costs_data():
@@ -141,19 +154,28 @@ def membership_costs_data():
         monthly_cents = round(MEMBERSHIP_TIER_COSTS[tier]*(100-discounts));
         cost_cents_usd = monthly_cents * int(duration);
 
+        native_currency_code = 'USD'
+        cost_cents_native_currency = cost_cents_usd
+        if method == 'bmc':
+            native_currency_code = 'COFFEE'
+            cost_cents_native_currency = round(cost_cents_usd / 500)
+
+        formatted_native_currency = membership_format_native_currency(native_currency_code, cost_cents_native_currency)            
+
         return { 
             'cost_cents_usd': cost_cents_usd, 
             'cost_cents_usd_str': cents_to_usd_str(cost_cents_usd), 
-            'cost_cents_native_currency': cost_cents_usd, 
-            'cost_cents_native_currency_str': cents_to_usd_str(cost_cents_usd), 
-            'native_currency_code': 'USD',
+            'cost_cents_native_currency': cost_cents_native_currency, 
+            'cost_cents_native_currency_str_calculator': formatted_native_currency['cost_cents_native_currency_str_calculator'], 
+            'cost_cents_native_currency_str_button': formatted_native_currency['cost_cents_native_currency_str_button'],
+            'native_currency_code': native_currency_code,
             'monthly_cents': monthly_cents,
             'monthly_cents_str': cents_to_usd_str(monthly_cents),
             'discounts': discounts,
             'duration': duration,
             'tier_name': MEMBERSHIP_TIER_NAMES[tier],
         }
-        
+
     membership_costs_data = {}
     for tier in MEMBERSHIP_TIER_COSTS.keys():
         for method in MEMBERSHIP_METHOD_DISCOUNTS.keys():

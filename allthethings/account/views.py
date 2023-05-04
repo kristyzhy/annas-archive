@@ -210,6 +210,7 @@ def make_donation_dict(donation):
         'total_amount_usd': allthethings.utils.cents_to_usd_str(donation.cost_cents_usd),
         'monthly_amount_usd': allthethings.utils.cents_to_usd_str(donation_json['monthly_cents']),
         'receipt_id': shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation.donation_id)),
+        'formatted_native_currency': allthethings.utils.membership_format_native_currency(donation.native_currency_code, donation.cost_cents_native_currency)
     }
 
 @account.get("/account/donations/<string:donation_id>")

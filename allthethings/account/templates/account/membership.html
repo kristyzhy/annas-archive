@@ -290,9 +290,9 @@
         if (costsData) {
           document.querySelector('.js-membership-discount-percentage').innerText = `${costsData.discounts}%`;
           document.querySelector('.js-membership-monthly-cost').innerText = `\$${costsData.monthly_cents_str} / month`;
-          document.querySelector('.js-membership-total-cost').innerText = `\$${costsData.cost_cents_usd_str} total`;
+          document.querySelector('.js-membership-total-cost').innerText = costsData.cost_cents_native_currency_str_calculator;
           document.querySelector('.js-membership-total-duration').innerText = `for ${costsData.duration} months`;
-          document.querySelector('.js-membership-donate-button-cost').innerText = `\$${costsData.cost_cents_usd_str}`;
+          document.querySelector('.js-membership-donate-button-cost').innerText = costsData.cost_cents_native_currency_str_button;
           document.querySelector('.js-membership-donate-button-label').innerText = `for ${costsData.duration} months “${costsData.tier_name}”`
           document.querySelector('.js-membership-form [name=costCentsUsdVerification]').value = costsData.cost_cents_usd;
         }

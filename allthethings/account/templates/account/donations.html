@@ -18,7 +18,7 @@
       <p class="mb-4"><a href="/membership">Make another donation.</a></p>
 
       {% for donation_dict in donation_dicts %}
-        <div class="mb-2"><a href="/account/donations/{{ donation_dict.donation_id }}">{{ donation_dict.donation_id }}</a> ${{ donation_dict.total_amount_usd }} <span class="italic">{{ ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status] }}</span></div>
+        <div class="mb-2"><a href="/account/donations/{{ donation_dict.donation_id }}">{{ donation_dict.donation_id }}</a> {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page }} <span class="italic">{{ ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status] }}</span></div>
       {% endfor %}
     {% endif %}
   </div>
