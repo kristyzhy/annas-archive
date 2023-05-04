@@ -176,7 +176,7 @@ def account_profile_page():
         return "", 403
     return redirect(f"/profile/{account_id}", code=302)
 
-@account.get("/membership")
+@account.get("/donate")
 @allthethings.utils.no_cache()
 def membership_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
@@ -187,7 +187,7 @@ def membership_page():
                 return redirect(f"/account/donations/{existing_unpaid_donation_id}", code=302)
 
     return render_template(
-        "account/membership.html", 
+        "account/donate.html", 
         header_active="donate", 
         membership_costs_data=allthethings.utils.membership_costs_data(get_locale()),
         MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,

@@ -1,6 +1,6 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Membership{% endblock %}
+{% block title %}Donate{% endblock %}
 
 {% block body %}
   {% if gettext('common.english_only') | trim %}
@@ -8,10 +8,10 @@
   {% endif %}
 
   <div lang="en">
-    <h2 class="mt-4 mb-4 text-3xl font-bold">Membership</h2>
+    <h2 class="mt-4 mb-4 text-3xl font-bold">Donate</h2>
 
     <p class="mb-4">
-      Anna’s Archive is a non-profit, open-source, open-data project. By becoming a member, you support our operations and development. To all our members: thank you for keeping us going!
+      Anna’s Archive is a non-profit, open-source, open-data project. By donating and becoming a member, you support our operations and development. To all our members: thank you for keeping us going!
     </p>
 
     <p class="mb-4">
@@ -95,21 +95,27 @@
     </div>
 
     <div class="hidden js-membership-section-method">
-      <p class="mt-4 mb-4">
-        Select a payment option. We give discounts for crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, because we incur fewer fees.
-      </p>
+      <div class="[html.aa-logged-in_&]:hidden mt-4 mb-8">
+        To become a member, please <a href="/login">Log in or Register</a>. If you prefer not to create an account, select “Make a one-time anonymous donation” above. Thanks for your support!
+      </div>
 
-      <div class="mb-4 flex flex-wrap items-end">
-        <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Crypto <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button>
-        <!-- <button class="js-membership-method js-membership-method-cc     relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('cc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button>
-        <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button> -->
-        <button class="js-membership-method js-membership-method-bmc    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('bmc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button>
-        <button class="js-membership-method js-membership-method-alipay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('alipay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Alipay 支付宝</button>
-        <button class="js-membership-method js-membership-method-pix    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('pix')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Pix</button>
+      <div class="[html:not(.aa-logged-in)_&]:hidden">
+        <p class="mt-4 mb-4">
+          Select a payment option. We give discounts for crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, because we incur fewer fees.
+        </p>
+
+        <div class="mb-4 flex flex-wrap items-end">
+          <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Crypto <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button>
+          <!-- <button class="js-membership-method js-membership-method-cc     relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('cc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button>
+          <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">-20%</span></button> -->
+          <button class="js-membership-method js-membership-method-bmc    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('bmc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button>
+          <button class="js-membership-method js-membership-method-alipay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('alipay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Alipay 支付宝</button>
+          <button class="js-membership-method js-membership-method-pix    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('pix')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Pix</button>
+        </div>
       </div>
     </div>
 
-    <div class="hidden js-membership-section-duration">
+    <div class="hidden js-membership-section-duration [html:not(.aa-logged-in)_&]:hidden">
       <div class="js-membership-descr js-membership-descr-crypto">
         <p class="mb-4">
           With crypto you can donate using BTC, BCH, ETH, XMR, and SOL. <br class="hidden sm:block">Use this option if you are already familiar with cryptocurrency.

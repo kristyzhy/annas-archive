@@ -21,12 +21,12 @@
               <button class="button bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white" onclick="document.querySelector('.js-donation-cancel').classList.remove('hidden'); this.classList.add('hidden'); event.preventDefault()">Cancel</button>
               <span class="js-donation-cancel hidden">Are you sure you wish to cancel? Do not cancel if you have already paid. <button type="submit" class="button bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">Yes, please cancel</button></span>
             </fieldset>
-            <div class="hidden js-success">✅ Your donation has been canceled. <a href="/membership?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}">Make a new donation</a></div>
+            <div class="hidden js-success">✅ Your donation has been canceled. <a href="/donate?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}">Make a new donation</a></div>
             <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
           </form>
         </div>
       {% elif donation_dict.processing_status != 4 %}
-        <div class="mt-2"><a href="/membership?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}" class="custom-a inline-block bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">Reorder</a></div>
+        <div class="mt-2"><a href="/donate?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}" class="custom-a inline-block bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">Reorder</a></div>
       {% endif %}
     </div>
 

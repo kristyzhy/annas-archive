@@ -297,12 +297,6 @@ def login_page():
 def about_page():
     return render_template("page/about.html", header_active="home/about")
 
-
-@page.get("/donate")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
-def donate_page():
-    return render_template("page/donate.html", header_active="donate")
-
 @page.get("/mobile")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def mobile_page():
