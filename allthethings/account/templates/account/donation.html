@@ -109,7 +109,7 @@
       </p>
 
       <p class="mb-4 font-mono font-bold">
-        receipt+{{ donation_dict.receipt_id }}@annas-mail.org
+        receipt+&#8203;{{ donation_dict.receipt_id }}@&#8203;annas-mail.&#8203;org<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('receipt+{{ donation_dict.receipt_id }}@annas-mail.org').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">copy</span><span class="[[aria-selected=false]_&]:hidden">copied!</span></button>
       </p>
 
       <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
