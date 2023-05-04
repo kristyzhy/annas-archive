@@ -211,7 +211,7 @@
 
       <div class="js-membership-descr js-membership-descr-alipay">
         <p class="mb-4">
-          {{ gettext('page.donate.alipay.intro', link_open_tag=('<a href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">' | safe)) }}
+          Please use <a href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this Alipay account</a> to send your donation.
         </p>
 
         <p class="mb-4">
@@ -225,7 +225,7 @@
 
       <div class="js-membership-descr js-membership-descr-pix">
         <p class="mb-4">
-          {{ gettext('page.donate.pix.text', link_open_tag=('<a href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">' | safe)) }}
+          Please use <a href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this Pix account</a> to send your donation.
         </p>
 
         <p class="mb-4 mt-4">
@@ -289,7 +289,7 @@
         const costsData = membershipCostsData[membershipParamsStr];
         if (costsData) {
           document.querySelector('.js-membership-discount-percentage').innerText = `${costsData.discounts}%`;
-          document.querySelector('.js-membership-monthly-cost').innerText = `\$${costsData.monthly_cents_str} / month`;
+          document.querySelector('.js-membership-monthly-cost').innerText = `${costsData.monthly_cents_str} / month`;
           document.querySelector('.js-membership-total-cost').innerText = costsData.cost_cents_native_currency_str_calculator;
           document.querySelector('.js-membership-total-duration').innerText = `for ${costsData.duration} months`;
           document.querySelector('.js-membership-donate-button-cost').innerText = costsData.cost_cents_native_currency_str_button;

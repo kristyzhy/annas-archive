@@ -4,6 +4,9 @@ import ipaddress
 import flask
 import functools
 import datetime
+import forex_python.converter
+import cachetools
+import babel.numbers
 
 from config.settings import SECRET_KEY
 
@@ -101,6 +104,15 @@ def get_md5_report_type_mapping():
         'other': 'Other',
     }
 
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=6*60*60))
+def usd_currency_rates_cached():
+    try:
+        return forex_python.converter.CurrencyRates().get_rates('USD')
+    except RatesNotAvailableError:
+        print("RatesNotAvailableError -- using fallback!")
+        # 2023-05-04 fallback
+        return {'EUR': 0.9161704076958315, 'JPY': 131.46129180027486, 'BGN': 1.7918460833715073, 'CZK': 21.44663307375172, 'DKK': 6.8263857077416406, 'GBP': 0.8016032982134678, 'HUF': 344.57169033440226, 'PLN': 4.293449381584975, 'RON': 4.52304168575355, 'SEK': 10.432890517636281, 'CHF': 0.9049931287219424, 'ISK': 137.15071003206597, 'NOK': 10.43105817682089, 'TRY': 19.25744388456253, 'AUD': 1.4944571690334403, 'BRL': 5.047732478240953, 'CAD': 1.3471369674759506, 'CNY': 6.8725606962895105, 'HKD': 7.849931287219422, 'IDR': 14924.993128721942, 'INR': 81.87402656894183, 'KRW': 1318.1951442968393, 'MXN': 18.288960146587264, 'MYR': 4.398992212551534, 'NZD': 1.592945487860742, 'PHP': 54.56894182317912, 'SGD': 1.3290884104443428, 'THB': 34.054970224461755, 'ZAR': 18.225286303252407}
+
 MEMBERSHIP_TIER_NAMES = { 
     "2": "Brilliant Bookworm", 
     "3": "Lucky Librarian", 
@@ -127,22 +139,33 @@ MEMBERSHIP_DURATION_DISCOUNTS = {
 def cents_to_usd_str(cents):
     return str(cents)[:-2] + "." + str(cents)[-2:]
 
-def membership_format_native_currency(native_currency_code, cost_cents_native_currency):
+def membership_format_native_currency(locale, native_currency_code, cost_cents_native_currency, cost_cents_usd):
     if native_currency_code == 'COFFEE':
         return {
-            'cost_cents_native_currency_str_calculator': f"${cents_to_usd_str(cost_cents_native_currency * 500)} ({cost_cents_native_currency} ☕️) total",
-            'cost_cents_native_currency_str_button': f"${cents_to_usd_str(cost_cents_native_currency * 500)}",
-            'cost_cents_native_currency_str_donation_page': f"${cents_to_usd_str(cost_cents_native_currency * 500)} ({cost_cents_native_currency} ☕️)",
+            'cost_cents_native_currency_str_calculator': f"{babel.numbers.format_currency(cost_cents_native_currency * 5, 'USD', locale=locale)} ({cost_cents_native_currency} ☕️) total",
+            'cost_cents_native_currency_str_button': f"{babel.numbers.format_currency(cost_cents_native_currency * 5, 'USD', locale=locale)}",
+            'cost_cents_native_currency_str_donation_page_formal': f"{babel.numbers.format_currency(cost_cents_native_currency * 5, 'USD', locale=locale)} ({cost_cents_native_currency} ☕️)",
+            'cost_cents_native_currency_str_donation_page_instructions': f"{cost_cents_native_currency} “coffee” ({babel.numbers.format_currency(cost_cents_native_currency * 5, 'USD', locale=locale)})",
+        }
+    elif native_currency_code != 'USD':
+        return {
+            'cost_cents_native_currency_str_calculator': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)} ({babel.numbers.format_currency(cost_cents_usd / 100, 'USD', locale=locale)}) total",
+            'cost_cents_native_currency_str_button': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)}",
+            'cost_cents_native_currency_str_donation_page_formal': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)} ({babel.numbers.format_currency(cost_cents_usd / 100, 'USD', locale=locale)})",
+            'cost_cents_native_currency_str_donation_page_instructions': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)} ({babel.numbers.format_currency(cost_cents_usd / 100, 'USD', locale=locale)})",
         }
     else:
         return {
-            'cost_cents_native_currency_str_calculator': f"${cents_to_usd_str(cost_cents_native_currency)} total",
-            'cost_cents_native_currency_str_button': f"${cents_to_usd_str(cost_cents_native_currency)}",
-            'cost_cents_native_currency_str_donation_page': f"${cents_to_usd_str(cost_cents_native_currency)}",
+            'cost_cents_native_currency_str_calculator': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, 'USD', locale=locale)} total",
+            'cost_cents_native_currency_str_button': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, 'USD', locale=locale)}",
+            'cost_cents_native_currency_str_donation_page_formal': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, 'USD', locale=locale)}",
+            'cost_cents_native_currency_str_donation_page_instructions': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, 'USD', locale=locale)}",
         }
 
-@functools.cache
-def membership_costs_data():
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=60*60))
+def membership_costs_data(locale):
+    usd_currency_rates = usd_currency_rates_cached()
+
     def calculate_membership_costs(inputs):
         tier = inputs['tier']
         method = inputs['method']
@@ -159,30 +182,36 @@ def membership_costs_data():
         if method == 'bmc':
             native_currency_code = 'COFFEE'
             cost_cents_native_currency = round(cost_cents_usd / 500)
+        elif method == 'alipay':
+            native_currency_code = 'CNY'
+            cost_cents_native_currency = round(cost_cents_usd * usd_currency_rates['CNY'] / 100) * 100
+        elif method == 'pix':
+            native_currency_code = 'BRL'
+            cost_cents_native_currency = round(cost_cents_usd * usd_currency_rates['BRL'] / 100) * 100
 
-        formatted_native_currency = membership_format_native_currency(native_currency_code, cost_cents_native_currency)            
+        formatted_native_currency = membership_format_native_currency(locale, native_currency_code, cost_cents_native_currency, cost_cents_usd)
 
         return { 
             'cost_cents_usd': cost_cents_usd, 
-            'cost_cents_usd_str': cents_to_usd_str(cost_cents_usd), 
+            'cost_cents_usd_str': babel.numbers.format_currency(cost_cents_usd / 100.0, 'USD', locale=locale), 
             'cost_cents_native_currency': cost_cents_native_currency, 
             'cost_cents_native_currency_str_calculator': formatted_native_currency['cost_cents_native_currency_str_calculator'], 
             'cost_cents_native_currency_str_button': formatted_native_currency['cost_cents_native_currency_str_button'],
             'native_currency_code': native_currency_code,
             'monthly_cents': monthly_cents,
-            'monthly_cents_str': cents_to_usd_str(monthly_cents),
+            'monthly_cents_str': babel.numbers.format_currency(monthly_cents / 100.0, 'USD', locale=locale),
             'discounts': discounts,
             'duration': duration,
             'tier_name': MEMBERSHIP_TIER_NAMES[tier],
         }
 
-    membership_costs_data = {}
+    data = {}
     for tier in MEMBERSHIP_TIER_COSTS.keys():
         for method in MEMBERSHIP_METHOD_DISCOUNTS.keys():
             for duration in MEMBERSHIP_DURATION_DISCOUNTS.keys():
                 inputs = { 'tier': tier, 'method': method, 'duration': duration }
-                membership_costs_data[f"{tier},{method},{duration}"] = calculate_membership_costs(inputs)
-    return membership_costs_data
+                data[f"{tier},{method},{duration}"] = calculate_membership_costs(inputs)
+    return data
 
 
 

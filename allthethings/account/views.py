@@ -6,11 +6,13 @@ import datetime
 import jwt
 import shortuuid
 import orjson
+import babel
 
 from flask import Blueprint, request, g, render_template, make_response, redirect
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
+from flask_babel import gettext, ngettext, force_locale, get_locale
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations
 from allthethings.page.views import get_md5_dicts_elasticsearch
@@ -187,7 +189,7 @@ def membership_page():
     return render_template(
         "account/membership.html", 
         header_active="donate", 
-        membership_costs_data=allthethings.utils.membership_costs_data(),
+        membership_costs_data=allthethings.utils.membership_costs_data(get_locale()),
         MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
         MEMBERSHIP_TIER_COSTS=allthethings.utils.MEMBERSHIP_TIER_COSTS,
         MEMBERSHIP_METHOD_DISCOUNTS=allthethings.utils.MEMBERSHIP_METHOD_DISCOUNTS,
@@ -207,10 +209,10 @@ def make_donation_dict(donation):
     return {
         **donation,
         'json': donation_json,
-        'total_amount_usd': allthethings.utils.cents_to_usd_str(donation.cost_cents_usd),
-        'monthly_amount_usd': allthethings.utils.cents_to_usd_str(donation_json['monthly_cents']),
+        'total_amount_usd': babel.numbers.format_currency(donation.cost_cents_usd / 100.0, 'USD', locale=get_locale()),
+        'monthly_amount_usd': babel.numbers.format_currency(donation_json['monthly_cents'] / 100.0, 'USD', locale=get_locale()),
         'receipt_id': shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation.donation_id)),
-        'formatted_native_currency': allthethings.utils.membership_format_native_currency(donation.native_currency_code, donation.cost_cents_native_currency)
+        'formatted_native_currency': allthethings.utils.membership_format_native_currency(get_locale(), donation.native_currency_code, donation.cost_cents_native_currency, donation.cost_cents_usd),
     }
 
 @account.get("/account/donations/<string:donation_id>")

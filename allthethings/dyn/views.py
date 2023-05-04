@@ -512,7 +512,7 @@ def account_buy_membership():
     method = request.form['method']
     duration = request.form['duration']
     # This also makes sure that the values above are valid.
-    membership_costs = allthethings.utils.membership_costs_data()[f"{tier},{method},{duration}"]
+    membership_costs = allthethings.utils.membership_costs_data('en')[f"{tier},{method},{duration}"]
 
     cost_cents_usd_verification = request.form['costCentsUsdVerification']
     if str(membership_costs['cost_cents_usd']) != cost_cents_usd_verification:

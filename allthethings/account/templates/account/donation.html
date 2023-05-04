@@ -11,7 +11,7 @@
     <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
       <div class="font-bold">Donation</div>
       <div>Identifier: {{ donation_dict.donation_id }}</div>
-      <div>Total: {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page }} <span class="text-sm text-gray-500">(${{ donation_dict.monthly_amount_usd }} / month for {{ donation_dict.json.duration }} months{% if donation_dict.json.discounts > 0 %}, including {{ donation_dict.json.discounts }}% discount{% endif %})</span></div>
+      <div>Total: {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal }} <span class="text-sm text-gray-500">({{ donation_dict.monthly_amount_usd }} / month for {{ donation_dict.json.duration }} months{% if donation_dict.json.discounts > 0 %}, including {{ donation_dict.json.discounts }}% discount{% endif %})</span></div>
       <div>Status: <span class="italic">{{ ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status] }}</span></div>
 
       {% if donation_dict.processing_status == 0 %}
@@ -55,7 +55,7 @@
         <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Transfer to one of our crypto accounts</p>
 
         <p class="">
-          Send the total amount of ${{ donation_dict.total_amount_usd }} to one of these addresses:
+          Donate the total amount of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} to one of these addresses:
         </p>
 
         <ul class="list-inside mb-4">
@@ -64,34 +64,70 @@
           <li>- Monero XMR: <a style="word-break: break-all;" rel="payment" href="monero:445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t">445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t</a></li>
           <li>- Solana SOL: <a style="word-break: break-all;" rel="payment" href="solana:HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP">HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP</a></li>
         </ul>
+      {% elif donation_dict.json.method == 'bmc' %}
+        <h2 class="mt-4 mb-4 text-xl font-bold">“Buy Me a Coffee” instructions</h2>
 
-        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Email us the receipt</p>
+        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our “Buy Me a Coffee” page</p>
 
         <p class="mb-4">
-          Send a receipt or screenshot to your personal verification address:
+          Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://gotopaypay.top/Home/pay?method=paypal" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
         </p>
 
-        <p class="mb-4 font-mono font-bold">
-          receipt+{{ donation_dict.receipt_id }}@annas-mail.org
+        <p class="mb-4">
+          {{ gettext('page.donate.strange_account') }}
+        </p>
+      {% elif donation_dict.json.method == 'alipay' %}
+        <h2 class="mt-4 mb-4 text-xl font-bold">Alipay instructions</h2>
+
+        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate on Alipay</p>
+
+        <p class="mb-4">
+          Donate the total amount of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} using <a href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this Alipay account</a>.
         </p>
 
-        <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
-          <fieldset class="mb-2">
-            <p class="mb-4">
-              When you have emailed your receipt, click this button, so Anna can manually review it (this might take a few days):
-            </p>
+        <p class="mb-4">
+          {{ gettext('page.donate.strange_account') }}
+        </p>
+      {% elif donation_dict.json.method == 'pix' %}
+        <h2 class="mt-4 mb-4 text-xl font-bold">Pix instructions</h2>
 
-            <input type="hidden" name="tier" value="">
-            <input type="hidden" name="method" value="">
-            <input type="hidden" name="duration" value="">
-            <input type="hidden" name="totalCentsVerification" value="">
-            <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">I emailed my receipt</button>
-            <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-          </fieldset>
-          <div class="hidden js-success">✅ Thanks for your donation! Anna will manually activate your membership within a few days.</div>
-          <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
-        </form>
+        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate on Pix</p>
+
+        <p class="mb-4">
+          Donate the total amount of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} using <a href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this Pix account</a>.
+        </p>
+
+        <p class="mb-4">
+          {{ gettext('page.donate.strange_account') }}
+        </p>
       {% endif %}
+
+      <p class="mt-8 mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Email us the receipt</p>
+
+      <p class="mb-4">
+        Send a receipt or screenshot to your personal verification address:
+      </p>
+
+      <p class="mb-4 font-mono font-bold">
+        receipt+{{ donation_dict.receipt_id }}@annas-mail.org
+      </p>
+
+      <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
+        <fieldset class="mb-2">
+          <p class="mb-4">
+            When you have emailed your receipt, click this button, so Anna can manually review it (this might take a few days):
+          </p>
+
+          <input type="hidden" name="tier" value="">
+          <input type="hidden" name="method" value="">
+          <input type="hidden" name="duration" value="">
+          <input type="hidden" name="totalCentsVerification" value="">
+          <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">I emailed my receipt</button>
+          <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+        </fieldset>
+        <div class="hidden js-success">✅ Thanks for your donation! Anna will manually activate your membership within a few days.</div>
+        <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
+      </form>
     </div>
 
     <!-- {{ donation_dict }} -->
