@@ -22,7 +22,7 @@ CREATE TABLE mariapersist_donations (
     `account_id` CHAR(7) NOT NULL,
     `cost_cents_usd` INT NOT NULL,
     `cost_cents_native_currency` INT NOT NULL,
-    `native_currency_symbol` CHAR(10) NOT NULL,
+    `native_currency_code` CHAR(10) NOT NULL,
     `processing_status` TINYINT NOT NULL, # 0=unpaid, 1=paid, 2=cancelled, 3=expired, 4=manualconfirm
     `donation_type` SMALLINT NOT NULL, # 0=manual
     `ip` BINARY(16) NOT NULL,
@@ -34,6 +34,6 @@ CREATE TABLE mariapersist_donations (
     INDEX (`processing_status`, `created`),
     INDEX (`cost_cents_usd`, `created`),
     INDEX (`cost_cents_native_currency`, `created`),
-    INDEX (`native_currency_symbol`, `created`),
+    INDEX (`native_currency_code`, `created`),
     INDEX (`ip`, `created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

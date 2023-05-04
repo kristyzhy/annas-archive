@@ -183,7 +183,16 @@ def membership_page():
             existing_unpaid_donation_id = mariapersist_session.connection().execute(select(MariapersistDonations.donation_id).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
             if existing_unpaid_donation_id is not None:
                 return redirect(f"/account/donations/{existing_unpaid_donation_id}", code=302)
-    return render_template("account/membership.html", header_active="donate")
+
+    return render_template(
+        "account/membership.html", 
+        header_active="donate", 
+        membership_costs_data=allthethings.utils.membership_costs_data(),
+        MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
+        MEMBERSHIP_TIER_COSTS=allthethings.utils.MEMBERSHIP_TIER_COSTS,
+        MEMBERSHIP_METHOD_DISCOUNTS=allthethings.utils.MEMBERSHIP_METHOD_DISCOUNTS,
+        MEMBERSHIP_DURATION_DISCOUNTS=allthethings.utils.MEMBERSHIP_DURATION_DISCOUNTS,
+    )
 
 ORDER_PROCESSING_STATUS_LABELS = {
     0: 'unpaid',
@@ -198,8 +207,8 @@ def make_donation_dict(donation):
     return {
         **donation,
         'json': donation_json,
-        'total_amount_usd': str(donation.cost_cents_usd)[:-2] + "." + str(donation.cost_cents_usd)[-2:],
-        'monthly_amount_usd': str(donation_json['monthly_cents'])[:-2] + "." + str(donation_json['monthly_cents'])[-2:],
+        'total_amount_usd': allthethings.utils.cents_to_usd_str(donation.cost_cents_usd),
+        'monthly_amount_usd': allthethings.utils.cents_to_usd_str(donation_json['monthly_cents']),
         'receipt_id': shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation.donation_id)),
     }
 

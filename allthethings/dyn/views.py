@@ -499,50 +499,24 @@ def lists(resource):
             reload_url=f"/dyn/lists/{resource}",
             resource=resource,
         )
+
         
 @dyn.put("/account/buy_membership/")
 @allthethings.utils.no_cache()
 def account_buy_membership():
-    # tier_names = { 
-    #     # Note: keep manually in sync with HTML and JS.
-    #     "2": "Brilliant Bookworm", 
-    #     "3": "Lucky Librarian", 
-    #     "4": "Dazzling Datahoarder", 
-    #     "5": "Amazing Archivist",
-    # }
-    tier_costs = { 
-        # Note: keep manually in sync with JS (HTML is auto-updated).
-        "2": 5, "3": 10, "4": 30, "5": 100,
-    }
-    method_discounts = {
-        # Note: keep manually in sync with HTML and JS.
-        "crypto": 20,
-        # "cc":     20,
-        # "paypal": 20,
-        "bmc":    0,
-        "alipay": 0,
-        "pix":    0,
-    }
-    duration_discounts = {
-        # Note: keep manually in sync with HTML and JS.
-        "1": 0, "3": 5, "6": 10, "12": 15,
-    }
-    tier = request.form['tier']
-    method = request.form['method']
-    duration = request.form['duration']
-    if (tier not in tier_costs.keys()) or (method not in method_discounts.keys()) or (duration not in duration_discounts.keys()):
-        raise Exception("Invalid fields")
-
-    discounts = method_discounts[method] + duration_discounts[duration]
-    monthly_cents = round(tier_costs[tier]*(100-discounts));
-    total_cents = monthly_cents * int(duration);
-    total_cents_verification = request.form['totalCentsVerification']
-    if str(total_cents) != total_cents_verification:
-        raise Exception(f"Invalid totalCentsVerification")
-
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
         return "", 403
+
+    tier = request.form['tier']
+    method = request.form['method']
+    duration = request.form['duration']
+    # This also makes sure that the values above are valid.
+    membership_costs = allthethings.utils.membership_costs_data()[f"{tier},{method},{duration}"]
+
+    cost_cents_usd_verification = request.form['costCentsUsdVerification']
+    if str(membership_costs['cost_cents_usd']) != cost_cents_usd_verification:
+        raise Exception(f"Invalid costCentsUsdVerification")
 
     with Session(mariapersist_engine) as mariapersist_session:
         existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
@@ -553,7 +527,9 @@ def account_buy_membership():
         data = {
             'donation_id': shortuuid.uuid(),
             'account_id': account_id,
-            'cost_cents_usd': total_cents,
+            'cost_cents_usd': membership_costs['cost_cents_usd'],
+            'cost_cents_native_currency': membership_costs['cost_cents_native_currency'],
+            'native_currency_code': membership_costs['native_currency_code'],
             'processing_status': 0, # unpaid
             'donation_type': 0, # manual
             'ip': allthethings.utils.canonical_ip_bytes(request.remote_addr),
@@ -561,11 +537,11 @@ def account_buy_membership():
                 'tier': tier,
                 'method': method,
                 'duration': duration,
-                'monthly_cents': monthly_cents,
-                'discounts': discounts,
+                'monthly_cents': membership_costs['monthly_cents'],
+                'discounts': membership_costs['discounts'],
             }),
         }
-        mariapersist_session.execute('INSERT INTO mariapersist_donations (donation_id, account_id, cost_cents_usd, processing_status, donation_type, ip, json) VALUES (:donation_id, :account_id, :cost_cents_usd, :processing_status, :donation_type, :ip, :json)', [data])
+        mariapersist_session.execute('INSERT INTO mariapersist_donations (donation_id, account_id, cost_cents_usd, cost_cents_native_currency, native_currency_code, processing_status, donation_type, ip, json) VALUES (:donation_id, :account_id, :cost_cents_usd, :cost_cents_native_currency, :native_currency_code, :processing_status, :donation_type, :ip, :json)', [data])
         mariapersist_session.commit()
 
         return "{}"

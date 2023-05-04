@@ -150,7 +150,7 @@
           <input type="hidden" name="tier" value="">
           <input type="hidden" name="method" value="">
           <input type="hidden" name="duration" value="">
-          <input type="hidden" name="totalCentsVerification" value="">
+          <input type="hidden" name="costCentsUsdVerification" value="">
           <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Donate <span class="font-bold js-membership-donate-button-cost">$72</span> <span class="text-xs js-membership-donate-button-label">for 12 months “Lucky Librarian”</span></button>
           <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
 
@@ -236,127 +236,109 @@
   </div>
 
   <script>
-    function getMembershipParams() {
-      return Object.fromEntries(new URLSearchParams(location.search));
-    }
+    (function() {
+      const MEMBERSHIP_TIER_NAMES = {{ MEMBERSHIP_TIER_NAMES | tojson }};
+      const MEMBERSHIP_TIER_COSTS = {{ MEMBERSHIP_TIER_COSTS | tojson }};
+      const MEMBERSHIP_METHOD_DISCOUNTS = {{ MEMBERSHIP_METHOD_DISCOUNTS | tojson }};
+      const MEMBERSHIP_DURATION_DISCOUNTS = {{ MEMBERSHIP_DURATION_DISCOUNTS | tojson }};
+      const membershipCostsData = {{ membership_costs_data | tojson }};
 
-    function updatePageFromUrl() {
-      const tierNames = { 
-        // Note: keep manually in sync with HTML and backend.
-        "2": "Brilliant Bookworm", 
-        "3": "Lucky Librarian", 
-        "4": "Dazzling Datahoarder", 
-        "5": "Amazing Archivist",
-      };
-      const tierCosts = { 
-        // Note: keep manually in sync with backend (HTML is auto-updated).
-        "2": 5, "3": 10, "4": 30, "5": 100,
-      };
-      const methodDiscounts = {
-        // Note: keep manually in sync with HTML and backend.
-        "crypto": 20,
-        // "cc":     20,
-        // "paypal": 20,
-        "bmc":    0,
-        "alipay": 0,
-        "pix":    0,
-      };
-      const durationDiscounts = {
-        // Note: keep manually in sync with HTML and backend.
-        "1": 0, "3": 5, "6": 10, "12": 15,
-      };
-
-      document.querySelectorAll('.js-membership-tier, .js-membership-method, .js-membership-duration').forEach((el) => el.setAttribute('aria-selected', 'false'));
-      document.querySelectorAll('.js-membership-section-method, .js-membership-section-duration, .js-membership-descr, .js-membership-section-one-time').forEach((el) => el.classList.add("hidden"));
-
-      const membershipParams = getMembershipParams();
-      // console.log("updatePageFromUrl", membershipParams);
-
-      let cost = 0;
-      let duration = 1;
-      if (membershipParams.tier === "1") {
-        document.querySelector(`.js-membership-tier-1`).setAttribute('aria-selected', 'true');
-        document.querySelector('.js-membership-section-one-time').classList.remove("hidden");
-      } else if (Object.keys(tierCosts).includes(membershipParams.tier)) {
-        cost = tierCosts[membershipParams.tier];
-        document.querySelector(`.js-membership-tier-${membershipParams.tier}`).setAttribute('aria-selected', 'true');
-        document.querySelector('.js-membership-section-method').classList.remove("hidden");
+      function getMembershipParams() {
+        return Object.fromEntries(new URLSearchParams(location.search));
       }
 
-      if (Object.keys(methodDiscounts).includes(membershipParams.method)) {
-        document.querySelectorAll(`.js-membership-method-${membershipParams.method}`).forEach(el => el.setAttribute('aria-selected', 'true'));
-        document.querySelectorAll(`.js-membership-descr-${membershipParams.method}`).forEach(el => el.classList.remove("hidden"));
-        if (Object.keys(tierCosts).includes(membershipParams.tier)) {
-          document.querySelector('.js-membership-section-duration').classList.remove("hidden");
+      function updatePageFromUrl() {
+        document.querySelectorAll('.js-membership-tier, .js-membership-method, .js-membership-duration').forEach((el) => el.setAttribute('aria-selected', 'false'));
+        document.querySelectorAll('.js-membership-section-method, .js-membership-section-duration, .js-membership-descr, .js-membership-section-one-time').forEach((el) => el.classList.add("hidden"));
+
+        const membershipParams = getMembershipParams();
+        // console.log("updatePageFromUrl", membershipParams);
+
+        let cost = 0;
+        let duration = 1;
+        if (membershipParams.tier === "1") {
+          document.querySelector(`.js-membership-tier-1`).setAttribute('aria-selected', 'true');
+          document.querySelector('.js-membership-section-one-time').classList.remove("hidden");
+        } else if (Object.keys(MEMBERSHIP_TIER_COSTS).includes(membershipParams.tier)) {
+          cost = MEMBERSHIP_TIER_COSTS[membershipParams.tier];
+          document.querySelector(`.js-membership-tier-${membershipParams.tier}`).setAttribute('aria-selected', 'true');
+          document.querySelector('.js-membership-section-method').classList.remove("hidden");
         }
+
+        if (Object.keys(MEMBERSHIP_METHOD_DISCOUNTS).includes(membershipParams.method)) {
+          document.querySelectorAll(`.js-membership-method-${membershipParams.method}`).forEach(el => el.setAttribute('aria-selected', 'true'));
+          document.querySelectorAll(`.js-membership-descr-${membershipParams.method}`).forEach(el => el.classList.remove("hidden"));
+          if (Object.keys(MEMBERSHIP_TIER_COSTS).includes(membershipParams.tier)) {
+            document.querySelector('.js-membership-section-duration').classList.remove("hidden");
+          }
+        }
+
+        if (Object.keys(MEMBERSHIP_DURATION_DISCOUNTS).includes(membershipParams.duration)) {
+          duration = parseInt(membershipParams.duration);
+          document.querySelector(`.js-membership-duration-${membershipParams.duration}`).setAttribute('aria-selected', 'true');
+        } else {
+          document.querySelector('.js-membership-duration-1').setAttribute('aria-selected', 'true');
+        }
+
+        for (const tier of Object.keys(MEMBERSHIP_TIER_COSTS)) {
+          document.querySelector(`.js-membership-tier-${tier} .js-membership-name-tier`).innerHTML = MEMBERSHIP_TIER_NAMES[tier].replace(' ', '<br>');
+          document.querySelector(`.js-membership-tier-${tier} .js-membership-cost-tier`).innerText = `\$${MEMBERSHIP_TIER_COSTS[tier]} / month`;
+        }
+
+        const membershipParamsStr = [membershipParams.tier, membershipParams.method, membershipParams.duration || "1"].join(',');
+        const costsData = membershipCostsData[membershipParamsStr];
+        if (costsData) {
+          document.querySelector('.js-membership-discount-percentage').innerText = `${costsData.discounts}%`;
+          document.querySelector('.js-membership-monthly-cost').innerText = `\$${costsData.monthly_cents_str} / month`;
+          document.querySelector('.js-membership-total-cost').innerText = `\$${costsData.cost_cents_usd_str} total`;
+          document.querySelector('.js-membership-total-duration').innerText = `for ${costsData.duration} months`;
+          document.querySelector('.js-membership-donate-button-cost').innerText = `\$${costsData.cost_cents_usd_str}`;
+          document.querySelector('.js-membership-donate-button-label').innerText = `for ${costsData.duration} months “${costsData.tier_name}”`
+          document.querySelector('.js-membership-form [name=costCentsUsdVerification]').value = costsData.cost_cents_usd;
+        }
+
+        document.querySelector('.js-membership-form [name=tier]').value = membershipParams.tier;
+        document.querySelector('.js-membership-form [name=method]').value = membershipParams.method;
+        document.querySelector('.js-membership-form [name=duration]').value = membershipParams.duration;
       }
 
-      if (Object.keys(durationDiscounts).includes(membershipParams.duration)) {
-        duration = parseInt(membershipParams.duration);
-        document.querySelector(`.js-membership-duration-${membershipParams.duration}`).setAttribute('aria-selected', 'true');
-      } else {
-        document.querySelector('.js-membership-duration-1').setAttribute('aria-selected', 'true');
-      }
-
-      for (const tier of Object.keys(tierCosts)) {
-        document.querySelector(`.js-membership-tier-${tier} .js-membership-name-tier`).innerHTML = tierNames[tier].replace(' ', '<br>');
-        document.querySelector(`.js-membership-tier-${tier} .js-membership-cost-tier`).innerText = `\$${tierCosts[tier]} / month`;
-      }
-
-      const discounts = (methodDiscounts[membershipParams.method] || 0) + (durationDiscounts[membershipParams.duration || "1"] || 0);
-      const monthlyCents = Math.round(cost*(100-discounts));
-      const monthlyText = (monthlyCents % 100 === 0) ? `${monthlyCents / 100}` : `${Math.floor(monthlyCents / 100)}.${monthlyCents % 100}`;
-      const totalCents = monthlyCents * duration;
-      const totalText = (totalCents % 100 === 0) ? `${totalCents / 100}` : `${Math.floor(totalCents / 100)}.${totalCents % 100}`;
-      document.querySelector('.js-membership-discount-percentage').innerText = `${discounts}%`;
-      document.querySelector('.js-membership-monthly-cost').innerText = `\$${monthlyText} / month`;
-      document.querySelector('.js-membership-total-cost').innerText = `\$${totalText} total`;
-      document.querySelector('.js-membership-total-duration').innerText = `for ${duration} months`;
-      document.querySelector('.js-membership-donate-button-cost').innerText = `\$${totalText}`;
-      document.querySelector('.js-membership-donate-button-label').innerText = `for ${duration} months “${tierNames[membershipParams.tier]}”`
-
-      document.querySelector('.js-membership-form [name=tier]').value = membershipParams.tier;
-      document.querySelector('.js-membership-form [name=method]').value = membershipParams.method;
-      document.querySelector('.js-membership-form [name=duration]').value = membershipParams.duration;
-      document.querySelector('.js-membership-form [name=totalCentsVerification]').value = totalCents;
-    }
-
-    window.addEventListener("popstate", updatePageFromUrl);
-    window.addEventListener("DOMContentLoaded", updatePageFromUrl);
-    updatePageFromUrl();
-
-    window.membershipTierToggle = function(tierStr) {
-      const membershipParams = getMembershipParams();
-      if (membershipParams.tier === tierStr) {
-        delete membershipParams.tier;
-      } else {
-        membershipParams.tier = tierStr;
-        setTimeout(() => {
-          window.scrollBy({ top: document.querySelector('.js-membership-section-tier').clientHeight, behavior: 'smooth' });
-        });
-      }
-      window.history.replaceState(null, "", "?" + new URLSearchParams(membershipParams).toString());
+      window.addEventListener("popstate", updatePageFromUrl);
+      window.addEventListener("DOMContentLoaded", updatePageFromUrl);
       updatePageFromUrl();
-    }
-    window.membershipMethodToggle = function(methodStr) {
-      const membershipParams = getMembershipParams();
-      if (membershipParams.method === methodStr) {
-        delete membershipParams.method;
-      } else {
-        membershipParams.method = methodStr;
+
+      window.membershipTierToggle = function(tierStr) {
+        const membershipParams = getMembershipParams();
+        if (membershipParams.tier === tierStr) {
+          delete membershipParams.tier;
+        } else {
+          membershipParams.tier = tierStr;
+          setTimeout(() => {
+            window.scrollBy({ top: document.querySelector('.js-membership-section-tier').clientHeight, behavior: 'smooth' });
+          });
+        }
+        window.history.replaceState(null, "", "?" + new URLSearchParams(membershipParams).toString());
+        updatePageFromUrl();
       }
-      window.history.replaceState(null, "", "?" + new URLSearchParams(membershipParams).toString());
-      updatePageFromUrl();
-    }
-    window.membershipDurationToggle = function(durationStr) {
-      const membershipParams = getMembershipParams();
-      if (durationStr === "1") {
-        delete membershipParams.duration;
-      } else {
-        membershipParams.duration = durationStr;
+      window.membershipMethodToggle = function(methodStr) {
+        const membershipParams = getMembershipParams();
+        if (membershipParams.method === methodStr) {
+          delete membershipParams.method;
+        } else {
+          membershipParams.method = methodStr;
+        }
+        window.history.replaceState(null, "", "?" + new URLSearchParams(membershipParams).toString());
+        updatePageFromUrl();
       }
-      window.history.replaceState(null, "", "?" + new URLSearchParams(membershipParams).toString());
-      updatePageFromUrl();
-    }
+      window.membershipDurationToggle = function(durationStr) {
+        const membershipParams = getMembershipParams();
+        if (durationStr === "1") {
+          delete membershipParams.duration;
+        } else {
+          membershipParams.duration = durationStr;
+        }
+        window.history.replaceState(null, "", "?" + new URLSearchParams(membershipParams).toString());
+        updatePageFromUrl();
+      }
+    })();
   </script>
 {% endblock %}

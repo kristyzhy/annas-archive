@@ -100,3 +100,73 @@ def get_md5_report_type_mapping():
         'copyright': 'Copyright claim',
         'other': 'Other',
     }
+
+MEMBERSHIP_TIER_NAMES = { 
+    "2": "Brilliant Bookworm", 
+    "3": "Lucky Librarian", 
+    "4": "Dazzling Datahoarder", 
+    "5": "Amazing Archivist",
+}
+MEMBERSHIP_TIER_COSTS = { 
+    "2": 5, "3": 10, "4": 30, "5": 100,
+}
+MEMBERSHIP_METHOD_DISCOUNTS = {
+    # Note: keep manually in sync with HTML.
+    "crypto": 20,
+    # "cc":     20,
+    # "paypal": 20,
+    "bmc":    0,
+    "alipay": 0,
+    "pix":    0,
+}
+MEMBERSHIP_DURATION_DISCOUNTS = {
+    # Note: keep manually in sync with HTML.
+    "1": 0, "3": 5, "6": 10, "12": 15,
+}
+
+def cents_to_usd_str(cents):
+    return str(cents)[:-2] + "." + str(cents)[-2:]
+
+
+@functools.cache
+def membership_costs_data():
+    def calculate_membership_costs(inputs):
+        tier = inputs['tier']
+        method = inputs['method']
+        duration = inputs['duration']
+        if (tier not in MEMBERSHIP_TIER_COSTS.keys()) or (method not in MEMBERSHIP_METHOD_DISCOUNTS.keys()) or (duration not in MEMBERSHIP_DURATION_DISCOUNTS.keys()):
+            raise Exception("Invalid fields")
+
+        discounts = MEMBERSHIP_METHOD_DISCOUNTS[method] + MEMBERSHIP_DURATION_DISCOUNTS[duration]
+        monthly_cents = round(MEMBERSHIP_TIER_COSTS[tier]*(100-discounts));
+        cost_cents_usd = monthly_cents * int(duration);
+
+        return { 
+            'cost_cents_usd': cost_cents_usd, 
+            'cost_cents_usd_str': cents_to_usd_str(cost_cents_usd), 
+            'cost_cents_native_currency': cost_cents_usd, 
+            'cost_cents_native_currency_str': cents_to_usd_str(cost_cents_usd), 
+            'native_currency_code': 'USD',
+            'monthly_cents': monthly_cents,
+            'monthly_cents_str': cents_to_usd_str(monthly_cents),
+            'discounts': discounts,
+            'duration': duration,
+            'tier_name': MEMBERSHIP_TIER_NAMES[tier],
+        }
+        
+    membership_costs_data = {}
+    for tier in MEMBERSHIP_TIER_COSTS.keys():
+        for method in MEMBERSHIP_METHOD_DISCOUNTS.keys():
+            for duration in MEMBERSHIP_DURATION_DISCOUNTS.keys():
+                inputs = { 'tier': tier, 'method': method, 'duration': duration }
+                membership_costs_data[f"{tier},{method},{duration}"] = calculate_membership_costs(inputs)
+    return membership_costs_data
+
+
+
+
+
+
+
+
+
