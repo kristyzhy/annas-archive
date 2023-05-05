@@ -11,6 +11,7 @@
     <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
       <div class="font-bold">Donation</div>
       <div>Identifier: {{ donation_dict.donation_id }}</div>
+      <div>Date: {{ donation_dict.created | dateformat(format='long') }}</div>
       <div>Total: {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal }} <span class="text-sm text-gray-500">({{ donation_dict.monthly_amount_usd }} / month for {{ donation_dict.json.duration }} months{% if donation_dict.json.discounts > 0 %}, including {{ donation_dict.json.discounts }}% discount{% endif %})</span></div>
       <div>Status: <span class="italic">{{ ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status] }}</span></div>
 

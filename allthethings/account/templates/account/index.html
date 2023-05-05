@@ -63,7 +63,15 @@
       
       {% from 'macros/profile_link.html' import profile_link %}
       <div>Public profile: {{ profile_link(account_dict, account_dict.account_id) }}</div>
-      <div class="mb-4">Email: <strong>{{ account_dict.email_verified }}</strong> (never publicly shown)</div>
+      <div>Email: <strong>{{ account_dict.email_verified }}</strong> (never publicly shown)</div>
+      <div class="mb-4">
+        Membership:
+        {% if account_dict.membership_tier == "0" %}
+          <strong>None</strong> <a href="/donate">(become a member)</a>
+        {% else %}
+          <strong>{{ MEMBERSHIP_TIER_NAMES[account_dict.membership_tier] }}</strong> until {{ account_dict.membership_expiration | dateformat(format='long') }} <a href="/donate?tier={{ account_dict.membership_tier }}">(extend)</a></div>
+        {% endif %}
+      </div>
 
       <form autocomplete="on" onsubmit="window.submitForm(event, '/dyn/account/logout/', (jsonResponse) => { window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in); })" class="mb-8">
         <fieldset class="mb-4">

@@ -29,11 +29,21 @@ account = Blueprint("account", __name__, template_folder="templates")
 def account_index_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
-        return render_template("account/index.html", header_active="account", email=None)
+        return render_template(
+            "account/index.html",
+            header_active="account",
+            email=None,
+            MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
+        )
 
     with Session(mariapersist_engine) as mariapersist_session:
         account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
-        return render_template("account/index.html", header_active="account", account_dict=dict(account))
+        return render_template(
+            "account/index.html",
+            header_active="account",
+            account_dict=dict(account),
+            MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
+        )
 
 @account.get("/account/downloaded")
 @allthethings.utils.no_cache()
