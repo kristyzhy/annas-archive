@@ -126,7 +126,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
     "crypto": 20,
     # "cc":     20,
-    # "paypal": 20,
+    "paypal": 20,
     "bmc":    0,
     "alipay": 0,
     "pix":    0,

@@ -60,11 +60,35 @@
         </p>
 
         <ul class="list-inside mb-4">
-          <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a> {{ gettext('page.donate.crypto.btc_bch_note') }}</li>
+          <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a></li>
           <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
           <li>- Monero XMR: <a style="word-break: break-all;" rel="payment" href="monero:445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t">445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t</a></li>
           <li>- Solana SOL: <a style="word-break: break-all;" rel="payment" href="solana:HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP">HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP</a></li>
         </ul>
+      {% elif donation_dict.json.method == 'paypal' %}
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin on Paypal</p>
+
+        <p class="mb-4">
+          Find the “Crypto” page in your PayPal app or website. This is typically under “Finances”.
+        </p>
+
+        <p class="mb-4">
+          Follow the instructions to buy Bitcoin (BTC). You only need to buy the amount that you want to donate.
+        </p>
+
+        <p class="mb-4 mt-8 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Transfer the Bitcoin to our address</p>
+
+        <p class="mb-4">
+          Go to the “Bitcoin” page in your PayPal app or website. Press the “Transfer” button (<span class="icon-[cil--transfer] align-middle"></span>), and then “Send”.
+        </p>
+
+        <p class="mb-4">
+          Enter our Bitcoin (BTC) address as the receipient, and follow the instructions to send your donation:
+        </p>
+
+        <p class="mb-4 font-mono font-bold">
+          15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">copy</span><span class="[[aria-selected=false]_&]:hidden">copied!</span></button>
+        </p>
       {% elif donation_dict.json.method == 'bmc' %}
         <h2 class="mt-4 mb-4 text-xl font-bold">“Buy Me a Coffee” instructions</h2>
 
@@ -103,7 +127,7 @@
         </p>
       {% endif %}
 
-      <p class="mt-8 mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Email us the receipt</p>
+      <p class="mt-8 mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">{% if donation_dict.json.method == 'paypal' %}3{% else %}2{% endif %}</span>Email us the receipt</p>
 
       <p class="mb-4">
         Send a receipt or screenshot to your personal verification address:
