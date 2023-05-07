@@ -188,7 +188,7 @@ def account_profile_page():
 
 @account.get("/donate")
 @allthethings.utils.no_cache()
-def membership_page():
+def donate_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is not None:
         with Session(mariapersist_engine) as mariapersist_session:
@@ -205,6 +205,11 @@ def membership_page():
         MEMBERSHIP_METHOD_DISCOUNTS=allthethings.utils.MEMBERSHIP_METHOD_DISCOUNTS,
         MEMBERSHIP_DURATION_DISCOUNTS=allthethings.utils.MEMBERSHIP_DURATION_DISCOUNTS,
     )
+
+@account.get("/donation_faq")
+@allthethings.utils.no_cache()
+def donation_faq_page():
+    return render_template("account/donation_faq.html", header_active="donate")
 
 ORDER_PROCESSING_STATUS_LABELS = {
     0: 'unpaid',
