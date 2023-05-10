@@ -2,14 +2,14 @@
 
 services:
   mariadb:
-    ports:
-      - "${MARIADB_PORT_FORWARD:-127.0.0.1:3306}:3306"
+    # ports:
+    #   - "${MARIADB_PORT_FORWARD:-127.0.0.1:3306}:3306"
     networks:
       - "mynetwork"
 
   mariapersist:
-    ports:
-      - "${MARIAPERSIST_PORT_FORWARD:-127.0.0.1:3333}:3333"
+    # ports:
+    #   - "${MARIAPERSIST_PORT_FORWARD:-127.0.0.1:3333}:3333"
     networks:
       - "mynetwork"
 
@@ -32,8 +32,8 @@ services:
       - "mynetwork"
 
   elasticsearch:
-    ports:
-      - "${ELASTICSEARCH_PORT_FORWARD:-127.0.0.1:9200}:9200"
+    # ports:
+    #   - "${ELASTICSEARCH_PORT_FORWARD:-127.0.0.1:9200}:9200"
     networks:
       - "mynetwork"
 

@@ -226,7 +226,7 @@ def put_display_name():
         return "", 500
 
     with Session(mariapersist_engine) as mariapersist_session:
-        mariapersist_session.connection().execute(text('UPDATE mariapersist_accounts SET display_name = :display_name WHERE account_id = :account_id').bindparams(display_name=display_name, account_id=account_id))
+        mariapersist_session.connection().execute(text('UPDATE mariapersist_accounts SET display_name = :display_name WHERE account_id = :account_id LIMIT 1').bindparams(display_name=display_name, account_id=account_id))
         mariapersist_session.commit()
         return "{}"
 
@@ -243,7 +243,7 @@ def put_list_name(list_id):
 
     with Session(mariapersist_engine) as mariapersist_session:
         # Note, this also does validation by checking for account_id.
-        mariapersist_session.connection().execute(text('UPDATE mariapersist_lists SET name = :name WHERE account_id = :account_id AND list_id = :list_id').bindparams(name=name, account_id=account_id, list_id=list_id))
+        mariapersist_session.connection().execute(text('UPDATE mariapersist_lists SET name = :name WHERE account_id = :account_id AND list_id = :list_id LIMIT 1').bindparams(name=name, account_id=account_id, list_id=list_id))
         mariapersist_session.commit()
         return "{}"
 
@@ -558,7 +558,7 @@ def account_mark_manual_donation_sent(donation_id):
         if donation is None:
             return "", 403
 
-        mariapersist_session.execute('UPDATE mariapersist_donations SET processing_status = 4 WHERE donation_id = :donation_id AND processing_status = 0 AND account_id = :account_id', [{ 'donation_id': donation_id, 'account_id': account_id }])
+        mariapersist_session.execute('UPDATE mariapersist_donations SET processing_status = 4 WHERE donation_id = :donation_id AND processing_status = 0 AND account_id = :account_id LIMIT 1', [{ 'donation_id': donation_id, 'account_id': account_id }])
         mariapersist_session.commit()
         return "{}"
 
@@ -570,11 +570,11 @@ def account_cancel_donation(donation_id):
         return "", 403
 
     with Session(mariapersist_engine) as mariapersist_session:
-        donation = mariapersist_session.connection().execute(select(MariapersistDonations).where((MariapersistDonations.account_id == account_id) & (MariapersistDonations.processing_status == 0) & (MariapersistDonations.donation_id == donation_id)).limit(1)).first()
+        donation = mariapersist_session.connection().execute(select(MariapersistDonations).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4)) & (MariapersistDonations.donation_id == donation_id)).limit(1)).first()
         if donation is None:
             return "", 403
 
-        mariapersist_session.execute('UPDATE mariapersist_donations SET processing_status = 2 WHERE donation_id = :donation_id AND processing_status = 0 AND account_id = :account_id', [{ 'donation_id': donation_id, 'account_id': account_id }])
+        mariapersist_session.execute('UPDATE mariapersist_donations SET processing_status = 2 WHERE donation_id = :donation_id AND (processing_status = 0 OR processing_status = 4) AND account_id = :account_id LIMIT 1', [{ 'donation_id': donation_id, 'account_id': account_id }])
         mariapersist_session.commit()
         return "{}"
 

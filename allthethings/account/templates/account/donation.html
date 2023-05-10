@@ -15,7 +15,7 @@
       <div>Total: {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal }} <span class="text-sm text-gray-500">({{ donation_dict.monthly_amount_usd }} / month for {{ donation_dict.json.duration }} months{% if donation_dict.json.discounts > 0 %}, including {{ donation_dict.json.discounts }}% discount{% endif %})</span></div>
       <div>Status: <span class="italic">{{ ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status] }}</span></div>
 
-      {% if donation_dict.processing_status == 0 %}
+      {% if donation_dict.processing_status in [0, 4] %}
         <div class="mt-2">
           <form onsubmit='window.submitForm(event, "/dyn/account/cancel_donation/" + {{ donation_dict.donation_id | tojson }})'>
             <fieldset>
@@ -26,7 +26,7 @@
             <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
           </form>
         </div>
-      {% elif donation_dict.processing_status != 4 %}
+      {% else %}
         <div class="mt-2"><a href="/donate?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}" class="custom-a inline-block bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">Reorder</a></div>
       {% endif %}
     </div>
