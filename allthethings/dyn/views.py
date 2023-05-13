@@ -14,8 +14,9 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads
 from config.settings import SECRET_KEY
+from allthethings.page.views import get_md5_dicts_elasticsearch
 
 import allthethings.utils
 
@@ -578,6 +579,30 @@ def account_cancel_donation(donation_id):
         mariapersist_session.commit()
         return "{}"
 
+@dyn.get("/recent_downloads/")
+@allthethings.utils.public_cache(minutes=1, cloudflare_minutes=1)
+@cross_origin()
+def recent_downloads():
+    with Session(engine) as session:
+        with Session(mariapersist_engine) as mariapersist_session:
+            downloads = mariapersist_session.connection().execute(
+                select(MariapersistDownloads)
+                .order_by(MariapersistDownloads.timestamp.desc())
+                .limit(50)
+            ).all()
+
+            md5_dicts = get_md5_dicts_elasticsearch(session, [download['md5'].hex() for download in downloads])
+            seen_md5s = set()
+            seen_titles = set()
+            output = []
+            for md5_dict in md5_dicts:
+                md5 = md5_dict['md5']
+                title = md5_dict['file_unified_data']['title_best']
+                if md5 not in seen_md5s and title not in seen_titles:
+                    output.append({ 'md5': md5, 'title': title })
+                seen_md5s.add(md5)
+                seen_titles.add(title)
+            return orjson.dumps(output)
 
 
 

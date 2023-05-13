@@ -46,7 +46,7 @@ CREATE TABLE mariapersist_reactions (
     `resource` VARCHAR(255) NOT NULL,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `type` TINYINT(1) NOT NULL,
+    `type` TINYINT(1) NOT NULL, # 0=unset, 1=abuse, 2=thumbsup, 3=thumbsdown
     PRIMARY KEY (`reaction_id`),
     UNIQUE INDEX (`account_id`,`resource`),
     INDEX (`updated`),

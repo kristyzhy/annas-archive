@@ -232,7 +232,61 @@
           </select>
         </div>
 
-        <div class="mb-[10px]">{{ gettext('layout.index.header.tagline') }}</div>
+        <div class="mb-[6px]">{{ gettext('layout.index.header.tagline') }}</div>
+
+        <div class="text-xs flex mb-1" aria-hidden="true">
+          <div class="font-bold shrink-0">Recent downloads:&nbsp;&nbsp;</div>
+          <div class="w-[100%] overflow-hidden flex js-recent-downloads-scroll">
+            <!-- Make sure tailwind picks up these classes -->
+            <div class="shrink-0 min-w-[100%]"></div>
+            <div class="inline-block max-w-[50%] truncate"></div>
+          </div>
+          <script>
+            (function() {
+              function showRecentDownloads(items) {
+                // Biased towards initial positions, but whatever.
+                const shuffledItems = [...items].sort(() => Math.random() - 0.5).slice(0, 8);
+
+                const titlesLength = shuffledItems.map((item) => item.title).join("   ").length;
+                const scrollHtml = `<div class="shrink-0 min-w-[100%]" style="animation: scroll ${Math.round(titlesLength/4)}s linear infinite">` + shuffledItems.map((item) => `<span class="inline-block truncate">&nbsp;•&nbsp;</span><a tabindex="-1" href="/md5/${item.md5}" class="inline-block max-w-[50%] truncate">${item.title}</a>`).join('') + '</div>';
+                document.querySelector('.js-recent-downloads-scroll').innerHTML = scrollHtml + scrollHtml;
+              }
+
+              function fetchNewRecentDownloads(cb) {
+                setTimeout(() => {
+                  fetch("/dyn/recent_downloads/").then((response) => response.json()).then((items) => {
+                    if (localStorage) {
+                      localStorage.recentDownloadsData = JSON.stringify({ items, time: Date.now() });
+                    }
+                    if (cb) {
+                      cb(items);
+                    }
+                  });
+                }, 100);
+              }
+
+              if (localStorage && localStorage.recentDownloadsData) {
+                const recentDownloadsData = JSON.parse(localStorage.recentDownloadsData);
+                console.log('recentDownloadsData', recentDownloadsData);
+                showRecentDownloads(recentDownloadsData.items);
+
+                const timeToRefresh = 65000 /* 65 sec */ - (Date.now() - recentDownloadsData.time);
+                // Fetch new data for the next page load.
+                if (timeToRefresh <= 0) {
+                  fetchNewRecentDownloads(undefined);
+                } else {
+                  setTimeout(() => {
+                    fetchNewRecentDownloads(undefined);
+                  }, timeToRefresh);
+                }
+              } else {
+                fetchNewRecentDownloads((items) => {
+                  showRecentDownloads(items);
+                });
+              }
+            })();
+          </script>
+        </div>
 
         <script>
           function topMenuToggle(event, className) {
