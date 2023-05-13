@@ -328,6 +328,11 @@ def datasets_page():
 def datasets_libgen_aux_page():
     return render_template("page/datasets_libgen_aux.html", header_active="home/datasets")
 
+@page.get("/datasets/libgenli_comics")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def datasets_libgenli_comics_page():
+    return render_template("page/datasets_libgenli_comics.html", header_active="home/datasets")
+
 @page.get("/datasets/zlib_scrape")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def datasets_zlib_scrape_page():

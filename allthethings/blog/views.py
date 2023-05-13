@@ -13,6 +13,10 @@ blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blo
 def index():
     return render_template("blog/index.html")
 
+@blog.get("/backed-up-the-worlds-largest-comics-shadow-lib.html")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def comics():
+    return render_template("blog/backed-up-the-worlds-largest-comics-shadow-lib.html")
 @blog.get("/how-to-run-a-shadow-library.html")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def how_to_run_a_shadow_library():
@@ -109,6 +113,13 @@ def rss_xml():
             description = "There is no “AWS for shadow charities”, so how do we run Anna’s Archive?",
             author = "Anna and the team",
             pubDate = datetime.datetime(2023,3,19),
+        ),
+        Item(
+            title = "Anna’s Archive has backed up the world’s largest comics shadow library (95TB) — you can help seed it",
+            link = "https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html",
+            description = "The largest comic books shadow library in the world had a single point of failure.. until today.",
+            author = "Anna and the team",
+            pubDate = datetime.datetime(2023,5,13),
         ),
     ]
 

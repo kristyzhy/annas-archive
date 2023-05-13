@@ -34,8 +34,12 @@
         text-decoration: none;
         color: black;
       }
-      .header-inner > a:hover, .header-inner > a:focus {
-        color: #666;
+      .header-inner a:hover, .header-inner a:focus {
+        font-weight: bold;
+        color: black;
+      }
+      .header-tagline {
+        color: rgba(0,0,0,0.7);
       }
       a, a:visited {
         color: #333;
@@ -57,6 +61,20 @@
       sup {
         font-size: 60%;
       }
+      figure {
+        margin:0;
+      }
+      figcaption {
+        color:#555;
+        font-size: 80%;
+        margin-top: 8px;
+      }
+      @keyframes header-ping {
+        75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+        }
+      }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="alternate" type="application/rss+xml" href="https://annas-blog.org/rss.xml">
@@ -69,6 +87,7 @@
     <div class="header">
       <div class="header-inner">
         <a href="/">Anna’s Blog</a>
+        <div class="header-tagline">Updates about <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a>.</div>
       </div>
     </div>
     <div class="main">

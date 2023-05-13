@@ -1,0 +1,181 @@
+{% extends "layouts/blog.html" %}
+
+{% block title %}Anna’s Archive has backed up the world’s largest comics shadow library (95TB) — you can help seed it{% endblock %}
+
+{% block meta_tags %}
+<meta name="description" content="The largest comic books shadow library in the world had a single point of failure.. until today." />
+<meta name="twitter:card" value="summary">
+<meta name="twitter:creator" content="@AnnaArchivist"/>
+<meta property="og:title" content="Anna’s Archive has backed up the world’s largest comics shadow library (95TB) — you can help seed it" />
+<meta property="og:image" content="https://annas-blog.org/dr-gordon.jpg" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html" />
+<meta property="og:description" content="The largest comic books shadow library in the world had a single point of failure.. until today." />
+{% endblock %}
+
+{% block body %}
+  <h1>Anna’s Archive has backed up the world’s largest comics shadow library (95TB) — you can help seed it</h1>
+  <p style="font-style: italic">
+    annas-blog.org, 2023-05-13, <a href="https://news.ycombinator.com/item?id=35931040">Discuss on Hacker News</a>
+  </p>
+
+  <p>
+    The largest shadow library of comic books is likely that of a particular Library Genesis fork: Libgen.li. The one administrator running that site managed to collect an insane comics collection of over 2 million files, totalling over 95TB. However, unlike other Library Genesis collections, this one was not available in bulk through torrents. You could only access these comics individually through his slow personal server — a single point of failure. Until today!
+  </p>
+
+  <p>
+    In this post we’ll tell you more about this collection, and about our fundraiser to support more of this work.
+  </p>
+
+  <figure>
+    <img src="dr-gordon.jpg" style="width: 100%; max-width: 400px">
+    <figcaption>“Dr. Barbara Gordon tries to lose herself in the mundane world of the library…”</figcaption>
+  </figure>
+
+  <h2>Libgen forks</h2>
+
+  <p>
+    First, some background. You might know Library Genesis for their epic book collection. Fewer people know that Library Genesis volunteers have created other projects, such as a sizable collection of magazines and standard documents, a full backup of Sci-Hub (in collaboration with the founder of Sci-Hub, Alexandra Elbakyan), and indeed, a massive collection of comics.
+  </p>
+
+  <p>
+    At some point different operators of Library Genesis mirrors went their separate ways, which gave rise to the current situation of having a number of different “forks”, all still carrying the name Library Genesis. The Libgen.li fork uniquely has this comics collection, as well as a sizeable magazines collection (which we are also working on).
+  </p>
+
+  <h2>Collaboration</h2>
+
+  <p>
+    Given its size, this collection has long been on our wishlist, so after our success with backing up Z-Library, we set our sights on this collection. At first we scraped it directly, which was quite the challenge, since their server was not in the best condition. We got about 15TB this way, but it was slow-going.
+  </p>
+
+  <p>
+    Luckily, we managed to get in touch with the operator of the library, who agreed to send us all the data directly, which was a lot faster. It still took more than half a year to transfer and process all the data, and we nearly lost all of it to disk corruption, which would have meant starting all over.
+  </p>
+
+  <p>
+    This experience has made us believe it is important to get this data out there as quickly as possible, so it can be mirrored far and wide. We’re just one or two unluckily timed incidents away from losing this collection forever!
+  </p>
+
+  <h2>The collection</h2>
+
+  <p>
+    Moving fast does mean that the collection is a little unorganized… Let's have a look. Imagine we have a filesystem (which in reality we’re splitting up across torrents):
+  </p>
+
+  <div>
+    <div><code>/repository</code></div>
+    <div><code>&nbsp;&nbsp;&nbsp;&nbsp;/0</code></div>
+    <div><code>&nbsp;&nbsp;&nbsp;&nbsp;/1000</code></div>
+    <div><code>&nbsp;&nbsp;&nbsp;&nbsp;/2000</code></div>
+    <div><code>&nbsp;&nbsp;&nbsp;&nbsp;/3000</code></div>
+    <div><code>&nbsp;&nbsp;&nbsp;&nbsp;…</code></div>
+    <div><code>/comics0</code></div>
+    <div><code>/comics1</code></div>
+    <div><code>/comics2</code></div>
+    <div><code>/comics3</code></div>
+    <div><code>/comics4</code></div>
+  </div>
+
+  <p>
+    The first directory, <code>/repository</code>, is the more structured part of this. This directory contains so-called “thousand dirs”: directories each with a thousands files, which are incrementally numbered in the database. Directory <code>0</code> contains files with comic_id 0–999, and so on.
+  </p>
+
+  <p>
+    This is the same scheme as Library Genesis has been using for its fiction and non-fiction collections. The idea is that every “thousand dir” gets automatically turned into a torrent as soon as it’s filled up.
+  </p>
+
+  <p>
+    However, the Libgen.li operator never made torrents for this collection, and so the thousand dirs likely became inconvenient, and gave way to “unsorted dirs”. These are <code>/comics0</code> through <code>/comics4</code>. They all contain unique directory structures, that probably made sense for collecting the files, but don’t make too much sense to us now. Luckily, the metadata still refers directly to all these files, so their storage organization on disk doesn’t actually matter!
+  </p>
+
+  <p>
+    The metadata is available in the form of a MySQL database. This can be downloaded directly from the Libgen.li website, but we’ll also make it available in a torrent, alongside our own table with all the MD5 hashes.
+  </p>
+
+  <figure>
+    <img src="i-librarian.webp" style="width: 100%; max-width: 300px">
+    <figcaption>“I, Librarian”</figcaption>
+  </figure>
+
+  <h2>Analysis</h2>
+
+  <p>
+    When you get 95TB dumped into your storage cluster, you try to make sense of what is even in there… We did some analysis to see if we could reduce the size a bit, such as by removing duplicates. Here are some of our findings:
+  </p>
+
+  <ol>
+    <li>Semantic duplicates (different scans of the same book) can theoretically be filtered out, but it is tricky. When manually looking through the comics we found too many false positives.</li>
+    <li>There are some duplicates purely by MD5, which is relatively wasteful, but filtering those out would only give us about 1% in savings. At this scale that’s still about 1TB, but also, at this scale 1TB doesn’t really matter. We’d rather not risk accidentally destroying data in this process.</li>
+    <li>We found a bunch of non-book data, such as movies based on comic books. That also seems wasteful, since these are already widely available through other means. However, we realized that we couldn’t just filter out movie files, since there are also <em>interactive comic books</em> that were released on the computer, which someone recorded and saved as movies.</li>
+    <li>Ultimately, anything we could delete from the collection would only save a few percent. Then we remembered that we’re data hoarders, and the people who will be mirroring this are also data hoarders, and so, “WHAT DO YOU MEAN, DELETE?!” :)</li>
+  </ol>
+
+  <p>
+    We are therefore presenting to you, the full, unmodified collection. It’s a lot of data, but we hope enough people will care to seed it anyway.
+  </p>
+
+  <h2>Fundraiser</h2>
+
+  <p>
+    We’re releasing this data in some big chunks. The first torrent is of <code>/comics0</code>, which we put into one huge 12TB .tar file. That’s better for your hard drive and torrent software than a gazillion smaller files.
+  </p>
+
+  <p>
+    As part of this release, we’re doing a fundraiser. We’re looking to raise $20,000 to cover operational and contracting costs for this collection, as well as enable ongoing and future projects. We have some <em>massive</em> ones in the works.
+  </p>
+
+  <p>
+    <em>Who am I supporting with my donation?</em> In short: we’re backing up all knowledge and culture of humanity, and making it easily accessible. All our code and data are open source, we are a completely volunteer-run project, and we have saved 125TB worth of books so far (in addition to Libgen and Scihub’s existing torrents). Ultimately we’re building a flywheel that enables and incentivizes people to find, scan, and backup all the books in the world. We’ll write about our master plan in a future post. :)
+  </p>
+
+  <div style="background: #f6f6f6; padding: 16px 8px; border-radius: 8px; box-shadow: 0px 2px 4px 0px #00000020">
+    {% include 'macros/fundraiser.html' %}
+  </div>
+
+  <p>
+    If you donate for a 12 month “Amazing Archivist” membership ($780), you get to <strong>“adopt a torrent”</strong>, meaning that we’ll put your username or message in the filename of one of the torrents!
+  </p>
+
+  <p>
+    You can donate by going to <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a> and clicking the “Donate” button. We’re also looking for more volunteers: software engineers, security researchers, anonymous merchant experts, and translators. You can also support us by providing hosting services. And of course, please seed our torrents!
+  </p>
+
+  <p>
+    Thanks to everyone who has so generously supported us already! You’re truly making a difference.
+  </p>
+
+  <p>
+    Here are the torrents released so far (we’re still processing the rest):
+  </p>
+
+  <ul>
+    <li><em>comics0__shoutout_to_tosec.torrent</em> (kindly adopted by Anonymous)</li>
+    <li>TBD…</li>
+  </ul>
+
+  <p>
+    All torrents can be found on <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a> under “Datasets” (we don’t link there directly, so links to this blog don’t get removed from Reddit, Twitter, etc). From there, follow the link to the Tor website.
+  </p>
+
+  <h2>What’s next?</h2>
+
+  <p>
+    A bunch of torrents are great for long-term preservation, but not so much for everyday access. We’ll be working with hosting partners on getting all this data up on the web (since Anna’s Archive doesn’t host anything directly). Of course you’ll be able to find these download links on Anna’s Archive.
+  </p>
+
+  <p>
+    We’re also inviting everyone to do stuff with this data! Help us better analyze it, deduplicate it, put it on IPFS, remix it, train your AI models with it, and so on. It’s all yours, and we can’t wait to see what you do with it.
+  </p>
+
+  <p>
+    Finally, as said before, we still have some massive releases coming up (if <em>someone</em> could <em>accidentally</em> send us a dump of a <em>certain</em> ACS4 database, you know where to find us…), as well as building the flywheel for backing up all the books in the world.
+  </p>
+
+  <p>
+    So stay tuned, we’re only just getting started.
+  </p>
+
+  <p>
+    - Anna and the team (<a href="https://twitter.com/AnnaArchivist">Twitter</a>, <a href="https://www.reddit.com/r/Annas_Archive/">Reddit</a>, <a href="https://t.me/annasarchiveorg">Telegram</a>)
+  </p>
+{% endblock %}
