@@ -132,3 +132,5 @@ class MariapersistDonations(ReflectedMariapersist):
     __tablename__ = "mariapersist_donations"
 class MariapersistCopyrightClaims(ReflectedMariapersist):
     __tablename__ = "mariapersist_copyright_claims"
+class MariapersistDownloadTests(ReflectedMariapersist):
+    __tablename__ = "mariapersist_download_tests"

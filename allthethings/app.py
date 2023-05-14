@@ -134,6 +134,9 @@ def extensions(app):
         if endpoint != 'static':
             return
         filename = values['filename']
+        # Exclude some.
+        if filename in ['content-search.xml']:
+            return
         if filename in hash_cache:
             values['hash'] = hash_cache[filename]
             return
