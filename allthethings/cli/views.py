@@ -29,7 +29,7 @@ import click
 
 from config import settings
 from flask import Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import engine, mariadb_url, es, Reflected, mail
+from allthethings.extensions import engine, mariadb_url, es, Reflected, mail, mariapersist_url
 from sqlalchemy import select, func, text, create_engine
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session
@@ -359,9 +359,9 @@ def elastic_build_md5_dicts_internal():
 @cli.cli.command('mariapersist_reset')
 def mariapersist_reset():
     print("Erasing entire persistent database ('mariapersist')! Did you double-check that any production databases are offline/inaccessible from here?")
-    # time.sleep(2)
+    time.sleep(2)
     print("Giving you 5 seconds to abort..")
-    # time.sleep(5)
+    time.sleep(5)
     mariapersist_reset_internal()
 
 def mariapersist_reset_internal():
