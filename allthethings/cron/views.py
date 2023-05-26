@@ -16,7 +16,7 @@ DOWNLOAD_TESTS = [
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://nrzr.li', 'url': 'https://nrzr.li/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://ktxr.rs', 'url': 'https://ktxr.rs/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.rs', 'url': 'https://momot.rs/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.li', 'url': 'https://momot.li/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
+    # { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.li', 'url': 'https://momot.li/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.in', 'url': 'https://momot.in/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     # https://nrzr.li raw ip
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://193.218.118.54', 'url': 'http://193.218.118.54/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
@@ -25,7 +25,7 @@ DOWNLOAD_TESTS = [
     # https://momot.rs raw ip
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://95.214.235.224', 'url': 'http://95.214.235.224/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     # https://momot.li raw ip
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://62.182.86.182', 'url': 'http://62.182.86.182/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
+    # { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://62.182.86.182', 'url': 'http://62.182.86.182/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     # https://momot.in raw ip
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://89.248.162.228', 'url': 'http://89.248.162.228/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
 ]
