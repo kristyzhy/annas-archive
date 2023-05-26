@@ -16,12 +16,18 @@ DOWNLOAD_TESTS = [
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://nrzr.li', 'url': 'https://nrzr.li/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://ktxr.rs', 'url': 'https://ktxr.rs/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.rs', 'url': 'https://momot.rs/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.li', 'url': 'https://momot.li/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.in', 'url': 'https://momot.in/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     # https://nrzr.li raw ip
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://193.218.118.54', 'url': 'http://193.218.118.54/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     # https://ktxr.rs raw ip
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://193.218.118.109', 'url': 'http://193.218.118.109/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
     # https://momot.rs raw ip
     { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://95.214.235.224', 'url': 'http://95.214.235.224/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
+    # https://momot.li raw ip
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://62.182.86.182', 'url': 'http://62.182.86.182/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
+    # https://momot.in raw ip
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://89.248.162.228', 'url': 'http://89.248.162.228/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
 ]
 
 #################################################################################################
@@ -32,14 +38,17 @@ def infinite_loop():
         time.sleep(10)
         print("Infinite loop running")
 
-        if datetime.datetime.now().minute == 0:
+        if datetime.datetime.now().minute % 20 == 0:
             print("Running download tests")
             for download_test in DOWNLOAD_TESTS:
                 # Size: 11146011 bytes
                 start = time.time()
-                httpx.get(download_test['url'], timeout=300)
-                elapsed_sec = time.time() - start
+                try:
+                    httpx.get(download_test['url'], timeout=300)
+                except httpx.ConnectError:
+                    continue
 
+                elapsed_sec = time.time() - start
                 insert_data = {
                     'md5': bytes.fromhex(download_test['md5']), 
                     'server': download_test['server'], 
