@@ -115,8 +115,14 @@ def extensions(app):
         except:
             print("Error in loading 'mariapersist' db; continuing since it's optional")
     es.init_app(app)
-    babel.init_app(app)
     mail.init_app(app)
+
+    def localeselector():
+        potential_locale = request.headers['Host'].split('.')[0]
+        if potential_locale in [allthethings.utils.get_domain_lang_code(locale) for locale in allthethings.utils.list_translations()]:
+            return allthethings.utils.domain_lang_code_to_full_lang_code(potential_locale)
+        return 'en'
+    babel.init_app(app, locale_selector=localeselector)
 
     # https://stackoverflow.com/a/57950565
     app.jinja_env.trim_blocks = True
@@ -152,14 +158,6 @@ def extensions(app):
         if '[' not in result:
             result = result + ' [' + lang_code + ']'
         return result.replace(' []', '')
-
-    @babel.localeselector
-    def localeselector():
-        potential_locale = request.headers['Host'].split('.')[0]
-        if potential_locale in [allthethings.utils.get_domain_lang_code(locale) for locale in babel.list_translations()]:
-            return allthethings.utils.domain_lang_code_to_full_lang_code(potential_locale)
-        return 'en'
-
 
     @functools.cache
     def last_data_refresh_date():
@@ -206,7 +204,7 @@ def extensions(app):
         else:
             g.full_domain = 'http://' + g.full_domain
 
-        g.languages = [(allthethings.utils.get_domain_lang_code(locale), locale.get_display_name()) for locale in babel.list_translations()]
+        g.languages = [(allthethings.utils.get_domain_lang_code(locale), locale.get_display_name()) for locale in allthethings.utils.list_translations()]
         g.languages.sort()
 
         g.last_data_refresh_date = last_data_refresh_date()

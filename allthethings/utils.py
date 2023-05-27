@@ -7,6 +7,9 @@ import datetime
 import forex_python.converter
 import cachetools
 import babel.numbers
+import babel
+import os
+from flask_babel import get_babel
 
 from config.settings import SECRET_KEY
 
@@ -52,6 +55,24 @@ def get_full_lang_code(locale):
 
 def get_base_lang_code(locale):
     return locale.language
+
+# Adapted from https://github.com/python-babel/flask-babel/blob/69d3340cd0ff52f3e23a47518285a7e6d8f8c640/flask_babel/__init__.py#L175
+def list_translations():
+    # return [locale for locale in babel.list_translations() if is_locale(locale)]
+    result = []
+    for dirname in get_babel().translation_directories:
+        if not os.path.isdir(dirname):
+            continue
+        for folder in os.listdir(dirname):
+            locale_dir = os.path.join(dirname, folder, 'LC_MESSAGES')
+            if not os.path.isdir(locale_dir):
+                continue
+            if any(x.endswith('.mo') for x in os.listdir(locale_dir)):
+                try:
+                    result.append(babel.Locale.parse(folder))
+                except babel.UnknownLocaleError:
+                    pass
+    return result
 
 # Example to convert back from MySQL to IPv4:
 # import ipaddress
