@@ -267,7 +267,7 @@
 
               if (localStorage && localStorage.recentDownloadsData) {
                 const recentDownloadsData = JSON.parse(localStorage.recentDownloadsData);
-                console.log('recentDownloadsData', recentDownloadsData);
+                // console.log('recentDownloadsData', recentDownloadsData);
                 showRecentDownloads(recentDownloadsData.items);
 
                 const timeToRefresh = 65000 /* 65 sec */ - (Date.now() - recentDownloadsData.time);
