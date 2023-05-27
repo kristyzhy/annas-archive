@@ -591,7 +591,9 @@ def recent_downloads():
                 .limit(50)
             ).all()
 
-            md5_dicts = get_md5_dicts_elasticsearch(session, [download['md5'].hex() for download in downloads])
+            md5_dicts = []
+            if len(downloads) > 0:
+                md5_dicts = get_md5_dicts_elasticsearch(session, [download['md5'].hex() for download in downloads])
             seen_md5s = set()
             seen_titles = set()
             output = []
