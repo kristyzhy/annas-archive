@@ -1729,8 +1729,16 @@ def add_additional_to_md5_dict(md5_dict):
     additional['download_urls'] = []
     shown_click_get = False
     if md5_dict['lgrsnf_book'] is not None:
+        # Experimental link:
+        if md5_dict['lgrsnf_book']['id'] % 1 == 0:
+            lgrsnf_thousands_dir = (md5_dict['lgrsnf_book']['id'] // 1000) * 1000
+            if lgrsnf_thousands_dir < 3657000 and lgrsnf_thousands_dir != 1936000:
+                lgrsnf_anon_url = f"https://momot.rs/lgrsnf/{lgrsnf_thousands_dir}/{md5_dict['lgrsnf_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
+                additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=1).replace('Z-Library', '').strip(), lgrsnf_anon_url, ""))
+
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{md5_dict['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
+
     if md5_dict['lgrsfic_book'] is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{md5_dict['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -1742,14 +1750,23 @@ def add_additional_to_md5_dict(md5_dict):
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={md5_dict['ipfs_infos'][0]['filename']}", ""))
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={md5_dict['ipfs_infos'][0]['filename']}", ""))
     if md5_dict['zlib_book'] is not None and len(md5_dict['zlib_book']['pilimi_torrent'] or '') > 0:
-        additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=1), make_temp_anon_zlib_link("https://momot.rs", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
-        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=1), make_temp_anon_zlib_link("https://momot.li", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
-        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=2), make_temp_anon_zlib_link("https://momot.in", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
-        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=3), make_temp_anon_zlib_link("https://ktxr.rs", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
-        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=4), make_temp_anon_zlib_link("https://nrzr.li", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
-        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=3), make_temp_anon_zlib_link("http://193.218.118.109", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
-        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=4), make_temp_anon_zlib_link("http://193.218.118.54", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=2), make_temp_anon_zlib_link("http://95.214.235.224", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        zlib_anon_num = 1
+        additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=zlib_anon_num), make_temp_anon_zlib_link("https://momot.rs", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        zlib_anon_num += 1
+        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=zlib_anon_num), make_temp_anon_zlib_link("https://momot.li", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        # zlib_anon_num += 1
+        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=zlib_anon_num), make_temp_anon_zlib_link("https://momot.in", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        # zlib_anon_num += 1
+        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=zlib_anon_num), make_temp_anon_zlib_link("https://ktxr.rs", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        # zlib_anon_num += 1
+        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=zlib_anon_num), make_temp_anon_zlib_link("https://nrzr.li", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        # zlib_anon_num += 1
+        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=zlib_anon_num), make_temp_anon_zlib_link("http://193.218.118.109", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        # zlib_anon_num += 1
+        # additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=zlib_anon_num), make_temp_anon_zlib_link("http://193.218.118.54", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        # zlib_anon_num += 1
+        additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=zlib_anon_num), make_temp_anon_zlib_link("http://95.214.235.224", md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'], md5_dict['file_unified_data']['extension_best']), ""))
+        zlib_anon_num += 1
     for doi in md5_dict['file_unified_data']['doi_multiple']:
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if md5_dict['zlib_book'] is not None:
