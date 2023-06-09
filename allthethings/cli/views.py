@@ -162,7 +162,14 @@ def elastic_reset_md5_dicts_internal():
                     "properties": {
                         "f_id": { "type": "integer", "index": False, "doc_values": False },
                         "md5": { "type": "keyword", "index": False, "doc_values": False },
-                        "libgen_topic": { "type": "keyword", "index": False, "doc_values": False }
+                        "libgen_topic": { "type": "keyword", "index": False, "doc_values": False },
+                        "libgen_id": { "type": "integer", "index": False, "doc_values": False },
+                        "fiction_id": { "type": "integer", "index": False, "doc_values": False },
+                        "fiction_rus_id": { "type": "integer", "index": False, "doc_values": False },
+                        "comics_id": { "type": "integer", "index": False, "doc_values": False },
+                        "scimag_id": { "type": "integer", "index": False, "doc_values": False },
+                        "standarts_id": { "type": "integer", "index": False, "doc_values": False },
+                        "magz_id": { "type": "integer", "index": False, "doc_values": False },
                     }
                 },
                 "zlib_book": {

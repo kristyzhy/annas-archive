@@ -1276,7 +1276,7 @@ def get_md5_dicts_elasticsearch(session, canonical_md5s):
     canonical_md5s = [val for val in canonical_md5s if val not in search_filtered_bad_md5s]
 
     # Uncomment the following line to use MySQL directly; useful for local development.
-    # return get_md5_dicts_mysql(session, canonical_md5s)
+    # return [add_additional_to_md5_dict(md5_dict) for md5_dict in get_md5_dicts_mysql(session, canonical_md5s)]
 
     search_results_raw = es.mget(index="md5_dicts", ids=canonical_md5s)
     return [add_additional_to_md5_dict({'md5': result['_id'], **result['_source']}) for result in search_results_raw['docs'] if result['found']]
@@ -1628,6 +1628,13 @@ def get_md5_dicts_mysql(session, canonical_md5s):
                 'f_id': md5_dict['lgli_file']['f_id'],
                 'md5': md5_dict['lgli_file']['md5'],
                 'libgen_topic': md5_dict['lgli_file']['libgen_topic'],
+                'libgen_id': md5_dict['lgli_file']['libgen_id'],
+                'fiction_id': md5_dict['lgli_file']['fiction_id'],
+                'fiction_rus_id': md5_dict['lgli_file']['fiction_rus_id'],
+                'comics_id': md5_dict['lgli_file']['comics_id'],
+                'scimag_id': md5_dict['lgli_file']['scimag_id'],
+                'standarts_id': md5_dict['lgli_file']['standarts_id'],
+                'magz_id': md5_dict['lgli_file']['magz_id'],
             }
         if md5_dict['zlib_book'] is not None:
             md5_dict['zlib_book'] = {
@@ -1759,6 +1766,17 @@ def add_additional_to_md5_dict(md5_dict):
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{md5_dict['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
     if md5_dict['lgli_file'] is not None:
+        # TODO: use `['fiction_id']` when ES indexing has been done
+        lgrsfic_id = md5_dict['lgli_file'].get('fiction_id', 0)
+        if lgrsfic_id > 0:
+            lgrsfic_thousands_dir = (lgrsfic_id // 1000) * 1000
+            if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000 and lglific_thousands_dir not in [2201000, 2206000, 2306000, 2869000, 2896000, 2945000, 3412000, 3453000]:
+                lglific_uri = allthethings.utils.make_anon_download_uri(10000, f"lglific/{lglific_thousands_dir}/{md5_dict['lglific_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}", additional['filename'])
+                additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=anon_num).replace('Z-Library', '').strip(), "https://momot.in/" + lglific_uri, ""))
+                anon_num += 1
+                additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=anon_num).replace('Z-Library', '').strip(), "https://momot.rs/" + lglific_uri, ""))
+                anon_num += 1
+
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={md5_dict['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
     if len(md5_dict['ipfs_infos']) > 0:
