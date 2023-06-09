@@ -3,6 +3,7 @@ import datetime
 
 
 SECRET_KEY = os.getenv("SECRET_KEY", None)
+DOWNLOADS_SECRET_KEY = os.getenv("DOWNLOADS_SECRET_KEY", None)
 
 # Redis.
 # REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")

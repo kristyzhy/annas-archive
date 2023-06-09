@@ -9,9 +9,11 @@ import cachetools
 import babel.numbers
 import babel
 import os
+import base64
+import hashlib
 from flask_babel import get_babel
 
-from config.settings import SECRET_KEY
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY
 
 FEATURE_FLAGS = {}
 
@@ -234,6 +236,10 @@ def membership_costs_data(locale):
                 data[f"{tier},{method},{duration}"] = calculate_membership_costs(inputs)
     return data
 
+def make_anon_download_uri(speed_kbps, path, filename):
+    expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)).timestamp())
+    md5 = base64.urlsafe_b64encode(hashlib.md5(f"x/{expiry}/{speed_kbps}/e/{path},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
+    return f"d1/x/{expiry}/{speed_kbps}/e/{path}~/{md5}/{filename}"
 
 
 

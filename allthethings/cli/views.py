@@ -179,7 +179,6 @@ def elastic_reset_md5_dicts_internal():
                 "ipfs_infos": {
                     "properties": {
                         "ipfs_cid": { "type": "keyword", "index": False, "doc_values": False },
-                        "filename": { "type": "keyword", "index": False, "doc_values": False },
                         "from": { "type": "keyword", "index": False, "doc_values": False }
                     }
                 },

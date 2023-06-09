@@ -235,7 +235,7 @@
         <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
           <div class="flex-none w-[150] px-2 py-1">IPFS CID</div>
           <div class="px-2 py-1 grow truncate">{{lgrs_book_dict.ipfs_cid | default('-', true) | lower}}</div>
-          <div class="px-2 py-1 whitespace-nowrap text-right">{% if lgrs_book_dict.ipfs_cid %}<a href="ipfs://{{lgrs_book_dict.ipfs_cid | lower}}?filename={{lgrs_book_dict.normalized_filename}}">url</a> <a href="https://cloudflare-ipfs.com/ipfs/{{lgrs_book_dict.ipfs_cid | lower}}?filename={{lgrs_book_dict.normalized_filename}}" rel="noopener noreferrer nofollow" target="_blank">cf</a> <a href="https://ipfs.io/ipfs/{{lgrs_book_dict.ipfs_cid | lower}}?filename={{lgrs_book_dict.normalized_filename}}" rel="noopener noreferrer nofollow" target="_blank">io</a> <a href="https://gateway.pinata.cloud/ipfs/{{lgrs_book_dict.ipfs_cid | lower}}?filename={{lgrs_book_dict.normalized_filename}}" rel="noopener noreferrer nofollow" target="_blank">pin</a>{% endif %}</div>
+          <div class="px-2 py-1 whitespace-nowrap text-right">{% if lgrs_book_dict.ipfs_cid %}<a href="ipfs://{{lgrs_book_dict.ipfs_cid | lower}}">url</a> <a href="https://cloudflare-ipfs.com/ipfs/{{lgrs_book_dict.ipfs_cid | lower}}" rel="noopener noreferrer nofollow" target="_blank">cf</a> <a href="https://ipfs.io/ipfs/{{lgrs_book_dict.ipfs_cid | lower}}" rel="noopener noreferrer nofollow" target="_blank">io</a> <a href="https://gateway.pinata.cloud/ipfs/{{lgrs_book_dict.ipfs_cid | lower}}" rel="noopener noreferrer nofollow" target="_blank">pin</a>{% endif %}</div>
         </div>
         <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
           <div class="flex-none w-[150] px-2 py-1">Filesize</div>

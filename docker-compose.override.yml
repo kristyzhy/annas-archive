@@ -34,6 +34,8 @@ services:
   elasticsearch:
     # ports:
     #   - "${ELASTICSEARCH_PORT_FORWARD:-127.0.0.1:9200}:9200"
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     networks:
       - "mynetwork"
 

@@ -1,3 +1,4 @@
+START TRANSACTION;
 DROP TABLE IF EXISTS `mariapersist_account_logins`;
 DROP TABLE IF EXISTS `mariapersist_accounts`;
 DROP TABLE IF EXISTS `mariapersist_comments`;
@@ -13,3 +14,4 @@ DROP TABLE IF EXISTS `mariapersist_list_entries`;
 DROP TABLE IF EXISTS `mariapersist_lists`;
 DROP TABLE IF EXISTS `mariapersist_md5_report`;
 DROP TABLE IF EXISTS `mariapersist_reactions`;
+COMMIT;

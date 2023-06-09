@@ -17,7 +17,7 @@ from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
 from allthethings.cron.views import cron
 from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist, mail, LibgenrsUpdated, LibgenliFiles
-from config.settings import SECRET_KEY
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY
 
 import allthethings.utils
 
@@ -77,6 +77,8 @@ def create_app(settings_override=None):
 
     if not app.debug and len(SECRET_KEY) < 30:
         raise Exception("Use longer SECRET_KEY!")
+    if not app.debug and len(DOWNLOADS_SECRET_KEY) < 30:
+        raise Exception("Use longer DOWNLOADS_SECRET_KEY!")
 
     middleware(app)
 

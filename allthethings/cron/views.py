@@ -1,6 +1,7 @@
 import datetime
 import time
 import httpx
+import shortuuid
 
 from config import settings
 from flask import Blueprint, __version__, render_template, make_response, redirect, request
@@ -10,24 +11,13 @@ from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session
 from pymysql.constants import CLIENT
 
+import allthethings.utils
+
 cron = Blueprint("cron", __name__, template_folder="templates")
 
 DOWNLOAD_TESTS = [ 
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://nrzr.li', 'url': 'https://nrzr.li/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://ktxr.rs', 'url': 'https://ktxr.rs/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.rs', 'url': 'https://momot.rs/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    # { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.li', 'url': 'https://momot.li/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.in', 'url': 'https://momot.in/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    # https://nrzr.li raw ip
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://193.218.118.54', 'url': 'http://193.218.118.54/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    # https://ktxr.rs raw ip
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://193.218.118.109', 'url': 'http://193.218.118.109/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    # https://momot.rs raw ip
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://95.214.235.224', 'url': 'http://95.214.235.224/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    # https://momot.li raw ip
-    # { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://62.182.86.182', 'url': 'http://62.182.86.182/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
-    # https://momot.in raw ip
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'http://89.248.162.228', 'url': 'http://89.248.162.228/zlib1/pilimi-zlib-0-119999/2094.fb2.zip', 'filesize': 11146011 },
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.rs', 'path': 'zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.in', 'path': 'zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
 ]
 
 #################################################################################################
@@ -44,7 +34,12 @@ def infinite_loop():
                 # Size: 11146011 bytes
                 start = time.time()
                 try:
-                    httpx.get(download_test['url'], timeout=300)
+                    if 'url' in download_test:
+                        url = download_test['url']
+                    else:
+                        uri = allthethings.utils.make_anon_download_uri(999999999, download_test['path'], 'dummy')
+                        url = f"{download_test['server']}/{uri}"
+                    httpx.get(url, timeout=300)
                 except httpx.ConnectError:
                     continue
 
