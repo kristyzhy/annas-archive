@@ -1736,18 +1736,21 @@ def add_additional_to_md5_dict(md5_dict):
     additional['download_urls'] = []
     shown_click_get = False
     if md5_dict['lgrsnf_book'] is not None:
-        # Experimental link:
-        if md5_dict['lgrsnf_book']['id'] % 1 == 0:
-            lgrsnf_thousands_dir = (md5_dict['lgrsnf_book']['id'] // 1000) * 1000
-            if lgrsnf_thousands_dir < 3657000 and lgrsnf_thousands_dir != 1936000:
-                lgrsnf_uri = allthethings.utils.make_anon_download_uri(10000, f"lgrsnf/{lgrsnf_thousands_dir}/{md5_dict['lgrsnf_book']['md5'].lower()}", additional['filename'])
-                additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=1).replace('Z-Library', '').strip(), "https://momot.in/" + lgrsnf_uri, ""))
-                additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=2).replace('Z-Library', '').strip(), "https://momot.rs/" + lgrsnf_uri, ""))
+        lgrsnf_thousands_dir = (md5_dict['lgrsnf_book']['id'] // 1000) * 1000
+        if lgrsnf_thousands_dir < 3657000 and lgrsnf_thousands_dir not in [1936000]:
+            lgrsnf_uri = allthethings.utils.make_anon_download_uri(10000, f"lgrsnf/{lgrsnf_thousands_dir}/{md5_dict['lgrsnf_book']['md5'].lower()}", additional['filename'])
+            additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=1).replace('Z-Library', '').strip(), "https://momot.in/" + lgrsnf_uri, ""))
+            additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=2).replace('Z-Library', '').strip(), "https://momot.rs/" + lgrsnf_uri, ""))
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{md5_dict['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
-
     if md5_dict['lgrsfic_book'] is not None:
+        lgrsfic_thousands_dir = (md5_dict['lgrsfic_book']['id'] // 1000) * 1000
+        if lgrsfic_thousands_dir < 2667000 and lgrsfic_thousands_dir not in [2203000, 2204000, 2207000, 2209000, 2210000, 2211000]:
+            lgrsfic_uri = allthethings.utils.make_anon_download_uri(10000, f"lgrsfic/{lgrsfic_thousands_dir}/{md5_dict['lgrsfic_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}", additional['filename'])
+            additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=1).replace('Z-Library', '').strip(), "https://momot.in/" + lgrsfic_uri, ""))
+            additional['download_urls'].append((gettext('page.md5.box.download.zlib_anon', num=2).replace('Z-Library', '').strip(), "https://momot.rs/" + lgrsfic_uri, ""))
+
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{md5_dict['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
     if md5_dict['lgli_file'] is not None:
