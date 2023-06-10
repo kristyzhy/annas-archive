@@ -3,54 +3,6 @@
 {% block title %}Account{% endblock %}
 
 {% block body %}
-  <script>
-    let accountEmailUsedForError;
-    function accountShowError(email, msg) {
-      accountEmailUsedForError = email;
-      const errorMsgEl = document.querySelector(".js-account-email-validation-error-msg");
-      errorMsgEl.innerText = msg + " Submit again to try anyway.";
-      errorMsgEl.classList.remove("hidden");
-    }
-
-    function accountHideError() {
-      accountEmailUsedForError = undefined;
-      const errorMsgEl = document.querySelector(".js-account-email-validation-error-msg");
-      errorMsgEl.classList.add("hidden");
-    }
-
-    function accountValidateEmail(event) {
-      event.preventDefault();
-      const currentTarget = event.currentTarget;
-      const email = new FormData(currentTarget).get('email');
-
-      if (accountEmailUsedForError === email) {
-        return true;
-      }
-
-      const otherProblematicDomains = ["21cn.com"]
-      if (otherProblematicDomains.some((domain) => email.endsWith(domain))) {
-        accountShowError(email, "We are currently having issues delivering to this provider. Please use a different email. See below for suggestions.");
-        return false;
-      }
-      if (window.emailMisspelled.microsoft.some((domain) => email.endsWith(domain))) {
-        accountShowError(email, "We are currently having issues delivering to Microsoft accounts. Please use a different email. See below for suggestions.");
-        return false;
-      }
-      suggestions = window.emailMisspelled.emailMisspelled({ domains: window.emailMisspelled.all })(email);
-      if (suggestions.length > 0) {
-        accountShowError(email, "Did you mean “" + suggestions[0].suggest + "”? Please double check!");
-        return false;
-      }
-      if (!/^\S+@\S+\.\S+$/.test(email) || email.endsWith(".con")) {
-        accountShowError(email, "It looks like you misspelled your email address. Please double check!");
-        return false;
-      }
-
-      accountHideError();
-      return true;
-    }
-  </script>
-
   {% if gettext('common.english_only') | trim %}
     <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
   {% endif %}
@@ -63,7 +15,6 @@
       
       {% from 'macros/profile_link.html' import profile_link %}
       <div>Public profile: {{ profile_link(account_dict, account_dict.account_id) }}</div>
-      <div>Email: <strong>{{ account_dict.email_verified }}</strong> (never publicly shown)</div>
       <div class="mb-4">
         Membership:
         {% if account_dict.membership_tier == "0" %}
@@ -84,26 +35,94 @@
     {% else %}
       <h2 class="mt-4 mb-4 text-3xl font-bold">Log in / Register</h2>
 
-      <form autocomplete="on" onsubmit="if (accountValidateEmail(event)) {window.submitForm(event, '/dyn/account/access/'); document.querySelector('.js-account-sent-email').innerText = document.getElementById('email').value }" class="mb-4">
-        <fieldset class="mb-4">
-          <p class="mb-4">Enter your email address to login or register. We do not use passwords.</p>
-          <input type="email" id="email" name="email" required placeholder="anna@example.org" class="js-account-email w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" />
-          <p class="mb-4 text-sm text-gray-500">We never share or display your email address.</p>
-          <div class="js-account-email-validation-error-msg hidden mb-4 text-red-500"></div>
-          <div class="mb-4">
-            <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Send login email</button>
-            <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-          </div>
-          <p class="mb-4">
-            We are currently having issues delivering to Microsoft accounts: outlook.com, hotmail.com, live.com, msn.com. Please use a different email.
-          </p>
-          <p class="mb-4">
-            If you need a quick email address because your main email doesn’t work, we recommend using <a href="https://proton.me/" rel="noopener noreferrer" target="_blank">Proton Mail</a> (free).
-          </p>
-        </fieldset>
-        <div class="hidden js-success">✅ Sent to <strong class="js-account-sent-email"></strong>! Check your email inbox. If you don’t see anything, wait a minute, and check your spam folder. If that doesn’t work, contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>.</div>
-        <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
+      <p class="mb-1">Enter your secret key to log in:</p>
+
+      <form autocomplete="on" method="post" action="/account/" class="mb-4">
+        <input type="password" autocomplete="current-password" id="key" name="key" required placeholder="Secret key" class="w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" value="{{ request.args.get('key', '') }}" />
+        <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Log in</button>
       </form>
+
+      {% if request.args.get('key') %}
+        <p class="mb-4">Registration succesful! Your secret key is: <span class="font-bold">{{ request.args.get('key') }}</span></p>
+
+        <p class="mb-4">Save this key carefully. If you lose it, you will lose access to your account.</p>
+
+        <ul class="list-inside mb-4">
+          <li class="list-disc"><strong>Bookmark.</strong> You can bookmark this page to retrieve your key.</li>
+          <li class="list-disc"><strong>Download.</strong> Click <a href="data:application/octet-stream;charset=utf-8,{{ request.args.get('key') }}" download="annas-archive-secret-key.txt">this link</a> to download your key.</li>
+          <li class="list-disc"><strong>Password manager.</strong> For your convenience, the key is prefilled above, so when you log in you can save it in your password manager.</li>
+        </ul>
+      {% else %}
+        <p class="mb-1">Don’t have an account yet?</p>
+
+        <form autocomplete="on" method="post" action="/account/register" class="mb-4">
+          <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Register new account</button>
+        </form>
+
+        <p class="mb-1">Old email-based account? Enter your <a href="#" onclick="document.querySelector('.js-account-email-form').classList.remove('hidden'); event.preventDefault(); return false">email here</a>.</p>
+
+        <script>
+          let accountEmailUsedForError;
+          function accountShowError(email, msg) {
+            accountEmailUsedForError = email;
+            const errorMsgEl = document.querySelector(".js-account-email-validation-error-msg");
+            errorMsgEl.innerText = msg + " Submit again to try anyway.";
+            errorMsgEl.classList.remove("hidden");
+          }
+
+          function accountHideError() {
+            accountEmailUsedForError = undefined;
+            const errorMsgEl = document.querySelector(".js-account-email-validation-error-msg");
+            errorMsgEl.classList.add("hidden");
+          }
+
+          function accountValidateEmail(event) {
+            event.preventDefault();
+            const currentTarget = event.currentTarget;
+            const email = new FormData(currentTarget).get('email');
+
+            if (accountEmailUsedForError === email) {
+              return true;
+            }
+
+            const otherProblematicDomains = ["21cn.com"]
+            if (otherProblematicDomains.some((domain) => email.endsWith(domain))) {
+              accountShowError(email, "We are currently having issues delivering to this provider. Please use a different email. See below for suggestions.");
+              return false;
+            }
+            if (window.emailMisspelled.microsoft.some((domain) => email.endsWith(domain))) {
+              accountShowError(email, "We are currently having issues delivering to Microsoft accounts. Please use a different email. See below for suggestions.");
+              return false;
+            }
+            suggestions = window.emailMisspelled.emailMisspelled({ domains: window.emailMisspelled.all })(email);
+            if (suggestions.length > 0) {
+              accountShowError(email, "Did you mean “" + suggestions[0].suggest + "”? Please double check!");
+              return false;
+            }
+            if (!/^\S+@\S+\.\S+$/.test(email) || email.endsWith(".con")) {
+              accountShowError(email, "It looks like you misspelled your email address. Please double check!");
+              return false;
+            }
+
+            accountHideError();
+            return true;
+          }
+        </script>
+
+        <form autocomplete="on" onsubmit="if (accountValidateEmail(event)) {window.submitForm(event, '/dyn/account/access/'); document.querySelector('.js-account-sent-email').innerText = document.getElementById('email').value }" class="mb-4 hidden js-account-email-form">
+          <fieldset class="mb-4">
+            <input type="email" id="email" name="email" required placeholder="anna@example.org" class="js-account-email w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" />
+            <div class="js-account-email-validation-error-msg hidden mb-4 text-red-500"></div>
+            <div class="mb-1">
+              <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Send my secret key to my email</button>
+              <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+            </div>
+            <div class="mb-4">Note that we will discontinue email logins at some point, so make sure to save your secret key.</div>
+          </fieldset>
+          <div class="hidden js-success">✅ If <strong class="js-account-sent-email"></strong> is a valid account on Anna’s Archive, then we sent you an email. Check your email inbox. If you don’t see anything, wait a minute, and check your spam folder. If that doesn’t work, please register a new account above.</div>
+          <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
+        </form>
+      {% endif %}
     {% endif %}
   </div>
 {% endblock %}

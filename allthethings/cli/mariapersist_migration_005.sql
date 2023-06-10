@@ -40,3 +40,5 @@ CREATE TABLE mariapersist_donations (
 
 ALTER TABLE mariapersist_accounts ADD COLUMN `membership_tier` CHAR(7) NOT NULL DEFAULT 0;
 ALTER TABLE mariapersist_accounts ADD COLUMN `membership_expiration` TIMESTAMP NULL;
+
+ALTER TABLE mariapersist_accounts MODIFY `email_verified` VARCHAR(255) NULL;

@@ -112,20 +112,20 @@ def downloads_stats_md5(md5_input):
 @dyn.put("/account/access/")
 @allthethings.utils.no_cache()
 def account_access():
-    email = request.form['email']
-    jwt_payload = jwt.encode(
-        payload={ "m": email, "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=1) },
-        key=SECRET_KEY,
-        algorithm="HS256"
-    )
+    with Session(mariapersist_engine) as mariapersist_session:
+        email = request.form['email']
+        account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.email_verified == email).limit(1)).first()
+        if account is None:
+            return "{}"
 
-    url = g.full_domain + '/account/access/' + allthethings.utils.strip_jwt_prefix(jwt_payload).replace('.', '/')
-    subject = "Log in to Anna’s Archive"
-    body = "Hi! Please use the following link to log in to Anna’s Archive:\n\n" + url + "\n\nIf you run into any issues, feel free to reply to this email.\n-Anna"
+        url = g.full_domain + '/account/?key=' + allthethings.utils.secret_key_from_account_id(account.account_id)
+        subject = "Secret key for Anna’s Archive"
+        body = "Hi! Please use the following link to get your secret key for Anna’s Archive:\n\n" + url + "\n\nNote that we will discontinue email logins at some point, so make sure to save your secret key.\n-Anna"
 
-    email_msg = flask_mail.Message(subject=subject, body=body, recipients=[email])
-    mail.send(email_msg)
-    return "{}"
+        email_msg = flask_mail.Message(subject=subject, body=body, recipients=[email])
+        mail.send(email_msg)
+        return "{}"
+
 
 @dyn.put("/account/logout/")
 @allthethings.utils.no_cache()
@@ -140,6 +140,7 @@ def account_logout():
     )
     return resp
 
+
 @dyn.put("/copyright/")
 @allthethings.utils.no_cache()
 def copyright():
@@ -149,6 +150,7 @@ def copyright():
         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_copyright_claims (ip, json) VALUES (:ip, :json)').bindparams(ip=data_ip, json=data_json))
         mariapersist_session.commit()
         return "{}"
+
 
 @dyn.get("/md5/summary/<string:md5_input>")
 @allthethings.utils.no_cache()
@@ -212,6 +214,7 @@ def md5_report(md5_input):
         mariapersist_session.commit()
         return "{}"
 
+
 @dyn.put("/account/display_name/")
 @allthethings.utils.no_cache()
 def put_display_name():
@@ -231,6 +234,7 @@ def put_display_name():
         mariapersist_session.commit()
         return "{}"
 
+
 @dyn.put("/list/name/<string:list_id>")
 @allthethings.utils.no_cache()
 def put_list_name(list_id):
@@ -248,12 +252,14 @@ def put_list_name(list_id):
         mariapersist_session.commit()
         return "{}"
 
+
 def get_resource_type(resource):
     if bool(re.match(r"^md5:[a-f\d]{32}$", resource)):
         return 'md5'
     if bool(re.match(r"^comment:[\d]+$", resource)):
         return 'comment'
     return None
+
 
 @dyn.put("/comments/<string:resource>")
 @allthethings.utils.no_cache()
@@ -284,6 +290,7 @@ def put_comment(resource):
                 .bindparams(account_id=account_id, resource=resource, content=content))
         mariapersist_session.commit()
         return "{}"
+
 
 def get_comment_dicts(mariapersist_session, resources):
     account_id = allthethings.utils.get_account_id(request.cookies)
@@ -355,6 +362,7 @@ def get_comment_dicts(mariapersist_session, resources):
 #             reload_url=f"/dyn/comments/{resource}",
 #         )
 
+
 @dyn.get("/md5_reports/<string:md5_input>")
 @allthethings.utils.no_cache()
 def md5_reports(md5_input):
@@ -388,6 +396,7 @@ def md5_reports(md5_input):
             md5_report_type_mapping=allthethings.utils.get_md5_report_type_mapping(),
         )
 
+
 @dyn.put("/reactions/<int:reaction_type>/<string:resource>")
 @allthethings.utils.no_cache()
 def put_comment_reaction(reaction_type, resource):
@@ -417,6 +426,7 @@ def put_comment_reaction(reaction_type, resource):
             mariapersist_session.connection().execute(text('INSERT INTO mariapersist_reactions (account_id, resource, type) VALUES (:account_id, :resource, :type) ON DUPLICATE KEY UPDATE type = :type').bindparams(account_id=account_id, resource=resource, type=reaction_type))
         mariapersist_session.commit()
         return "{}"
+
 
 @dyn.put("/lists_update/<string:resource>")
 @allthethings.utils.no_cache()
@@ -468,6 +478,7 @@ def lists_update(resource):
         mariapersist_session.commit()
 
         return '{}'
+
 
 @dyn.get("/lists/<string:resource>")
 @allthethings.utils.no_cache()
@@ -547,6 +558,7 @@ def account_buy_membership():
 
         return "{}"
 
+
 @dyn.put("/account/mark_manual_donation_sent/<string:donation_id>")
 @allthethings.utils.no_cache()
 def account_mark_manual_donation_sent(donation_id):
@@ -563,6 +575,7 @@ def account_mark_manual_donation_sent(donation_id):
         mariapersist_session.commit()
         return "{}"
 
+
 @dyn.put("/account/cancel_donation/<string:donation_id>")
 @allthethings.utils.no_cache()
 def account_cancel_donation(donation_id):
@@ -578,6 +591,7 @@ def account_cancel_donation(donation_id):
         mariapersist_session.execute('UPDATE mariapersist_donations SET processing_status = 2 WHERE donation_id = :donation_id AND (processing_status = 0 OR processing_status = 4) AND account_id = :account_id LIMIT 1', [{ 'donation_id': donation_id, 'account_id': account_id }])
         mariapersist_session.commit()
         return "{}"
+
 
 @dyn.get("/recent_downloads/")
 @allthethings.utils.public_cache(minutes=1, cloudflare_minutes=1)

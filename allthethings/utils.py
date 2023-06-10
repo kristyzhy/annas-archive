@@ -10,6 +10,7 @@ import babel.numbers
 import babel
 import os
 import base64
+import base58
 import hashlib
 from flask_babel import get_babel
 
@@ -39,6 +40,17 @@ def get_account_id(cookies):
         )
         return account_data["a"]
     return None
+
+def secret_key_from_account_id(account_id):
+    hashkey = base58.b58encode(hashlib.md5(f"{SECRET_KEY}{account_id}".encode('utf-8')).digest()).decode('utf-8')
+    return f"{account_id}{hashkey}"
+
+def account_id_from_secret_key(secret_key):
+    account_id = secret_key[0:7]
+    correct_secret_key = secret_key_from_account_id(account_id)
+    if secret_key != correct_secret_key:
+        return None
+    return account_id
 
 def get_domain_lang_code(locale):
     if locale.script == 'Hant':

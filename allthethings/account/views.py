@@ -7,6 +7,9 @@ import jwt
 import shortuuid
 import orjson
 import babel
+import hashlib
+import base64
+import re
 
 from flask import Blueprint, request, g, render_template, make_response, redirect
 from flask_cors import cross_origin
@@ -27,12 +30,14 @@ account = Blueprint("account", __name__, template_folder="templates")
 @account.get("/account/")
 @allthethings.utils.no_cache()
 def account_index_page():
+    if (request.args.get('key', '') != '') and (not bool(re.match(r"^[a-zA-Z\d]{29}$", request.args.get('key')))):
+        raise Exception("Invalid key format")
+
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
         return render_template(
             "account/index.html",
             header_active="account",
-            email=None,
             MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
         )
 
@@ -44,6 +49,7 @@ def account_index_page():
             account_dict=dict(account),
             MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
         )
+
 
 @account.get("/account/downloaded")
 @allthethings.utils.no_cache()
@@ -59,45 +65,19 @@ def account_downloaded_page():
             md5_dicts_downloaded = get_md5_dicts_elasticsearch(mariapersist_session, [download.md5.hex() for download in downloads])
         return render_template("account/downloaded.html", header_active="account/downloaded", md5_dicts_downloaded=md5_dicts_downloaded)
 
-@account.get("/account/access/<string:partial_jwt_token1>/<string:partial_jwt_token2>")
-@allthethings.utils.no_cache()
-def account_access_page_split_tokens(partial_jwt_token1, partial_jwt_token2):
-    return account_access_page(f"{partial_jwt_token1}.{partial_jwt_token2}")
 
-@account.get("/account/access/<string:partial_jwt_token>")
+@account.post("/account/")
 @allthethings.utils.no_cache()
-def account_access_page(partial_jwt_token):
-    try:
-        token_data = jwt.decode(
-            jwt=allthethings.utils.JWT_PREFIX + partial_jwt_token,
-            key=SECRET_KEY,
-            algorithms=["HS256"],
-            options={ "verify_signature": True, "require": ["exp"], "verify_exp": True }
-        )
-    except jwt.exceptions.ExpiredSignatureError:
-        return render_template("account/expired.html", header_active="account")
-
-    normalized_email = token_data["m"].lower()
+def account_index_post_page():
+    account_id = allthethings.utils.account_id_from_secret_key(request.form['key'])
+    if account_id is None:
+        raise Exception("Invalid secret key")
 
     with Session(mariapersist_engine) as mariapersist_session:
-        account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.email_verified == normalized_email).limit(1)).first()
+        account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
+        if account is None:
+            raise Exception("Account not found")
 
-        account_id = None
-        if account is not None:
-            account_id = account.account_id
-        else:
-            for _ in range(5):
-                insert_data = { 'account_id': shortuuid.random(length=7), 'email_verified': normalized_email }
-                try:
-                    mariapersist_session.connection().execute(text('INSERT INTO mariapersist_accounts (account_id, email_verified, display_name) VALUES (:account_id, :email_verified, :account_id)').bindparams(**insert_data))
-                    mariapersist_session.commit()
-                    account_id = insert_data['account_id']
-                    break
-                except Exception as err:
-                    print("Account creation error", err)
-                    pass
-            if account_id is None:
-                raise Exception("Failed to create account after multiple attempts")
         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_account_logins (account_id, ip) VALUES (:account_id, :ip)')
             .bindparams(account_id=account_id, ip=allthethings.utils.canonical_ip_bytes(request.remote_addr)))
         mariapersist_session.commit()
@@ -107,7 +87,6 @@ def account_access_page(partial_jwt_token):
             key=SECRET_KEY,
             algorithm="HS256"
         )
-
         resp = make_response(redirect(f"/account/", code=302))
         resp.set_cookie(
             key=allthethings.utils.ACCOUNT_COOKIE_NAME,
@@ -119,15 +98,39 @@ def account_access_page(partial_jwt_token):
         )
         return resp
 
+
+@account.post("/account/register")
+@allthethings.utils.no_cache()
+def account_register_page():
+    with Session(mariapersist_engine) as mariapersist_session:
+        account_id = None
+        for _ in range(5):
+            insert_data = { 'account_id': shortuuid.random(length=7) }
+            try:
+                mariapersist_session.connection().execute(text('INSERT INTO mariapersist_accounts (account_id, display_name) VALUES (:account_id, :account_id)').bindparams(**insert_data))
+                mariapersist_session.commit()
+                account_id = insert_data['account_id']
+                break
+            except Exception as err:
+                print("Account creation error", err)
+                pass
+        if account_id is None:
+            raise Exception("Failed to create account after multiple attempts")
+
+        return redirect(f"/account/?key={allthethings.utils.secret_key_from_account_id(account_id)}", code=302)
+
+
 @account.get("/account/request")
 @allthethings.utils.no_cache()
 def request_page():
     return render_template("account/request.html", header_active="account/request")
 
+
 @account.get("/account/upload")
 @allthethings.utils.no_cache()
 def upload_page():
     return render_template("account/upload.html", header_active="account/upload")
+
 
 @account.get("/list/<string:list_id>")
 @allthethings.utils.no_cache()
@@ -155,6 +158,7 @@ def list_page(list_id):
             current_account_id=current_account_id,
         )
 
+
 @account.get("/profile/<string:account_id>")
 @allthethings.utils.no_cache()
 def profile_page(account_id):
@@ -178,6 +182,7 @@ def profile_page(account_id):
             current_account_id=current_account_id,
         )
 
+
 @account.get("/account/profile")
 @allthethings.utils.no_cache()
 def account_profile_page():
@@ -185,6 +190,7 @@ def account_profile_page():
     if account_id is None:
         return "", 403
     return redirect(f"/profile/{account_id}", code=302)
+
 
 @account.get("/donate")
 @allthethings.utils.no_cache()
@@ -206,6 +212,7 @@ def donate_page():
         MEMBERSHIP_DURATION_DISCOUNTS=allthethings.utils.MEMBERSHIP_DURATION_DISCOUNTS,
     )
 
+
 @account.get("/donation_faq")
 @allthethings.utils.no_cache()
 def donation_faq_page():
@@ -219,6 +226,7 @@ ORDER_PROCESSING_STATUS_LABELS = {
     4: 'waiting for Anna to confirm',
 }
 
+
 def make_donation_dict(donation):
     donation_json = orjson.loads(donation['json'])
     return {
@@ -229,6 +237,7 @@ def make_donation_dict(donation):
         'receipt_id': shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation.donation_id)),
         'formatted_native_currency': allthethings.utils.membership_format_native_currency(get_locale(), donation.native_currency_code, donation.cost_cents_native_currency, donation.cost_cents_usd),
     }
+
 
 @account.get("/account/donations/<string:donation_id>")
 @allthethings.utils.no_cache()
@@ -250,6 +259,7 @@ def donation_page(donation_id):
             donation_dict=make_donation_dict(donation),
             ORDER_PROCESSING_STATUS_LABELS=ORDER_PROCESSING_STATUS_LABELS,
         )
+
 
 @account.get("/account/donations/")
 @allthethings.utils.no_cache()
