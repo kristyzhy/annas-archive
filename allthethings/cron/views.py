@@ -25,8 +25,8 @@ DOWNLOAD_TESTS = [
 @cron.cli.command('infinite_loop')
 def infinite_loop():
     while True:
-        time.sleep(10)
-        print("Infinite loop running")
+        time.sleep(60)
+        print(f"Infinite loop running {datetime.datetime.now().minute}")
 
         if datetime.datetime.now().minute % 20 == 0:
             print("Running download tests")
@@ -40,14 +40,15 @@ def infinite_loop():
                         uri = allthethings.utils.make_anon_download_uri(999999999, download_test['path'], 'dummy')
                         url = f"{download_test['server']}/{uri}"
                     httpx.get(url, timeout=300)
-                except httpx.ConnectError:
+                except httpx.ConnectError as err:
+                    print(f"Download error: {err}")
                     continue
 
                 elapsed_sec = time.time() - start
                 insert_data = {
                     'md5': bytes.fromhex(download_test['md5']), 
                     'server': download_test['server'], 
-                    'url': download_test['url'], 
+                    'url': url, 
                     'filesize': download_test['filesize'], 
                     'elapsed_sec': elapsed_sec, 
                     'kbps': int(download_test['filesize'] / elapsed_sec / 1000),
