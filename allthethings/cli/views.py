@@ -391,5 +391,5 @@ def mariapersist_reset_internal():
 @cli.cli.command('send_test_email')
 @click.argument("email_addr")
 def send_test_email(email_addr):
-    email_msg = flask_mail.Message("Hello", recipients=[email_addr])
+    email_msg = flask_mail.Message(subject="Hello", body="Hi there, this is a test!", recipients=[email_addr])
     mail.send(email_msg)
