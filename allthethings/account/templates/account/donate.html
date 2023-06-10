@@ -98,7 +98,7 @@
 
       <div class="[html:not(.aa-logged-in)_&]:hidden">
         <p class="mt-4 mb-4">
-          Select a payment option. We give discounts for crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, because we incur fewer fees.
+          Select a payment option. We give discounts for crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, because we incur (way) fewer fees.
         </p>
 
         <div class="mb-4 flex flex-wrap items-end">
@@ -115,7 +115,7 @@
     <div class="hidden js-membership-section-duration [html:not(.aa-logged-in)_&]:hidden">
       <div class="js-membership-descr js-membership-descr-crypto">
         <p class="mb-4">
-          With crypto you can donate using BTC, ETH, XMR, and SOL. <br class="hidden sm:block">Use this option if you are already familiar with cryptocurrency.
+          With crypto you can donate using BTC, ETH, XMR, and SOL. Use this option if you are already familiar with cryptocurrency.
         </p>
       </div>
 
@@ -148,6 +148,12 @@
           <div class="text-2xl font-bold js-membership-total-cost">$72 total</div>
           <div class="text-sm text-gray-500 font-[300] js-membership-total-duration">for 12 months</div>
         </div>
+      </div>
+
+      <div class="js-membership-descr js-membership-descr-crypto js-membership-descr-paypal">
+        <p class="my-4">
+          <strong>Important note:</strong> Crypto prices can fluctuate wildly, sometimes even as much as 20% in a few minutes. This is still less than the fees we incur with many payment providers, who often charge 50-60% for working with a “shadow charity” like us. <u>If you send us the receipt with the original price you paid, we will still credit your account for the chosen membership</u> (as long as the receipt is not older than a few hours). We really appreciate that you’re willing to put up with stuff like this in order to support us! ❤️
+        </p>
       </div>
 
       <form onsubmit="window.submitForm(event, '/dyn/account/buy_membership/', () => window.location.reload())" class="js-membership-form mt-4 mb-4">
@@ -191,6 +197,10 @@
           {{ gettext('page.donate.crypto.intro') }}
         </p>
 
+        <p class="mb-4">
+          <strong>Important note:</strong> Crypto prices can fluctuate wildly, sometimes even as much as 20% in a few minutes. This is still less than the fees we incur with many payment providers, who often charge 50-60% for working with a “shadow charity” like us. <u>If you send us the receipt with the original price you paid, we will still credit your account for the chosen membership</u> (as long as the receipt is not older than a few hours). We really appreciate that you’re willing to put up with stuff like this in order to support us! ❤️
+        </p>
+
         <ul class="list-inside mb-4">
           <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a></li>
           <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
@@ -206,6 +216,10 @@
       <div class="js-membership-descr js-membership-descr-paypal">
         <p class="mb-4">
           To donate using PayPal, we’re going to use PayPal Crypto, which allows us to remain anonymous. We appreciate you taking the time to learn how to donate using this method, since it helps us out a lot.
+        </p>
+
+        <p class="mb-4">
+          <strong>Important note:</strong> Crypto prices can fluctuate wildly, sometimes even as much as 20% in a few minutes. This is still less than the fees we incur with many payment providers, who often charge 50-60% for working with a “shadow charity” like us. <u>If you send us the receipt with the original price you paid, we will still credit your account for the chosen membership</u> (as long as the receipt is not older than a few hours). We really appreciate that you’re willing to put up with stuff like this in order to support us! ❤️
         </p>
 
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin on Paypal</p>

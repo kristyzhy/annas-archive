@@ -137,6 +137,12 @@
         AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">copy</span><span class="[[aria-selected=false]_&]:hidden">copied!</span></button>
       </p>
 
+      {% if donation_dict.json.method in ['crypto', 'paypal'] %}
+        <p class="mb-4">
+          If the crypto exchange rate fluctuated during the transaction, be sure to include the receipt showing the original exchange rate. We really appreciate you taking the trouble to use crypto, it helps us a lot!
+        </p>
+      {% endif %}
+
       <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
         <fieldset class="mb-2">
           <p class="mb-4">
@@ -147,7 +153,7 @@
           <input type="hidden" name="method" value="">
           <input type="hidden" name="duration" value="">
           <input type="hidden" name="totalCentsVerification" value="">
-          <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">I emailed my receipt</button>
+          <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Yes, I emailed my receipt</button>
           <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
         </fieldset>
         <div class="hidden js-success">✅ Thanks for your donation! Anna will manually activate your membership within a few days.</div>
