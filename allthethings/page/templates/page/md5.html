@@ -24,21 +24,39 @@
       <div class="mt-4 line-clamp-[6]">{% if md5_dict.additional.top_box.description %}“{{md5_dict.additional.top_box.description | escape | replace('\n', '<br>' | safe)}}”{% endif %}</div>
     </div>
 
+    {% if (md5_dict.file_unified_data.problems | length) > 0 %}
+      <div>{{ gettext('page.md5.box.issues.text1') }}</div>
+      <ul class="list-inside mb-4">
+        {% for problem in md5_dict.file_unified_data.problems %}
+        <li>- {{ md5_problem_type_mapping[problem.type] }}{% if problem.descr %} ("{{problem.descr}}"){% endif %}</li>
+        {% endfor %}
+      </ul>
+
+      <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
+    {% endif %}
+
+    {% if (md5_dict.additional.fast_download_urls | length) > 0 %}
+      <div class="mb-4">
+        <div class="font-bold [html.aa-logged-in_&]:hidden">🚀 Fast downloads from our partners (requires <a href="/login" target="_blank">logging in</a>)</div>
+        <div class="font-bold [html:not(.aa-logged-in)_&]:hidden">🚀 Fast downloads (you are logged in!)</div>
+
+        <ul class="mb-4">
+          {% for label, url, extra in md5_dict.additional.fast_download_urls %}
+            <li class="[html.aa-logged-in_&]:hidden">- {{ gettext('page.md5.box.download.option', num=loop.index, link=label, extra=extra) }}</li>
+            <li class="[html:not(.aa-logged-in)_&]:hidden">- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" target="_blank" class="js-download-link">' + label + '</a>') | safe), extra=extra) }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
     <div class="mb-6">
-      <div class="font-bold">Download</div>
+      {% if (md5_dict.additional.fast_download_urls | length) > 0 %}
+        <div class="font-bold">🐢 Slow & external downloads</div>
+      {% else %}
+        <div class="font-bold">Downloads</div>
+      {% endif %}
 
       {% if (md5_dict.additional.download_urls | length) > 0 %}
-        {% if (md5_dict.file_unified_data.problems | length) > 0 %}
-          <div>{{ gettext('page.md5.box.issues.text1') }}</div>
-          <ul class="list-inside mb-4">
-            {% for problem in md5_dict.file_unified_data.problems %}
-            <li>- {{ md5_problem_type_mapping[problem.type] }}{% if problem.descr %} ("{{problem.descr}}"){% endif %}</li>
-            {% endfor %}
-          </ul>
-
-          <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
-        {% endif %}
-      
         <ul class="mb-4">
           {% for label, url, extra in md5_dict.additional.download_urls %}
             <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" target="_blank" class="js-download-link">' + label + '</a>') | safe), extra=extra) }}</li>
