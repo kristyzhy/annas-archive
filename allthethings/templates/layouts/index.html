@@ -116,13 +116,13 @@
                 }
               }
 
-              baseDomain = location.hostname.substring(domainPosition);
+              window.baseDomain = location.hostname.substring(domainPosition);
 
               function setLangCookie(langCode) {
                 if (!langCodes.includes(langCode)) {
                   return;
                 }
-                document.cookie = 'selected_lang=' + langCode + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT;domain=' + baseDomain;
+                document.cookie = 'selected_lang=' + langCode + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT;domain=' + window.baseDomain;
               }
 
               function redirectLang(langCode) {
@@ -133,7 +133,7 @@
                 if (langCode != 'en') {
                   prefix = langCode + '.';
                 }
-                location.hostname = prefix + baseDomain;
+                location.hostname = prefix + window.baseDomain;
               }
 
               window.handleChangeLang = function(event) {
@@ -442,13 +442,21 @@
     <script>
       (function() {
         // Possible domains we can encounter:
-        const domainsToReplace = ["annas-archive.org", "annas-archive.gs", "localtest.me:8000", "localtest.me"];
+        const domainsToReplace = ["annas-" + "archive.org", "annas-" + "archive.gs", "localtest.me:8000", "localtest.me", window.baseDomain];
+        const validDomains = ["annas-" + "archive.org", "annas-" + "archive.gs", "localtest.me:8000", "localtest.me"];
         // For checking and redirecting if our current host is down (but if Cloudflare still responds).
         const initialCheckMs = 0;
         const intervalCheckOtherDomains = 10000;
-        const domainsToNavigateTo = ["annas-archive.org", "annas-archive.gs"];
+        const domainsToNavigateTo = ["annas-" + "archive.org", "annas-" + "archive.gs"];
         // For testing:
         // const domainsToNavigateTo = ["localtest.me:8000", "testing_redirects.localtest.me:8000"];
+
+        // const isInvalidDomain = false;
+        // const isInvalidDomain = true;
+        const isInvalidDomain = !validDomains.includes(window.baseDomain);
+        if (isInvalidDomain) {
+          console.log("Invalid domain");
+        }
 
         // First, set the mirror links at the bottom of the page.
         const loc = "" + window.location;
@@ -459,8 +467,8 @@
             break;
           }
         }
-        document.querySelector(".js-annas-archive-org").href = loc.replace(currentDomainToReplace, "annas-archive.org");
-        document.querySelector(".js-annas-archive-gs").href = loc.replace(currentDomainToReplace, "annas-archive.gs");
+        document.querySelector(".js-annas-archive-org").href = loc.replace(currentDomainToReplace, "annas-" + "archive.org");
+        document.querySelector(".js-annas-archive-gs").href = loc.replace(currentDomainToReplace, "annas-" + "archive.gs");
 
         // Use the new domain in all links and forms.
         let areUsingOtherDomain = false;
@@ -469,6 +477,13 @@
             return;
           }
           areUsingOtherDomain = true;
+          if (isInvalidDomain) {
+            const newLoc = loc.replace(currentDomainToReplace, domain);
+            if (newLoc !== loc) {
+              window.location = newLoc;
+              return;
+            }
+          }
           const newOrigin = window.location.origin.replace(currentDomainToReplace, domain);
           for (const el of document.querySelectorAll("a")) {
             el.href = el.href.replace(currentDomainToReplace, domain);
@@ -477,6 +492,7 @@
             el.action = el.action.replace(currentDomainToReplace, domain);
           }
         }
+        // useOtherDomain('annas-archive.org'); // For testing.
 
         function getRandomString() {
           return Math.random() + "." + Math.random() + "." + Math.random();
@@ -485,6 +501,7 @@
         // Check if there are other domains that are still up. Use the first one that responds.
         let foundOtherDomain = false;
         function checkOtherDomains() {
+          console.log('checkOtherDomains');
           if (foundOtherDomain) {
             return;
           }
@@ -506,25 +523,34 @@
           }
         }
 
-        // Keep checking the current domain once, to see if it's still up.
-        function checkCurrentDomain() {
-          const currentFetchOptions = { method: "GET", credentials: "same-origin", cache: "no-cache", redirect: "error" };
-          fetch('/dyn/up/?' + getRandomString(), currentFetchOptions).then(function(response) {
-            // Only do something in the case of an actual error code from Cloudflare, not if the users network is bad.
-            if (response.status >= 500 && response.status <= 599) {
-              // Keep checking in case one comes online.
-              setInterval(checkOtherDomains, intervalCheckOtherDomains);
-            }
-            if (response.status === 200) {
-              return response.json().then(function(jsonResponse) {
-                window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in);
-              });
-            }
-          }).catch(function() {
-            // Ignore; see above.
-          });
+        // If we're not on a valid domain, try to go to a valid domain.
+        if (isInvalidDomain) {
+          checkOtherDomains();
+          // Keep checking in case one comes online.
+          setInterval(checkOtherDomains, intervalCheckOtherDomains);
+        } else {
+          // Keep checking the current domain once, to see if it's still up.
+          function checkCurrentDomain() {
+            const currentFetchOptions = { method: "GET", credentials: "same-origin", cache: "no-cache", redirect: "error" };
+            fetch('/dyn/up/?' + getRandomString(), currentFetchOptions).then(function(response) {
+              // Only do something in the case of an actual error code from Cloudflare, not if the users network is bad.
+              if (response.status >= 500 && response.status <= 599) {
+                checkOtherDomains();
+                // Keep checking in case one comes online.
+                setInterval(checkOtherDomains, intervalCheckOtherDomains);
+              }
+              if (response.status === 200) {
+                return response.json().then(function(jsonResponse) {
+                  window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in);
+                });
+              }
+            }).catch(function() {
+              // Ignore; see above.
+            });
+          }
+          setTimeout(checkCurrentDomain, initialCheckMs);
         }
-        setTimeout(checkCurrentDomain, initialCheckMs);
       })();
     </script>
+    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a60431b24db04cf2beeef0864f1df5e4"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
