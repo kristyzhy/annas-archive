@@ -149,14 +149,14 @@ def elastic_reset_md5_dicts_internal():
                 "lgrsnf_book": {
                     "properties": {
                         "id": { "type": "integer", "index": False, "doc_values": False },
-                        "md5": { "type": "keyword", "index": False, "doc_values": False }
-                    }
+                        "md5": { "type": "keyword", "index": False, "doc_values": False },
+                    },
                 },
                 "lgrsfic_book": {
                     "properties": {
                         "id": { "type": "integer", "index": False, "doc_values": False },
-                        "md5": { "type": "keyword", "index": False, "doc_values": False }
-                    }
+                        "md5": { "type": "keyword", "index": False, "doc_values": False },
+                    },
                 },
                 "lgli_file": {
                     "properties": {
@@ -170,7 +170,8 @@ def elastic_reset_md5_dicts_internal():
                         "scimag_id": { "type": "integer", "index": False, "doc_values": False },
                         "standarts_id": { "type": "integer", "index": False, "doc_values": False },
                         "magz_id": { "type": "integer", "index": False, "doc_values": False },
-                    }
+                        "scimag_archive_path": { "type": "keyword", "index": False, "doc_values": False },
+                    },
                 },
                 "zlib_book": {
                     "properties": {
@@ -180,14 +181,14 @@ def elastic_reset_md5_dicts_internal():
                         "filesize": { "type": "long", "index": False, "doc_values": False },
                         "filesize_reported": { "type": "long", "index": False, "doc_values": False },
                         "in_libgen": { "type": "byte", "index": False, "doc_values": False },
-                        "pilimi_torrent": { "type": "keyword", "index": False, "doc_values": False }
-                    }
+                        "pilimi_torrent": { "type": "keyword", "index": False, "doc_values": False },
+                    },
                 },
                 "ipfs_infos": {
                     "properties": {
                         "ipfs_cid": { "type": "keyword", "index": False, "doc_values": False },
-                        "from": { "type": "keyword", "index": False, "doc_values": False }
-                    }
+                        "from": { "type": "keyword", "index": False, "doc_values": False },
+                    },
                 },
                 "file_unified_data": {
                     "properties": {
@@ -224,27 +225,29 @@ def elastic_reset_md5_dicts_internal():
                         "problems": {
                             "properties": {
                                 "type": { "type": "keyword", "index": False, "doc_values": True },
-                                "descr": { "type": "keyword", "index": False, "doc_values": False }
-                            }
+                                "descr": { "type": "keyword", "index": False, "doc_values": False },
+                            },
                         },
-                        "content_type": { "type": "keyword", "index": True, "doc_values": True }
-                    }
+                        "content_type": { "type": "keyword", "index": True, "doc_values": True },
+                        "has_aa_downloads": { "type": "byte", "index": True, "doc_values": True },
+                        "has_aa_exclusive_downloads": { "type": "byte", "index": True, "doc_values": True },
+                    },
                 },
                 "search_only_fields": {
                     "properties": {
                         "search_text": { "type": "text", "index": True, "analyzer": "icu_analyzer" },
-                        "score_base": { "type": "float", "index": False, "doc_values": True }
-                    }
-                }
-            }
+                        "score_base": { "type": "float", "index": False, "doc_values": True },
+                    },
+                },
+            },
         },
         "settings": {
             "index.number_of_replicas": 0,
             "index.search.slowlog.threshold.query.warn": "2s",
             "index.store.preload": ["nvd", "dvd"],
             "index.sort.field": "search_only_fields.score_base",
-            "index.sort.order": "desc"
-        }
+            "index.sort.order": "desc",
+        },
     })
 
 #################################################################################################

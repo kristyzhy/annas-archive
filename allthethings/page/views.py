@@ -1297,9 +1297,13 @@ def md5_dict_score_base(md5_dict):
         # Since we only use the zlib cover as a last resort, and zlib is down / only on Tor,
         # stronlgy demote zlib-only books for now.
         if 'covers.zlibcdn2.com' in (md5_dict['file_unified_data'].get('cover_url_best') or ''):
-            score -= 10.0
+            score -= 15.0
         else:
             score += 3.0
+    if (md5_dict['file_unified_data'].get('has_aa_downloads') or 0) > 0:
+        score += 5.0
+    if (md5_dict['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0:
+        score += 5.0
     if len(md5_dict['file_unified_data'].get('title_best') or '') > 0:
         score += 10.0
     if len(md5_dict['file_unified_data'].get('author_best') or '') > 0:
@@ -1318,8 +1322,9 @@ def md5_dict_score_base(md5_dict):
         score += 1.0
     if len(md5_dict['file_unified_data'].get('openlibraryid_multiple') or []) > 0:
         score += 1.0
-    if len(md5_dict['file_unified_data'].get('doi_multiple') or []) > 0:
-        # For now demote DOI quite a bit, since tons of papers can drown out books.
+    if len(md5_dict['file_unified_data'].get('content_type') or '') in ['journal_article', 'standards_document', 'book_comic', 'magazine']:
+        # For now demote non-books quite a bit, since they can drown out books.
+        # People can filter for them directly.
         score -= 70.0
     if len(md5_dict['file_unified_data'].get('stripped_description_best') or '') > 0:
         score += 1.0
@@ -1635,6 +1640,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
                 'scimag_id': md5_dict['lgli_file']['scimag_id'],
                 'standarts_id': md5_dict['lgli_file']['standarts_id'],
                 'magz_id': md5_dict['lgli_file']['magz_id'],
+                'scimag_archive_path': md5_dict['lgli_file']['scimag_archive_path'],
             }
         if md5_dict['zlib_book'] is not None:
             md5_dict['zlib_book'] = {
@@ -1647,6 +1653,12 @@ def get_md5_dicts_mysql(session, canonical_md5s):
                 'pilimi_torrent': md5_dict['zlib_book']['pilimi_torrent'],
             }
 
+        # Even though `additional` is only for computing real-time stuff,
+        # we'd like to cache some fields for in the search results.
+        with force_locale('en'):
+            additional = get_additional_for_md5_dict(md5_dict)
+            md5_dict['file_unified_data']['has_aa_downloads'] = additional['has_aa_downloads']
+            md5_dict['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
 
         md5_dict['search_only_fields'] = {}
         md5_dict['search_only_fields']['search_text'] = "\n".join([
@@ -1702,8 +1714,12 @@ def format_filesize(num):
 def compute_download_speed(targeted_seconds, filesize):
     return int(filesize/1000/targeted_seconds)
 
-def add_partner_servers(path, external_alternatives, md5_dict, additional):
-    targeted_seconds = 180 if external_alternatives else 300
+def add_partner_servers(path, aa_exclusive, md5_dict, additional):
+    additional['has_aa_downloads'] = 1
+    targeted_seconds = 180
+    if aa_exclusive:
+        targeted_seconds = 300
+        additional['has_aa_exclusive_downloads'] = 1
     additional['fast_download_urls'].append((f"Fast Partner Server #{len(additional['fast_download_urls'])+1}", "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
     additional['fast_download_urls'].append((f"Fast Partner Server #{len(additional['fast_download_urls'])+1}", "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
     # additional['download_urls'].append((f"Slow Partner Server #{len(additional['download_urls'])+1}", "https://momot.in/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
@@ -1711,7 +1727,7 @@ def add_partner_servers(path, external_alternatives, md5_dict, additional):
     additional['download_urls'].append((f"Slow Partner Server #{len(additional['download_urls'])+1}", "https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
     # additional['download_urls'].append((f"Slow Partner Server #{len(additional['download_urls'])+1}", "https://momot.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
 
-def add_additional_to_md5_dict(md5_dict):
+def get_additional_for_md5_dict(md5_dict):
     additional = {}
     additional['most_likely_language_name'] = (get_display_name_for_lang(md5_dict['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if md5_dict['file_unified_data'].get('most_likely_language_code', None) else '')
 
@@ -1754,12 +1770,14 @@ def add_additional_to_md5_dict(md5_dict):
     additional['isbns_rich'] = make_isbns_rich(md5_dict['file_unified_data']['sanitized_isbns'])
     additional['download_urls'] = []
     additional['fast_download_urls'] = []
+    additional['has_aa_downloads'] = 0
+    additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
     if md5_dict['lgrsnf_book'] is not None:
         lgrsnf_thousands_dir = (md5_dict['lgrsnf_book']['id'] // 1000) * 1000
         if lgrsnf_thousands_dir < 3657000 and lgrsnf_thousands_dir not in [1936000]:
             lgrsnf_path = f"lgrsnf/{lgrsnf_thousands_dir}/{md5_dict['lgrsnf_book']['md5'].lower()}"
-            add_partner_servers(lgrsnf_path, True, md5_dict, additional)
+            add_partner_servers(lgrsnf_path, False, md5_dict, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{md5_dict['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -1767,7 +1785,7 @@ def add_additional_to_md5_dict(md5_dict):
         lgrsfic_thousands_dir = (md5_dict['lgrsfic_book']['id'] // 1000) * 1000
         if lgrsfic_thousands_dir < 2667000 and lgrsfic_thousands_dir not in [2203000, 2204000, 2207000, 2209000, 2210000, 2211000]:
             lgrsfic_path = f"lgrsfic/{lgrsfic_thousands_dir}/{md5_dict['lgrsfic_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
-            add_partner_servers(lgrsfic_path, True, md5_dict, additional)
+            add_partner_servers(lgrsfic_path, False, md5_dict, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{md5_dict['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -1778,7 +1796,7 @@ def add_additional_to_md5_dict(md5_dict):
             lgrsfic_thousands_dir = (lgrsfic_id // 1000) * 1000
             if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000 and lglific_thousands_dir not in [2201000, 2206000, 2306000, 2869000, 2896000, 2945000, 3412000, 3453000]:
                 lglific_path = f"lglific/{lglific_thousands_dir}/{md5_dict['lglific_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
-                add_partner_servers(lglific_path, True, md5_dict, additional)
+                add_partner_servers(lglific_path, False, md5_dict, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={md5_dict['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -1788,12 +1806,15 @@ def add_additional_to_md5_dict(md5_dict):
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
     if md5_dict['zlib_book'] is not None and len(md5_dict['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'])
-        add_partner_servers(zlib_path, len(additional['fast_download_urls']) > 0, md5_dict, additional)
+        add_partner_servers(zlib_path, len(additional['fast_download_urls']) == 0, md5_dict, additional)
     for doi in md5_dict['file_unified_data']['doi_multiple']:
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if md5_dict['zlib_book'] is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{md5_dict['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
-    return { **md5_dict, 'additional': additional }
+    return additional
+
+def add_additional_to_md5_dict(md5_dict):
+    return { **md5_dict, 'additional': get_additional_for_md5_dict(md5_dict) }
 
 
 @page.get("/md5/<string:md5_input>")
