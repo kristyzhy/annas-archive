@@ -22,6 +22,7 @@ import elasticsearch.helpers
 import ftlangdetect
 import traceback
 import urllib.parse
+import urllib.request
 import datetime
 import base64
 import hashlib
@@ -188,7 +189,7 @@ def make_temp_anon_zlib_path(zlibrary_id, pilimi_torrent):
     prefix = "zlib1"
     if "-zlib2-" in pilimi_torrent:
         prefix = "zlib2"
-    return f"{prefix}/{pilimi_torrent.replace('.torrent', '')}/{zlibrary_id}"
+    return f"e/{prefix}/{pilimi_torrent.replace('.torrent', '')}/{zlibrary_id}"
 
 def make_sanitized_isbns(potential_isbns):
     sanitized_isbns = set()
@@ -1776,7 +1777,7 @@ def get_additional_for_md5_dict(md5_dict):
     if md5_dict['lgrsnf_book'] is not None:
         lgrsnf_thousands_dir = (md5_dict['lgrsnf_book']['id'] // 1000) * 1000
         if lgrsnf_thousands_dir < 3657000 and lgrsnf_thousands_dir not in [1936000]:
-            lgrsnf_path = f"lgrsnf/{lgrsnf_thousands_dir}/{md5_dict['lgrsnf_book']['md5'].lower()}"
+            lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{md5_dict['lgrsnf_book']['md5'].lower()}"
             add_partner_servers(lgrsnf_path, False, md5_dict, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{md5_dict['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
@@ -1784,19 +1785,26 @@ def get_additional_for_md5_dict(md5_dict):
     if md5_dict['lgrsfic_book'] is not None:
         lgrsfic_thousands_dir = (md5_dict['lgrsfic_book']['id'] // 1000) * 1000
         if lgrsfic_thousands_dir < 2667000 and lgrsfic_thousands_dir not in [2203000, 2204000, 2207000, 2209000, 2210000, 2211000]:
-            lgrsfic_path = f"lgrsfic/{lgrsfic_thousands_dir}/{md5_dict['lgrsfic_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
+            lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{md5_dict['lgrsfic_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
             add_partner_servers(lgrsfic_path, False, md5_dict, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{md5_dict['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
     if md5_dict['lgli_file'] is not None:
         # TODO: use `['fiction_id']` when ES indexing has been done
-        lgrsfic_id = md5_dict['lgli_file'].get('fiction_id', 0)
-        if lgrsfic_id > 0:
-            lgrsfic_thousands_dir = (lgrsfic_id // 1000) * 1000
+        lglific_id = md5_dict['lgli_file'].get('fiction_id', 0)
+        if lglific_id > 0:
+            lglific_thousands_dir = (lglific_id // 1000) * 1000
             if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000 and lglific_thousands_dir not in [2201000, 2206000, 2306000, 2869000, 2896000, 2945000, 3412000, 3453000]:
-                lglific_path = f"lglific/{lglific_thousands_dir}/{md5_dict['lglific_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
+                lglific_path = f"e/lglific/{lglific_thousands_dir}/{md5_dict['lgli_file']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
                 add_partner_servers(lglific_path, False, md5_dict, additional)
+        # TODO: use `['scimag_id']` when ES indexing has been done
+        scimag_id = md5_dict['lgli_file'].get('scimag_id', 0)
+        if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
+            scimag_tenmillion_dir = (scimag_id // 10000000) * 10000000
+            scimag_filename = urllib.request.pathname2url(urllib.request.pathname2url(md5_dict['lgli_file']['scimag_archive_path'].replace('\\', '/')))
+            scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
+            add_partner_servers(scimag_path, False, md5_dict, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={md5_dict['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True

@@ -12,6 +12,7 @@ import os
 import base64
 import base58
 import hashlib
+import urllib.parse
 from flask_babel import get_babel
 
 from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY
@@ -251,8 +252,8 @@ def membership_costs_data(locale):
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename):
     limit_multiple_field = 'y' if limit_multiple else 'x'
     expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)).timestamp())
-    md5 = base64.urlsafe_b64encode(hashlib.md5(f"{limit_multiple_field}/{expiry}/{speed_kbps}/e/{path},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
-    return f"d1/{limit_multiple_field}/{expiry}/{speed_kbps}/e/{path}~/{md5}/{filename}"
+    md5 = base64.urlsafe_b64encode(hashlib.md5(f"{limit_multiple_field}/{expiry}/{speed_kbps}/{urllib.parse.unquote(path)},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
+    return f"d1/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/{md5}/{filename}"
 
 
 

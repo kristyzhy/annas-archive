@@ -16,10 +16,10 @@ import allthethings.utils
 cron = Blueprint("cron", __name__, template_folder="templates")
 
 DOWNLOAD_TESTS = [ 
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.rs', 'path': 'zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.in', 'path': 'zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://ktxr.rs', 'path': 'zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
-    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://nrzr.li', 'path': 'zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.rs', 'path': 'e/zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://momot.in', 'path': 'e/zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://ktxr.rs', 'path': 'e/zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
+    { 'md5': '07989749da490e5af48938e9aeab27b2', 'server': 'https://nrzr.li', 'path': 'e/zlib1/pilimi-zlib-0-119999/2094', 'filesize': 11146011 },
 ]
 
 #################################################################################################
