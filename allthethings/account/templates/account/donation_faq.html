@@ -1,47 +1,35 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Donation FAQ{% endblock %}
+{% block title %}{{ gettext('page.donate.faq.title') }}{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') | trim %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.donate.faq.title') }}</h2>
 
-  <div lang="en">
-    <h2 class="mt-4 mb-4 text-3xl font-bold">Donation FAQ</h2>
+  <div class="mb-4">
+    {{ gettext('page.donate.faq.renew') }}
+  </div>
 
-    <div class="mb-4">
-      <strong>Do memberships automatically renew?</strong><br>
-      Memberships <strong>do not</strong> automatically renew. You can join for as long or short as you want.
-    </div>
+  <div class="mb-4">
+    {{ gettext('page.donate.faq.text_other_payment1', email=('<a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>' | safe)) }}
+  </div>
 
-    <div class="mb-4">
-      {{ gettext('page.donate.faq.text_other_payment1', email=('<a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>' | safe)) }}
-    </div>
+  <div class="mb-4">
+    {{ gettext('page.donate.faq.text_other_payment2', address='15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}
+  </div>
 
-    <div class="mb-4">
-      {{ gettext('page.donate.faq.text_other_payment2', address='15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}
-    </div>
+  <div class="mb-4">
+    {{ gettext('page.donate.faq.spend') }}
+  </div>
 
-    <div class="mb-4">
-      <strong>What do you spend donations on?</strong><br>
-      100% is going to preserving and making accessible the world's knowledge and culture. Currently we spend it mostly on servers, storage, and bandwidth.
-    </div>
+  <div class="mb-4">
+    {{ gettext('page.donate.faq.text_large_donation', email=('<a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>' | safe)) }}
+  </div>
 
-    <div class="mb-4">
-      No money is going to any team members personally. That would be too dangerous anyway.
-    </div>
+  <div class="mb-4">
+    {{ gettext('page.donate.faq.text_other_contribs') }}
+  </div>
 
-    <div class="mb-4">
-      {{ gettext('page.donate.faq.text_large_donation', email=('<a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>' | safe)) }}
-    </div>
-
-    <div class="mb-4">
-      {{ gettext('page.donate.faq.text_other_contribs') }}
-    </div>
-
-    <div class="mb-4">
-      <strong>I don’t like that you’re “monetizing” Anna’s Archive!</strong><br>
-      If you don’t like how we operate our project, go run your own shadow library! All our code and data are open source, so nothing is stopping you. :)
+  <div class="mb-4">
+    {{ gettext('page.donate.faq.monetizing') }}
   </div>
 {% endblock %}
