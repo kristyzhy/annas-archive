@@ -20,7 +20,7 @@
         {% if account_dict.membership_tier == "0" %}
           <strong>None</strong> <a href="/donate">(become a member)</a>
         {% else %}
-          <strong>{{ MEMBERSHIP_TIER_NAMES[account_dict.membership_tier] }}</strong> until {{ account_dict.membership_expiration | dateformat(format='long') }} <a href="/donate?tier={{ account_dict.membership_tier }}">(extend)</a></div>
+          <strong>{{ membership_tier_names[account_dict.membership_tier] }}</strong> until {{ account_dict.membership_expiration | dateformat(format='long') }} <a href="/donate?tier={{ account_dict.membership_tier }}">(extend)</a></div>
         {% endif %}
       </div>
 

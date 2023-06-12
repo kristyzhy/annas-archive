@@ -282,7 +282,7 @@
 
   <script>
     (function() {
-      const MEMBERSHIP_TIER_NAMES = {{ MEMBERSHIP_TIER_NAMES | tojson }};
+      const membershipTierNames = {{ membership_tier_names | tojson }};
       const MEMBERSHIP_TIER_COSTS = {{ MEMBERSHIP_TIER_COSTS | tojson }};
       const MEMBERSHIP_METHOD_DISCOUNTS = {{ MEMBERSHIP_METHOD_DISCOUNTS | tojson }};
       const MEMBERSHIP_DURATION_DISCOUNTS = {{ MEMBERSHIP_DURATION_DISCOUNTS | tojson }};
@@ -326,7 +326,7 @@
         }
 
         for (const tier of Object.keys(MEMBERSHIP_TIER_COSTS)) {
-          document.querySelector(`.js-membership-tier-${tier} .js-membership-name-tier`).innerHTML = MEMBERSHIP_TIER_NAMES[tier].replace(' ', '<br>');
+          document.querySelector(`.js-membership-tier-${tier} .js-membership-name-tier`).innerHTML = membershipTierNames[tier].replace(' ', '<br>');
           document.querySelector(`.js-membership-tier-${tier} .js-membership-cost-tier`).innerText = `\$${MEMBERSHIP_TIER_COSTS[tier]} / month`;
         }
 

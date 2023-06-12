@@ -90,17 +90,19 @@
           15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">copy</span><span class="[[aria-selected=false]_&]:hidden">copied!</span></button>
         </p>
       {% elif donation_dict.json.method == 'bmc' %}
-        <h2 class="mt-4 mb-4 text-xl font-bold">“Buy Me a Coffee” instructions</h2>
+        <!--
+          <h2 class="mt-4 mb-4 text-xl font-bold">“Buy Me a Coffee” instructions</h2>
 
-        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our “Buy Me a Coffee” page</p>
+          <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our “Buy Me a Coffee” page</p>
 
-        <p class="mb-4">
-          Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://gotopaypay.top/Home/pay?method=paypal" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
-        </p>
+          <p class="mb-4">
+            Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://gotopaypay.top/Home/pay?method=paypal" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
+          </p>
 
-        <p class="mb-4">
-          {{ gettext('page.donate.strange_account') }}
-        </p>
+          <p class="mb-4">
+            {{ gettext('page.donate.strange_account') }}
+          </p>
+        -->
       {% elif donation_dict.json.method == 'alipay' %}
         <h2 class="mt-4 mb-4 text-xl font-bold">Alipay instructions</h2>
 

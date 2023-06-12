@@ -38,7 +38,7 @@ def account_index_page():
         return render_template(
             "account/index.html",
             header_active="account",
-            MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
+            membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
         )
 
     with Session(mariapersist_engine) as mariapersist_session:
@@ -47,7 +47,7 @@ def account_index_page():
             "account/index.html",
             header_active="account",
             account_dict=dict(account),
-            MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
+            membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
         )
 
 
@@ -206,7 +206,7 @@ def donate_page():
         "account/donate.html", 
         header_active="donate", 
         membership_costs_data=allthethings.utils.membership_costs_data(get_locale()),
-        MEMBERSHIP_TIER_NAMES=allthethings.utils.MEMBERSHIP_TIER_NAMES,
+        membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
         MEMBERSHIP_TIER_COSTS=allthethings.utils.MEMBERSHIP_TIER_COSTS,
         MEMBERSHIP_METHOD_DISCOUNTS=allthethings.utils.MEMBERSHIP_METHOD_DISCOUNTS,
         MEMBERSHIP_DURATION_DISCOUNTS=allthethings.utils.MEMBERSHIP_DURATION_DISCOUNTS,
