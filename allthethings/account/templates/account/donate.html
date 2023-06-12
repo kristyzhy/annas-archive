@@ -122,7 +122,7 @@
     </div> -->
 
     <p class="mb-4">
-      {{ gettext('page.donate.duration.into') }}
+      {{ gettext('page.donate.duration.intro') }}
     </p>
 
     <div class="flex">
@@ -133,14 +133,6 @@
         <button class="js-membership-duration js-membership-duration-12 relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white pl-3 mr-[32px]" aria-selected="false" onclick="window.membershipDurationToggle('12')"><span class="[[aria-selected=false]_&]:invisible"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.duration.12_mo') }}<span class="invisible"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span></span> <span class="absolute right-[16px] top-[50%] translate-x-[100%] translate-y-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=15) }}</span></button>
       </div>
       <div class="flex flex-col justify-center w-[100%] max-w-[350px] text-center">
-        <!-- for tailwind use in translations -->
-        <div class="hidden">
-          <div class="text-2xl font-bold">$6 / month</div>
-          <div class="text-sm text-gray-500 font-[300] mb-4">after <span class="font-[800] js-membership-discount-percentage">40%</span> discounts</div>
-          <div class="text-2xl font-bold">$72 total</div>
-          <div class="text-sm text-gray-500 font-[300]">for 12 months</div>
-        </div>
-        <!-- end tailwind in translation -->
         {{ gettext('page.donate.duration.summary', div_monthly_cost=('class="text-2xl font-bold js-membership-monthly-cost"' | safe), div_after=('class="text-sm text-gray-500 font-[300] mb-4"' | safe), span_discount=('class="font-[800] js-membership-discount-percentage"' | safe), div_total=('class="text-2xl font-bold js-membership-total-cost"' | safe), div_duration=('class="text-sm text-gray-500 font-[300] js-membership-total-duration"' | safe)) }}
       </div>
     </div>
@@ -341,12 +333,22 @@
         const membershipParamsStr = [membershipParams.tier, membershipParams.method, membershipParams.duration || "1"].join(',');
         const costsData = membershipCostsData[membershipParamsStr];
         if (costsData) {
-          document.querySelector('.js-membership-discount-percentage').innerText = `${costsData.discounts}%`;
-          document.querySelector('.js-membership-monthly-cost').innerText = `${costsData.monthly_cents_str} / month`;
+          document.querySelector('.js-membership-discount-percentage').innerText = `{{ gettext('page.donate.duration.summary.discount', percentage=('${costsData.discounts}' | safe)) }}`;
+          document.querySelector('.js-membership-monthly-cost').innerText = `{{ gettext('page.donate.duration.summary.monthly_cost', monthly_cost=('${costsData.monthly_cents_str}' | safe)) }}`;
           document.querySelector('.js-membership-total-cost').innerText = costsData.cost_cents_native_currency_str_calculator;
-          document.querySelector('.js-membership-total-duration').innerText = `for ${costsData.duration} months`;
+          document.querySelector('.js-membership-total-duration').innerText = {
+            '1': `{{ gettext('page.donate.duration.summary.duration.1_mo') }}`,
+            '3': `{{ gettext('page.donate.duration.summary.duration.3_mo') }}`,
+            '6': `{{ gettext('page.donate.duration.summary.duration.6_mo') }}`,
+            '12': `{{ gettext('page.donate.duration.summary.duration.12_mo') }}`,
+          }[costsData.duration];
           document.querySelector('.js-membership-donate-button-cost').innerText = costsData.cost_cents_native_currency_str_button;
-          document.querySelector('.js-membership-donate-button-label').innerText = `for ${costsData.duration} months “${costsData.tier_name}”`
+          document.querySelector('.js-membership-donate-button-label').innerText = {
+            '1': `{{ gettext('page.donate.submit.button.label.1_mo', tier_name=('${costsData.tier_name}' | safe)) }}`,
+            '3': `{{ gettext('page.donate.submit.button.label.3_mo', tier_name=('${costsData.tier_name}' | safe)) }}`,
+            '6': `{{ gettext('page.donate.submit.button.label.6_mo', tier_name=('${costsData.tier_name}' | safe)) }}`,
+            '12': `{{ gettext('page.donate.submit.button.label.12_mo', tier_name=('${costsData.tier_name}' | safe)) }}`,
+          }[costsData.duration];
           document.querySelector('.js-membership-form [name=costCentsUsdVerification]').value = costsData.cost_cents_usd;
         }
 
