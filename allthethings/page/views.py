@@ -1916,6 +1916,10 @@ def all_search_aggs(display_lang):
     book_any_total = sum([bucket['doc_count'] for bucket in content_type_buckets if bucket['key'] in md5_content_type_book_any_subtypes])
     content_type_buckets.append({'key': 'book_any', 'doc_count': book_any_total})
     all_aggregations['content_type'] = [{ 'key': bucket['key'], 'label': md5_content_type_mapping[bucket['key']], 'doc_count': bucket['doc_count'] } for bucket in content_type_buckets]
+    content_type_keys_present = set([bucket['key'] for bucket in content_type_buckets])
+    for key, label in md5_content_type_mapping.items():
+        if key not in content_type_keys_present:
+            all_aggregations['content_type'].append({ 'key': key, 'label': label, 'doc_count': 0 })
     all_aggregations['content_type'] = sorted(all_aggregations['content_type'], key=lambda bucket: bucket['doc_count'], reverse=True)
 
     # Similarly to the "unknown language" issue above, we have to filter for empty-string extensions, since it gives too much trouble.

@@ -12,7 +12,7 @@ from sqlalchemy import select
 
 from allthethings.account.views import account
 from allthethings.blog.views import blog
-from allthethings.page.views import page
+from allthethings.page.views import page, all_search_aggs
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
 from allthethings.cron.views import cron
@@ -210,6 +210,7 @@ def extensions(app):
         g.languages.sort()
 
         g.last_data_refresh_date = last_data_refresh_date()
+        g.header_stats = {content_type['key']: content_type['doc_count'] for content_type in all_search_aggs('en')['content_type']}
 
 
     return None
