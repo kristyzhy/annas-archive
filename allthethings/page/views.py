@@ -308,12 +308,12 @@ def mobile_page():
 def datasets_page():
     with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
-        libgenrs_date = str(libgenrs_time.date())
+        libgenrs_date = str(libgenrs_time.date()) if libgenrs_time is not None else ''
         libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
-        libgenli_date = str(libgenli_time.date())
+        libgenli_date = str(libgenli_time.date()) if libgenli_time is not None else ''
         # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
         openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL111%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
-        openlib_date = str(openlib_time.date())
+        openlib_date = str(openlib_time.date()) if openlib_time is not None else ''
 
     return render_template(
         "page/datasets.html",
