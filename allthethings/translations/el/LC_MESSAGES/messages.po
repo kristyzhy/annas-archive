@@ -1,24 +1,15 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-23 20:41+0000\n"
-"PO-Revision-Date: 2023-05-27 22:06+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: Greek <https://translate.annas-software.org/projects/annas-archive/main-website/el/>\n"
-"Language: el\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15\n"
-
+#: allthethings/account/templates/account/donate.html:6
+#: allthethings/account/templates/account/donate.html:7
+#: allthethings/account/templates/account/donation.html:6
+#: allthethings/account/templates/account/donation.html:7
+#: allthethings/account/templates/account/donation_faq.html:6
+#: allthethings/account/templates/account/donation_faq.html:7
+#: allthethings/account/templates/account/donations.html:6
+#: allthethings/account/templates/account/donations.html:7
 #: allthethings/account/templates/account/downloaded.html:6
 #: allthethings/account/templates/account/downloaded.html:7
-#: allthethings/account/templates/account/expired.html:6
-#: allthethings/account/templates/account/expired.html:7
-#: allthethings/account/templates/account/index.html:54
-#: allthethings/account/templates/account/index.html:55
+#: allthethings/account/templates/account/index.html:6
+#: allthethings/account/templates/account/index.html:7
 #: allthethings/account/templates/account/list.html:6
 #: allthethings/account/templates/account/list.html:7
 #: allthethings/account/templates/account/profile.html:6
@@ -27,8 +18,8 @@ msgstr ""
 #: allthethings/account/templates/account/request.html:7
 #: allthethings/account/templates/account/upload.html:6
 #: allthethings/account/templates/account/upload.html:7
-#: allthethings/page/templates/page/about.html:30
-#: allthethings/page/templates/page/about.html:31
+#: allthethings/page/templates/page/about.html:35
+#: allthethings/page/templates/page/about.html:36
 #: allthethings/page/templates/page/copyright.html:6
 #: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:6
@@ -43,6 +34,8 @@ msgstr ""
 #: allthethings/page/templates/page/datasets_libgen_li.html:7
 #: allthethings/page/templates/page/datasets_libgen_rs.html:6
 #: allthethings/page/templates/page/datasets_libgen_rs.html:7
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:6
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:7
 #: allthethings/page/templates/page/datasets_openlib.html:6
 #: allthethings/page/templates/page/datasets_openlib.html:7
 #: allthethings/page/templates/page/datasets_zlib_scrape.html:6
@@ -59,8 +52,8 @@ msgstr ""
 #: allthethings/page/templates/page/lgrs_book.html:13
 #: allthethings/page/templates/page/login.html:4
 #: allthethings/page/templates/page/login.html:5
-#: allthethings/page/templates/page/md5.html:80
-#: allthethings/page/templates/page/md5.html:81
+#: allthethings/page/templates/page/md5.html:98
+#: allthethings/page/templates/page/md5.html:99
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/ol_book.html:8
@@ -70,107 +63,138 @@ msgstr ""
 msgid "common.english_only"
 msgstr "Το παρακάτω κείμενο είναι διαθέσιμο μόνο στα Αγγλικά."
 
-#: allthethings/page/views.py:1670
+#: allthethings/account/templates/account/donate.html:197
+msgid "page.donate.crypto.intro"
+msgstr "Εάν έχετε ήδη κρυπτονομίσματα, αυτές είναι οι διευθύνσεις μας:"
+
+#: allthethings/account/templates/account/donate.html:212
+#: allthethings/account/templates/account/donate.html:250
+#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:279
+#: allthethings/account/templates/account/donate.html:289
+msgid "page.donate.text_thank_you"
+msgstr "Σας ευχαριστώ πολύ για τη βοήθεια! Αυτό το έργο δεν θα ήταν δυνατό χωρίς εσάς."
+
+#: allthethings/account/templates/account/donate.html:261
+#: allthethings/account/templates/account/donate.html:275
+#: allthethings/account/templates/account/donation.html:102
+#: allthethings/account/templates/account/donation.html:114
+#: allthethings/account/templates/account/donation.html:126
+msgid "page.donate.strange_account"
+msgstr ""
+
+#: allthethings/account/templates/account/donation_faq.html:19
+msgid "page.donate.faq.text_other_payment1"
+msgstr "<div class=\"font-bold\">Έχετε άλλους τρόπους πληρωμής;</div> Αυτήν τη στιγμή όχι. Πολλοί άνθρωποι δεν θέλουν να υπάρχουν ιστοσελίδες όπως αυτή, επομένως πρέπει να είμαστε προσεκτικοί. Εάν μπορείτε να μας βοηθήσετε να δημιουργήσουμε με ασφάλεια άλλους (πιο βολικούς) τρόπους πληρωμής, επικοινωνήστε στο %(email)s."
+
+#: allthethings/account/templates/account/donation_faq.html:23
+msgid "page.donate.faq.text_other_payment2"
+msgstr "Εάν ο τρόπος πληρωμής σας δεν περιλαμβάνεται στη λίστα, το πιο εύκολο πράγμα που μπορείτε να κάνετε είναι να κάνετε λήψη του <a href=\"https://www.coinbase.com/\">Coinbase</a> στο τηλέφωνό σας και να αγοράσετε Bitcoin (BTC) εκεί. Στη συνέχεια, μπορείτε να το στείλετε στη διεύθυνσή μας: %(address)s. Στις περισσότερες χώρες, θα χρειαστούν μόνο λίγα λεπτά για να ρυθμιστεί."
+
+#: allthethings/account/templates/account/donation_faq.html:36
+msgid "page.donate.faq.text_large_donation"
+msgstr "<div class=\"font-bold\">Μπορώ να κάνω μια μεγάλη δωρεά;</div> Αυτό θα ήταν καταπληκτικό! Για δωρεές άνω των 1 χιλιάδων δολαρίων, επικοινωνήστε μαζί μας απευθείας στο %(email)s."
+
+#: allthethings/account/templates/account/donation_faq.html:40
+msgid "page.donate.faq.text_other_contribs"
+msgstr "<div class=\"font-bold\">Μπορώ να συνεισφέρω με άλλους τρόπους;</div> Ναι! Δείτε τη <a href=\"/about\">σελίδα σχετικά με</a> στην ενότητα \"Πώς να βοηθήσετε\"."
+
+#: allthethings/page/views.py:1683
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Δεν είναι ορατό στη βιβλιοθήκη Genesis \".rs-fork\" Μη μυθοπλασία"
 
-#: allthethings/page/views.py:1671
+#: allthethings/page/views.py:1684
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Δεν είναι ορατό στη Βιβλιοθήκη Genesis \".rs-fork\" Μυθοπλασία"
 
-#: allthethings/page/views.py:1672
+#: allthethings/page/views.py:1685
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Δεν είναι ορατό στο Libgen.li"
 
-#: allthethings/page/views.py:1673
+#: allthethings/page/views.py:1686
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Σημειώθηκε σπασμένο στη Βιβλιοθήκη Genesis \".li-fork\""
 
-#: allthethings/page/views.py:1674
+#: allthethings/page/views.py:1687
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Λείπει από Z-Library"
 
-#: allthethings/page/views.py:1680
+#: allthethings/page/views.py:1693
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Βιβλίο (Άγνωστο)"
 
-#: allthethings/page/views.py:1681
+#: allthethings/page/views.py:1694
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Βιβλίο (μη μυθοπλασίας)"
 
-#: allthethings/page/views.py:1682
+#: allthethings/page/views.py:1695
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Βιβλίο (Μυθοπλασίας)"
 
-#: allthethings/page/views.py:1683
+#: allthethings/page/views.py:1696
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Δημοσιογραφικό Άρθρο"
 
-#: allthethings/page/views.py:1684
+#: allthethings/page/views.py:1697
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Πρότυπα Εγγράφων"
 
-#: allthethings/page/views.py:1685
+#: allthethings/page/views.py:1698
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Περιοδικό"
 
-#: allthethings/page/views.py:1686
+#: allthethings/page/views.py:1699
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Βιβλίο Κόμικ"
 
-#: allthethings/page/views.py:1688
+#: allthethings/page/views.py:1701
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "βιβλίο (οποιοδήποτε)"
 
-#: allthethings/page/views.py:1733
+#: allthethings/page/views.py:1783
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Βιβλιοθήκη Genesis \".rs-fork\" (Μη μυθοπλασία)"
 
-#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1783 allthethings/page/views.py:1791
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(Επίσης κάντε κλικ στο \"GET\" στο επάνω μέρος)"
 
-#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1783 allthethings/page/views.py:1791
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(κάντε κλικ στο \"GET\" στο επάνω μέρος)"
 
-#: allthethings/page/views.py:1736
+#: allthethings/page/views.py:1791
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Βιβλιοθήκη Genesis \".rs-fork\" Επιστημονική Φαντασία"
 
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.lgli"
 msgstr "Βιβλιοθήκη Genesis \".li-fork\""
 
-#: allthethings/page/views.py:1742 allthethings/page/views.py:1743
-#: allthethings/page/views.py:1744
+#: allthethings/page/views.py:1812 allthethings/page/views.py:1813
+#: allthethings/page/views.py:1814
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "Πύλη IPFS #%(num)d"
 
-#: allthethings/page/views.py:1742
+#: allthethings/page/views.py:1812
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(ίσως χρειαστεί να δοκιμάσετε πολλές φορές με το IPFS)"
 
-#: allthethings/page/views.py:1746 allthethings/page/views.py:1747
-#: allthethings/page/views.py:1748 allthethings/page/views.py:1749
-msgid "page.md5.box.download.zlib_anon"
-msgstr "Z-Library Ανώνυμο Mirror #%(num)d"
-
-#: allthethings/page/views.py:1751
+#: allthethings/page/views.py:1819
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:1751
+#: allthethings/page/views.py:1819
 msgid "page.md5.box.download.scihub_maybe"
 msgstr ""
 
-#: allthethings/page/views.py:1753
+#: allthethings/page/views.py:1821
 msgid "page.md5.box.download.zlib_tor"
 msgstr "Z-Library TOR"
 
-#: allthethings/page/views.py:1753
+#: allthethings/page/views.py:1821
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(απαιτείται το πρόγραμμα περιήγησης TOR)"
 
@@ -244,165 +268,9 @@ msgstr "Δεν βρέθηκαν αρχεία που να ταιριάζουν μ
 
 #: allthethings/page/templates/page/doi.html:37
 #: allthethings/page/templates/page/isbn.html:42
-#: allthethings/page/templates/page/md5.html:89
+#: allthethings/page/templates/page/md5.html:107
 msgid "common.tech_details"
 msgstr "Εμφάνιση τεχνικών στοιχείων (στα Αγγλικά)"
-
-#: allthethings/page/templates/page/donate.html:3
-msgid "page.donate.title"
-msgstr "Δωρεά"
-
-#: allthethings/page/templates/page/donate.html:6
-msgid "page.donate.header"
-msgstr "Δωρεά"
-
-#: allthethings/page/templates/page/donate.html:9
-msgid "page.donate.text1"
-msgstr "Το Anna’s Archive είναι ένα μη κερδοσκοπικό έργο ανοιχτού κώδικα, το οποίο διευθύνεται εξ ολοκλήρου από εθελοντές. Λαμβάνουμε δωρεές για την κάλυψη των δαπανών μας, οπου τα οποιά περιλαμβάνουν τη φιλοξενία, τα ονόματα τομέα, την ανάπτυξη και άλλα έξοδα."
-
-#: allthethings/page/templates/page/donate.html:13
-msgid "page.donate.text2"
-msgstr "Με τις συνεισφορές σας είμαστε σε θέση να διατηρήσουμε αυτόν τον ιστότοπο σε λειτουργία, να βελτιώσουμε τις δυνατότητές του και να διατηρήσουμε περισσότερες συλλογές."
-
-#: allthethings/page/templates/page/donate.html:17
-msgid "page.donate.text3"
-msgstr "Πρόσφατες δωρεές: %(donations)s. Σας ευχαριστώ όλους για τη γενναιοδωρία σας. Εκτιμούμε πραγματικά την εμπιστοσύνη σας σε εμάς, με όποιο ποσό μπορείτε να διαθέσετε."
-
-#: allthethings/page/templates/page/donate.html:21
-msgid "page.donate.text4"
-msgstr "Για να κάνετε δωρεά, επιλέξτε τη μέθοδο που προτιμάτε παρακάτω. Εάν αντιμετωπίσετε οποιοδήποτε πρόβλημα, επικοινωνήστε μαζί μας στο %(email)s."
-
-#: allthethings/page/templates/page/donate.html:55
-msgid "page.donate.nav.paypal"
-msgstr "Paypal"
-
-#: allthethings/page/templates/page/donate.html:56
-msgid "page.donate.nav.cc"
-msgstr "Πιστωτική / Χρεωστική Κάρτα"
-
-#: allthethings/page/templates/page/donate.html:57
-msgid "page.donate.nav.crypto"
-msgstr "Κρυπτονόμισμα"
-
-#: allthethings/page/templates/page/donate.html:58
-msgid "page.donate.nav.alipay"
-msgstr "Alipay 支付宝"
-
-#: allthethings/page/templates/page/donate.html:59
-msgid "page.donate.nav.pix"
-msgstr "Pix"
-
-#: allthethings/page/templates/page/donate.html:60
-msgid "page.donate.nav.faq"
-msgstr "Ερωτήσεις"
-
-#: allthethings/page/templates/page/donate.html:64
-msgid "page.donate.paypal.header"
-msgstr "Paypal"
-
-#: allthethings/page/templates/page/donate.html:67
-msgid "page.donate.paypal.text"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:71
-#: allthethings/page/templates/page/donate.html:132
-msgid "page.donate.strange_account"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:75
-#: allthethings/page/templates/page/donate.html:101
-#: allthethings/page/templates/page/donate.html:120
-#: allthethings/page/templates/page/donate.html:140
-#: allthethings/page/templates/page/donate.html:184
-#: allthethings/page/templates/page/donate.html:197
-msgid "page.donate.text_thank_you"
-msgstr "Σας ευχαριστώ πολύ για τη βοήθεια! Αυτό το έργο δεν θα ήταν δυνατό χωρίς εσάς."
-
-#: allthethings/page/templates/page/donate.html:80
-msgid "page.donate.cc.header"
-msgstr "Πιστωτική / Χρεωστική Κάρτα"
-
-#: allthethings/page/templates/page/donate.html:83
-msgid "page.donate.cc.text1"
-msgstr "Χρησιμοποιούμε το Sendwyre για να καταθέσουμε χρήματα απευθείας στο Bitcoin (BTC)πορτοφόλι μας. Χρειάζονται περίπου 5 λεπτά για να ολοκληρωθεί."
-
-#: allthethings/page/templates/page/donate.html:87
-msgid "page.donate.cc.text2"
-msgstr "Αυτή η μέθοδος έχει ελάχιστο ποσό συναλλαγής 30 $ και προμήθεια περίπου 5 $."
-
-#: allthethings/page/templates/page/donate.html:91
-msgid "page.donate.cc.steps.header"
-msgstr "Βήματα:"
-
-#: allthethings/page/templates/page/donate.html:95
-msgid "page.donate.cc.steps.list1"
-msgstr "1. Αντιγράψτε τη διεύθυνση πορτοφολιού Bitcoin (BTC): %(address)s"
-
-#: allthethings/page/templates/page/donate.html:96
-msgid "page.donate.cc.steps.list2"
-msgstr "2. Μεταβείτε σε %(link_open_tag)s αυτή τη σελίδα</a> και κάντε κλικ στο \"αγορά κρύπτο άμεσα\""
-
-#: allthethings/page/templates/page/donate.html:97
-msgid "page.donate.cc.steps.list3"
-msgstr "3. Επικολλήστε τη διεύθυνση του πορτοφολιού μας και ακολουθήστε τις οδηγίες"
-
-#: allthethings/page/templates/page/donate.html:106
-msgid "page.donate.crypto.header"
-msgstr "Κρυπτονόμισμα"
-
-#: allthethings/page/templates/page/donate.html:109
-msgid "page.donate.crypto.intro"
-msgstr "Εάν έχετε ήδη κρυπτονομίσματα, αυτές είναι οι διευθύνσεις μας:"
-
-#: allthethings/page/templates/page/donate.html:113
-msgid "page.donate.crypto.btc_bch_note"
-msgstr "(λειτουργεί επίσης για BCH)"
-
-#: allthethings/page/templates/page/donate.html:125
-msgid "page.donate.alipay.header"
-msgstr "Alipay 支付宝"
-
-#: allthethings/page/templates/page/donate.html:128
-#: allthethings/page/templates/page/donate.html:151
-msgid "page.donate.alipay.intro"
-msgstr "Χρησιμοποιήστε αυτόν τον %(link_open_tag)sλογαριασμό Alipay</a> για να στείλετε τη δωρεά σας."
-
-#: allthethings/page/templates/page/donate.html:136
-msgid "page.donate.alipay.url"
-msgstr "URL"
-
-#: allthethings/page/templates/page/donate.html:145
-#: allthethings/page/templates/page/donate.html:202
-msgid "page.donate.out_of_order"
-msgstr "Αυτή η επιλογή δωρεάς είναι προς το παρόν εκτός λειτουργίας. Ελέγξτε ξανά αργότερα. Ευχαριστούμε που θέλετε να κάνετε δωρεά, το εκτιμούμε πραγματικά!"
-
-#: allthethings/page/templates/page/donate.html:190
-msgid "page.donate.pix.header"
-msgstr "Pix"
-
-#: allthethings/page/templates/page/donate.html:193
-msgid "page.donate.pix.text"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:208
-msgid "page.donate.faq.header"
-msgstr "Συχνές ερωτήσεις"
-
-#: allthethings/page/templates/page/donate.html:211
-msgid "page.donate.faq.text_other_payment1"
-msgstr "<div class=\"font-bold\">Έχετε άλλους τρόπους πληρωμής;</div> Αυτήν τη στιγμή όχι. Πολλοί άνθρωποι δεν θέλουν να υπάρχουν ιστοσελίδες όπως αυτή, επομένως πρέπει να είμαστε προσεκτικοί. Εάν μπορείτε να μας βοηθήσετε να δημιουργήσουμε με ασφάλεια άλλους (πιο βολικούς) τρόπους πληρωμής, επικοινωνήστε στο %(email)s."
-
-#: allthethings/page/templates/page/donate.html:215
-msgid "page.donate.faq.text_other_payment2"
-msgstr "Εάν ο τρόπος πληρωμής σας δεν περιλαμβάνεται στη λίστα, το πιο εύκολο πράγμα που μπορείτε να κάνετε είναι να κάνετε λήψη του <a href=\"https://www.coinbase.com/\">Coinbase</a> στο τηλέφωνό σας και να αγοράσετε Bitcoin (BTC) εκεί. Στη συνέχεια, μπορείτε να το στείλετε στη διεύθυνσή μας: %(address)s. Στις περισσότερες χώρες, θα χρειαστούν μόνο λίγα λεπτά για να ρυθμιστεί."
-
-#: allthethings/page/templates/page/donate.html:219
-msgid "page.donate.faq.text_large_donation"
-msgstr "<div class=\"font-bold\">Μπορώ να κάνω μια μεγάλη δωρεά;</div> Αυτό θα ήταν καταπληκτικό! Για δωρεές άνω των 1 χιλιάδων δολαρίων, επικοινωνήστε μαζί μας απευθείας στο %(email)s."
-
-#: allthethings/page/templates/page/donate.html:223
-msgid "page.donate.faq.text_other_contribs"
-msgstr "<div class=\"font-bold\">Μπορώ να συνεισφέρω με άλλους τρόπους;</div> Ναι! Δείτε τη <a href=\"/about\">σελίδα σχετικά με</a> στην ενότητα \"Πώς να βοηθήσετε\"."
 
 #: allthethings/page/templates/page/home.html:10
 msgid "page.home.intro"
@@ -418,7 +286,7 @@ msgstr "Αναζητήστε τον κατάλογό των πειρατικών
 
 #: allthethings/page/templates/page/home.html:80
 #: allthethings/page/templates/page/search.html:56
-#: allthethings/templates/layouts/index.html:277
+#: allthethings/templates/layouts/index.html:348
 msgid "common.search.placeholder"
 msgstr "Αναζήτηση τίτλου, συγγραφέα, γλώσσα, τύπο αρχείου, ISBN, MD5,…"
 
@@ -467,19 +335,21 @@ msgstr "Δεν βρέθηκε"
 msgid "page.md5.invalid.text"
 msgstr "%(md5_input)s” δεν βρέθηκε στη βάση δεδομένων μας."
 
-#: allthethings/page/templates/page/md5.html:32
+#: allthethings/page/templates/page/md5.html:28
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ Αυτό το αρχείο ενδέχεται να έχει προβλήματα και έχει αφαιρεθή από μια πηγή βιβλιοθήκης.</span> Μερικές φορές αυτό γίνεται κατόπιν αιτήματος ενός κατόχου πνευματικών δικαιωμάτων, μερικές φορές επειδή είναι διαθέσιμη μια καλύτερη εναλλακτική, αλλά μερικές φορές οφείλεται σε πρόβλημα με το ίδιο το αρχείο. Ίσως εξακολουθεί να είναι εντάξει η λήψη, αλλά συνιστούμε πρώτα να αναζητήσετε ένα εναλλακτικό αρχείο. Περισσότερες λεπτομέρειες:"
 
-#: allthethings/page/templates/page/md5.html:39
+#: allthethings/page/templates/page/md5.html:35
 msgid "page.md5.box.issues.text2"
 msgstr "Εάν εξακολουθείτε να θέλετε να κάνετε λήψη αυτού του αρχείου, φροντίστε να χρησιμοποιείτε μόνο αξιόπιστο, ενημερωμένο λογισμικό για να το ανοίξετε."
 
-#: allthethings/page/templates/page/md5.html:44
+#: allthethings/page/templates/page/md5.html:45
+#: allthethings/page/templates/page/md5.html:46
+#: allthethings/page/templates/page/md5.html:62
 msgid "page.md5.box.download.option"
 msgstr "Επιλογή #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/md5.html:48
+#: allthethings/page/templates/page/md5.html:66
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Όλοι τα mirrors εξυπηρετούν το ίδιο αρχείο και θα πρέπει είναι ασφαλείς για χρήση. Ωστόσο, να είστε πάντα προσεκτικοί κατά τη λήψη αρχείων από το Διαδίκτυο. Για παράδειγμα, φροντίστε να διατηρείτε τις συσκευές σας ενημερωμένες."
 
@@ -567,115 +437,185 @@ msgstr "%(num)d μερικές αντιστοιχίσεις"
 msgid "layout.index.title"
 msgstr "Το αρχείο της Άννας (Anna’s Archive)"
 
-#: allthethings/templates/layouts/index.html:47
+#: allthethings/templates/layouts/index.html:10
+msgid "layout.index.meta.description"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:19
+msgid "layout.index.meta.opensearch"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:52
 msgid "layout.index.header.banner.new_donation_method"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:81
+#: allthethings/templates/layouts/index.html:67
+msgid "layout.index.banners.comics_fundraiser.text"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:98
 msgid "layout.index.header.title"
 msgstr "Το Αρχείο της Άννας (Anna’s Archive)"
 
-#: allthethings/templates/layouts/index.html:218
+#: allthethings/templates/layouts/index.html:235
 msgid "layout.index.header.tagline"
 msgstr "🔍 Μηχανή αναζήτησης πειρατικών βιβλιοθηκών: βιβλία, εφημερίδες, κόμικς, περιοδικά. ⭐️ Z-Library, Library Genesis, Sci-Hub. ⚙️ Πλήρως ανθεκτικό μέσω ανοιχτού κώδικα και δεδομένων. ❤️ Διαδώστε τη λέξη: όλοι είναι ευπρόσδεκτοι εδώ!"
 
-#: allthethings/templates/layouts/index.html:250
-#: allthethings/templates/layouts/index.html:257
-#: allthethings/templates/layouts/index.html:266
+#: allthethings/templates/layouts/index.html:238
+msgid "layout.index.header.recent_downloads"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:321
+#: allthethings/templates/layouts/index.html:328
+#: allthethings/templates/layouts/index.html:337
 msgid "layout.index.header.nav.about"
 msgstr "Σχετικά με"
 
-#: allthethings/templates/layouts/index.html:251
-#: allthethings/templates/layouts/index.html:258
-#: allthethings/templates/layouts/index.html:267
+#: allthethings/templates/layouts/index.html:322
+#: allthethings/templates/layouts/index.html:329
+#: allthethings/templates/layouts/index.html:338
 msgid "layout.index.header.nav.datasets"
 msgstr "Σύνολα δεδομένων"
 
-#: allthethings/templates/layouts/index.html:252
-#: allthethings/templates/layouts/index.html:259
-#: allthethings/templates/layouts/index.html:268
+#: allthethings/templates/layouts/index.html:323
+#: allthethings/templates/layouts/index.html:330
+#: allthethings/templates/layouts/index.html:339
 msgid "layout.index.header.nav.mobile"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:253
-#: allthethings/templates/layouts/index.html:260
-#: allthethings/templates/layouts/index.html:265
+#: allthethings/templates/layouts/index.html:324
+#: allthethings/templates/layouts/index.html:331
+#: allthethings/templates/layouts/index.html:336
 msgid "layout.index.header.nav.home"
 msgstr "Αρχική"
 
-#: allthethings/templates/layouts/index.html:269
+#: allthethings/templates/layouts/index.html:340
 msgid "layout.index.header.nav.annasblog"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:270
+#: allthethings/templates/layouts/index.html:341
 msgid "layout.index.header.nav.annassoftware"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:271
+#: allthethings/templates/layouts/index.html:342
 msgid "layout.index.header.nav.translate"
 msgstr "Μεταφράζω ↗"
 
-#: allthethings/templates/layouts/index.html:273
+#: allthethings/templates/layouts/index.html:344
 msgid "layout.index.header.nav.donate"
 msgstr "Δωρεά"
 
-#: allthethings/templates/layouts/index.html:274
+#: allthethings/templates/layouts/index.html:345
 msgid "layout.index.header.nav.search"
 msgstr "Αναζήτηση"
 
-#: allthethings/templates/layouts/index.html:333
+#: allthethings/templates/layouts/index.html:351
+msgid "layout.index.header.nav.beta"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:354
+#: allthethings/templates/layouts/index.html:360
+#: allthethings/templates/layouts/index.html:368
+#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:385
+#: allthethings/templates/layouts/index.html:396
+msgid "layout.index.header.nav.request"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:361
+#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:377
+#: allthethings/templates/layouts/index.html:386
+#: allthethings/templates/layouts/index.html:397
+msgid "layout.index.header.nav.upload"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:356
+#: allthethings/templates/layouts/index.html:362
+#: allthethings/templates/layouts/index.html:367
+msgid "layout.index.header.nav.login_register"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:373
+#: allthethings/templates/layouts/index.html:382
+#: allthethings/templates/layouts/index.html:393
+msgid "layout.index.header.nav.public_profile"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:383
+#: allthethings/templates/layouts/index.html:394
+msgid "layout.index.header.nav.downloaded_files"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:384
+#: allthethings/templates/layouts/index.html:395
+msgid "layout.index.header.nav.my_donations"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:392
+msgid "layout.index.header.nav.account"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:407
 msgid "layout.index.footer.list1.header"
 msgstr "Το Αρχείο της Άννας (Anna’s Archive)"
 
-#: allthethings/templates/layouts/index.html:334
+#: allthethings/templates/layouts/index.html:408
 msgid "layout.index.footer.list1.home"
 msgstr "Αρχική"
 
-#: allthethings/templates/layouts/index.html:335
+#: allthethings/templates/layouts/index.html:409
 msgid "layout.index.footer.list1.about"
 msgstr "Σχετικά με"
 
-#: allthethings/templates/layouts/index.html:336
+#: allthethings/templates/layouts/index.html:410
 msgid "layout.index.footer.list1.donate"
 msgstr "Δωρεά"
 
-#: allthethings/templates/layouts/index.html:337
+#: allthethings/templates/layouts/index.html:411
 msgid "layout.index.footer.list1.datasets"
 msgstr "Σύνολα δεδομένων"
 
-#: allthethings/templates/layouts/index.html:338
+#: allthethings/templates/layouts/index.html:412
 msgid "layout.index.footer.list1.mobile"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:351
+#: allthethings/templates/layouts/index.html:425
 msgid "layout.index.footer.list2.header"
 msgstr "Μείνετε σε επαφή μαζί μας"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.twitter"
 msgstr "Twitter"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.telegram"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:353
+#: allthethings/templates/layouts/index.html:427
 msgid "layout.index.footer.list2.blog"
 msgstr "To blog της 'Αννας"
 
-#: allthethings/templates/layouts/index.html:354
+#: allthethings/templates/layouts/index.html:428
 msgid "layout.index.footer.list2.software"
 msgstr "Το λογισμικό της Άννας"
 
-#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.footer.list2.translate"
 msgstr "Μεταφράζω"
 
-#: allthethings/templates/layouts/index.html:362
+#: allthethings/templates/layouts/index.html:431
+msgid "layout.index.footer.list2.dmca_copyright"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:436
 msgid "layout.index.footer.list3.header"
 msgstr "Εναλλακτικές"
 
@@ -703,3 +643,97 @@ msgstr "❌ Αυτό το αρχείο ενδέχεται να έχει προβ
 
 #~ msgid "page.md5.box.download.no_hosting"
 #~ msgstr ""
+
+#~ msgid "page.md5.box.download.zlib_anon"
+#~ msgstr "Z-Library Ανώνυμο Mirror #%(num)d"
+
+#~ msgid "page.donate.title"
+#~ msgstr "Δωρεά"
+
+#~ msgid "page.donate.header"
+#~ msgstr "Δωρεά"
+
+#~ msgid "page.donate.text1"
+#~ msgstr "Το Anna’s Archive είναι ένα μη κερδοσκοπικό έργο ανοιχτού κώδικα, το οποίο διευθύνεται εξ ολοκλήρου από εθελοντές. Λαμβάνουμε δωρεές για την κάλυψη των δαπανών μας, οπου τα οποιά περιλαμβάνουν τη φιλοξενία, τα ονόματα τομέα, την ανάπτυξη και άλλα έξοδα."
+
+#~ msgid "page.donate.text2"
+#~ msgstr "Με τις συνεισφορές σας είμαστε σε θέση να διατηρήσουμε αυτόν τον ιστότοπο σε λειτουργία, να βελτιώσουμε τις δυνατότητές του και να διατηρήσουμε περισσότερες συλλογές."
+
+#~ msgid "page.donate.text3"
+#~ msgstr "Πρόσφατες δωρεές: %(donations)s. Σας ευχαριστώ όλους για τη γενναιοδωρία σας. Εκτιμούμε πραγματικά την εμπιστοσύνη σας σε εμάς, με όποιο ποσό μπορείτε να διαθέσετε."
+
+#~ msgid "page.donate.text4"
+#~ msgstr "Για να κάνετε δωρεά, επιλέξτε τη μέθοδο που προτιμάτε παρακάτω. Εάν αντιμετωπίσετε οποιοδήποτε πρόβλημα, επικοινωνήστε μαζί μας στο %(email)s."
+
+#~ msgid "page.donate.nav.paypal"
+#~ msgstr "Paypal"
+
+#~ msgid "page.donate.nav.cc"
+#~ msgstr "Πιστωτική / Χρεωστική Κάρτα"
+
+#~ msgid "page.donate.nav.crypto"
+#~ msgstr "Κρυπτονόμισμα"
+
+#~ msgid "page.donate.nav.alipay"
+#~ msgstr "Alipay 支付宝"
+
+#~ msgid "page.donate.nav.pix"
+#~ msgstr "Pix"
+
+#~ msgid "page.donate.nav.faq"
+#~ msgstr "Ερωτήσεις"
+
+#~ msgid "page.donate.paypal.header"
+#~ msgstr "Paypal"
+
+#~ msgid "page.donate.paypal.text"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.header"
+#~ msgstr "Πιστωτική / Χρεωστική Κάρτα"
+
+#~ msgid "page.donate.cc.text1"
+#~ msgstr "Χρησιμοποιούμε το Sendwyre για να καταθέσουμε χρήματα απευθείας στο Bitcoin (BTC)πορτοφόλι μας. Χρειάζονται περίπου 5 λεπτά για να ολοκληρωθεί."
+
+#~ msgid "page.donate.cc.text2"
+#~ msgstr "Αυτή η μέθοδος έχει ελάχιστο ποσό συναλλαγής 30 $ και προμήθεια περίπου 5 $."
+
+#~ msgid "page.donate.cc.steps.header"
+#~ msgstr "Βήματα:"
+
+#~ msgid "page.donate.cc.steps.list1"
+#~ msgstr "1. Αντιγράψτε τη διεύθυνση πορτοφολιού Bitcoin (BTC): %(address)s"
+
+#~ msgid "page.donate.cc.steps.list2"
+#~ msgstr "2. Μεταβείτε σε %(link_open_tag)s αυτή τη σελίδα</a> και κάντε κλικ στο \"αγορά κρύπτο άμεσα\""
+
+#~ msgid "page.donate.cc.steps.list3"
+#~ msgstr "3. Επικολλήστε τη διεύθυνση του πορτοφολιού μας και ακολουθήστε τις οδηγίες"
+
+#~ msgid "page.donate.crypto.header"
+#~ msgstr "Κρυπτονόμισμα"
+
+#~ msgid "page.donate.crypto.btc_bch_note"
+#~ msgstr "(λειτουργεί επίσης για BCH)"
+
+#~ msgid "page.donate.alipay.header"
+#~ msgstr "Alipay 支付宝"
+
+#~ msgid "page.donate.alipay.intro"
+#~ msgstr "Χρησιμοποιήστε αυτόν τον %(link_open_tag)sλογαριασμό Alipay</a> για να στείλετε τη δωρεά σας."
+
+#~ msgid "page.donate.alipay.url"
+#~ msgstr "URL"
+
+#~ msgid "page.donate.out_of_order"
+#~ msgstr "Αυτή η επιλογή δωρεάς είναι προς το παρόν εκτός λειτουργίας. Ελέγξτε ξανά αργότερα. Ευχαριστούμε που θέλετε να κάνετε δωρεά, το εκτιμούμε πραγματικά!"
+
+#~ msgid "page.donate.pix.header"
+#~ msgstr "Pix"
+
+#~ msgid "page.donate.pix.text"
+#~ msgstr ""
+
+#~ msgid "page.donate.faq.header"
+#~ msgstr "Συχνές ερωτήσεις"
+

@@ -1,24 +1,15 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-23 20:41+0000\n"
-"PO-Revision-Date: 2023-05-27 22:06+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: Persian <https://translate.annas-software.org/projects/annas-archive/main-website/fa/>\n"
-"Language: fa\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.15\n"
-
+#: allthethings/account/templates/account/donate.html:6
+#: allthethings/account/templates/account/donate.html:7
+#: allthethings/account/templates/account/donation.html:6
+#: allthethings/account/templates/account/donation.html:7
+#: allthethings/account/templates/account/donation_faq.html:6
+#: allthethings/account/templates/account/donation_faq.html:7
+#: allthethings/account/templates/account/donations.html:6
+#: allthethings/account/templates/account/donations.html:7
 #: allthethings/account/templates/account/downloaded.html:6
 #: allthethings/account/templates/account/downloaded.html:7
-#: allthethings/account/templates/account/expired.html:6
-#: allthethings/account/templates/account/expired.html:7
-#: allthethings/account/templates/account/index.html:54
-#: allthethings/account/templates/account/index.html:55
+#: allthethings/account/templates/account/index.html:6
+#: allthethings/account/templates/account/index.html:7
 #: allthethings/account/templates/account/list.html:6
 #: allthethings/account/templates/account/list.html:7
 #: allthethings/account/templates/account/profile.html:6
@@ -27,8 +18,8 @@ msgstr ""
 #: allthethings/account/templates/account/request.html:7
 #: allthethings/account/templates/account/upload.html:6
 #: allthethings/account/templates/account/upload.html:7
-#: allthethings/page/templates/page/about.html:30
-#: allthethings/page/templates/page/about.html:31
+#: allthethings/page/templates/page/about.html:35
+#: allthethings/page/templates/page/about.html:36
 #: allthethings/page/templates/page/copyright.html:6
 #: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:6
@@ -43,6 +34,8 @@ msgstr ""
 #: allthethings/page/templates/page/datasets_libgen_li.html:7
 #: allthethings/page/templates/page/datasets_libgen_rs.html:6
 #: allthethings/page/templates/page/datasets_libgen_rs.html:7
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:6
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:7
 #: allthethings/page/templates/page/datasets_openlib.html:6
 #: allthethings/page/templates/page/datasets_openlib.html:7
 #: allthethings/page/templates/page/datasets_zlib_scrape.html:6
@@ -59,8 +52,8 @@ msgstr ""
 #: allthethings/page/templates/page/lgrs_book.html:13
 #: allthethings/page/templates/page/login.html:4
 #: allthethings/page/templates/page/login.html:5
-#: allthethings/page/templates/page/md5.html:80
-#: allthethings/page/templates/page/md5.html:81
+#: allthethings/page/templates/page/md5.html:98
+#: allthethings/page/templates/page/md5.html:99
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/ol_book.html:8
@@ -70,107 +63,138 @@ msgstr ""
 msgid "common.english_only"
 msgstr ""
 
-#: allthethings/page/views.py:1670
+#: allthethings/account/templates/account/donate.html:197
+msgid "page.donate.crypto.intro"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:212
+#: allthethings/account/templates/account/donate.html:250
+#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:279
+#: allthethings/account/templates/account/donate.html:289
+msgid "page.donate.text_thank_you"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:261
+#: allthethings/account/templates/account/donate.html:275
+#: allthethings/account/templates/account/donation.html:102
+#: allthethings/account/templates/account/donation.html:114
+#: allthethings/account/templates/account/donation.html:126
+msgid "page.donate.strange_account"
+msgstr ""
+
+#: allthethings/account/templates/account/donation_faq.html:19
+msgid "page.donate.faq.text_other_payment1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation_faq.html:23
+msgid "page.donate.faq.text_other_payment2"
+msgstr ""
+
+#: allthethings/account/templates/account/donation_faq.html:36
+msgid "page.donate.faq.text_large_donation"
+msgstr ""
+
+#: allthethings/account/templates/account/donation_faq.html:40
+msgid "page.donate.faq.text_other_contribs"
+msgstr ""
+
+#: allthethings/page/views.py:1683
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "در libgen.rs در بخش غیر داستانی قابل مشاهده نیست"
 
-#: allthethings/page/views.py:1671
+#: allthethings/page/views.py:1684
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "در Libgen.rs در بخش داستانی قابل مشاهده نیست"
 
-#: allthethings/page/views.py:1672
+#: allthethings/page/views.py:1685
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "در Libgen.rs در بخش داستانی قابل مشاهده نیست"
 
-#: allthethings/page/views.py:1673
+#: allthethings/page/views.py:1686
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "در Libgen.li به عنوان فایل خراب نشانه گذاری شده است"
 
-#: allthethings/page/views.py:1674
+#: allthethings/page/views.py:1687
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "در Z-Library موجود نیست"
 
-#: allthethings/page/views.py:1680
+#: allthethings/page/views.py:1693
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "کتاب (ناشناخته)"
 
-#: allthethings/page/views.py:1681
+#: allthethings/page/views.py:1694
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "کتاب (غیر داستانی)"
 
-#: allthethings/page/views.py:1682
+#: allthethings/page/views.py:1695
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "کتاب (داستانی)"
 
-#: allthethings/page/views.py:1683
+#: allthethings/page/views.py:1696
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "مقاله"
 
-#: allthethings/page/views.py:1684
+#: allthethings/page/views.py:1697
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "سند استاندارد"
 
-#: allthethings/page/views.py:1685
+#: allthethings/page/views.py:1698
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "مجله"
 
-#: allthethings/page/views.py:1686
+#: allthethings/page/views.py:1699
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "کتاب کمیک"
 
-#: allthethings/page/views.py:1688
+#: allthethings/page/views.py:1701
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "کتاب (هر)"
 
-#: allthethings/page/views.py:1733
+#: allthethings/page/views.py:1783
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs غیر داستانی"
 
-#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1783 allthethings/page/views.py:1791
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(روی عبارت \"GET\" در بالای صفحه کلیک کنید)"
 
-#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1783 allthethings/page/views.py:1791
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(روی عبارت \"GET\" در بالای صفحه کلیک کنید)"
 
-#: allthethings/page/views.py:1736
+#: allthethings/page/views.py:1791
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs داستانی"
 
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:1742 allthethings/page/views.py:1743
-#: allthethings/page/views.py:1744
+#: allthethings/page/views.py:1812 allthethings/page/views.py:1813
+#: allthethings/page/views.py:1814
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr ""
 
-#: allthethings/page/views.py:1742
+#: allthethings/page/views.py:1812
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(شما ممکن برای دانلود از IPFS نیاز باشد چند بار تلاش کنید"
 
-#: allthethings/page/views.py:1746 allthethings/page/views.py:1747
-#: allthethings/page/views.py:1748 allthethings/page/views.py:1749
-msgid "page.md5.box.download.zlib_anon"
-msgstr ""
-
-#: allthethings/page/views.py:1751
+#: allthethings/page/views.py:1819
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:1751
+#: allthethings/page/views.py:1819
 msgid "page.md5.box.download.scihub_maybe"
 msgstr ""
 
-#: allthethings/page/views.py:1753
+#: allthethings/page/views.py:1821
 msgid "page.md5.box.download.zlib_tor"
 msgstr "Z-Library TOR"
 
-#: allthethings/page/views.py:1753
+#: allthethings/page/views.py:1821
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(نیازمند مرورگر TOR)"
 
@@ -244,165 +268,9 @@ msgstr ""
 
 #: allthethings/page/templates/page/doi.html:37
 #: allthethings/page/templates/page/isbn.html:42
-#: allthethings/page/templates/page/md5.html:89
+#: allthethings/page/templates/page/md5.html:107
 msgid "common.tech_details"
 msgstr "جزییات فنی"
-
-#: allthethings/page/templates/page/donate.html:3
-msgid "page.donate.title"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:6
-msgid "page.donate.header"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:9
-msgid "page.donate.text1"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:13
-msgid "page.donate.text2"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:17
-msgid "page.donate.text3"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:21
-msgid "page.donate.text4"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:55
-msgid "page.donate.nav.paypal"
-msgstr "Paypal"
-
-#: allthethings/page/templates/page/donate.html:56
-msgid "page.donate.nav.cc"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:57
-msgid "page.donate.nav.crypto"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:58
-msgid "page.donate.nav.alipay"
-msgstr "Alipay 支付宝"
-
-#: allthethings/page/templates/page/donate.html:59
-msgid "page.donate.nav.pix"
-msgstr "Pix"
-
-#: allthethings/page/templates/page/donate.html:60
-msgid "page.donate.nav.faq"
-msgstr "سوالات"
-
-#: allthethings/page/templates/page/donate.html:64
-msgid "page.donate.paypal.header"
-msgstr "Paypal"
-
-#: allthethings/page/templates/page/donate.html:67
-msgid "page.donate.paypal.text"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:71
-#: allthethings/page/templates/page/donate.html:132
-msgid "page.donate.strange_account"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:75
-#: allthethings/page/templates/page/donate.html:101
-#: allthethings/page/templates/page/donate.html:120
-#: allthethings/page/templates/page/donate.html:140
-#: allthethings/page/templates/page/donate.html:184
-#: allthethings/page/templates/page/donate.html:197
-msgid "page.donate.text_thank_you"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:80
-msgid "page.donate.cc.header"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:83
-msgid "page.donate.cc.text1"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:87
-msgid "page.donate.cc.text2"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:91
-msgid "page.donate.cc.steps.header"
-msgstr "مراحل:"
-
-#: allthethings/page/templates/page/donate.html:95
-msgid "page.donate.cc.steps.list1"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:96
-msgid "page.donate.cc.steps.list2"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:97
-msgid "page.donate.cc.steps.list3"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:106
-msgid "page.donate.crypto.header"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:109
-msgid "page.donate.crypto.intro"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:113
-msgid "page.donate.crypto.btc_bch_note"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:125
-msgid "page.donate.alipay.header"
-msgstr "Alipay 支付宝"
-
-#: allthethings/page/templates/page/donate.html:128
-#: allthethings/page/templates/page/donate.html:151
-msgid "page.donate.alipay.intro"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:136
-msgid "page.donate.alipay.url"
-msgstr "لینک"
-
-#: allthethings/page/templates/page/donate.html:145
-#: allthethings/page/templates/page/donate.html:202
-msgid "page.donate.out_of_order"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:190
-msgid "page.donate.pix.header"
-msgstr "Pix"
-
-#: allthethings/page/templates/page/donate.html:193
-msgid "page.donate.pix.text"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:208
-msgid "page.donate.faq.header"
-msgstr "سوالات اغلب پرسیده شده"
-
-#: allthethings/page/templates/page/donate.html:211
-msgid "page.donate.faq.text_other_payment1"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:215
-msgid "page.donate.faq.text_other_payment2"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:219
-msgid "page.donate.faq.text_large_donation"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:223
-msgid "page.donate.faq.text_other_contribs"
-msgstr ""
 
 #: allthethings/page/templates/page/home.html:10
 msgid "page.home.intro"
@@ -418,7 +286,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/home.html:80
 #: allthethings/page/templates/page/search.html:56
-#: allthethings/templates/layouts/index.html:277
+#: allthethings/templates/layouts/index.html:348
 msgid "common.search.placeholder"
 msgstr "جستجو عنوان، نویسنده، زبان، نوع فایل، ISBN،MD5، …"
 
@@ -467,19 +335,21 @@ msgstr "پیدا نشد"
 msgid "page.md5.invalid.text"
 msgstr ""
 
-#: allthethings/page/templates/page/md5.html:32
+#: allthethings/page/templates/page/md5.html:28
 msgid "page.md5.box.issues.text1"
 msgstr ""
 
-#: allthethings/page/templates/page/md5.html:39
+#: allthethings/page/templates/page/md5.html:35
 msgid "page.md5.box.issues.text2"
 msgstr ""
 
-#: allthethings/page/templates/page/md5.html:44
+#: allthethings/page/templates/page/md5.html:45
+#: allthethings/page/templates/page/md5.html:46
+#: allthethings/page/templates/page/md5.html:62
 msgid "page.md5.box.download.option"
 msgstr "گزینه #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/md5.html:48
+#: allthethings/page/templates/page/md5.html:66
 msgid "page.md5.box.download.no_issues_notice"
 msgstr ""
 
@@ -567,115 +437,185 @@ msgstr "%(num)d مسابقات جزئی"
 msgid "layout.index.title"
 msgstr "بایگانی آنا"
 
-#: allthethings/templates/layouts/index.html:47
+#: allthethings/templates/layouts/index.html:10
+msgid "layout.index.meta.description"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:19
+msgid "layout.index.meta.opensearch"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:52
 msgid "layout.index.header.banner.new_donation_method"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:81
+#: allthethings/templates/layouts/index.html:67
+msgid "layout.index.banners.comics_fundraiser.text"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:98
 msgid "layout.index.header.title"
 msgstr "بایگانی آنا"
 
-#: allthethings/templates/layouts/index.html:218
+#: allthethings/templates/layouts/index.html:235
 msgid "layout.index.header.tagline"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:250
-#: allthethings/templates/layouts/index.html:257
-#: allthethings/templates/layouts/index.html:266
+#: allthethings/templates/layouts/index.html:238
+msgid "layout.index.header.recent_downloads"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:321
+#: allthethings/templates/layouts/index.html:328
+#: allthethings/templates/layouts/index.html:337
 msgid "layout.index.header.nav.about"
 msgstr "درباره ما"
 
-#: allthethings/templates/layouts/index.html:251
-#: allthethings/templates/layouts/index.html:258
-#: allthethings/templates/layouts/index.html:267
+#: allthethings/templates/layouts/index.html:322
+#: allthethings/templates/layouts/index.html:329
+#: allthethings/templates/layouts/index.html:338
 msgid "layout.index.header.nav.datasets"
 msgstr "مجموعه داده ها"
 
-#: allthethings/templates/layouts/index.html:252
-#: allthethings/templates/layouts/index.html:259
-#: allthethings/templates/layouts/index.html:268
+#: allthethings/templates/layouts/index.html:323
+#: allthethings/templates/layouts/index.html:330
+#: allthethings/templates/layouts/index.html:339
 msgid "layout.index.header.nav.mobile"
 msgstr "اپلیکیشن موبایل"
 
-#: allthethings/templates/layouts/index.html:253
-#: allthethings/templates/layouts/index.html:260
-#: allthethings/templates/layouts/index.html:265
+#: allthethings/templates/layouts/index.html:324
+#: allthethings/templates/layouts/index.html:331
+#: allthethings/templates/layouts/index.html:336
 msgid "layout.index.header.nav.home"
 msgstr "صفحه اصلی"
 
-#: allthethings/templates/layouts/index.html:269
+#: allthethings/templates/layouts/index.html:340
 msgid "layout.index.header.nav.annasblog"
 msgstr "وبلاگ آنا ↗"
 
-#: allthethings/templates/layouts/index.html:270
+#: allthethings/templates/layouts/index.html:341
 msgid "layout.index.header.nav.annassoftware"
 msgstr "نرم افزار آنا ↗"
 
-#: allthethings/templates/layouts/index.html:271
+#: allthethings/templates/layouts/index.html:342
 msgid "layout.index.header.nav.translate"
 msgstr "ترجمه ↗"
 
-#: allthethings/templates/layouts/index.html:273
+#: allthethings/templates/layouts/index.html:344
 msgid "layout.index.header.nav.donate"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:274
+#: allthethings/templates/layouts/index.html:345
 msgid "layout.index.header.nav.search"
 msgstr "جستجو"
 
-#: allthethings/templates/layouts/index.html:333
+#: allthethings/templates/layouts/index.html:351
+msgid "layout.index.header.nav.beta"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:354
+#: allthethings/templates/layouts/index.html:360
+#: allthethings/templates/layouts/index.html:368
+#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:385
+#: allthethings/templates/layouts/index.html:396
+msgid "layout.index.header.nav.request"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:361
+#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:377
+#: allthethings/templates/layouts/index.html:386
+#: allthethings/templates/layouts/index.html:397
+msgid "layout.index.header.nav.upload"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:356
+#: allthethings/templates/layouts/index.html:362
+#: allthethings/templates/layouts/index.html:367
+msgid "layout.index.header.nav.login_register"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:373
+#: allthethings/templates/layouts/index.html:382
+#: allthethings/templates/layouts/index.html:393
+msgid "layout.index.header.nav.public_profile"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:383
+#: allthethings/templates/layouts/index.html:394
+msgid "layout.index.header.nav.downloaded_files"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:384
+#: allthethings/templates/layouts/index.html:395
+msgid "layout.index.header.nav.my_donations"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:392
+msgid "layout.index.header.nav.account"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:407
 msgid "layout.index.footer.list1.header"
 msgstr "بایگانی آنا"
 
-#: allthethings/templates/layouts/index.html:334
+#: allthethings/templates/layouts/index.html:408
 msgid "layout.index.footer.list1.home"
 msgstr "صفحه اصلی"
 
-#: allthethings/templates/layouts/index.html:335
+#: allthethings/templates/layouts/index.html:409
 msgid "layout.index.footer.list1.about"
 msgstr "درباره ما"
 
-#: allthethings/templates/layouts/index.html:336
+#: allthethings/templates/layouts/index.html:410
 msgid "layout.index.footer.list1.donate"
 msgstr "اهدا کردن"
 
-#: allthethings/templates/layouts/index.html:337
+#: allthethings/templates/layouts/index.html:411
 msgid "layout.index.footer.list1.datasets"
 msgstr "مجموعه داده ها"
 
-#: allthethings/templates/layouts/index.html:338
+#: allthethings/templates/layouts/index.html:412
 msgid "layout.index.footer.list1.mobile"
 msgstr "اپلیکیشن موبایل"
 
-#: allthethings/templates/layouts/index.html:351
+#: allthethings/templates/layouts/index.html:425
 msgid "layout.index.footer.list2.header"
 msgstr "در تماس باش"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.twitter"
 msgstr "Twitter"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:353
+#: allthethings/templates/layouts/index.html:427
 msgid "layout.index.footer.list2.blog"
 msgstr "وبلاگ آنا"
 
-#: allthethings/templates/layouts/index.html:354
+#: allthethings/templates/layouts/index.html:428
 msgid "layout.index.footer.list2.software"
 msgstr "نرم افزار آنا"
 
-#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.footer.list2.translate"
 msgstr "ترجمه"
 
-#: allthethings/templates/layouts/index.html:362
+#: allthethings/templates/layouts/index.html:431
+msgid "layout.index.footer.list2.dmca_copyright"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:436
 msgid "layout.index.footer.list3.header"
 msgstr "جایگزین ها"
 
@@ -703,3 +643,97 @@ msgstr "❌ این فایل ممکن است مشکلاتی داشته باشد."
 
 #~ msgid "page.md5.box.download.no_hosting"
 #~ msgstr ""
+
+#~ msgid "page.md5.box.download.zlib_anon"
+#~ msgstr ""
+
+#~ msgid "page.donate.title"
+#~ msgstr ""
+
+#~ msgid "page.donate.header"
+#~ msgstr ""
+
+#~ msgid "page.donate.text1"
+#~ msgstr ""
+
+#~ msgid "page.donate.text2"
+#~ msgstr ""
+
+#~ msgid "page.donate.text3"
+#~ msgstr ""
+
+#~ msgid "page.donate.text4"
+#~ msgstr ""
+
+#~ msgid "page.donate.nav.paypal"
+#~ msgstr "Paypal"
+
+#~ msgid "page.donate.nav.cc"
+#~ msgstr ""
+
+#~ msgid "page.donate.nav.crypto"
+#~ msgstr ""
+
+#~ msgid "page.donate.nav.alipay"
+#~ msgstr "Alipay 支付宝"
+
+#~ msgid "page.donate.nav.pix"
+#~ msgstr "Pix"
+
+#~ msgid "page.donate.nav.faq"
+#~ msgstr "سوالات"
+
+#~ msgid "page.donate.paypal.header"
+#~ msgstr "Paypal"
+
+#~ msgid "page.donate.paypal.text"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.header"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.text1"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.text2"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.steps.header"
+#~ msgstr "مراحل:"
+
+#~ msgid "page.donate.cc.steps.list1"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.steps.list2"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.steps.list3"
+#~ msgstr ""
+
+#~ msgid "page.donate.crypto.header"
+#~ msgstr ""
+
+#~ msgid "page.donate.crypto.btc_bch_note"
+#~ msgstr ""
+
+#~ msgid "page.donate.alipay.header"
+#~ msgstr "Alipay 支付宝"
+
+#~ msgid "page.donate.alipay.intro"
+#~ msgstr ""
+
+#~ msgid "page.donate.alipay.url"
+#~ msgstr "لینک"
+
+#~ msgid "page.donate.out_of_order"
+#~ msgstr ""
+
+#~ msgid "page.donate.pix.header"
+#~ msgstr "Pix"
+
+#~ msgid "page.donate.pix.text"
+#~ msgstr ""
+
+#~ msgid "page.donate.faq.header"
+#~ msgstr "سوالات اغلب پرسیده شده"
+

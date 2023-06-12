@@ -7,7 +7,7 @@
     {% if self.meta_tags() %}
       {% block meta_tags %}{% endblock %}
     {% else %}
-      <meta name="description" content="Search engine of shadow libraries: books, papers, comics, magazines." />
+      <meta name="description" content="{{ gettext('layout.index.meta.description') }}" />
     {% endif %}
     <meta name="twitter:card" value="summary">
     <meta name="twitter:creator" content="@AnnaArchivist"/>
@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-    <link rel="search" href="{{ url_for('static', filename='content-search.xml') }}" type="application/opensearchdescription+xml" title='Anna’s Archive: Search shadow libraries' />
+    <link rel="search" href="{{ url_for('static', filename='content-search.xml') }}" type="application/opensearchdescription+xml" title="{{ gettext('layout.index.meta.opensearch') }}" />
     <script>
       window.globalUpdateAaLoggedIn = function(aa_logged_in) {
         localStorage['aa_logged_in'] = aa_logged_in;
@@ -64,7 +64,7 @@
         </div> -->
         <div class="max-w-[850px] mx-auto px-4 py-2">
           <div class="flex justify-between mb-2">
-            <div>We’re running a fundraiser for <a href="https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html">backing up</a> the largest comics shadow library in the world. Thanks for your support! <a href="/donate">Donate</a></div>
+            <div>{{ gettext('layout.index.banners.comics_fundraiser.text') }}</div>
             <div><a href="#" class="custom-a text-[#777] hover:text-[#000] js-top-banner-close">✕</a></div>
           </div>
           <div style="background: #fff; padding: 8px; border-radius: 8px; box-shadow: 0px 2px 4px 0px #00000020">
@@ -235,7 +235,7 @@
         <div class="mb-[6px]">{{ gettext('layout.index.header.tagline', **g.header_stats) }}</div>
 
         <div class="text-xs flex mb-1" aria-hidden="true">
-          <div class="font-bold shrink-0">Recent downloads:&nbsp;&nbsp;</div>
+          <div class="font-bold shrink-0">{{ gettext('layout.index.header.recent_downloads') }}&nbsp;&nbsp;</div>
           <div class="w-[100%] overflow-hidden flex js-recent-downloads-scroll">
             <!-- Make sure tailwind picks up these classes -->
             <div class="shrink-0 min-w-[100%]"></div>
@@ -348,53 +348,53 @@
             <input class="rounded" name="q" type="text" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}">
           </form>
           <div class="header-links header-links-right relative z-10 ml-auto items-center">
-            <div class="mr-1 bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">beta</div>
+            <div class="mr-1 bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('layout.index.header.nav.beta') }}</div>
             <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-login')" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html.aa-logged-in_&]:hidden">
               <span class="header-link-normal">
-                {% if header_active == 'account/request' %}Request books
-                {% elif header_active == 'account/upload' %}Upload
-                {% else %}Log in / Register{% endif %}
+                {% if header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
+                {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
+                {% else %}{{ gettext('layout.index.header.nav.login_register') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
-                {% if header_active == 'account/request' %}Request books
-                {% elif header_active == 'account/upload' %}Upload
-                {% else %}Log in / Register{% endif %}
+                {% if header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
+                {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
+                {% else %}{{ gettext('layout.index.header.nav.login_register') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
             </a>
             <div class="absolute right-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-login hidden">
-              <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/login">Log in / Register</a>
-              <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/request">Request books</a>
-              <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/upload">Upload</a>
+              <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/login">{{ gettext('layout.index.header.nav.login_register') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a>
             </div>
             <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html:not(.aa-logged-in)_&]:hidden" style="margin-right: 8px;">
               <span class="header-link-normal">
-                {% if header_active == 'account/profile' %}Public profile
-                {% elif header_active == 'account/downloaded' %}Downloaded files
-                {% elif header_active == 'account/donations' %}My donations
-                {% elif header_active == 'account/request' %}Request books
-                {% elif header_active == 'account/upload' %}Upload
+                {% if header_active == 'account/profile' %}{{ gettext('layout.index.header.nav.public_profile') }}
+                {% elif header_active == 'account/downloaded' %}{{ gettext('layout.index.header.nav.downloaded_files') }}
+                {% elif header_active == 'account/donations' %}{{ gettext('layout.index.header.nav.my_donations') }}
+                {% elif header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
+                {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
                 {% else %}Account{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
-                {% if header_active == 'account/profile' %}Public profile
-                {% elif header_active == 'account/downloaded' %}Downloaded files
-                {% elif header_active == 'account/donations' %}My donations
-                {% elif header_active == 'account/request' %}Request books
-                {% elif header_active == 'account/upload' %}Upload
+                {% if header_active == 'account/profile' %}{{ gettext('layout.index.header.nav.public_profile') }}
+                {% elif header_active == 'account/downloaded' %}{{ gettext('layout.index.header.nav.downloaded_files') }}
+                {% elif header_active == 'account/donations' %}{{ gettext('layout.index.header.nav.my_donations') }}
+                {% elif header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
+                {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
                 {% else %}Account{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
             </a>
             <div class="absolute right-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-account hidden">
-              <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account">Account</a>
-              <a class="custom-a block py-1 {% if header_active == 'account/profile' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/profile">Public profile</a>
-              <a class="custom-a block py-1 {% if header_active == 'account/downloaded' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/downloaded">Downloaded files</a>
-              <a class="custom-a block py-1 {% if header_active == 'account/donations' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/donations">My donations</a>
-              <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/request">Request books</a>
-              <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/upload">Upload</a>
+              <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account">{{ gettext('layout.index.header.nav.account') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/profile' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/profile">{{ gettext('layout.index.header.nav.public_profile') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/downloaded' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/downloaded">{{ gettext('layout.index.header.nav.downloaded_files') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/donations' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/donations">{{ gettext('layout.index.header.nav.my_donations') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a>
             </div>
           </div>
         </div>
@@ -428,7 +428,7 @@
           <a class="custom-a hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.footer.list2.software') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="https://translate.annas-software.org">{{ gettext('layout.index.footer.list2.translate') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a><br>
-          <a class="custom-a hover:text-[#333]" href="/copyright">DMCA / copyright claims</a><br>
+          <a class="custom-a hover:text-[#333]" href="/copyright">{{ gettext('layout.index.footer.list2.dmca_copyright') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="mailto:AnnaDMCA@proton.me">AnnaDMCA@&#8203;proton.&#8203;me</a><br>
         </div>
 

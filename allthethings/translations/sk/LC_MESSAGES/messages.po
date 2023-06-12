@@ -1,24 +1,15 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-23 20:41+0000\n"
-"PO-Revision-Date: 2023-05-27 22:06+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: Slovak <https://translate.annas-software.org/projects/annas-archive/main-website/sk/>\n"
-"Language: sk\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15\n"
-
+#: allthethings/account/templates/account/donate.html:6
+#: allthethings/account/templates/account/donate.html:7
+#: allthethings/account/templates/account/donation.html:6
+#: allthethings/account/templates/account/donation.html:7
+#: allthethings/account/templates/account/donation_faq.html:6
+#: allthethings/account/templates/account/donation_faq.html:7
+#: allthethings/account/templates/account/donations.html:6
+#: allthethings/account/templates/account/donations.html:7
 #: allthethings/account/templates/account/downloaded.html:6
 #: allthethings/account/templates/account/downloaded.html:7
-#: allthethings/account/templates/account/expired.html:6
-#: allthethings/account/templates/account/expired.html:7
-#: allthethings/account/templates/account/index.html:54
-#: allthethings/account/templates/account/index.html:55
+#: allthethings/account/templates/account/index.html:6
+#: allthethings/account/templates/account/index.html:7
 #: allthethings/account/templates/account/list.html:6
 #: allthethings/account/templates/account/list.html:7
 #: allthethings/account/templates/account/profile.html:6
@@ -27,8 +18,8 @@ msgstr ""
 #: allthethings/account/templates/account/request.html:7
 #: allthethings/account/templates/account/upload.html:6
 #: allthethings/account/templates/account/upload.html:7
-#: allthethings/page/templates/page/about.html:30
-#: allthethings/page/templates/page/about.html:31
+#: allthethings/page/templates/page/about.html:35
+#: allthethings/page/templates/page/about.html:36
 #: allthethings/page/templates/page/copyright.html:6
 #: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:6
@@ -43,6 +34,8 @@ msgstr ""
 #: allthethings/page/templates/page/datasets_libgen_li.html:7
 #: allthethings/page/templates/page/datasets_libgen_rs.html:6
 #: allthethings/page/templates/page/datasets_libgen_rs.html:7
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:6
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:7
 #: allthethings/page/templates/page/datasets_openlib.html:6
 #: allthethings/page/templates/page/datasets_openlib.html:7
 #: allthethings/page/templates/page/datasets_zlib_scrape.html:6
@@ -59,8 +52,8 @@ msgstr ""
 #: allthethings/page/templates/page/lgrs_book.html:13
 #: allthethings/page/templates/page/login.html:4
 #: allthethings/page/templates/page/login.html:5
-#: allthethings/page/templates/page/md5.html:80
-#: allthethings/page/templates/page/md5.html:81
+#: allthethings/page/templates/page/md5.html:98
+#: allthethings/page/templates/page/md5.html:99
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/ol_book.html:8
@@ -70,111 +63,142 @@ msgstr ""
 msgid "common.english_only"
 msgstr "Nižšie uvedený text je len v angličtine."
 
-#: allthethings/page/views.py:1670
+#: allthethings/account/templates/account/donate.html:197
+msgid "page.donate.crypto.intro"
+msgstr "Ak už máte peniaze v krypto menách, tu sú naše adresy:"
+
+#: allthethings/account/templates/account/donate.html:212
+#: allthethings/account/templates/account/donate.html:250
+#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:279
+#: allthethings/account/templates/account/donate.html:289
+msgid "page.donate.text_thank_you"
+msgstr "Ďakujeme vám veľmi pekne za vašu pomoc! Tento projekt by nebol možný bez vás."
+
+#: allthethings/account/templates/account/donate.html:261
+#: allthethings/account/templates/account/donate.html:275
+#: allthethings/account/templates/account/donation.html:102
+#: allthethings/account/templates/account/donation.html:114
+#: allthethings/account/templates/account/donation.html:126
+msgid "page.donate.strange_account"
+msgstr ""
+
+#: allthethings/account/templates/account/donation_faq.html:19
+msgid "page.donate.faq.text_other_payment1"
+msgstr "<div class=\"font-bold\">Podporujete iné spôsoby platby?</div> Momentálne nie. Mnoho ľudí si nepraje, aby archívy ako je tento existovali, takže musíme byť opatrní. Ak nám môžete pomôcť bezpečne nastaviť iné (pohodlnejšie) spôsoby platby, kontaktujte nás na %(email)s."
+
+#: allthethings/account/templates/account/donation_faq.html:23
+msgid "page.donate.faq.text_other_payment2"
+msgstr "Ak váš spôsob platby nie je v zozname, najjednoduchšie je si stiahnuť <a href=\"https://www.coinbase.com/\">Coinbase</a> na váš telefón, a zakúpiť si tam Bitcoin (BTC). Potom ho môžete poslať na našu adresu: %(address)s. Vo väčšine krajín by to malo trvať len niekoľko minút."
+
+#: allthethings/account/templates/account/donation_faq.html:36
+msgid "page.donate.faq.text_large_donation"
+msgstr "<div class=\"font-bold\">Môžem vám darovať väčšie množstvo peňaní?</div> To by bolo úžasné! Ak chcete darovať viac ako niekoľko tisíc dolárov, kontaktujte nás priamo na %(email)s."
+
+#: allthethings/account/templates/account/donation_faq.html:40
+msgid "page.donate.faq.text_other_contribs"
+msgstr "<div class=\"font-bold\">Môžem prispieť iným spôsobom?</div> Áno! Pozrite <a href=\"/about\">o nás</a> v časti “Ako pomôcť”."
+
+#: allthethings/page/views.py:1683
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Neviditeľné v Libgen.rs literatúre faktu"
 
-#: allthethings/page/views.py:1671
+#: allthethings/page/views.py:1684
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Neviditeľné v Libgen.rs beletrii"
 
-#: allthethings/page/views.py:1672
+#: allthethings/page/views.py:1685
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Neviditeľné v Libgen.li"
 
-#: allthethings/page/views.py:1673
+#: allthethings/page/views.py:1686
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Označené ako nefunčný odkaz v knižnici Libgen.li"
 
-#: allthethings/page/views.py:1674
+#: allthethings/page/views.py:1687
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Chýba na Z-Library"
 
-#: allthethings/page/views.py:1680
+#: allthethings/page/views.py:1693
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Kniha (nezaradená)"
 
-#: allthethings/page/views.py:1681
+#: allthethings/page/views.py:1694
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Kniha (literatúra faktu)"
 
-#: allthethings/page/views.py:1682
+#: allthethings/page/views.py:1695
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Kniha (beletria)"
 
-#: allthethings/page/views.py:1683
+#: allthethings/page/views.py:1696
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Článok"
 
-#: allthethings/page/views.py:1684
+#: allthethings/page/views.py:1697
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Norma"
 
-#: allthethings/page/views.py:1685
+#: allthethings/page/views.py:1698
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Magazín"
 
-#: allthethings/page/views.py:1686
+#: allthethings/page/views.py:1699
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Komiks"
 
-#: allthethings/page/views.py:1688
+#: allthethings/page/views.py:1701
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "Kniha (hocijaká)"
 
-#: allthethings/page/views.py:1733
+#: allthethings/page/views.py:1783
 msgid "page.md5.box.download.lgrsnf"
 msgstr ""
 
-#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1783 allthethings/page/views.py:1791
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr ""
 
-#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1783 allthethings/page/views.py:1791
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(klikni “Získaj” hore)"
 
-#: allthethings/page/views.py:1736
+#: allthethings/page/views.py:1791
 msgid "page.md5.box.download.lgrsfic"
 msgstr ""
 
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:1742 allthethings/page/views.py:1743
-#: allthethings/page/views.py:1744
+#: allthethings/page/views.py:1812 allthethings/page/views.py:1813
+#: allthethings/page/views.py:1814
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr ""
 
-#: allthethings/page/views.py:1742
+#: allthethings/page/views.py:1812
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(pre IPFS je niekedy potrebné vyskúšať stiahnutie viackrát)"
 
-#: allthethings/page/views.py:1746 allthethings/page/views.py:1747
-#: allthethings/page/views.py:1748 allthethings/page/views.py:1749
-msgid "page.md5.box.download.zlib_anon"
-msgstr ""
-
-#: allthethings/page/views.py:1751
+#: allthethings/page/views.py:1819
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:1751
+#: allthethings/page/views.py:1819
 msgid "page.md5.box.download.scihub_maybe"
 msgstr ""
 
-#: allthethings/page/views.py:1753
+#: allthethings/page/views.py:1821
 msgid "page.md5.box.download.zlib_tor"
 msgstr "Z-Library na Tor"
 
-#: allthethings/page/views.py:1753
+#: allthethings/page/views.py:1821
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(potrebuje prehliadač TOR)"
 
@@ -248,165 +272,9 @@ msgstr "V našej databáze sa nenašli žiadne zodpovedajúce súbory."
 
 #: allthethings/page/templates/page/doi.html:37
 #: allthethings/page/templates/page/isbn.html:42
-#: allthethings/page/templates/page/md5.html:89
+#: allthethings/page/templates/page/md5.html:107
 msgid "common.tech_details"
 msgstr "Zobraziť technické podrobnosti v angličtine"
-
-#: allthethings/page/templates/page/donate.html:3
-msgid "page.donate.title"
-msgstr "Podporiť"
-
-#: allthethings/page/templates/page/donate.html:6
-msgid "page.donate.header"
-msgstr "Podporiť"
-
-#: allthethings/page/templates/page/donate.html:9
-msgid "page.donate.text1"
-msgstr "Anna's Archive je nezisková organizácia s otvoreným zdrojovým kódom, riadená dobrovoľníkmi. Prijímame dary na pokrytie nákladov, čo zahŕňa hosting, domény, vývoj a iné výdavky."
-
-#: allthethings/page/templates/page/donate.html:13
-msgid "page.donate.text2"
-msgstr "Vďaka vašim príspevkom sme schopní udržať túto webstránku v prevádzke, vylepšovať jej funkcie a zachovať viacero zbierok."
-
-#: allthethings/page/templates/page/donate.html:17
-msgid "page.donate.text3"
-msgstr "Nedávne dary: %(donations)s. Ďakujeme všetkým za vašu štedrosť. Vážime si, že ste nám prejavili dôveru, nech už akoukoľvek sumou."
-
-#: allthethings/page/templates/page/donate.html:21
-msgid "page.donate.text4"
-msgstr "Ak chcete nás podporiť, vyberte nižšie vami preferovaný spôsob. Ak narazíte na nejaké problémy, kontaktujte nás na %(email)s."
-
-#: allthethings/page/templates/page/donate.html:55
-msgid "page.donate.nav.paypal"
-msgstr "Paypal"
-
-#: allthethings/page/templates/page/donate.html:56
-msgid "page.donate.nav.cc"
-msgstr "Kreditná/debetná karta"
-
-#: allthethings/page/templates/page/donate.html:57
-msgid "page.donate.nav.crypto"
-msgstr "Kryptomeny"
-
-#: allthethings/page/templates/page/donate.html:58
-msgid "page.donate.nav.alipay"
-msgstr "Alipay 支付宝"
-
-#: allthethings/page/templates/page/donate.html:59
-msgid "page.donate.nav.pix"
-msgstr "Pix"
-
-#: allthethings/page/templates/page/donate.html:60
-msgid "page.donate.nav.faq"
-msgstr "Často kladené otázky"
-
-#: allthethings/page/templates/page/donate.html:64
-msgid "page.donate.paypal.header"
-msgstr "Paypal"
-
-#: allthethings/page/templates/page/donate.html:67
-msgid "page.donate.paypal.text"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:71
-#: allthethings/page/templates/page/donate.html:132
-msgid "page.donate.strange_account"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:75
-#: allthethings/page/templates/page/donate.html:101
-#: allthethings/page/templates/page/donate.html:120
-#: allthethings/page/templates/page/donate.html:140
-#: allthethings/page/templates/page/donate.html:184
-#: allthethings/page/templates/page/donate.html:197
-msgid "page.donate.text_thank_you"
-msgstr "Ďakujeme vám veľmi pekne za vašu pomoc! Tento projekt by nebol možný bez vás."
-
-#: allthethings/page/templates/page/donate.html:80
-msgid "page.donate.cc.header"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:83
-msgid "page.donate.cc.text1"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:87
-msgid "page.donate.cc.text2"
-msgstr "Táto metóda má minimálnu výšku transakcie $30, a poplatok približne $5."
-
-#: allthethings/page/templates/page/donate.html:91
-msgid "page.donate.cc.steps.header"
-msgstr "Kroky:"
-
-#: allthethings/page/templates/page/donate.html:95
-msgid "page.donate.cc.steps.list1"
-msgstr "1. Skopírujte vašu Bitcoin (BTC) adresu peňaženky: %(address)s"
-
-#: allthethings/page/templates/page/donate.html:96
-msgid "page.donate.cc.steps.list2"
-msgstr "2. Choďte na %(link_open_tag)stúto stránku</a> a kliknite na \"buy crypto instantly\""
-
-#: allthethings/page/templates/page/donate.html:97
-msgid "page.donate.cc.steps.list3"
-msgstr "3. Prekopírujte vašu adresu peňaženky a postupujte podľa inštrukcií"
-
-#: allthethings/page/templates/page/donate.html:106
-msgid "page.donate.crypto.header"
-msgstr "Kryptomeny"
-
-#: allthethings/page/templates/page/donate.html:109
-msgid "page.donate.crypto.intro"
-msgstr "Ak už máte peniaze v krypto menách, tu sú naše adresy:"
-
-#: allthethings/page/templates/page/donate.html:113
-msgid "page.donate.crypto.btc_bch_note"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:125
-msgid "page.donate.alipay.header"
-msgstr "Alipay 支付宝"
-
-#: allthethings/page/templates/page/donate.html:128
-#: allthethings/page/templates/page/donate.html:151
-msgid "page.donate.alipay.intro"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:136
-msgid "page.donate.alipay.url"
-msgstr "URL"
-
-#: allthethings/page/templates/page/donate.html:145
-#: allthethings/page/templates/page/donate.html:202
-msgid "page.donate.out_of_order"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:190
-msgid "page.donate.pix.header"
-msgstr "Pix"
-
-#: allthethings/page/templates/page/donate.html:193
-msgid "page.donate.pix.text"
-msgstr ""
-
-#: allthethings/page/templates/page/donate.html:208
-msgid "page.donate.faq.header"
-msgstr "Často kladené otázky"
-
-#: allthethings/page/templates/page/donate.html:211
-msgid "page.donate.faq.text_other_payment1"
-msgstr "<div class=\"font-bold\">Podporujete iné spôsoby platby?</div> Momentálne nie. Mnoho ľudí si nepraje, aby archívy ako je tento existovali, takže musíme byť opatrní. Ak nám môžete pomôcť bezpečne nastaviť iné (pohodlnejšie) spôsoby platby, kontaktujte nás na %(email)s."
-
-#: allthethings/page/templates/page/donate.html:215
-msgid "page.donate.faq.text_other_payment2"
-msgstr "Ak váš spôsob platby nie je v zozname, najjednoduchšie je si stiahnuť <a href=\"https://www.coinbase.com/\">Coinbase</a> na váš telefón, a zakúpiť si tam Bitcoin (BTC). Potom ho môžete poslať na našu adresu: %(address)s. Vo väčšine krajín by to malo trvať len niekoľko minút."
-
-#: allthethings/page/templates/page/donate.html:219
-msgid "page.donate.faq.text_large_donation"
-msgstr "<div class=\"font-bold\">Môžem vám darovať väčšie množstvo peňaní?</div> To by bolo úžasné! Ak chcete darovať viac ako niekoľko tisíc dolárov, kontaktujte nás priamo na %(email)s."
-
-#: allthethings/page/templates/page/donate.html:223
-msgid "page.donate.faq.text_other_contribs"
-msgstr "<div class=\"font-bold\">Môžem prispieť iným spôsobom?</div> Áno! Pozrite <a href=\"/about\">o nás</a> v časti “Ako pomôcť”."
 
 #: allthethings/page/templates/page/home.html:10
 msgid "page.home.intro"
@@ -422,7 +290,7 @@ msgstr "Vyhľadajte v našom katalógu tieňových knižníc."
 
 #: allthethings/page/templates/page/home.html:80
 #: allthethings/page/templates/page/search.html:56
-#: allthethings/templates/layouts/index.html:277
+#: allthethings/templates/layouts/index.html:348
 msgid "common.search.placeholder"
 msgstr "Vyhľadajte podľa názvu, autora, jazyka, typu súboru, ISBN, MD5, …"
 
@@ -471,19 +339,21 @@ msgstr "Nenájdené"
 msgid "page.md5.invalid.text"
 msgstr "“%(md5_input)s” nebolo nájdené v našej databáze."
 
-#: allthethings/page/templates/page/md5.html:32
+#: allthethings/page/templates/page/md5.html:28
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ Tento súbor môže mať problémy a preto bol skrytý v zdrojovej knižnici.</span> Niekedy je to na žiadosť držiteľa autorských práv, inokedy je to preto, lebo je k dispozícii lepšia alternatíva. Ale niekedy je to kvôli problémom so súborom samotným. Súbor môže byť stále v poriadku na stiahnutie, ale odporúčame najprv vyhľadať alternatívny súbor. Viac informácií:"
 
-#: allthethings/page/templates/page/md5.html:39
+#: allthethings/page/templates/page/md5.html:35
 msgid "page.md5.box.issues.text2"
 msgstr "Ak si napriek tomuto chcete tento súbor stiahnuť, uistite sa, že na jeho otvorenie používate iba dôveryhodný a aktualizovaný softvér."
 
-#: allthethings/page/templates/page/md5.html:44
+#: allthethings/page/templates/page/md5.html:45
+#: allthethings/page/templates/page/md5.html:46
+#: allthethings/page/templates/page/md5.html:62
 msgid "page.md5.box.download.option"
 msgstr ""
 
-#: allthethings/page/templates/page/md5.html:48
+#: allthethings/page/templates/page/md5.html:66
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Na všetkých zrkadlách je umiestnený rovnaký súbor a ich používanie by malo byť bezpečné. Napriek tomu buďte vždy opatrný pri sťahovaní súborov z internetu. Napríklad nezabudnite aktualizovať softvér na vašich zariadeniach."
 
@@ -571,115 +441,185 @@ msgstr ""
 msgid "layout.index.title"
 msgstr "Anna’s Archive"
 
-#: allthethings/templates/layouts/index.html:47
+#: allthethings/templates/layouts/index.html:10
+msgid "layout.index.meta.description"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:19
+msgid "layout.index.meta.opensearch"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:52
 msgid "layout.index.header.banner.new_donation_method"
 msgstr "Po novom je možné nás podporiť aj pomocou %(method_name)s. Prosím zvážte %(donate_link_open_tag)spodporu</a> — nie je lacný beh tejto webstránky a vaša podpora skutočne urobí rozdiel. Ďakujeme veľmi pekne."
 
-#: allthethings/templates/layouts/index.html:81
+#: allthethings/templates/layouts/index.html:67
+msgid "layout.index.banners.comics_fundraiser.text"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:98
 msgid "layout.index.header.title"
 msgstr "Anna’s Archive"
 
-#: allthethings/templates/layouts/index.html:218
+#: allthethings/templates/layouts/index.html:235
 msgid "layout.index.header.tagline"
 msgstr "Vyhľadávač v tieňových knižniciach: knihy, noviny, komiksy, časopisy. ⭐️ Z-Library, Library Genesis, Sci-Hub. ⚙️ Odolné vďaka otvorenému zdrojového kódu a dátam. ❤️ Každý je tu vítaný, šírte o nás aj ďalej!"
 
-#: allthethings/templates/layouts/index.html:250
-#: allthethings/templates/layouts/index.html:257
-#: allthethings/templates/layouts/index.html:266
+#: allthethings/templates/layouts/index.html:238
+msgid "layout.index.header.recent_downloads"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:321
+#: allthethings/templates/layouts/index.html:328
+#: allthethings/templates/layouts/index.html:337
 msgid "layout.index.header.nav.about"
 msgstr "O nás"
 
-#: allthethings/templates/layouts/index.html:251
-#: allthethings/templates/layouts/index.html:258
-#: allthethings/templates/layouts/index.html:267
+#: allthethings/templates/layouts/index.html:322
+#: allthethings/templates/layouts/index.html:329
+#: allthethings/templates/layouts/index.html:338
 msgid "layout.index.header.nav.datasets"
 msgstr "Datasety"
 
-#: allthethings/templates/layouts/index.html:252
-#: allthethings/templates/layouts/index.html:259
-#: allthethings/templates/layouts/index.html:268
+#: allthethings/templates/layouts/index.html:323
+#: allthethings/templates/layouts/index.html:330
+#: allthethings/templates/layouts/index.html:339
 msgid "layout.index.header.nav.mobile"
 msgstr "Mobilná aplikácia"
 
-#: allthethings/templates/layouts/index.html:253
-#: allthethings/templates/layouts/index.html:260
-#: allthethings/templates/layouts/index.html:265
+#: allthethings/templates/layouts/index.html:324
+#: allthethings/templates/layouts/index.html:331
+#: allthethings/templates/layouts/index.html:336
 msgid "layout.index.header.nav.home"
 msgstr "Domov"
 
-#: allthethings/templates/layouts/index.html:269
+#: allthethings/templates/layouts/index.html:340
 msgid "layout.index.header.nav.annasblog"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:270
+#: allthethings/templates/layouts/index.html:341
 msgid "layout.index.header.nav.annassoftware"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:271
+#: allthethings/templates/layouts/index.html:342
 msgid "layout.index.header.nav.translate"
 msgstr "Preložiť ↗"
 
-#: allthethings/templates/layouts/index.html:273
+#: allthethings/templates/layouts/index.html:344
 msgid "layout.index.header.nav.donate"
 msgstr "Podporiť"
 
-#: allthethings/templates/layouts/index.html:274
+#: allthethings/templates/layouts/index.html:345
 msgid "layout.index.header.nav.search"
 msgstr "Vyhľadávanie"
 
-#: allthethings/templates/layouts/index.html:333
-msgid "layout.index.footer.list1.header"
-msgstr "Anna’s Archive"
-
-#: allthethings/templates/layouts/index.html:334
-msgid "layout.index.footer.list1.home"
-msgstr "Domov"
-
-#: allthethings/templates/layouts/index.html:335
-msgid "layout.index.footer.list1.about"
-msgstr "O nás"
-
-#: allthethings/templates/layouts/index.html:336
-msgid "layout.index.footer.list1.donate"
-msgstr "Podporiť"
-
-#: allthethings/templates/layouts/index.html:337
-msgid "layout.index.footer.list1.datasets"
-msgstr "Datasety"
-
-#: allthethings/templates/layouts/index.html:338
-msgid "layout.index.footer.list1.mobile"
-msgstr "Mobilná aplikácia"
-
 #: allthethings/templates/layouts/index.html:351
-msgid "layout.index.footer.list2.header"
-msgstr "Sledujte nás na"
-
-#: allthethings/templates/layouts/index.html:352
-msgid "layout.index.footer.list2.twitter"
-msgstr "Twitteri"
-
-#: allthethings/templates/layouts/index.html:352
-msgid "layout.index.footer.list2.reddit"
-msgstr "Reddite"
-
-#: allthethings/templates/layouts/index.html:352
-msgid "layout.index.footer.list2.telegram"
-msgstr "Telegram"
-
-#: allthethings/templates/layouts/index.html:353
-msgid "layout.index.footer.list2.blog"
-msgstr "Anna’s Blog"
+msgid "layout.index.header.nav.beta"
+msgstr ""
 
 #: allthethings/templates/layouts/index.html:354
-msgid "layout.index.footer.list2.software"
+#: allthethings/templates/layouts/index.html:360
+#: allthethings/templates/layouts/index.html:368
+#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:385
+#: allthethings/templates/layouts/index.html:396
+msgid "layout.index.header.nav.request"
 msgstr ""
 
 #: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:361
+#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:377
+#: allthethings/templates/layouts/index.html:386
+#: allthethings/templates/layouts/index.html:397
+msgid "layout.index.header.nav.upload"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:356
+#: allthethings/templates/layouts/index.html:362
+#: allthethings/templates/layouts/index.html:367
+msgid "layout.index.header.nav.login_register"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:373
+#: allthethings/templates/layouts/index.html:382
+#: allthethings/templates/layouts/index.html:393
+msgid "layout.index.header.nav.public_profile"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:383
+#: allthethings/templates/layouts/index.html:394
+msgid "layout.index.header.nav.downloaded_files"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:384
+#: allthethings/templates/layouts/index.html:395
+msgid "layout.index.header.nav.my_donations"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:392
+msgid "layout.index.header.nav.account"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:407
+msgid "layout.index.footer.list1.header"
+msgstr "Anna’s Archive"
+
+#: allthethings/templates/layouts/index.html:408
+msgid "layout.index.footer.list1.home"
+msgstr "Domov"
+
+#: allthethings/templates/layouts/index.html:409
+msgid "layout.index.footer.list1.about"
+msgstr "O nás"
+
+#: allthethings/templates/layouts/index.html:410
+msgid "layout.index.footer.list1.donate"
+msgstr "Podporiť"
+
+#: allthethings/templates/layouts/index.html:411
+msgid "layout.index.footer.list1.datasets"
+msgstr "Datasety"
+
+#: allthethings/templates/layouts/index.html:412
+msgid "layout.index.footer.list1.mobile"
+msgstr "Mobilná aplikácia"
+
+#: allthethings/templates/layouts/index.html:425
+msgid "layout.index.footer.list2.header"
+msgstr "Sledujte nás na"
+
+#: allthethings/templates/layouts/index.html:426
+msgid "layout.index.footer.list2.twitter"
+msgstr "Twitteri"
+
+#: allthethings/templates/layouts/index.html:426
+msgid "layout.index.footer.list2.reddit"
+msgstr "Reddite"
+
+#: allthethings/templates/layouts/index.html:426
+msgid "layout.index.footer.list2.telegram"
+msgstr "Telegram"
+
+#: allthethings/templates/layouts/index.html:427
+msgid "layout.index.footer.list2.blog"
+msgstr "Anna’s Blog"
+
+#: allthethings/templates/layouts/index.html:428
+msgid "layout.index.footer.list2.software"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.footer.list2.translate"
 msgstr "Preložiť"
 
-#: allthethings/templates/layouts/index.html:362
+#: allthethings/templates/layouts/index.html:431
+msgid "layout.index.footer.list2.dmca_copyright"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:436
 msgid "layout.index.footer.list3.header"
 msgstr "Alternatívy"
 
@@ -707,3 +647,97 @@ msgstr "❌ Tento súbor môže mať problémy."
 
 #~ msgid "page.md5.box.download.no_hosting"
 #~ msgstr "Poznámka: Anna’s Archive nehostuje žiadny obsah. Len linkujeme na iné webstránky. Ak si myslíte, že máte opodstatnenú DMCA sťažnosť, prosím pozrite podstránku %(about_link)so nás</a>."
+
+#~ msgid "page.md5.box.download.zlib_anon"
+#~ msgstr ""
+
+#~ msgid "page.donate.title"
+#~ msgstr "Podporiť"
+
+#~ msgid "page.donate.header"
+#~ msgstr "Podporiť"
+
+#~ msgid "page.donate.text1"
+#~ msgstr "Anna's Archive je nezisková organizácia s otvoreným zdrojovým kódom, riadená dobrovoľníkmi. Prijímame dary na pokrytie nákladov, čo zahŕňa hosting, domény, vývoj a iné výdavky."
+
+#~ msgid "page.donate.text2"
+#~ msgstr "Vďaka vašim príspevkom sme schopní udržať túto webstránku v prevádzke, vylepšovať jej funkcie a zachovať viacero zbierok."
+
+#~ msgid "page.donate.text3"
+#~ msgstr "Nedávne dary: %(donations)s. Ďakujeme všetkým za vašu štedrosť. Vážime si, že ste nám prejavili dôveru, nech už akoukoľvek sumou."
+
+#~ msgid "page.donate.text4"
+#~ msgstr "Ak chcete nás podporiť, vyberte nižšie vami preferovaný spôsob. Ak narazíte na nejaké problémy, kontaktujte nás na %(email)s."
+
+#~ msgid "page.donate.nav.paypal"
+#~ msgstr "Paypal"
+
+#~ msgid "page.donate.nav.cc"
+#~ msgstr "Kreditná/debetná karta"
+
+#~ msgid "page.donate.nav.crypto"
+#~ msgstr "Kryptomeny"
+
+#~ msgid "page.donate.nav.alipay"
+#~ msgstr "Alipay 支付宝"
+
+#~ msgid "page.donate.nav.pix"
+#~ msgstr "Pix"
+
+#~ msgid "page.donate.nav.faq"
+#~ msgstr "Často kladené otázky"
+
+#~ msgid "page.donate.paypal.header"
+#~ msgstr "Paypal"
+
+#~ msgid "page.donate.paypal.text"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.header"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.text1"
+#~ msgstr ""
+
+#~ msgid "page.donate.cc.text2"
+#~ msgstr "Táto metóda má minimálnu výšku transakcie $30, a poplatok približne $5."
+
+#~ msgid "page.donate.cc.steps.header"
+#~ msgstr "Kroky:"
+
+#~ msgid "page.donate.cc.steps.list1"
+#~ msgstr "1. Skopírujte vašu Bitcoin (BTC) adresu peňaženky: %(address)s"
+
+#~ msgid "page.donate.cc.steps.list2"
+#~ msgstr "2. Choďte na %(link_open_tag)stúto stránku</a> a kliknite na \"buy crypto instantly\""
+
+#~ msgid "page.donate.cc.steps.list3"
+#~ msgstr "3. Prekopírujte vašu adresu peňaženky a postupujte podľa inštrukcií"
+
+#~ msgid "page.donate.crypto.header"
+#~ msgstr "Kryptomeny"
+
+#~ msgid "page.donate.crypto.btc_bch_note"
+#~ msgstr ""
+
+#~ msgid "page.donate.alipay.header"
+#~ msgstr "Alipay 支付宝"
+
+#~ msgid "page.donate.alipay.intro"
+#~ msgstr ""
+
+#~ msgid "page.donate.alipay.url"
+#~ msgstr "URL"
+
+#~ msgid "page.donate.out_of_order"
+#~ msgstr ""
+
+#~ msgid "page.donate.pix.header"
+#~ msgstr "Pix"
+
+#~ msgid "page.donate.pix.text"
+#~ msgstr ""
+
+#~ msgid "page.donate.faq.header"
+#~ msgstr "Často kladené otázky"
+

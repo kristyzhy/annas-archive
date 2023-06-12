@@ -1,24 +1,15 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-23 20:41+0000\n"
-"PO-Revision-Date: 2023-05-27 22:06+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: Hindi <https://translate.annas-software.org/projects/annas-archive/main-website/hi/>\n"
-"Language: hi\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.15\n"
-
+#: allthethings/account/templates/account/donate.html:6
+#: allthethings/account/templates/account/donate.html:7
+#: allthethings/account/templates/account/donation.html:6
+#: allthethings/account/templates/account/donation.html:7
+#: allthethings/account/templates/account/donation_faq.html:6
+#: allthethings/account/templates/account/donation_faq.html:7
+#: allthethings/account/templates/account/donations.html:6
+#: allthethings/account/templates/account/donations.html:7
 #: allthethings/account/templates/account/downloaded.html:6
 #: allthethings/account/templates/account/downloaded.html:7
-#: allthethings/account/templates/account/expired.html:6
-#: allthethings/account/templates/account/expired.html:7
-#: allthethings/account/templates/account/index.html:54
-#: allthethings/account/templates/account/index.html:55
+#: allthethings/account/templates/account/index.html:6
+#: allthethings/account/templates/account/index.html:7
 #: allthethings/account/templates/account/list.html:6
 #: allthethings/account/templates/account/list.html:7
 #: allthethings/account/templates/account/profile.html:6
@@ -27,8 +18,8 @@ msgstr ""
 #: allthethings/account/templates/account/request.html:7
 #: allthethings/account/templates/account/upload.html:6
 #: allthethings/account/templates/account/upload.html:7
-#: allthethings/page/templates/page/about.html:30
-#: allthethings/page/templates/page/about.html:31
+#: allthethings/page/templates/page/about.html:35
+#: allthethings/page/templates/page/about.html:36
 #: allthethings/page/templates/page/copyright.html:6
 #: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:6
@@ -43,6 +34,8 @@ msgstr ""
 #: allthethings/page/templates/page/datasets_libgen_li.html:7
 #: allthethings/page/templates/page/datasets_libgen_rs.html:6
 #: allthethings/page/templates/page/datasets_libgen_rs.html:7
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:6
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:7
 #: allthethings/page/templates/page/datasets_openlib.html:6
 #: allthethings/page/templates/page/datasets_openlib.html:7
 #: allthethings/page/templates/page/datasets_zlib_scrape.html:6
@@ -59,8 +52,8 @@ msgstr ""
 #: allthethings/page/templates/page/lgrs_book.html:13
 #: allthethings/page/templates/page/login.html:4
 #: allthethings/page/templates/page/login.html:5
-#: allthethings/page/templates/page/md5.html:80
-#: allthethings/page/templates/page/md5.html:81
+#: allthethings/page/templates/page/md5.html:98
+#: allthethings/page/templates/page/md5.html:99
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/ol_book.html:8
@@ -70,107 +63,138 @@ msgstr ""
 msgid "common.english_only"
 msgstr "नीचे दिया गया भाग अंग्रेजी में ही है।"
 
-#: allthethings/page/views.py:1670
+#: allthethings/account/templates/account/donate.html:197
+msgid "page.donate.crypto.intro"
+msgstr "यदि आपके पास पहले से क्रिप्टो मनी है, तो ये हमारे पते हैं:"
+
+#: allthethings/account/templates/account/donate.html:212
+#: allthethings/account/templates/account/donate.html:250
+#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:279
+#: allthethings/account/templates/account/donate.html:289
+msgid "page.donate.text_thank_you"
+msgstr "हमारी सहायता करने के लिए बोहोत शुक्रिया! आपके बिना ये प्रोजेक्ट संभव नहीं हो पाता।"
+
+#: allthethings/account/templates/account/donate.html:261
+#: allthethings/account/templates/account/donate.html:275
+#: allthethings/account/templates/account/donation.html:102
+#: allthethings/account/templates/account/donation.html:114
+#: allthethings/account/templates/account/donation.html:126
+msgid "page.donate.strange_account"
+msgstr "ध्यान दें कि खाते का नाम या चित्र अजीब लग सकता है। चिंता की कोई बात नहीं है! ये खाते हमारे दान भागीदारों द्वारा प्रबंधित किए जाते हैं। हमारे खातों का उल्लंघन नहीं हुआ है।"
+
+#: allthethings/account/templates/account/donation_faq.html:19
+msgid "page.donate.faq.text_other_payment1"
+msgstr "<div class=\"font-bold\"> क्या आपके पास कोई और भुगतान का तरीका है?</div>फिलहाल नहीं| ऐसे बहुत सारे लोग हैं जो ऐसे संग्रह को मौजूद नहीं होने देने चाहते, तो हमें ध्यान से रहना पड़ता है।अगर आप हमें कोई और (ज़्यादा सुविधाजनक) भुगतान का तरीका सुरक्षित रूप से स्तापित करने में सहायता कर सकें तो कृपया हमसे %(email)s पर संपर्क करें ।"
+
+#: allthethings/account/templates/account/donation_faq.html:23
+msgid "page.donate.faq.text_other_payment2"
+msgstr "यदि आपका भुगतान का तरीका सूचि में नहीं है तो सबसे आसान तरीका अपने फ़ोन पर <a href=\"https://www.coinbase.com/\"> Coinbase</a>डाउनलोड करके थोड़ा सा बिटकॉइन (BTC) खरीदना रहेग।आप उसे हमारे पते: %(address)s पर भेज सकते हैं।अधिकतर देशों में ऐसा करने के लिए केवल कुछ मिनटों की ज़रूरत पड़ेगी।"
+
+#: allthethings/account/templates/account/donation_faq.html:36
+msgid "page.donate.faq.text_large_donation"
+msgstr "<div class=\"font-bold\"> क्या मैं बड़ा दान दे सकता / सकती हूँ?</div>ये बोहोत कमाल होगा! कुछ हज़ार डॉलर के ऊपर का चंदा देने के लिए, कृपया हमें सीधा %(email)s पर संपर्क करें।"
+
+#: allthethings/account/templates/account/donation_faq.html:40
+msgid "page.donate.faq.text_other_contribs"
+msgstr "<div class=\"font-bold\">क्या मैं किसी और तरह से सहायता कर सकता / सकती हूँ ? </div>हाँ! <a href=\"/about\">अबाउट</a> पेज में \"हाउ टू हेल्प\" के नीचे देखे।"
+
+#: allthethings/page/views.py:1683
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "लाइब्रेरी जेनेसिस \".rs-fork\" नॉन-फिक्शन में दिखाई नहीं देता।"
 
-#: allthethings/page/views.py:1671
+#: allthethings/page/views.py:1684
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "लाइब्रेरी जेनेसिस \".rs-fork\" नॉन-फिक्शन में दिखाई नहीं देता"
 
-#: allthethings/page/views.py:1672
+#: allthethings/page/views.py:1685
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "लाइब्रेरी जेनेसिस \".li-fork\" में दिखाई नहीं दे रहा"
 
-#: allthethings/page/views.py:1673
+#: allthethings/page/views.py:1686
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "लाइब्रेरी जेनेसिस \".li-fork\" में टूटा हुआ अंकित"
 
-#: allthethings/page/views.py:1674
+#: allthethings/page/views.py:1687
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "कब से गायब है Z-Library"
 
-#: allthethings/page/views.py:1680
+#: allthethings/page/views.py:1693
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "पुस्तक (अज्ञात)"
 
-#: allthethings/page/views.py:1681
+#: allthethings/page/views.py:1694
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "पुस्तक(वास्तविक)"
 
-#: allthethings/page/views.py:1682
+#: allthethings/page/views.py:1695
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "पुस्तक(कल्पना)"
 
-#: allthethings/page/views.py:1683
+#: allthethings/page/views.py:1696
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "पत्रिका आलेख"
 
-#: allthethings/page/views.py:1684
+#: allthethings/page/views.py:1697
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "मानक दस्तावेज"
 
-#: allthethings/page/views.py:1685
+#: allthethings/page/views.py:1698
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "पत्रिका"
 
-#: allthethings/page/views.py:1686
+#: allthethings/page/views.py:1699
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "कॉमिक पत्रिका"
 
-#: allthethings/page/views.py:1688
+#: allthethings/page/views.py:1701
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "किताब (कोई भी )"
 
-#: allthethings/page/views.py:1733
+#: allthethings/page/views.py:1783
 msgid "page.md5.box.download.lgrsnf"
 msgstr "लाइब्रेरी जेनेसिस \".rs-fork\" वास्तविक"
 
-#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1783 allthethings/page/views.py:1791
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(शीर्ष पर \"GET\" पर भी क्लिक करें)"
 
-#: allthethings/page/views.py:1733 allthethings/page/views.py:1736
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1783 allthethings/page/views.py:1791
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(शीर्ष पर \"GET\" पर क्लिक करें)"
 
-#: allthethings/page/views.py:1736
+#: allthethings/page/views.py:1791
 msgid "page.md5.box.download.lgrsfic"
 msgstr "लाइब्रेरी जेनेसिस \".rs-fork\" काल्पनिक"
 
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1809
 msgid "page.md5.box.download.lgli"
 msgstr "लाइब्रेरी जेनेसिस \".li-fork\""
 
-#: allthethings/page/views.py:1742 allthethings/page/views.py:1743
-#: allthethings/page/views.py:1744
+#: allthethings/page/views.py:1812 allthethings/page/views.py:1813
+#: allthethings/page/views.py:1814
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "IPFS गेटवे #%(num)d"
 
-#: allthethings/page/views.py:1742
+#: allthethings/page/views.py:1812
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(आपको IPFS के साथ कई बार प्रयास करने की आवश्यकता हो सकती है)"
 
-#: allthethings/page/views.py:1746 allthethings/page/views.py:1747
-#: allthethings/page/views.py:1748 allthethings/page/views.py:1749
-msgid "page.md5.box.download.zlib_anon"
-msgstr "ज़-लाइब्रेरी अज्ञात मिरर #%(num)d"
-
-#: allthethings/page/views.py:1751
+#: allthethings/page/views.py:1819
 msgid "page.md5.box.download.scihub"
 msgstr "सकी-हब: %(doi)s"
 
-#: allthethings/page/views.py:1751
+#: allthethings/page/views.py:1819
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "सम्बंधित DOI Sci-Hub पर शायद मौजूद नहीं है"
 
-#: allthethings/page/views.py:1753
+#: allthethings/page/views.py:1821
 msgid "page.md5.box.download.zlib_tor"
 msgstr "ज़-लाइब्रेरी TOR"
 
-#: allthethings/page/views.py:1753
+#: allthethings/page/views.py:1821
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(TOR ब्राउज़र की आवश्यकता )"
 
@@ -244,165 +268,9 @@ msgstr "हमारे डेटाबेस में कोई मिलत�
 
 #: allthethings/page/templates/page/doi.html:37
 #: allthethings/page/templates/page/isbn.html:42
-#: allthethings/page/templates/page/md5.html:89
+#: allthethings/page/templates/page/md5.html:107
 msgid "common.tech_details"
 msgstr "तकनीकी विवरण (अंग्रेजी में)"
-
-#: allthethings/page/templates/page/donate.html:3
-msgid "page.donate.title"
-msgstr "दान देना"
-
-#: allthethings/page/templates/page/donate.html:6
-msgid "page.donate.header"
-msgstr "दान देना"
-
-#: allthethings/page/templates/page/donate.html:9
-msgid "page.donate.text1"
-msgstr "एना'स आर्काइव एक गैर लाभकारी योजना है, जो की पूरी तरह स्वयंसेवकों द्वारा चलाया जाता है। हम अपने खर्चे, जिनमें होस्टिंग, डोमेन का नाम, विकसन और अन्य खर्चों सम्मिलित हैं, को पूरा करने के लिए चंदे की सहायता लेते हैं।"
-
-#: allthethings/page/templates/page/donate.html:13
-msgid "page.donate.text2"
-msgstr "आपके योगदानो से हम इस साइट को चलते रहते हैं, इसके फीचर्स सुधरते हैं, तथा और अधिक सांकलों का संरक्षण करते हैं।"
-
-#: allthethings/page/templates/page/donate.html:17
-msgid "page.donate.text3"
-msgstr "नए योगदान: %(donations)s.आपकी उदारता के लिए धन्यवाद।हम पर विश्वास दिखने के लिए हम आपकी गहराई से सराहना करते हैं, जो भी राशि आप रिक्त कर सकें।"
-
-#: allthethings/page/templates/page/donate.html:21
-msgid "page.donate.text4"
-msgstr "चंदा देने के लिए, अपना पसंदीदा तरीका नीचे चुनें। अगर आप कोई परेशानी हो, तो कृपया हमें %(email)s पर सम्पर्क करे।"
-
-#: allthethings/page/templates/page/donate.html:55
-msgid "page.donate.nav.paypal"
-msgstr "Paypal"
-
-#: allthethings/page/templates/page/donate.html:56
-msgid "page.donate.nav.cc"
-msgstr "क्रेडिट/ डेबिट कार्ड"
-
-#: allthethings/page/templates/page/donate.html:57
-msgid "page.donate.nav.crypto"
-msgstr "क्रिप्टो"
-
-#: allthethings/page/templates/page/donate.html:58
-msgid "page.donate.nav.alipay"
-msgstr "अलीपे"
-
-#: allthethings/page/templates/page/donate.html:59
-msgid "page.donate.nav.pix"
-msgstr "Pix"
-
-#: allthethings/page/templates/page/donate.html:60
-msgid "page.donate.nav.faq"
-msgstr "सवाल"
-
-#: allthethings/page/templates/page/donate.html:64
-msgid "page.donate.paypal.header"
-msgstr "Paypal"
-
-#: allthethings/page/templates/page/donate.html:67
-msgid "page.donate.paypal.text"
-msgstr "%(link_open_tag)sthis page</a> पर जाएं और निर्देशों का पालन करें, QR कोड स्कैन करके या “paypal.me” लिंक पर क्लिक करके। यदि यह काम नहीं करता है, तो पृष्ठ को ताज़ा करने का प्रयास करें, क्योंकि इससे आपको एक अलग खाता मिल सकता है।"
-
-#: allthethings/page/templates/page/donate.html:71
-#: allthethings/page/templates/page/donate.html:132
-msgid "page.donate.strange_account"
-msgstr "ध्यान दें कि खाते का नाम या चित्र अजीब लग सकता है। चिंता की कोई बात नहीं है! ये खाते हमारे दान भागीदारों द्वारा प्रबंधित किए जाते हैं। हमारे खातों का उल्लंघन नहीं हुआ है।"
-
-#: allthethings/page/templates/page/donate.html:75
-#: allthethings/page/templates/page/donate.html:101
-#: allthethings/page/templates/page/donate.html:120
-#: allthethings/page/templates/page/donate.html:140
-#: allthethings/page/templates/page/donate.html:184
-#: allthethings/page/templates/page/donate.html:197
-msgid "page.donate.text_thank_you"
-msgstr "हमारी सहायता करने के लिए बोहोत शुक्रिया! आपके बिना ये प्रोजेक्ट संभव नहीं हो पाता।"
-
-#: allthethings/page/templates/page/donate.html:80
-msgid "page.donate.cc.header"
-msgstr "क्रेडिट/डेबिट कार्ड"
-
-#: allthethings/page/templates/page/donate.html:83
-msgid "page.donate.cc.text1"
-msgstr "हम अपने बिटकॉइन वॉलेट में पैसे सीधे जमा करने के लिए sendwyre का उपयोग करते है। इसे पूरा होने में लगभग 5 मिनट लगते हैं।"
-
-#: allthethings/page/templates/page/donate.html:87
-msgid "page.donate.cc.text2"
-msgstr "इस तरीके की न्यूनतम लेन-देन राशि $30 है, और $5 की फीस है।"
-
-#: allthethings/page/templates/page/donate.html:91
-msgid "page.donate.cc.steps.header"
-msgstr "प्रक्रिया:"
-
-#: allthethings/page/templates/page/donate.html:95
-msgid "page.donate.cc.steps.list1"
-msgstr "1.हमारे बिटकॉइन (BTC) वॉलेट पते को कॉपी करें: %(address)s"
-
-#: allthethings/page/templates/page/donate.html:96
-msgid "page.donate.cc.steps.list2"
-msgstr "2. इस %(link_open_tag)s लिंक </a> जाएं और \" क्रिप्टो तुरंत खरीदें\" पर क्लिक करे"
-
-#: allthethings/page/templates/page/donate.html:97
-msgid "page.donate.cc.steps.list3"
-msgstr "3.हमारे वॉलेट का पता पेस्ट करें, और निर्देशों का पालन करें"
-
-#: allthethings/page/templates/page/donate.html:106
-msgid "page.donate.crypto.header"
-msgstr "क्रिप्टो"
-
-#: allthethings/page/templates/page/donate.html:109
-msgid "page.donate.crypto.intro"
-msgstr "यदि आपके पास पहले से क्रिप्टो मनी है, तो ये हमारे पते हैं:"
-
-#: allthethings/page/templates/page/donate.html:113
-msgid "page.donate.crypto.btc_bch_note"
-msgstr "(BCH के लिए भी काम करता है)"
-
-#: allthethings/page/templates/page/donate.html:125
-msgid "page.donate.alipay.header"
-msgstr "अलीपे"
-
-#: allthethings/page/templates/page/donate.html:128
-#: allthethings/page/templates/page/donate.html:151
-msgid "page.donate.alipay.intro"
-msgstr "%(link_open_tag)sअपना चंदा भेजने के लिए कृपया इस अलीपे खाते का प्रयोग करे।</a>"
-
-#: allthethings/page/templates/page/donate.html:136
-msgid "page.donate.alipay.url"
-msgstr "URL"
-
-#: allthethings/page/templates/page/donate.html:145
-#: allthethings/page/templates/page/donate.html:202
-msgid "page.donate.out_of_order"
-msgstr "यह दान विकल्प वर्तमान में काम नहीं कर रहा है। कृपया पुनः प्रयास करें। दान करने की इच्छा के लिए धन्यवाद, हम वास्तव में इसकी सराहना करते हैं!"
-
-#: allthethings/page/templates/page/donate.html:190
-msgid "page.donate.pix.header"
-msgstr "Pix"
-
-#: allthethings/page/templates/page/donate.html:193
-msgid "page.donate.pix.text"
-msgstr "अपना दान भेजने के लिए कृपया %(link_open_tag)s this Pix page</a> का उपयोग करें। यदि यह काम नहीं करता है, तो पृष्ठ को रिलोड करने का प्रयास करें, क्योंकि इससे आपको एक अलग खाता मिल सकता है।"
-
-#: allthethings/page/templates/page/donate.html:208
-msgid "page.donate.faq.header"
-msgstr "अक्सर पूछे जाने वाले सवाल"
-
-#: allthethings/page/templates/page/donate.html:211
-msgid "page.donate.faq.text_other_payment1"
-msgstr "<div class=\"font-bold\"> क्या आपके पास कोई और भुगतान का तरीका है?</div>फिलहाल नहीं| ऐसे बहुत सारे लोग हैं जो ऐसे संग्रह को मौजूद नहीं होने देने चाहते, तो हमें ध्यान से रहना पड़ता है।अगर आप हमें कोई और (ज़्यादा सुविधाजनक) भुगतान का तरीका सुरक्षित रूप से स्तापित करने में सहायता कर सकें तो कृपया हमसे %(email)s पर संपर्क करें ।"
-
-#: allthethings/page/templates/page/donate.html:215
-msgid "page.donate.faq.text_other_payment2"
-msgstr "यदि आपका भुगतान का तरीका सूचि में नहीं है तो सबसे आसान तरीका अपने फ़ोन पर <a href=\"https://www.coinbase.com/\"> Coinbase</a>डाउनलोड करके थोड़ा सा बिटकॉइन (BTC) खरीदना रहेग।आप उसे हमारे पते: %(address)s पर भेज सकते हैं।अधिकतर देशों में ऐसा करने के लिए केवल कुछ मिनटों की ज़रूरत पड़ेगी।"
-
-#: allthethings/page/templates/page/donate.html:219
-msgid "page.donate.faq.text_large_donation"
-msgstr "<div class=\"font-bold\"> क्या मैं बड़ा दान दे सकता / सकती हूँ?</div>ये बोहोत कमाल होगा! कुछ हज़ार डॉलर के ऊपर का चंदा देने के लिए, कृपया हमें सीधा %(email)s पर संपर्क करें।"
-
-#: allthethings/page/templates/page/donate.html:223
-msgid "page.donate.faq.text_other_contribs"
-msgstr "<div class=\"font-bold\">क्या मैं किसी और तरह से सहायता कर सकता / सकती हूँ ? </div>हाँ! <a href=\"/about\">अबाउट</a> पेज में \"हाउ टू हेल्प\" के नीचे देखे।"
 
 #: allthethings/page/templates/page/home.html:10
 msgid "page.home.intro"
@@ -418,7 +286,7 @@ msgstr "हमारे शैडो पुस्तकालयों की �
 
 #: allthethings/page/templates/page/home.html:80
 #: allthethings/page/templates/page/search.html:56
-#: allthethings/templates/layouts/index.html:277
+#: allthethings/templates/layouts/index.html:348
 msgid "common.search.placeholder"
 msgstr "खोज शीर्षक, लेखक, भाषा, फ़ाइल प्रकार, ISBN, MD5, …"
 
@@ -467,19 +335,21 @@ msgstr "प्राप्त नहीं हुआ"
 msgid "page.md5.invalid.text"
 msgstr "\"%(md5_input)s\"हमारे डेटाबेस में प्राप्त नहीं हुआ ।"
 
-#: allthethings/page/templates/page/md5.html:32
+#: allthethings/page/templates/page/md5.html:28
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌इस फाइल में समस्या हो सकती है, और इसे स्तोत्र पुस्तकालय से छुपा दिया गया है ।</span> कभी ऐसा प्रतिलिप्याधिकारी के आवेदन, या कभी किसी बेहतर विकल्प के मौजूद होने के कारण, और कभी फाइल के साथ ही किसी समस्या के कारण होता है।वह डाउनलोड करने के लिए फिर भी ठीक हो सकती है, लेकिन हम सलाह देने चाहने की विकल्प की खोज पहले कर ली जाय।और सूचना:"
 
-#: allthethings/page/templates/page/md5.html:39
+#: allthethings/page/templates/page/md5.html:35
 msgid "page.md5.box.issues.text2"
 msgstr "यदि आप फिर भी इस फाइल कोदोव्न्लोड करना चाहते हैं, तो किसी आश्वश्त, अपडेटेड सॉफ्टवेयर का ही प्रयोग करें।"
 
-#: allthethings/page/templates/page/md5.html:44
+#: allthethings/page/templates/page/md5.html:45
+#: allthethings/page/templates/page/md5.html:46
+#: allthethings/page/templates/page/md5.html:62
 msgid "page.md5.box.download.option"
 msgstr "Option #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/md5.html:48
+#: allthethings/page/templates/page/md5.html:66
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "सभी डाउनलोड विकल्प एक ही फ़ाइल का उपयोग करते हैं, और उपयोग करने के लिए सुरक्षित होने चाहिए। उस ने कहा, इंटरनेट से फ़ाइलें डाउनलोड करते समय हमेशा सतर्क रहें। उदाहरण के लिए, अपने उपकरणों को अपडेट रखना सुनिश्चित करें।"
 
@@ -567,115 +437,185 @@ msgstr "%(num)dअधूरे मेल"
 msgid "layout.index.title"
 msgstr "अन्ना का पुरालेख"
 
-#: allthethings/templates/layouts/index.html:47
+#: allthethings/templates/layouts/index.html:10
+msgid "layout.index.meta.description"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:19
+msgid "layout.index.meta.opensearch"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:52
 msgid "layout.index.header.banner.new_donation_method"
 msgstr "हमारे पास एक नई दान पद्धति उपलब्ध है: %(method_name)s. कृपया %(donate_link_open_tag)sदान करने पर विचार करें</a> — यह वेबसाइट चलाना सस्ता नहीं है, और आपके दान से वास्तव में फर्क पड़ता है। आपका बहुत-बहुत धन्यवाद।"
 
-#: allthethings/templates/layouts/index.html:81
+#: allthethings/templates/layouts/index.html:67
+msgid "layout.index.banners.comics_fundraiser.text"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:98
 msgid "layout.index.header.title"
 msgstr "अन्ना का पुरालेख"
 
-#: allthethings/templates/layouts/index.html:218
+#: allthethings/templates/layouts/index.html:235
 msgid "layout.index.header.tagline"
 msgstr "🔍 छाया पुस्तकालयों का खोज इंजन: किताबें, पत्र, कॉमिक्स, पत्रिकाएँ। ⭐️ जेड-लाइब्रेरी, लाइब्रेरी जेनेसिस, साइंस-हब। ⚙️ ओपन सोर्स कोड और डेटा के माध्यम से पूरी तरह से लचीला। ❤️ प्रचार करें: यहां सभी का स्वागत है!"
 
-#: allthethings/templates/layouts/index.html:250
-#: allthethings/templates/layouts/index.html:257
-#: allthethings/templates/layouts/index.html:266
+#: allthethings/templates/layouts/index.html:238
+msgid "layout.index.header.recent_downloads"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:321
+#: allthethings/templates/layouts/index.html:328
+#: allthethings/templates/layouts/index.html:337
 msgid "layout.index.header.nav.about"
 msgstr "के बारे में"
 
-#: allthethings/templates/layouts/index.html:251
-#: allthethings/templates/layouts/index.html:258
-#: allthethings/templates/layouts/index.html:267
+#: allthethings/templates/layouts/index.html:322
+#: allthethings/templates/layouts/index.html:329
+#: allthethings/templates/layouts/index.html:338
 msgid "layout.index.header.nav.datasets"
 msgstr "डटसेट्स"
 
-#: allthethings/templates/layouts/index.html:252
-#: allthethings/templates/layouts/index.html:259
-#: allthethings/templates/layouts/index.html:268
+#: allthethings/templates/layouts/index.html:323
+#: allthethings/templates/layouts/index.html:330
+#: allthethings/templates/layouts/index.html:339
 msgid "layout.index.header.nav.mobile"
 msgstr "मोबाइल एप्लिकेशन"
 
-#: allthethings/templates/layouts/index.html:253
-#: allthethings/templates/layouts/index.html:260
-#: allthethings/templates/layouts/index.html:265
+#: allthethings/templates/layouts/index.html:324
+#: allthethings/templates/layouts/index.html:331
+#: allthethings/templates/layouts/index.html:336
 msgid "layout.index.header.nav.home"
 msgstr "घर"
 
-#: allthethings/templates/layouts/index.html:269
+#: allthethings/templates/layouts/index.html:340
 msgid "layout.index.header.nav.annasblog"
 msgstr "Anna's ब्लॉग ↗"
 
-#: allthethings/templates/layouts/index.html:270
+#: allthethings/templates/layouts/index.html:341
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Anna’s सॉफ़्टवेयर ↗"
 
-#: allthethings/templates/layouts/index.html:271
+#: allthethings/templates/layouts/index.html:342
 msgid "layout.index.header.nav.translate"
 msgstr "अनुवाद ↗"
 
-#: allthethings/templates/layouts/index.html:273
+#: allthethings/templates/layouts/index.html:344
 msgid "layout.index.header.nav.donate"
 msgstr "दान देना"
 
-#: allthethings/templates/layouts/index.html:274
+#: allthethings/templates/layouts/index.html:345
 msgid "layout.index.header.nav.search"
 msgstr "खोज"
 
-#: allthethings/templates/layouts/index.html:333
+#: allthethings/templates/layouts/index.html:351
+msgid "layout.index.header.nav.beta"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:354
+#: allthethings/templates/layouts/index.html:360
+#: allthethings/templates/layouts/index.html:368
+#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:385
+#: allthethings/templates/layouts/index.html:396
+msgid "layout.index.header.nav.request"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:361
+#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:377
+#: allthethings/templates/layouts/index.html:386
+#: allthethings/templates/layouts/index.html:397
+msgid "layout.index.header.nav.upload"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:356
+#: allthethings/templates/layouts/index.html:362
+#: allthethings/templates/layouts/index.html:367
+msgid "layout.index.header.nav.login_register"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:373
+#: allthethings/templates/layouts/index.html:382
+#: allthethings/templates/layouts/index.html:393
+msgid "layout.index.header.nav.public_profile"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:383
+#: allthethings/templates/layouts/index.html:394
+msgid "layout.index.header.nav.downloaded_files"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:384
+#: allthethings/templates/layouts/index.html:395
+msgid "layout.index.header.nav.my_donations"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:392
+msgid "layout.index.header.nav.account"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:407
 msgid "layout.index.footer.list1.header"
 msgstr "अन्ना का पुरालेख"
 
-#: allthethings/templates/layouts/index.html:334
+#: allthethings/templates/layouts/index.html:408
 msgid "layout.index.footer.list1.home"
 msgstr "घर"
 
-#: allthethings/templates/layouts/index.html:335
+#: allthethings/templates/layouts/index.html:409
 msgid "layout.index.footer.list1.about"
 msgstr "के बारे में"
 
-#: allthethings/templates/layouts/index.html:336
+#: allthethings/templates/layouts/index.html:410
 msgid "layout.index.footer.list1.donate"
 msgstr "दान देना"
 
-#: allthethings/templates/layouts/index.html:337
+#: allthethings/templates/layouts/index.html:411
 msgid "layout.index.footer.list1.datasets"
 msgstr "डटसेट्स"
 
-#: allthethings/templates/layouts/index.html:338
+#: allthethings/templates/layouts/index.html:412
 msgid "layout.index.footer.list1.mobile"
 msgstr "मोबाइल एप्लिकेशन"
 
-#: allthethings/templates/layouts/index.html:351
+#: allthethings/templates/layouts/index.html:425
 msgid "layout.index.footer.list2.header"
 msgstr "सम्पर्क बनाये रखें"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.twitter"
 msgstr "ट्विटर"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.reddit"
 msgstr "रेड्डिट"
 
-#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list2.telegram"
 msgstr "टेलीग्राम"
 
-#: allthethings/templates/layouts/index.html:353
+#: allthethings/templates/layouts/index.html:427
 msgid "layout.index.footer.list2.blog"
 msgstr "एना'स ब्लॉग"
 
-#: allthethings/templates/layouts/index.html:354
+#: allthethings/templates/layouts/index.html:428
 msgid "layout.index.footer.list2.software"
 msgstr "एना'स सॉफ्टवेयर"
 
-#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.footer.list2.translate"
 msgstr "अनुवाद"
 
-#: allthethings/templates/layouts/index.html:362
+#: allthethings/templates/layouts/index.html:431
+msgid "layout.index.footer.list2.dmca_copyright"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:436
 msgid "layout.index.footer.list3.header"
 msgstr "वैकल्पिक"
 
@@ -703,3 +643,97 @@ msgstr "❌इस फाइल में समस्या हो सकती 
 
 #~ msgid "page.md5.box.download.no_hosting"
 #~ msgstr "ध्यान दें कि अन्ना का संग्रह यहां किसी भी सामग्री को होस्ट नहीं करता है। हम केवल अन्य लोगों की वेबसाइटों से लिंक करते हैं। यदि आपको लगता है कि आपके पास वैध DMCA शिकायत है, तो कृपया %(about_link)sabout पृष्ठ</a> देखें।"
+
+#~ msgid "page.md5.box.download.zlib_anon"
+#~ msgstr "ज़-लाइब्रेरी अज्ञात मिरर #%(num)d"
+
+#~ msgid "page.donate.title"
+#~ msgstr "दान देना"
+
+#~ msgid "page.donate.header"
+#~ msgstr "दान देना"
+
+#~ msgid "page.donate.text1"
+#~ msgstr "एना'स आर्काइव एक गैर लाभकारी योजना है, जो की पूरी तरह स्वयंसेवकों द्वारा चलाया जाता है। हम अपने खर्चे, जिनमें होस्टिंग, डोमेन का नाम, विकसन और अन्य खर्चों सम्मिलित हैं, को पूरा करने के लिए चंदे की सहायता लेते हैं।"
+
+#~ msgid "page.donate.text2"
+#~ msgstr "आपके योगदानो से हम इस साइट को चलते रहते हैं, इसके फीचर्स सुधरते हैं, तथा और अधिक सांकलों का संरक्षण करते हैं।"
+
+#~ msgid "page.donate.text3"
+#~ msgstr "नए योगदान: %(donations)s.आपकी उदारता के लिए धन्यवाद।हम पर विश्वास दिखने के लिए हम आपकी गहराई से सराहना करते हैं, जो भी राशि आप रिक्त कर सकें।"
+
+#~ msgid "page.donate.text4"
+#~ msgstr "चंदा देने के लिए, अपना पसंदीदा तरीका नीचे चुनें। अगर आप कोई परेशानी हो, तो कृपया हमें %(email)s पर सम्पर्क करे।"
+
+#~ msgid "page.donate.nav.paypal"
+#~ msgstr "Paypal"
+
+#~ msgid "page.donate.nav.cc"
+#~ msgstr "क्रेडिट/ डेबिट कार्ड"
+
+#~ msgid "page.donate.nav.crypto"
+#~ msgstr "क्रिप्टो"
+
+#~ msgid "page.donate.nav.alipay"
+#~ msgstr "अलीपे"
+
+#~ msgid "page.donate.nav.pix"
+#~ msgstr "Pix"
+
+#~ msgid "page.donate.nav.faq"
+#~ msgstr "सवाल"
+
+#~ msgid "page.donate.paypal.header"
+#~ msgstr "Paypal"
+
+#~ msgid "page.donate.paypal.text"
+#~ msgstr "%(link_open_tag)sthis page</a> पर जाएं और निर्देशों का पालन करें, QR कोड स्कैन करके या “paypal.me” लिंक पर क्लिक करके। यदि यह काम नहीं करता है, तो पृष्ठ को ताज़ा करने का प्रयास करें, क्योंकि इससे आपको एक अलग खाता मिल सकता है।"
+
+#~ msgid "page.donate.cc.header"
+#~ msgstr "क्रेडिट/डेबिट कार्ड"
+
+#~ msgid "page.donate.cc.text1"
+#~ msgstr "हम अपने बिटकॉइन वॉलेट में पैसे सीधे जमा करने के लिए sendwyre का उपयोग करते है। इसे पूरा होने में लगभग 5 मिनट लगते हैं।"
+
+#~ msgid "page.donate.cc.text2"
+#~ msgstr "इस तरीके की न्यूनतम लेन-देन राशि $30 है, और $5 की फीस है।"
+
+#~ msgid "page.donate.cc.steps.header"
+#~ msgstr "प्रक्रिया:"
+
+#~ msgid "page.donate.cc.steps.list1"
+#~ msgstr "1.हमारे बिटकॉइन (BTC) वॉलेट पते को कॉपी करें: %(address)s"
+
+#~ msgid "page.donate.cc.steps.list2"
+#~ msgstr "2. इस %(link_open_tag)s लिंक </a> जाएं और \" क्रिप्टो तुरंत खरीदें\" पर क्लिक करे"
+
+#~ msgid "page.donate.cc.steps.list3"
+#~ msgstr "3.हमारे वॉलेट का पता पेस्ट करें, और निर्देशों का पालन करें"
+
+#~ msgid "page.donate.crypto.header"
+#~ msgstr "क्रिप्टो"
+
+#~ msgid "page.donate.crypto.btc_bch_note"
+#~ msgstr "(BCH के लिए भी काम करता है)"
+
+#~ msgid "page.donate.alipay.header"
+#~ msgstr "अलीपे"
+
+#~ msgid "page.donate.alipay.intro"
+#~ msgstr "%(link_open_tag)sअपना चंदा भेजने के लिए कृपया इस अलीपे खाते का प्रयोग करे।</a>"
+
+#~ msgid "page.donate.alipay.url"
+#~ msgstr "URL"
+
+#~ msgid "page.donate.out_of_order"
+#~ msgstr "यह दान विकल्प वर्तमान में काम नहीं कर रहा है। कृपया पुनः प्रयास करें। दान करने की इच्छा के लिए धन्यवाद, हम वास्तव में इसकी सराहना करते हैं!"
+
+#~ msgid "page.donate.pix.header"
+#~ msgstr "Pix"
+
+#~ msgid "page.donate.pix.text"
+#~ msgstr "अपना दान भेजने के लिए कृपया %(link_open_tag)s this Pix page</a> का उपयोग करें। यदि यह काम नहीं करता है, तो पृष्ठ को रिलोड करने का प्रयास करें, क्योंकि इससे आपको एक अलग खाता मिल सकता है।"
+
+#~ msgid "page.donate.faq.header"
+#~ msgstr "अक्सर पूछे जाने वाले सवाल"
+
