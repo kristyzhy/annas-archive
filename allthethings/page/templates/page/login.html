@@ -1,22 +1,20 @@
 {% extends "layouts/index.html" %}
 
+{% block title %}{{ gettext('page.login.title') }}{% endblock %}
+
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
-
-  <h2 class="mt-4 mb-4 text-3xl font-bold">Log in / Register</h2>
+  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.login.title') }}</h2>
 
   <p class="mb-4">
-    To prevent spam-bots from creating lots of accounts, we need to verify your browser first.
+    {{ gettext('page.login.text1') }}
   </p>
 
 
   <p class="mb-4">
-    If you get caught in an infinite loop, we recommend installing <a href="https://privacypass.github.io/">Privacy Pass</a>.
+    {{ gettext('page.login.text2') }}
   </p>
 
   <p class="mb-4">
-    <a href="/account" class="custom-a mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Continue</a>
+    <a href="/account" class="custom-a mt-2 mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">{{ gettext('page.login.continue') }}</a>
   </p>
 {% endblock %}
