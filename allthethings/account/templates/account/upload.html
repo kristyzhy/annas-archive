@@ -1,21 +1,15 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Upload{% endblock %}
+{% block title %}{{ gettext('page.upload.title') }}{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.upload.title') }}</h2>
 
-  <div lang="en">
-    <h2 class="mt-4 mb-4 text-3xl font-bold">Upload</h2>
+  <p class="mb-4">
+    {{ gettext('page.upload.text1', a_guide=('href="https://wiki.mhut.org/content:how_to_upload"' | safe)) }}
+  </p>
 
-    <p class="mb-4">
-      For now, we suggest uploading new books to the Library Genesis forks. Here is a <a href="https://wiki.mhut.org/content:how_to_upload">handy guide</a>. Note that both forks that we index on this website pull from this same upload system.
-    </p>
-
-    <p class="mb-4">
-      If your email address doesn’t work on the Libgen forums, we recommend using <a href="https://proton.me/" rel="noopener noreferrer" target="_blank">Proton Mail</a> (free).
-    </p>
-  </div>
+  <p class="mb-4">
+    {{ gettext('common.libgen.email', a_mail=('href="https://proton.me/" rel="noopener noreferrer" target="_blank"' | safe)) }}
+  </p>
 {% endblock %}

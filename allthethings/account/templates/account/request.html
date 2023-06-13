@@ -1,30 +1,23 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Request books{% endblock %}
+{% block title %}{{ gettext('page.request.title') }}{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.request.title') }}</h2>
 
-  <div lang="en">
-    <h2 class="mt-4 mb-4 text-3xl font-bold">Request books</h2>
+  <p class="">
+    {{ gettext('page.request.text1', a_forum=('href="https://forum.mhut.org"' | safe)) }}
+  </p>
 
-    <p class="">
-      For now, can you please requests eBooks on the <a href="https://forum.mhut.org">Libgen.rs forum</a>? You can create an account there and post in one of these threads:
-    </p>
+  <ul class="list-inside">
+    {{ gettext('page.request.text2', li_item=('class="list-disc"' | safe), a_ebook=('href="https://forum.mhut.org/viewtopic.php?f=17&t=6399"' | safe), a_regular=('href="https://forum.mhut.org/viewtopic.php?f=10&t=7588"' | safe)) }}
+  </ul>
 
-    <ul class="list-inside">
-      <li class="list-disc">For eBooks, use <a href="https://forum.mhut.org/viewtopic.php?f=17&t=6399">this thread</a>.</li>
-      <li class="list-disc">For books that are not available as eBooks, use <a href="https://forum.mhut.org/viewtopic.php?f=10&t=7588">this thread</a>.</li>
-    </ul>
+  <p class="mb-4">
+    {{ gettext('page.request.text3') }}
+  </p>
 
-    <p class="mb-4">
-      In both cases, be sure to follow the rules mentioned in the threads.
-    </p>
-
-    <p class="mb-4">
-      If your email address doesn’t work, we recommend using <a href="https://proton.me/" rel="noopener noreferrer" target="_blank">Proton Mail</a> (free).
-    </p>
-  </div>
+  <p class="mb-4">
+    {{ gettext('common.libgen.email', a_mail=('href="https://proton.me/" rel="noopener noreferrer" target="_blank"' | safe)) }}
+  </p>
 {% endblock %}

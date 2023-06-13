@@ -1,22 +1,16 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Account{% endblock %}
+{% block title %}{{ gettext('page.downloaded.title') }}{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.downloaded.title') }}</h2>
+
+  <p class="mb-4">{{ gettext('page.downloaded.not_public') }}</p>
+
+  {% if md5_dicts_downloaded | length == 0 %}
+    <p>{{ gettext('page.downloaded.no_files') }}</p>
+  {% else %}
+    {% from 'macros/md5_list.html' import md5_list %}
+    {{ md5_list(md5_dicts_downloaded) }}
   {% endif %}
-
-  <div lang="en">
-    <h2 class="mt-4 mb-4 text-3xl font-bold">Downloaded files</h2>
-
-    <p class="mb-4">Downloaded files are not publicly shown.</p>
-
-    {% if md5_dicts_downloaded | length == 0 %}
-      <p>No files downloaded yet.</p>
-    {% else %}
-      {% from 'macros/md5_list.html' import md5_list %}
-      {{ md5_list(md5_dicts_downloaded) }}
-    {% endif %}
-  </div>
 {% endblock %}

@@ -1,25 +1,19 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}My donations{% endblock %}
+{% block title %}{{ gettext('page.my_donations.title') }}{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.my_donations.title') }}</h2>
+
+  <p class="mb-4">{{ gettext('page.my_donations.not_shown') }}</p>
+
+  {% if donation_dicts | length == 0 %}
+    <p>{{ gettext('page.my_donations.no_donations', a_donate=('href="/donate"' | safe)) }}</p>
+  {% else %}
+    <p class="mb-4"><a href="/donate">{{ gettext('page.my_donations.make_another') }}</a></p>
+
+    {% for donation_dict in donation_dicts %}
+      <div class="mb-2"><a href="/account/donations/{{ donation_dict.donation_id }}">{{ donation_dict.created | dateformat(format='long') }}</a> {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal }} <span class="italic">{{ order_processing_status_labels[donation_dict.processing_status] }}</span></div>
+    {% endfor %}
   {% endif %}
-
-  <div lang="en">
-    <h2 class="mt-4 mb-4 text-3xl font-bold">My donations</h2>
-
-    <p class="mb-4">Donations are not publicly shown.</p>
-
-    {% if donation_dicts | length == 0 %}
-      <p>No donations yet. <a href="/donate">Make my first donation.</a></p>
-    {% else %}
-      <p class="mb-4"><a href="/donate">Make another donation.</a></p>
-
-      {% for donation_dict in donation_dicts %}
-        <div class="mb-2"><a href="/account/donations/{{ donation_dict.donation_id }}">{{ donation_dict.created | dateformat(format='long') }}</a> {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal }} <span class="italic">{{ order_processing_status_labels[donation_dict.processing_status] }}</span></div>
-      {% endfor %}
-    {% endif %}
-  </div>
 {% endblock %}

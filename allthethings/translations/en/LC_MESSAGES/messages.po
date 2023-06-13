@@ -485,54 +485,35 @@ msgstr "<div class=\"font-bold\">Can I contribute in other ways?</div> Yes! See 
 msgid "page.donate.faq.monetizing"
 msgstr "<div class=\"font-bold\">I don’t like that you’re “monetizing” Anna’s Archive!</div> If you don’t like how we operate our project, go run your own shadow library! All our code and data are open source, so nothing is stopping you. ;)"
 
+#: allthethings/account/templates/account/donations.html:3
 #: allthethings/account/templates/account/donations.html:6
-#: allthethings/account/templates/account/donations.html:7
+msgid "page.my_donations.title"
+msgstr "My donations"
+
+#: allthethings/account/templates/account/donations.html:8
+msgid "page.my_donations.not_shown"
+msgstr "Donations details are not publicly shown."
+
+#: allthethings/account/templates/account/donations.html:11
+msgid "page.my_donations.no_donations"
+msgstr "No donations yet. <a %(a_donate)s>Make my first donation.</a>"
+
+#: allthethings/account/templates/account/donations.html:13
+msgid "page.my_donations.make_another"
+msgstr "Make another donation."
+
+#: allthethings/account/templates/account/downloaded.html:3
 #: allthethings/account/templates/account/downloaded.html:6
-#: allthethings/account/templates/account/downloaded.html:7
-#: allthethings/account/templates/account/request.html:6
-#: allthethings/account/templates/account/request.html:7
-#: allthethings/account/templates/account/upload.html:6
-#: allthethings/account/templates/account/upload.html:7
-#: allthethings/page/templates/page/about.html:35
-#: allthethings/page/templates/page/about.html:36
-#: allthethings/page/templates/page/copyright.html:6
-#: allthethings/page/templates/page/copyright.html:7
-#: allthethings/page/templates/page/datasets.html:6
-#: allthethings/page/templates/page/datasets.html:7
-#: allthethings/page/templates/page/datasets_isbn_ranges.html:6
-#: allthethings/page/templates/page/datasets_isbn_ranges.html:7
-#: allthethings/page/templates/page/datasets_isbndb_scrape.html:6
-#: allthethings/page/templates/page/datasets_isbndb_scrape.html:7
-#: allthethings/page/templates/page/datasets_libgen_aux.html:6
-#: allthethings/page/templates/page/datasets_libgen_aux.html:7
-#: allthethings/page/templates/page/datasets_libgen_li.html:6
-#: allthethings/page/templates/page/datasets_libgen_li.html:7
-#: allthethings/page/templates/page/datasets_libgen_rs.html:6
-#: allthethings/page/templates/page/datasets_libgen_rs.html:7
-#: allthethings/page/templates/page/datasets_libgenli_comics.html:6
-#: allthethings/page/templates/page/datasets_libgenli_comics.html:7
-#: allthethings/page/templates/page/datasets_openlib.html:6
-#: allthethings/page/templates/page/datasets_openlib.html:7
-#: allthethings/page/templates/page/datasets_zlib_scrape.html:6
-#: allthethings/page/templates/page/datasets_zlib_scrape.html:7
-#: allthethings/page/templates/page/doi.html:40
-#: allthethings/page/templates/page/doi.html:41
-#: allthethings/page/templates/page/isbn.html:45
-#: allthethings/page/templates/page/isbn.html:46
-#: allthethings/page/templates/page/lgli_file.html:10
-#: allthethings/page/templates/page/lgli_file.html:11
-#: allthethings/page/templates/page/lgrs_book.html:12
-#: allthethings/page/templates/page/lgrs_book.html:13
-#: allthethings/page/templates/page/md5.html:93
-#: allthethings/page/templates/page/md5.html:94
-#: allthethings/page/templates/page/mobile.html:6
-#: allthethings/page/templates/page/mobile.html:7
-#: allthethings/page/templates/page/ol_book.html:8
-#: allthethings/page/templates/page/ol_book.html:9
-#: allthethings/page/templates/page/zlib_book.html:8
-#: allthethings/page/templates/page/zlib_book.html:9
-msgid "common.english_only"
-msgstr "Text below continues in English."
+msgid "page.downloaded.title"
+msgstr "Downloaded files"
+
+#: allthethings/account/templates/account/downloaded.html:8
+msgid "page.downloaded.not_public"
+msgstr "Downloaded files are not publicly shown."
+
+#: allthethings/account/templates/account/downloaded.html:11
+msgid "page.downloaded.no_files"
+msgstr "No files downloaded yet."
 
 #: allthethings/account/templates/account/index.html:5
 #: allthethings/account/templates/account/index.html:13
@@ -680,6 +661,37 @@ msgstr "No lists yet"
 msgid "page.profile.lists.new_list"
 msgstr "Create a new list by finding a file and opening the “Lists” tab."
 
+#: allthethings/account/templates/account/request.html:3
+#: allthethings/account/templates/account/request.html:6
+msgid "page.request.title"
+msgstr "Request books"
+
+#: allthethings/account/templates/account/request.html:9
+msgid "page.request.text1"
+msgstr "For now, can you please requests eBooks on the <a %(a_forum)s>Libgen.rs forum</a>? You can create an account there and post in one of these threads:"
+
+#: allthethings/account/templates/account/request.html:13
+msgid "page.request.text2"
+msgstr "<li %(li_item)s>For eBooks, use <a %(a_ebook)s>this thread</a>.</li><li %(li_item)s>For books that are not available as eBooks, use <a %(a_regular)s>this thread</a>.</li>"
+
+#: allthethings/account/templates/account/request.html:17
+msgid "page.request.text3"
+msgstr "In both cases, be sure to follow the rules mentioned in the threads."
+
+#: allthethings/account/templates/account/request.html:21
+#: allthethings/account/templates/account/upload.html:13
+msgid "common.libgen.email"
+msgstr "If your email address doesn’t work on the Libgen forums, we recommend using <a %(a_mail)s>Proton Mail</a> (free)."
+
+#: allthethings/account/templates/account/upload.html:3
+#: allthethings/account/templates/account/upload.html:6
+msgid "page.upload.title"
+msgstr "Upload"
+
+#: allthethings/account/templates/account/upload.html:9
+msgid "page.upload.text1"
+msgstr "For now, we suggest uploading new books to the Library Genesis forks. Here is a <a %(a_guide)s>handy guide</a>. Note that both forks that we index on this website pull from this same upload system."
+
 #: allthethings/page/views.py:1683
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Not visible in Libgen.rs Non-Fiction"
@@ -818,6 +830,47 @@ msgstr "How to help"
 #: allthethings/page/templates/page/about.html:27
 msgid "page.about.help.text"
 msgstr "<li>1. Follow us on <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>, or <a href=\"https://t.me/annasarchiveorg\">Telegram</a>.</li><li>2. Spread the word about Anna’s Archive on Twitter, Reddit, Tiktok, Instagram, at your local cafe or library, or wherever you go! We don’t believe in gatekeeping — if we get taken down we’ll just pop right up elsewhere, since all our code and data is fully open source.</li><li>3. If you are able, consider <a href=\"/donate\">donating</a>.</li><li>4. Help <a href=\"https://translate.annas-software.org/\">translate</a> our website into different languages.</li><li>5. If you are a software engineer, consider contributing to our <a href=\"https://annas-software.org/\">open source</a>, or seeding our <a href=\"/datasets\">torrents</a>.</li>"
+
+#: allthethings/page/templates/page/about.html:35
+#: allthethings/page/templates/page/about.html:36
+#: allthethings/page/templates/page/copyright.html:6
+#: allthethings/page/templates/page/copyright.html:7
+#: allthethings/page/templates/page/datasets.html:6
+#: allthethings/page/templates/page/datasets.html:7
+#: allthethings/page/templates/page/datasets_isbn_ranges.html:6
+#: allthethings/page/templates/page/datasets_isbn_ranges.html:7
+#: allthethings/page/templates/page/datasets_isbndb_scrape.html:6
+#: allthethings/page/templates/page/datasets_isbndb_scrape.html:7
+#: allthethings/page/templates/page/datasets_libgen_aux.html:6
+#: allthethings/page/templates/page/datasets_libgen_aux.html:7
+#: allthethings/page/templates/page/datasets_libgen_li.html:6
+#: allthethings/page/templates/page/datasets_libgen_li.html:7
+#: allthethings/page/templates/page/datasets_libgen_rs.html:6
+#: allthethings/page/templates/page/datasets_libgen_rs.html:7
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:6
+#: allthethings/page/templates/page/datasets_libgenli_comics.html:7
+#: allthethings/page/templates/page/datasets_openlib.html:6
+#: allthethings/page/templates/page/datasets_openlib.html:7
+#: allthethings/page/templates/page/datasets_zlib_scrape.html:6
+#: allthethings/page/templates/page/datasets_zlib_scrape.html:7
+#: allthethings/page/templates/page/doi.html:40
+#: allthethings/page/templates/page/doi.html:41
+#: allthethings/page/templates/page/isbn.html:45
+#: allthethings/page/templates/page/isbn.html:46
+#: allthethings/page/templates/page/lgli_file.html:10
+#: allthethings/page/templates/page/lgli_file.html:11
+#: allthethings/page/templates/page/lgrs_book.html:12
+#: allthethings/page/templates/page/lgrs_book.html:13
+#: allthethings/page/templates/page/md5.html:93
+#: allthethings/page/templates/page/md5.html:94
+#: allthethings/page/templates/page/mobile.html:6
+#: allthethings/page/templates/page/mobile.html:7
+#: allthethings/page/templates/page/ol_book.html:8
+#: allthethings/page/templates/page/ol_book.html:9
+#: allthethings/page/templates/page/zlib_book.html:8
+#: allthethings/page/templates/page/zlib_book.html:9
+msgid "common.english_only"
+msgstr "Text below continues in English."
 
 #: allthethings/page/templates/page/doi.html:3
 msgid "page.doi.title"
