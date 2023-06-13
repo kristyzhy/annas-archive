@@ -10,6 +10,7 @@ import babel
 import hashlib
 import base64
 import re
+import functools
 
 from flask import Blueprint, request, g, render_template, make_response, redirect
 from flask_cors import cross_origin
@@ -218,13 +219,16 @@ def donate_page():
 def donation_faq_page():
     return render_template("account/donation_faq.html", header_active="donate")
 
-ORDER_PROCESSING_STATUS_LABELS = {
-    0: 'unpaid',
-    1: 'paid',
-    2: 'cancelled',
-    3: 'expired',
-    4: 'waiting for Anna to confirm',
-}
+@functools.cache
+def get_order_processing_status_labels(locale):
+    with force_locale(locale):
+        return {
+            0: gettext('common.donation.order_processing_status_labels.0'),
+            1: gettext('common.donation.order_processing_status_labels.1'),
+            2: gettext('common.donation.order_processing_status_labels.2'),
+            3: gettext('common.donation.order_processing_status_labels.3'),
+            4: gettext('common.donation.order_processing_status_labels.4'),
+        }
 
 
 def make_donation_dict(donation):
@@ -257,7 +261,7 @@ def donation_page(donation_id):
             "account/donation.html", 
             header_active="account/donations",
             donation_dict=make_donation_dict(donation),
-            ORDER_PROCESSING_STATUS_LABELS=ORDER_PROCESSING_STATUS_LABELS,
+            order_processing_status_labels=get_order_processing_status_labels(get_locale()),
         )
 
 
@@ -275,7 +279,7 @@ def donations_page():
             "account/donations.html",
             header_active="account/donations",
             donation_dicts=[make_donation_dict(donation) for donation in donations],
-            ORDER_PROCESSING_STATUS_LABELS=ORDER_PROCESSING_STATUS_LABELS,
+            order_processing_status_labels=get_order_processing_status_labels(get_locale()),
         )
 
 
