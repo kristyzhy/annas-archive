@@ -1,41 +1,35 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}{{ gettext('page.profile.title') }}{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  {% if not account_dict %}
+    <p class="mb-4">{{ gettext('page.profile.not_found') }}</p>
+  {% else %}
+    <div class="mt-4 mb-1"><h2 class="inline text-2xl font-bold">{% if account_dict.display_name != account_dict.account_id %}{{ account_dict.display_name }} {% endif %}#{{ account_dict.account_id }}</h2>{% if account_dict.account_id == current_account_id %}<a href="#" class="ml-2" onclick="event.preventDefault(); document.querySelector('.js-profile-edit-display-name').classList.toggle('hidden')">{{ gettext('page.profile.header.edit') }}</a>{% endif %}</div>
 
-  <div lang="en">
-    {% if not account_dict %}
-      <p class="mb-4">Profile not found.</p>
+    <form onsubmit="window.submitForm(event, '/dyn/account/display_name/')" class="js-profile-edit-display-name hidden mt-2 mb-4">
+      <fieldset class="mb-4">
+        <input required minlength="4" maxlength="20" type="text" name="display_name" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%]" value="{{ account_dict.display_name }}" placeholder="{{ account_dict.display_name }}"/>
+        <p class="mb-2 text-sm text-gray-500">{{ gettext('page.profile.change_display_name.text') }}</p>
+        <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold px-4 py-2 rounded shadow">{{ gettext('page.profile.change_display_name.button') }}</button>
+        <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+      </fieldset>
+      <div class="hidden js-success">{{ gettext('page.profile.change_display_name.success') }}</div>
+      <div class="hidden js-failure">{{ gettext('page.profile.change_display_name.failure') }}</div>
+    </form>
+
+    <div class="mb-4 text-sm text-gray-500">{{ gettext('page.profile.created_time', span_time=(('class="text-[#000000a3] text-sm" title="' + (account_dict.created | datetimeformat(format='long')) + '"') | safe), time=(account_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
+
+    <h2 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.profile.lists.header') }}</h2>
+
+    {% for list_dict in list_dicts %}
+      <div class="mb-1"><a href="/list/{{ list_dict.list_id }}">{{ list_dict.name }}</a></div>
     {% else %}
-      <div class="mt-4 mb-1"><h2 class="inline text-2xl font-bold">{% if account_dict.display_name != account_dict.account_id %}{{ account_dict.display_name }} {% endif %}#{{ account_dict.account_id }}</h2>{% if account_dict.account_id == current_account_id %}<a href="#" class="ml-2" onclick="event.preventDefault(); document.querySelector('.js-profile-edit-display-name').classList.toggle('hidden')">edit</a>{% endif %}</div>
-
-      <form onsubmit="window.submitForm(event, '/dyn/account/display_name/')" class="js-profile-edit-display-name hidden mt-2 mb-4">
-        <fieldset class="mb-4">
-          <input required minlength="4" maxlength="20" type="text" name="display_name" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%]" value="{{ account_dict.display_name }}" placeholder="{{ account_dict.display_name }}"/>
-          <p class="mb-2 text-sm text-gray-500">Change your display name. Your identifier (the part after “#”) cannot be changed.</p>
-          <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold px-4 py-2 rounded shadow">Save</button>
-          <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-        </fieldset>
-        <div class="hidden js-success">✅ Saved. Please reload the page.</div>
-        <div class="hidden js-failure">❌ Something went wrong. Please try again.</div>
-      </form>
-
-      <div class="mb-4 text-sm text-gray-500">Profile created <span class="text-[#000000a3] text-sm" title="{{ account_dict.created | datetimeformat(format='long') }}">{{ account_dict.created_delta | timedeltaformat(add_direction=True) }}</span></div>
-
-      <h2 class="mt-4 mb-1 text-xl font-bold">Lists</h2>
-
-      {% for list_dict in list_dicts %}
-        <div class="mb-1"><a href="/list/{{ list_dict.list_id }}">{{ list_dict.name }}</a></div>
-      {% else %}
-        <p class="mb-1">No lists yet</p>
-        {% if account_dict.account_id == current_account_id %}
-          <p class="mb-4 text-sm text-gray-500">Create a new list by finding a file and opening the “Lists” tab.</p>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  </div>
+      <p class="mb-1">{{ gettext('page.profile.lists.no_lists') }}</p>
+      {% if account_dict.account_id == current_account_id %}
+        <p class="mb-4 text-sm text-gray-500">{{ gettext('page.profile.lists.new_list') }}</p>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
 {% endblock %}
