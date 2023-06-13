@@ -1,168 +1,166 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Donation{% endblock %}
+{% block title %}{{ gettext('page.donation.title') }}{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') | trim %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
-
-  <div lang="en">
-    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
-      <div class="font-bold">Donation</div>
-      <div>Identifier: {{ donation_dict.donation_id }}</div>
-      <div>Date: {{ donation_dict.created | dateformat(format='long') }}</div>
-      <div>Total: {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal }} <span class="text-sm text-gray-500">({{ donation_dict.monthly_amount_usd }} / month for {{ donation_dict.json.duration }} months{% if donation_dict.json.discounts > 0 %}, including {{ donation_dict.json.discounts }}% discount{% endif %})</span></div>
-      <div>Status: <span class="italic">{{ ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status] }}</span></div>
-
-      {% if donation_dict.processing_status in [0, 4] %}
-        <div class="mt-2">
-          <form onsubmit='window.submitForm(event, "/dyn/account/cancel_donation/" + {{ donation_dict.donation_id | tojson }})'>
-            <fieldset>
-              <button class="button bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white" onclick="document.querySelector('.js-donation-cancel').classList.remove('hidden'); this.classList.add('hidden'); event.preventDefault()">Cancel</button>
-              <span class="js-donation-cancel hidden">Are you sure you wish to cancel? Do not cancel if you have already paid. <button type="submit" class="button bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">Yes, please cancel</button></span>
-            </fieldset>
-            <div class="hidden js-success">✅ Your donation has been canceled. <a href="/donate?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}">Make a new donation</a></div>
-            <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
-          </form>
-        </div>
+  <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
+    <div class="font-bold">{{ gettext('page.donation.title') }}</div>
+    <div>{{ gettext('page.donation.header.id', id=donation_dict.donation_id) }}</div>
+    <div>{{ gettext('page.donation.header.date', date=(donation_dict.created | dateformat(format='long'))) }}</div>
+    <div>
+      {% if donation_dict.json.discounts > 0 %}
+        {{ gettext('page.donation.header.total_with_discount', span_details=('class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration, discounts=donation_dict.json.discounts) }}
       {% else %}
-        <div class="mt-2"><a href="/donate?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}" class="custom-a inline-block bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">Reorder</a></div>
+        {{ gettext('page.donation.header.total_no_discount', span_details=('class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration) }}
       {% endif %}
     </div>
+    <div>{{ gettext('page.donation.header.status', label=ORDER_PROCESSING_STATUS_LABELS[donation_dict.processing_status], span_label=('class="italic"' | safe)) }}</div>
 
-    {% if donation_dict.processing_status == 4 %}
-      <div class='js-donation-instructions-hidden'>
-        <p class="mb-4">
-          You have already paid. If you want to review the payment instructions anyway, click here:
-        </p>
-
-        <a href="#" onclick="document.querySelector('.js-donation-instructions').classList.remove('hidden'); document.querySelector('.js-donation-instructions-hidden').classList.add('hidden')">Show old payment instructions</a>
+    {% if donation_dict.processing_status in [0, 4] %}
+      <div class="mt-2">
+        <form onsubmit='window.submitForm(event, "/dyn/account/cancel_donation/" + {{ donation_dict.donation_id | tojson }})'>
+          <fieldset>
+            <button class="button bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white" onclick="document.querySelector('.js-donation-cancel').classList.remove('hidden'); this.classList.add('hidden'); event.preventDefault()">{{ gettext('page.donation.header.cancel.button') }}</button>
+            <span class="js-donation-cancel hidden">{{ gettext('page.donation.header.cancel.confirm.msg') }} <button type="submit" class="button bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">{{ gettext('page.donation.header.cancel.confirm.button') }}</button></span>
+          </fieldset>
+          <div class="hidden js-success">{{ gettext('page.donation.header.cancel.success') }} <a href="/donate?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}">{{ gettext('page.donation.header.cancel.new_donation') }}</a></div>
+          <div class="hidden js-failure">{{ gettext('page.donation.header.cancel.failure') }}</div>
+        </form>
       </div>
-    {% elif donation_dict.processing_status != 0 %}
-      <div class='js-donation-instructions-hidden'>
-        <p class="mb-4">
-          The payment instructions are now outdated. If you would like to make another donation, use the “Reorder” button above.
-        </p>
-
-        <a href="#" onclick="document.querySelector('.js-donation-instructions').classList.remove('hidden'); document.querySelector('.js-donation-instructions-hidden').classList.add('hidden')">Show old payment instructions</a>
-      </div>
+    {% else %}
+      <div class="mt-2"><a href="/donate?tier={{ donation_dict.json.tier }}&method={{ donation_dict.json.method }}&duration={{ donation_dict.json.duration }}" class="custom-a inline-block bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white">{{ gettext('page.donation.header.reorder') }}</a></div>
     {% endif %}
+  </div>
 
-    <div class="js-donation-instructions {% if donation_dict.processing_status != 0 %}hidden{% endif %}">
-      {% if donation_dict.json.method == 'crypto' %}
-        <h2 class="mt-4 mb-4 text-xl font-bold">Crypto instructions</h2>
+  {% if donation_dict.processing_status == 4 %}
+    <div class='js-donation-instructions-hidden'>
+      <p class="mb-4">
+        {{ gettext('page.donation.old_instructions.intro_paid') }}
+      </p>
 
-        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Transfer to one of our crypto accounts</p>
+      <a href="#" onclick="document.querySelector('.js-donation-instructions').classList.remove('hidden'); document.querySelector('.js-donation-instructions-hidden').classList.add('hidden')">{{ gettext('page.donation.old_instructions.show_button') }}</a>
+    </div>
+  {% elif donation_dict.processing_status != 0 %}
+    <div class='js-donation-instructions-hidden'>
+      <p class="mb-4">
+        {{ gettext('page.donation.old_instructions.intro_outdated') }}
+      </p>
 
-        <p class="">
-          Donate the total amount of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} to one of these addresses:
-        </p>
+      <a href="#" onclick="document.querySelector('.js-donation-instructions').classList.remove('hidden'); document.querySelector('.js-donation-instructions-hidden').classList.add('hidden')">{{ gettext('page.donation.old_instructions.show_button') }}</a>
+    </div>
+  {% endif %}
 
-        <ul class="list-inside mb-4">
-          <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a></li>
-          <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
-          <li>- Monero XMR: <a style="word-break: break-all;" rel="payment" href="monero:445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t">445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t</a></li>
-          <li>- Solana SOL: <a style="word-break: break-all;" rel="payment" href="solana:HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP">HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP</a></li>
-        </ul>
-      {% elif donation_dict.json.method == 'paypal' %}
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin on Paypal</p>
+  <div class="js-donation-instructions {% if donation_dict.processing_status != 0 %}hidden{% endif %}">
+    {% if donation_dict.json.method == 'crypto' %}
+      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.crypto.top_header') }}</h2>
 
-        <p class="mb-4">
-          Find the “Crypto” page in your PayPal app or website. This is typically under “Finances”.
-        </p>
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.crypto.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
-        <p class="mb-4">
-          Follow the instructions to buy Bitcoin (BTC). You only need to buy the amount that you want to donate, {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}.
-        </p>
+      <p class="">
+        {{ gettext('page.donation.payment.crypto.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
+      </p>
 
-        <p class="mb-4 mt-8 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Transfer the Bitcoin to our address</p>
-
-        <p class="mb-4">
-          Go to the “Bitcoin” page in your PayPal app or website. Press the “Transfer” button (<span class="icon-[cil--transfer] align-middle"></span>), and then “Send”.
-        </p>
-
-        <p class="mb-4">
-          Enter our Bitcoin (BTC) address as the receipient, and follow the instructions to send your donation of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}:
-        </p>
-
-        <p class="mb-4 font-mono font-bold">
-          15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">copy</span><span class="[[aria-selected=false]_&]:hidden">copied!</span></button>
-        </p>
-      {% elif donation_dict.json.method == 'bmc' %}
-        <!--
-          <h2 class="mt-4 mb-4 text-xl font-bold">“Buy Me a Coffee” instructions</h2>
-
-          <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our “Buy Me a Coffee” page</p>
-
-          <p class="mb-4">
-            Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://gotopaypay.top/Home/pay?method=paypal" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
-          </p>
-
-          <p class="mb-4">
-            {{ gettext('page.donate.strange_account') }}
-          </p>
-        -->
-      {% elif donation_dict.json.method == 'alipay' %}
-        <h2 class="mt-4 mb-4 text-xl font-bold">Alipay instructions</h2>
-
-        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate on Alipay</p>
-
-        <p class="mb-4">
-          Donate the total amount of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} using <a href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this Alipay account</a>.
-        </p>
-
-        <p class="mb-4">
-          {{ gettext('page.donate.strange_account') }}
-        </p>
-      {% elif donation_dict.json.method == 'pix' %}
-        <h2 class="mt-4 mb-4 text-xl font-bold">Pix instructions</h2>
-
-        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate on Pix</p>
-
-        <p class="mb-4">
-          Donate the total amount of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} using <a href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this Pix account</a>.
-        </p>
-
-        <p class="mb-4">
-          {{ gettext('page.donate.strange_account') }}
-        </p>
-      {% endif %}
-
-      <p class="mt-8 mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">{% if donation_dict.json.method == 'paypal' %}3{% else %}2{% endif %}</span>Email us the receipt</p>
+      <ul class="list-inside mb-4">
+        <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a></li>
+        <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
+        <li>- Monero XMR: <a style="word-break: break-all;" rel="payment" href="monero:445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t">445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t</a></li>
+        <li>- Solana SOL: <a style="word-break: break-all;" rel="payment" href="solana:HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP">HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP</a></li>
+      </ul>
+    {% elif donation_dict.json.method == 'paypal' %}
+      <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
-        Send a receipt or screenshot to your personal verification address:
+        {{ gettext('page.donate.one_time_payment.paypal.text2') }}
+      </p>
+
+      <p class="mb-4">
+        {{ gettext('page.donation.payment.paypal.text3', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
+      </p>
+
+      <p class="mb-4 mt-8 font-bold">{{ gettext('page.donate.submit.header2', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+
+      <p class="mb-4">
+        {{ gettext('page.donate.one_time_payment.paypal.text4', transfer_icon=('<span class="icon-[cil--transfer] align-middle"></span>' | safe)) }}
+      </p>
+
+      <p class="mb-4">
+        {{ gettext('page.donation.payment.paypal.text5', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
       </p>
 
       <p class="mb-4 font-mono font-bold">
-        AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">copy</span><span class="[[aria-selected=false]_&]:hidden">copied!</span></button>
+        15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">{{ gettext('page.donate.copy') }}</span><span class="[[aria-selected=false]_&]:hidden">{{ gettext('page.donate.copied') }}</span></button>
+      </p>
+    {% elif donation_dict.json.method == 'bmc' %}
+      <!--
+        <h2 class="mt-4 mb-4 text-xl font-bold">“Buy Me a Coffee” instructions</h2>
+
+        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our “Buy Me a Coffee” page</p>
+
+        <p class="mb-4">
+          Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://gotopaypay.top/Home/pay?method=paypal" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
+        </p>
+
+        <p class="mb-4">
+          {{ gettext('page.donate.strange_account') }}
+        </p>
+      -->
+    {% elif donation_dict.json.method == 'alipay' %}
+      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.alipay.top_header') }}</h2>
+
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+
+      <p class="mb-4">
+        {{ gettext('page.donation.payment.alipay.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=('href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
       </p>
 
-      {% if donation_dict.json.method in ['crypto', 'paypal'] %}
+      <p class="mb-4">
+        {{ gettext('page.donate.strange_account') }}
+      </p>
+    {% elif donation_dict.json.method == 'pix' %}
+      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.pix.top_header') }}</h2>
+
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.pix.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+
+      <p class="mb-4">
+        {{ gettext('page.donation.payment.pix.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=('href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
+      </p>
+
+      <p class="mb-4">
+        {{ gettext('page.donate.strange_account') }}
+      </p>
+    {% endif %}
+
+    <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe), circle_number=(3 if donation_dict.json.method == 'paypal' else 2)) }}
+
+    <p class="mb-4">
+      {{ gettext('page.donation.footer.text1') }}
+    </p>
+
+    <p class="mb-4 font-mono font-bold">
+      AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">{{ gettext('page.donate.copy') }}</span><span class="[[aria-selected=false]_&]:hidden">{{ gettext('page.donate.copied') }}</span></button>
+    </p>
+
+    {% if donation_dict.json.method in ['crypto', 'paypal'] %}
+      <p class="mb-4">
+        {{ gettext('page.donation.footer.crypto_note') }}
+      </p>
+    {% endif %}
+
+    <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
+      <fieldset class="mb-2">
         <p class="mb-4">
-          If the crypto exchange rate fluctuated during the transaction, be sure to include the receipt showing the original exchange rate. We really appreciate you taking the trouble to use crypto, it helps us a lot!
+          {{ gettext('page.donation.footer.text2') }}
         </p>
-      {% endif %}
 
-      <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
-        <fieldset class="mb-2">
-          <p class="mb-4">
-            When you have emailed your receipt, click this button, so Anna can manually review it (this might take a few days):
-          </p>
-
-          <input type="hidden" name="tier" value="">
-          <input type="hidden" name="method" value="">
-          <input type="hidden" name="duration" value="">
-          <input type="hidden" name="totalCentsVerification" value="">
-          <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Yes, I emailed my receipt</button>
-          <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-        </fieldset>
-        <div class="hidden js-success">✅ Thanks for your donation! Anna will manually activate your membership within a few days.</div>
-        <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
-      </form>
-    </div>
-
-    <!-- {{ donation_dict }} -->
+        <input type="hidden" name="tier" value="">
+        <input type="hidden" name="method" value="">
+        <input type="hidden" name="duration" value="">
+        <input type="hidden" name="totalCentsVerification" value="">
+        <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.footer.button') }}</button>
+        <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+      </fieldset>
+      <div class="hidden js-success">{{ gettext('page.donation.footer.success') }}</div>
+      <div class="hidden js-failure">{{ gettext('page.donation.footer.failure') }}</div>
+    </form>
   </div>
 {% endblock %}
