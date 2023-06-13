@@ -1,72 +1,64 @@
 {% extends "layouts/index.html" %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  <p class="">
+    {{ gettext('page.home.intro.text1', span_anna=('class="italic font-bold"' | safe)) }}
+  </p>
 
-  <div lang="en">
-    <p class="">
-      <!-- {{ gettext('page.home.intro') }} -->
-      <span class="italic font-bold">Anna’s Archive</span> is a non-profit open-source open-data project with two goals:<br>
-    </p>
+  <ol class="list-decimal list-inside mb-4">
+    {{ gettext('page.home.intro.text2') }}
+  </ol>
 
-    <ol class="list-decimal list-inside mb-4">
-      <li><strong>Preservation:</strong> Backing up all knowledge and culture of humanity.</li>
-      <li><strong>Access:</strong> Making this knowledge and culture available to anyone in the world.</li>
-    </ol>
+  <div class="bg-[#f2f2f2] p-4 pb-3 rounded-lg mb-4">
+    <div class="mb-1 font-bold text-lg">{{ gettext('page.home.preservation.header') }}</div>
 
-    <div class="bg-[#f2f2f2] p-4 pb-3 rounded-lg mb-4">
-      <div class="mb-1 font-bold text-lg">Preservation</div>
+    <p class="mb-4">{{ gettext('page.home.preservation.text') }}</p>
 
-      <p class="mb-4">We preserve books, papers, comics, magazines, and more, by bringing these materials from various <a href="https://en.wikipedia.org/wiki/Shadow_library">shadow libraries</a> together in one place. All this data is preserved forever by making it easy to duplicate it in bulk, resulting in many copies around the world. This wide distribution, combined with open-source code, also makes our website resilient to takedowns.</p>
-
-      <div style="position: relative; height: 16px; margin-top: 16px;">
-        <div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: white; overflow: hidden; border-radius: 16px; box-shadow: 0px 2px 4px 0px #00000038">
-          <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 5%; background: #0095ff"></div>
-        </div>
-        <div style="position: absolute; left: 5%; top: 50%; width: 16px; height: 16px; transform: translate(-50%, -50%)">
-          <div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: #0095ff66; border-radius: 100%; animation: header-ping 1.5s cubic-bezier(0,0,.2,1) infinite"></div>
-          <div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: white; border-radius: 100%; box-shadow: 0 0 3px #00000069;"></div>
-        </div>
+    <div style="position: relative; height: 16px; margin-top: 16px;">
+      <div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: white; overflow: hidden; border-radius: 16px; box-shadow: 0px 2px 4px 0px #00000038">
+        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 5%; background: #0095ff"></div>
       </div>
-
-      <div style="position: relative; padding-bottom: 12px">
-        <div style="width: 14px; height: 14px; border-left: 1px solid gray; border-bottom: 1px solid gray; position: absolute; top: 5px; left: calc(5% - 1px)"></div>
-        <div style="position: relative; left: calc(5% + 20px); width: calc(90% - 20px); top: 8px; font-size: 90%; color: #555">We estimate that we have preserved about <a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">5% of the world’s books</a>.</div>
+      <div style="position: absolute; left: 5%; top: 50%; width: 16px; height: 16px; transform: translate(-50%, -50%)">
+        <div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: #0095ff66; border-radius: 100%; animation: header-ping 1.5s cubic-bezier(0,0,.2,1) infinite"></div>
+        <div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: white; border-radius: 100%; box-shadow: 0 0 3px #00000069;"></div>
       </div>
     </div>
 
-    <div class="bg-[#f2f2f2] p-4 pb-3 rounded-lg mb-4">
-      <div class="mb-1 font-bold text-lg">Access</div>
-
-      <p class="mb-4">We work with partners to make our collections easily and freely accessible to anyone. We believe that everyone has a right to the collective wisdom of humanity. And <a href="/search?q=Against%20intellectual%20monopoly">not at the expense of authors</a>.</p>
-
-      <div class="js-home-stats-downloads-chart h-[200px] mb-2 rounded overflow-hidden"></div>
-
-      <div class="text-center" style="font-size: 90%; color: #555">Hourly downloads in the last 30 days.</div>
-
-      <script>
-        const fetchPromise = fetch("/dyn/downloads/stats/").then((response) => response.json());
-        const loadedPromise = new Promise((resolve, reject) => document.addEventListener("DOMContentLoaded", () => { resolve () }));
-        Promise.all([fetchPromise, loadedPromise]).then(([json]) => {
-          Plotly.newPlot(document.querySelector(".js-home-stats-downloads-chart"), [{
-            type: "bar",
-            x: json.timeseries_x.map((t) => new Date(t * 3600000)),
-            y: json.timeseries_y,
-            line: {color: '#0095ff'}
-          }], {
-            margin: {
-              l: 40,
-              r: 16,
-              b: 50,
-              t: 12,
-              pad: 0
-            }
-          }, {staticPlot: true});
-        });
-      </script>
+    <div style="position: relative; padding-bottom: 12px">
+      <div style="width: 14px; height: 14px; border-left: 1px solid gray; border-bottom: 1px solid gray; position: absolute; top: 5px; left: calc(5% - 1px)"></div>
+      <div style="position: relative; left: calc(5% + 20px); width: calc(90% - 20px); top: 8px; font-size: 90%; color: #555">{{ gettext('page.home.preservation.label') }}</div>
     </div>
+  </div>
+
+  <div class="bg-[#f2f2f2] p-4 pb-3 rounded-lg mb-4">
+    <div class="mb-1 font-bold text-lg">{{ gettext('page.home.access.header') }}</div>
+
+    <p class="mb-4">{{ gettext('page.home.access.text', a_search=('href="/search?q=Against%20intellectual%20monopoly"' | safe)) }}</a>.</p>
+
+    <div class="js-home-stats-downloads-chart h-[200px] mb-2 rounded overflow-hidden"></div>
+
+    <div class="text-center" style="font-size: 90%; color: #555">{{ gettext('page.home.access.label') }}</div>
+
+    <script>
+      const fetchPromise = fetch("/dyn/downloads/stats/").then((response) => response.json());
+      const loadedPromise = new Promise((resolve, reject) => document.addEventListener("DOMContentLoaded", () => { resolve () }));
+      Promise.all([fetchPromise, loadedPromise]).then(([json]) => {
+        Plotly.newPlot(document.querySelector(".js-home-stats-downloads-chart"), [{
+          type: "bar",
+          x: json.timeseries_x.map((t) => new Date(t * 3600000)),
+          y: json.timeseries_y,
+          line: {color: '#0095ff'}
+        }], {
+          margin: {
+            l: 40,
+            r: 16,
+            b: 50,
+            t: 12,
+            pad: 0
+          }
+        }, {staticPlot: true});
+      });
+    </script>
   </div>
 
   <p><strong>{{ gettext('page.home.search.header') }}</strong></p>

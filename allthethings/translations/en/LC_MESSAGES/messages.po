@@ -523,8 +523,6 @@ msgstr "<div class=\"font-bold\">I don’t like that you’re “monetizing” A
 #: allthethings/page/templates/page/datasets_zlib_scrape.html:7
 #: allthethings/page/templates/page/doi.html:40
 #: allthethings/page/templates/page/doi.html:41
-#: allthethings/page/templates/page/home.html:4
-#: allthethings/page/templates/page/home.html:5
 #: allthethings/page/templates/page/isbn.html:45
 #: allthethings/page/templates/page/isbn.html:46
 #: allthethings/page/templates/page/lgli_file.html:10
@@ -725,34 +723,62 @@ msgstr "No matching files found in our database."
 msgid "common.tech_details"
 msgstr "Technical details"
 
-#: allthethings/page/templates/page/home.html:10
-msgid "page.home.intro"
-msgstr "<span class=\"italic font-bold\">Anna’s Archive</span> is a project that aims to catalog all the books in existence, by aggregating data from various sources. We also track humanity’s progress toward making all these books easily available in digital form, through “<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">shadow libraries</a>”. Learn more <a href=\"/about\">about us.</a>"
+#: allthethings/page/templates/page/home.html:5
+msgid "page.home.intro.text1"
+msgstr "<span %(span_anna)s>Anna’s Archive</span> is a non-profit open-source open-data project with two goals:"
 
-#: allthethings/page/templates/page/home.html:72
+#: allthethings/page/templates/page/home.html:9
+msgid "page.home.intro.text2"
+msgstr "<li><strong>Preservation:</strong> Backing up all knowledge and culture of humanity.</li><li><strong>Access:</strong> Making this knowledge and culture available to anyone in the world.</li>"
+
+#: allthethings/page/templates/page/home.html:13
+msgid "page.home.preservation.header"
+msgstr "Preservation"
+
+#: allthethings/page/templates/page/home.html:15
+msgid "page.home.preservation.text"
+msgstr "We preserve books, papers, comics, magazines, and more, by bringing these materials from various <a href=\"https://en.wikipedia.org/wiki/Shadow_library\">shadow libraries</a> together in one place. All this data is preserved forever by making it easy to duplicate it in bulk, resulting in many copies around the world. This wide distribution, combined with open-source code, also makes our website resilient to takedowns."
+
+#: allthethings/page/templates/page/home.html:29
+msgid "page.home.preservation.label"
+msgstr "We estimate that we have preserved about <a href=\"https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html\">5%% of the world’s books</a>."
+
+#: allthethings/page/templates/page/home.html:34
+msgid "page.home.access.header"
+msgstr "Access"
+
+#: allthethings/page/templates/page/home.html:36
+msgid "page.home.access.text"
+msgstr "We work with partners to make our collections easily and freely accessible to anyone. We believe that everyone has a right to the collective wisdom of humanity. And <a %(a_search)s>not at the expense of authors</a>."
+
+#: allthethings/page/templates/page/home.html:40
+msgid "page.home.access.label"
+msgstr "Hourly downloads in the last 30 days."
+
+#: allthethings/page/templates/page/home.html:64
 msgid "page.home.search.header"
 msgstr "Search"
 
-#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/home.html:67
 msgid "page.home.search.intro"
-msgstr "Search our catalog of shadow libraries."
+msgstr "Search our catalog."
 
-#: allthethings/page/templates/page/home.html:80
+#: allthethings/page/templates/page/home.html:72
 #: allthethings/page/templates/page/search.html:56
 #: allthethings/templates/layouts/index.html:348
 msgid "common.search.placeholder"
 msgstr "Title, author, DOI, ISBN, MD5, …"
 
-#: allthethings/page/templates/page/home.html:81
+#: allthethings/page/templates/page/home.html:73
 #: allthethings/page/templates/page/search.html:57
 msgid "common.search.submit"
 msgstr "Search"
 
-#: allthethings/page/templates/page/home.html:85
+#: allthethings/page/templates/page/home.html:77
 msgid "page.home.explore.header"
 msgstr "Explore books"
 
-#: allthethings/page/templates/page/home.html:88
+#: allthethings/page/templates/page/home.html:80
 msgid "page.home.explore.intro"
 msgstr "These are a combination of popular books, and books that carry special significance to the world of shadow libraries and digital preservation."
 
@@ -1098,4 +1124,7 @@ msgstr "❌ This file might have issues."
 
 #~ msgid "page.donate.duration.intro"
 #~ msgstr "Select how long you want to subscribe for."
+
+#~ msgid "page.home.intro"
+#~ msgstr "<span class=\"italic font-bold\">Anna’s Archive</span> is a project that aims to catalog all the books in existence, by aggregating data from various sources. We also track humanity’s progress toward making all these books easily available in digital form, through “<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">shadow libraries</a>”. Learn more <a href=\"/about\">about us.</a>"
 
