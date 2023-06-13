@@ -3,7 +3,7 @@
 {% block title %}Copyright claim form{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') | trim %}
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
     <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
   {% endif %}
 

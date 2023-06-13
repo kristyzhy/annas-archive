@@ -37,7 +37,7 @@
     <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4 mt-8" onclick="document.querySelector('.js-technical-details').classList.remove('hidden'); this.classList.add('hidden')">{{ gettext('common.tech_details') }}</button>
 
     <div class="js-technical-details hidden">
-      {% if gettext('common.english_only') | trim %}
+      {% if gettext('common.english_only') != 'Text below continues in English.' %}
         <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
       {% endif %}
 
