@@ -533,8 +533,8 @@ msgstr "<div class=\"font-bold\">I don’t like that you’re “monetizing” A
 #: allthethings/page/templates/page/lgrs_book.html:13
 #: allthethings/page/templates/page/login.html:4
 #: allthethings/page/templates/page/login.html:5
-#: allthethings/page/templates/page/md5.html:98
-#: allthethings/page/templates/page/md5.html:99
+#: allthethings/page/templates/page/md5.html:93
+#: allthethings/page/templates/page/md5.html:94
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/ol_book.html:8
@@ -713,7 +713,7 @@ msgstr "No matching files found in our database."
 
 #: allthethings/page/templates/page/doi.html:37
 #: allthethings/page/templates/page/isbn.html:42
-#: allthethings/page/templates/page/md5.html:107
+#: allthethings/page/templates/page/md5.html:102
 msgid "common.tech_details"
 msgstr "Technical details"
 
@@ -788,15 +788,35 @@ msgstr "<span class=\"font-bold\">❌ This file might have issues, and has been 
 msgid "page.md5.box.issues.text2"
 msgstr "If you still want to download this file, be sure to only use trusted, updated software to open it."
 
+#: allthethings/page/templates/page/md5.html:40
+msgid "page.md5.box.download.header_fast_logged_out"
+msgstr "🚀 Fast downloads from our partners (requires <a %(a_login)s>logging in</a>)"
+
+#: allthethings/page/templates/page/md5.html:41
+msgid "page.md5.box.download.header_fast_logged_in"
+msgstr "🚀 Fast downloads (you are logged in!)"
+
 #: allthethings/page/templates/page/md5.html:45
 #: allthethings/page/templates/page/md5.html:46
 #: allthethings/page/templates/page/md5.html:62
 msgid "page.md5.box.download.option"
 msgstr "Option #%(num)d: %(link)s %(extra)s"
 
+#: allthethings/page/templates/page/md5.html:54
+msgid "page.md5.box.download.header_slow"
+msgstr "🐢 Slow & external downloads"
+
+#: allthethings/page/templates/page/md5.html:56
+msgid "page.md5.box.download.header_generic"
+msgstr "Downloads"
+
 #: allthethings/page/templates/page/md5.html:66
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "All download options have the same file, and should be safe to use. That said, always be cautious when downloading files from the internet, especially from sites external to Anna’s Archive. For example, be sure to keep your devices updated."
+
+#: allthethings/page/templates/page/md5.html:89
+msgid "page.md5.box.download.no_found"
+msgstr "No downloads found."
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"

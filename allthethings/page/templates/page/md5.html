@@ -37,8 +37,8 @@
 
     {% if (md5_dict.additional.fast_download_urls | length) > 0 %}
       <div class="mb-4">
-        <div class="font-bold [html.aa-logged-in_&]:hidden">🚀 Fast downloads from our partners (requires <a href="/login" target="_blank">logging in</a>)</div>
-        <div class="font-bold [html:not(.aa-logged-in)_&]:hidden">🚀 Fast downloads (you are logged in!)</div>
+        <div class="font-bold [html.aa-logged-in_&]:hidden">{{ gettext('page.md5.box.download.header_fast_logged_out', a_login=('href="/login" target="_blank"' | safe)) }}</div>
+        <div class="font-bold [html:not(.aa-logged-in)_&]:hidden">{{ gettext('page.md5.box.download.header_fast_logged_in') }}</div>
 
         <ul class="mb-4">
           {% for label, url, extra in md5_dict.additional.fast_download_urls %}
@@ -51,9 +51,9 @@
 
     <div class="mb-6">
       {% if (md5_dict.additional.fast_download_urls | length) > 0 %}
-        <div class="font-bold">🐢 Slow & external downloads</div>
+        <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div>
       {% else %}
-        <div class="font-bold">Downloads</div>
+        <div class="font-bold">{{ gettext('page.md5.box.download.header_generic') }}</div>
       {% endif %}
 
       {% if (md5_dict.additional.download_urls | length) > 0 %}
@@ -82,16 +82,11 @@
                 }
                 navigator.sendBeacon("/dyn/downloads/increment/" + md5);
               });
-
-              // Prime IPFS caches.
-              if (el.href.includes('/ipfs/')) {
-                fetch(el.href, { method: "HEAD", mode: "no-cors", referrerPolicy: "no-referrer", credentials: "omit" });
-              }
             }
           })();
         </script>
       {% else %}
-        <p>No downloads found.</p>
+        <p>{{ gettext('page.md5.box.download.no_found') }}</p>
       {% endif %}
     </div>
 
