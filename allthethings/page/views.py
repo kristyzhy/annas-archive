@@ -1721,12 +1721,12 @@ def add_partner_servers(path, aa_exclusive, md5_dict, additional):
     if aa_exclusive:
         targeted_seconds = 300
         additional['has_aa_exclusive_downloads'] = 1
-    additional['fast_download_urls'].append((f"Fast Partner Server #{len(additional['fast_download_urls'])+1}", "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    additional['fast_download_urls'].append((f"Fast Partner Server #{len(additional['fast_download_urls'])+1}", "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    # additional['download_urls'].append((f"Slow Partner Server #{len(additional['download_urls'])+1}", "https://momot.in/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
-    additional['download_urls'].append((f"Slow Partner Server #{len(additional['download_urls'])+1}", "https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
-    additional['download_urls'].append((f"Slow Partner Server #{len(additional['download_urls'])+1}", "https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
-    # additional['download_urls'].append((f"Slow Partner Server #{len(additional['download_urls'])+1}", "https://momot.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    additional['fast_download_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_download_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
+    additional['fast_download_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_download_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
+    # additional['download_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['download_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    additional['download_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['download_urls'])+1), "https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    additional['download_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['download_urls'])+1), "https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    # additional['download_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['download_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
 
 def get_additional_for_md5_dict(md5_dict):
     additional = {}
