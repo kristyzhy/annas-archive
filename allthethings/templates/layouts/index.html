@@ -345,7 +345,7 @@
             <a href="/search" class="{{ 'header-link-active' if header_active == 'search' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.search') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.search') }}</span></a>
           </div>
           <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
-            <input class="rounded" name="q" type="text" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}">
+            <input class="rounded" name="q" type="search" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" {% if header_active == "home" %}autofocus{% endif %}>
           </form>
           <div class="header-links header-links-right relative z-10 ml-auto items-center">
             <div class="mr-1 bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('layout.index.header.nav.beta') }}</div>
