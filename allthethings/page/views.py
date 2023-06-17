@@ -1826,7 +1826,7 @@ def add_additional_to_md5_dict(md5_dict):
 
 
 @page.get("/md5/<string:md5_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def md5_page(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
