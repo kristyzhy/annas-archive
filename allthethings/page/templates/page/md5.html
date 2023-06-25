@@ -44,13 +44,13 @@
       <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
     {% endif %}
 
-    {% if (md5_dict.additional.fast_download_urls | length) > 0 %}
+    {% if (md5_dict.additional.fast_partner_urls | length) > 0 %}
       <div class="mb-4">
         <div class="font-bold [html.aa-logged-in_&]:hidden">{{ gettext('page.md5.box.download.header_fast_logged_out', a_login=('href="/login" target="_blank"' | safe)) }}</div>
         <div class="font-bold [html:not(.aa-logged-in)_&]:hidden">{{ gettext('page.md5.box.download.header_fast_logged_in') }}</div>
 
         <ul class="mb-4">
-          {% for label, url, extra in md5_dict.additional.fast_download_urls %}
+          {% for label, url, extra in md5_dict.additional.fast_partner_urls %}
             <li class="[html.aa-logged-in_&]:hidden">- {{ gettext('page.md5.box.download.option', num=loop.index, link=label, extra=extra) }}</li>
             <li class="[html:not(.aa-logged-in)_&]:hidden">- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" target="_blank" class="js-download-link">' + label + '</a>') | safe), extra=extra) }}</li>
           {% endfor %}
@@ -59,7 +59,7 @@
     {% endif %}
 
     <div class="mb-6">
-      {% if (md5_dict.additional.fast_download_urls | length) > 0 %}
+      {% if (md5_dict.additional.fast_partner_urls | length) > 0 %}
         <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div>
       {% else %}
         <div class="font-bold">{{ gettext('page.md5.box.download.header_generic') }}</div>

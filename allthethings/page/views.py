@@ -1721,12 +1721,10 @@ def add_partner_servers(path, aa_exclusive, md5_dict, additional):
     if aa_exclusive:
         targeted_seconds = 300
         additional['has_aa_exclusive_downloads'] = 1
-    additional['fast_download_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_download_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    additional['fast_download_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_download_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    # additional['download_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['download_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
-    additional['download_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['download_urls'])+1), "https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
-    additional['download_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['download_urls'])+1), "https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
-    # additional['download_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['download_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
+    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
 
 def get_additional_for_md5_dict(md5_dict):
     additional = {}
@@ -1770,7 +1768,8 @@ def get_additional_for_md5_dict(md5_dict):
 
     additional['isbns_rich'] = make_isbns_rich(md5_dict['file_unified_data']['sanitized_isbns'])
     additional['download_urls'] = []
-    additional['fast_download_urls'] = []
+    additional['fast_partner_urls'] = []
+    additional['slow_partner_urls'] = []
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
@@ -1814,11 +1813,12 @@ def get_additional_for_md5_dict(md5_dict):
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
     if md5_dict['zlib_book'] is not None and len(md5_dict['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'])
-        add_partner_servers(zlib_path, len(additional['fast_download_urls']) == 0, md5_dict, additional)
+        add_partner_servers(zlib_path, len(additional['fast_partner_urls']) == 0, md5_dict, additional)
     for doi in md5_dict['file_unified_data']['doi_multiple']:
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if md5_dict['zlib_book'] is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{md5_dict['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
+    additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
     return additional
 
 def add_additional_to_md5_dict(md5_dict):
