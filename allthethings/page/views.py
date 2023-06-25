@@ -1800,7 +1800,7 @@ def get_additional_for_md5_dict(md5_dict):
         # TODO: use `['scimag_id']` when ES indexing has been done
         scimag_id = md5_dict['lgli_file'].get('scimag_id', 0)
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
-            scimag_tenmillion_dir = (scimag_id // 10000000) * 10000000
+            scimag_tenmillion_dir = (scimag_id // 10000000)
             scimag_filename = urllib.request.pathname2url(urllib.request.pathname2url(md5_dict['lgli_file']['scimag_archive_path'].replace('\\', '/')))
             scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
             add_partner_servers(scimag_path, False, md5_dict, additional)
