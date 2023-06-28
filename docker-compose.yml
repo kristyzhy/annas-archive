@@ -69,6 +69,8 @@ services:
       nofile:
         soft: 65535
         hard: 65535
+    logging:
+      driver: "local"
 
   mariapersist:
     container_name: mariapersist
@@ -96,6 +98,8 @@ services:
       nofile:
         soft: 65535
         hard: 65535
+    logging:
+      driver: "local"
 
   mariapersistreplica:
     container_name: mariapersistreplica
@@ -123,6 +127,8 @@ services:
       nofile:
         soft: 65535
         hard: 65535
+    logging:
+      driver: "local"
 
   mariabackup:
     container_name: mariabackup
@@ -147,6 +153,8 @@ services:
       nofile:
         soft: 65535
         hard: 65535
+    logging:
+      driver: "local"
 
   # redis:
   #   container_name: redis
@@ -228,6 +236,8 @@ services:
     profiles: ["elasticsearch"]
     volumes:
       - "../allthethings-elastic-data:/usr/share/elasticsearch/data"
+    logging:
+      driver: "local"
 
   kibana:
     container_name: kibana
@@ -239,6 +249,8 @@ services:
     depends_on:
       - "elasticsearch"
     profiles: ["kibana"]
+    logging:
+      driver: "local"
 
   mailpit:
     container_name: 'mailpit'
@@ -246,3 +258,5 @@ services:
     network_mode: "${NETWORK_MODE:-bridge}"
     restart: unless-stopped
     profiles: ["mailpit"]
+    logging:
+      driver: "local"
