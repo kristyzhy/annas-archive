@@ -3,7 +3,7 @@ import os
 from flask_babel import Babel
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_static_digest import FlaskStaticDigest
-from sqlalchemy import Column, Integer, ForeignKey, inspect, create_engine
+from sqlalchemy import Column, Integer, ForeignKey, inspect, create_engine, Text
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.ext.declarative import DeferredReflection
 from flask_elasticsearch import FlaskElasticsearch
@@ -103,6 +103,10 @@ class LibgenrsFictionHashes(Reflected):
 
 class OlBase(Reflected):
     __tablename__ = "ol_base"
+
+class AaLgliComics202208Files(Reflected):
+    __tablename__ = "aa_lgli_comics_2022_08_files"
+    path = Column(Text, primary_key=True)
 
 class ComputedAllMd5s(Reflected):
     __tablename__ = "computed_all_md5s"

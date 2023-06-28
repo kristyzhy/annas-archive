@@ -2761,6 +2761,25 @@ INSERT INTO `zlib_isbn` VALUES
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+DROP TABLE IF EXISTS `aa_lgli_comics_2022_08_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `aa_lgli_comics_2022_08_files` (
+  `path` varchar(400) NOT NULL,
+  `md5` char(32) NOT NULL,
+  `filesize` bigint(20) NOT NULL,
+  KEY `md5` (`md5`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `aa_lgli_comics_2022_08_files` WRITE;
+/*!40000 ALTER TABLE `aa_lgli_comics_2022_08_files` DISABLE KEYS */;
+INSERT INTO `aa_lgli_comics_2022_08_files` VALUES
+('libgen_comics/comics0/_ENG_ORIG_PUBL/_B/Bongo/Bongo Comics Free-For-All! (2014)/Bongo Comics Free-For-All! (FCBD 2015) (c2c) (GreenManGroup-DCP).cbr','d71da203041c872157f4df06db1687e2',36063270);
+/*!40000 ALTER TABLE `aa_lgli_comics_2022_08_files` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

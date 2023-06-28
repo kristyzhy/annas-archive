@@ -184,6 +184,13 @@ def elastic_reset_md5_dicts_internal():
                         "pilimi_torrent": { "type": "keyword", "index": False, "doc_values": False },
                     },
                 },
+                "aa_lgli_comics_2022_08_file": {
+                    "properties": {
+                        "path": { "type": "keyword", "index": False, "doc_values": False },
+                        "md5": { "type": "keyword", "index": False, "doc_values": False },
+                        "filesize": { "type": "integer", "index": False, "doc_values": False },
+                    },
+                },
                 "ipfs_infos": {
                     "properties": {
                         "ipfs_cid": { "type": "keyword", "index": False, "doc_values": False },

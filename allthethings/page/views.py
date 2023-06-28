@@ -29,7 +29,7 @@ import hashlib
 import shortuuid
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import engine, es, babel, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s
+from allthethings.extensions import engine, es, babel, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s, AaLgliComics202208Files
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
@@ -582,6 +582,25 @@ def ol_book_page(ol_book_id):
             ol_identifiers=ol_identifiers,
             ol_languages=ol_languages,
         )
+
+def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
+    # Filter out bad data
+    if key.lower() == 'md5':
+        values = [val for val in values if val not in search_filtered_bad_md5s]
+
+    aa_lgli_comics_2022_08_files = []
+    try:
+        aa_lgli_comics_2022_08_files = session.connection().execute(
+                select(AaLgliComics202208Files)
+                .where(getattr(AaLgliComics202208Files, key).in_(values))
+            ).all()
+    except Exception as err:
+        print(f"Error in get_aa_lgli_comics_2022_08_file_dicts when querying {key}; {values}")
+        print(repr(err))
+        traceback.print_tb(err.__traceback__)
+
+    aa_lgli_comics_2022_08_file_dicts = [dict(aa_lgli_comics_2022_08_file) for aa_lgli_comics_2022_08_file in aa_lgli_comics_2022_08_files]
+    return aa_lgli_comics_2022_08_file_dicts
 
 
 # See https://wiki.mhut.org/content:bibliographic_data for some more information.
@@ -1344,6 +1363,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
     lgli_file_dicts = dict((item['md5'].lower(), item) for item in get_lgli_file_dicts(session, "md5", canonical_md5s))
     zlib_book_dicts1 = dict((item['md5_reported'].lower(), item) for item in get_zlib_book_dicts(session, "md5_reported", canonical_md5s))
     zlib_book_dicts2 = dict((item['md5'].lower(), item) for item in get_zlib_book_dicts(session, "md5", canonical_md5s))
+    aa_lgli_comics_2022_08_file_dicts = dict((item['md5'].lower(), item) for item in get_aa_lgli_comics_2022_08_file_dicts(session, "md5", canonical_md5s))
 
     md5_dicts = []
     for canonical_md5 in canonical_md5s:
@@ -1355,6 +1375,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         if md5_dict.get('lgli_file'):
             md5_dict['lgli_file']['editions'] = md5_dict['lgli_file']['editions'][0:5]
         md5_dict['zlib_book'] = zlib_book_dicts1.get(canonical_md5) or zlib_book_dicts2.get(canonical_md5)
+        md5_dict['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(canonical_md5)
 
         md5_dict['ipfs_infos'] = []
         if md5_dict['lgrsnf_book'] and len(md5_dict['lgrsnf_book'].get('ipfs_cid') or '') > 0:
@@ -1652,6 +1673,12 @@ def get_md5_dicts_mysql(session, canonical_md5s):
                 'filesize_reported': md5_dict['zlib_book']['filesize_reported'],
                 'in_libgen': md5_dict['zlib_book']['in_libgen'],
                 'pilimi_torrent': md5_dict['zlib_book']['pilimi_torrent'],
+            }
+        if md5_dict['aa_lgli_comics_2022_08_file'] is not None:
+            md5_dict ['aa_lgli_comics_2022_08_file'] = {
+                'path': md5_dict['aa_lgli_comics_2022_08_file']['path'],
+                'md5': md5_dict['aa_lgli_comics_2022_08_file']['md5'],
+                'filesize': md5_dict['aa_lgli_comics_2022_08_file']['filesize'],
             }
 
         # Even though `additional` is only for computing real-time stuff,
