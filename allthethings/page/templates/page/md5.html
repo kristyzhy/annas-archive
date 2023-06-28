@@ -18,9 +18,9 @@
     <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
       <img class="float-right max-w-[25%] ml-4" src="{{md5_dict.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
       <div class="text-sm text-gray-500">{{md5_dict.additional.top_box.top_row}}</div>
-      <div class="text-3xl font-bold">{{md5_dict.additional.top_box.title}} <a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ md5_dict.additional.top_box.title | urlencode }}">🔍</a></div>
+      <div class="text-3xl font-bold">{{md5_dict.additional.top_box.title}} {% if md5_dict.additional.top_box.title %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ md5_dict.additional.top_box.title | urlencode }}">🔍</a>{% endif %}</div>
       <div class="text-md">{{md5_dict.additional.top_box.publisher_and_edition}}</div>
-      <div class="italic">{{md5_dict.additional.top_box.author}} <a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ md5_dict.additional.top_box.author | urlencode }}">🔍</a></div>
+      <div class="italic">{{md5_dict.additional.top_box.author}} {% if md5_dict.additional.top_box.author %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ md5_dict.additional.top_box.author | urlencode }}">🔍</a>{% endif %}</div>
       <div class="mt-4 line-clamp-[5] js-md5-top-box-description">{% if md5_dict.additional.top_box.description %}“{{md5_dict.additional.top_box.description | escape | replace('\n', '<br>' | safe)}}”{% endif %}</div>
       <a href="#" class="mt-4 js-md5-top-box-description-link invisible" onclick="document.querySelector('.js-md5-top-box-description').classList.remove('line-clamp-[5]'); this.parentNode.removeChild(this); event.preventDefault(); return false;">Read more…</a>
       <script>
