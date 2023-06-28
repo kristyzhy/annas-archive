@@ -1800,6 +1800,11 @@ def get_additional_for_md5_dict(md5_dict):
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
+    if md5_dict['aa_lgli_comics_2022_08_file'] is not None:
+        if md5_dict['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/comics'):
+            stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(md5_dict['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):]))
+            partner_path = f"a/comics_2022_08/{stripped_path}"
+            add_partner_servers(partner_path, True, md5_dict, additional)
     if md5_dict['lgrsnf_book'] is not None:
         lgrsnf_thousands_dir = (md5_dict['lgrsnf_book']['id'] // 1000) * 1000
         if lgrsnf_thousands_dir < 3659000:
