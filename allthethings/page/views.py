@@ -1775,7 +1775,7 @@ def get_additional_for_md5_dict(md5_dict):
     shown_click_get = False
     if md5_dict['lgrsnf_book'] is not None:
         lgrsnf_thousands_dir = (md5_dict['lgrsnf_book']['id'] // 1000) * 1000
-        if lgrsnf_thousands_dir < 3657000 and lgrsnf_thousands_dir not in [1936000]:
+        if lgrsnf_thousands_dir < 3659000:
             lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{md5_dict['lgrsnf_book']['md5'].lower()}"
             add_partner_servers(lgrsnf_path, False, md5_dict, additional)
 
@@ -1794,7 +1794,7 @@ def get_additional_for_md5_dict(md5_dict):
         lglific_id = md5_dict['lgli_file'].get('fiction_id', 0)
         if lglific_id > 0:
             lglific_thousands_dir = (lglific_id // 1000) * 1000
-            if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000 and lglific_thousands_dir not in [2201000, 2206000, 2306000, 2869000, 2896000, 2945000, 3412000, 3453000]:
+            if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000 and lglific_thousands_dir not in [2201000, 2306000, 2869000, 2896000, 2945000, 3412000, 3453000]:
                 lglific_path = f"e/lglific/{lglific_thousands_dir}/{md5_dict['lgli_file']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
                 add_partner_servers(lglific_path, False, md5_dict, additional)
         # TODO: use `['scimag_id']` when ES indexing has been done
