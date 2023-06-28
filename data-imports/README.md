@@ -21,10 +21,10 @@ chown 1000 ../../aa-data-import--allthethings-elastic-data
 
 # You might need to adjust the size of ElasticSearch's heap size, by changing `ES_JAVA_OPTS` in `data-imports/docker-compose.yml`.
 # If MariaDB wants too much RAM: comment out `key_buffer_size` in `data-imports/mariadb-conf/my.cnf`
-docker-compose up -d --no-deps --build
+docker compose up -d --no-deps --build
 
 # It's a good idea here to look at the Docker logs:
-# docker-compose logs --tail=200 -f
+# docker compose logs --tail=200 -f
 
 # Download the data. You can skip any of these scripts if you have already downloaded the data and don't want to repeat it.
 # You can also run these in parallel in multiple terminal windows.
@@ -56,26 +56,26 @@ docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings 
 docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s && docker exec -it aa-data-import--web flask cli elastic_reset_md5_dicts && docker exec -it aa-data-import--web flask cli elastic_build_md5_dicts
 
 # Make sure to fully stop the databases, so we can move some files around.
-docker-compose down
+docker compose down
 
 # Quickly swap out the new MySQL+ES folders in a production setting.
 # cd ..
-# docker-compose stop mariadb elasticsearch kibana web
+# docker compose stop mariadb elasticsearch kibana web
 # export NOW=$(date +"%Y_%m_%d_%H_%M")
 # mv ../allthethings-mysql-data ../allthethings-mysql-data--backup-$NOW
 # mv ../allthethings-elastic-data ../allthethings-elastic-data--backup-$NOW
 # rsync -a --progress ../aa-data-import--allthethings-mysql-data/ ../allthethings-mysql-data
 # rsync -a --progress ../aa-data-import--allthethings-elastic-data/ ../allthethings-elastic-data
-# docker-compose up -d --no-deps --build; docker-compose stop web
-# docker-compose logs --tail 20 --follow
-# docker-compose start web
+# docker compose up -d --no-deps --build; docker compose stop web
+# docker compose logs --tail 20 --follow
+# docker compose start web
 
 # To restore the backup:
-# docker-compose stop mariadb elasticsearch kibana
+# docker compose stop mariadb elasticsearch kibana
 # mv ../allthethings-mysql-data ../allthethings-mysql-data--didnt-work
 # mv ../allthethings-elastic-data ../allthethings-elastic-data--didnt-work
 # mv ../allthethings-mysql-data--backup-$NOW ../allthethings-mysql-data
 # mv ../allthethings-elastic-data--backup-$NOW ../allthethings-elastic-data
-# docker-compose up -d --no-deps --build
-# docker-compose logs --tail 20 --follow
+# docker compose up -d --no-deps --build
+# docker compose logs --tail 20 --follow
 ```

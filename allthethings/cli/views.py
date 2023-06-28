@@ -56,7 +56,7 @@ def dbreset():
     engine_multi = create_engine(mariadb_url, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
     cursor = engine_multi.raw_connection().cursor()
 
-    # Generated with `docker-compose exec mariadb mysqldump -u allthethings -ppassword --opt --where="1 limit 100" --skip-comments --ignore-table=computed_all_md5s allthethings > mariadb_dump.sql`
+    # Generated with `docker compose exec mariadb mysqldump -u allthethings -ppassword --opt --where="1 limit 100" --skip-comments --ignore-table=computed_all_md5s allthethings > mariadb_dump.sql`
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariadb_dump.sql')).read_text())
     cursor.close()
 

@@ -8,7 +8,7 @@ In one terminal window, run:
 
 ```bash
 cp .env.dev .env
-docker-compose up --build
+docker compose up --build
 ```
 
 Now open http://localhost:8000. It should give you an error, since MySQL is not yet initialized. In another terminal window, run:
@@ -17,7 +17,7 @@ Now open http://localhost:8000. It should give you an error, since MySQL is not 
 ./run flask cli dbreset
 ```
 
-Now restart the `docker-compose up` from above, and things should work.
+Now restart the `docker compose up` from above, and things should work.
 
 Common issues:
 * Funky permissions on ElasticSearch data: `sudo chmod 0777 -R ../allthethings-elastic-data/`

@@ -128,7 +128,7 @@ ipfs config --json Experimental.AcceleratedDHTClient true</pre></code>
     Once you have a bunch of nodes running, you can add data to it. In the example configuration above, we would run:
   </p>
 
-  <code>docker-compose exec ipfs-zlib2-0 ipfs add --progress=false --nocopy --recursive --hash=blake2b-256 --chunker=size-1048576 /data/files > ipfs-zlib2-0.log</code>
+  <code>docker compose exec ipfs-zlib2-0 ipfs add --progress=false --nocopy --recursive --hash=blake2b-256 --chunker=size-1048576 /data/files > ipfs-zlib2-0.log</code>
 
   <p>
     This logs the filenames and CIDs to <code>ipfs-zlib2-0.log</code>. Now we can scoop up all the different log files into a CSV, using a little Python script:
