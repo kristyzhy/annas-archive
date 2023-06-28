@@ -35,6 +35,7 @@ docker exec -it aa-data-import--mariadb /scripts/download_libgenrs.sh
 docker exec -it aa-data-import--mariadb /scripts/download_openlib.sh
 docker exec -it aa-data-import--mariadb /scripts/download_pilimi_isbndb.sh
 docker exec -it aa-data-import--mariadb /scripts/download_pilimi_zlib.sh
+docker exec -it aa-data-import--mariadb /scripts/download_aa_lgli_comics_2022_08_files.sh
 
 # Load the data.
 docker exec -it aa-data-import--mariadb /scripts/load_libgenli.sh
@@ -42,6 +43,7 @@ docker exec -it aa-data-import--mariadb /scripts/load_libgenrs.sh
 docker exec -it aa-data-import--mariadb /scripts/load_openlib.sh
 docker exec -it aa-data-import--mariadb /scripts/load_pilimi_isbndb.sh
 docker exec -it aa-data-import--mariadb /scripts/load_pilimi_zlib.sh
+docker exec -it aa-data-import--mariadb /scripts/load_aa_lgli_comics_2022_08_files.sh
 
 # If you ever want to see what is going on in MySQL as these scripts run:
 # docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SHOW PROCESSLIST;'
