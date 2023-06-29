@@ -396,7 +396,14 @@ def mariapersist_reset_internal():
     mariapersist_engine_multi = create_engine(mariapersist_url, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
     cursor = mariapersist_engine_multi.raw_connection().cursor()
 
-    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_drop_all.sql')).read_text())
+    # From https://stackoverflow.com/a/8248281
+    cursor.execute("SELECT concat('DROP TABLE IF EXISTS `', table_name, '`;') FROM information_schema.tables WHERE table_schema = 'mariapersist';")
+    delete_all_query = "\n".join([item[0] for item in cursor.fetchall()])
+    if len(delete_all_query) > 0:
+        cursor.execute("SET FOREIGN_KEY_CHECKS = 0;")
+        cursor.execute(delete_all_query)
+        cursor.execute("SET FOREIGN_KEY_CHECKS = 1; COMMIT;")
+
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_001.sql')).read_text())
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_002.sql')).read_text())
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_003.sql')).read_text())

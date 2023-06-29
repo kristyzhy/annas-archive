@@ -1,4 +1,4 @@
-# When adding one of these, be sure to update mariapersist_reset_internal and mariapersist_drop_all.sql!
+# When adding one of these, be sure to update mariapersist_reset_internal!
 
 CREATE TABLE `mariapersist_downloads_hourly_by_ip` ( `ip` BINARY(16), `hour_since_epoch` BIGINT, `count` INT, PRIMARY KEY(ip, hour_since_epoch) ) ENGINE=InnoDB;
 

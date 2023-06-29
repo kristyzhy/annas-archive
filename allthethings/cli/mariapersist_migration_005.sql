@@ -1,4 +1,4 @@
-# When adding one of these, be sure to update mariapersist_reset_internal and mariapersist_drop_all.sql!
+# When adding one of these, be sure to update mariapersist_reset_internal!
 
 CREATE TABLE mariapersist_download_tests (
     `download_test_id` BIGINT NOT NULL AUTO_INCREMENT,

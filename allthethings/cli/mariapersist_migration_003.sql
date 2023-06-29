@@ -1,4 +1,4 @@
-# When adding one of these, be sure to update mariapersist_reset_internal and mariapersist_drop_all.sql!
+# When adding one of these, be sure to update mariapersist_reset_internal!
 
 CREATE TABLE mariapersist_accounts (
     `account_id` CHAR(7) NOT NULL,
