@@ -19,3 +19,4 @@ DESCRIBE ol_base;
 -- DESCRIBE ol_isbn13;
 DESCRIBE zlib_book;
 DESCRIBE zlib_isbn;
+DESCRIBE aa_lgli_comics_2022_08_files;
