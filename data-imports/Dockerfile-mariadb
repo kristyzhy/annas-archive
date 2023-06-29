@@ -2,4 +2,4 @@ FROM mariadb:10.10.2
 
 RUN apt update
 RUN apt install -y aria2 unrar curl python3 python3-pip ctorrent
-RUN pip3 install orjson==3.8.3
+RUN pip3 install orjson==3.8.3 pymysql==1.1.0 more-itertools==9.1.0
