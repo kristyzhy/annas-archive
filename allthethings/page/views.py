@@ -1017,8 +1017,9 @@ def get_lgli_file_dicts(session, key, values):
                 edition_dict['authors_normalized'] = ", ".join(author.strip() for author in edition_dict['descriptions_mapped']['author_multiple'])
 
             edition_dict['cover_url_guess'] = edition_dict['cover_url']
-            if len(edition_dict['descriptions_mapped'].get('coverurl_first') or '') > 0:
-                edition_dict['cover_url_guess'] = edition_dict['descriptions_mapped']['coverurl_first']
+            coverurl_multiple = edition_dict['descriptions_mapped'].get('coverurl_multiple') or []
+            if (len(coverurl_multiple) > 0) and (len(coverurl_multiple[0]) > 0):
+                edition_dict['cover_url_guess'] = coverurl_multiple[0]
             if edition_dict['cover_exists'] > 0:
                 edition_dict['cover_url_guess'] = f"https://libgen.li/editioncovers/{(edition_dict['e_id'] // 1000) * 1000}/{edition_dict['e_id']}.jpg"
 
@@ -1043,11 +1044,12 @@ def get_lgli_file_dicts(session, key, values):
                 issue_series_title_normalized.append('#' + issue_other_fields['issue_year_number'].strip())
             edition_dict['issue_series_title_normalized'] = ", ".join(issue_series_title_normalized) if len(issue_series_title_normalized) > 0 else ''
 
+            publisher_title_multiple = (edition_dict['descriptions_mapped'].get('publisher_title_multiple') or [])
             edition_dict['publisher_normalized'] = ''
             if len((edition_dict['publisher'] or '').strip()) > 0:
                 edition_dict['publisher_normalized'] = edition_dict['publisher'].strip()
-            elif len((edition_dict['descriptions_mapped'].get('publisher_title_first') or '').strip()) > 0:
-                edition_dict['publisher_normalized'] = edition_dict['descriptions_mapped']['publisher_title_first'].strip()
+            elif len(publisher_title_multiple) > 0 and len(publisher_title_multiple[0].strip()) > 0:
+                edition_dict['publisher_normalized'] = publisher_title_multiple[0].strip()
             elif len((edition_dict['issue_series_publisher'] or '').strip()) > 0:
                 edition_dict['publisher_normalized'] = edition_dict['issue_series_publisher'].strip()
                 if len((edition_dict['issue_series_issn'] or '').strip()) > 0:
@@ -1440,7 +1442,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsnf_book'] or {}).get('locator') or '').strip(),
             ((md5_dict['lgrsfic_book'] or {}).get('locator') or '').strip(),
             ((md5_dict['lgli_file'] or {}).get('locator') or '').strip(),
-            (((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename_first') or '').strip(),
+            *[filename.strip() for filename in (((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename_multiple') or [])],
             ((md5_dict['lgli_file'] or {}).get('scimag_archive_path') or '').strip(),
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
@@ -1504,8 +1506,8 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         ]
         md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
-        title_multiple += [(edition['descriptions_mapped'].get('maintitleonoriginallanguage_first') or '').strip() for edition in lgli_all_editions]
-        title_multiple += [(edition['descriptions_mapped'].get('maintitleonenglishtranslate_first') or '').strip() for edition in lgli_all_editions]
+        title_multiple += [title.strip() for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage_multiple') or []) for edition in lgli_all_editions]
+        title_multiple += [title.strip() for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate_multiple') or []) for edition in lgli_all_editions]
         if md5_dict['file_unified_data']['title_best'] == '':
             md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
         md5_dict['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != md5_dict['file_unified_data']['title_best']]
@@ -1570,7 +1572,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsfic_book'] or {}).get('commentary') or '').strip(),
             ' -- '.join(filter(len, [((md5_dict['lgrsnf_book'] or {}).get('library') or '').strip(), (md5_dict['lgrsnf_book'] or {}).get('issue', '').strip()])),
             ' -- '.join(filter(len, [((md5_dict['lgrsfic_book'] or {}).get('library') or '').strip(), (md5_dict['lgrsfic_book'] or {}).get('issue', '').strip()])),
-            ' -- '.join(filter(len, [((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.library_first', '').strip(), (md5_dict['lgli_file'] or {}).get('descriptions_mapped', {}).get('descriptions_mapped.library_issue_first', '').strip()])),
+            ' -- '.join(filter(len, [*((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.library_multiple', []), *(md5_dict['lgli_file'] or {}).get('descriptions_mapped', {}).get('descriptions_mapped.library_issue_multiple', [])])),
             ((lgli_single_edition or {}).get('commentary') or '').strip(),
             ((lgli_single_edition or {}).get('editions_add_info') or '').strip(),
             ((lgli_single_edition or {}).get('commentary') or '').strip(),
@@ -1958,10 +1960,10 @@ def md5_json(md5_input):
                 "md5": ("before", ["File from the combined collections of Anna's Archive.",
                                    "More details at https://annas-archive.org/datasets",
                                    DICT_COMMENTS_NO_API_DISCLAIMER]),
-                "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/nf/<id>"]),
-                "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/fic/<id>"]),
-                "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/file/<f_id>"]),
-                "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>"]),
+                "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/nf/<id>.json"]),
+                "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/fic/<id>.json"]),
+                "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/file/<f_id>.json"]),
+                "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
                 "aa_lgli_comics_2022_08_file": ("before", ["File from the Libgen.li comics backup by Anna's Archive",
                                                            "See https://annas-archive.org/datasets/libgenli_comics",
                                                            "No additional source data beyond what is shown here."]),
@@ -2068,13 +2070,13 @@ def search_page():
     if bool(re.match(r"^OL\d+M$", search_input)):
         return redirect(f"/ol/{search_input}", code=301)
 
-    potential_doi = normalize_doi(search_input)
-    if potential_doi != '':
-        return redirect(f"/doi/{potential_doi}", code=301)
+    # potential_doi = normalize_doi(search_input)
+    # if potential_doi != '':
+    #     return redirect(f"/doi/{potential_doi}", code=301)
 
-    canonical_isbn13 = normalize_isbn(search_input)
-    if canonical_isbn13 != '':
-        return redirect(f"/isbn/{canonical_isbn13}", code=301)
+    # canonical_isbn13 = normalize_isbn(search_input)
+    # if canonical_isbn13 != '':
+    #     return redirect(f"/isbn/{canonical_isbn13}", code=301)
 
     post_filter = []
     for filter_key, filter_value in filter_values.items():
