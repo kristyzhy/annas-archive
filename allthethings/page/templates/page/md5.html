@@ -284,21 +284,18 @@
         </script>
       </div>
       <div id="md5-panel-details" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-details" hidden>
-        <div class="js-md5-tech-details-wrapper"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
+        <p class="mb-4">
+          A "file MD5" is a hash that gets computed from the file contents, and is reasonably unique based on that content. All shadow libraries that we have indexed on here primarily use MD5s to identify files.
+        </p>
+
+        <p class="mb-4">
+          A file might appear in multiple shadow libraries. For information about the various datasets that we have compiled, see the <a href="/datasets">Datasets page</a>.
+        </p>
+
+        <p class="mb-4">
+          For information about this particular file, check out its <a href="/db/md5/{{ md5_input }}.json">JSON file</a>.
+        </p>
       </div>
-      <script>
-        (function() {
-          const md5 = {{ md5_input | tojson }};
-          function fetchTechDetails() {
-            fetch("/md5/" + md5 + "?tech_details=y").then((response) => response.ok ? response.text() : 'Error 827151').then((text) => {
-              const reloadNode = document.querySelector(".js-md5-tech-details-wrapper");
-              reloadNode.innerHTML = text;
-              window.executeScriptElements(reloadNode);
-            });
-          }
-          document.getElementById('md5-panel-details').addEventListener("panelOpen", fetchTechDetails);
-        })();
-      </script>
     </div>
   {% endif %}
 {% endblock %}

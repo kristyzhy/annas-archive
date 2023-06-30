@@ -106,60 +106,60 @@ for language in ol_languages_json:
 # * http://localhost:8000/ol/OL2862972M
 # * http://localhost:8000/ol/OL24764643M
 # * http://localhost:8000/ol/OL7002375M
-# * http://localhost:8000/lgrs/nf/288054
-# * http://localhost:8000/lgrs/nf/3175616
-# * http://localhost:8000/lgrs/nf/2933905
-# * http://localhost:8000/lgrs/nf/1125703
-# * http://localhost:8000/lgrs/nf/59
-# * http://localhost:8000/lgrs/nf/1195487
-# * http://localhost:8000/lgrs/nf/1360257
-# * http://localhost:8000/lgrs/nf/357571
-# * http://localhost:8000/lgrs/nf/2425562
-# * http://localhost:8000/lgrs/nf/3354081
-# * http://localhost:8000/lgrs/nf/3357578
-# * http://localhost:8000/lgrs/nf/3357145
-# * http://localhost:8000/lgrs/nf/2040423
-# * http://localhost:8000/lgrs/fic/1314135
-# * http://localhost:8000/lgrs/fic/25761
-# * http://localhost:8000/lgrs/fic/2443846
-# * http://localhost:8000/lgrs/fic/2473252
-# * http://localhost:8000/lgrs/fic/2340232
-# * http://localhost:8000/lgrs/fic/1122239
-# * http://localhost:8000/lgrs/fic/6862
-# * http://localhost:8000/lgli/file/100
-# * http://localhost:8000/lgli/file/1635550
-# * http://localhost:8000/lgli/file/94069002
-# * http://localhost:8000/lgli/file/40122
-# * http://localhost:8000/lgli/file/21174
-# * http://localhost:8000/lgli/file/91051161
-# * http://localhost:8000/lgli/file/733269
-# * http://localhost:8000/lgli/file/156965
-# * http://localhost:8000/lgli/file/10000000
-# * http://localhost:8000/lgli/file/933304
-# * http://localhost:8000/lgli/file/97559799
-# * http://localhost:8000/lgli/file/3756440
-# * http://localhost:8000/lgli/file/91128129
-# * http://localhost:8000/lgli/file/44109
-# * http://localhost:8000/lgli/file/2264591
-# * http://localhost:8000/lgli/file/151611
-# * http://localhost:8000/lgli/file/1868248
-# * http://localhost:8000/lgli/file/1761341
-# * http://localhost:8000/lgli/file/4031847
-# * http://localhost:8000/lgli/file/2827612
-# * http://localhost:8000/lgli/file/2096298
-# * http://localhost:8000/lgli/file/96751802
-# * http://localhost:8000/lgli/file/5064830
-# * http://localhost:8000/lgli/file/1747221
-# * http://localhost:8000/lgli/file/1833886
-# * http://localhost:8000/lgli/file/3908879
-# * http://localhost:8000/lgli/file/41752
-# * http://localhost:8000/lgli/file/97768237
-# * http://localhost:8000/lgli/file/4031335
-# * http://localhost:8000/lgli/file/1842179
-# * http://localhost:8000/lgli/file/97562793
-# * http://localhost:8000/lgli/file/4029864
-# * http://localhost:8000/lgli/file/2834701
-# * http://localhost:8000/lgli/file/97562143
+# * http://localhost:8000/db/lgrs/nf/288054.json
+# * http://localhost:8000/db/lgrs/nf/3175616.json
+# * http://localhost:8000/db/lgrs/nf/2933905.json
+# * http://localhost:8000/db/lgrs/nf/1125703.json
+# * http://localhost:8000/db/lgrs/nf/59.json
+# * http://localhost:8000/db/lgrs/nf/1195487.json
+# * http://localhost:8000/db/lgrs/nf/1360257.json
+# * http://localhost:8000/db/lgrs/nf/357571.json
+# * http://localhost:8000/db/lgrs/nf/2425562.json
+# * http://localhost:8000/db/lgrs/nf/3354081.json
+# * http://localhost:8000/db/lgrs/nf/3357578.json
+# * http://localhost:8000/db/lgrs/nf/3357145.json
+# * http://localhost:8000/db/lgrs/nf/2040423.json
+# * http://localhost:8000/db/lgrs/fic/1314135.json
+# * http://localhost:8000/db/lgrs/fic/25761.json
+# * http://localhost:8000/db/lgrs/fic/2443846.json
+# * http://localhost:8000/db/lgrs/fic/2473252.json
+# * http://localhost:8000/db/lgrs/fic/2340232.json
+# * http://localhost:8000/db/lgrs/fic/1122239.json
+# * http://localhost:8000/db/lgrs/fic/6862.json
+# * http://localhost:8000/db/lgli/file/100.json
+# * http://localhost:8000/db/lgli/file/1635550.json
+# * http://localhost:8000/db/lgli/file/94069002.json
+# * http://localhost:8000/db/lgli/file/40122.json
+# * http://localhost:8000/db/lgli/file/21174.json
+# * http://localhost:8000/db/lgli/file/91051161.json
+# * http://localhost:8000/db/lgli/file/733269.json
+# * http://localhost:8000/db/lgli/file/156965.json
+# * http://localhost:8000/db/lgli/file/10000000.json
+# * http://localhost:8000/db/lgli/file/933304.json
+# * http://localhost:8000/db/lgli/file/97559799.json
+# * http://localhost:8000/db/lgli/file/3756440.json
+# * http://localhost:8000/db/lgli/file/91128129.json
+# * http://localhost:8000/db/lgli/file/44109.json
+# * http://localhost:8000/db/lgli/file/2264591.json
+# * http://localhost:8000/db/lgli/file/151611.json
+# * http://localhost:8000/db/lgli/file/1868248.json
+# * http://localhost:8000/db/lgli/file/1761341.json
+# * http://localhost:8000/db/lgli/file/4031847.json
+# * http://localhost:8000/db/lgli/file/2827612.json
+# * http://localhost:8000/db/lgli/file/2096298.json
+# * http://localhost:8000/db/lgli/file/96751802.json
+# * http://localhost:8000/db/lgli/file/5064830.json
+# * http://localhost:8000/db/lgli/file/1747221.json
+# * http://localhost:8000/db/lgli/file/1833886.json
+# * http://localhost:8000/db/lgli/file/3908879.json
+# * http://localhost:8000/db/lgli/file/41752.json
+# * http://localhost:8000/db/lgli/file/97768237.json
+# * http://localhost:8000/db/lgli/file/4031335.json
+# * http://localhost:8000/db/lgli/file/1842179.json
+# * http://localhost:8000/db/lgli/file/97562793.json
+# * http://localhost:8000/db/lgli/file/4029864.json
+# * http://localhost:8000/db/lgli/file/2834701.json
+# * http://localhost:8000/db/lgli/file/97562143.json
 # * http://localhost:8000/isbn/9789514596933
 # * http://localhost:8000/isbn/9780000000439
 # * http://localhost:8000/isbn/9780001055506
@@ -220,7 +220,9 @@ def strip_description(description):
     return re.sub('<[^<]+?>', '', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n'))
 
 def nice_json(some_dict):
-    return orjson.dumps(some_dict, option=orjson.OPT_INDENT_2 | orjson.OPT_NON_STR_KEYS, default=str).decode('utf-8')
+    json_str = orjson.dumps(some_dict, option=orjson.OPT_INDENT_2 | orjson.OPT_NON_STR_KEYS, default=str).decode('utf-8')
+    # Triple-slashes means it shouldn't be put on the previous line.
+    return re.sub(r'[ \n]*"//(?!/)', ' "//', json_str, flags=re.MULTILINE)
 
 @functools.cache
 def get_bcp47_lang_codes_parse_substr(substr):
@@ -260,6 +262,22 @@ def get_display_name_for_lang(lang_code, display_lang):
     if '[' not in result:
         result = result + ' [' + lang_code + ']'
     return result.replace(' []', '')
+
+def add_comments_to_dict(before_dict, comments):
+    after_dict = {}
+    for key, value in before_dict.items():
+        if key in comments:
+            comment = comments[key]
+            comment_content = comment[1][0] if len(comment[1]) == 1 else comment[1]
+            if comment[0] == 'before':
+                # Triple-slashes means it shouldn't be put on the previous line by nice_json.
+                after_dict["///" + key] = comment_content
+            after_dict[key] = value
+            if comment[0] == 'after':
+                after_dict["//" + key] = comment_content
+        else:
+            after_dict[key] = value
+    return after_dict
 
 @page.get("/")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
@@ -409,27 +427,34 @@ def get_zlib_book_dicts(session, key, values):
         if len((zlib_book_dict.get('year') or '').strip()) > 0:
             edition_varia_normalized.append(zlib_book_dict['year'].strip())
         zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
-        zlib_book_dicts.append(zlib_book_dict)
+
+        zlib_book_dict_comments = {
+            **COMMON_DICT_COMMENTS,
+            "zlibrary_id": ("before", ["This is a file from the Z-Library collection of Anna's Archive.",
+                              "More details at https://annas-archive.org/datasets/zlib_scrape",
+                              "The source URL is http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/<md5_reported>",
+                              DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', and 'year' fields; combining them into a single field for display and search."]),
+            "in_libgen": ("after", ["Whether at the time of indexing, the book was also available in Libgen."]),
+            "pilimi_torrent": ("after", ["Which torrent by Anna's Archive (formerly the Pirate Library Mirror or 'pilimi') the file belongs to."]),
+            "filesize_reported": ("after", ["The file size as reported by the Z-Library metadata. Is sometimes different from the actually observed file size of the file, as determined by Anna's Archive."]),
+            "md5_reported": ("after", ["The md5 as reported by the Z-Library metadata. Is sometimes different from the actually observed md5 of the file, as determined by Anna's Archive."]),
+            "unavailable": ("after", ["Set when Anna's Archive was unable to download the book."]),
+        }
+        zlib_book_dicts.append(add_comments_to_dict(zlib_book_dict, zlib_book_dict_comments))
 
     return zlib_book_dicts
 
-@page.get("/zlib/<int:zlib_id>")
+
+@page.get("/db/zlib/<int:zlib_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
-def zlib_book_page(zlib_id):
+def zlib_book_json(zlib_id):
     with Session(engine) as session:
         zlib_book_dicts = get_zlib_book_dicts(session, "zlibrary_id", [zlib_id])
-
         if len(zlib_book_dicts) == 0:
-            return render_template("page/zlib_book.html", header_active="search", zlib_id=zlib_id), 404
+            return "{}", 404
+        return nice_json(zlib_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
-        zlib_book_dict = zlib_book_dicts[0]
-        return render_template(
-            "page/zlib_book.html",
-            header_active="search",
-            zlib_id=zlib_id,
-            zlib_book_dict=zlib_book_dict,
-            zlib_book_json=nice_json(zlib_book_dict),
-        )
 
 @page.get("/ol/<string:ol_book_id>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
@@ -602,8 +627,34 @@ def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
     aa_lgli_comics_2022_08_file_dicts = [dict(aa_lgli_comics_2022_08_file) for aa_lgli_comics_2022_08_file in aa_lgli_comics_2022_08_files]
     return aa_lgli_comics_2022_08_file_dicts
 
+DICT_COMMENTS_NO_API_DISCLAIMER = "This page is *not* intended as an API. If you need programmatic access to this JSON, please set up your own instance. For more information, see: https://annas-archive.org/datasets and https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports"
 
-# See https://wiki.mhut.org/content:bibliographic_data for some more information.
+COMMON_DICT_COMMENTS = {
+    "identifier": ("after", ["Typically ISBN-10 or ISBN-13."]),
+    "identifierwodash": ("after", ["Same as 'identifier' but without dashes."]),
+    "locator": ("after", ["Original filename or path on the Library Genesis servers."]),
+    "sanitized_isbns": ("before", ["Anna's Archive normalized version of the ISBN, in both ISBN-10 and 13 formats."]),
+    "isbns_rich": ("before", ["Anna's Archive 'rich' versions of the ISBNs, with dashes inserted."]),
+    "stripped_description": ("before", ["Anna's Archive version of the 'descr' or 'description' field, with HTML tags removed or replaced with regular whitespace."]),
+    "language_codes": ("before", ["Anna's Archive version of the 'language' field, where we attempted to parse it into BCP 47 tags."]),
+    "cover_url_normalized": ("after", ["Anna's Archive version of the 'coverurl' field, where we attempted to turn it into a full URL."]),
+    "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', 'periodical', and 'year' fields; combining them into a single field for display and search."]),
+    "topic_descr": ("after", ["A description of the 'topic' field using a separate database table, which seems to have its roots in the Kolxo3 library that Libgen was originally based on.",
+                    "https://wiki.mhut.org/content:bibliographic_data says that this field will be deprecated in favor of Dewey Decimal."]),
+    "topic": ("after", ["See 'topic_descr' below."]),
+    "searchable": ("after", ["This seems to indicate that the book has been OCR'ed."]),
+    "generic": ("after", ["If this is set to a different md5, then that version is preferred over this one, and should be shown in search results instead."]),
+    "visible": ("after", ["If this is set, the book is in fact *not* visible in Libgen, and this string describes the reason."]),
+    "commentary": ("after", ["Comments left by the uploader, an admin, or an automated process."]),
+    "toc": ("before", ["Table of contents. May contain HTML."]),
+    "ddc": ("after", ["See also https://libgen.li/biblioservice.php?type=ddc"]),
+    "udc": ("after", ["See also https://libgen.li/biblioservice.php?type=udc"]),
+    "lbc": ("after", ["See also https://libgen.li/biblioservice.php?type=bbc and https://www.isko.org/cyclo/lbc"]),
+    "descriptions_mapped": ("before", ["Normalized fields by Anna's Archive, taken from the various `*_add_descr` Libgen.li tables, with comments taken from the `elem_descr` table which contain metadata about these fields, as well as sometimes our own metadata.",
+                                       "For convenience, the *_first fields are the first found in the respective `*_add_descr` table, while the *_multiple fields contain all variants.",
+                                       "The names themselves are taken from `name_en` in the corresponding `elem_descr` entry (lowercased, whitespace removed), with `name_add{1,2,3}_en` to create the compound keys, such as `isbn_isbnnotes_multiple`."]),
+}
+
 def get_lgrsnf_book_dicts(session, key, values):
     # Filter out bad data
     if key.lower() == 'md5':
@@ -646,28 +697,16 @@ def get_lgrsnf_book_dicts(session, key, values):
             edition_varia_normalized.append(lgrs_book_dict['year'].strip())
         lgrs_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
-        lgrs_book_dicts.append(lgrs_book_dict)
+        lgrs_book_dict_comments = {
+            **COMMON_DICT_COMMENTS,
+            "id": ("before", ["This is a Libgen.rs Non-Fiction record, augmented by Anna's Archive.",
+                              "More details at https://annas-archive.org/datasets/libgen_rs",
+                              "Most of these fields are explained at https://wiki.mhut.org/content:bibliographic_data",
+                              DICT_COMMENTS_NO_API_DISCLAIMER]),
+        }
+        lgrs_book_dicts.append(add_comments_to_dict(lgrs_book_dict, lgrs_book_dict_comments))
 
     return lgrs_book_dicts
-
-
-@page.get("/lgrs/nf/<int:lgrsnf_book_id>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
-def lgrsnf_book_page(lgrsnf_book_id):
-    with Session(engine) as session:
-        lgrs_book_dicts = get_lgrsnf_book_dicts(session, "ID", [lgrsnf_book_id])
-
-        if len(lgrs_book_dicts) == 0:
-            return render_template("page/lgrs_book.html", header_active="search", lgrs_type='nf', lgrs_book_id=lgrsnf_book_id), 404
-
-        return render_template(
-            "page/lgrs_book.html",
-            header_active="search",
-            lgrs_type='nf',
-            lgrs_book_id=lgrsnf_book_id,
-            lgrs_book_dict=lgrs_book_dicts[0],
-            lgrs_book_dict_json=nice_json(lgrs_book_dicts[0]),
-        )
 
 
 def get_lgrsfic_book_dicts(session, key, values):
@@ -708,28 +747,34 @@ def get_lgrsfic_book_dicts(session, key, values):
             edition_varia_normalized.append(lgrs_book_dict['year'].strip())
         lgrs_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
-        lgrs_book_dicts.append(lgrs_book_dict)
+        lgrs_book_dict_comments = {
+            **COMMON_DICT_COMMENTS,
+            "id": ("before", ["This is a Libgen.rs Fiction record, augmented by Anna's Archive.",
+                              "More details at https://annas-archive.org/datasets/libgen_rs",
+                              "Most of these fields are explained at https://wiki.mhut.org/content:bibliographic_data",
+                              DICT_COMMENTS_NO_API_DISCLAIMER]),
+        }
+        lgrs_book_dicts.append(add_comments_to_dict(lgrs_book_dict, lgrs_book_dict_comments))
 
     return lgrs_book_dicts
 
 
-@page.get("/lgrs/fic/<int:lgrsfic_book_id>")
+@page.get("/db/lgrs/nf/<int:lgrsnf_book_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
-def lgrsfic_book_page(lgrsfic_book_id):
+def lgrsnf_book_json(lgrsnf_book_id):
+    with Session(engine) as session:
+        lgrs_book_dicts = get_lgrsnf_book_dicts(session, "ID", [lgrsnf_book_id])
+        if len(lgrs_book_dicts) == 0:
+            return "{}", 404
+        return nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+@page.get("/db/lgrs/fic/<int:lgrsfic_book_id>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def lgrsfic_book_json(lgrsfic_book_id):
     with Session(engine) as session:
         lgrs_book_dicts = get_lgrsfic_book_dicts(session, "ID", [lgrsfic_book_id])
-
         if len(lgrs_book_dicts) == 0:
-            return render_template("page/lgrs_book.html", header_active="search", lgrs_type='fic', lgrs_book_id=lgrsfic_book_id), 404
-
-        return render_template(
-            "page/lgrs_book.html",
-            header_active="search",
-            lgrs_type='fic',
-            lgrs_book_id=lgrsfic_book_id,
-            lgrs_book_dict=lgrs_book_dicts[0],
-            lgrs_book_dict_json=nice_json(lgrs_book_dicts[0]),
-        )
+            return "{}", 404
+        return nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 libgenli_elem_descr_output = None
 def libgenli_elem_descr(conn):
@@ -749,9 +794,22 @@ def lgli_map_descriptions(descriptions):
     descrs_mapped = {}
     for descr in descriptions:
         normalized_base_field = lgli_normalize_meta_field(descr['meta']['name_en'])
+        normalized_base_field_meta = '///' + normalized_base_field
         normalized_base_field_first = normalized_base_field + '_first'
         normalized_base_field_multiple = normalized_base_field + '_multiple'
-        if normalized_base_field not in descrs_mapped:
+        if normalized_base_field_meta not in descrs_mapped:
+            meta_dict_comments = {
+                "link_pattern": ("after", ["Relative links are relative to the Libgen.li domains, e.g. https://libgen.li"]),
+            }
+            descrs_mapped[normalized_base_field_meta] = {
+                "libgenli": add_comments_to_dict({k: v for k, v in descr['meta'].items() if v and v != "" and v != 0}, meta_dict_comments),
+            }
+            if normalized_base_field_multiple in lgli_identifiers:
+                descrs_mapped[normalized_base_field_meta]["annas_archive"] = lgli_identifiers[normalized_base_field_multiple]
+            # lgli_identifiers and lgli_classifications are non-overlapping
+            if normalized_base_field_multiple in lgli_classifications:
+                descrs_mapped[normalized_base_field_meta]["annas_archive"] = lgli_classifications[normalized_base_field_multiple]
+        if normalized_base_field_first not in descrs_mapped:
             descrs_mapped[normalized_base_field_first] = descr['value']
         if normalized_base_field_multiple in descrs_mapped:
             descrs_mapped[normalized_base_field_multiple].append(descr['value'])
@@ -772,9 +830,12 @@ def lgli_map_descriptions(descriptions):
                     descrs_mapped[normalized_add_field_multiple] = [descr[add_field_value]]
         if len(descr.get('publisher_title') or '') > 0:
             normalized_base_field = 'publisher_title'
+            normalized_base_field_meta = '///' + normalized_base_field
             normalized_base_field_first = normalized_base_field + '_first'
             normalized_base_field_multiple = normalized_base_field + '_multiple'
-            if normalized_base_field not in descrs_mapped:
+            if normalized_base_field_meta not in descrs_mapped:
+                descrs_mapped[normalized_base_field_meta] = "Publisher title is a virtual field added by Anna's Archive based on the `publishers` table and the value of `publisherid`."
+            if normalized_base_field_first not in descrs_mapped:
                 descrs_mapped[normalized_base_field_first] = descr['publisher_title']
             if normalized_base_field_multiple in descrs_mapped:
                 descrs_mapped[normalized_base_field_multiple].append(descr['publisher_title'])
@@ -783,15 +844,6 @@ def lgli_map_descriptions(descriptions):
 
     return descrs_mapped
 
-lgli_topic_mapping = {
-    'l': 'Non-fiction ("libgen")',
-    's': 'Standards document',
-    'm': 'Magazine',
-    'c': 'Comic',
-    'f': 'Fiction',
-    'r': 'Russian Fiction',
-    'a': 'Journal article (Sci-Hub/scimag)'
-}
 # Hardcoded from the `descr_elems` table.
 lgli_edition_type_mapping = {
     "b":"book",
@@ -900,6 +952,11 @@ lgli_identifiers = {
     "googlebookid_multiple": { "label": "Google Books", "url": "https://books.google.com/books?id=%s", "description": ""},
     "jstorstableid_multiple": { "label": "JSTOR Stable", "url": "https://www.jstor.org/stable/%s", "description": ""},
     "crossrefbookid_multiple": { "label": "Crossref", "url": "https://data.crossref.org/depositorreport?pubid=%s", "description":""},
+    "librusecbookid_multiple": { "label": "Librusec", "url": "https://lib.rus.ec/b/%s", "description":""},
+    "flibustabookid_multiple": { "label": "Flibusta", "url": "https://flibusta.is/b/%s", "description":""},
+    "coollibbookid_multiple": { "label": "Coollib", "url": "https://coollib.ru/b/%s", "description":""},
+    "maximabookid_multiple": { "label": "Maxima", "url": "http://maxima-library.org/mob/b/%s", "description":""},
+    "litmirbookid_multiple": { "label": "Litmir", "url": "https://www.litmir.me/bd/?b=%s", "description":""},
 }
 # Hardcoded from the `libgenli_elem_descr` table.
 lgli_classifications = {
@@ -1050,7 +1107,27 @@ def get_lgli_file_dicts(session, key, values):
             if len(edition_dict['descriptions_mapped'].get('description_multiple') or []) > 0:
                 edition_dict['stripped_description'] = strip_description("\n\n".join(edition_dict['descriptions_mapped']['description_multiple']))
 
-            lgli_file_dict['editions'].append(edition_dict)
+            edition_dict['edition_type_full'] = lgli_edition_type_mapping[edition_dict['type']]
+
+            edition_dict_comments = {
+                **COMMON_DICT_COMMENTS,
+                "editions": ("before", ["Files can be associated with zero or more editions."
+                                        "Sometimes it corresponds to a particular physical version of a book (similar to ISBN records, or 'editions' in Open Library), but it may also represent a chapter in a periodical (more specific than a single book), or a collection of multiple books (more general than a single book). However, in practice, in most cases files only have a single edition.",
+                                        "Note that while usually there is only one 'edition' associated with a file, it is common to have multiple files associated with an edition. For example, different people might have scanned a book."]),
+                "issue_series_title": ("before", ["The `issue_series_*` fields were loaded from the `series` table using `issue_s_id`."]),
+                "authors_normalized": ("before", ["Anna's Archive best guess at the authors, based on the regular `author` field and `author_multiple` from `descriptions_mapped`."]),
+                "cover_url_guess": ("before", ["Anna's Archive best guess at the full URL to the cover image on libgen.li, for this specific edition."]),
+                "issue_series_title_normalized": ("before", ["Anna's Archive version of the 'issue_series_title', 'issue_series_volume_name', 'issue_series_volume_number', and 'issue_year_number' fields; combining them into a single field for display and search."]),
+                "publisher_normalized": ("before", ["Anna's Archive version of the 'publisher', 'publisher_title_first', 'issue_series_publisher', and 'issue_series_issn' fields; combining them into a single field for display and search."]),
+                "date_normalized": ("before", ["Anna's Archive combined version of the 'year', 'month', and 'day' fields."]),
+                "edition_varia_normalized": ("before", ["Anna's Archive version of the 'issue_series_title_normalized', 'issue_number', 'issue_year_number', 'issue_volume', 'issue_first_page', 'issue_last_page', 'series_name', 'edition', and 'date_normalized' fields; combining them into a single field for display and search."]),
+                "language_codes": ("before", ["Anna's Archive version of the 'language_multiple' field, where we attempted to parse them into BCP 47 tags."]),
+                "languageoriginal_codes": ("before", ["Same as 'language_codes' but for the 'languageoriginal_multiple' field, which contains the original language if the work is a translation."]),
+                "identifiers_normalized": ("before", ["Anna's Archive version of various identity-related '*_multiple' fields, as well as the `doi` field."]),
+                "classifications_normalized": ("before", ["Anna's Archive version of various classification-related '*_multiple' fields."]),
+                "edition_type_full": ("after", ["Anna's Archive expansion of the `type` field in the edition, based on the `descr_elems` table."]),
+            }
+            lgli_file_dict['editions'].append(add_comments_to_dict(edition_dict, edition_dict_comments))
 
         lgli_file_dict['cover_url_guess'] = ''
         if lgli_file_dict['cover_exists'] > 0:
@@ -1084,58 +1161,32 @@ def get_lgli_file_dicts(session, key, values):
             else:
                 lgli_file_dict['scimag_url_guess'] = 'https://doi.org/' + lgli_file_dict['scimag_url_guess']
 
-        lgli_file_dicts.append(lgli_file_dict)
+        lgli_file_dict_comments = {
+            **COMMON_DICT_COMMENTS,
+            "f_id": ("before", ["This is a Libgen.li file record, augmented by Anna's Archive.",
+                     "More details at https://annas-archive.org/datasets/libgen_li",
+                     "Most of these fields are explained at https://libgen.li/community/app.php/article/new-database-structure-published-o%CF%80y6%D0%BB%D0%B8%C4%B8o%D0%B2a%D0%BDa-%D0%BDo%D0%B2a%D1%8F-c%D1%82py%C4%B8%D1%82ypa-6a%D0%B7%C6%85i-%D0%B4a%D0%BD%D0%BD%C6%85ix",
+                     "The source URL is https://libgen.li/file.php?id=<f_id>",
+                     DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "cover_url_guess": ("after", ["Anna's Archive best guess at the full URL to the cover image on libgen.li, for this specific file (not taking into account editions)."]),
+            "cover_url_guess_normalized": ("after", ["Anna's Archive best guess at the full URL to the cover image on libgen.li, using the guess from the first edition that has a non-empty guess, if the file-specific guess is empty."]),
+            "scimag_url_guess": ("after", ["Anna's Archive best guess at the canonical URL for journal articles."]),
+            "libgen_topic": ("after", ["The primary subcollection this file belongs to: l=Non-fiction ('libgen'), s=Standards document, m=Magazine, c=Comic, f=Fiction, r=Russian Fiction, a=Journal article (Sci-Hub/scimag)"]),
+        }
+        lgli_file_dicts.append(add_comments_to_dict(lgli_file_dict, lgli_file_dict_comments))
 
     return lgli_file_dicts
 
 
-@page.get("/lgli/file/<int:lgli_file_id>")
+@page.get("/db/lgli/file/<int:lgli_file_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
-def lgli_file_page(lgli_file_id):
+def lgli_file_json(lgli_file_id):
     with Session(engine) as session:
         lgli_file_dicts = get_lgli_file_dicts(session, "f_id", [lgli_file_id])
-
         if len(lgli_file_dicts) == 0:
-            return render_template("page/lgli_file.html", header_active="search", lgli_file_id=lgli_file_id), 404
+            return "{}", 404
+        return nice_json(lgli_file_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
-        lgli_file_dict = lgli_file_dicts[0]
-
-        lgli_file_top = { 'title': '', 'author': '', 'description': '' }
-        if len(lgli_file_dict['editions']) > 0:
-            for edition_dict in lgli_file_dict['editions']:
-                if len(edition_dict['title'].strip()) > 0:
-                    lgli_file_top['title'] = edition_dict['title'].strip()
-                    break
-            if len(lgli_file_top['title'].strip()) == 0:
-                lgli_file_top['title'] = lgli_file_dict['locator'].split('\\')[-1].strip()
-            else:
-                lgli_file_top['description'] = lgli_file_dict['locator'].split('\\')[-1].strip()
-            for edition_dict in lgli_file_dict['editions']:
-                if len(edition_dict['authors_normalized']) > 0:
-                    lgli_file_top['author'] = edition_dict['authors_normalized']
-                    break
-            for edition_dict in lgli_file_dict['editions']:
-                if len(edition_dict['descriptions_mapped'].get('description_multiple') or []) > 0:
-                    lgli_file_top['description'] = strip_description("\n\n".join(edition_dict['descriptions_mapped']['description_multiple']))
-            for edition_dict in lgli_file_dict['editions']:
-                if len(edition_dict['edition_varia_normalized']) > 0:
-                    lgli_file_top['description'] = strip_description(edition_dict['edition_varia_normalized']) + ('\n\n' if len(lgli_file_top['description']) > 0 else '') + lgli_file_top['description']
-                    break
-        if len(lgli_file_dict['scimag_archive_path']) > 0:
-            lgli_file_top['title'] = lgli_file_dict['scimag_archive_path']
-
-        return render_template(
-            "page/lgli_file.html",
-            header_active="search",
-            lgli_file_id=lgli_file_id,
-            lgli_file_dict=lgli_file_dict,
-            lgli_file_top=lgli_file_top,
-            lgli_file_dict_json=nice_json(lgli_file_dict),
-            lgli_topic_mapping=lgli_topic_mapping,
-            lgli_edition_type_mapping=lgli_edition_type_mapping,
-            lgli_identifiers=lgli_identifiers,
-            lgli_classifications=lgli_classifications,
-        )
 
 @page.get("/isbn/<string:isbn_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
@@ -1887,10 +1938,44 @@ def md5_page(md5_input):
             "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
         }
         
-        if request.args.get("tech_details") == "y":
-            return render_template("page/md5_tech_details.html", **render_fields)
-        else:
-            return render_template("page/md5.html", **render_fields)
+        return render_template("page/md5.html", **render_fields)
+
+@page.get("/db/md5/<string:md5_input>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+def md5_json(md5_input):
+    with Session(engine) as session:
+        md5_input = md5_input[0:50]
+        canonical_md5 = md5_input.strip().lower()[0:32]
+        if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
+            return "{}", 404
+
+        with Session(engine) as session:
+            md5_dicts = get_md5_dicts_elasticsearch(session, [canonical_md5])
+            if len(md5_dicts) == 0:
+                return "{}", 404
+            
+            md5_dict_comments = {
+                "md5": ("before", ["File from the combined collections of Anna's Archive.",
+                                   "More details at https://annas-archive.org/datasets",
+                                   DICT_COMMENTS_NO_API_DISCLAIMER]),
+                "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/nf/<id>"]),
+                "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/fic/<id>"]),
+                "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/file/<f_id>"]),
+                "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>"]),
+                "aa_lgli_comics_2022_08_file": ("before", ["File from the Libgen.li comics backup by Anna's Archive",
+                                                           "See https://annas-archive.org/datasets/libgenli_comics",
+                                                           "No additional source data beyond what is shown here."]),
+                "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
+                "ipfs_infos": ("before", ["Data about the IPFS files."]),
+                "search_only_fields": ("before", ["Data that is not shown to the user, but used during searching."]),
+                "additional": ("before", ["Data that is derived at a late stage, and not stored in the search index."]),
+            }
+            md5_dict = add_comments_to_dict(md5_dicts[0], md5_dict_comments)
+
+            md5_dict['additional'].pop('fast_partner_urls')
+            md5_dict['additional'].pop('slow_partner_urls')
+
+            return nice_json(md5_dict), {'Content-Type': 'text/json; charset=utf-8'}
 
 
 sort_search_md5_dicts_script = """
