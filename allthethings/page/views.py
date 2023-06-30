@@ -651,8 +651,7 @@ COMMON_DICT_COMMENTS = {
     "udc": ("after", ["See also https://libgen.li/biblioservice.php?type=udc"]),
     "lbc": ("after", ["See also https://libgen.li/biblioservice.php?type=bbc and https://www.isko.org/cyclo/lbc"]),
     "descriptions_mapped": ("before", ["Normalized fields by Anna's Archive, taken from the various `*_add_descr` Libgen.li tables, with comments taken from the `elem_descr` table which contain metadata about these fields, as well as sometimes our own metadata.",
-                                       "For convenience, the *_first fields are the first found in the respective `*_add_descr` table, while the *_multiple fields contain all variants.",
-                                       "The names themselves are taken from `name_en` in the corresponding `elem_descr` entry (lowercased, whitespace removed), with `name_add{1,2,3}_en` to create the compound keys, such as `isbn_isbnnotes_multiple`."]),
+                                       "The names themselves are taken from `name_en` in the corresponding `elem_descr` entry (lowercased, whitespace removed), with `name_add{1,2,3}_en` to create the compound keys, such as `isbn_isbnnotes`."]),
 }
 
 def get_lgrsnf_book_dicts(session, key, values):
@@ -795,8 +794,6 @@ def lgli_map_descriptions(descriptions):
     for descr in descriptions:
         normalized_base_field = lgli_normalize_meta_field(descr['meta']['name_en'])
         normalized_base_field_meta = '///' + normalized_base_field
-        normalized_base_field_first = normalized_base_field + '_first'
-        normalized_base_field_multiple = normalized_base_field + '_multiple'
         if normalized_base_field_meta not in descrs_mapped:
             meta_dict_comments = {
                 "link_pattern": ("after", ["Relative links are relative to the Libgen.li domains, e.g. https://libgen.li"]),
@@ -804,43 +801,33 @@ def lgli_map_descriptions(descriptions):
             descrs_mapped[normalized_base_field_meta] = {
                 "libgenli": add_comments_to_dict({k: v for k, v in descr['meta'].items() if v and v != "" and v != 0}, meta_dict_comments),
             }
-            if normalized_base_field_multiple in lgli_identifiers:
-                descrs_mapped[normalized_base_field_meta]["annas_archive"] = lgli_identifiers[normalized_base_field_multiple]
+            if normalized_base_field in lgli_identifiers:
+                descrs_mapped[normalized_base_field_meta]["annas_archive"] = lgli_identifiers[normalized_base_field]
             # lgli_identifiers and lgli_classifications are non-overlapping
-            if normalized_base_field_multiple in lgli_classifications:
-                descrs_mapped[normalized_base_field_meta]["annas_archive"] = lgli_classifications[normalized_base_field_multiple]
-        if normalized_base_field_first not in descrs_mapped:
-            descrs_mapped[normalized_base_field_first] = descr['value']
-        if normalized_base_field_multiple in descrs_mapped:
-            descrs_mapped[normalized_base_field_multiple].append(descr['value'])
+            if normalized_base_field in lgli_classifications:
+                descrs_mapped[normalized_base_field_meta]["annas_archive"] = lgli_classifications[normalized_base_field]
+        if normalized_base_field in descrs_mapped:
+            descrs_mapped[normalized_base_field].append(descr['value'])
         else:
-            descrs_mapped[normalized_base_field_multiple] = [descr['value']]
+            descrs_mapped[normalized_base_field] = [descr['value']]
         for i in [1,2,3]:
             add_field_name = f"name_add{i}_en"
             add_field_value = f"value_add{i}"
             if len(descr['meta'][add_field_name]) > 0:
                 normalized_add_field = normalized_base_field + "_" + lgli_normalize_meta_field(descr['meta'][add_field_name])
-                normalized_add_field_first = normalized_add_field + '_first'
-                normalized_add_field_multiple = normalized_add_field + '_multiple'
-                if normalized_add_field not in descrs_mapped:
-                    descrs_mapped[normalized_add_field_first] = descr[add_field_value]
-                if normalized_add_field_multiple in descrs_mapped:
-                    descrs_mapped[normalized_add_field_multiple].append(descr[add_field_value])
+                if normalized_add_field in descrs_mapped:
+                    descrs_mapped[normalized_add_field].append(descr[add_field_value])
                 else:
-                    descrs_mapped[normalized_add_field_multiple] = [descr[add_field_value]]
+                    descrs_mapped[normalized_add_field] = [descr[add_field_value]]
         if len(descr.get('publisher_title') or '') > 0:
             normalized_base_field = 'publisher_title'
             normalized_base_field_meta = '///' + normalized_base_field
-            normalized_base_field_first = normalized_base_field + '_first'
-            normalized_base_field_multiple = normalized_base_field + '_multiple'
             if normalized_base_field_meta not in descrs_mapped:
                 descrs_mapped[normalized_base_field_meta] = "Publisher title is a virtual field added by Anna's Archive based on the `publishers` table and the value of `publisherid`."
-            if normalized_base_field_first not in descrs_mapped:
-                descrs_mapped[normalized_base_field_first] = descr['publisher_title']
-            if normalized_base_field_multiple in descrs_mapped:
-                descrs_mapped[normalized_base_field_multiple].append(descr['publisher_title'])
+            if normalized_base_field in descrs_mapped:
+                descrs_mapped[normalized_base_field].append(descr['publisher_title'])
             else:
-                descrs_mapped[normalized_base_field_multiple] = [descr['publisher_title']]
+                descrs_mapped[normalized_base_field] = [descr['publisher_title']]
 
     return descrs_mapped
 
@@ -915,59 +902,59 @@ lgli_date_info_fields = [
 # Hardcoded from the `libgenli_elem_descr` table.
 lgli_identifiers = {
     "doi": { "label": "DOI", "url": "https://doi.org/%s", "description": "Digital Object Identifier"},
-    "issn_multiple": { "label": "ISSN", "url": "https://urn.issn.org/urn:issn:%s", "description": "International Standard Serial Number"},
-    "pii_multiple": { "label": "PII", "url": "", "description": "Publisher Item Identifier", "website": "https://en.wikipedia.org/wiki/Publisher_Item_Identifier"},
-    "pmcid_multiple": { "label": "PMC ID", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/%s/", "description": "PubMed Central ID"},
-    "pmid_multiple": { "label": "PMID", "url": "https://pubmed.ncbi.nlm.nih.gov/%s/", "description": "PubMed ID"},
-    "asin_multiple": { "label": "ASIN", "url": "https://www.amazon.com/dp/%s", "description": "Amazon Standard Identification Number"},
-    "bl_multiple": { "label": "BL", "url": "http://explore.bl.uk/primo_library/libweb/action/dlDisplay.do?vid=BLVU1&amp;docId=BLL01%s", "description": "The British Library"},
-    "bnb_multiple": { "label": "BNB", "url": "http://search.bl.uk/primo_library/libweb/action/search.do?fn=search&vl(freeText0)=%s", "description": "The British National Bibliography"},
-    "bnf_multiple": { "label": "BNF", "url": "http://catalogue.bnf.fr/ark:/12148/%s", "description": "Bibliotheque nationale de France"},
-    "copac_multiple": { "label": "COPAC", "url": "http://copac.jisc.ac.uk/id/%s?style=html", "description": "UK/Irish union catalog"},
-    "dnb_multiple": { "label": "DNB", "url": "http://d-nb.info/%s", "description": "Deutsche Nationalbibliothek"},
-    "fantlabeditionid_multiple": { "label": "FantLab Edition ID", "url": "https://fantlab.ru/edition%s", "description": "Лаболатория фантастики"},
-    "goodreads_multiple": { "label": "Goodreads", "url": "http://www.goodreads.com/book/show/%s", "description": "Goodreads social cataloging site"},
-    "jnbjpno_multiple": { "label": "JNB/JPNO", "url": "https://iss.ndl.go.jp/api/openurl?ndl_jpno=%s&amp;locale=en", "description": "The Japanese National Bibliography"},
-    "lccn_multiple": { "label": "LCCN", "url": "http://lccn.loc.gov/%s", "description": "Library of Congress Control Number"},
-    "ndl_multiple": { "label": "NDL", "url": "http://id.ndl.go.jp/bib/%s/eng", "description": "National Diet Library"},
-    "oclcworldcat_multiple": { "label": "OCLC/WorldCat", "url": "https://www.worldcat.org/oclc/%s", "description": "Online Computer Library Center"},
-    "openlibrary_multiple": { "label": "Open Library", "url": "https://openlibrary.org/books/%s", "description": ""},
-    "sfbg_multiple": { "label": "SFBG", "url": "http://www.sfbg.us/book/%s", "description": "Catalog of books published in Bulgaria"},
-    "bn_multiple": { "label": "BN", "url": "http://www.barnesandnoble.com/s/%s", "description": "Barnes and Noble"},
-    "ppn_multiple": { "label": "PPN", "url": "http://picarta.pica.nl/xslt/DB=3.9/XMLPRS=Y/PPN?PPN=%s", "description": "De Nederlandse Bibliografie Pica Productie Nummer"},
-    "audibleasin_multiple": { "label": "Audible-ASIN", "url": "https://www.audible.com/pd/%s", "description": "Audible ASIN"},
-    "ltf_multiple": { "label": "LTF", "url": "http://www.tercerafundacion.net/biblioteca/ver/libro/%s", "description": "La Tercera Fundaci&#243;n"},
-    "kbr_multiple": { "label": "KBR", "url": "https://opac.kbr.be/Library/doc/SYRACUSE/%s/", "description": "De Belgische Bibliografie/La Bibliographie de Belgique"},
-    "reginald1_multiple": { "label": "Reginald-1", "url": "", "description": "R. Reginald. Science Fiction and Fantasy Literature: A Checklist, 1700-1974, with Contemporary Science Fiction Authors II. Gale Research Co., 1979, 1141p."},
-    "reginald3_multiple": { "label": "Reginald-3", "url": "", "description": "Robert Reginald. Science Fiction and Fantasy Literature, 1975-1991: A Bibliography of Science Fiction, Fantasy, and Horror Fiction Books and Nonfiction Monographs. Gale Research Inc., 1992, 1512 p."},
-    "bleilergernsback_multiple": { "label": "Bleiler Gernsback", "url": "", "description": "Everett F. Bleiler, Richard Bleiler. Science-Fiction: The Gernsback Years. Kent State University Press, 1998, xxxii+730pp"},
-    "bleilersupernatural_multiple": { "label": "Bleiler Supernatural", "url": "", "description": "Everett F. Bleiler. The Guide to Supernatural Fiction. Kent State University Press, 1983, xii+723 p."},
-    "bleilerearlyyears_multiple": { "label": "Bleiler Early Years", "url": "", "description": "Richard Bleiler, Everett F. Bleiler. Science-Fiction: The Early Years. Kent State University Press, 1991, xxiii+998 p."},
-    "nilf_multiple": { "label": "NILF", "url": "http://nilf.it/%s/", "description": "Numero Identificativo della Letteratura Fantastica / Fantascienza"},
-    "noosfere_multiple": { "label": "NooSFere", "url": "https://www.noosfere.org/livres/niourf.asp?numlivre=%s", "description": "NooSFere"},
-    "sfleihbuch_multiple": { "label": "SF-Leihbuch", "url": "http://www.sf-leihbuch.de/index.cfm?bid=%s", "description": "Science Fiction-Leihbuch-Datenbank"},
-    "nla_multiple": { "label": "NLA", "url": "https://nla.gov.au/nla.cat-vn%s", "description": "National Library of Australia"},
-    "porbase_multiple": { "label": "PORBASE", "url": "http://id.bnportugal.gov.pt/bib/porbase/%s", "description": "Biblioteca Nacional de Portugal"},
-    "isfdbpubideditions_multiple": { "label": "ISFDB (editions)", "url": "http://www.isfdb.org/cgi-bin/pl.cgi?%s", "description": ""},
-    "googlebookid_multiple": { "label": "Google Books", "url": "https://books.google.com/books?id=%s", "description": ""},
-    "jstorstableid_multiple": { "label": "JSTOR Stable", "url": "https://www.jstor.org/stable/%s", "description": ""},
-    "crossrefbookid_multiple": { "label": "Crossref", "url": "https://data.crossref.org/depositorreport?pubid=%s", "description":""},
-    "librusecbookid_multiple": { "label": "Librusec", "url": "https://lib.rus.ec/b/%s", "description":""},
-    "flibustabookid_multiple": { "label": "Flibusta", "url": "https://flibusta.is/b/%s", "description":""},
-    "coollibbookid_multiple": { "label": "Coollib", "url": "https://coollib.ru/b/%s", "description":""},
-    "maximabookid_multiple": { "label": "Maxima", "url": "http://maxima-library.org/mob/b/%s", "description":""},
-    "litmirbookid_multiple": { "label": "Litmir", "url": "https://www.litmir.me/bd/?b=%s", "description":""},
+    "issn": { "label": "ISSN", "url": "https://urn.issn.org/urn:issn:%s", "description": "International Standard Serial Number"},
+    "pii": { "label": "PII", "url": "", "description": "Publisher Item Identifier", "website": "https://en.wikipedia.org/wiki/Publisher_Item_Identifier"},
+    "pmcid": { "label": "PMC ID", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/%s/", "description": "PubMed Central ID"},
+    "pmid": { "label": "PMID", "url": "https://pubmed.ncbi.nlm.nih.gov/%s/", "description": "PubMed ID"},
+    "asin": { "label": "ASIN", "url": "https://www.amazon.com/dp/%s", "description": "Amazon Standard Identification Number"},
+    "bl": { "label": "BL", "url": "http://explore.bl.uk/primo_library/libweb/action/dlDisplay.do?vid=BLVU1&amp;docId=BLL01%s", "description": "The British Library"},
+    "bnb": { "label": "BNB", "url": "http://search.bl.uk/primo_library/libweb/action/search.do?fn=search&vl(freeText0)=%s", "description": "The British National Bibliography"},
+    "bnf": { "label": "BNF", "url": "http://catalogue.bnf.fr/ark:/12148/%s", "description": "Bibliotheque nationale de France"},
+    "copac": { "label": "COPAC", "url": "http://copac.jisc.ac.uk/id/%s?style=html", "description": "UK/Irish union catalog"},
+    "dnb": { "label": "DNB", "url": "http://d-nb.info/%s", "description": "Deutsche Nationalbibliothek"},
+    "fantlabeditionid": { "label": "FantLab Edition ID", "url": "https://fantlab.ru/edition%s", "description": "Лаболатория фантастики"},
+    "goodreads": { "label": "Goodreads", "url": "http://www.goodreads.com/book/show/%s", "description": "Goodreads social cataloging site"},
+    "jnbjpno": { "label": "JNB/JPNO", "url": "https://iss.ndl.go.jp/api/openurl?ndl_jpno=%s&amp;locale=en", "description": "The Japanese National Bibliography"},
+    "lccn": { "label": "LCCN", "url": "http://lccn.loc.gov/%s", "description": "Library of Congress Control Number"},
+    "ndl": { "label": "NDL", "url": "http://id.ndl.go.jp/bib/%s/eng", "description": "National Diet Library"},
+    "oclcworldcat": { "label": "OCLC/WorldCat", "url": "https://www.worldcat.org/oclc/%s", "description": "Online Computer Library Center"},
+    "openlibrary": { "label": "Open Library", "url": "https://openlibrary.org/books/%s", "description": ""},
+    "sfbg": { "label": "SFBG", "url": "http://www.sfbg.us/book/%s", "description": "Catalog of books published in Bulgaria"},
+    "bn": { "label": "BN", "url": "http://www.barnesandnoble.com/s/%s", "description": "Barnes and Noble"},
+    "ppn": { "label": "PPN", "url": "http://picarta.pica.nl/xslt/DB=3.9/XMLPRS=Y/PPN?PPN=%s", "description": "De Nederlandse Bibliografie Pica Productie Nummer"},
+    "audibleasin": { "label": "Audible-ASIN", "url": "https://www.audible.com/pd/%s", "description": "Audible ASIN"},
+    "ltf": { "label": "LTF", "url": "http://www.tercerafundacion.net/biblioteca/ver/libro/%s", "description": "La Tercera Fundaci&#243;n"},
+    "kbr": { "label": "KBR", "url": "https://opac.kbr.be/Library/doc/SYRACUSE/%s/", "description": "De Belgische Bibliografie/La Bibliographie de Belgique"},
+    "reginald1": { "label": "Reginald-1", "url": "", "description": "R. Reginald. Science Fiction and Fantasy Literature: A Checklist, 1700-1974, with Contemporary Science Fiction Authors II. Gale Research Co., 1979, 1141p."},
+    "reginald3": { "label": "Reginald-3", "url": "", "description": "Robert Reginald. Science Fiction and Fantasy Literature, 1975-1991: A Bibliography of Science Fiction, Fantasy, and Horror Fiction Books and Nonfiction Monographs. Gale Research Inc., 1992, 1512 p."},
+    "bleilergernsback": { "label": "Bleiler Gernsback", "url": "", "description": "Everett F. Bleiler, Richard Bleiler. Science-Fiction: The Gernsback Years. Kent State University Press, 1998, xxxii+730pp"},
+    "bleilersupernatural": { "label": "Bleiler Supernatural", "url": "", "description": "Everett F. Bleiler. The Guide to Supernatural Fiction. Kent State University Press, 1983, xii+723 p."},
+    "bleilerearlyyears": { "label": "Bleiler Early Years", "url": "", "description": "Richard Bleiler, Everett F. Bleiler. Science-Fiction: The Early Years. Kent State University Press, 1991, xxiii+998 p."},
+    "nilf": { "label": "NILF", "url": "http://nilf.it/%s/", "description": "Numero Identificativo della Letteratura Fantastica / Fantascienza"},
+    "noosfere": { "label": "NooSFere", "url": "https://www.noosfere.org/livres/niourf.asp?numlivre=%s", "description": "NooSFere"},
+    "sfleihbuch": { "label": "SF-Leihbuch", "url": "http://www.sf-leihbuch.de/index.cfm?bid=%s", "description": "Science Fiction-Leihbuch-Datenbank"},
+    "nla": { "label": "NLA", "url": "https://nla.gov.au/nla.cat-vn%s", "description": "National Library of Australia"},
+    "porbase": { "label": "PORBASE", "url": "http://id.bnportugal.gov.pt/bib/porbase/%s", "description": "Biblioteca Nacional de Portugal"},
+    "isfdbpubideditions": { "label": "ISFDB (editions)", "url": "http://www.isfdb.org/cgi-bin/pl.cgi?%s", "description": ""},
+    "googlebookid": { "label": "Google Books", "url": "https://books.google.com/books?id=%s", "description": ""},
+    "jstorstableid": { "label": "JSTOR Stable", "url": "https://www.jstor.org/stable/%s", "description": ""},
+    "crossrefbookid": { "label": "Crossref", "url": "https://data.crossref.org/depositorreport?pubid=%s", "description":""},
+    "librusecbookid": { "label": "Librusec", "url": "https://lib.rus.ec/b/%s", "description":""},
+    "flibustabookid": { "label": "Flibusta", "url": "https://flibusta.is/b/%s", "description":""},
+    "coollibbookid": { "label": "Coollib", "url": "https://coollib.ru/b/%s", "description":""},
+    "maximabookid": { "label": "Maxima", "url": "http://maxima-library.org/mob/b/%s", "description":""},
+    "litmirbookid": { "label": "Litmir", "url": "https://www.litmir.me/bd/?b=%s", "description":""},
 }
 # Hardcoded from the `libgenli_elem_descr` table.
 lgli_classifications = {
-    "classification_multiple": { "label": "Classification", "url": "", "description": "" },
-    "classificationokp_multiple": { "label": "OKP", "url": "https://classifikators.ru/okp/%s", "description": "" },
-    "classificationgostgroup_multiple": { "label": "GOST group", "url": "", "description": "", "website": "https://en.wikipedia.org/wiki/GOST" },
-    "classificationoks_multiple": { "label": "OKS", "url": "", "description": "" },
-    "libraryofcongressclassification_multiple": { "label": "LCC", "url": "", "description": "Library of Congress Classification", "website": "https://en.wikipedia.org/wiki/Library_of_Congress_Classification" },
-    "udc_multiple": { "label": "UDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=udc", "description": "Universal Decimal Classification", "website": "https://en.wikipedia.org/wiki/Universal_Decimal_Classification" },
-    "ddc_multiple": { "label": "DDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=ddc", "description": "Dewey Decimal", "website": "https://en.wikipedia.org/wiki/List_of_Dewey_Decimal_classes" },
-    "lbc_multiple": { "label": "LBC", "url": "https://libgen.li/biblioservice.php?value=%s&type=bbc", "description": "Library-Bibliographical Classification", "website": "https://www.isko.org/cyclo/lbc" },
+    "classification": { "label": "Classification", "url": "", "description": "" },
+    "classificationokp": { "label": "OKP", "url": "https://classifikators.ru/okp/%s", "description": "" },
+    "classificationgostgroup": { "label": "GOST group", "url": "", "description": "", "website": "https://en.wikipedia.org/wiki/GOST" },
+    "classificationoks": { "label": "OKS", "url": "", "description": "" },
+    "libraryofcongressclassification": { "label": "LCC", "url": "", "description": "Library of Congress Classification", "website": "https://en.wikipedia.org/wiki/Library_of_Congress_Classification" },
+    "udc": { "label": "UDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=udc", "description": "Universal Decimal Classification", "website": "https://en.wikipedia.org/wiki/Universal_Decimal_Classification" },
+    "ddc": { "label": "DDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=ddc", "description": "Dewey Decimal", "website": "https://en.wikipedia.org/wiki/List_of_Dewey_Decimal_classes" },
+    "lbc": { "label": "LBC", "url": "https://libgen.li/biblioservice.php?value=%s&type=bbc", "description": "Library-Bibliographical Classification", "website": "https://www.isko.org/cyclo/lbc" },
 }
 
 # See https://libgen.li/community/app.php/article/new-database-structure-published-o%CF%80y6%D0%BB%D0%B8%C4%B8o%D0%B2a%D0%BDa-%D0%BDo%D0%B2a%D1%8F-c%D1%82py%C4%B8%D1%82ypa-6a%D0%B7%C6%85i-%D0%B4a%D0%BD%D0%BD%C6%85ix
@@ -1013,23 +1000,23 @@ def get_lgli_file_dicts(session, key, values):
                 'publisher_title': descr.publisher[0].title if len(descr.publisher) > 0 else '',
             } for descr in edition.add_descrs)
             edition_dict['authors_normalized'] = edition_dict['author'].strip()
-            if len(edition_dict['authors_normalized']) == 0 and len(edition_dict['descriptions_mapped'].get('author_multiple') or []) > 0:
-                edition_dict['authors_normalized'] = ", ".join(author.strip() for author in edition_dict['descriptions_mapped']['author_multiple'])
+            if len(edition_dict['authors_normalized']) == 0 and len(edition_dict['descriptions_mapped'].get('author') or []) > 0:
+                edition_dict['authors_normalized'] = ", ".join(author.strip() for author in edition_dict['descriptions_mapped']['author'])
 
             edition_dict['cover_url_guess'] = edition_dict['cover_url']
-            coverurl_multiple = edition_dict['descriptions_mapped'].get('coverurl_multiple') or []
-            if (len(coverurl_multiple) > 0) and (len(coverurl_multiple[0]) > 0):
-                edition_dict['cover_url_guess'] = coverurl_multiple[0]
+            coverurls = edition_dict['descriptions_mapped'].get('coverurl') or []
+            if (len(coverurls) > 0) and (len(coverurls[0]) > 0):
+                edition_dict['cover_url_guess'] = coverurls[0]
             if edition_dict['cover_exists'] > 0:
                 edition_dict['cover_url_guess'] = f"https://libgen.li/editioncovers/{(edition_dict['e_id'] // 1000) * 1000}/{edition_dict['e_id']}.jpg"
 
             issue_other_fields = dict((key, edition_dict[key]) for key in lgli_issue_other_fields if edition_dict[key] not in ['', '0', 0, None])
             if len(issue_other_fields) > 0:
                 edition_dict['issue_other_fields_json'] = nice_json(issue_other_fields)
-            standard_info_fields = dict((key, edition_dict['descriptions_mapped'][key + '_multiple']) for key in lgli_standard_info_fields if edition_dict['descriptions_mapped'].get(key + '_multiple') not in ['', '0', 0, None])
+            standard_info_fields = dict((key, edition_dict['descriptions_mapped'][key]) for key in lgli_standard_info_fields if edition_dict['descriptions_mapped'].get(key) not in ['', '0', 0, None])
             if len(standard_info_fields) > 0:
                 edition_dict['standard_info_fields_json'] = nice_json(standard_info_fields)
-            date_info_fields = dict((key, edition_dict['descriptions_mapped'][key + '_multiple']) for key in lgli_date_info_fields if edition_dict['descriptions_mapped'].get(key + '_multiple') not in ['', '0', 0, None])
+            date_info_fields = dict((key, edition_dict['descriptions_mapped'][key]) for key in lgli_date_info_fields if edition_dict['descriptions_mapped'].get(key) not in ['', '0', 0, None])
             if len(date_info_fields) > 0:
                 edition_dict['date_info_fields_json'] = nice_json(date_info_fields)
 
@@ -1044,12 +1031,12 @@ def get_lgli_file_dicts(session, key, values):
                 issue_series_title_normalized.append('#' + issue_other_fields['issue_year_number'].strip())
             edition_dict['issue_series_title_normalized'] = ", ".join(issue_series_title_normalized) if len(issue_series_title_normalized) > 0 else ''
 
-            publisher_title_multiple = (edition_dict['descriptions_mapped'].get('publisher_title_multiple') or [])
+            publisher_titles = (edition_dict['descriptions_mapped'].get('publisher_title') or [])
             edition_dict['publisher_normalized'] = ''
             if len((edition_dict['publisher'] or '').strip()) > 0:
                 edition_dict['publisher_normalized'] = edition_dict['publisher'].strip()
-            elif len(publisher_title_multiple) > 0 and len(publisher_title_multiple[0].strip()) > 0:
-                edition_dict['publisher_normalized'] = publisher_title_multiple[0].strip()
+            elif len(publisher_titles) > 0 and len(publisher_titles[0].strip()) > 0:
+                edition_dict['publisher_normalized'] = publisher_titles[0].strip()
             elif len((edition_dict['issue_series_publisher'] or '').strip()) > 0:
                 edition_dict['publisher_normalized'] = edition_dict['issue_series_publisher'].strip()
                 if len((edition_dict['issue_series_issn'] or '').strip()) > 0:
@@ -1083,10 +1070,10 @@ def get_lgli_file_dicts(session, key, values):
                 edition_varia_normalized.append(edition_dict['date_normalized'].strip())
             edition_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
-            language_multiple_codes = [get_bcp47_lang_codes(language_code) for language_code in (edition_dict['descriptions_mapped'].get('language_multiple') or [])]
-            edition_dict['language_codes'] = combine_bcp47_lang_codes(language_multiple_codes)
-            languageoriginal_multiple_codes = [get_bcp47_lang_codes(language_code) for language_code in (edition_dict['descriptions_mapped'].get('languageoriginal_multiple') or [])]
-            edition_dict['languageoriginal_codes'] = combine_bcp47_lang_codes(languageoriginal_multiple_codes)
+            language_codes = [get_bcp47_lang_codes(language_code) for language_code in (edition_dict['descriptions_mapped'].get('language') or [])]
+            edition_dict['language_codes'] = combine_bcp47_lang_codes(language_codes)
+            languageoriginal_codes = [get_bcp47_lang_codes(language_code) for language_code in (edition_dict['descriptions_mapped'].get('languageoriginal') or [])]
+            edition_dict['languageoriginal_codes'] = combine_bcp47_lang_codes(languageoriginal_codes)
 
             edition_dict['identifiers_normalized'] = []
             if len(edition_dict['doi'].strip()) > 0:
@@ -1102,12 +1089,12 @@ def get_lgli_file_dicts(session, key, values):
                     for value in values:
                         edition_dict['classifications_normalized'].append((key, value.strip()))
 
-            edition_dict['sanitized_isbns'] = make_sanitized_isbns(edition_dict['descriptions_mapped'].get('isbn_multiple') or [])
+            edition_dict['sanitized_isbns'] = make_sanitized_isbns(edition_dict['descriptions_mapped'].get('isbn') or [])
             edition_dict['isbns_rich'] = make_isbns_rich(edition_dict['sanitized_isbns'])
 
             edition_dict['stripped_description'] = ''
-            if len(edition_dict['descriptions_mapped'].get('description_multiple') or []) > 0:
-                edition_dict['stripped_description'] = strip_description("\n\n".join(edition_dict['descriptions_mapped']['description_multiple']))
+            if len(edition_dict['descriptions_mapped'].get('description') or []) > 0:
+                edition_dict['stripped_description'] = strip_description("\n\n".join(edition_dict['descriptions_mapped']['description']))
 
             edition_dict['edition_type_full'] = lgli_edition_type_mapping[edition_dict['type']]
 
@@ -1117,16 +1104,16 @@ def get_lgli_file_dicts(session, key, values):
                                         "Sometimes it corresponds to a particular physical version of a book (similar to ISBN records, or 'editions' in Open Library), but it may also represent a chapter in a periodical (more specific than a single book), or a collection of multiple books (more general than a single book). However, in practice, in most cases files only have a single edition.",
                                         "Note that while usually there is only one 'edition' associated with a file, it is common to have multiple files associated with an edition. For example, different people might have scanned a book."]),
                 "issue_series_title": ("before", ["The `issue_series_*` fields were loaded from the `series` table using `issue_s_id`."]),
-                "authors_normalized": ("before", ["Anna's Archive best guess at the authors, based on the regular `author` field and `author_multiple` from `descriptions_mapped`."]),
+                "authors_normalized": ("before", ["Anna's Archive best guess at the authors, based on the regular `author` field and `author` from `descriptions_mapped`."]),
                 "cover_url_guess": ("before", ["Anna's Archive best guess at the full URL to the cover image on libgen.li, for this specific edition."]),
                 "issue_series_title_normalized": ("before", ["Anna's Archive version of the 'issue_series_title', 'issue_series_volume_name', 'issue_series_volume_number', and 'issue_year_number' fields; combining them into a single field for display and search."]),
                 "publisher_normalized": ("before", ["Anna's Archive version of the 'publisher', 'publisher_title_first', 'issue_series_publisher', and 'issue_series_issn' fields; combining them into a single field for display and search."]),
                 "date_normalized": ("before", ["Anna's Archive combined version of the 'year', 'month', and 'day' fields."]),
                 "edition_varia_normalized": ("before", ["Anna's Archive version of the 'issue_series_title_normalized', 'issue_number', 'issue_year_number', 'issue_volume', 'issue_first_page', 'issue_last_page', 'series_name', 'edition', and 'date_normalized' fields; combining them into a single field for display and search."]),
-                "language_codes": ("before", ["Anna's Archive version of the 'language_multiple' field, where we attempted to parse them into BCP 47 tags."]),
-                "languageoriginal_codes": ("before", ["Same as 'language_codes' but for the 'languageoriginal_multiple' field, which contains the original language if the work is a translation."]),
-                "identifiers_normalized": ("before", ["Anna's Archive version of various identity-related '*_multiple' fields, as well as the `doi` field."]),
-                "classifications_normalized": ("before", ["Anna's Archive version of various classification-related '*_multiple' fields."]),
+                "language_codes": ("before", ["Anna's Archive version of the 'language' field, where we attempted to parse them into BCP 47 tags."]),
+                "languageoriginal_codes": ("before", ["Same as 'language_codes' but for the 'languageoriginal' field, which contains the original language if the work is a translation."]),
+                "identifiers_normalized": ("before", ["Anna's Archive version of various identity-related fields, as well as the `doi` field."]),
+                "classifications_normalized": ("before", ["Anna's Archive version of various classification-related fields."]),
                 "edition_type_full": ("after", ["Anna's Archive expansion of the `type` field in the edition, based on the `descr_elems` table."]),
             }
             lgli_file_dict['editions'].append(add_comments_to_dict(edition_dict, edition_dict_comments))
@@ -1442,7 +1429,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsnf_book'] or {}).get('locator') or '').strip(),
             ((md5_dict['lgrsfic_book'] or {}).get('locator') or '').strip(),
             ((md5_dict['lgli_file'] or {}).get('locator') or '').strip(),
-            *[filename.strip() for filename in (((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename_multiple') or [])],
+            *[filename.strip() for filename in (((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename') or [])],
             ((md5_dict['lgli_file'] or {}).get('scimag_archive_path') or '').strip(),
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
@@ -1506,8 +1493,8 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         ]
         md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
-        title_multiple += [title.strip() for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage_multiple') or []) for edition in lgli_all_editions]
-        title_multiple += [title.strip() for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate_multiple') or []) for edition in lgli_all_editions]
+        title_multiple += [title.strip() for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage') or []) for edition in lgli_all_editions]
+        title_multiple += [title.strip() for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or []) for edition in lgli_all_editions]
         if md5_dict['file_unified_data']['title_best'] == '':
             md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
         md5_dict['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != md5_dict['file_unified_data']['title_best']]
@@ -1572,18 +1559,18 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsfic_book'] or {}).get('commentary') or '').strip(),
             ' -- '.join(filter(len, [((md5_dict['lgrsnf_book'] or {}).get('library') or '').strip(), (md5_dict['lgrsnf_book'] or {}).get('issue', '').strip()])),
             ' -- '.join(filter(len, [((md5_dict['lgrsfic_book'] or {}).get('library') or '').strip(), (md5_dict['lgrsfic_book'] or {}).get('issue', '').strip()])),
-            ' -- '.join(filter(len, [*((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.library_multiple', []), *(md5_dict['lgli_file'] or {}).get('descriptions_mapped', {}).get('descriptions_mapped.library_issue_multiple', [])])),
+            ' -- '.join(filter(len, [*((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.library', []), *(md5_dict['lgli_file'] or {}).get('descriptions_mapped', {}).get('descriptions_mapped.library_issue', [])])),
             ((lgli_single_edition or {}).get('commentary') or '').strip(),
             ((lgli_single_edition or {}).get('editions_add_info') or '').strip(),
             ((lgli_single_edition or {}).get('commentary') or '').strip(),
-            *[note.strip() for note in (((lgli_single_edition or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.notes_multiple') or [])],
+            *[note.strip() for note in (((lgli_single_edition or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.notes') or [])],
         ]
         md5_dict['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
         comments_multiple += [(edition.get('comments_normalized') or '').strip() for edition in lgli_all_editions]
         for edition in lgli_all_editions:
             comments_multiple.append((edition.get('editions_add_info') or '').strip())
             comments_multiple.append((edition.get('commentary') or '').strip())
-            for note in (edition.get('descriptions_mapped') or {}).get('descriptions_mapped.notes_multiple', []):
+            for note in (edition.get('descriptions_mapped') or {}).get('descriptions_mapped.notes', []):
                 comments_multiple.append(note.strip())
         if md5_dict['file_unified_data']['comments_best'] == '':
             md5_dict['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
@@ -1643,16 +1630,16 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['asin_multiple'] = list(set(item for item in [
             (md5_dict['lgrsnf_book'] or {}).get('asin', '').strip(),
             (md5_dict['lgrsfic_book'] or {}).get('asin', '').strip(),
-            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'asin_multiple'],
+            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'asin'],
         ] if item != ''))
         md5_dict['file_unified_data']['googlebookid_multiple'] = list(set(item for item in [
             (md5_dict['lgrsnf_book'] or {}).get('googlebookid', '').strip(),
             (md5_dict['lgrsfic_book'] or {}).get('googlebookid', '').strip(),
-            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'googlebookid_multiple'],
+            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'googlebookid'],
         ] if item != ''))
         md5_dict['file_unified_data']['openlibraryid_multiple'] = list(set(item for item in [
             (md5_dict['lgrsnf_book'] or {}).get('openlibraryid', '').strip(),
-            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'openlibrary_multiple'],
+            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'openlibrary'],
         ] if item != ''))
         md5_dict['file_unified_data']['doi_multiple'] = list(set(item for item in [
             (md5_dict['lgrsnf_book'] or {}).get('doi', '').strip(),
