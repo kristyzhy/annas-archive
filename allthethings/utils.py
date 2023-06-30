@@ -56,12 +56,16 @@ def account_id_from_secret_key(secret_key):
 def get_domain_lang_code(locale):
     if locale.script == 'Hant':
         return 'tw'
+    elif str(locale) == 'nb_NO':
+        return 'no'
     else:
         return str(locale)
 
 def domain_lang_code_to_full_lang_code(domain_lang_code):
     if domain_lang_code == "tw":
         return 'zh_Hant'
+    elif domain_lang_code == "no":
+        return 'nb_NO'
     else:
         return domain_lang_code
 
