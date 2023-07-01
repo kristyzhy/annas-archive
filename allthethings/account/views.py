@@ -31,7 +31,7 @@ account = Blueprint("account", __name__, template_folder="templates")
 @account.get("/account/")
 @allthethings.utils.no_cache()
 def account_index_page():
-    if (request.args.get('key', '') != '') and (not bool(re.match(r"^[a-zA-Z\d]{29}$", request.args.get('key')))):
+    if (request.args.get('key', '') != '') and (not bool(re.match(r"^[a-zA-Z\d]+$", request.args.get('key')))):
         return redirect(f"/account/", code=302)
 
     account_id = allthethings.utils.get_account_id(request.cookies)
