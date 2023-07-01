@@ -489,12 +489,33 @@ def get_ia_entry_dicts(session, key, values):
         ia_entry_dict['aa_derived']['title'] = ' '.join(extract_list_from_ia_json_field(ia_entry_dict, 'title'))
         ia_entry_dict['aa_derived']['author'] = '; '.join(extract_list_from_ia_json_field(ia_entry_dict, 'creator'))
         ia_entry_dict['aa_derived']['publisher'] = '; '.join(extract_list_from_ia_json_field(ia_entry_dict, 'publisher'))
-        ia_entry_dict['aa_derived']['year'] = (re.search(r"(\d\d\d\d)", extract_list_from_ia_json_field(ia_entry_dict, 'date')[0]) or [''])[0]
-        ia_entry_dict['aa_derived']['curation'] = ' '.join(extract_list_from_ia_json_field(ia_entry_dict, 'curation'))
-        ia_entry_dict['aa_derived']['stripped_description'] = strip_description('\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'description')))
+        ia_entry_dict['aa_derived']['combined_comments'] = '\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'notes') + extract_list_from_ia_json_field(ia_entry_dict, 'comment') + extract_list_from_ia_json_field(ia_entry_dict, 'curation'))
+        ia_entry_dict['aa_derived']['subjects'] = '\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'subject') + extract_list_from_ia_json_field(ia_entry_dict, 'level_subject'))
+        ia_entry_dict['aa_derived']['stripped_description_and_references'] = strip_description('\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'description') + extract_list_from_ia_json_field(ia_entry_dict, 'references')))
         ia_entry_dict['aa_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(lang) for lang in (extract_list_from_ia_json_field(ia_entry_dict, 'language') + extract_list_from_ia_json_field(ia_entry_dict, 'ocr_detected_lang'))])
         ia_entry_dict['aa_derived']['sanitized_isbns'] = make_sanitized_isbns(extract_list_from_ia_json_field(ia_entry_dict, 'isbn'))
         ia_entry_dict['aa_derived']['openlibraryid'] = extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_work')
+        ia_entry_dict['aa_derived']['all_dates'] = list(set(extract_list_from_ia_json_field(ia_entry_dict, 'year') + extract_list_from_ia_json_field(ia_entry_dict, 'date') + extract_list_from_ia_json_field(ia_entry_dict, 'range')))
+        ia_entry_dict['aa_derived']['longest_date_field'] = max([''] + ia_entry_dict['aa_derived']['all_dates'])
+        ia_entry_dict['aa_derived']['year'] = ''
+        for date in ia_entry_dict['aa_derived']['all_dates']:
+            potential_year = re.search(r"(\d\d\d\d)", date)
+            if potential_year is not None:
+                ia_entry_dict['aa_derived']['year'] = potential_year[0]
+
+        ia_entry_dict['aa_derived']['content_type'] = 'book_unknown'
+        if ia_entry_dict['ia_id'].split('_')[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_entry_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
+            ia_entry_dict['aa_derived']['content_type'] = 'magazine'
+
+        ia_entry_dict['aa_derived']['edition_varia_normalized'] = ', '.join([
+            *extract_list_from_ia_json_field(ia_entry_dict, 'series'),
+            *extract_list_from_ia_json_field(ia_entry_dict, 'series_name'),
+            *[f"Volume {volume}" for volume in extract_list_from_ia_json_field(ia_entry_dict, 'volume')],
+            *[f"Issue {issue}" for issue in extract_list_from_ia_json_field(ia_entry_dict, 'issue')],
+            *extract_list_from_ia_json_field(ia_entry_dict, 'edition'),
+            *extract_list_from_ia_json_field(ia_entry_dict, 'city'),
+            ia_entry_dict['aa_derived']['longest_date_field']
+        ])
 
         # ia_entry_dict['sanitized_isbns'] = [record.isbn for record in ia_entry.isbns]
         # ia_entry_dict['isbns_rich'] = make_isbns_rich(ia_entry_dict['sanitized_isbns'])
