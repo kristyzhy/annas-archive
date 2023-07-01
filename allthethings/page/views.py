@@ -1493,8 +1493,8 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         ]
         md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
-        title_multiple += [title.strip() for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage') or []) for edition in lgli_all_editions]
-        title_multiple += [title.strip() for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or []) for edition in lgli_all_editions]
+        title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage') or [])]
+        title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or [])]
         if md5_dict['file_unified_data']['title_best'] == '':
             md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
         md5_dict['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != md5_dict['file_unified_data']['title_best']]
@@ -2057,13 +2057,13 @@ def search_page():
     if bool(re.match(r"^OL\d+M$", search_input)):
         return redirect(f"/ol/{search_input}", code=301)
 
-    # potential_doi = normalize_doi(search_input)
-    # if potential_doi != '':
-    #     return redirect(f"/doi/{potential_doi}", code=301)
+    potential_doi = normalize_doi(search_input)
+    if potential_doi != '':
+        return redirect(f"/doi/{potential_doi}", code=301)
 
-    # canonical_isbn13 = normalize_isbn(search_input)
-    # if canonical_isbn13 != '':
-    #     return redirect(f"/isbn/{canonical_isbn13}", code=301)
+    canonical_isbn13 = normalize_isbn(search_input)
+    if canonical_isbn13 != '':
+        return redirect(f"/isbn/{canonical_isbn13}", code=301)
 
     post_filter = []
     for filter_key, filter_value in filter_values.items():
