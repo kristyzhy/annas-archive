@@ -107,6 +107,10 @@ class OlBase(Reflected):
 class AaLgliComics202208Files(Reflected):
     __tablename__ = "aa_lgli_comics_2022_08_files"
     path = Column(Text, primary_key=True)
+class AaIa202306Metadata(Reflected):
+    __tablename__ = "aa_ia_2023_06_metadata"
+class AaIa202306Files(Reflected):
+    __tablename__ = "aa_ia_2023_06_files"
 
 class ComputedAllMd5s(Reflected):
     __tablename__ = "computed_all_md5s"
@@ -138,3 +142,5 @@ class MariapersistCopyrightClaims(ReflectedMariapersist):
     __tablename__ = "mariapersist_copyright_claims"
 class MariapersistDownloadTests(ReflectedMariapersist):
     __tablename__ = "mariapersist_download_tests"
+
+

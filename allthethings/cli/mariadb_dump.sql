@@ -2800,6 +2800,20 @@ INSERT INTO `aa_ia_2023_06_metadata` VALUES
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+DROP TABLE IF EXISTS `aa_ia_2023_06_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `aa_ia_2023_06_files` (
+  `md5` char(32) NOT NULL,
+  `type` char(5) NOT NULL,
+  `filesize` int(11) NOT NULL,
+  `ia_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`md5`),
+  UNIQUE KEY `ia_id` (`ia_id`) USING HASH
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO `aa_ia_2023_06_files` VALUES ('74f3b80bbb292475043d13f21e5f5059','acsm',15257229,'100insightslesso0000maie');
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

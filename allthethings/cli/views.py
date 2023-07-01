@@ -50,6 +50,23 @@ def dbreset():
     print("Giving you 5 seconds to abort..")
     time.sleep(5)
 
+    nonpersistent_dbreset_internal()
+    print("Done! Search for example for 'Rhythms of the brain': http://localhost:8000/search?q=Rhythms+of+the+brain")
+
+#################################################################################################
+# ./run flask cli nonpersistent_dbreset
+@cli.cli.command('nonpersistent_dbreset')
+def nonpersistent_dbreset():
+    # print("Erasing nonpersist databases (1 MariaDB databases servers + 1 ElasticSearch)! Did you double-check that any production/large databases are offline/inaccessible from here?")
+    # time.sleep(2)
+    # print("Giving you 5 seconds to abort..")
+    # time.sleep(5)
+
+    nonpersistent_dbreset_internal()
+    print("Done! Search for example for 'Rhythms of the brain': http://localhost:8000/search?q=Rhythms+of+the+brain")
+
+
+def nonpersistent_dbreset_internal():
     # Per https://stackoverflow.com/a/4060259
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
@@ -66,10 +83,6 @@ def dbreset():
     Reflected.prepare(engine_multi)
     elastic_reset_md5_dicts_internal()
     elastic_build_md5_dicts_internal()
-
-    mariapersist_reset_internal()
-
-    print("Done! Search for example for 'Rhythms of the brain': http://localhost:8000/search?q=Rhythms+of+the+brain")
 
 
 def chunks(l, n):
