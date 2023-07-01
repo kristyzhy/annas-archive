@@ -29,7 +29,7 @@ import hashlib
 import shortuuid
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import engine, es, babel, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s, AaLgliComics202208Files
+from allthethings.extensions import engine, es, babel, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
@@ -217,7 +217,7 @@ def make_isbns_rich(sanitized_isbns):
     return rich_isbns
 
 def strip_description(description):
-    return re.sub('<[^<]+?>', '', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n'))
+    return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n')))
 
 def nice_json(some_dict):
     json_str = orjson.dumps(some_dict, option=orjson.OPT_INDENT_2 | orjson.OPT_NON_STR_KEYS, default=str).decode('utf-8')
@@ -454,6 +454,77 @@ def zlib_book_json(zlib_id):
         if len(zlib_book_dicts) == 0:
             return "{}", 404
         return nice_json(zlib_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+
+def extract_list_from_ia_json_field(ia_entry_dict, key):
+    val = ia_entry_dict['json'].get('metadata', {}).get(key, [])
+    if isinstance(val, str):
+        return [val]
+    return val
+
+def get_ia_entry_dicts(session, key, values):
+    # Filter out bad data
+    if key.lower() in ['md5']:
+        values = [val for val in values if val not in search_filtered_bad_md5s]
+
+    ia_entries = []
+    try:
+        ia_entries = session.scalars(select(AaIa202306Metadata).where(getattr(AaIa202306Metadata, key).in_(values))).unique().all()
+        print('ia_entries', ia_entries)
+    except Exception as err:
+        print(f"Error in get_ia_dicts when querying {key}; {values}")
+        print(repr(err))
+        traceback.print_tb(err.__traceback__)
+
+    ia_entry_dicts = []
+    for ia_entry in ia_entries:
+        ia_entry_dict = ia_entry.to_dict()
+        ia_entry_dict['aa_file'] = None
+        # ia_entry_dict['aa_derived']['extension'] = 'pdf'
+        # ia_entry_dict['aa_derived']['filesize'] = 0
+        ia_entry_dict['json'] = orjson.loads(ia_entry_dict['json'])
+
+        ia_entry_dict['aa_derived'] = {}
+        ia_entry_dict['aa_derived']['original_filename'] = ia_entry_dict['ia_id'] + '.pdf'
+        ia_entry_dict['aa_derived']['cover_url'] = f"https://archive.org/download/{ia_entry_dict['ia_id']}/__ia_thumb.jpg"
+        ia_entry_dict['aa_derived']['title'] = ' '.join(extract_list_from_ia_json_field(ia_entry_dict, 'title'))
+        ia_entry_dict['aa_derived']['author'] = '; '.join(extract_list_from_ia_json_field(ia_entry_dict, 'creator'))
+        ia_entry_dict['aa_derived']['publisher'] = '; '.join(extract_list_from_ia_json_field(ia_entry_dict, 'publisher'))
+        ia_entry_dict['aa_derived']['year'] = (re.search(r"(\d\d\d\d)", extract_list_from_ia_json_field(ia_entry_dict, 'date')[0]) or [''])[0]
+        ia_entry_dict['aa_derived']['curation'] = ' '.join(extract_list_from_ia_json_field(ia_entry_dict, 'curation'))
+        ia_entry_dict['aa_derived']['stripped_description'] = strip_description('\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'description')))
+        ia_entry_dict['aa_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(lang) for lang in (extract_list_from_ia_json_field(ia_entry_dict, 'language') + extract_list_from_ia_json_field(ia_entry_dict, 'ocr_detected_lang'))])
+        ia_entry_dict['aa_derived']['sanitized_isbns'] = make_sanitized_isbns(extract_list_from_ia_json_field(ia_entry_dict, 'isbn'))
+        ia_entry_dict['aa_derived']['openlibraryid'] = extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_work')
+
+        # ia_entry_dict['sanitized_isbns'] = [record.isbn for record in ia_entry.isbns]
+        # ia_entry_dict['isbns_rich'] = make_isbns_rich(ia_entry_dict['sanitized_isbns'])
+        # ia_entry_dict['language_codes'] = get_bcp47_lang_codes(ia_entry_dict['language'] or '')
+        # edition_varia_normalized = []
+        # if len((ia_entry_dict.get('series') or '').strip()) > 0:
+        #     edition_varia_normalized.append(ia_entry_dict['series'].strip())
+        # if len((ia_entry_dict.get('volume') or '').strip()) > 0:
+        #     edition_varia_normalized.append(ia_entry_dict['volume'].strip())
+        # if len((ia_entry_dict.get('edition') or '').strip()) > 0:
+        #     edition_varia_normalized.append(ia_entry_dict['edition'].strip())
+        # if len((ia_entry_dict.get('year') or '').strip()) > 0:
+        #     edition_varia_normalized.append(ia_entry_dict['year'].strip())
+        # ia_entry_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
+
+        ia_entry_dict_comments = {
+            
+        }
+        ia_entry_dicts.append(add_comments_to_dict(ia_entry_dict, ia_entry_dict_comments))
+
+    return ia_entry_dicts
+
+@page.get("/db/ia/<string:ia_id>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def ia_entry_json(ia_id):
+    with Session(engine) as session:
+        ia_entry_dicts = get_ia_entry_dicts(session, "ia_id", [ia_id])
+        if len(ia_entry_dicts) == 0:
+            return "{}", 404
+        return nice_json(ia_entry_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 
 @page.get("/ol/<string:ol_book_id>")

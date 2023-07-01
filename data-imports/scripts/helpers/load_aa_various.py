@@ -18,13 +18,19 @@ def eprint(*args, **kwargs):
 db = pymysql.connect(host='localhost', user='allthethings', password='password', database='allthethings', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 cursor = db.cursor()
 cursor.execute('DROP TABLE IF EXISTS aa_ia_2023_06_metadata')
-cursor.execute('CREATE TABLE aa_ia_2023_06_metadata (`ia_id` VARCHAR(100) NOT NULL, `has_thumb` TINYINT(1) NOT NULL, `json` JSON NULL, PRIMARY KEY(`ia_id`)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;')
+cursor.execute('CREATE TABLE aa_ia_2023_06_metadata (`ia_id` VARCHAR(100) NOT NULL, `has_thumb` TINYINT(1) NOT NULL, `libgen_md5` CHAR(32) NULL, `json` JSON NULL, PRIMARY KEY(`ia_id`), INDEX `libgen_md5`) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;')
 db.commit()
 
 thumbs_set = set()
 with gzip.open('/temp-dir/annas-archive-ia-2023-06-thumbs.txt.gz', 'rt') as thumbs_files:
     thumbs_list = thumbs_files.read().splitlines()
     thumbs_set = set(thumbs_list)
+
+def extract_list_from_ia_json_field(json, key):
+    val = json.get('metadata', {}).get(key, [])
+    if isinstance(val, str):
+        return [val]
+    return val
 
 i = 0
 json_tar_file = tarfile.open('/temp-dir/annas-archive-ia-2023-06-metadata-json.tar.gz', 'r|*')
@@ -39,15 +45,21 @@ for json_file_chunk in ichunked(json_tar_file, 1):
         json['files'] = []
         json['aa_shorter_files'] = aa_shorter_files
 
+        libgen_md5 = None
+        for external_id in extract_list_from_ia_json_field(json, 'external-identifier'):
+            if 'urn:libgen:' in external_id:
+                libgen_md5 = external_id.split('/')[-1]
+                break
+
         ia_id = json_file.name.removeprefix('./').removesuffix('.json')
 
         has_thumb = ia_id in thumbs_set
         if has_thumb:
             thumbs_set.remove(ia_id)
 
-        save_data.append((ia_id, (1 if has_thumb else 0), orjson.dumps(json)))
+        save_data.append((ia_id, (1 if has_thumb else 0), libgen_md5, orjson.dumps(json)))
 
-    cursor.executemany("INSERT INTO aa_ia_2023_06_metadata (ia_id, has_thumb, json) VALUES (%s, %s, %s);", save_data)
+    cursor.executemany("INSERT INTO aa_ia_2023_06_metadata (ia_id, has_thumb, libgen_md5, json) VALUES (%s, %s, %s, %s);", save_data)
     db.commit()
 
 for ia_id_chunk in chunked(thumbs_set, 100000):
