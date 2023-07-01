@@ -40,6 +40,9 @@
     <form autocomplete="on" method="post" action="/account/" class="mb-4">
       <input type="password" autocomplete="current-password" id="key" name="key" required placeholder="{{ gettext('page.account.logged_out.key_form.placeholder') }}" class="w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" value="{{ request.args.get('key', '') }}" />
       <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">{{ gettext('page.account.logged_out.key_form.button') }}</button>
+      {% if invalid_key %}
+        <p class="mb-1 text-red-500">Invalid secret key. Verify your key and try again, or alternatively register a new account below.</p>      
+      {% endif %}
     </form>
 
     {% if request.args.get('key') %}

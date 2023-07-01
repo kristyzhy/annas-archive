@@ -32,7 +32,7 @@ account = Blueprint("account", __name__, template_folder="templates")
 @allthethings.utils.no_cache()
 def account_index_page():
     if (request.args.get('key', '') != '') and (not bool(re.match(r"^[a-zA-Z\d]{29}$", request.args.get('key')))):
-        raise Exception("Invalid key format")
+        return redirect(f"/account/", code=302)
 
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
@@ -44,6 +44,9 @@ def account_index_page():
 
     with Session(mariapersist_engine) as mariapersist_session:
         account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
+        if account is None:
+            raise Exception("Valid account_id was not found in db!")
+
         return render_template(
             "account/index.html",
             header_active="account",
@@ -72,12 +75,22 @@ def account_downloaded_page():
 def account_index_post_page():
     account_id = allthethings.utils.account_id_from_secret_key(request.form['key'])
     if account_id is None:
-        raise Exception("Invalid secret key")
+        return render_template(
+            "account/index.html",
+            invalid_key=True,
+            header_active="account",
+            membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
+        )
 
     with Session(mariapersist_engine) as mariapersist_session:
         account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
         if account is None:
-            raise Exception("Account not found")
+            return render_template(
+                "account/index.html",
+                invalid_key=True,
+                header_active="account",
+                membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
+            )
 
         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_account_logins (account_id, ip) VALUES (:account_id, :ip)')
             .bindparams(account_id=account_id, ip=allthethings.utils.canonical_ip_bytes(request.remote_addr)))
