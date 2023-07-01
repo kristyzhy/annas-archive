@@ -1,36 +1,36 @@
-#: allthethings/utils.py:156
+#: allthethings/utils.py:160
 msgid "common.membership.tier_name.2"
 msgstr "Brilliant Bookworm"
 
-#: allthethings/utils.py:157
+#: allthethings/utils.py:161
 msgid "common.membership.tier_name.3"
 msgstr "Lucky Librarian"
 
-#: allthethings/utils.py:158
+#: allthethings/utils.py:162
 msgid "common.membership.tier_name.4"
 msgstr "Dazzling Datahoarder"
 
-#: allthethings/utils.py:159
+#: allthethings/utils.py:163
 msgid "common.membership.tier_name.5"
 msgstr "Amazing Archivist"
 
-#: allthethings/account/views.py:226
+#: allthethings/account/views.py:239
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "unpaid"
 
-#: allthethings/account/views.py:227
+#: allthethings/account/views.py:240
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "paid"
 
-#: allthethings/account/views.py:228
+#: allthethings/account/views.py:241
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "cancelled"
 
-#: allthethings/account/views.py:229
+#: allthethings/account/views.py:242
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "expired"
 
-#: allthethings/account/views.py:230
+#: allthethings/account/views.py:243
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "waiting for Anna to confirm"
 
@@ -561,27 +561,31 @@ msgstr "Secret key"
 msgid "page.account.logged_out.key_form.button"
 msgstr "Log in"
 
-#: allthethings/account/templates/account/index.html:46
+#: allthethings/account/templates/account/index.html:44
+msgid "page.account.logged_out.key_form.invalid_key"
+msgstr "Invalid secret key. Verify your key and try again, or alternatively register a new account below."
+
+#: allthethings/account/templates/account/index.html:49
 msgid "page.account.logged_out.registered.text1"
 msgstr "Registration succesful! Your secret key is: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:49
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_out.registered.text2"
 msgstr "Save this key carefully. If you lose it, you will lose access to your account."
 
-#: allthethings/account/templates/account/index.html:53
+#: allthethings/account/templates/account/index.html:56
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Bookmark.</strong> You can bookmark this page to retrieve your key.</li><li %(li_item)s><strong>Download.</strong> Click <a %(a_download)s>this link</a> to download your key.</li><li %(li_item)s><strong>Password manager.</strong> For your convenience, the key is prefilled above, so when you log in you can save it in your password manager.</li>"
 
-#: allthethings/account/templates/account/index.html:56
+#: allthethings/account/templates/account/index.html:59
 msgid "page.account.logged_out.register.header"
 msgstr "Don’t have an account yet?"
 
-#: allthethings/account/templates/account/index.html:59
+#: allthethings/account/templates/account/index.html:62
 msgid "page.account.logged_out.register.button"
 msgstr "Register new account"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:65
 msgid "page.account.logged_out.old_email.button"
 msgstr "Old email-based account? Enter your <a %(a_open)s>email here</a>."
 
@@ -692,110 +696,110 @@ msgstr "Upload"
 msgid "page.upload.text1"
 msgstr "For now, we suggest uploading new books to the Library Genesis forks. Here is a <a %(a_guide)s>handy guide</a>. Note that both forks that we index on this website pull from this same upload system."
 
-#: allthethings/page/views.py:1761
+#: allthethings/page/views.py:1750
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Not visible in Libgen.rs Non-Fiction"
 
-#: allthethings/page/views.py:1762
+#: allthethings/page/views.py:1751
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Not visible in Libgen.rs Fiction"
 
-#: allthethings/page/views.py:1763
+#: allthethings/page/views.py:1752
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Not visible in Libgen.li"
 
-#: allthethings/page/views.py:1764
+#: allthethings/page/views.py:1753
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Marked broken in Libgen.li"
 
-#: allthethings/page/views.py:1765
+#: allthethings/page/views.py:1754
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Missing from Z-Library"
 
-#: allthethings/page/views.py:1771
+#: allthethings/page/views.py:1760
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Book (unknown)"
 
-#: allthethings/page/views.py:1772
+#: allthethings/page/views.py:1761
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Book (non-fiction)"
 
-#: allthethings/page/views.py:1773
+#: allthethings/page/views.py:1762
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Book (fiction)"
 
-#: allthethings/page/views.py:1774
+#: allthethings/page/views.py:1763
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Journal article"
 
-#: allthethings/page/views.py:1775
+#: allthethings/page/views.py:1764
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Standards document"
 
-#: allthethings/page/views.py:1776
+#: allthethings/page/views.py:1765
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Magazine"
 
-#: allthethings/page/views.py:1777
+#: allthethings/page/views.py:1766
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Comic book"
 
-#: allthethings/page/views.py:1779
+#: allthethings/page/views.py:1768
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "Book (any)"
 
-#: allthethings/page/views.py:1802 allthethings/page/views.py:1803
+#: allthethings/page/views.py:1791 allthethings/page/views.py:1792
 msgid "common.md5.servers.fast_partner"
 msgstr "Fast Partner Server #%(number)s"
 
-#: allthethings/page/views.py:1804 allthethings/page/views.py:1805
+#: allthethings/page/views.py:1793 allthethings/page/views.py:1794
 msgid "common.md5.servers.slow_partner"
 msgstr "Slow Partner Server #%(number)s"
 
-#: allthethings/page/views.py:1865
+#: allthethings/page/views.py:1854
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Non-Fiction"
 
-#: allthethings/page/views.py:1865 allthethings/page/views.py:1873
-#: allthethings/page/views.py:1891
+#: allthethings/page/views.py:1854 allthethings/page/views.py:1862
+#: allthethings/page/views.py:1880
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(also click “GET” at the top)"
 
-#: allthethings/page/views.py:1865 allthethings/page/views.py:1873
-#: allthethings/page/views.py:1891
+#: allthethings/page/views.py:1854 allthethings/page/views.py:1862
+#: allthethings/page/views.py:1880
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(click “GET” at the top)"
 
-#: allthethings/page/views.py:1873
+#: allthethings/page/views.py:1862
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Fiction"
 
-#: allthethings/page/views.py:1891
+#: allthethings/page/views.py:1880
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:1894 allthethings/page/views.py:1895
-#: allthethings/page/views.py:1896
+#: allthethings/page/views.py:1883 allthethings/page/views.py:1884
+#: allthethings/page/views.py:1885
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "IPFS Gateway #%(num)d"
 
-#: allthethings/page/views.py:1894
+#: allthethings/page/views.py:1883
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(you might need to try multiple times with IPFS)"
 
-#: allthethings/page/views.py:1901
+#: allthethings/page/views.py:1890
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:1901
+#: allthethings/page/views.py:1890
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(associated DOI might not be available in Sci-Hub)"
 
-#: allthethings/page/views.py:1903
+#: allthethings/page/views.py:1892
 msgid "page.md5.box.download.zlib_tor"
 msgstr "Z-Library on Tor"
 
-#: allthethings/page/views.py:1903
+#: allthethings/page/views.py:1892
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(requires the Tor Browser)"
 
