@@ -534,3 +534,13 @@ def add_isbns_unified(output_dict, potential_isbns):
             add_identifier_unified(output_dict, 'isbn10', isbn)
         else:
             raise Exception("Invalid ISBN")
+
+def merge_unified_fields(list_of_fields_unified):
+    merged_sets = {}
+    for fields_unified in list_of_fields_unified:
+        for unified_name, values in fields_unified.items():
+            if unified_name not in merged_sets:
+                merged_sets[unified_name] = set()
+            for value in values:
+                merged_sets[unified_name].add(value)
+    return { unified_name: list(merged_set) for unified_name, merged_set in merged_sets.items() }

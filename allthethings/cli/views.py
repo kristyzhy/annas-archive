@@ -167,7 +167,7 @@ def elastic_reset_md5_dicts_internal():
                         "search_extension": { "type": "keyword", "index": True, "doc_values": True },
                         "search_content_type": { "type": "keyword", "index": True, "doc_values": True },
                         "search_most_likely_language_code": { "type": "keyword", "index": True, "doc_values": True },
-                        "search_isbn": { "type": "keyword", "index": True, "doc_values": True },
+                        "search_isbn13": { "type": "keyword", "index": True, "doc_values": True },
                         "search_doi": { "type": "keyword", "index": True, "doc_values": True },
                         "search_text": { "type": "text", "index": True, "analyzer": "icu_analyzer" },
                         "search_score_base": { "type": "float", "index": False, "doc_values": True },

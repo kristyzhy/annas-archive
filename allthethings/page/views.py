@@ -1225,7 +1225,7 @@ def isbn_page(isbn_input):
         search_results_raw = es.search(
             index="md5_dicts",
             size=100,
-            query={ "term": { "search_only_fields.search_isbn": canonical_isbn13 } },
+            query={ "term": { "search_only_fields.search_isbn13": canonical_isbn13 } },
             sort={ "search_only_fields.search_score_base": "desc" },
             timeout=ES_TIMEOUT,
         )
@@ -1332,16 +1332,7 @@ def md5_dict_score_base(md5_dict):
         score += 1.0
     if len(md5_dict['file_unified_data'].get('edition_varia_best') or '') > 0:
         score += 1.0
-    if len(md5_dict['file_unified_data'].get('original_filename_best_name_only') or '') > 0:
-        score += 1.0
-    if len(md5_dict['file_unified_data'].get('sanitized_isbns') or []) > 0:
-        score += 1.0
-    if len(md5_dict['file_unified_data'].get('asin_multiple') or []) > 0:
-        score += 1.0
-    if len(md5_dict['file_unified_data'].get('googlebookid_multiple') or []) > 0:
-        score += 1.0
-    if len(md5_dict['file_unified_data'].get('openlibraryid_multiple') or []) > 0:
-        score += 1.0
+    score += min(5.0, 1.0*len(md5_dict['file_unified_data'].get('identifiers_unified') or []))
     if len(md5_dict['file_unified_data'].get('content_type') or '') in ['journal_article', 'standards_document', 'book_comic', 'magazine']:
         # For now demote non-books quite a bit, since they can drown out books.
         # People can filter for them directly.
@@ -1593,42 +1584,20 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         elif len(language_detection) > 0:
             md5_dict['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
 
-        md5_dict['file_unified_data']['sanitized_isbns'] = list(set([
-            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('isbn13') or []),
-            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('isbn10') or []),
-            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('isbn13') or []),
-            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('isbn10') or []),
-            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('isbn13') or [])],
-            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('isbn10') or [])],
-            *(((md5_dict['zlib_book'] or {}).get('identifiers_unified') or {}).get('isbn13') or []),
-            *(((md5_dict['zlib_book'] or {}).get('identifiers_unified') or {}).get('isbn10') or []),
-            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('isbn13') or []),
-            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('isbn10') or []),
-        ]))
-        md5_dict['file_unified_data']['asin_multiple'] = list(set(item for item in [
-            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('asin') or []),
-            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('asin') or []),
-            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('asin') or [])],
-            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('asin') or []),
-        ] if item != ''))
-        md5_dict['file_unified_data']['googlebookid_multiple'] = list(set(item for item in [
-            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('googlebookid') or []),
-            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('googlebookid') or []),
-            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('googlebookid') or [])],
-            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('googlebookid') or []),
-        ] if item != ''))
-        md5_dict['file_unified_data']['openlibraryid_multiple'] = list(set(item for item in [
-            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('openlibrary') or []),
-            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('openlibrary') or []),
-            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('openlibrary') or [])],
-            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('openlibrary') or []),
-        ] if item != ''))
-        md5_dict['file_unified_data']['doi_multiple'] = list(set(item for item in [
-            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('doi') or []),
-            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('doi') or []),
-            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('doi') or [])],
-            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('doi') or []),
-        ] if item != ''))
+        md5_dict['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
+            ((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
+            ((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
+            ((md5_dict['zlib_book'] or {}).get('identifiers_unified') or {}),
+            *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
+        ])
+        md5_dict['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
+            ((md5_dict['lgrsnf_book'] or {}).get('classifications_unified') or {}),
+            ((md5_dict['lgrsfic_book'] or {}).get('classifications_unified') or {}),
+            ((md5_dict['zlib_book'] or {}).get('classifications_unified') or {}),
+            *[(edition.get('classifications_unified') or {}) for edition in lgli_all_editions],
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('classifications_unified') or {}),
+        ])
 
         md5_dict['file_unified_data']['problems'] = []
         if ((md5_dict['lgrsnf_book'] or {}).get('visible') or '') != '':
@@ -1731,8 +1700,8 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             'search_extension': md5_dict['file_unified_data']['extension_best'],
             'search_content_type': md5_dict['file_unified_data']['content_type'],
             'search_most_likely_language_code': md5_dict['file_unified_data']['most_likely_language_code'],
-            'search_isbn': md5_dict['file_unified_data']['sanitized_isbns'],
-            'search_doi': md5_dict['file_unified_data']['doi_multiple'],
+            'search_isbn13': (md5_dict['file_unified_data']['identifiers_unified'].get('isbn13') or []),
+            'search_doi': (md5_dict['file_unified_data']['identifiers_unified'].get('doi') or []),
             'search_text': "\n".join(list(set([
                 md5_dict['file_unified_data']['title_best'][:1000],
                 md5_dict['file_unified_data']['title_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
@@ -1894,7 +1863,7 @@ def get_additional_for_md5_dict(md5_dict):
     if md5_dict['zlib_book'] is not None and len(md5_dict['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, len(additional['fast_partner_urls']) == 0, md5_dict, additional)
-    for doi in (md5_dict['file_unified_data'].get('doi_multiple') or []):
+    for doi in (md5_dict['file_unified_data']['identifiers_unified'].get('doi') or []):
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if md5_dict.get('zlib_book') is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{md5_dict['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
