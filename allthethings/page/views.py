@@ -1225,8 +1225,8 @@ def isbn_page(isbn_input):
         search_results_raw = es.search(
             index="md5_dicts",
             size=100,
-            query={ "term": { "file_unified_data.sanitized_isbns": canonical_isbn13 } },
-            sort={ "search_only_fields.score_base": "desc" },
+            query={ "term": { "search_only_fields.search_isbn": canonical_isbn13 } },
+            sort={ "search_only_fields.search_score_base": "desc" },
             timeout=ES_TIMEOUT,
         )
         search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in search_filtered_bad_md5s]
@@ -1251,8 +1251,8 @@ def doi_page(doi_input):
     search_results_raw = es.search(
         index="md5_dicts",
         size=100,
-        query={ "term": { "file_unified_data.doi_multiple": doi_input } },
-        sort={ "search_only_fields.score_base": "desc" },
+        query={ "term": { "search_only_fields.search_doi": doi_input } },
+        sort={ "search_only_fields.search_score_base": "desc" },
         timeout=ES_TIMEOUT,
     )
     search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in search_filtered_bad_md5s]
@@ -1725,22 +1725,30 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             md5_dict['file_unified_data']['has_aa_downloads'] = additional['has_aa_downloads']
             md5_dict['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
 
-        md5_dict['search_only_fields'] = {}
-        md5_dict['search_only_fields']['search_text'] = "\n".join(list(set([
-            md5_dict['file_unified_data']['title_best'][:1000],
-            md5_dict['file_unified_data']['title_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-            md5_dict['file_unified_data']['author_best'][:1000],
-            md5_dict['file_unified_data']['author_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-            md5_dict['file_unified_data']['edition_varia_best'][:1000],
-            md5_dict['file_unified_data']['edition_varia_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-            md5_dict['file_unified_data']['publisher_best'][:1000],
-            md5_dict['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-            md5_dict['file_unified_data']['original_filename_best_name_only'][:1000],
-            md5_dict['file_unified_data']['extension_best'],
-        ])))
+        md5_dict['search_only_fields'] = {
+            'search_filesize': md5_dict['file_unified_data']['filesize_best'],
+            'search_year': md5_dict['file_unified_data']['year_best'],
+            'search_extension': md5_dict['file_unified_data']['extension_best'],
+            'search_content_type': md5_dict['file_unified_data']['content_type'],
+            'search_most_likely_language_code': md5_dict['file_unified_data']['most_likely_language_code'],
+            'search_isbn': md5_dict['file_unified_data']['sanitized_isbns'],
+            'search_doi': md5_dict['file_unified_data']['doi_multiple'],
+            'search_text': "\n".join(list(set([
+                md5_dict['file_unified_data']['title_best'][:1000],
+                md5_dict['file_unified_data']['title_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                md5_dict['file_unified_data']['author_best'][:1000],
+                md5_dict['file_unified_data']['author_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                md5_dict['file_unified_data']['edition_varia_best'][:1000],
+                md5_dict['file_unified_data']['edition_varia_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                md5_dict['file_unified_data']['publisher_best'][:1000],
+                md5_dict['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                md5_dict['file_unified_data']['original_filename_best_name_only'][:1000],
+                md5_dict['file_unified_data']['extension_best'],
+            ])))
+        }
 
         # At the very end
-        md5_dict['search_only_fields']['score_base'] = float(md5_dict_score_base(md5_dict))
+        md5_dict['search_only_fields']['search_score_base'] = float(md5_dict_score_base(md5_dict))
 
         md5_dicts.append(md5_dict)
 
@@ -1968,20 +1976,20 @@ def md5_json(md5_input):
 
 
 sort_search_md5_dicts_script = """
-float score = params.boost + $('search_only_fields.score_base', 0);
+float score = params.boost + $('search_only_fields.search_score_base', 0);
 
 score += _score / 100.0;
 
-if (params.lang_code == $('file_unified_data.most_likely_language_code', '')) {
+if (params.lang_code == $('search_only_fields.search_most_likely_language_code', '')) {
     score += 15.0;
 }
-if (params.lang_code == 'ca' && $('file_unified_data.most_likely_language_code', '') == 'es') {
+if (params.lang_code == 'ca' && $('search_only_fields.search_most_likely_language_code', '') == 'es') {
     score += 10.0;
 }
-if (params.lang_code == 'bg' && $('file_unified_data.most_likely_language_code', '') == 'ru') {
+if (params.lang_code == 'bg' && $('search_only_fields.search_most_likely_language_code', '') == 'ru') {
     score += 10.0;
 }
-if ($('file_unified_data.most_likely_language_code', '') == 'en') {
+if ($('search_only_fields.search_most_likely_language_code', '') == 'en') {
     score += 5.0;
 }
 
@@ -1990,14 +1998,14 @@ return score;
 
 
 search_query_aggs = {
-    "most_likely_language_code": {
-      "terms": { "field": "file_unified_data.most_likely_language_code", "size": 100 } 
+    "search_most_likely_language_code": {
+      "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 100 } 
     },
-    "content_type": {
-      "terms": { "field": "file_unified_data.content_type", "size": 200 } 
+    "search_content_type": {
+      "terms": { "field": "search_only_fields.search_content_type", "size": 200 } 
     },
-    "extension_best": {
-      "terms": { "field": "file_unified_data.extension_best", "size": 20 } 
+    "search_extension": {
+      "terms": { "field": "search_only_fields.search_extension", "size": 20 } 
     },
 }
 
@@ -2007,34 +2015,34 @@ def all_search_aggs(display_lang):
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
-    all_aggregations['most_likely_language_code'] = []
-    for bucket in search_results_raw['aggregations']['most_likely_language_code']['buckets']:
+    all_aggregations['search_most_likely_language_code'] = []
+    for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
         if bucket['key'] == '':
-            all_aggregations['most_likely_language_code'].append({ 'key': '_empty', 'label': get_display_name_for_lang('', display_lang), 'doc_count': bucket['doc_count'] })
+            all_aggregations['search_most_likely_language_code'].append({ 'key': '_empty', 'label': get_display_name_for_lang('', display_lang), 'doc_count': bucket['doc_count'] })
         else:
-            all_aggregations['most_likely_language_code'].append({ 'key': bucket['key'], 'label': get_display_name_for_lang(bucket['key'], display_lang), 'doc_count': bucket['doc_count'] })
+            all_aggregations['search_most_likely_language_code'].append({ 'key': bucket['key'], 'label': get_display_name_for_lang(bucket['key'], display_lang), 'doc_count': bucket['doc_count'] })
     # We don't have browser_lang_codes for now..
-    # total_doc_count = sum([record['doc_count'] for record in all_aggregations['most_likely_language_code']])
-    # all_aggregations['most_likely_language_code'] = sorted(all_aggregations['most_likely_language_code'], key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] in browser_lang_codes and bucket['doc_count'] >= total_doc_count//100 else 0), reverse=True)
+    # total_doc_count = sum([record['doc_count'] for record in all_aggregations['search_most_likely_language_code']])
+    # all_aggregations['search_most_likely_language_code'] = sorted(all_aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] in browser_lang_codes and bucket['doc_count'] >= total_doc_count//100 else 0), reverse=True)
 
-    content_type_buckets = list(search_results_raw['aggregations']['content_type']['buckets'])
+    content_type_buckets = list(search_results_raw['aggregations']['search_content_type']['buckets'])
     md5_content_type_mapping = get_md5_content_type_mapping(display_lang)
     book_any_total = sum([bucket['doc_count'] for bucket in content_type_buckets if bucket['key'] in md5_content_type_book_any_subtypes])
     content_type_buckets.append({'key': 'book_any', 'doc_count': book_any_total})
-    all_aggregations['content_type'] = [{ 'key': bucket['key'], 'label': md5_content_type_mapping[bucket['key']], 'doc_count': bucket['doc_count'] } for bucket in content_type_buckets]
+    all_aggregations['search_content_type'] = [{ 'key': bucket['key'], 'label': md5_content_type_mapping[bucket['key']], 'doc_count': bucket['doc_count'] } for bucket in content_type_buckets]
     content_type_keys_present = set([bucket['key'] for bucket in content_type_buckets])
     for key, label in md5_content_type_mapping.items():
         if key not in content_type_keys_present:
-            all_aggregations['content_type'].append({ 'key': key, 'label': label, 'doc_count': 0 })
-    all_aggregations['content_type'] = sorted(all_aggregations['content_type'], key=lambda bucket: bucket['doc_count'], reverse=True)
+            all_aggregations['search_content_type'].append({ 'key': key, 'label': label, 'doc_count': 0 })
+    all_aggregations['search_content_type'] = sorted(all_aggregations['search_content_type'], key=lambda bucket: bucket['doc_count'], reverse=True)
 
     # Similarly to the "unknown language" issue above, we have to filter for empty-string extensions, since it gives too much trouble.
-    all_aggregations['extension_best'] = []
-    for bucket in search_results_raw['aggregations']['extension_best']['buckets']:
+    all_aggregations['search_extension'] = []
+    for bucket in search_results_raw['aggregations']['search_extension']['buckets']:
         if bucket['key'] == '':
-            all_aggregations['extension_best'].append({ 'key': '_empty', 'label': 'unknown', 'doc_count': bucket['doc_count'] })
+            all_aggregations['search_extension'].append({ 'key': '_empty', 'label': 'unknown', 'doc_count': bucket['doc_count'] })
         else:
-            all_aggregations['extension_best'].append({ 'key': bucket['key'], 'label': bucket['key'], 'doc_count': bucket['doc_count'] })
+            all_aggregations['search_extension'].append({ 'key': bucket['key'], 'label': bucket['key'], 'doc_count': bucket['doc_count'] })
 
     return all_aggregations
 
@@ -2045,9 +2053,9 @@ def all_search_aggs(display_lang):
 def search_page():
     search_input = request.args.get("q", "").strip()
     filter_values = {
-        'most_likely_language_code': request.args.get("lang", "").strip()[0:15],
-        'content_type': request.args.get("content", "").strip()[0:25],
-        'extension_best': request.args.get("ext", "").strip()[0:10],
+        'search_most_likely_language_code': request.args.get("lang", "").strip()[0:15],
+        'search_content_type': request.args.get("content", "").strip()[0:25],
+        'search_extension': request.args.get("ext", "").strip()[0:10],
     }
     sort_value = request.args.get("sort", "").strip()
 
@@ -2068,22 +2076,22 @@ def search_page():
     post_filter = []
     for filter_key, filter_value in filter_values.items():
         if filter_value != '':
-            if filter_key == 'content_type' and filter_value == 'book_any':
-                post_filter.append({ "terms": { f"file_unified_data.content_type": md5_content_type_book_any_subtypes } })
+            if filter_key == 'search_content_type' and filter_value == 'book_any':
+                post_filter.append({ "terms": { f"search_only_fields.search_content_type": md5_content_type_book_any_subtypes } })
             elif filter_value == '_empty':
-                post_filter.append({ "term": { f"file_unified_data.{filter_key}": '' } })
+                post_filter.append({ "term": { f"search_only_fields.{filter_key}": '' } })
             else:
-                post_filter.append({ "term": { f"file_unified_data.{filter_key}": filter_value } })
+                post_filter.append({ "term": { f"search_only_fields.{filter_key}": filter_value } })
 
     custom_search_sorting = []
     if sort_value == "newest":
-        custom_search_sorting = [{ "file_unified_data.year_best": "desc" }]
+        custom_search_sorting = [{ "search_only_fields.search_year": "desc" }]
     if sort_value == "oldest":
-        custom_search_sorting = [{ "file_unified_data.year_best": "asc" }]
+        custom_search_sorting = [{ "search_only_fields.search_year": "asc" }]
     if sort_value == "largest":
-        custom_search_sorting = [{ "file_unified_data.filesize_best": "desc" }]
+        custom_search_sorting = [{ "search_only_fields.search_filesize": "desc" }]
     if sort_value == "smallest":
-        custom_search_sorting = [{ "file_unified_data.filesize_best": "asc" }]
+        custom_search_sorting = [{ "search_only_fields.search_filesize": "asc" }]
 
     search_query = {
         "bool": {
@@ -2125,49 +2133,48 @@ def search_page():
     all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()))
 
     doc_counts = {}
-    doc_counts['most_likely_language_code'] = {}
-    doc_counts['content_type'] = {}
-    doc_counts['extension_best'] = {}
+    doc_counts['search_most_likely_language_code'] = {}
+    doc_counts['search_content_type'] = {}
+    doc_counts['search_extension'] = {}
     if search_input == '':
-        for bucket in all_aggregations['most_likely_language_code']:
-            doc_counts['most_likely_language_code'][bucket['key']] = bucket['doc_count']
-        for bucket in all_aggregations['content_type']:
-            doc_counts['content_type'][bucket['key']] = bucket['doc_count']
-        for bucket in all_aggregations['extension_best']:
-            doc_counts['extension_best'][bucket['key']] = bucket['doc_count']
+        for bucket in all_aggregations['search_most_likely_language_code']:
+            doc_counts['search_most_likely_language_code'][bucket['key']] = bucket['doc_count']
+        for bucket in all_aggregations['search_content_type']:
+            doc_counts['search_content_type'][bucket['key']] = bucket['doc_count']
+        for bucket in all_aggregations['search_extension']:
+            doc_counts['search_extension'][bucket['key']] = bucket['doc_count']
     else:
-        for bucket in search_results_raw['aggregations']['most_likely_language_code']['buckets']:
-            doc_counts['most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
+        for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
+            doc_counts['search_most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
         # Special casing for "book_any":
-        doc_counts['content_type']['book_any'] = 0
-        for bucket in search_results_raw['aggregations']['content_type']['buckets']:
-            doc_counts['content_type'][bucket['key']] = bucket['doc_count']
+        doc_counts['search_content_type']['book_any'] = 0
+        for bucket in search_results_raw['aggregations']['search_content_type']['buckets']:
+            doc_counts['search_content_type'][bucket['key']] = bucket['doc_count']
             if bucket['key'] in md5_content_type_book_any_subtypes:
-                doc_counts['content_type']['book_any'] += bucket['doc_count']
-        for bucket in search_results_raw['aggregations']['extension_best']['buckets']:
-            doc_counts['extension_best'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
+                doc_counts['search_content_type']['book_any'] += bucket['doc_count']
+        for bucket in search_results_raw['aggregations']['search_extension']['buckets']:
+            doc_counts['search_extension'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
 
     aggregations = {}
-    aggregations['most_likely_language_code'] = [{
+    aggregations['search_most_likely_language_code'] = [{
             **bucket,
-            'doc_count': doc_counts['most_likely_language_code'].get(bucket['key'], 0),
-            'selected':  (bucket['key'] == filter_values['most_likely_language_code']),
-        } for bucket in all_aggregations['most_likely_language_code']]
-    aggregations['content_type'] = [{
+            'doc_count': doc_counts['search_most_likely_language_code'].get(bucket['key'], 0),
+            'selected':  (bucket['key'] == filter_values['search_most_likely_language_code']),
+        } for bucket in all_aggregations['search_most_likely_language_code']]
+    aggregations['search_content_type'] = [{
             **bucket,
-            'doc_count': doc_counts['content_type'].get(bucket['key'], 0),
-            'selected':  (bucket['key'] == filter_values['content_type']),
-        } for bucket in all_aggregations['content_type']]
-    aggregations['extension_best'] = [{
+            'doc_count': doc_counts['search_content_type'].get(bucket['key'], 0),
+            'selected':  (bucket['key'] == filter_values['search_content_type']),
+        } for bucket in all_aggregations['search_content_type']]
+    aggregations['search_extension'] = [{
             **bucket,
-            'doc_count': doc_counts['extension_best'].get(bucket['key'], 0),
-            'selected':  (bucket['key'] == filter_values['extension_best']),
-        } for bucket in all_aggregations['extension_best']]
+            'doc_count': doc_counts['search_extension'].get(bucket['key'], 0),
+            'selected':  (bucket['key'] == filter_values['search_extension']),
+        } for bucket in all_aggregations['search_extension']]
 
-    aggregations['most_likely_language_code'] = sorted(aggregations['most_likely_language_code'], key=lambda bucket: bucket['doc_count'], reverse=True)
-    aggregations['content_type']              = sorted(aggregations['content_type'],              key=lambda bucket: bucket['doc_count'], reverse=True)
-    aggregations['extension_best']            = sorted(aggregations['extension_best'],            key=lambda bucket: bucket['doc_count'], reverse=True)
-
+    aggregations['search_most_likely_language_code'] = sorted(aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'], reverse=True)
+    aggregations['search_content_type']              = sorted(aggregations['search_content_type'],              key=lambda bucket: bucket['doc_count'], reverse=True)
+    aggregations['search_extension']                 = sorted(aggregations['search_extension'],                 key=lambda bucket: bucket['doc_count'], reverse=True)
 
     search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in search_filtered_bad_md5s]
 

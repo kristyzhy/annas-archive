@@ -158,120 +158,19 @@ def elastic_reset_md5_dicts_internal():
     es.options(ignore_status=[400,404]).indices.delete(index='md5_dicts')
     es.indices.create(index='md5_dicts', body={
         "mappings": {
-            "dynamic": "strict",
+            "dynamic": False,
             "properties": {
-                "lgrsnf_book": {
-                    "properties": {
-                        "id": { "type": "integer", "index": False, "doc_values": False },
-                        "md5": { "type": "keyword", "index": False, "doc_values": False },
-                    },
-                },
-                "lgrsfic_book": {
-                    "properties": {
-                        "id": { "type": "integer", "index": False, "doc_values": False },
-                        "md5": { "type": "keyword", "index": False, "doc_values": False },
-                    },
-                },
-                "lgli_file": {
-                    "properties": {
-                        "f_id": { "type": "integer", "index": False, "doc_values": False },
-                        "md5": { "type": "keyword", "index": False, "doc_values": False },
-                        "libgen_topic": { "type": "keyword", "index": False, "doc_values": False },
-                        "libgen_id": { "type": "integer", "index": False, "doc_values": False },
-                        "fiction_id": { "type": "integer", "index": False, "doc_values": False },
-                        "fiction_rus_id": { "type": "integer", "index": False, "doc_values": False },
-                        "comics_id": { "type": "integer", "index": False, "doc_values": False },
-                        "scimag_id": { "type": "integer", "index": False, "doc_values": False },
-                        "standarts_id": { "type": "integer", "index": False, "doc_values": False },
-                        "magz_id": { "type": "integer", "index": False, "doc_values": False },
-                        "scimag_archive_path": { "type": "keyword", "index": False, "doc_values": False },
-                    },
-                },
-                "zlib_book": {
-                    "properties": {
-                        "zlibrary_id": { "type": "integer", "index": False, "doc_values": False },
-                        "md5": { "type": "keyword", "index": False, "doc_values": False },
-                        "md5_reported": { "type": "keyword", "index": False, "doc_values": False },
-                        "filesize": { "type": "long", "index": False, "doc_values": False },
-                        "filesize_reported": { "type": "long", "index": False, "doc_values": False },
-                        "in_libgen": { "type": "byte", "index": False, "doc_values": False },
-                        "pilimi_torrent": { "type": "keyword", "index": False, "doc_values": False },
-                    },
-                },
-                "aa_lgli_comics_2022_08_file": {
-                    "properties": {
-                        "path": { "type": "keyword", "index": False, "doc_values": False },
-                        "md5": { "type": "keyword", "index": False, "doc_values": False },
-                        "filesize": { "type": "long", "index": False, "doc_values": False },
-                    },
-                },
-                "ia_record": {
-                    "properties": {
-                        "ia_id": { "type": "keyword", "index": False, "doc_values": False },
-                        "has_thumb": { "type": "integer", "index": False, "doc_values": False },
-                        "aa_ia_file": {
-                            "properties": {
-                                "type": { "type": "keyword", "index": False, "doc_values": False },
-                                "filesize": { "type": "long", "index": False, "doc_values": False },
-                                "extension": { "type": "keyword", "index": False, "doc_values": False },
-                                "ia_id": { "type": "keyword", "index": False, "doc_values": False },
-                            },
-                        },
-                    },
-                },
-                "ipfs_infos": {
-                    "properties": {
-                        "ipfs_cid": { "type": "keyword", "index": False, "doc_values": False },
-                        "from": { "type": "keyword", "index": False, "doc_values": False },
-                    },
-                },
-                "file_unified_data": {
-                    "properties": {
-                        "original_filename_best": { "type": "keyword", "index": False, "doc_values": False },
-                        "original_filename_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "original_filename_best_name_only": { "type": "keyword", "index": False, "doc_values": False },
-                        "cover_url_best": { "type": "keyword", "index": False, "doc_values": False },
-                        "cover_url_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "extension_best": { "type": "keyword", "index": True, "doc_values": True },
-                        "extension_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "filesize_best": { "type": "long", "index": False, "doc_values": True },
-                        "filesize_additional": { "type": "long", "index": False, "doc_values": False },
-                        "title_best": { "type": "keyword", "index": False, "doc_values": False },
-                        "title_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "author_best": { "type": "keyword", "index": False, "doc_values": False },
-                        "author_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "publisher_best": { "type": "keyword", "index": False, "doc_values": False },
-                        "publisher_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "edition_varia_best": { "type": "keyword", "index": False, "doc_values": False },
-                        "edition_varia_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "year_best": { "type": "keyword", "index": True, "doc_values": True },
-                        "year_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "comments_best": { "type": "keyword", "index": False, "doc_values": False },
-                        "comments_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "stripped_description_best": { "type": "keyword", "index": False, "doc_values": False },
-                        "stripped_description_additional": { "type": "keyword", "index": False, "doc_values": False },
-                        "language_codes": { "type": "keyword", "index": True, "doc_values": True },
-                        "most_likely_language_code": { "type": "keyword", "index": True, "doc_values": True },
-                        "sanitized_isbns": { "type": "keyword", "index": True, "doc_values": False },
-                        "asin_multiple": { "type": "keyword", "index": True, "doc_values": False },
-                        "googlebookid_multiple": { "type": "keyword", "index": True, "doc_values": False },
-                        "openlibraryid_multiple": { "type": "keyword", "index": True, "doc_values": False },
-                        "doi_multiple": { "type": "keyword", "index": True, "doc_values": False },
-                        "problems": {
-                            "properties": {
-                                "type": { "type": "keyword", "index": False, "doc_values": True },
-                                "descr": { "type": "keyword", "index": False, "doc_values": False },
-                            },
-                        },
-                        "content_type": { "type": "keyword", "index": True, "doc_values": True },
-                        "has_aa_downloads": { "type": "byte", "index": True, "doc_values": True },
-                        "has_aa_exclusive_downloads": { "type": "byte", "index": True, "doc_values": True },
-                    },
-                },
                 "search_only_fields": {
                     "properties": {
+                        "search_filesize": { "type": "long", "index": False, "doc_values": True },
+                        "search_year": { "type": "keyword", "index": True, "doc_values": True },
+                        "search_extension": { "type": "keyword", "index": True, "doc_values": True },
+                        "search_content_type": { "type": "keyword", "index": True, "doc_values": True },
+                        "search_most_likely_language_code": { "type": "keyword", "index": True, "doc_values": True },
+                        "search_isbn": { "type": "keyword", "index": True, "doc_values": True },
+                        "search_doi": { "type": "keyword", "index": True, "doc_values": True },
                         "search_text": { "type": "text", "index": True, "analyzer": "icu_analyzer" },
-                        "score_base": { "type": "float", "index": False, "doc_values": True },
+                        "search_score_base": { "type": "float", "index": False, "doc_values": True },
                     },
                 },
             },
@@ -280,7 +179,7 @@ def elastic_reset_md5_dicts_internal():
             "index.number_of_replicas": 0,
             "index.search.slowlog.threshold.query.warn": "2s",
             "index.store.preload": ["nvd", "dvd"],
-            "index.sort.field": "search_only_fields.score_base",
+            "index.sort.field": "search_only_fields.search_score_base",
             "index.sort.order": "desc",
         },
     })

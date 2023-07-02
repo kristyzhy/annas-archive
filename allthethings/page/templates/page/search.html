@@ -27,19 +27,19 @@
     <div class="flex mb-4 max-w-[600px]" style="font-size: 87%">
       <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="lang">
         <option value="">{{ gettext('page.search.filters.language.header') }}</option>
-        {% for bucket in search_dict.aggregations.most_likely_language_code %}
+        {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
           <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
         {% endfor %}
       </select>
       <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="content">
         <option value="">{{ gettext('page.search.filters.content.header') }}</option>
-        {% for bucket in search_dict.aggregations.content_type %}
+        {% for bucket in search_dict.aggregations.search_content_type %}
           <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
         {% endfor %}
       </select>
       <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="ext">
         <option value="">{{ gettext('page.search.filters.filetype.header') }}</option>
-        {% for bucket in search_dict.aggregations.extension_best %}
+        {% for bucket in search_dict.aggregations.search_extension %}
           <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
         {% endfor %}
       </select>
