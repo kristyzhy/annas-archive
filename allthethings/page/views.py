@@ -1702,7 +1702,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             'search_most_likely_language_code': md5_dict['file_unified_data']['most_likely_language_code'],
             'search_isbn13': (md5_dict['file_unified_data']['identifiers_unified'].get('isbn13') or []),
             'search_doi': (md5_dict['file_unified_data']['identifiers_unified'].get('doi') or []),
-            'search_text': "\n".join(list(set([
+            'search_text': "\n".join(list(dict.fromkeys([
                 md5_dict['file_unified_data']['title_best'][:1000],
                 md5_dict['file_unified_data']['title_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 md5_dict['file_unified_data']['author_best'][:1000],
@@ -1713,6 +1713,8 @@ def get_md5_dicts_mysql(session, canonical_md5s):
                 md5_dict['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 md5_dict['file_unified_data']['original_filename_best_name_only'][:1000],
                 md5_dict['file_unified_data']['extension_best'],
+                *[str(item) for items in md5_dict['file_unified_data']['identifiers_unified'].values() for item in items],
+                *[str(item) for items in md5_dict['file_unified_data']['classifications_unified'].values() for item in items],
             ])))
         }
 
