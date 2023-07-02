@@ -431,13 +431,13 @@ def zlib_book_json(zlib_id):
             return "{}", 404
         return nice_json(zlib_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
-def extract_list_from_ia_json_field(ia_entry_dict, key):
-    val = ia_entry_dict['json'].get('metadata', {}).get(key, [])
+def extract_list_from_ia_json_field(ia_record_dict, key):
+    val = ia_record_dict['json'].get('metadata', {}).get(key, [])
     if isinstance(val, str):
         return [val]
     return val
 
-def get_ia_entry_dicts(session, key, values):
+def get_ia_record_dicts(session, key, values):
     # Filter out bad data
     if key.lower() in ['md5']:
         values = [val for val in values if val not in search_filtered_bad_md5s]
@@ -451,67 +451,107 @@ def get_ia_entry_dicts(session, key, values):
         print(repr(err))
         traceback.print_tb(err.__traceback__)
 
-    ia_entry_dicts = []
-    for ia_entry in ia_entries:
-        ia_entry_dict = ia_entry.to_dict()
-        ia_entry_dict['aa_file'] = None
-        # ia_entry_dict['aa_derived']['extension'] = 'pdf'
-        # ia_entry_dict['aa_derived']['filesize'] = 0
-        ia_entry_dict['json'] = orjson.loads(ia_entry_dict['json'])
+    ia_record_dicts = []
+    for ia_record in ia_entries:
+        ia_record_dict = ia_record.to_dict()
+        ia_record_dict['aa_ia_file'] = None
+        # ia_record_dict['aa_ia_file']['extension'] = 'pdf'
+        # ia_record_dict['aa_ia_file']['filesize'] = 0
+        ia_record_dict['json'] = orjson.loads(ia_record_dict['json'])
 
-        ia_entry_dict['aa_derived'] = {}
-        ia_entry_dict['aa_derived']['original_filename'] = ia_entry_dict['ia_id'] + '.pdf'
-        ia_entry_dict['aa_derived']['cover_url'] = f"https://archive.org/download/{ia_entry_dict['ia_id']}/__ia_thumb.jpg"
-        ia_entry_dict['aa_derived']['title'] = ' '.join(extract_list_from_ia_json_field(ia_entry_dict, 'title'))
-        ia_entry_dict['aa_derived']['author'] = '; '.join(extract_list_from_ia_json_field(ia_entry_dict, 'creator'))
-        ia_entry_dict['aa_derived']['publisher'] = '; '.join(extract_list_from_ia_json_field(ia_entry_dict, 'publisher'))
-        ia_entry_dict['aa_derived']['combined_comments'] = '\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'notes') + extract_list_from_ia_json_field(ia_entry_dict, 'comment') + extract_list_from_ia_json_field(ia_entry_dict, 'curation'))
-        ia_entry_dict['aa_derived']['subjects'] = '\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'subject') + extract_list_from_ia_json_field(ia_entry_dict, 'level_subject'))
-        ia_entry_dict['aa_derived']['stripped_description_and_references'] = strip_description('\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'description') + extract_list_from_ia_json_field(ia_entry_dict, 'references')))
-        ia_entry_dict['aa_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(lang) for lang in (extract_list_from_ia_json_field(ia_entry_dict, 'language') + extract_list_from_ia_json_field(ia_entry_dict, 'ocr_detected_lang'))])
-        ia_entry_dict['aa_derived']['all_dates'] = list(set(extract_list_from_ia_json_field(ia_entry_dict, 'year') + extract_list_from_ia_json_field(ia_entry_dict, 'date') + extract_list_from_ia_json_field(ia_entry_dict, 'range')))
-        ia_entry_dict['aa_derived']['longest_date_field'] = max([''] + ia_entry_dict['aa_derived']['all_dates'])
-        ia_entry_dict['aa_derived']['year'] = ''
-        for date in ia_entry_dict['aa_derived']['all_dates']:
+        ia_record_dict['aa_ia_derived'] = {}
+        ia_record_dict['aa_ia_derived']['original_filename'] = ia_record_dict['ia_id'] + '.pdf'
+        ia_record_dict['aa_ia_derived']['cover_url'] = f"https://archive.org/download/{ia_record_dict['ia_id']}/__ia_thumb.jpg"
+        ia_record_dict['aa_ia_derived']['title'] = ' '.join(extract_list_from_ia_json_field(ia_record_dict, 'title'))
+        ia_record_dict['aa_ia_derived']['author'] = '; '.join(extract_list_from_ia_json_field(ia_record_dict, 'creator'))
+        ia_record_dict['aa_ia_derived']['publisher'] = '; '.join(extract_list_from_ia_json_field(ia_record_dict, 'publisher'))
+        ia_record_dict['aa_ia_derived']['combined_comments'] = '\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'notes') + extract_list_from_ia_json_field(ia_record_dict, 'comment') + extract_list_from_ia_json_field(ia_record_dict, 'curation'))
+        ia_record_dict['aa_ia_derived']['subjects'] = '\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'subject') + extract_list_from_ia_json_field(ia_record_dict, 'level_subject'))
+        ia_record_dict['aa_ia_derived']['stripped_description_and_references'] = strip_description('\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'description') + extract_list_from_ia_json_field(ia_record_dict, 'references')))
+        ia_record_dict['aa_ia_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(lang) for lang in (extract_list_from_ia_json_field(ia_record_dict, 'language') + extract_list_from_ia_json_field(ia_record_dict, 'ocr_detected_lang'))])
+        ia_record_dict['aa_ia_derived']['all_dates'] = list(set(extract_list_from_ia_json_field(ia_record_dict, 'year') + extract_list_from_ia_json_field(ia_record_dict, 'date') + extract_list_from_ia_json_field(ia_record_dict, 'range')))
+        ia_record_dict['aa_ia_derived']['longest_date_field'] = max([''] + ia_record_dict['aa_ia_derived']['all_dates'])
+        ia_record_dict['aa_ia_derived']['year'] = ''
+        for date in ia_record_dict['aa_ia_derived']['all_dates']:
             potential_year = re.search(r"(\d\d\d\d)", date)
             if potential_year is not None:
-                ia_entry_dict['aa_derived']['year'] = potential_year[0]
+                ia_record_dict['aa_ia_derived']['year'] = potential_year[0]
 
-        ia_entry_dict['aa_derived']['content_type'] = 'book_unknown'
-        if ia_entry_dict['ia_id'].split('_')[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_entry_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
-            ia_entry_dict['aa_derived']['content_type'] = 'magazine'
+        ia_record_dict['aa_ia_derived']['content_type'] = 'book_unknown'
+        if ia_record_dict['ia_id'].split('_')[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_record_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
+            ia_record_dict['aa_ia_derived']['content_type'] = 'magazine'
 
-        ia_entry_dict['aa_derived']['edition_varia_normalized'] = ', '.join([
-            *extract_list_from_ia_json_field(ia_entry_dict, 'series'),
-            *extract_list_from_ia_json_field(ia_entry_dict, 'series_name'),
-            *[f"Volume {volume}" for volume in extract_list_from_ia_json_field(ia_entry_dict, 'volume')],
-            *[f"Issue {issue}" for issue in extract_list_from_ia_json_field(ia_entry_dict, 'issue')],
-            *extract_list_from_ia_json_field(ia_entry_dict, 'edition'),
-            *extract_list_from_ia_json_field(ia_entry_dict, 'city'),
-            ia_entry_dict['aa_derived']['longest_date_field']
+        ia_record_dict['aa_ia_derived']['edition_varia_normalized'] = ', '.join([
+            *extract_list_from_ia_json_field(ia_record_dict, 'series'),
+            *extract_list_from_ia_json_field(ia_record_dict, 'series_name'),
+            *[f"Volume {volume}" for volume in extract_list_from_ia_json_field(ia_record_dict, 'volume')],
+            *[f"Issue {issue}" for issue in extract_list_from_ia_json_field(ia_record_dict, 'issue')],
+            *extract_list_from_ia_json_field(ia_record_dict, 'edition'),
+            *extract_list_from_ia_json_field(ia_record_dict, 'city'),
+            ia_record_dict['aa_ia_derived']['longest_date_field']
         ])
 
-        allthethings.utils.init_identifiers_and_classification_unified(ia_entry_dict['aa_derived'])
-        allthethings.utils.add_isbns_unified(ia_entry_dict['aa_derived'], extract_list_from_ia_json_field(ia_entry_dict, 'isbn'))
+        allthethings.utils.init_identifiers_and_classification_unified(ia_record_dict['aa_ia_derived'])
 
-        for olid in (extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_work')):
-            allthethings.utils.add_identifier_unified('openlibrary', olid)
+        for item in (extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_work')):
+            allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'openlibrary', item)
+        for item in extract_list_from_ia_json_field(ia_record_dict, 'item'):
+            allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'lccn', item)
 
-        ia_entry_dict_comments = {
-            
+        isbns = extract_list_from_ia_json_field(ia_record_dict, 'isbn')
+        for urn in extract_list_from_ia_json_field(ia_record_dict, 'external-identifier'):
+            if urn.startswith('urn:oclc:record:'):
+                allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'oclcworldcat', urn[len('urn:oclc:record:'):])
+            elif urn.startswith('urn:oclc:'):
+                allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'oclcworldcat', urn[len('urn:oclc:'):])
+            elif urn.startswith('urn:isbn:'):
+                isbns.append(urn[len('urn:isbn:'):])
+        allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], isbns)
+
+        aa_ia_derived_comments = {
+            **allthethings.utils.COMMON_DICT_COMMENTS,
+            "ia_id": ("before", ["This is an Internet Archive record, augmented by Anna's Archive.",
+                              "More details at https://annas-archive.org/datasets/ia",
+                              "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
+                              allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "cover_url": ("before", "Constructed directly from ia_id."),
+            "author": ("after", "From `metadata.creator`."),
+            "combined_comments": ("after", "From `metadata.notes`, `metadata.comment`, and `metadata.curation`."),
+            "subjects": ("after", "From `metadata.subject` and `metadata.level_subject`."),
+            "stripped_description_and_references": ("after", "From `metadata.description` and `metadata.references`, stripped from HTML tags."),
+            "all_dates": ("after", "All potential dates, combined from `metadata.year`, `metadata.date`, and `metadata.range`."),
+            "longest_date_field": ("after", "The longest field in `all_dates`."),
+            "year": ("after", "Found by applying a \d{4} regex to `longest_date_field`."),
+            "content_type": ("after", "Magazines determined by ia_id prefix (like 'sim_' and 'per_') and `metadata.pub_type` field."),
+            "edition_varia_normalized": ("after", "From `metadata.series`, `metadata.series_name`, `metadata.volume`, `metadata.issue`, `metadata.edition`, `metadata.city`, and `longest_date_field`."),
         }
-        ia_entry_dicts.append(add_comments_to_dict(ia_entry_dict, ia_entry_dict_comments))
+        ia_record_dict['aa_ia_derived'] = add_comments_to_dict(ia_record_dict['aa_ia_derived'], aa_ia_derived_comments)
 
-    return ia_entry_dicts
+
+        ia_record_dict_comments = {
+            **allthethings.utils.COMMON_DICT_COMMENTS,
+            "ia_id": ("before", ["This is an Internet Archive record, augmented by Anna's Archive.",
+                              "More details at https://annas-archive.org/datasets/ia",
+                              "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
+                              allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "has_thumb": ("after", "Whether Anna's Archive has stored a thumbnail (scraped from __ia_thumb.jpg)."),
+            "json": ("before", "The original metadata JSON, scraped from https://archive.org/metadata/<ia_id>.",
+                               "We did strip out the full file list, since it's a bit long, and replaced it with a shorter `aa_shorter_files`."),
+            "aa_ia_file": ("before", "File metadata, if we have it."),
+            "aa_ia_derived": ("before", "Derived metadata."),
+        }
+        ia_record_dicts.append(add_comments_to_dict(ia_record_dict, ia_record_dict_comments))
+
+    return ia_record_dicts
 
 @page.get("/db/ia/<string:ia_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
-def ia_entry_json(ia_id):
+def ia_record_json(ia_id):
     with Session(engine) as session:
-        ia_entry_dicts = get_ia_entry_dicts(session, "ia_id", [ia_id])
-        if len(ia_entry_dicts) == 0:
+        ia_record_dicts = get_ia_record_dicts(session, "ia_id", [ia_id])
+        if len(ia_record_dicts) == 0:
             return "{}", 404
-        return nice_json(ia_entry_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return nice_json(ia_record_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 
 @page.get("/ol/<string:ol_book_id>")
