@@ -267,58 +267,7 @@
             <div class="px-2 py-1 whitespace-nowrap text-right"><a href="https://covers.openlibrary.org/b/id/{{cover}}-L.jpg">url</a> <a href="https://covers.openlibrary.org/b/id/{{cover}}.json">json</a></div>
           </div>
         {% endfor %}
-        {% if ol_book_dict.isbns_rich | length == 0 %}
-          <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">ISBNs</div>
-            <div class="px-2 py-1 grow break-words line-clamp-[8]">-</div>
-            <div></div>
-          </div>
-        {% endif %}
-        {% for isbn in ol_book_dict.isbns_rich %}
-          <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">{{ 'ISBNs' if loop.index0 == 0 else ' ' }}&nbsp;</div>
-            <div class="px-2 py-1 grow break-words line-clamp-[8]">{{isbn[0]}} {{ " / " + isbn[1] if isbn[1] }}</div>
-            <div class="px-2 py-1 whitespace-nowrap text-right"><a href="/isbn/{{isbn[0]}}" class="anna">anna</a> <a href="https://en.wikipedia.org/wiki/Special:BookSources/{{isbn[0]}}">wiki</a> <a href="https://google.com/search?q=%22{{isbn[0]}}%22+OR+%22{{isbn[1]}}%22+OR+%22{{isbn[2]}}%22+OR+%22{{isbn[3]}}%22">goog</a></div>
-          </div>
-        {% endfor %}
-        {% if ol_book_dict.identifiers_normalized | length == 0 %}
-          <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">Identifiers</div>
-            <div class="px-2 py-1 grow break-words line-clamp-[8]">-</div>
-            <div></div>
-          </div>
-        {% endif %}
-        {% for identifier_type, item in ol_book_dict.identifiers_normalized %}
-          <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">{{ 'Identifiers' if loop.index0 == 0 else ' ' }}&nbsp;</div>
-            {% if ol_identifiers[identifier_type] %}
-              <div class="px-2 py-1 grow break-words line-clamp-[8]">{{ol_identifiers[identifier_type].label}}: {{item}}</div>
-            <div class="px-2 py-1 whitespace-nowrap text-right">{% if ol_identifiers[identifier_type].url %}<a href="{{ol_identifiers[identifier_type].url | replace('@@@', item | urlencode)}}">url</a>{% elif ol_identifiers[identifier_type].website %}<a href="{{ol_identifiers[identifier_type].website}}">info</a>{% endif %}</div>
-            {% else %}
-              <div class="px-2 py-1 grow break-words line-clamp-[8]">{{identifier_type}}: {{item}}</div>
-              <div></div>
-            {% endif %}
-          </div>
-        {% endfor %}
-        {% if ol_book_dict.classifications_normalized | length == 0 %}
-          <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">Classifications</div>
-            <div class="px-2 py-1 grow break-words line-clamp-[8]">-</div>
-            <div></div>
-          </div>
-        {% endif %}
-        {% for classification_type, item in ol_book_dict.classifications_normalized %}
-          <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
-            <div class="flex-none w-[150] px-2 py-1">{{ 'Classifications' if loop.index0 == 0 else ' ' }}&nbsp;</div>
-            {% if ol_classifications[classification_type] %}
-              <div class="px-2 py-1 grow break-words line-clamp-[8]">{{ol_classifications[classification_type].label}}: {{item}}</div>
-              <div class="px-2 py-1 whitespace-nowrap text-right">{% if ol_classifications[classification_type].url %} <a href="{{ol_classifications[classification_type].url | replace('@@@', item | urlencode)}}">url</a>{% endif %}{% if ol_classifications[classification_type].website %} <a href="{{ol_classifications[classification_type].website}}">info</a>{% endif %}</div>
-            {% else %}
-              <div class="px-2 py-1 grow break-words line-clamp-[8]">{{classification_type}}: {{item}}</div>
-              <div></div>
-            {% endif %}
-          </div>
-        {% endfor %}
+        <!-- TODO: IDENTIFIERS AND CLASSIFICATIONS MISSING -->
         {% if ol_book_dict.json.uris | length == 0 %}
           <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
             <div class="flex-none w-[150] px-2 py-1">URIs</div>

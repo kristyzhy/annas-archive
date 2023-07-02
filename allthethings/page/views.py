@@ -61,7 +61,7 @@ search_filtered_bad_md5s = [
 
 ES_TIMEOUT = "5s"
 
-# Retrieved from https://openlibrary.org/config/edition.json on 2022-10-11
+# Retrieved from https://openlibrary.org/config/edition.json on 2023-07-02
 ol_edition_json = json.load(open(os.path.dirname(os.path.realpath(__file__)) + '/ol_edition.json'))
 ol_classifications = {}
 for classification in ol_edition_json['classifications']:
@@ -190,31 +190,6 @@ def make_temp_anon_zlib_path(zlibrary_id, pilimi_torrent):
     if "-zlib2-" in pilimi_torrent:
         prefix = "zlib2"
     return f"e/{prefix}/{pilimi_torrent.replace('.torrent', '')}/{zlibrary_id}"
-
-def make_sanitized_isbns(potential_isbns):
-    sanitized_isbns = set()
-    for potential_isbn in potential_isbns:
-        isbn = potential_isbn.replace('-', '').replace(' ', '')
-        if isbnlib.is_isbn10(isbn):
-            sanitized_isbns.add(isbn)
-            sanitized_isbns.add(isbnlib.to_isbn13(isbn))
-        if isbnlib.is_isbn13(isbn):
-            sanitized_isbns.add(isbn)
-            isbn10 = isbnlib.to_isbn10(isbn)
-            if isbnlib.is_isbn10(isbn10 or ''):
-                sanitized_isbns.add(isbn10)
-    return list(sanitized_isbns)
-
-def make_isbns_rich(sanitized_isbns):
-    rich_isbns = []
-    for isbn in sanitized_isbns:
-        if len(isbn) == 13:
-            potential_isbn10 = isbnlib.to_isbn10(isbn)
-            if isbnlib.is_isbn10(potential_isbn10):
-                rich_isbns.append((isbn, potential_isbn10, isbnlib.mask(isbn), isbnlib.mask(potential_isbn10)))
-            else:
-                rich_isbns.append((isbn, '', isbnlib.mask(isbn), ''))
-    return rich_isbns
 
 def strip_description(description):
     return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n')))
@@ -413,8 +388,6 @@ def get_zlib_book_dicts(session, key, values):
     zlib_book_dicts = []
     for zlib_book in zlib_books:
         zlib_book_dict = zlib_book.to_dict()
-        zlib_book_dict['sanitized_isbns'] = [record.isbn for record in zlib_book.isbns]
-        zlib_book_dict['isbns_rich'] = make_isbns_rich(zlib_book_dict['sanitized_isbns'])
         zlib_book_dict['stripped_description'] = strip_description(zlib_book_dict['description'])
         zlib_book_dict['language_codes'] = get_bcp47_lang_codes(zlib_book_dict['language'] or '')
         edition_varia_normalized = []
@@ -428,12 +401,15 @@ def get_zlib_book_dicts(session, key, values):
             edition_varia_normalized.append(zlib_book_dict['year'].strip())
         zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
+        allthethings.utils.init_identifiers_and_classification_unified(zlib_book_dict)
+        allthethings.utils.add_isbns_unified(zlib_book_dict, [record.isbn for record in zlib_book.isbns])
+
         zlib_book_dict_comments = {
-            **COMMON_DICT_COMMENTS,
+            **allthethings.utils.COMMON_DICT_COMMENTS,
             "zlibrary_id": ("before", ["This is a file from the Z-Library collection of Anna's Archive.",
                               "More details at https://annas-archive.org/datasets/zlib_scrape",
                               "The source URL is http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/<md5_reported>",
-                              DICT_COMMENTS_NO_API_DISCLAIMER]),
+                              allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', and 'year' fields; combining them into a single field for display and search."]),
             "in_libgen": ("after", ["Whether at the time of indexing, the book was also available in Libgen."]),
             "pilimi_torrent": ("after", ["Which torrent by Anna's Archive (formerly the Pirate Library Mirror or 'pilimi') the file belongs to."]),
@@ -493,8 +469,6 @@ def get_ia_entry_dicts(session, key, values):
         ia_entry_dict['aa_derived']['subjects'] = '\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'subject') + extract_list_from_ia_json_field(ia_entry_dict, 'level_subject'))
         ia_entry_dict['aa_derived']['stripped_description_and_references'] = strip_description('\n\n'.join(extract_list_from_ia_json_field(ia_entry_dict, 'description') + extract_list_from_ia_json_field(ia_entry_dict, 'references')))
         ia_entry_dict['aa_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(lang) for lang in (extract_list_from_ia_json_field(ia_entry_dict, 'language') + extract_list_from_ia_json_field(ia_entry_dict, 'ocr_detected_lang'))])
-        ia_entry_dict['aa_derived']['sanitized_isbns'] = make_sanitized_isbns(extract_list_from_ia_json_field(ia_entry_dict, 'isbn'))
-        ia_entry_dict['aa_derived']['openlibraryid'] = extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_work')
         ia_entry_dict['aa_derived']['all_dates'] = list(set(extract_list_from_ia_json_field(ia_entry_dict, 'year') + extract_list_from_ia_json_field(ia_entry_dict, 'date') + extract_list_from_ia_json_field(ia_entry_dict, 'range')))
         ia_entry_dict['aa_derived']['longest_date_field'] = max([''] + ia_entry_dict['aa_derived']['all_dates'])
         ia_entry_dict['aa_derived']['year'] = ''
@@ -517,19 +491,11 @@ def get_ia_entry_dicts(session, key, values):
             ia_entry_dict['aa_derived']['longest_date_field']
         ])
 
-        # ia_entry_dict['sanitized_isbns'] = [record.isbn for record in ia_entry.isbns]
-        # ia_entry_dict['isbns_rich'] = make_isbns_rich(ia_entry_dict['sanitized_isbns'])
-        # ia_entry_dict['language_codes'] = get_bcp47_lang_codes(ia_entry_dict['language'] or '')
-        # edition_varia_normalized = []
-        # if len((ia_entry_dict.get('series') or '').strip()) > 0:
-        #     edition_varia_normalized.append(ia_entry_dict['series'].strip())
-        # if len((ia_entry_dict.get('volume') or '').strip()) > 0:
-        #     edition_varia_normalized.append(ia_entry_dict['volume'].strip())
-        # if len((ia_entry_dict.get('edition') or '').strip()) > 0:
-        #     edition_varia_normalized.append(ia_entry_dict['edition'].strip())
-        # if len((ia_entry_dict.get('year') or '').strip()) > 0:
-        #     edition_varia_normalized.append(ia_entry_dict['year'].strip())
-        # ia_entry_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
+        allthethings.utils.init_identifiers_and_classification_unified(ia_entry_dict['aa_derived'])
+        allthethings.utils.add_isbns_unified(ia_entry_dict['aa_derived'], extract_list_from_ia_json_field(ia_entry_dict, 'isbn'))
+
+        for olid in (extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_entry_dict, 'openlibrary_work')):
+            allthethings.utils.add_identifier_unified('openlibrary', olid)
 
         ia_entry_dict_comments = {
             
@@ -592,40 +558,35 @@ def ol_book_page(ol_book_id):
             author_dict['json'] = orjson.loads(author_dict['json'])
             ol_book_dict['authors'].append(author_dict)
 
-        ol_book_dict['sanitized_isbns'] = make_sanitized_isbns((ol_book_dict['json'].get('isbn_10') or []) + (ol_book_dict['json'].get('isbn_13') or []))
-        ol_book_dict['isbns_rich'] = make_isbns_rich(ol_book_dict['sanitized_isbns'])
-
-        ol_book_dict['classifications_normalized'] = []
+        allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict)
+        allthethings.utils.add_isbns_unified(ol_book_dict, (ol_book_dict['json'].get('isbn_10') or []) + (ol_book_dict['json'].get('isbn_13') or []))
         for item in (ol_book_dict['json'].get('lc_classifications') or []):
-            ol_book_dict['classifications_normalized'].append(('lc_classifications', item))
+            allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
         for item in (ol_book_dict['json'].get('dewey_decimal_class') or []):
-            ol_book_dict['classifications_normalized'].append(('dewey_decimal_class', item))
+            allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_decimal_class'], item)
         for item in (ol_book_dict['json'].get('dewey_number') or []):
-            ol_book_dict['classifications_normalized'].append(('dewey_decimal_class', item))
+            allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
         for classification_type, items in (ol_book_dict['json'].get('classifications') or {}).items():
             for item in items:
-                ol_book_dict['classifications_normalized'].append((classification_type, item))
-
+                allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
         if ol_book_dict['work']:
-            ol_book_dict['work']['classifications_normalized'] = []
+            allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict['work'])
             for item in (ol_book_dict['work']['json'].get('lc_classifications') or []):
-                ol_book_dict['work']['classifications_normalized'].append(('lc_classifications', item))
+                allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
             for item in (ol_book_dict['work']['json'].get('dewey_decimal_class') or []):
-                ol_book_dict['work']['classifications_normalized'].append(('dewey_decimal_class', item))
+                allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_decimal_class'], item)
             for item in (ol_book_dict['work']['json'].get('dewey_number') or []):
-                ol_book_dict['work']['classifications_normalized'].append(('dewey_decimal_class', item))
+                allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
             for classification_type, items in (ol_book_dict['work']['json'].get('classifications') or {}).items():
                 for item in items:
-                    ol_book_dict['work']['classifications_normalized'].append((classification_type, item))
-
-        ol_book_dict['identifiers_normalized'] = []
+                    allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
         for item in (ol_book_dict['json'].get('lccn') or []):
-            ol_book_dict['identifiers_normalized'].append(('lccn', item.strip()))
+            allthethings.utils.add_identifier_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['lccn'], item)
         for item in (ol_book_dict['json'].get('oclc_numbers') or []):
-            ol_book_dict['identifiers_normalized'].append(('oclc_numbers', item.strip()))
+            allthethings.utils.add_identifier_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['oclc_numbers'], item)
         for identifier_type, items in (ol_book_dict['json'].get('identifiers') or {}).items():
             for item in items:
-                ol_book_dict['identifiers_normalized'].append((identifier_type, item.strip()))
+                allthethings.utils.add_identifier_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[identifier_type], item)
 
         ol_book_dict['languages_normalized'] = [(ol_languages.get(language['key']) or {'name':language['key']})['name'] for language in (ol_book_dict['json'].get('languages') or [])]
         ol_book_dict['translated_from_normalized'] = [(ol_languages.get(language['key']) or {'name':language['key']})['name'] for language in (ol_book_dict['json'].get('translated_from') or [])]
@@ -719,32 +680,6 @@ def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
     aa_lgli_comics_2022_08_file_dicts = [dict(aa_lgli_comics_2022_08_file) for aa_lgli_comics_2022_08_file in aa_lgli_comics_2022_08_files]
     return aa_lgli_comics_2022_08_file_dicts
 
-DICT_COMMENTS_NO_API_DISCLAIMER = "This page is *not* intended as an API. If you need programmatic access to this JSON, please set up your own instance. For more information, see: https://annas-archive.org/datasets and https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports"
-
-COMMON_DICT_COMMENTS = {
-    "identifier": ("after", ["Typically ISBN-10 or ISBN-13."]),
-    "identifierwodash": ("after", ["Same as 'identifier' but without dashes."]),
-    "locator": ("after", ["Original filename or path on the Library Genesis servers."]),
-    "sanitized_isbns": ("before", ["Anna's Archive normalized version of the ISBN, in both ISBN-10 and 13 formats."]),
-    "isbns_rich": ("before", ["Anna's Archive 'rich' versions of the ISBNs, with dashes inserted."]),
-    "stripped_description": ("before", ["Anna's Archive version of the 'descr' or 'description' field, with HTML tags removed or replaced with regular whitespace."]),
-    "language_codes": ("before", ["Anna's Archive version of the 'language' field, where we attempted to parse it into BCP 47 tags."]),
-    "cover_url_normalized": ("after", ["Anna's Archive version of the 'coverurl' field, where we attempted to turn it into a full URL."]),
-    "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', 'periodical', and 'year' fields; combining them into a single field for display and search."]),
-    "topic_descr": ("after", ["A description of the 'topic' field using a separate database table, which seems to have its roots in the Kolxo3 library that Libgen was originally based on.",
-                    "https://wiki.mhut.org/content:bibliographic_data says that this field will be deprecated in favor of Dewey Decimal."]),
-    "topic": ("after", ["See 'topic_descr' below."]),
-    "searchable": ("after", ["This seems to indicate that the book has been OCR'ed."]),
-    "generic": ("after", ["If this is set to a different md5, then that version is preferred over this one, and should be shown in search results instead."]),
-    "visible": ("after", ["If this is set, the book is in fact *not* visible in Libgen, and this string describes the reason."]),
-    "commentary": ("after", ["Comments left by the uploader, an admin, or an automated process."]),
-    "toc": ("before", ["Table of contents. May contain HTML."]),
-    "ddc": ("after", ["See also https://libgen.li/biblioservice.php?type=ddc"]),
-    "udc": ("after", ["See also https://libgen.li/biblioservice.php?type=udc"]),
-    "lbc": ("after", ["See also https://libgen.li/biblioservice.php?type=bbc and https://www.isko.org/cyclo/lbc"]),
-    "descriptions_mapped": ("before", ["Normalized fields by Anna's Archive, taken from the various `*_add_descr` Libgen.li tables, with comments taken from the `elem_descr` table which contain metadata about these fields, as well as sometimes our own metadata.",
-                                       "The names themselves are taken from `name_en` in the corresponding `elem_descr` entry (lowercased, whitespace removed), with `name_add{1,2,3}_en` to create the compound keys, such as `isbn_isbnnotes`."]),
-}
 
 def get_lgrsnf_book_dicts(session, key, values):
     # Filter out bad data
@@ -769,8 +704,6 @@ def get_lgrsnf_book_dicts(session, key, values):
     lgrs_book_dicts = []
     for lgrsnf_book in lgrsnf_books:
         lgrs_book_dict = dict((k.lower(), v) for k,v in dict(lgrsnf_book).items())
-        lgrs_book_dict['sanitized_isbns'] = make_sanitized_isbns(lgrsnf_book.Identifier.split(",") + lgrsnf_book.IdentifierWODash.split(","))
-        lgrs_book_dict['isbns_rich'] = make_isbns_rich(lgrs_book_dict['sanitized_isbns'])
         lgrs_book_dict['stripped_description'] = strip_description(lgrs_book_dict.get('descr') or '')
         lgrs_book_dict['language_codes'] = get_bcp47_lang_codes(lgrs_book_dict.get('language') or '')
         lgrs_book_dict['cover_url_normalized'] = f"https://libgen.rs/covers/{lgrs_book_dict['coverurl']}" if len(lgrs_book_dict.get('coverurl') or '') > 0 else ''
@@ -788,12 +721,21 @@ def get_lgrsnf_book_dicts(session, key, values):
             edition_varia_normalized.append(lgrs_book_dict['year'].strip())
         lgrs_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
+        allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
+        allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsnf_book.Identifier.split(",") + lgrsnf_book.IdentifierWODash.split(","))
+        for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
+            if name in lgrs_book_dict:
+                allthethings.utils.add_identifier_unified(lgrs_book_dict, unified_name, lgrs_book_dict[name])
+        for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_CLASSIFICATIONS_MAPPING.items():
+            if name in lgrs_book_dict:
+                allthethings.utils.add_classification_unified(lgrs_book_dict, unified_name, lgrs_book_dict[name])
+
         lgrs_book_dict_comments = {
-            **COMMON_DICT_COMMENTS,
+            **allthethings.utils.COMMON_DICT_COMMENTS,
             "id": ("before", ["This is a Libgen.rs Non-Fiction record, augmented by Anna's Archive.",
                               "More details at https://annas-archive.org/datasets/libgen_rs",
                               "Most of these fields are explained at https://wiki.mhut.org/content:bibliographic_data",
-                              DICT_COMMENTS_NO_API_DISCLAIMER]),
+                              allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
         lgrs_book_dicts.append(add_comments_to_dict(lgrs_book_dict, lgrs_book_dict_comments))
 
@@ -823,8 +765,6 @@ def get_lgrsfic_book_dicts(session, key, values):
 
     for lgrsfic_book in lgrsfic_books:
         lgrs_book_dict = dict((k.lower(), v) for k,v in dict(lgrsfic_book).items())
-        lgrs_book_dict['sanitized_isbns'] = make_sanitized_isbns(lgrsfic_book.Identifier.split(","))
-        lgrs_book_dict['isbns_rich'] = make_isbns_rich(lgrs_book_dict['sanitized_isbns'])
         lgrs_book_dict['stripped_description'] = strip_description(lgrs_book_dict.get('descr') or '')
         lgrs_book_dict['language_codes'] = get_bcp47_lang_codes(lgrs_book_dict.get('language') or '')
         lgrs_book_dict['cover_url_normalized'] = f"https://libgen.rs/fictioncovers/{lgrs_book_dict['coverurl']}" if len(lgrs_book_dict.get('coverurl') or '') > 0 else ''
@@ -838,12 +778,22 @@ def get_lgrsfic_book_dicts(session, key, values):
             edition_varia_normalized.append(lgrs_book_dict['year'].strip())
         lgrs_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
+        allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
+        allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsfic_book.Identifier.split(","))
+        for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
+            if name in lgrs_book_dict:
+                allthethings.utils.add_identifier_unified(lgrs_book_dict, unified_name, lgrs_book_dict[name])
+        for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_CLASSIFICATIONS_MAPPING.items():
+            if name in lgrs_book_dict:
+                allthethings.utils.add_classification_unified(lgrs_book_dict, unified_name, lgrs_book_dict[name])
+
+
         lgrs_book_dict_comments = {
-            **COMMON_DICT_COMMENTS,
+            **allthethings.utils.COMMON_DICT_COMMENTS,
             "id": ("before", ["This is a Libgen.rs Fiction record, augmented by Anna's Archive.",
                               "More details at https://annas-archive.org/datasets/libgen_rs",
                               "Most of these fields are explained at https://wiki.mhut.org/content:bibliographic_data",
-                              DICT_COMMENTS_NO_API_DISCLAIMER]),
+                              allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
         lgrs_book_dicts.append(add_comments_to_dict(lgrs_book_dict, lgrs_book_dict_comments))
 
@@ -893,11 +843,11 @@ def lgli_map_descriptions(descriptions):
             descrs_mapped[normalized_base_field_meta] = {
                 "libgenli": add_comments_to_dict({k: v for k, v in descr['meta'].items() if v and v != "" and v != 0}, meta_dict_comments),
             }
-            if normalized_base_field in lgli_identifiers:
-                descrs_mapped[normalized_base_field_meta]["annas_archive"] = lgli_identifiers[normalized_base_field]
-            # lgli_identifiers and lgli_classifications are non-overlapping
-            if normalized_base_field in lgli_classifications:
-                descrs_mapped[normalized_base_field_meta]["annas_archive"] = lgli_classifications[normalized_base_field]
+            if normalized_base_field in allthethings.utils.LGLI_IDENTIFIERS:
+                descrs_mapped[normalized_base_field_meta]["annas_archive"] = allthethings.utils.LGLI_IDENTIFIERS[normalized_base_field]
+            # LGLI_IDENTIFIERS and LGLI_CLASSIFICATIONS are non-overlapping
+            if normalized_base_field in allthethings.utils.LGLI_CLASSIFICATIONS:
+                descrs_mapped[normalized_base_field_meta]["annas_archive"] = allthethings.utils.LGLI_CLASSIFICATIONS[normalized_base_field]
         if normalized_base_field in descrs_mapped:
             descrs_mapped[normalized_base_field].append(descr['value'])
         else:
@@ -923,131 +873,7 @@ def lgli_map_descriptions(descriptions):
 
     return descrs_mapped
 
-# Hardcoded from the `descr_elems` table.
-lgli_edition_type_mapping = {
-    "b":"book",
-    "ch":"book-chapter",
-    "bpart":"book-part",
-    "bsect":"book-section",
-    "bs":"book-series",
-    "bset":"book-set",
-    "btrack":"book-track",
-    "component":"component",
-    "dataset":"dataset",
-    "diss":"dissertation",
-    "j":"journal",
-    "a":"journal-article",
-    "ji":"journal-issue",
-    "jv":"journal-volume",
-    "mon":"monograph",
-    "oth":"other",
-    "peer-review":"peer-review",
-    "posted-content":"posted-content",
-    "proc":"proceedings",
-    "proca":"proceedings-article",
-    "ref":"reference-book",
-    "refent":"reference-entry",
-    "rep":"report",
-    "repser":"report-series",
-    "s":"standard",
-    "fnz":"Fanzine",
-    "m":"Magazine issue",
-    "col":"Collection",
-    "chb":"Chapbook",
-    "nonfict":"Nonfiction",
-    "omni":"Omnibus",
-    "nov":"Novel",
-    "ant":"Anthology",
-    "c":"Comics issue",
-}
-lgli_issue_other_fields = [
-    "issue_number_in_year",
-    "issue_year_number",
-    "issue_number",
-    "issue_volume",
-    "issue_split",
-    "issue_total_number",
-    "issue_first_page",
-    "issue_last_page",
-    "issue_year_end",
-    "issue_month_end",
-    "issue_day_end",
-    "issue_closed",
-]
-lgli_standard_info_fields = [
-    "standardtype",
-    "standardtype_standartnumber",
-    "standardtype_standartdate",
-    "standartnumber",
-    "standartstatus",
-    "standartstatus_additionalstandartstatus",
-]
-lgli_date_info_fields = [
-    "datepublication",
-    "dateintroduction",
-    "dateactualizationtext",
-    "dateregistration",
-    "dateactualizationdescr",
-    "dateexpiration",
-    "datelastedition",
-]
-# Hardcoded from the `libgenli_elem_descr` table.
-lgli_identifiers = {
-    "doi": { "label": "DOI", "url": "https://doi.org/%s", "description": "Digital Object Identifier"},
-    "issn": { "label": "ISSN", "url": "https://urn.issn.org/urn:issn:%s", "description": "International Standard Serial Number"},
-    "pii": { "label": "PII", "url": "", "description": "Publisher Item Identifier", "website": "https://en.wikipedia.org/wiki/Publisher_Item_Identifier"},
-    "pmcid": { "label": "PMC ID", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/%s/", "description": "PubMed Central ID"},
-    "pmid": { "label": "PMID", "url": "https://pubmed.ncbi.nlm.nih.gov/%s/", "description": "PubMed ID"},
-    "asin": { "label": "ASIN", "url": "https://www.amazon.com/dp/%s", "description": "Amazon Standard Identification Number"},
-    "bl": { "label": "BL", "url": "http://explore.bl.uk/primo_library/libweb/action/dlDisplay.do?vid=BLVU1&amp;docId=BLL01%s", "description": "The British Library"},
-    "bnb": { "label": "BNB", "url": "http://search.bl.uk/primo_library/libweb/action/search.do?fn=search&vl(freeText0)=%s", "description": "The British National Bibliography"},
-    "bnf": { "label": "BNF", "url": "http://catalogue.bnf.fr/ark:/12148/%s", "description": "Bibliotheque nationale de France"},
-    "copac": { "label": "COPAC", "url": "http://copac.jisc.ac.uk/id/%s?style=html", "description": "UK/Irish union catalog"},
-    "dnb": { "label": "DNB", "url": "http://d-nb.info/%s", "description": "Deutsche Nationalbibliothek"},
-    "fantlabeditionid": { "label": "FantLab Edition ID", "url": "https://fantlab.ru/edition%s", "description": "Лаболатория фантастики"},
-    "goodreads": { "label": "Goodreads", "url": "http://www.goodreads.com/book/show/%s", "description": "Goodreads social cataloging site"},
-    "jnbjpno": { "label": "JNB/JPNO", "url": "https://iss.ndl.go.jp/api/openurl?ndl_jpno=%s&amp;locale=en", "description": "The Japanese National Bibliography"},
-    "lccn": { "label": "LCCN", "url": "http://lccn.loc.gov/%s", "description": "Library of Congress Control Number"},
-    "ndl": { "label": "NDL", "url": "http://id.ndl.go.jp/bib/%s/eng", "description": "National Diet Library"},
-    "oclcworldcat": { "label": "OCLC/WorldCat", "url": "https://www.worldcat.org/oclc/%s", "description": "Online Computer Library Center"},
-    "openlibrary": { "label": "Open Library", "url": "https://openlibrary.org/books/%s", "description": ""},
-    "sfbg": { "label": "SFBG", "url": "http://www.sfbg.us/book/%s", "description": "Catalog of books published in Bulgaria"},
-    "bn": { "label": "BN", "url": "http://www.barnesandnoble.com/s/%s", "description": "Barnes and Noble"},
-    "ppn": { "label": "PPN", "url": "http://picarta.pica.nl/xslt/DB=3.9/XMLPRS=Y/PPN?PPN=%s", "description": "De Nederlandse Bibliografie Pica Productie Nummer"},
-    "audibleasin": { "label": "Audible-ASIN", "url": "https://www.audible.com/pd/%s", "description": "Audible ASIN"},
-    "ltf": { "label": "LTF", "url": "http://www.tercerafundacion.net/biblioteca/ver/libro/%s", "description": "La Tercera Fundaci&#243;n"},
-    "kbr": { "label": "KBR", "url": "https://opac.kbr.be/Library/doc/SYRACUSE/%s/", "description": "De Belgische Bibliografie/La Bibliographie de Belgique"},
-    "reginald1": { "label": "Reginald-1", "url": "", "description": "R. Reginald. Science Fiction and Fantasy Literature: A Checklist, 1700-1974, with Contemporary Science Fiction Authors II. Gale Research Co., 1979, 1141p."},
-    "reginald3": { "label": "Reginald-3", "url": "", "description": "Robert Reginald. Science Fiction and Fantasy Literature, 1975-1991: A Bibliography of Science Fiction, Fantasy, and Horror Fiction Books and Nonfiction Monographs. Gale Research Inc., 1992, 1512 p."},
-    "bleilergernsback": { "label": "Bleiler Gernsback", "url": "", "description": "Everett F. Bleiler, Richard Bleiler. Science-Fiction: The Gernsback Years. Kent State University Press, 1998, xxxii+730pp"},
-    "bleilersupernatural": { "label": "Bleiler Supernatural", "url": "", "description": "Everett F. Bleiler. The Guide to Supernatural Fiction. Kent State University Press, 1983, xii+723 p."},
-    "bleilerearlyyears": { "label": "Bleiler Early Years", "url": "", "description": "Richard Bleiler, Everett F. Bleiler. Science-Fiction: The Early Years. Kent State University Press, 1991, xxiii+998 p."},
-    "nilf": { "label": "NILF", "url": "http://nilf.it/%s/", "description": "Numero Identificativo della Letteratura Fantastica / Fantascienza"},
-    "noosfere": { "label": "NooSFere", "url": "https://www.noosfere.org/livres/niourf.asp?numlivre=%s", "description": "NooSFere"},
-    "sfleihbuch": { "label": "SF-Leihbuch", "url": "http://www.sf-leihbuch.de/index.cfm?bid=%s", "description": "Science Fiction-Leihbuch-Datenbank"},
-    "nla": { "label": "NLA", "url": "https://nla.gov.au/nla.cat-vn%s", "description": "National Library of Australia"},
-    "porbase": { "label": "PORBASE", "url": "http://id.bnportugal.gov.pt/bib/porbase/%s", "description": "Biblioteca Nacional de Portugal"},
-    "isfdbpubideditions": { "label": "ISFDB (editions)", "url": "http://www.isfdb.org/cgi-bin/pl.cgi?%s", "description": ""},
-    "googlebookid": { "label": "Google Books", "url": "https://books.google.com/books?id=%s", "description": ""},
-    "jstorstableid": { "label": "JSTOR Stable", "url": "https://www.jstor.org/stable/%s", "description": ""},
-    "crossrefbookid": { "label": "Crossref", "url": "https://data.crossref.org/depositorreport?pubid=%s", "description":""},
-    "librusecbookid": { "label": "Librusec", "url": "https://lib.rus.ec/b/%s", "description":""},
-    "flibustabookid": { "label": "Flibusta", "url": "https://flibusta.is/b/%s", "description":""},
-    "coollibbookid": { "label": "Coollib", "url": "https://coollib.ru/b/%s", "description":""},
-    "maximabookid": { "label": "Maxima", "url": "http://maxima-library.org/mob/b/%s", "description":""},
-    "litmirbookid": { "label": "Litmir", "url": "https://www.litmir.me/bd/?b=%s", "description":""},
-}
-# Hardcoded from the `libgenli_elem_descr` table.
-lgli_classifications = {
-    "classification": { "label": "Classification", "url": "", "description": "" },
-    "classificationokp": { "label": "OKP", "url": "https://classifikators.ru/okp/%s", "description": "" },
-    "classificationgostgroup": { "label": "GOST group", "url": "", "description": "", "website": "https://en.wikipedia.org/wiki/GOST" },
-    "classificationoks": { "label": "OKS", "url": "", "description": "" },
-    "libraryofcongressclassification": { "label": "LCC", "url": "", "description": "Library of Congress Classification", "website": "https://en.wikipedia.org/wiki/Library_of_Congress_Classification" },
-    "udc": { "label": "UDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=udc", "description": "Universal Decimal Classification", "website": "https://en.wikipedia.org/wiki/Universal_Decimal_Classification" },
-    "ddc": { "label": "DDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=ddc", "description": "Dewey Decimal", "website": "https://en.wikipedia.org/wiki/List_of_Dewey_Decimal_classes" },
-    "lbc": { "label": "LBC", "url": "https://libgen.li/biblioservice.php?value=%s&type=bbc", "description": "Library-Bibliographical Classification", "website": "https://www.isko.org/cyclo/lbc" },
-}
+
 
 # See https://libgen.li/community/app.php/article/new-database-structure-published-o%CF%80y6%D0%BB%D0%B8%C4%B8o%D0%B2a%D0%BDa-%D0%BDo%D0%B2a%D1%8F-c%D1%82py%C4%B8%D1%82ypa-6a%D0%B7%C6%85i-%D0%B4a%D0%BD%D0%BD%C6%85ix
 def get_lgli_file_dicts(session, key, values):
@@ -1102,13 +928,13 @@ def get_lgli_file_dicts(session, key, values):
             if edition_dict['cover_exists'] > 0:
                 edition_dict['cover_url_guess'] = f"https://libgen.li/editioncovers/{(edition_dict['e_id'] // 1000) * 1000}/{edition_dict['e_id']}.jpg"
 
-            issue_other_fields = dict((key, edition_dict[key]) for key in lgli_issue_other_fields if edition_dict[key] not in ['', '0', 0, None])
+            issue_other_fields = dict((key, edition_dict[key]) for key in allthethings.utils.LGLI_ISSUE_OTHER_FIELDS if edition_dict[key] not in ['', '0', 0, None])
             if len(issue_other_fields) > 0:
                 edition_dict['issue_other_fields_json'] = nice_json(issue_other_fields)
-            standard_info_fields = dict((key, edition_dict['descriptions_mapped'][key]) for key in lgli_standard_info_fields if edition_dict['descriptions_mapped'].get(key) not in ['', '0', 0, None])
+            standard_info_fields = dict((key, edition_dict['descriptions_mapped'][key]) for key in allthethings.utils.LGLI_STANDARD_INFO_FIELDS if edition_dict['descriptions_mapped'].get(key) not in ['', '0', 0, None])
             if len(standard_info_fields) > 0:
                 edition_dict['standard_info_fields_json'] = nice_json(standard_info_fields)
-            date_info_fields = dict((key, edition_dict['descriptions_mapped'][key]) for key in lgli_date_info_fields if edition_dict['descriptions_mapped'].get(key) not in ['', '0', 0, None])
+            date_info_fields = dict((key, edition_dict['descriptions_mapped'][key]) for key in allthethings.utils.LGLI_DATE_INFO_FIELDS if edition_dict['descriptions_mapped'].get(key) not in ['', '0', 0, None])
             if len(date_info_fields) > 0:
                 edition_dict['date_info_fields_json'] = nice_json(date_info_fields)
 
@@ -1167,31 +993,26 @@ def get_lgli_file_dicts(session, key, values):
             languageoriginal_codes = [get_bcp47_lang_codes(language_code) for language_code in (edition_dict['descriptions_mapped'].get('languageoriginal') or [])]
             edition_dict['languageoriginal_codes'] = combine_bcp47_lang_codes(languageoriginal_codes)
 
-            edition_dict['identifiers_normalized'] = []
-            if len(edition_dict['doi'].strip()) > 0:
-                edition_dict['identifiers_normalized'].append(('doi', edition_dict['doi'].strip()))
+            allthethings.utils.init_identifiers_and_classification_unified(edition_dict)
+            allthethings.utils.add_identifier_unified(edition_dict, 'doi', edition_dict['doi'])
             for key, values in edition_dict['descriptions_mapped'].items():
-                if key in lgli_identifiers:
+                if key in allthethings.utils.LGLI_IDENTIFIERS:
                     for value in values:
-                        edition_dict['identifiers_normalized'].append((key, value.strip()))
-
-            edition_dict['classifications_normalized'] = []
+                        allthethings.utils.add_identifier_unified(edition_dict, key, value)
             for key, values in edition_dict['descriptions_mapped'].items():
-                if key in lgli_classifications:
+                if key in allthethings.utils.LGLI_CLASSIFICATIONS:
                     for value in values:
-                        edition_dict['classifications_normalized'].append((key, value.strip()))
-
-            edition_dict['sanitized_isbns'] = make_sanitized_isbns(edition_dict['descriptions_mapped'].get('isbn') or [])
-            edition_dict['isbns_rich'] = make_isbns_rich(edition_dict['sanitized_isbns'])
+                        allthethings.utils.add_classification_unified(edition_dict, key, value)
+            allthethings.utils.add_isbns_unified(edition_dict, edition_dict['descriptions_mapped'].get('isbn') or [])
 
             edition_dict['stripped_description'] = ''
             if len(edition_dict['descriptions_mapped'].get('description') or []) > 0:
                 edition_dict['stripped_description'] = strip_description("\n\n".join(edition_dict['descriptions_mapped']['description']))
 
-            edition_dict['edition_type_full'] = lgli_edition_type_mapping[edition_dict['type']]
+            edition_dict['edition_type_full'] = allthethings.utils.LGLI_EDITION_TYPE_MAPPING[edition_dict['type']]
 
             edition_dict_comments = {
-                **COMMON_DICT_COMMENTS,
+                **allthethings.utils.COMMON_DICT_COMMENTS,
                 "editions": ("before", ["Files can be associated with zero or more editions."
                                         "Sometimes it corresponds to a particular physical version of a book (similar to ISBN records, or 'editions' in Open Library), but it may also represent a chapter in a periodical (more specific than a single book), or a collection of multiple books (more general than a single book). However, in practice, in most cases files only have a single edition.",
                                         "Note that while usually there is only one 'edition' associated with a file, it is common to have multiple files associated with an edition. For example, different people might have scanned a book."]),
@@ -1204,8 +1025,6 @@ def get_lgli_file_dicts(session, key, values):
                 "edition_varia_normalized": ("before", ["Anna's Archive version of the 'issue_series_title_normalized', 'issue_number', 'issue_year_number', 'issue_volume', 'issue_first_page', 'issue_last_page', 'series_name', 'edition', and 'date_normalized' fields; combining them into a single field for display and search."]),
                 "language_codes": ("before", ["Anna's Archive version of the 'language' field, where we attempted to parse them into BCP 47 tags."]),
                 "languageoriginal_codes": ("before", ["Same as 'language_codes' but for the 'languageoriginal' field, which contains the original language if the work is a translation."]),
-                "identifiers_normalized": ("before", ["Anna's Archive version of various identity-related fields, as well as the `doi` field."]),
-                "classifications_normalized": ("before", ["Anna's Archive version of various classification-related fields."]),
                 "edition_type_full": ("after", ["Anna's Archive expansion of the `type` field in the edition, based on the `descr_elems` table."]),
             }
             lgli_file_dict['editions'].append(add_comments_to_dict(edition_dict, edition_dict_comments))
@@ -1243,12 +1062,12 @@ def get_lgli_file_dicts(session, key, values):
                 lgli_file_dict['scimag_url_guess'] = 'https://doi.org/' + lgli_file_dict['scimag_url_guess']
 
         lgli_file_dict_comments = {
-            **COMMON_DICT_COMMENTS,
+            **allthethings.utils.COMMON_DICT_COMMENTS,
             "f_id": ("before", ["This is a Libgen.li file record, augmented by Anna's Archive.",
                      "More details at https://annas-archive.org/datasets/libgen_li",
                      "Most of these fields are explained at https://libgen.li/community/app.php/article/new-database-structure-published-o%CF%80y6%D0%BB%D0%B8%C4%B8o%D0%B2a%D0%BDa-%D0%BDo%D0%B2a%D1%8F-c%D1%82py%C4%B8%D1%82ypa-6a%D0%B7%C6%85i-%D0%B4a%D0%BD%D0%BD%C6%85ix",
                      "The source URL is https://libgen.li/file.php?id=<f_id>",
-                     DICT_COMMENTS_NO_API_DISCLAIMER]),
+                     allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "cover_url_guess": ("after", ["Anna's Archive best guess at the full URL to the cover image on libgen.li, for this specific file (not taking into account editions)."]),
             "cover_url_guess_normalized": ("after", ["Anna's Archive best guess at the full URL to the cover image on libgen.li, using the guess from the first edition that has a non-empty guess, if the file-specific guess is empty."]),
             "scimag_url_guess": ("after", ["Anna's Archive best guess at the canonical URL for journal articles."]),
@@ -1711,31 +1530,35 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         elif len(language_detection) > 0:
             md5_dict['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
 
- 
-
         md5_dict['file_unified_data']['sanitized_isbns'] = list(set([
-            *((md5_dict['lgrsnf_book'] or {}).get('sanitized_isbns') or []),
-            *((md5_dict['lgrsfic_book'] or {}).get('sanitized_isbns') or []),
-            *([isbn for edition in lgli_all_editions for isbn in (edition.get('sanitized_isbns') or [])]),
-            *((md5_dict['zlib_book'] or {}).get('sanitized_isbns') or []),
+            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('isbn13') or []),
+            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('isbn10') or []),
+            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('isbn13') or []),
+            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('isbn10') or []),
+            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('isbn13') or [])],
+            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('isbn10') or [])],
+            *(((md5_dict['zlib_book'] or {}).get('identifiers_unified') or {}).get('isbn13') or []),
+            *(((md5_dict['zlib_book'] or {}).get('identifiers_unified') or {}).get('isbn10') or []),
         ]))
         md5_dict['file_unified_data']['asin_multiple'] = list(set(item for item in [
-            (md5_dict['lgrsnf_book'] or {}).get('asin', '').strip(),
-            (md5_dict['lgrsfic_book'] or {}).get('asin', '').strip(),
-            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'asin'],
+            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('asin') or []),
+            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('asin') or []),
+            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('asin') or [])],
         ] if item != ''))
         md5_dict['file_unified_data']['googlebookid_multiple'] = list(set(item for item in [
-            (md5_dict['lgrsnf_book'] or {}).get('googlebookid', '').strip(),
-            (md5_dict['lgrsfic_book'] or {}).get('googlebookid', '').strip(),
-            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'googlebookid'],
+            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('googlebookid') or []),
+            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('googlebookid') or []),
+            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('googlebookid') or [])],
         ] if item != ''))
         md5_dict['file_unified_data']['openlibraryid_multiple'] = list(set(item for item in [
-            (md5_dict['lgrsnf_book'] or {}).get('openlibraryid', '').strip(),
-            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'openlibrary'],
+            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('openlibrary') or []),
+            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('openlibrary') or []),
+            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('openlibrary') or [])],
         ] if item != ''))
         md5_dict['file_unified_data']['doi_multiple'] = list(set(item for item in [
-            (md5_dict['lgrsnf_book'] or {}).get('doi', '').strip(),
-            *[item[1] for edition in lgli_all_editions for item in edition['identifiers_normalized'] if item[0] == 'doi'],
+            *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('doi') or []),
+            *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('doi') or []),
+            *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('doi') or [])],
         ] if item != ''))
 
         md5_dict['file_unified_data']['problems'] = []
@@ -1925,7 +1748,6 @@ def get_additional_for_md5_dict(md5_dict):
     filename_extension = md5_dict['file_unified_data'].get('extension_best', None) or ''    
     additional['filename'] = f"{filename_slug}--annas-archive.{filename_extension}"
 
-    additional['isbns_rich'] = make_isbns_rich(md5_dict['file_unified_data']['sanitized_isbns'])
     additional['download_urls'] = []
     additional['fast_partner_urls'] = []
     additional['slow_partner_urls'] = []
@@ -2038,7 +1860,7 @@ def md5_json(md5_input):
             md5_dict_comments = {
                 "md5": ("before", ["File from the combined collections of Anna's Archive.",
                                    "More details at https://annas-archive.org/datasets",
-                                   DICT_COMMENTS_NO_API_DISCLAIMER]),
+                                   allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
                 "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/nf/<id>.json"]),
                 "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/fic/<id>.json"]),
                 "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/file/<f_id>.json"]),

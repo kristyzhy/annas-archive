@@ -13,6 +13,8 @@ import base64
 import base58
 import hashlib
 import urllib.parse
+import orjson
+import isbnlib
 from flask_babel import gettext, get_babel, force_locale
 
 from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY
@@ -263,10 +265,272 @@ def make_anon_download_uri(limit_multiple, speed_kbps, path, filename):
     md5 = base64.urlsafe_b64encode(hashlib.md5(f"{limit_multiple_field}/{expiry}/{speed_kbps}/{urllib.parse.unquote(path)},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
     return f"d1/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/{md5}/{filename}"
 
+DICT_COMMENTS_NO_API_DISCLAIMER = "This page is *not* intended as an API. If you need programmatic access to this JSON, please set up your own instance. For more information, see: https://annas-archive.org/datasets and https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports"
 
+COMMON_DICT_COMMENTS = {
+    "identifier": ("after", ["Typically ISBN-10 or ISBN-13."]),
+    "identifierwodash": ("after", ["Same as 'identifier' but without dashes."]),
+    "locator": ("after", ["Original filename or path on the Library Genesis servers."]),
+    "stripped_description": ("before", ["Anna's Archive version of the 'descr' or 'description' field, with HTML tags removed or replaced with regular whitespace."]),
+    "language_codes": ("before", ["Anna's Archive version of the 'language' field, where we attempted to parse it into BCP 47 tags."]),
+    "cover_url_normalized": ("after", ["Anna's Archive version of the 'coverurl' field, where we attempted to turn it into a full URL."]),
+    "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', 'periodical', and 'year' fields; combining them into a single field for display and search."]),
+    "topic_descr": ("after", ["A description of the 'topic' field using a separate database table, which seems to have its roots in the Kolxo3 library that Libgen was originally based on.",
+                    "https://wiki.mhut.org/content:bibliographic_data says that this field will be deprecated in favor of Dewey Decimal."]),
+    "topic": ("after", ["See 'topic_descr' below."]),
+    "searchable": ("after", ["This seems to indicate that the book has been OCR'ed."]),
+    "generic": ("after", ["If this is set to a different md5, then that version is preferred over this one, and should be shown in search results instead."]),
+    "visible": ("after", ["If this is set, the book is in fact *not* visible in Libgen, and this string describes the reason."]),
+    "commentary": ("after", ["Comments left by the uploader, an admin, or an automated process."]),
+    "toc": ("before", ["Table of contents. May contain HTML."]),
+    "ddc": ("after", ["See also https://libgen.li/biblioservice.php?type=ddc"]),
+    "udc": ("after", ["See also https://libgen.li/biblioservice.php?type=udc"]),
+    "lbc": ("after", ["See also https://libgen.li/biblioservice.php?type=bbc and https://www.isko.org/cyclo/lbc"]),
+    "descriptions_mapped": ("before", ["Normalized fields by Anna's Archive, taken from the various `*_add_descr` Libgen.li tables, with comments taken from the `elem_descr` table which contain metadata about these fields, as well as sometimes our own metadata.",
+                                       "The names themselves are taken from `name_en` in the corresponding `elem_descr` entry (lowercased, whitespace removed), with `name_add{1,2,3}_en` to create the compound keys, such as `isbn_isbnnotes`."]),
+    "identifiers_unified": ("before", ["Anna's Archive version of various identity-related fields."]),
+    "classifications_unified": ("before", ["Anna's Archive version of various classification-related fields."]),
+}
 
+# Hardcoded from the `descr_elems` table.
+LGLI_EDITION_TYPE_MAPPING = {
+    "b":"book",
+    "ch":"book-chapter",
+    "bpart":"book-part",
+    "bsect":"book-section",
+    "bs":"book-series",
+    "bset":"book-set",
+    "btrack":"book-track",
+    "component":"component",
+    "dataset":"dataset",
+    "diss":"dissertation",
+    "j":"journal",
+    "a":"journal-article",
+    "ji":"journal-issue",
+    "jv":"journal-volume",
+    "mon":"monograph",
+    "oth":"other",
+    "peer-review":"peer-review",
+    "posted-content":"posted-content",
+    "proc":"proceedings",
+    "proca":"proceedings-article",
+    "ref":"reference-book",
+    "refent":"reference-entry",
+    "rep":"report",
+    "repser":"report-series",
+    "s":"standard",
+    "fnz":"Fanzine",
+    "m":"Magazine issue",
+    "col":"Collection",
+    "chb":"Chapbook",
+    "nonfict":"Nonfiction",
+    "omni":"Omnibus",
+    "nov":"Novel",
+    "ant":"Anthology",
+    "c":"Comics issue",
+}
+LGLI_ISSUE_OTHER_FIELDS = [
+    "issue_number_in_year",
+    "issue_year_number",
+    "issue_number",
+    "issue_volume",
+    "issue_split",
+    "issue_total_number",
+    "issue_first_page",
+    "issue_last_page",
+    "issue_year_end",
+    "issue_month_end",
+    "issue_day_end",
+    "issue_closed",
+]
+LGLI_STANDARD_INFO_FIELDS = [
+    "standardtype",
+    "standardtype_standartnumber",
+    "standardtype_standartdate",
+    "standartnumber",
+    "standartstatus",
+    "standartstatus_additionalstandartstatus",
+]
+LGLI_DATE_INFO_FIELDS = [
+    "datepublication",
+    "dateintroduction",
+    "dateactualizationtext",
+    "dateregistration",
+    "dateactualizationdescr",
+    "dateexpiration",
+    "datelastedition",
+]
+# Hardcoded from the `libgenli_elem_descr` table.
+LGLI_IDENTIFIERS = {
+    "asin": { "label": "ASIN", "url": "https://www.amazon.com/dp/%s", "description": "Amazon Standard Identification Number"},
+    "audibleasin": { "label": "Audible-ASIN", "url": "https://www.audible.com/pd/%s", "description": "Audible ASIN"},
+    "bl": { "label": "BL", "url": "http://explore.bl.uk/primo_library/libweb/action/dlDisplay.do?vid=BLVU1&amp;docId=BLL01%s", "description": "The British Library"},
+    "bleilerearlyyears": { "label": "Bleiler Early Years", "url": "", "description": "Richard Bleiler, Everett F. Bleiler. Science-Fiction: The Early Years. Kent State University Press, 1991, xxiii+998 p."},
+    "bleilergernsback": { "label": "Bleiler Gernsback", "url": "", "description": "Everett F. Bleiler, Richard Bleiler. Science-Fiction: The Gernsback Years. Kent State University Press, 1998, xxxii+730pp"},
+    "bleilersupernatural": { "label": "Bleiler Supernatural", "url": "", "description": "Everett F. Bleiler. The Guide to Supernatural Fiction. Kent State University Press, 1983, xii+723 p."},
+    "bn": { "label": "BN", "url": "http://www.barnesandnoble.com/s/%s", "description": "Barnes and Noble"},
+    "bnb": { "label": "BNB", "url": "http://search.bl.uk/primo_library/libweb/action/search.do?fn=search&vl(freeText0)=%s", "description": "The British National Bibliography"},
+    "bnf": { "label": "BNF", "url": "http://catalogue.bnf.fr/ark:/12148/%s", "description": "Bibliotheque nationale de France"},
+    "coollibbookid": { "label": "Coollib", "url": "https://coollib.ru/b/%s", "description":""},
+    "copac": { "label": "COPAC", "url": "http://copac.jisc.ac.uk/id/%s?style=html", "description": "UK/Irish union catalog"},
+    "crossrefbookid": { "label": "Crossref", "url": "https://data.crossref.org/depositorreport?pubid=%s", "description":""},
+    "dnb": { "label": "DNB", "url": "http://d-nb.info/%s", "description": "Deutsche Nationalbibliothek"},
+    "fantlabeditionid": { "label": "FantLab Edition ID", "url": "https://fantlab.ru/edition%s", "description": "Лаболатория фантастики"},
+    "flibustabookid": { "label": "Flibusta", "url": "https://flibusta.is/b/%s", "description":""},
+    "goodreads": { "label": "Goodreads", "url": "http://www.goodreads.com/book/show/%s", "description": "Goodreads social cataloging site"},
+    "googlebookid": { "label": "Google Books", "url": "https://books.google.com/books?id=%s", "description": ""},
+    "isfdbpubideditions": { "label": "ISFDB (editions)", "url": "http://www.isfdb.org/cgi-bin/pl.cgi?%s", "description": ""},
+    "issn": { "label": "ISSN", "url": "https://urn.issn.org/urn:issn:%s", "description": "International Standard Serial Number"},
+    "jnbjpno": { "label": "JNB/JPNO", "url": "https://iss.ndl.go.jp/api/openurl?ndl_jpno=%s&amp;locale=en", "description": "The Japanese National Bibliography"},
+    "jstorstableid": { "label": "JSTOR Stable", "url": "https://www.jstor.org/stable/%s", "description": ""},
+    "kbr": { "label": "KBR", "url": "https://opac.kbr.be/Library/doc/SYRACUSE/%s/", "description": "De Belgische Bibliografie/La Bibliographie de Belgique"},
+    "lccn": { "label": "LCCN", "url": "http://lccn.loc.gov/%s", "description": "Library of Congress Control Number"},
+    "librusecbookid": { "label": "Librusec", "url": "https://lib.rus.ec/b/%s", "description":""},
+    "litmirbookid": { "label": "Litmir", "url": "https://www.litmir.me/bd/?b=%s", "description":""},
+    "ltf": { "label": "LTF", "url": "http://www.tercerafundacion.net/biblioteca/ver/libro/%s", "description": "La Tercera Fundaci&#243;n"},
+    "maximabookid": { "label": "Maxima", "url": "http://maxima-library.org/mob/b/%s", "description":""},
+    "ndl": { "label": "NDL", "url": "http://id.ndl.go.jp/bib/%s/eng", "description": "National Diet Library"},
+    "nilf": { "label": "NILF", "url": "http://nilf.it/%s/", "description": "Numero Identificativo della Letteratura Fantastica / Fantascienza"},
+    "nla": { "label": "NLA", "url": "https://nla.gov.au/nla.cat-vn%s", "description": "National Library of Australia"},
+    "noosfere": { "label": "NooSFere", "url": "https://www.noosfere.org/livres/niourf.asp?numlivre=%s", "description": "NooSFere"},
+    "oclcworldcat": { "label": "OCLC/WorldCat", "url": "https://www.worldcat.org/oclc/%s", "description": "Online Computer Library Center"},
+    "openlibrary": { "label": "Open Library", "url": "https://openlibrary.org/books/%s", "description": ""},
+    "pii": { "label": "PII", "url": "", "description": "Publisher Item Identifier", "website": "https://en.wikipedia.org/wiki/Publisher_Item_Identifier"},
+    "pmcid": { "label": "PMC ID", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/%s/", "description": "PubMed Central ID"},
+    "pmid": { "label": "PMID", "url": "https://pubmed.ncbi.nlm.nih.gov/%s/", "description": "PubMed ID"},
+    "porbase": { "label": "PORBASE", "url": "http://id.bnportugal.gov.pt/bib/porbase/%s", "description": "Biblioteca Nacional de Portugal"},
+    "ppn": { "label": "PPN", "url": "http://picarta.pica.nl/xslt/DB=3.9/XMLPRS=Y/PPN?PPN=%s", "description": "De Nederlandse Bibliografie Pica Productie Nummer"},
+    "reginald1": { "label": "Reginald-1", "url": "", "description": "R. Reginald. Science Fiction and Fantasy Literature: A Checklist, 1700-1974, with Contemporary Science Fiction Authors II. Gale Research Co., 1979, 1141p."},
+    "reginald3": { "label": "Reginald-3", "url": "", "description": "Robert Reginald. Science Fiction and Fantasy Literature, 1975-1991: A Bibliography of Science Fiction, Fantasy, and Horror Fiction Books and Nonfiction Monographs. Gale Research Inc., 1992, 1512 p."},
+    "sfbg": { "label": "SFBG", "url": "http://www.sfbg.us/book/%s", "description": "Catalog of books published in Bulgaria"},
+    "sfleihbuch": { "label": "SF-Leihbuch", "url": "http://www.sf-leihbuch.de/index.cfm?bid=%s", "description": "Science Fiction-Leihbuch-Datenbank"},
+}
+# Hardcoded from the `libgenli_elem_descr` table.
+LGLI_CLASSIFICATIONS = {
+    "classification": { "label": "Classification", "url": "", "description": "" },
+    "classificationokp": { "label": "OKP", "url": "https://classifikators.ru/okp/%s", "description": "" },
+    "classificationgostgroup": { "label": "GOST group", "url": "", "description": "", "website": "https://en.wikipedia.org/wiki/GOST" },
+    "classificationoks": { "label": "OKS", "url": "", "description": "" },
+    "libraryofcongressclassification": { "label": "LCC", "url": "", "description": "Library of Congress Classification", "website": "https://en.wikipedia.org/wiki/Library_of_Congress_Classification" },
+    "udc": { "label": "UDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=udc", "description": "Universal Decimal Classification", "website": "https://en.wikipedia.org/wiki/Universal_Decimal_Classification" },
+    "ddc": { "label": "DDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=ddc", "description": "Dewey Decimal", "website": "https://en.wikipedia.org/wiki/List_of_Dewey_Decimal_classes" },
+    "lbc": { "label": "LBC", "url": "https://libgen.li/biblioservice.php?value=%s&type=bbc", "description": "Library-Bibliographical Classification", "website": "https://www.isko.org/cyclo/lbc" },
+}
 
+LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING = { 
+    'asin': 'asin', 
+    'googlebookid': 'googlebookid', 
+    'openlibraryid': 'openlibrary', 
+    'doi': 'doi',
+    'issn': 'issn',
+}
+LGRS_TO_UNIFIED_CLASSIFICATIONS_MAPPING = { 
+    'udc': 'udc',
+    'ddc': 'ddc',
+    'lbc': 'lbc',
+    'lcc': 'libraryofcongressclassification', 
+}
 
+UNIFIED_IDENTIFIERS = {
+    "isbn10": { "label": "ISBN-10", "url": "/isbn/%s", "description": ""},
+    "isbn13": { "label": "ISBN-13", "url": "/isbn/%s", "description": ""},
+    "doi": { "label": "DOI", "url": "https://doi.org/%s", "description": "Digital Object Identifier"},
+    **LGLI_IDENTIFIERS,
+    # Plus more added below!
+}
+UNIFIED_CLASSIFICATIONS = {
+    **LGLI_CLASSIFICATIONS,
+    # Plus more added below!
+}
 
+OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
+    'amazon': 'asin',
+    'british_library': 'bl',
+    'british_national_bibliography': 'bnb',
+    'google': 'googlebookid',
+    'isbn_10': 'isbn10',
+    'isbn_13': 'isbn13',
+    'national_diet_library,_japan': 'ndl',
+    'oclc_numbers': 'oclcworldcat',
+    # Plus more added below!
+}
+OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
+    'dewey_decimal_class': 'ddc',
+    'dewey_number': 'ddc',
+    'lc_classifications': 'libraryofcongressclassification'
+    # Plus more added below!
+}
+# Retrieved from https://openlibrary.org/config/edition.json on 2023-07-02
+ol_edition_json = orjson.loads(open(os.path.dirname(os.path.realpath(__file__)) + '/page/ol_edition.json').read())
+for identifier in ol_edition_json['identifiers']:
+    if 'url' in identifier:
+        identifier['url'] = identifier['url'].replace('@@@', '%s')
+    unified_name = identifier['name']
+    if unified_name in OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING:
+        unified_name = OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[unified_name]
+    else:
+        OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[unified_name] = unified_name
+    if unified_name not in UNIFIED_IDENTIFIERS:
+        UNIFIED_IDENTIFIERS[unified_name] = identifier
+for classification in ol_edition_json['classifications']:
+    if 'website' in classification:
+        classification['website'] = classification['website'].split(' ')[0] # Sometimes there's a suffix in text..
+    unified_name = classification['name']
+    if unified_name in OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
+        unified_name = OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[unified_name]
+    else:
+        OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[unified_name] = unified_name
+    if unified_name not in UNIFIED_CLASSIFICATIONS:
+        UNIFIED_CLASSIFICATIONS[unified_name] = classification
 
+def init_identifiers_and_classification_unified(output_dict):
+    if 'identifiers_unified' not in output_dict:
+        output_dict['identifiers_unified'] = {}
+    if 'classifications_unified' not in output_dict:
+        output_dict['classifications_unified'] = {}
 
+def add_identifier_unified(output_dict, name, value):
+    name = name.strip()
+    value = value.strip()
+    if len(value) == 0:
+        return
+    unified_name = OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING.get(name, name)
+    if unified_name in UNIFIED_IDENTIFIERS:
+        if unified_name not in output_dict['identifiers_unified']:
+            output_dict['identifiers_unified'][unified_name] = []
+        output_dict['identifiers_unified'][unified_name].append(value.strip())
+    else:
+        raise Exception(f"Unknown identifier in add_identifier_unified: {name}")
+
+def add_classification_unified(output_dict, name, value):
+    name = name.strip()
+    value = value.strip()
+    if len(value) == 0:
+        return
+    unified_name = OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING.get(name, name)
+    if unified_name in UNIFIED_CLASSIFICATIONS:
+        if unified_name not in output_dict['classifications_unified']:
+            output_dict['classifications_unified'][unified_name] = []
+        output_dict['classifications_unified'][unified_name].append(value.strip())
+    else:
+        raise Exception(f"Unknown classification in add_classification_unified: {name}")
+
+def add_isbns_unified(output_dict, potential_isbns):
+    new_isbns = set()
+    for potential_isbn in potential_isbns:
+        isbn = potential_isbn.replace('-', '').replace(' ', '')
+        if isbnlib.is_isbn10(isbn):
+            new_isbns.add(isbn)
+            new_isbns.add(isbnlib.to_isbn13(isbn))
+        if isbnlib.is_isbn13(isbn):
+            new_isbns.add(isbn)
+            isbn10 = isbnlib.to_isbn10(isbn)
+            if isbnlib.is_isbn10(isbn10 or ''):
+                new_isbns.add(isbn10)
+    for isbn in new_isbns:
+        if len(isbn) == 13:
+            add_identifier_unified(output_dict, 'isbn13', isbn)
+        elif len(isbn) == 10:
+            add_identifier_unified(output_dict, 'isbn10', isbn)
+        else:
+            raise Exception("Invalid ISBN")
