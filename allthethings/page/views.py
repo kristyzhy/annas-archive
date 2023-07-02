@@ -1726,14 +1726,18 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             md5_dict['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
 
         md5_dict['search_only_fields'] = {}
-        md5_dict['search_only_fields']['search_text'] = "\n".join([
+        md5_dict['search_only_fields']['search_text'] = "\n".join(list(set([
             md5_dict['file_unified_data']['title_best'][:1000],
+            md5_dict['file_unified_data']['title_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
             md5_dict['file_unified_data']['author_best'][:1000],
+            md5_dict['file_unified_data']['author_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
             md5_dict['file_unified_data']['edition_varia_best'][:1000],
+            md5_dict['file_unified_data']['edition_varia_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
             md5_dict['file_unified_data']['publisher_best'][:1000],
+            md5_dict['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
             md5_dict['file_unified_data']['original_filename_best_name_only'][:1000],
             md5_dict['file_unified_data']['extension_best'],
-        ]).replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' ')
+        ])))
 
         # At the very end
         md5_dict['search_only_fields']['score_base'] = float(md5_dict_score_base(md5_dict))
