@@ -444,19 +444,27 @@ def get_ia_record_dicts(session, key, values):
 
     ia_entries = []
     try:
-        ia_entries = session.scalars(select(AaIa202306Metadata).where(getattr(AaIa202306Metadata, key).in_(values))).unique().all()
-        print('ia_entries', ia_entries)
+        base_query = select(AaIa202306Metadata, AaIa202306Files).join(AaIa202306Files, AaIa202306Files.ia_id == AaIa202306Metadata.ia_id, isouter=True)
+        if key.lower() in ['md5']:
+            ia_entries = session.execute(
+                base_query.where(getattr(AaIa202306Metadata, 'libgen_md5').in_(values) | getattr(AaIa202306Files, 'md5').in_(values))
+            ).unique().all()
+        else:
+            ia_entries = session.execute(
+                base_query.where(getattr(AaIa202306Metadata, key).in_(values))
+            ).unique().all()
     except Exception as err:
         print(f"Error in get_ia_dicts when querying {key}; {values}")
         print(repr(err))
         traceback.print_tb(err.__traceback__)
 
     ia_record_dicts = []
-    for ia_record in ia_entries:
+    for ia_record, ia_file in ia_entries:
         ia_record_dict = ia_record.to_dict()
         ia_record_dict['aa_ia_file'] = None
-        # ia_record_dict['aa_ia_file']['extension'] = 'pdf'
-        # ia_record_dict['aa_ia_file']['filesize'] = 0
+        if ia_file and ia_record_dict['libgen_md5'] is None: # If there's a Libgen MD5, then we do NOT serve our IA file.
+            ia_record_dict['aa_ia_file'] = ia_file.to_dict()
+            ia_record_dict['aa_ia_file']['extension'] = 'pdf'
         ia_record_dict['json'] = orjson.loads(ia_record_dict['json'])
 
         ia_record_dict['aa_ia_derived'] = {}
@@ -534,6 +542,7 @@ def get_ia_record_dicts(session, key, values):
                               "More details at https://annas-archive.org/datasets/ia",
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "libgen_md5": ("after", "If the metadata refers to a Libgen MD5 from which IA imported, it will be filled in here."),
             "has_thumb": ("after", "Whether Anna's Archive has stored a thumbnail (scraped from __ia_thumb.jpg)."),
             "json": ("before", "The original metadata JSON, scraped from https://archive.org/metadata/<ia_id>.",
                                "We did strip out the full file list, since it's a bit long, and replaced it with a shorter `aa_shorter_files`."),
@@ -1355,6 +1364,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
     zlib_book_dicts1 = dict((item['md5_reported'].lower(), item) for item in get_zlib_book_dicts(session, "md5_reported", canonical_md5s))
     zlib_book_dicts2 = dict((item['md5'].lower(), item) for item in get_zlib_book_dicts(session, "md5", canonical_md5s))
     aa_lgli_comics_2022_08_file_dicts = dict((item['md5'].lower(), item) for item in get_aa_lgli_comics_2022_08_file_dicts(session, "md5", canonical_md5s))
+    ia_record_dicts = dict((item['aa_ia_file']['md5'].lower(), item) for item in get_ia_record_dicts(session, "md5", canonical_md5s) if 'aa_ia_file' in item)
 
     md5_dicts = []
     for canonical_md5 in canonical_md5s:
@@ -1367,6 +1377,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             md5_dict['lgli_file']['editions'] = md5_dict['lgli_file']['editions'][0:5]
         md5_dict['zlib_book'] = zlib_book_dicts1.get(canonical_md5) or zlib_book_dicts2.get(canonical_md5)
         md5_dict['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(canonical_md5)
+        md5_dict['ia_record'] = ia_record_dicts.get(canonical_md5)
 
         md5_dict['ipfs_infos'] = []
         if md5_dict['lgrsnf_book'] and len(md5_dict['lgrsnf_book'].get('ipfs_cid') or '') > 0:
@@ -1382,15 +1393,17 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgli_file'] or {}).get('locator') or '').strip(),
             *[filename.strip() for filename in (((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename') or [])],
             ((md5_dict['lgli_file'] or {}).get('scimag_archive_path') or '').strip(),
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('original_filename') or '').strip(),
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         md5_dict['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
         md5_dict['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != md5_dict['file_unified_data']['original_filename_best']]
         md5_dict['file_unified_data']['original_filename_best_name_only'] =  re.split(r'[\\/]', md5_dict['file_unified_data']['original_filename_best'])[-1]
 
-        # Select the cover_url_normalized in order of what is likely to be the best one: zlib, lgrsnf, lgrsfic, lgli.
+        # Select the cover_url_normalized in order of what is likely to be the best one: ia, zlib, lgrsnf, lgrsfic, lgli.
         zlib_cover = ((md5_dict['zlib_book'] or {}).get('cover_url') or '').strip()
         cover_url_multiple = [
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('cover_url') or '').strip(),
             # Put the zlib_cover at the beginning if it starts with the right prefix.
             # zlib_cover.strip() if zlib_cover.startswith('https://covers.zlibcdn2.com') else '',
             ((md5_dict['lgrsnf_book'] or {}).get('cover_url_normalized') or '').strip(),
@@ -1406,6 +1419,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != md5_dict['file_unified_data']['cover_url_best']]
 
         extension_multiple = [
+            (((md5_dict['ia_record'] or {}).get('aa_ia_file') or {}).get('extension') or '').strip(),
             ((md5_dict['zlib_book'] or {}).get('extension') or '').strip().lower(),
             ((md5_dict['lgrsnf_book'] or {}).get('extension') or '').strip().lower(),
             ((md5_dict['lgrsfic_book'] or {}).get('extension') or '').strip().lower(),
@@ -1420,6 +1434,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         md5_dict['file_unified_data']['extension_additional'] = [s for s in dict.fromkeys(filter(len, extension_multiple)) if s != md5_dict['file_unified_data']['extension_best']]
 
         filesize_multiple = [
+            ((md5_dict['ia_record'] or {}).get('aa_ia_file') or {}).get('filesize') or 0,
             (md5_dict['zlib_book'] or {}).get('filesize_reported') or 0,
             (md5_dict['zlib_book'] or {}).get('filesize') or 0,
             (md5_dict['lgrsnf_book'] or {}).get('filesize') or 0,
@@ -1441,6 +1456,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsfic_book'] or {}).get('title') or '').strip(),
             ((lgli_single_edition or {}).get('title') or '').strip(),
             ((md5_dict['zlib_book'] or {}).get('title') or '').strip(),
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('title') or '').strip(),
         ]
         md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
@@ -1455,6 +1471,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             (md5_dict['lgrsfic_book'] or {}).get('author', '').strip(),
             (lgli_single_edition or {}).get('authors_normalized', '').strip(),
             (md5_dict['zlib_book'] or {}).get('author', '').strip(),
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('author') or '').strip(),
         ]
         md5_dict['file_unified_data']['author_best'] = max(author_multiple, key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
@@ -1467,6 +1484,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsfic_book'] or {}).get('publisher') or '').strip(),
             ((lgli_single_edition or {}).get('publisher_normalized') or '').strip(),
             ((md5_dict['zlib_book'] or {}).get('publisher') or '').strip(),
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('publisher') or '').strip(),
         ]
         md5_dict['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
@@ -1479,6 +1497,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsfic_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((lgli_single_edition or {}).get('edition_varia_normalized') or '').strip(),
             ((md5_dict['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('edition_varia_normalized') or '').strip(),
         ]
         md5_dict['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
@@ -1492,6 +1511,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((lgli_single_edition or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('issue_year_number') or '').strip(),
             ((md5_dict['zlib_book'] or {}).get('year') or '').strip(),
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('year') or '').strip(),
         ]
         # Filter out years in for which we surely don't have books (famous last words..)
         year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple_raw]
@@ -1515,6 +1535,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((lgli_single_edition or {}).get('editions_add_info') or '').strip(),
             ((lgli_single_edition or {}).get('commentary') or '').strip(),
             *[note.strip() for note in (((lgli_single_edition or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.notes') or [])],
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('combined_comments') or '').strip(),
         ]
         md5_dict['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
         comments_multiple += [(edition.get('comments_normalized') or '').strip() for edition in lgli_all_editions]
@@ -1532,6 +1553,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsfic_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((lgli_single_edition or {}).get('stripped_description') or '').strip()[0:5000],
             ((md5_dict['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000],
         ]
         md5_dict['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
@@ -1544,6 +1566,7 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             ((md5_dict['lgrsfic_book'] or {}).get('language_codes') or []),
             ((lgli_single_edition or {}).get('language_codes') or []),
             ((md5_dict['zlib_book'] or {}).get('language_codes') or []),
+            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('language_codes') or []),
         ])
         if len(md5_dict['file_unified_data']['language_codes']) == 0:
             md5_dict['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
@@ -1579,26 +1602,32 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('isbn10') or [])],
             *(((md5_dict['zlib_book'] or {}).get('identifiers_unified') or {}).get('isbn13') or []),
             *(((md5_dict['zlib_book'] or {}).get('identifiers_unified') or {}).get('isbn10') or []),
+            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('isbn13') or []),
+            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('isbn10') or []),
         ]))
         md5_dict['file_unified_data']['asin_multiple'] = list(set(item for item in [
             *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('asin') or []),
             *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('asin') or []),
             *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('asin') or [])],
+            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('asin') or []),
         ] if item != ''))
         md5_dict['file_unified_data']['googlebookid_multiple'] = list(set(item for item in [
             *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('googlebookid') or []),
             *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('googlebookid') or []),
             *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('googlebookid') or [])],
+            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('googlebookid') or []),
         ] if item != ''))
         md5_dict['file_unified_data']['openlibraryid_multiple'] = list(set(item for item in [
             *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('openlibrary') or []),
             *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('openlibrary') or []),
             *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('openlibrary') or [])],
+            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('openlibrary') or []),
         ] if item != ''))
         md5_dict['file_unified_data']['doi_multiple'] = list(set(item for item in [
             *(((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}).get('doi') or []),
             *(((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}).get('doi') or []),
             *[item for edition in lgli_all_editions for item in (edition['identifiers_unified'].get('doi') or [])],
+            *((((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}).get('doi') or []),
         ] if item != ''))
 
         md5_dict['file_unified_data']['problems'] = []
@@ -1633,7 +1662,9 @@ def get_md5_dicts_mysql(session, canonical_md5s):
             md5_dict['file_unified_data']['content_type'] = 'book_nonfiction'
         if (not md5_dict['lgrsnf_book']) and md5_dict['lgrsfic_book']:
             md5_dict['file_unified_data']['content_type'] = 'book_fiction'
-
+        ia_content_type = (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('content_type') or 'book_unknown')
+        if (md5_dict['file_unified_data']['content_type'] == 'book_unknown') and (ia_content_type != 'book_unknown'):
+            md5_dict['file_unified_data']['content_type'] = ia_content_type
 
         if md5_dict['lgrsnf_book'] is not None:
             md5_dict['lgrsnf_book'] = {
@@ -1674,6 +1705,17 @@ def get_md5_dicts_mysql(session, canonical_md5s):
                 'path': md5_dict['aa_lgli_comics_2022_08_file']['path'],
                 'md5': md5_dict['aa_lgli_comics_2022_08_file']['md5'],
                 'filesize': md5_dict['aa_lgli_comics_2022_08_file']['filesize'],
+            }
+        if md5_dict['ia_record'] is not None:
+            md5_dict ['ia_record'] = {
+                'ia_id': md5_dict['ia_record']['ia_id'],
+                'has_thumb': md5_dict['ia_record']['has_thumb'],
+                'aa_ia_file': {
+                    'type': md5_dict['ia_record']['aa_ia_file']['type'],
+                    'filesize': md5_dict['ia_record']['aa_ia_file']['filesize'],
+                    'extension': md5_dict['ia_record']['aa_ia_file']['extension'],
+                    'ia_id': md5_dict['ia_record']['aa_ia_file']['ia_id'],
+                },
             }
 
         # Even though `additional` is only for computing real-time stuff,

@@ -135,6 +135,7 @@ def mysql_build_computed_all_md5s_internal():
         INSERT IGNORE INTO computed_all_md5s SELECT LOWER(md5_reported) FROM zlib_book WHERE md5_reported != '';
         INSERT IGNORE INTO computed_all_md5s SELECT LOWER(MD5) FROM libgenrs_updated;
         INSERT IGNORE INTO computed_all_md5s SELECT LOWER(MD5) FROM libgenrs_fiction;
+        INSERT IGNORE INTO computed_all_md5s SELECT LOWER(MD5) FROM aa_ia_2023_06_files LEFT JOIN aa_ia_2023_06_metadata USING (ia_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NULL;
     """
     cursor.execute(sql)
     cursor.close()
@@ -202,6 +203,20 @@ def elastic_reset_md5_dicts_internal():
                         "path": { "type": "keyword", "index": False, "doc_values": False },
                         "md5": { "type": "keyword", "index": False, "doc_values": False },
                         "filesize": { "type": "long", "index": False, "doc_values": False },
+                    },
+                },
+                "ia_record": {
+                    "properties": {
+                        "ia_id": { "type": "keyword", "index": False, "doc_values": False },
+                        "has_thumb": { "type": "integer", "index": False, "doc_values": False },
+                        "aa_ia_file": {
+                            "properties": {
+                                "type": { "type": "keyword", "index": False, "doc_values": False },
+                                "filesize": { "type": "long", "index": False, "doc_values": False },
+                                "extension": { "type": "keyword", "index": False, "doc_values": False },
+                                "ia_id": { "type": "keyword", "index": False, "doc_values": False },
+                            },
+                        },
                     },
                 },
                 "ipfs_infos": {
