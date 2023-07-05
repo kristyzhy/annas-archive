@@ -171,6 +171,8 @@ def elastic_reset_aarecords_internal():
                         "search_doi": { "type": "keyword", "index": True, "doc_values": True },
                         "search_text": { "type": "text", "index": True, "analyzer": "icu_analyzer" },
                         "search_score_base": { "type": "float", "index": False, "doc_values": True },
+                        "search_access_types": { "type": "keyword", "index": True, "doc_values": True },
+                        "search_record_sources": { "type": "keyword", "index": True, "doc_values": True },
                     },
                 },
             },

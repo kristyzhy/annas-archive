@@ -1697,7 +1697,16 @@ def get_aarecords_mysql(session, canonical_md5s):
                 aarecord['file_unified_data']['extension_best'],
                 *[str(item) for items in aarecord['file_unified_data']['identifiers_unified'].values() for item in items],
                 *[str(item) for items in aarecord['file_unified_data']['classifications_unified'].values() for item in items],
-            ])))
+            ]))),
+            'search_access_types': ['external_download', *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else [])],
+            'search_record_sources': list(set([
+                *(['lgrs'] if aarecord['lgrsnf_book'] is not None else []),
+                *(['lgrs'] if aarecord['lgrsfic_book'] is not None else []),
+                *(['lgli'] if aarecord['lgli_file'] is not None else []),
+                *(['zlib'] if aarecord['zlib_book'] is not None else []),
+                *(['lgli'] if aarecord['aa_lgli_comics_2022_08_file'] is not None else []),
+                *(['ia']   if aarecord['ia_record'] is not None else []),
+            ])),
         }
 
         # At the very end
@@ -1917,7 +1926,7 @@ def md5_json(md5_input):
                                                            "No additional source data beyond what is shown here."]),
                 "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
                 "ipfs_infos": ("before", ["Data about the IPFS files."]),
-                "search_only_fields": ("before", ["Data that is not shown to the user, but used during searching."]),
+                "search_only_fields": ("before", ["Data that is used during searching."]),
                 "additional": ("before", ["Data that is derived at a late stage, and not stored in the search index."]),
             }
             aarecord = add_comments_to_dict(aarecords[0], aarecord_comments)
