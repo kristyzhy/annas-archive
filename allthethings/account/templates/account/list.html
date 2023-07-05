@@ -22,8 +22,8 @@
     {% if aarecords | length == 0 %}
       <p>{{ gettext('page.list.empty') }}</p>
     {% else %}
-      {% from 'macros/md5_list.html' import md5_list %}
-      {{ md5_list(aarecords) }}
+      {% from 'macros/aarecord_list.html' import aarecord_list %}
+      {{ aarecord_list(aarecords) }}
     {% endif %}
   </div>
 

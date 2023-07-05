@@ -1,8 +1,8 @@
-{% macro md5_list(aarecords=[], max_show_immediately=10) -%}
+{% macro aarecord_list(aarecords=[], max_show_immediately=10) -%}
   <script>
     // We can't do this in Jinja because of https://github.com/pallets/jinja/issues/1693 :(
-    if (!window.md5_list_code_loaded) {
-      window.md5_list_code_loaded = true;
+    if (!window.aarecord_list_code_loaded) {
+      window.aarecord_list_code_loaded = true;
 
       var lastAnimationFrame = undefined;
       var topByElement = new Map();

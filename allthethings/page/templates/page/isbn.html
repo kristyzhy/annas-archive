@@ -29,8 +29,8 @@
             {{ gettext('page.isbn.results.text') }}
           </p>
 
-          {% from 'macros/md5_list.html' import md5_list %}
-          {{ md5_list(isbn_dict.search_aarecords) }}
+          {% from 'macros/aarecord_list.html' import aarecord_list %}
+          {{ aarecord_list(isbn_dict.search_aarecords) }}
         {% else %}
           <p>
             {{ gettext('page.isbn.results.none') }}

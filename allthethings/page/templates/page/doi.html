@@ -27,8 +27,8 @@
           {{ gettext('page.doi.results.text') }}
         </p>
 
-        {% from 'macros/md5_list.html' import md5_list %}
-        {{ md5_list(doi_dict.search_aarecords) }}
+        {% from 'macros/aarecord_list.html' import aarecord_list %}
+        {{ aarecord_list(doi_dict.search_aarecords) }}
       {% else %}
         {{ gettext('page.doi.results.none') }}
       {% endif %}
