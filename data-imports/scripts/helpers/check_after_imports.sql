@@ -20,3 +20,5 @@ DESCRIBE ol_base;
 DESCRIBE zlib_book;
 DESCRIBE zlib_isbn;
 DESCRIBE aa_lgli_comics_2022_08_files;
+DESCRIBE aa_ia_2023_06_files;
+DESCRIBE aa_ia_2023_06_metadata;

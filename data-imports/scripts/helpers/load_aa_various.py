@@ -18,7 +18,7 @@ def eprint(*args, **kwargs):
 db = pymysql.connect(host='localhost', user='allthethings', password='password', database='allthethings', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 cursor = db.cursor()
 cursor.execute('DROP TABLE IF EXISTS aa_ia_2023_06_metadata')
-cursor.execute('CREATE TABLE aa_ia_2023_06_metadata (`ia_id` VARCHAR(100) NOT NULL, `has_thumb` TINYINT(1) NOT NULL, `libgen_md5` CHAR(32) NULL, `json` JSON NULL, PRIMARY KEY(`ia_id`), INDEX `libgen_md5`) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;')
+cursor.execute('CREATE TABLE aa_ia_2023_06_metadata (`ia_id` VARCHAR(100) NOT NULL, `has_thumb` TINYINT(1) NOT NULL, `libgen_md5` CHAR(32) NULL, `json` JSON NULL, PRIMARY KEY(`ia_id`), INDEX (`libgen_md5`)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;')
 db.commit()
 
 thumbs_set = set()
@@ -34,8 +34,7 @@ def extract_list_from_ia_json_field(json, key):
 
 i = 0
 json_tar_file = tarfile.open('/temp-dir/annas-archive-ia-2023-06-metadata-json.tar.gz', 'r|*')
-for json_file_chunk in ichunked(json_tar_file, 1):
-
+for json_file_chunk in ichunked(json_tar_file, 10000):
     save_data = []
     for index, json_file in enumerate(json_file_chunk):
         if index == 0:
