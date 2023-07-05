@@ -1815,6 +1815,9 @@ def get_additional_for_aarecord(aarecord):
             stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):]))
             partner_path = f"a/comics_2022_08/{stripped_path}"
             add_partner_servers(partner_path, True, aarecord, additional)
+        # Temp hack:
+        additional['has_aa_downloads'] = 1
+        additional['has_aa_exclusive_downloads'] = 1
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         if lgrsnf_thousands_dir < 3659000:
@@ -1856,6 +1859,11 @@ def get_additional_for_aarecord(aarecord):
     if aarecord['zlib_book'] is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, len(additional['fast_partner_urls']) == 0, aarecord, additional)
+    if aarecord.get('ia_record') is not None:
+        additional['download_urls'].append(("Borrow from the Internet Archive", f"https://archive.org/details/{aarecord['ia_record']['ia_id']}", ""))
+        # Temp hack:
+        additional['has_aa_downloads'] = 1
+        additional['has_aa_exclusive_downloads'] = 1
     for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord.get('zlib_book') is not None:
