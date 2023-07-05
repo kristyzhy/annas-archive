@@ -58,7 +58,7 @@
   {% for aarecord in aarecords %}
     <div class="h-[125] {% if loop.index0 > max_show_immediately %}js-scroll-hidden{% endif %}">
       {% if loop.index0 > max_show_immediately %}<!--{% endif %}
-      <a href="/md5/{{aarecord.md5}}" class="js-vim-focus custom-a flex items-center relative left-[-10px] w-[calc(100%+20px)] px-[10px] py-2 outline-offset-[-2px] outline-2 rounded-[3px] hover:bg-[#00000011] focus:outline {% if (aarecord.file_unified_data.problems | length) > 0 %}opacity-[40%]{% endif %}">
+      <a href="{{aarecord.path}}" class="js-vim-focus custom-a flex items-center relative left-[-10px] w-[calc(100%+20px)] px-[10px] py-2 outline-offset-[-2px] outline-2 rounded-[3px] hover:bg-[#00000011] focus:outline {% if (aarecord.file_unified_data.problems | length) > 0 %}opacity-[40%]{% endif %}">
         <div class="flex-none">
           <div class="relative overflow-hidden w-[72] h-[108] flex flex-col justify-center">
             <div class="absolute w-[100%] h-[90]" style="background-color: hsl({{ (loop.index0 % 4) * (256//3) + (range(0, 256//3) | random) }}deg 43% 73%)"></div>

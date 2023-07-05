@@ -248,7 +248,7 @@
                 const shuffledItems = [...items].sort(() => Math.random() - 0.5).slice(0, 8);
 
                 const titlesLength = shuffledItems.map((item) => item.title).join("   ").length;
-                const scrollHtml = `<div class="shrink-0 min-w-[100%]" style="animation: scroll ${Math.round(titlesLength/4)}s linear infinite">` + shuffledItems.map((item) => `<span class="inline-block truncate">&nbsp;•&nbsp;</span><a tabindex="-1" href="/md5/${item.md5}" class="inline-block max-w-[50%] truncate">${item.title}</a>`).join('') + '</div>';
+                const scrollHtml = `<div class="shrink-0 min-w-[100%]" style="animation: scroll ${Math.round(titlesLength/4)}s linear infinite">` + shuffledItems.map((item) => `<span class="inline-block truncate">&nbsp;•&nbsp;</span><a tabindex="-1" href="${item.path}" class="inline-block max-w-[50%] truncate">${item.title}</a>`).join('') + '</div>';
                 document.querySelector('.js-recent-downloads-scroll').innerHTML = scrollHtml + scrollHtml;
               }
 

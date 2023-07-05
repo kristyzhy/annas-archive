@@ -40,23 +40,23 @@ import allthethings.utils
 page = Blueprint("page", __name__, template_folder="templates")
 
 # Per https://annas-software.org/AnnaArchivist/annas-archive/-/issues/37
-search_filtered_bad_md5s = [
-    "b0647953a182171074873b61200c71dd",
-    "820a4f8961ae0a76ad265f1678b7dfa5",
+search_filtered_bad_aarecord_ids = [
+    "md5:b0647953a182171074873b61200c71dd",
+    "md5:820a4f8961ae0a76ad265f1678b7dfa5",
 
     # Likely CSAM
-    "d897ffc4e64cbaeae53a6005b6f155cc",
-    "8ae28a86719e3a4400145ac18b621efd",
-    "285171dbb2d1d56aa405ad3f5e1bc718",
-    "8ac4facd6562c28d7583d251aa2c9020",
-    "6c1b1ea486960a1ad548cd5c02c465a1",
-    "414e8f3a8bc0f63de37cd52bd6d8701e",
-    "c6cddcf83c558b758094e06b97067c89",
-    "5457b152ef9a91ca3e2d8b3a2309a106",
-    "02973f6d111c140510fcdf84b1d00c35",
-    "d4c01f9370c5ac93eb5ee5c2037ac794",
-    "08499f336fbf8d31f8e7fadaaa517477",
-    "351024f9b101ac7797c648ff43dcf76e",
+    "md5:d897ffc4e64cbaeae53a6005b6f155cc",
+    "md5:8ae28a86719e3a4400145ac18b621efd",
+    "md5:285171dbb2d1d56aa405ad3f5e1bc718",
+    "md5:8ac4facd6562c28d7583d251aa2c9020",
+    "md5:6c1b1ea486960a1ad548cd5c02c465a1",
+    "md5:414e8f3a8bc0f63de37cd52bd6d8701e",
+    "md5:c6cddcf83c558b758094e06b97067c89",
+    "md5:5457b152ef9a91ca3e2d8b3a2309a106",
+    "md5:02973f6d111c140510fcdf84b1d00c35",
+    "md5:d4c01f9370c5ac93eb5ee5c2037ac794",
+    "md5:08499f336fbf8d31f8e7fadaaa517477",
+    "md5:351024f9b101ac7797c648ff43dcf76e",
 ]
 
 ES_TIMEOUT = "5s"
@@ -257,22 +257,22 @@ def add_comments_to_dict(before_dict, comments):
 @page.get("/")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def home_page():
-    popular_md5s = [
-        "8336332bf5877e3adbfb60ac70720cd5", # Against intellectual monopoly
-        "f0a0beca050610397b9a1c2604c1a472", # Harry Potter
-        "61a1797d76fc9a511fb4326f265c957b", # Cryptonomicon
-        "4b3cd128c0cc11c1223911336f948523", # Subtle art of not giving a f*ck
-        "6d6a96f761636b11f7e397b451c62506", # Game of thrones
-        "0d9b713d0dcda4c9832fcb056f3e4102", # Aaron Swartz
-        "45126b536bbdd32c0484bd3899e10d39", # Three-body problem
-        "6963187473f4f037a28e2fe1153ca793", # How music got free
-        "6db7e0c1efc227bc4a11fac3caff619b", # It ends with us
-        "7849ad74f44619db11c17b85f1a7f5c8", # Lord of the rings
-        "6ed2d768ec1668c73e4fa742e3df78d6", # Physics
+    popular_ids = [
+        "md5:8336332bf5877e3adbfb60ac70720cd5", # Against intellectual monopoly
+        "md5:f0a0beca050610397b9a1c2604c1a472", # Harry Potter
+        "md5:61a1797d76fc9a511fb4326f265c957b", # Cryptonomicon
+        "md5:4b3cd128c0cc11c1223911336f948523", # Subtle art of not giving a f*ck
+        "md5:6d6a96f761636b11f7e397b451c62506", # Game of thrones
+        "md5:0d9b713d0dcda4c9832fcb056f3e4102", # Aaron Swartz
+        "md5:45126b536bbdd32c0484bd3899e10d39", # Three-body problem
+        "md5:6963187473f4f037a28e2fe1153ca793", # How music got free
+        "md5:6db7e0c1efc227bc4a11fac3caff619b", # It ends with us
+        "md5:7849ad74f44619db11c17b85f1a7f5c8", # Lord of the rings
+        "md5:6ed2d768ec1668c73e4fa742e3df78d6", # Physics
     ]
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, popular_md5s)
-        aarecords.sort(key=lambda aarecord: popular_md5s.index(aarecord['md5']))
+        aarecords = get_aarecords_elasticsearch(session, popular_ids)
+        aarecords.sort(key=lambda aarecord: popular_ids.index(aarecord['id']))
 
         return render_template(
             "page/home.html",
@@ -1269,18 +1269,18 @@ def sort_by_length_and_filter_subsequences_with_longest_string(strings):
             strings_filtered.append(string)
     return strings_filtered
 
-def get_aarecords_elasticsearch(session, canonical_md5s):
-    if not allthethings.utils.validate_canonical_md5s(canonical_md5s):
-        raise Exception("Non-canonical md5")
+def get_aarecords_elasticsearch(session, aarecord_ids):
+    if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
+        raise Exception("Invalid aarecord_ids")
 
     # Filter out bad data
-    canonical_md5s = [val for val in canonical_md5s if val not in search_filtered_bad_md5s]
+    aarecord_ids = [val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]
 
     # Uncomment the following line to use MySQL directly; useful for local development.
-    # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, canonical_md5s)]
+    # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
-    search_results_raw = es.mget(index="aarecords", ids=[f"md5:{canonical_md5}" for canonical_md5 in canonical_md5s])
-    return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['docs'] if aarecord_raw['found'] and (aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s)]
+    search_results_raw = es.mget(index="aarecords", ids=aarecord_ids)
+    return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['docs'] if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 def aarecord_score_base(aarecord):
     if len(aarecord['file_unified_data'].get('problems') or []) > 0:
@@ -1322,35 +1322,35 @@ def aarecord_score_base(aarecord):
         score += 1.0
     return score
 
-def get_aarecords_mysql(session, canonical_md5s):
-    if not allthethings.utils.validate_canonical_md5s(canonical_md5s):
-        raise Exception("Non-canonical md5")
+def get_aarecords_mysql(session, aarecord_ids):
+    if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
+        raise Exception("Invalid aarecord_ids")
 
     # Filter out bad data
-    canonical_md5s = [val for val in canonical_md5s if val not in search_filtered_bad_md5s]
+    aarecord_ids = [val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]
 
-    # canonical_and_upper_md5s = canonical_md5s + [md5.upper() for md5 in canonical_md5s]
-    lgrsnf_book_dicts = dict((item['md5'].lower(), item) for item in get_lgrsnf_book_dicts(session, "MD5", canonical_md5s))
-    lgrsfic_book_dicts = dict((item['md5'].lower(), item) for item in get_lgrsfic_book_dicts(session, "MD5", canonical_md5s))
-    lgli_file_dicts = dict((item['md5'].lower(), item) for item in get_lgli_file_dicts(session, "md5", canonical_md5s))
-    zlib_book_dicts1 = dict((item['md5_reported'].lower(), item) for item in get_zlib_book_dicts(session, "md5_reported", canonical_md5s))
-    zlib_book_dicts2 = dict((item['md5'].lower(), item) for item in get_zlib_book_dicts(session, "md5", canonical_md5s))
-    aa_lgli_comics_2022_08_file_dicts = dict((item['md5'].lower(), item) for item in get_aa_lgli_comics_2022_08_file_dicts(session, "md5", canonical_md5s))
-    ia_record_dicts = dict((item['aa_ia_file']['md5'].lower(), item) for item in get_ia_record_dicts(session, "md5", canonical_md5s) if 'aa_ia_file' in item)
+    split_ids = allthethings.utils.split_aarecord_ids(aarecord_ids)
+    lgrsnf_book_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_lgrsnf_book_dicts(session, "MD5", split_ids['md5']))
+    lgrsfic_book_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_lgrsfic_book_dicts(session, "MD5", split_ids['md5']))
+    lgli_file_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_lgli_file_dicts(session, "md5", split_ids['md5']))
+    zlib_book_dicts1 = dict(('md5:' + item['md5_reported'].lower(), item) for item in get_zlib_book_dicts(session, "md5_reported", split_ids['md5']))
+    zlib_book_dicts2 = dict(('md5:' + item['md5'].lower(), item) for item in get_zlib_book_dicts(session, "md5", split_ids['md5']))
+    aa_lgli_comics_2022_08_file_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_aa_lgli_comics_2022_08_file_dicts(session, "md5", split_ids['md5']))
+    ia_record_dicts = dict(('md5:' + item['aa_ia_file']['md5'].lower(), item) for item in get_ia_record_dicts(session, "md5", split_ids['md5']) if item.get('aa_ia_file') is not None)
 
     aarecords = []
-    for canonical_md5 in canonical_md5s:
+    for aarecord_id in aarecord_ids:
         aarecord = {}
-        aarecord['id'] = 'md5:' + canonical_md5
-        aarecord['md5'] = canonical_md5
-        aarecord['lgrsnf_book'] = lgrsnf_book_dicts.get(canonical_md5)
-        aarecord['lgrsfic_book'] = lgrsfic_book_dicts.get(canonical_md5)
-        aarecord['lgli_file'] = lgli_file_dicts.get(canonical_md5)
+        aarecord['id'] = aarecord_id
+        aarecord['path'] = '/' + aarecord_id.replace(':', '/')
+        aarecord['lgrsnf_book'] = lgrsnf_book_dicts.get(aarecord_id)
+        aarecord['lgrsfic_book'] = lgrsfic_book_dicts.get(aarecord_id)
+        aarecord['lgli_file'] = lgli_file_dicts.get(aarecord_id)
         if aarecord.get('lgli_file'):
             aarecord['lgli_file']['editions'] = aarecord['lgli_file']['editions'][0:5]
-        aarecord['zlib_book'] = zlib_book_dicts1.get(canonical_md5) or zlib_book_dicts2.get(canonical_md5)
-        aarecord['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(canonical_md5)
-        aarecord['ia_record'] = ia_record_dicts.get(canonical_md5)
+        aarecord['zlib_book'] = zlib_book_dicts1.get(aarecord_id) or zlib_book_dicts2.get(aarecord_id)
+        aarecord['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(aarecord_id)
+        aarecord['ia_record'] = ia_record_dicts.get(aarecord_id)
 
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
@@ -1880,7 +1880,7 @@ def md5_page(md5_input):
         return redirect(f"/md5/{canonical_md5}", code=301)
 
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, [canonical_md5])
+        aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
 
         if len(aarecords) == 0:
             return render_template("page/md5.html", header_active="search", md5_input=md5_input)
@@ -1899,7 +1899,7 @@ def md5_page(md5_input):
         
         return render_template("page/md5.html", **render_fields)
 
-@page.get("/db/md5/<string:md5_input>.json")
+@page.get("/db/aarecord/md5:<string:md5_input>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def md5_json(md5_input):
     with Session(engine) as session:
@@ -1909,12 +1909,12 @@ def md5_json(md5_input):
             return "{}", 404
 
         with Session(engine) as session:
-            aarecords = get_aarecords_elasticsearch(session, [canonical_md5])
+            aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
             if len(aarecords) == 0:
                 return "{}", 404
             
             aarecord_comments = {
-                "md5": ("before", ["File from the combined collections of Anna's Archive.",
+                "id": ("before", ["File from the combined collections of Anna's Archive.",
                                    "More details at https://annas-archive.org/datasets",
                                    allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
                 "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/nf/<id>.json"]),
@@ -2138,7 +2138,7 @@ def search_page():
     aggregations['search_content_type']              = sorted(aggregations['search_content_type'],              key=lambda bucket: bucket['doc_count'], reverse=True)
     aggregations['search_extension']                 = sorted(aggregations['search_extension'],                 key=lambda bucket: bucket['doc_count'], reverse=True)
 
-    search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s]
+    search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
     max_search_aarecords_reached = False
     max_additional_search_aarecords_reached = False
@@ -2157,7 +2157,7 @@ def search_page():
         )
         if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
-        additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s]
+        additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
         # Then do an "OR" query, but this time with the filters again.
         if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
@@ -2173,7 +2173,7 @@ def search_page():
             )
             if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
-            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s]
+            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
             # If we still don't have enough, do another OR query but this time without filters.
             if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
@@ -2189,7 +2189,7 @@ def search_page():
                 )
                 if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                     max_additional_search_aarecords_reached = True
-                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s]
+                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
     else:
         max_search_aarecords_reached = True
 

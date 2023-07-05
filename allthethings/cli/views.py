@@ -196,7 +196,7 @@ def elastic_build_aarecords():
 def elastic_build_aarecords_job(canonical_md5s):
     try:
         with Session(engine) as session:
-            aarecords = get_aarecords_mysql(session, canonical_md5s)
+            aarecords = get_aarecords_mysql(session, [f"md5:{canonical_md5}" for canonical_md5 in canonical_md5s])
             for aarecord in aarecords:
                 aarecord['_op_type'] = 'index'
                 aarecord['_index'] = 'aarecords'

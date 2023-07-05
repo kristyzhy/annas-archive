@@ -607,16 +607,15 @@ def recent_downloads():
 
             aarecords = []
             if len(downloads) > 0:
-                aarecords = get_aarecords_elasticsearch(session, [download['md5'].hex() for download in downloads])
-            seen_md5s = set()
+                aarecords = get_aarecords_elasticsearch(session, ['md5:' + download['md5'].hex() for download in downloads])
+            seen_ids = set()
             seen_titles = set()
             output = []
             for aarecord in aarecords:
-                md5 = aarecord['md5']
                 title = aarecord['file_unified_data']['title_best']
-                if md5 not in seen_md5s and title not in seen_titles:
-                    output.append({ 'md5': md5, 'title': title })
-                seen_md5s.add(md5)
+                if aarecord['id'] not in seen_ids and title not in seen_titles:
+                    output.append({ 'path': aarecord['path'], 'title': title })
+                seen_ids.add(aarecord['id'])
                 seen_titles.add(title)
             return orjson.dumps(output)
 

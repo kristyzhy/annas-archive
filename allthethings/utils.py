@@ -24,6 +24,18 @@ FEATURE_FLAGS = {}
 def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])
 
+def validate_aarecord_ids(aarecord_ids):
+    if not all([aarecord_id.startswith('md5:') for aarecord_id in aarecord_ids]):
+        return False
+    return validate_canonical_md5s([aarecord_id[len("md5:"):] for aarecord_id in aarecord_ids if aarecord_id.startswith('md5:')])
+
+def split_aarecord_ids(aarecord_ids):
+    ret = {'md5': []}
+    for aarecord_id in aarecord_ids:
+        split_aarecord_id = aarecord_id.split(':')
+        ret[split_aarecord_id[0]].append(split_aarecord_id[1])
+    return ret
+
 JWT_PREFIX = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
 
 ACCOUNT_COOKIE_NAME = "aa_account_id2"
