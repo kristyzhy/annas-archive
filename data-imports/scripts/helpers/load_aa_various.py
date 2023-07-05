@@ -61,7 +61,7 @@ for json_file_chunk in ichunked(json_tar_file, 10000):
     cursor.executemany("INSERT INTO aa_ia_2023_06_metadata (ia_id, has_thumb, libgen_md5, json) VALUES (%s, %s, %s, %s);", save_data)
     db.commit()
 
-for ia_id_chunk in chunked(thumbs_set, 100000):
+for ia_id_chunk in ichunked(thumbs_set, 100000):
     print(f"Saving leftover chunk from thumbs...")
-    cursor.executemany("INSERT INTO aa_ia_2023_06_metadata (ia_id, has_thumb, json) VALUES (%s, 1, NULL);", [(ia_id,) for ia_id in ia_id_chunk])
+    cursor.executemany("INSERT IGNORE INTO aa_ia_2023_06_metadata (ia_id, has_thumb, json) VALUES (%s, 1, NULL);", [(ia_id,) for ia_id in ia_id_chunk])
     db.commit()
