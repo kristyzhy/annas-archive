@@ -175,15 +175,6 @@ def normalize_doi(string):
         return string
     return ''
 
-def normalize_isbn(string):
-    canonical_isbn13 = isbnlib.get_canonical_isbn(string, output='isbn13')
-    try: 
-        if (not isbnlib.is_isbn10(isbnlib.to_isbn10(canonical_isbn13))) or len(canonical_isbn13) != 13 or len(isbnlib.info(canonical_isbn13)) == 0:
-            return ''
-    except:
-        return ''
-    return canonical_isbn13
-
 # Example: zlib2/pilimi-zlib2-0-14679999-extra/11078831
 def make_temp_anon_zlib_path(zlibrary_id, pilimi_torrent):
     prefix = "zlib1"
@@ -439,12 +430,15 @@ def extract_list_from_ia_json_field(ia_record_dict, key):
     return val
 
 def get_ia_record_dicts(session, key, values):
+    seen_ia_ids = set()
     ia_entries = []
     try:
         base_query = select(AaIa202306Metadata, AaIa202306Files).join(AaIa202306Files, AaIa202306Files.ia_id == AaIa202306Metadata.ia_id, isouter=True)
         if key.lower() in ['md5']:
+            # TODO: we should also consider matching on libgen_md5, but we used to do that before and it had bad SQL performance,
+            # when combined in a single query, so we'd have to split it up.
             ia_entries = session.execute(
-                base_query.where(getattr(AaIa202306Metadata, 'libgen_md5').in_(values) | getattr(AaIa202306Files, 'md5').in_(values))
+                base_query.where(getattr(AaIa202306Files, 'md5').in_(values))
             ).unique().all()
         else:
             ia_entries = session.execute(
@@ -458,6 +452,12 @@ def get_ia_record_dicts(session, key, values):
     ia_record_dicts = []
     for ia_record, ia_file in ia_entries:
         ia_record_dict = ia_record.to_dict()
+
+        # TODO: When querying by ia_id we can match multiple files. For now we just pick the first one.
+        if ia_record_dict['ia_id'] in seen_ia_ids:
+            continue
+        seen_ia_ids.add(ia_record_dict['ia_id'])
+
         ia_record_dict['aa_ia_file'] = None
         if ia_file and ia_record_dict['libgen_md5'] is None: # If there's a Libgen MD5, then we do NOT serve our IA file.
             ia_record_dict['aa_ia_file'] = ia_file.to_dict()
@@ -1039,7 +1039,7 @@ def get_lgli_file_dicts(session, key, values):
             if len(edition_dict['descriptions_mapped'].get('description') or []) > 0:
                 edition_dict['stripped_description'] = strip_description("\n\n".join(edition_dict['descriptions_mapped']['description']))
 
-            edition_dict['edition_type_full'] = allthethings.utils.LGLI_EDITION_TYPE_MAPPING[edition_dict['type']]
+            edition_dict['edition_type_full'] = allthethings.utils.LGLI_EDITION_TYPE_MAPPING.get(edition_dict['type'], '')
 
             edition_dict_comments = {
                 **allthethings.utils.COMMON_DICT_COMMENTS,
@@ -1123,7 +1123,7 @@ def lgli_file_json(lgli_file_id):
 def isbn_page(isbn_input):
     isbn_input = isbn_input[0:20]
 
-    canonical_isbn13 = normalize_isbn(isbn_input)
+    canonical_isbn13 = allthethings.utils.normalize_isbn(isbn_input)
     if canonical_isbn13 == '':
         # TODO, check if a different prefix would help, like in
         # https://github.com/inventaire/isbn3/blob/d792973ac0e13a48466d199b39326c96026b7fc3/lib/audit.js
@@ -2041,7 +2041,7 @@ def search_page():
     if potential_doi != '':
         return redirect(f"/doi/{potential_doi}", code=301)
 
-    canonical_isbn13 = normalize_isbn(search_input)
+    canonical_isbn13 = allthethings.utils.normalize_isbn(search_input)
     if canonical_isbn13 != '':
         return redirect(f"/isbn/{canonical_isbn13}", code=301)
 

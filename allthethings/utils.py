@@ -527,25 +527,29 @@ def add_classification_unified(output_dict, name, value):
     else:
         raise Exception(f"Unknown classification in add_classification_unified: {name}")
 
+def normalize_isbn(string):
+    canonical_isbn13 = isbnlib.get_canonical_isbn(string, output='isbn13')
+    try: 
+        if (not isbnlib.is_isbn10(isbnlib.to_isbn10(canonical_isbn13))) or len(canonical_isbn13) != 13 or len(isbnlib.info(canonical_isbn13)) == 0:
+            return ''
+    except:
+        return ''
+    return canonical_isbn13
+
 def add_isbns_unified(output_dict, potential_isbns):
-    new_isbns = set()
+    isbn10s = set()
+    isbn13s = set()
     for potential_isbn in potential_isbns:
-        isbn = potential_isbn.replace('-', '').replace(' ', '')
-        if isbnlib.is_isbn10(isbn):
-            new_isbns.add(isbn)
-            new_isbns.add(isbnlib.to_isbn13(isbn))
-        if isbnlib.is_isbn13(isbn):
-            new_isbns.add(isbn)
-            isbn10 = isbnlib.to_isbn10(isbn)
+        isbn13 = normalize_isbn(potential_isbn)
+        if isbn13 != '':
+            isbn13s.add(isbn13)
+            isbn10 = isbnlib.to_isbn10(isbn13)
             if isbnlib.is_isbn10(isbn10 or ''):
-                new_isbns.add(isbn10)
-    for isbn in new_isbns:
-        if len(isbn) == 13:
-            add_identifier_unified(output_dict, 'isbn13', isbn)
-        elif len(isbn) == 10:
-            add_identifier_unified(output_dict, 'isbn10', isbn)
-        else:
-            raise Exception("Invalid ISBN")
+                isbn10s.add(isbn10)
+    for isbn10 in isbn10s:
+        add_identifier_unified(output_dict, 'isbn10', isbn10)
+    for isbn13 in isbn13s:
+        add_identifier_unified(output_dict, 'isbn13', isbn13)
 
 def merge_unified_fields(list_of_fields_unified):
     merged_sets = {}
