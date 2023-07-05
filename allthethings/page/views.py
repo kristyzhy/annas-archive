@@ -1741,8 +1741,10 @@ def get_md5_content_type_mapping(display_lang):
 md5_content_type_book_any_subtypes = ["book_unknown","book_fiction","book_nonfiction"]
 
 def format_filesize(num):
-    if num < 1000000:
-        return '<1MB'
+    if num < 100000:
+        return f"0.1MB"
+    elif num < 1000000:
+        return f"{num/1000000:3.1f}MB"
     else:
         for unit in ["", "KB", "MB", "GB", "TB", "PB", "EB", "ZB"]:
             if abs(num) < 1000.0:
