@@ -7,10 +7,10 @@
 
   <p class="mb-4">{{ gettext('page.downloaded.not_public') }}</p>
 
-  {% if md5_dicts_downloaded | length == 0 %}
+  {% if aarecords_downloaded | length == 0 %}
     <p>{{ gettext('page.downloaded.no_files') }}</p>
   {% else %}
     {% from 'macros/md5_list.html' import md5_list %}
-    {{ md5_list(md5_dicts_downloaded) }}
+    {{ md5_list(aarecords_downloaded) }}
   {% endif %}
 {% endblock %}

@@ -55,7 +55,7 @@ docker exec -it aa-data-import--mariadb /scripts/check_after_imports.sh
 docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
 
 # Calculate derived data:
-docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s && docker exec -it aa-data-import--web flask cli elastic_reset_md5_dicts && docker exec -it aa-data-import--web flask cli elastic_build_md5_dicts
+docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s && docker exec -it aa-data-import--web flask cli elastic_reset_aarecords && docker exec -it aa-data-import--web flask cli elastic_build_aarecords
 
 # Make sure to fully stop the databases, so we can move some files around.
 docker compose down

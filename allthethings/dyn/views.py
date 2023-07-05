@@ -16,7 +16,7 @@ from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads
 from config.settings import SECRET_KEY
-from allthethings.page.views import get_md5_dicts_elasticsearch
+from allthethings.page.views import get_aarecords_elasticsearch
 
 import allthethings.utils
 
@@ -57,7 +57,7 @@ def downloads_increment(md5_input):
         raise Exception("Non-canonical md5")
 
     # Prevent hackers from filling up our database with non-existing MD5s.
-    if not es.exists(index="md5_dicts", id=canonical_md5):
+    if not es.exists(index="aarecords", id=canonical_md5):
         raise Exception("Md5 not found")
 
     with Session(mariapersist_engine) as mariapersist_session:
@@ -605,15 +605,15 @@ def recent_downloads():
                 .limit(50)
             ).all()
 
-            md5_dicts = []
+            aarecords = []
             if len(downloads) > 0:
-                md5_dicts = get_md5_dicts_elasticsearch(session, [download['md5'].hex() for download in downloads])
+                aarecords = get_aarecords_elasticsearch(session, [download['md5'].hex() for download in downloads])
             seen_md5s = set()
             seen_titles = set()
             output = []
-            for md5_dict in md5_dicts:
-                md5 = md5_dict['md5']
-                title = md5_dict['file_unified_data']['title_best']
+            for aarecord in aarecords:
+                md5 = aarecord['md5']
+                title = aarecord['file_unified_data']['title_best']
                 if md5 not in seen_md5s and title not in seen_titles:
                     output.append({ 'md5': md5, 'title': title })
                 seen_md5s.add(md5)

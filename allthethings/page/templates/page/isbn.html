@@ -11,7 +11,7 @@
       {{ gettext('page.isbn.invalid.text', isbn_input=isbn_input) }}
     </p>
   {% else %}
-    {% if isbn_dict.top_box or (isbn_dict.search_md5_dicts | length > 0) %}
+    {% if isbn_dict.top_box or (isbn_dict.search_aarecords | length > 0) %}
       <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
         {% if isbn_dict.top_box %}
           <div class="overflow-hidden mb-4">
@@ -24,13 +24,13 @@
           </div>
         {% endif %}
 
-        {% if isbn_dict.search_md5_dicts | length > 0 %}
+        {% if isbn_dict.search_aarecords | length > 0 %}
           <p class="mb-2">
             {{ gettext('page.isbn.results.text') }}
           </p>
 
           {% from 'macros/md5_list.html' import md5_list %}
-          {{ md5_list(isbn_dict.search_md5_dicts) }}
+          {{ md5_list(isbn_dict.search_aarecords) }}
         {% else %}
           <p>
             {{ gettext('page.isbn.results.none') }}
@@ -278,7 +278,7 @@
         <h2 class="mt-12 mb-1 text-3xl font-bold">Shadow library files</h2>
 
         <p class="mb-2">
-          There are <strong>{{isbn_dict.search_md5_dicts | length}}</strong> files found for which the metadata in one of the shadow libraries link to this ISBN. They are displayed at the top of this page.
+          There are <strong>{{isbn_dict.search_aarecords | length}}</strong> files found for which the metadata in one of the shadow libraries link to this ISBN. They are displayed at the top of this page.
         </p>
 
         <h2 class="mt-12 mb-1 text-3xl font-bold">Raw JSON</h2>

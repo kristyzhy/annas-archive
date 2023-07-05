@@ -19,11 +19,11 @@
   <div class="mb-4 text-sm text-gray-500">{{ gettext('page.list.by_and_date', by=profile_link(account_dict, current_account_id), span_time=(('class="text-[#000000a3] text-sm" title="' + (list_record_dict.created | datetimeformat(format='long')) + '"') | safe), time=(list_record_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
 
   <div class="mb-4">
-    {% if md5_dicts | length == 0 %}
+    {% if aarecords | length == 0 %}
       <p>{{ gettext('page.list.empty') }}</p>
     {% else %}
       {% from 'macros/md5_list.html' import md5_list %}
-      {{ md5_list(md5_dicts) }}
+      {{ md5_list(aarecords) }}
     {% endif %}
   </div>
 

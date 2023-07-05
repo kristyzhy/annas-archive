@@ -1,27 +1,27 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}{% if md5_dict %}{{md5_dict.additional.top_box.meta_information[0]}}{% endif %}{% endblock %}
+{% block title %}{% if aarecord %}{{aarecord.additional.top_box.meta_information[0]}}{% endif %}{% endblock %}
 
 {% block meta_tags %}
-  {% if md5_dict %}
-    <meta name="description" content="{{md5_dict.additional.top_box.meta_information[1:4] | join('\n\n')}}" />
+  {% if aarecord %}
+    <meta name="description" content="{{aarecord.additional.top_box.meta_information[1:4] | join('\n\n')}}" />
   {% endif %}
 {% endblock %}
 
 {% block body %}
-  {% if not(md5_dict is defined) %}
+  {% if not(aarecord is defined) %}
     <h2 class="mt-12 mb-1 text-3xl font-bold">{{ gettext('page.md5.invalid.header') }}</h2>
     <p class="mb-4 italic">
       {{ gettext('page.md5.invalid.text', md5_input=md5_input) }}
     </p>
   {% else %}
     <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
-      <img class="float-right max-w-[25%] ml-4" src="{{md5_dict.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
-      <div class="text-sm text-gray-500">{{md5_dict.additional.top_box.top_row}}</div>
-      <div class="text-3xl font-bold">{{md5_dict.additional.top_box.title}} {% if md5_dict.additional.top_box.title %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ md5_dict.additional.top_box.title | urlencode }}">🔍</a>{% endif %}</div>
-      <div class="text-md">{{md5_dict.additional.top_box.publisher_and_edition}}</div>
-      <div class="italic">{{md5_dict.additional.top_box.author}} {% if md5_dict.additional.top_box.author %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ md5_dict.additional.top_box.author | urlencode }}">🔍</a>{% endif %}</div>
-      <div class="mt-4 line-clamp-[5] js-md5-top-box-description">{% if md5_dict.additional.top_box.description %}“{{md5_dict.additional.top_box.description | escape | replace('\n', '<br>' | safe)}}”{% endif %}</div>
+      <img class="float-right max-w-[25%] ml-4" src="{{aarecord.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
+      <div class="text-sm text-gray-500">{{aarecord.additional.top_box.top_row}}</div>
+      <div class="text-3xl font-bold">{{aarecord.additional.top_box.title}} {% if aarecord.additional.top_box.title %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.title | urlencode }}">🔍</a>{% endif %}</div>
+      <div class="text-md">{{aarecord.additional.top_box.publisher_and_edition}}</div>
+      <div class="italic">{{aarecord.additional.top_box.author}} {% if aarecord.additional.top_box.author %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.author | urlencode }}">🔍</a>{% endif %}</div>
+      <div class="mt-4 line-clamp-[5] js-md5-top-box-description">{% if aarecord.additional.top_box.description %}“{{aarecord.additional.top_box.description | escape | replace('\n', '<br>' | safe)}}”{% endif %}</div>
       <a href="#" class="mt-4 js-md5-top-box-description-link invisible" onclick="document.querySelector('.js-md5-top-box-description').classList.remove('line-clamp-[5]'); this.parentNode.removeChild(this); event.preventDefault(); return false;">Read more…</a>
       <script>
         (function() {
@@ -33,10 +33,10 @@
       </script>
     </div>
 
-    {% if (md5_dict.file_unified_data.problems | length) > 0 %}
+    {% if (aarecord.file_unified_data.problems | length) > 0 %}
       <div>{{ gettext('page.md5.box.issues.text1') }}</div>
       <ul class="list-inside mb-4">
-        {% for problem in md5_dict.file_unified_data.problems %}
+        {% for problem in aarecord.file_unified_data.problems %}
         <li>- {{ md5_problem_type_mapping[problem.type] }}{% if problem.descr %} ("{{problem.descr}}"){% endif %}</li>
         {% endfor %}
       </ul>
@@ -44,13 +44,13 @@
       <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
     {% endif %}
 
-    {% if (md5_dict.additional.fast_partner_urls | length) > 0 %}
+    {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
       <div class="mb-4">
         <div class="font-bold [html.aa-logged-in_&]:hidden">{{ gettext('page.md5.box.download.header_fast_logged_out', a_login=('href="/login" target="_blank"' | safe)) }}</div>
         <div class="font-bold [html:not(.aa-logged-in)_&]:hidden">{{ gettext('page.md5.box.download.header_fast_logged_in') }}</div>
 
         <ul class="mb-4">
-          {% for label, url, extra in md5_dict.additional.fast_partner_urls %}
+          {% for label, url, extra in aarecord.additional.fast_partner_urls %}
             <li class="[html.aa-logged-in_&]:hidden">- {{ gettext('page.md5.box.download.option', num=loop.index, link=label, extra=extra) }}</li>
             <li class="[html:not(.aa-logged-in)_&]:hidden">- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" target="_blank" class="js-download-link">' + label + '</a>') | safe), extra=extra) }}</li>
           {% endfor %}
@@ -59,19 +59,19 @@
     {% endif %}
 
     <div class="mb-6">
-      {% if (md5_dict.additional.fast_partner_urls | length) > 0 %}
+      {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
         <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div>
       {% else %}
         <div class="font-bold">{{ gettext('page.md5.box.download.header_generic') }}</div>
       {% endif %}
 
-      {% if (md5_dict.additional.download_urls | length) > 0 %}
+      {% if (aarecord.additional.download_urls | length) > 0 %}
         <ul class="mb-4">
-          {% for label, url, extra in md5_dict.additional.download_urls %}
+          {% for label, url, extra in aarecord.additional.download_urls %}
             <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" target="_blank" class="js-download-link">' + label + '</a>') | safe), extra=extra) }}</li>
           {% endfor %}
         </ul>
-        {% if (md5_dict.file_unified_data.problems | length) == 0 %}
+        {% if (aarecord.file_unified_data.problems | length) == 0 %}
           <div class="mb-4">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
         {% endif %}
 
@@ -187,19 +187,19 @@
                 Please report metadata errors at the source library. If there are multiple source libraries, know that we pull metadata from top to bottom, so the first one might be sufficient.
               </p>
 
-              {% if md5_dict.lgrsnf_book %}
+              {% if aarecord.lgrsnf_book %}
                 - <strong>Libgen.rs Non-Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
-                <a href="http://library.lol/main/{{md5_dict['lgrsnf_book']['md5'].lower()}}" target="_blank">http://library.lol/main/{{md5_dict['lgrsnf_book']['md5'].lower()}}</a><br>
+                <a href="http://library.lol/main/{{aarecord['lgrsnf_book']['md5'].lower()}}" target="_blank">http://library.lol/main/{{aarecord['lgrsnf_book']['md5'].lower()}}</a><br>
               {% endif %}
-              {% if md5_dict.lgrsfic_book %}
+              {% if aarecord.lgrsfic_book %}
                 - <strong>Libgen.rs Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
-                <a href="http://library.lol/fiction/{{md5_dict['lgrsfic_book']['md5'].lower()}}" target="_blank">http://library.lol/fiction/{{md5_dict['lgrsfic_book']['md5'].lower()}}</a><br>
+                <a href="http://library.lol/fiction/{{aarecord['lgrsfic_book']['md5'].lower()}}" target="_blank">http://library.lol/fiction/{{aarecord['lgrsfic_book']['md5'].lower()}}</a><br>
               {% endif %}
-              {% if md5_dict.lgli_file %}
-                - <strong>Libgen.li:</strong> Go to <a href="https://libgen.li/file.php?md5={{md5_dict['lgli_file']['md5'].lower()}}" target="_blank">this page</a> and click “Report an error”. Alternatively, create a new post in <a href="https://libgen.li/community/viewforum.php?f=2" target="_blank">this forum thread</a>.<br>
+              {% if aarecord.lgli_file %}
+                - <strong>Libgen.li:</strong> Go to <a href="https://libgen.li/file.php?md5={{aarecord['lgli_file']['md5'].lower()}}" target="_blank">this page</a> and click “Report an error”. Alternatively, create a new post in <a href="https://libgen.li/community/viewforum.php?f=2" target="_blank">this forum thread</a>.<br>
               {% endif %}
-              {% if md5_dict.zlib_book %}
-                - <strong>Z-Library:</strong> Go to <a href="https://libgen.li/file.php?md5=http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{{md5_dict['zlib_book']['md5_reported'].lower()}}" target="_blank">this page</a> (requires TOR browser), and click on “Something wrong?” => “Suggest correction”.<br>
+              {% if aarecord.zlib_book %}
+                - <strong>Z-Library:</strong> Go to <a href="https://libgen.li/file.php?md5=http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{{aarecord['zlib_book']['md5_reported'].lower()}}" target="_blank">this page</a> (requires TOR browser), and click on “Something wrong?” => “Suggest correction”.<br>
               {% endif %}
             </div>
 

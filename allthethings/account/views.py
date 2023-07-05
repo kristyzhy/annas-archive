@@ -19,7 +19,7 @@ from sqlalchemy.orm import Session
 from flask_babel import gettext, ngettext, force_locale, get_locale
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations
-from allthethings.page.views import get_md5_dicts_elasticsearch
+from allthethings.page.views import get_aarecords_elasticsearch
 from config.settings import SECRET_KEY
 
 import allthethings.utils
@@ -64,10 +64,10 @@ def account_downloaded_page():
 
     with Session(mariapersist_engine) as mariapersist_session:
         downloads = mariapersist_session.connection().execute(select(MariapersistDownloads).where(MariapersistDownloads.account_id == account_id).order_by(MariapersistDownloads.timestamp.desc()).limit(100)).all()
-        md5_dicts_downloaded = []
+        aarecords_downloaded = []
         if len(downloads) > 0:
-            md5_dicts_downloaded = get_md5_dicts_elasticsearch(mariapersist_session, [download.md5.hex() for download in downloads])
-        return render_template("account/downloaded.html", header_active="account/downloaded", md5_dicts_downloaded=md5_dicts_downloaded)
+            aarecords_downloaded = get_aarecords_elasticsearch(mariapersist_session, [download.md5.hex() for download in downloads])
+        return render_template("account/downloaded.html", header_active="account/downloaded", aarecords_downloaded=aarecords_downloaded)
 
 
 @account.post("/account/")
@@ -156,9 +156,9 @@ def list_page(list_id):
         account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == list_record.account_id).limit(1)).first()
         list_entries = mariapersist_session.connection().execute(select(MariapersistListEntries).where(MariapersistListEntries.list_id == list_id).order_by(MariapersistListEntries.updated.desc()).limit(10000)).all()
 
-        md5_dicts = []
+        aarecords = []
         if len(list_entries) > 0:
-            md5_dicts = get_md5_dicts_elasticsearch(mariapersist_session, [entry.resource[len("md5:"):] for entry in list_entries if entry.resource.startswith("md5:")])
+            aarecords = get_aarecords_elasticsearch(mariapersist_session, [entry.resource[len("md5:"):] for entry in list_entries if entry.resource.startswith("md5:")])
 
         return render_template(
             "account/list.html", 
@@ -167,7 +167,7 @@ def list_page(list_id):
                 **list_record,
                 'created_delta': list_record.created - datetime.datetime.now(),
             },
-            md5_dicts=md5_dicts,
+            aarecords=aarecords,
             account_dict=dict(account),
             current_account_id=current_account_id,
         )

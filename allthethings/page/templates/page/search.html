@@ -11,7 +11,7 @@
 {% block body %}
   {% if (search_input | length) > 0 %}
     {% if search_dict %}
-      <div class="mb-4">{% if search_dict.max_search_md5_dicts_reached %}{{ gettext('page.search.breadcrumbs.results_more', search_input=search_input, num=(search_dict.search_md5_dicts | length)) }}{% else %}{{ gettext('page.search.breadcrumbs.results', search_input=search_input, num=(search_dict.search_md5_dicts | length)) }}{% endif %}</div>
+      <div class="mb-4">{% if search_dict.max_search_aarecords_reached %}{{ gettext('page.search.breadcrumbs.results_more', search_input=search_input, num=(search_dict.search_aarecords | length)) }}{% else %}{{ gettext('page.search.breadcrumbs.results', search_input=search_input, num=(search_dict.search_aarecords | length)) }}{% endif %}</div>
     {% else %}
       <div class="mb-4">{{ gettext('page.search.breadcrumbs.error', search_input=search_input) }}</div>
     {% endif %}
@@ -64,18 +64,18 @@
 
       <p class="mt-4">{{ gettext('page.search.results.error.text') }}</p>
     {% else %}
-      {% if (search_dict.search_md5_dicts | length) == 0 %}
+      {% if (search_dict.search_aarecords | length) == 0 %}
         <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
       {% endif %}
 
       <div class="mb-4">
         {% from 'macros/md5_list.html' import md5_list %}
-        {{ md5_list(search_dict.search_md5_dicts) }}
+        {{ md5_list(search_dict.search_aarecords) }}
 
-        {% if search_dict.additional_search_md5_dicts | length > 0 %}
-          <div class="italic mt-8">{% if search_dict.max_additional_search_md5_dicts_reached %}{{ gettext('page.search.results.partial_more', num=(search_dict.additional_search_md5_dicts | length)) }}{% else %}{{ gettext('page.search.results.partial', num=(search_dict.additional_search_md5_dicts | length)) }}{% endif %}</div>
+        {% if search_dict.additional_search_aarecords | length > 0 %}
+          <div class="italic mt-8">{% if search_dict.max_additional_search_aarecords_reached %}{{ gettext('page.search.results.partial_more', num=(search_dict.additional_search_aarecords | length)) }}{% else %}{{ gettext('page.search.results.partial', num=(search_dict.additional_search_aarecords | length)) }}{% endif %}</div>
 
-          {{ md5_list(search_dict.additional_search_md5_dicts, max_show_immediately=0) }}
+          {{ md5_list(search_dict.additional_search_aarecords, max_show_immediately=0) }}
         {% endif %}
       </div>
     {% endif %}

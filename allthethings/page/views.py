@@ -271,13 +271,13 @@ def home_page():
         "6ed2d768ec1668c73e4fa742e3df78d6", # Physics
     ]
     with Session(engine) as session:
-        md5_dicts = get_md5_dicts_elasticsearch(session, popular_md5s)
-        md5_dicts.sort(key=lambda md5_dict: popular_md5s.index(md5_dict['md5']))
+        aarecords = get_aarecords_elasticsearch(session, popular_md5s)
+        aarecords.sort(key=lambda aarecord: popular_md5s.index(aarecord['md5']))
 
         return render_template(
             "page/home.html",
             header_active="home",
-            md5_dicts=md5_dicts,
+            aarecords=aarecords,
         )
 
 @page.get("/login")
@@ -1228,14 +1228,14 @@ def isbn_page(isbn_input):
         #         language_codes_probs[lang_code] = 1.0
 
         search_results_raw = es.search(
-            index="md5_dicts",
+            index="aarecords",
             size=100,
             query={ "term": { "search_only_fields.search_isbn13": canonical_isbn13 } },
             sort={ "search_only_fields.search_score_base": "desc" },
             timeout=ES_TIMEOUT,
         )
-        search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in search_filtered_bad_md5s]
-        isbn_dict['search_md5_dicts'] = search_md5_dicts
+        search_aarecords = [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in search_filtered_bad_md5s]
+        isbn_dict['search_aarecords'] = search_aarecords
         
         return render_template(
             "page/isbn.html",
@@ -1254,16 +1254,16 @@ def doi_page(doi_input):
         return render_template("page/doi.html", header_active="search", doi_input=doi_input), 404
 
     search_results_raw = es.search(
-        index="md5_dicts",
+        index="aarecords",
         size=100,
         query={ "term": { "search_only_fields.search_doi": doi_input } },
         sort={ "search_only_fields.search_score_base": "desc" },
         timeout=ES_TIMEOUT,
     )
-    search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in search_filtered_bad_md5s]
+    search_aarecords = [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in search_filtered_bad_md5s]
 
     doi_dict = {}
-    doi_dict['search_md5_dicts'] = search_md5_dicts
+    doi_dict['search_aarecords'] = search_aarecords
     
     return render_template(
         "page/doi.html",
@@ -1293,7 +1293,7 @@ def sort_by_length_and_filter_subsequences_with_longest_string(strings):
             strings_filtered.append(string)
     return strings_filtered
 
-def get_md5_dicts_elasticsearch(session, canonical_md5s):
+def get_aarecords_elasticsearch(session, canonical_md5s):
     if not allthethings.utils.validate_canonical_md5s(canonical_md5s):
         raise Exception("Non-canonical md5")
 
@@ -1301,52 +1301,52 @@ def get_md5_dicts_elasticsearch(session, canonical_md5s):
     canonical_md5s = [val for val in canonical_md5s if val not in search_filtered_bad_md5s]
 
     # Uncomment the following line to use MySQL directly; useful for local development.
-    # return [add_additional_to_md5_dict(md5_dict) for md5_dict in get_md5_dicts_mysql(session, canonical_md5s)]
+    # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, canonical_md5s)]
 
-    search_results_raw = es.mget(index="md5_dicts", ids=canonical_md5s)
-    return [add_additional_to_md5_dict({'md5': result['_id'], **result['_source']}) for result in search_results_raw['docs'] if result['found']]
+    search_results_raw = es.mget(index="aarecords", ids=canonical_md5s)
+    return [add_additional_to_aarecord({'md5': result['_id'], **result['_source']}) for result in search_results_raw['docs'] if result['found']]
 
-def md5_dict_score_base(md5_dict):
-    if len(md5_dict['file_unified_data'].get('problems') or []) > 0:
+def aarecord_score_base(aarecord):
+    if len(aarecord['file_unified_data'].get('problems') or []) > 0:
         return 0.0
 
     score = 10000.0
-    if (md5_dict['file_unified_data'].get('filesize_best') or 0) > 500000:
+    if (aarecord['file_unified_data'].get('filesize_best') or 0) > 500000:
         score += 1000.0
     # If we're not confident about the language, demote.
-    if len(md5_dict['file_unified_data'].get('language_codes') or []) == 0:
+    if len(aarecord['file_unified_data'].get('language_codes') or []) == 0:
         score -= 2.0
-    if (md5_dict['file_unified_data'].get('extension_best') or '') in ['epub', 'pdf']:
+    if (aarecord['file_unified_data'].get('extension_best') or '') in ['epub', 'pdf']:
         score += 10.0
-    if len(md5_dict['file_unified_data'].get('cover_url_best') or '') > 0:
+    if len(aarecord['file_unified_data'].get('cover_url_best') or '') > 0:
         # Since we only use the zlib cover as a last resort, and zlib is down / only on Tor,
         # stronlgy demote zlib-only books for now.
-        if 'covers.zlibcdn2.com' in (md5_dict['file_unified_data'].get('cover_url_best') or ''):
+        if 'covers.zlibcdn2.com' in (aarecord['file_unified_data'].get('cover_url_best') or ''):
             score -= 15.0
         else:
             score += 3.0
-    if (md5_dict['file_unified_data'].get('has_aa_downloads') or 0) > 0:
+    if (aarecord['file_unified_data'].get('has_aa_downloads') or 0) > 0:
         score += 5.0
-    if (md5_dict['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0:
+    if (aarecord['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0:
         score += 5.0
-    if len(md5_dict['file_unified_data'].get('title_best') or '') > 0:
+    if len(aarecord['file_unified_data'].get('title_best') or '') > 0:
         score += 10.0
-    if len(md5_dict['file_unified_data'].get('author_best') or '') > 0:
+    if len(aarecord['file_unified_data'].get('author_best') or '') > 0:
         score += 1.0
-    if len(md5_dict['file_unified_data'].get('publisher_best') or '') > 0:
+    if len(aarecord['file_unified_data'].get('publisher_best') or '') > 0:
         score += 1.0
-    if len(md5_dict['file_unified_data'].get('edition_varia_best') or '') > 0:
+    if len(aarecord['file_unified_data'].get('edition_varia_best') or '') > 0:
         score += 1.0
-    score += min(5.0, 1.0*len(md5_dict['file_unified_data'].get('identifiers_unified') or []))
-    if len(md5_dict['file_unified_data'].get('content_type') or '') in ['journal_article', 'standards_document', 'book_comic', 'magazine']:
+    score += min(5.0, 1.0*len(aarecord['file_unified_data'].get('identifiers_unified') or []))
+    if len(aarecord['file_unified_data'].get('content_type') or '') in ['journal_article', 'standards_document', 'book_comic', 'magazine']:
         # For now demote non-books quite a bit, since they can drown out books.
         # People can filter for them directly.
         score -= 70.0
-    if len(md5_dict['file_unified_data'].get('stripped_description_best') or '') > 0:
+    if len(aarecord['file_unified_data'].get('stripped_description_best') or '') > 0:
         score += 1.0
     return score
 
-def get_md5_dicts_mysql(session, canonical_md5s):
+def get_aarecords_mysql(session, canonical_md5s):
     if not allthethings.utils.validate_canonical_md5s(canonical_md5s):
         raise Exception("Non-canonical md5")
 
@@ -1362,213 +1362,213 @@ def get_md5_dicts_mysql(session, canonical_md5s):
     aa_lgli_comics_2022_08_file_dicts = dict((item['md5'].lower(), item) for item in get_aa_lgli_comics_2022_08_file_dicts(session, "md5", canonical_md5s))
     ia_record_dicts = dict((item['aa_ia_file']['md5'].lower(), item) for item in get_ia_record_dicts(session, "md5", canonical_md5s) if 'aa_ia_file' in item)
 
-    md5_dicts = []
+    aarecords = []
     for canonical_md5 in canonical_md5s:
-        md5_dict = {}
-        md5_dict['md5'] = canonical_md5
-        md5_dict['lgrsnf_book'] = lgrsnf_book_dicts.get(canonical_md5)
-        md5_dict['lgrsfic_book'] = lgrsfic_book_dicts.get(canonical_md5)
-        md5_dict['lgli_file'] = lgli_file_dicts.get(canonical_md5)
-        if md5_dict.get('lgli_file'):
-            md5_dict['lgli_file']['editions'] = md5_dict['lgli_file']['editions'][0:5]
-        md5_dict['zlib_book'] = zlib_book_dicts1.get(canonical_md5) or zlib_book_dicts2.get(canonical_md5)
-        md5_dict['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(canonical_md5)
-        md5_dict['ia_record'] = ia_record_dicts.get(canonical_md5)
+        aarecord = {}
+        aarecord['md5'] = canonical_md5
+        aarecord['lgrsnf_book'] = lgrsnf_book_dicts.get(canonical_md5)
+        aarecord['lgrsfic_book'] = lgrsfic_book_dicts.get(canonical_md5)
+        aarecord['lgli_file'] = lgli_file_dicts.get(canonical_md5)
+        if aarecord.get('lgli_file'):
+            aarecord['lgli_file']['editions'] = aarecord['lgli_file']['editions'][0:5]
+        aarecord['zlib_book'] = zlib_book_dicts1.get(canonical_md5) or zlib_book_dicts2.get(canonical_md5)
+        aarecord['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(canonical_md5)
+        aarecord['ia_record'] = ia_record_dicts.get(canonical_md5)
 
-        md5_dict['ipfs_infos'] = []
-        if md5_dict['lgrsnf_book'] and len(md5_dict['lgrsnf_book'].get('ipfs_cid') or '') > 0:
-            md5_dict['ipfs_infos'].append({ 'ipfs_cid': md5_dict['lgrsnf_book']['ipfs_cid'].lower(), 'from': 'lgrsnf' })
-        if md5_dict['lgrsfic_book'] and len(md5_dict['lgrsfic_book'].get('ipfs_cid') or '') > 0:
-            md5_dict['ipfs_infos'].append({ 'ipfs_cid': md5_dict['lgrsfic_book']['ipfs_cid'].lower(), 'from': 'lgrsfic' })
+        aarecord['ipfs_infos'] = []
+        if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
+            aarecord['ipfs_infos'].append({ 'ipfs_cid': aarecord['lgrsnf_book']['ipfs_cid'].lower(), 'from': 'lgrsnf' })
+        if aarecord['lgrsfic_book'] and len(aarecord['lgrsfic_book'].get('ipfs_cid') or '') > 0:
+            aarecord['ipfs_infos'].append({ 'ipfs_cid': aarecord['lgrsfic_book']['ipfs_cid'].lower(), 'from': 'lgrsfic' })
         
-        md5_dict['file_unified_data'] = {}
+        aarecord['file_unified_data'] = {}
 
         original_filename_multiple = [
-            ((md5_dict['lgrsnf_book'] or {}).get('locator') or '').strip(),
-            ((md5_dict['lgrsfic_book'] or {}).get('locator') or '').strip(),
-            ((md5_dict['lgli_file'] or {}).get('locator') or '').strip(),
-            *[filename.strip() for filename in (((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename') or [])],
-            ((md5_dict['lgli_file'] or {}).get('scimag_archive_path') or '').strip(),
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('original_filename') or '').strip(),
+            ((aarecord['lgrsnf_book'] or {}).get('locator') or '').strip(),
+            ((aarecord['lgrsfic_book'] or {}).get('locator') or '').strip(),
+            ((aarecord['lgli_file'] or {}).get('locator') or '').strip(),
+            *[filename.strip() for filename in (((aarecord['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename') or [])],
+            ((aarecord['lgli_file'] or {}).get('scimag_archive_path') or '').strip(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('original_filename') or '').strip(),
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
-        md5_dict['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
-        md5_dict['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != md5_dict['file_unified_data']['original_filename_best']]
-        md5_dict['file_unified_data']['original_filename_best_name_only'] =  re.split(r'[\\/]', md5_dict['file_unified_data']['original_filename_best'])[-1]
+        aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
+        aarecord['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != aarecord['file_unified_data']['original_filename_best']]
+        aarecord['file_unified_data']['original_filename_best_name_only'] =  re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1]
 
         # Select the cover_url_normalized in order of what is likely to be the best one: ia, zlib, lgrsnf, lgrsfic, lgli.
-        zlib_cover = ((md5_dict['zlib_book'] or {}).get('cover_url') or '').strip()
+        zlib_cover = ((aarecord['zlib_book'] or {}).get('cover_url') or '').strip()
         cover_url_multiple = [
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('cover_url') or '').strip(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('cover_url') or '').strip(),
             # Put the zlib_cover at the beginning if it starts with the right prefix.
             # zlib_cover.strip() if zlib_cover.startswith('https://covers.zlibcdn2.com') else '',
-            ((md5_dict['lgrsnf_book'] or {}).get('cover_url_normalized') or '').strip(),
-            ((md5_dict['lgrsfic_book'] or {}).get('cover_url_normalized') or '').strip(),
-            ((md5_dict['lgli_file'] or {}).get('cover_url_guess_normalized') or '').strip(),
+            ((aarecord['lgrsnf_book'] or {}).get('cover_url_normalized') or '').strip(),
+            ((aarecord['lgrsfic_book'] or {}).get('cover_url_normalized') or '').strip(),
+            ((aarecord['lgli_file'] or {}).get('cover_url_guess_normalized') or '').strip(),
             # Otherwie put it at the end.
             # '' if zlib_cover.startswith('https://covers.zlibcdn2.com') else zlib_cover.strip(),
             # Temporarily always put it at the end because their servers are down.
             zlib_cover.strip()
         ]
         cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
-        md5_dict['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
-        md5_dict['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != md5_dict['file_unified_data']['cover_url_best']]
+        aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
+        aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
 
         extension_multiple = [
-            (((md5_dict['ia_record'] or {}).get('aa_ia_file') or {}).get('extension') or '').strip(),
-            ((md5_dict['zlib_book'] or {}).get('extension') or '').strip().lower(),
-            ((md5_dict['lgrsnf_book'] or {}).get('extension') or '').strip().lower(),
-            ((md5_dict['lgrsfic_book'] or {}).get('extension') or '').strip().lower(),
-            ((md5_dict['lgli_file'] or {}).get('extension') or '').strip().lower(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('extension') or '').strip(),
+            ((aarecord['zlib_book'] or {}).get('extension') or '').strip().lower(),
+            ((aarecord['lgrsnf_book'] or {}).get('extension') or '').strip().lower(),
+            ((aarecord['lgrsfic_book'] or {}).get('extension') or '').strip().lower(),
+            ((aarecord['lgli_file'] or {}).get('extension') or '').strip().lower(),
         ]
         if "epub" in extension_multiple:
-            md5_dict['file_unified_data']['extension_best'] = "epub"
+            aarecord['file_unified_data']['extension_best'] = "epub"
         elif "pdf" in extension_multiple:
-            md5_dict['file_unified_data']['extension_best'] = "pdf"
+            aarecord['file_unified_data']['extension_best'] = "pdf"
         else:
-            md5_dict['file_unified_data']['extension_best'] = max(extension_multiple, key=len)
-        md5_dict['file_unified_data']['extension_additional'] = [s for s in dict.fromkeys(filter(len, extension_multiple)) if s != md5_dict['file_unified_data']['extension_best']]
+            aarecord['file_unified_data']['extension_best'] = max(extension_multiple, key=len)
+        aarecord['file_unified_data']['extension_additional'] = [s for s in dict.fromkeys(filter(len, extension_multiple)) if s != aarecord['file_unified_data']['extension_best']]
 
         filesize_multiple = [
-            ((md5_dict['ia_record'] or {}).get('aa_ia_file') or {}).get('filesize') or 0,
-            (md5_dict['zlib_book'] or {}).get('filesize_reported') or 0,
-            (md5_dict['zlib_book'] or {}).get('filesize') or 0,
-            (md5_dict['lgrsnf_book'] or {}).get('filesize') or 0,
-            (md5_dict['lgrsfic_book'] or {}).get('filesize') or 0,
-            (md5_dict['lgli_file'] or {}).get('filesize') or 0,
+            ((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('filesize') or 0,
+            (aarecord['zlib_book'] or {}).get('filesize_reported') or 0,
+            (aarecord['zlib_book'] or {}).get('filesize') or 0,
+            (aarecord['lgrsnf_book'] or {}).get('filesize') or 0,
+            (aarecord['lgrsfic_book'] or {}).get('filesize') or 0,
+            (aarecord['lgli_file'] or {}).get('filesize') or 0,
         ]
-        md5_dict['file_unified_data']['filesize_best'] = max(filesize_multiple)
-        zlib_book_filesize = (md5_dict['zlib_book'] or {}).get('filesize') or 0
+        aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
+        zlib_book_filesize = (aarecord['zlib_book'] or {}).get('filesize') or 0
         if zlib_book_filesize > 0:
             # If we have a zlib_book with a `filesize`, then that is leading, since we measured it ourselves.
-            md5_dict['file_unified_data']['filesize_best'] = zlib_book_filesize
-        md5_dict['file_unified_data']['filesize_additional'] = [s for s in dict.fromkeys(filter(lambda fz: fz > 0, filesize_multiple)) if s != md5_dict['file_unified_data']['filesize_best']]
+            aarecord['file_unified_data']['filesize_best'] = zlib_book_filesize
+        aarecord['file_unified_data']['filesize_additional'] = [s for s in dict.fromkeys(filter(lambda fz: fz > 0, filesize_multiple)) if s != aarecord['file_unified_data']['filesize_best']]
 
-        lgli_single_edition = md5_dict['lgli_file']['editions'][0] if len((md5_dict.get('lgli_file') or {}).get('editions') or []) == 1 else None
-        lgli_all_editions = md5_dict['lgli_file']['editions'] if md5_dict.get('lgli_file') else []
+        lgli_single_edition = aarecord['lgli_file']['editions'][0] if len((aarecord.get('lgli_file') or {}).get('editions') or []) == 1 else None
+        lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
         title_multiple = [
-            ((md5_dict['lgrsnf_book'] or {}).get('title') or '').strip(),
-            ((md5_dict['lgrsfic_book'] or {}).get('title') or '').strip(),
+            ((aarecord['lgrsnf_book'] or {}).get('title') or '').strip(),
+            ((aarecord['lgrsfic_book'] or {}).get('title') or '').strip(),
             ((lgli_single_edition or {}).get('title') or '').strip(),
-            ((md5_dict['zlib_book'] or {}).get('title') or '').strip(),
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('title') or '').strip(),
+            ((aarecord['zlib_book'] or {}).get('title') or '').strip(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('title') or '').strip(),
         ]
-        md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
+        aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage') or [])]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or [])]
-        if md5_dict['file_unified_data']['title_best'] == '':
-            md5_dict['file_unified_data']['title_best'] = max(title_multiple, key=len)
-        md5_dict['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != md5_dict['file_unified_data']['title_best']]
+        if aarecord['file_unified_data']['title_best'] == '':
+            aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
+        aarecord['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != aarecord['file_unified_data']['title_best']]
 
         author_multiple = [
-            (md5_dict['lgrsnf_book'] or {}).get('author', '').strip(),
-            (md5_dict['lgrsfic_book'] or {}).get('author', '').strip(),
+            (aarecord['lgrsnf_book'] or {}).get('author', '').strip(),
+            (aarecord['lgrsfic_book'] or {}).get('author', '').strip(),
             (lgli_single_edition or {}).get('authors_normalized', '').strip(),
-            (md5_dict['zlib_book'] or {}).get('author', '').strip(),
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('author') or '').strip(),
+            (aarecord['zlib_book'] or {}).get('author', '').strip(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('author') or '').strip(),
         ]
-        md5_dict['file_unified_data']['author_best'] = max(author_multiple, key=len)
+        aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
-        if md5_dict['file_unified_data']['author_best'] == '':
-            md5_dict['file_unified_data']['author_best'] = max(author_multiple, key=len)
-        md5_dict['file_unified_data']['author_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(author_multiple) if s != md5_dict['file_unified_data']['author_best']]
+        if aarecord['file_unified_data']['author_best'] == '':
+            aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
+        aarecord['file_unified_data']['author_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(author_multiple) if s != aarecord['file_unified_data']['author_best']]
 
         publisher_multiple = [
-            ((md5_dict['lgrsnf_book'] or {}).get('publisher') or '').strip(),
-            ((md5_dict['lgrsfic_book'] or {}).get('publisher') or '').strip(),
+            ((aarecord['lgrsnf_book'] or {}).get('publisher') or '').strip(),
+            ((aarecord['lgrsfic_book'] or {}).get('publisher') or '').strip(),
             ((lgli_single_edition or {}).get('publisher_normalized') or '').strip(),
-            ((md5_dict['zlib_book'] or {}).get('publisher') or '').strip(),
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('publisher') or '').strip(),
+            ((aarecord['zlib_book'] or {}).get('publisher') or '').strip(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('publisher') or '').strip(),
         ]
-        md5_dict['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
+        aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
-        if md5_dict['file_unified_data']['publisher_best'] == '':
-            md5_dict['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
-        md5_dict['file_unified_data']['publisher_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(publisher_multiple) if s != md5_dict['file_unified_data']['publisher_best']]
+        if aarecord['file_unified_data']['publisher_best'] == '':
+            aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
+        aarecord['file_unified_data']['publisher_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(publisher_multiple) if s != aarecord['file_unified_data']['publisher_best']]
 
         edition_varia_multiple = [
-            ((md5_dict['lgrsnf_book'] or {}).get('edition_varia_normalized') or '').strip(),
-            ((md5_dict['lgrsfic_book'] or {}).get('edition_varia_normalized') or '').strip(),
+            ((aarecord['lgrsnf_book'] or {}).get('edition_varia_normalized') or '').strip(),
+            ((aarecord['lgrsfic_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((lgli_single_edition or {}).get('edition_varia_normalized') or '').strip(),
-            ((md5_dict['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('edition_varia_normalized') or '').strip(),
+            ((aarecord['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('edition_varia_normalized') or '').strip(),
         ]
-        md5_dict['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
+        aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
-        if md5_dict['file_unified_data']['edition_varia_best'] == '':
-            md5_dict['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
-        md5_dict['file_unified_data']['edition_varia_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(edition_varia_multiple) if s != md5_dict['file_unified_data']['edition_varia_best']]
+        if aarecord['file_unified_data']['edition_varia_best'] == '':
+            aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
+        aarecord['file_unified_data']['edition_varia_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(edition_varia_multiple) if s != aarecord['file_unified_data']['edition_varia_best']]
 
         year_multiple_raw = [
-            ((md5_dict['lgrsnf_book'] or {}).get('year') or '').strip(),
-            ((md5_dict['lgrsfic_book'] or {}).get('year') or '').strip(),
+            ((aarecord['lgrsnf_book'] or {}).get('year') or '').strip(),
+            ((aarecord['lgrsfic_book'] or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('issue_year_number') or '').strip(),
-            ((md5_dict['zlib_book'] or {}).get('year') or '').strip(),
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('year') or '').strip(),
+            ((aarecord['zlib_book'] or {}).get('year') or '').strip(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('year') or '').strip(),
         ]
         # Filter out years in for which we surely don't have books (famous last words..)
         year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple_raw]
-        md5_dict['file_unified_data']['year_best'] = max(year_multiple, key=len)
+        aarecord['file_unified_data']['year_best'] = max(year_multiple, key=len)
         year_multiple += [(edition.get('year_normalized') or '').strip() for edition in lgli_all_editions]
         for year in year_multiple:
             # If a year appears in edition_varia_best, then use that, for consistency.
-            if year != '' and year in md5_dict['file_unified_data']['edition_varia_best']:
-                md5_dict['file_unified_data']['year_best'] = year
-        if md5_dict['file_unified_data']['year_best'] == '':
-            md5_dict['file_unified_data']['year_best'] = max(year_multiple, key=len)
-        md5_dict['file_unified_data']['year_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(year_multiple) if s != md5_dict['file_unified_data']['year_best']]
+            if year != '' and year in aarecord['file_unified_data']['edition_varia_best']:
+                aarecord['file_unified_data']['year_best'] = year
+        if aarecord['file_unified_data']['year_best'] == '':
+            aarecord['file_unified_data']['year_best'] = max(year_multiple, key=len)
+        aarecord['file_unified_data']['year_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(year_multiple) if s != aarecord['file_unified_data']['year_best']]
 
         comments_multiple = [
-            ((md5_dict['lgrsnf_book'] or {}).get('commentary') or '').strip(),
-            ((md5_dict['lgrsfic_book'] or {}).get('commentary') or '').strip(),
-            ' -- '.join(filter(len, [((md5_dict['lgrsnf_book'] or {}).get('library') or '').strip(), (md5_dict['lgrsnf_book'] or {}).get('issue', '').strip()])),
-            ' -- '.join(filter(len, [((md5_dict['lgrsfic_book'] or {}).get('library') or '').strip(), (md5_dict['lgrsfic_book'] or {}).get('issue', '').strip()])),
-            ' -- '.join(filter(len, [*((md5_dict['lgli_file'] or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.library', []), *(md5_dict['lgli_file'] or {}).get('descriptions_mapped', {}).get('descriptions_mapped.library_issue', [])])),
+            ((aarecord['lgrsnf_book'] or {}).get('commentary') or '').strip(),
+            ((aarecord['lgrsfic_book'] or {}).get('commentary') or '').strip(),
+            ' -- '.join(filter(len, [((aarecord['lgrsnf_book'] or {}).get('library') or '').strip(), (aarecord['lgrsnf_book'] or {}).get('issue', '').strip()])),
+            ' -- '.join(filter(len, [((aarecord['lgrsfic_book'] or {}).get('library') or '').strip(), (aarecord['lgrsfic_book'] or {}).get('issue', '').strip()])),
+            ' -- '.join(filter(len, [*((aarecord['lgli_file'] or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.library', []), *(aarecord['lgli_file'] or {}).get('descriptions_mapped', {}).get('descriptions_mapped.library_issue', [])])),
             ((lgli_single_edition or {}).get('commentary') or '').strip(),
             ((lgli_single_edition or {}).get('editions_add_info') or '').strip(),
             ((lgli_single_edition or {}).get('commentary') or '').strip(),
             *[note.strip() for note in (((lgli_single_edition or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.notes') or [])],
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('combined_comments') or '').strip(),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('combined_comments') or '').strip(),
         ]
-        md5_dict['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
+        aarecord['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
         comments_multiple += [(edition.get('comments_normalized') or '').strip() for edition in lgli_all_editions]
         for edition in lgli_all_editions:
             comments_multiple.append((edition.get('editions_add_info') or '').strip())
             comments_multiple.append((edition.get('commentary') or '').strip())
             for note in (edition.get('descriptions_mapped') or {}).get('descriptions_mapped.notes', []):
                 comments_multiple.append(note.strip())
-        if md5_dict['file_unified_data']['comments_best'] == '':
-            md5_dict['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
-        md5_dict['file_unified_data']['comments_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(comments_multiple) if s != md5_dict['file_unified_data']['comments_best']]
+        if aarecord['file_unified_data']['comments_best'] == '':
+            aarecord['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
+        aarecord['file_unified_data']['comments_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(comments_multiple) if s != aarecord['file_unified_data']['comments_best']]
 
         stripped_description_multiple = [
-            ((md5_dict['lgrsnf_book'] or {}).get('stripped_description') or '').strip()[0:5000],
-            ((md5_dict['lgrsfic_book'] or {}).get('stripped_description') or '').strip()[0:5000],
+            ((aarecord['lgrsnf_book'] or {}).get('stripped_description') or '').strip()[0:5000],
+            ((aarecord['lgrsfic_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((lgli_single_edition or {}).get('stripped_description') or '').strip()[0:5000],
-            ((md5_dict['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000],
+            ((aarecord['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000],
         ]
-        md5_dict['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
+        aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
-        if md5_dict['file_unified_data']['stripped_description_best'] == '':
-            md5_dict['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
-        md5_dict['file_unified_data']['stripped_description_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(stripped_description_multiple) if s != md5_dict['file_unified_data']['stripped_description_best']]
+        if aarecord['file_unified_data']['stripped_description_best'] == '':
+            aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
+        aarecord['file_unified_data']['stripped_description_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(stripped_description_multiple) if s != aarecord['file_unified_data']['stripped_description_best']]
 
-        md5_dict['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
-            ((md5_dict['lgrsnf_book'] or {}).get('language_codes') or []),
-            ((md5_dict['lgrsfic_book'] or {}).get('language_codes') or []),
+        aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
+            ((aarecord['lgrsnf_book'] or {}).get('language_codes') or []),
+            ((aarecord['lgrsfic_book'] or {}).get('language_codes') or []),
             ((lgli_single_edition or {}).get('language_codes') or []),
-            ((md5_dict['zlib_book'] or {}).get('language_codes') or []),
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('language_codes') or []),
+            ((aarecord['zlib_book'] or {}).get('language_codes') or []),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('language_codes') or []),
         ])
-        if len(md5_dict['file_unified_data']['language_codes']) == 0:
-            md5_dict['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
+        if len(aarecord['file_unified_data']['language_codes']) == 0:
+            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
 
         language_detection = ''
-        if len(md5_dict['file_unified_data']['stripped_description_best']) > 20:
+        if len(aarecord['file_unified_data']['stripped_description_best']) > 20:
             language_detect_string = " ".join(title_multiple) + " ".join(stripped_description_multiple)
             try:
                 language_detection_data = ftlangdetect.detect(language_detect_string)
@@ -1581,154 +1581,154 @@ def get_md5_dicts_mysql(session, canonical_md5s):
         # for item in language_detection:
         #     for code in get_bcp47_lang_codes(item.lang):
         #         detected_language_codes_probs.append(f"{code}: {item.prob}")
-        # md5_dict['file_unified_data']['detected_language_codes_probs'] = ", ".join(detected_language_codes_probs)
+        # aarecord['file_unified_data']['detected_language_codes_probs'] = ", ".join(detected_language_codes_probs)
 
-        md5_dict['file_unified_data']['most_likely_language_code'] = ''
-        if len(md5_dict['file_unified_data']['language_codes']) > 0:
-            md5_dict['file_unified_data']['most_likely_language_code'] = md5_dict['file_unified_data']['language_codes'][0]
+        aarecord['file_unified_data']['most_likely_language_code'] = ''
+        if len(aarecord['file_unified_data']['language_codes']) > 0:
+            aarecord['file_unified_data']['most_likely_language_code'] = aarecord['file_unified_data']['language_codes'][0]
         elif len(language_detection) > 0:
-            md5_dict['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
+            aarecord['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
 
-        md5_dict['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
-            ((md5_dict['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
-            ((md5_dict['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
-            ((md5_dict['zlib_book'] or {}).get('identifiers_unified') or {}),
+        aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
+            ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
             *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
         ])
-        md5_dict['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
-            ((md5_dict['lgrsnf_book'] or {}).get('classifications_unified') or {}),
-            ((md5_dict['lgrsfic_book'] or {}).get('classifications_unified') or {}),
-            ((md5_dict['zlib_book'] or {}).get('classifications_unified') or {}),
+        aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
+            ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
+            ((aarecord['lgrsfic_book'] or {}).get('classifications_unified') or {}),
+            ((aarecord['zlib_book'] or {}).get('classifications_unified') or {}),
             *[(edition.get('classifications_unified') or {}) for edition in lgli_all_editions],
-            (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('classifications_unified') or {}),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('classifications_unified') or {}),
         ])
 
-        md5_dict['file_unified_data']['problems'] = []
-        if ((md5_dict['lgrsnf_book'] or {}).get('visible') or '') != '':
-            md5_dict['file_unified_data']['problems'].append({ 'type': 'lgrsnf_visible', 'descr': ((md5_dict['lgrsnf_book'] or {}).get('visible') or '') })
-        if ((md5_dict['lgrsfic_book'] or {}).get('visible') or '') != '':
-            md5_dict['file_unified_data']['problems'].append({ 'type': 'lgrsfic_visible', 'descr': ((md5_dict['lgrsfic_book'] or {}).get('visible') or '') })
-        if ((md5_dict['lgli_file'] or {}).get('visible') or '') != '':
-            md5_dict['file_unified_data']['problems'].append({ 'type': 'lgli_visible', 'descr': ((md5_dict['lgli_file'] or {}).get('visible') or '') })
-        if ((md5_dict['lgli_file'] or {}).get('broken') or '') in [1, "1", "y", "Y"]:
-            md5_dict['file_unified_data']['problems'].append({ 'type': 'lgli_broken', 'descr': ((md5_dict['lgli_file'] or {}).get('broken') or '') })
-        if (md5_dict['zlib_book'] and (md5_dict['zlib_book']['in_libgen'] or False) == False and (md5_dict['zlib_book']['pilimi_torrent'] or '') == ''):
-            md5_dict['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '' })
+        aarecord['file_unified_data']['problems'] = []
+        if ((aarecord['lgrsnf_book'] or {}).get('visible') or '') != '':
+            aarecord['file_unified_data']['problems'].append({ 'type': 'lgrsnf_visible', 'descr': ((aarecord['lgrsnf_book'] or {}).get('visible') or '') })
+        if ((aarecord['lgrsfic_book'] or {}).get('visible') or '') != '':
+            aarecord['file_unified_data']['problems'].append({ 'type': 'lgrsfic_visible', 'descr': ((aarecord['lgrsfic_book'] or {}).get('visible') or '') })
+        if ((aarecord['lgli_file'] or {}).get('visible') or '') != '':
+            aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_visible', 'descr': ((aarecord['lgli_file'] or {}).get('visible') or '') })
+        if ((aarecord['lgli_file'] or {}).get('broken') or '') in [1, "1", "y", "Y"]:
+            aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_broken', 'descr': ((aarecord['lgli_file'] or {}).get('broken') or '') })
+        if (aarecord['zlib_book'] and (aarecord['zlib_book']['in_libgen'] or False) == False and (aarecord['zlib_book']['pilimi_torrent'] or '') == ''):
+            aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '' })
 
-        md5_dict['file_unified_data']['content_type'] = 'book_unknown'
-        if md5_dict['lgli_file'] is not None:
-            if md5_dict['lgli_file']['libgen_topic'] == 'l':
-                md5_dict['file_unified_data']['content_type'] = 'book_nonfiction'
-            if md5_dict['lgli_file']['libgen_topic'] == 'f':
-                md5_dict['file_unified_data']['content_type'] = 'book_fiction'
-            if md5_dict['lgli_file']['libgen_topic'] == 'r':
-                md5_dict['file_unified_data']['content_type'] = 'book_fiction'
-            if md5_dict['lgli_file']['libgen_topic'] == 'a':
-                md5_dict['file_unified_data']['content_type'] = 'journal_article'
-            if md5_dict['lgli_file']['libgen_topic'] == 's':
-                md5_dict['file_unified_data']['content_type'] = 'standards_document'
-            if md5_dict['lgli_file']['libgen_topic'] == 'm':
-                md5_dict['file_unified_data']['content_type'] = 'magazine'
-            if md5_dict['lgli_file']['libgen_topic'] == 'c':
-                md5_dict['file_unified_data']['content_type'] = 'book_comic'
-        if md5_dict['lgrsnf_book'] and (not md5_dict['lgrsfic_book']):
-            md5_dict['file_unified_data']['content_type'] = 'book_nonfiction'
-        if (not md5_dict['lgrsnf_book']) and md5_dict['lgrsfic_book']:
-            md5_dict['file_unified_data']['content_type'] = 'book_fiction'
-        ia_content_type = (((md5_dict['ia_record'] or {}).get('aa_ia_derived') or {}).get('content_type') or 'book_unknown')
-        if (md5_dict['file_unified_data']['content_type'] == 'book_unknown') and (ia_content_type != 'book_unknown'):
-            md5_dict['file_unified_data']['content_type'] = ia_content_type
+        aarecord['file_unified_data']['content_type'] = 'book_unknown'
+        if aarecord['lgli_file'] is not None:
+            if aarecord['lgli_file']['libgen_topic'] == 'l':
+                aarecord['file_unified_data']['content_type'] = 'book_nonfiction'
+            if aarecord['lgli_file']['libgen_topic'] == 'f':
+                aarecord['file_unified_data']['content_type'] = 'book_fiction'
+            if aarecord['lgli_file']['libgen_topic'] == 'r':
+                aarecord['file_unified_data']['content_type'] = 'book_fiction'
+            if aarecord['lgli_file']['libgen_topic'] == 'a':
+                aarecord['file_unified_data']['content_type'] = 'journal_article'
+            if aarecord['lgli_file']['libgen_topic'] == 's':
+                aarecord['file_unified_data']['content_type'] = 'standards_document'
+            if aarecord['lgli_file']['libgen_topic'] == 'm':
+                aarecord['file_unified_data']['content_type'] = 'magazine'
+            if aarecord['lgli_file']['libgen_topic'] == 'c':
+                aarecord['file_unified_data']['content_type'] = 'book_comic'
+        if aarecord['lgrsnf_book'] and (not aarecord['lgrsfic_book']):
+            aarecord['file_unified_data']['content_type'] = 'book_nonfiction'
+        if (not aarecord['lgrsnf_book']) and aarecord['lgrsfic_book']:
+            aarecord['file_unified_data']['content_type'] = 'book_fiction'
+        ia_content_type = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('content_type') or 'book_unknown')
+        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (ia_content_type != 'book_unknown'):
+            aarecord['file_unified_data']['content_type'] = ia_content_type
 
-        if md5_dict['lgrsnf_book'] is not None:
-            md5_dict['lgrsnf_book'] = {
-                'id': md5_dict['lgrsnf_book']['id'],
-                'md5': md5_dict['lgrsnf_book']['md5'],
+        if aarecord['lgrsnf_book'] is not None:
+            aarecord['lgrsnf_book'] = {
+                'id': aarecord['lgrsnf_book']['id'],
+                'md5': aarecord['lgrsnf_book']['md5'],
             }
-        if md5_dict['lgrsfic_book'] is not None:
-            md5_dict['lgrsfic_book'] = {
-                'id': md5_dict['lgrsfic_book']['id'],
-                'md5': md5_dict['lgrsfic_book']['md5'],
+        if aarecord['lgrsfic_book'] is not None:
+            aarecord['lgrsfic_book'] = {
+                'id': aarecord['lgrsfic_book']['id'],
+                'md5': aarecord['lgrsfic_book']['md5'],
             }
-        if md5_dict['lgli_file'] is not None:
-            md5_dict['lgli_file'] = {
-                'f_id': md5_dict['lgli_file']['f_id'],
-                'md5': md5_dict['lgli_file']['md5'],
-                'libgen_topic': md5_dict['lgli_file']['libgen_topic'],
-                'libgen_id': md5_dict['lgli_file']['libgen_id'],
-                'fiction_id': md5_dict['lgli_file']['fiction_id'],
-                'fiction_rus_id': md5_dict['lgli_file']['fiction_rus_id'],
-                'comics_id': md5_dict['lgli_file']['comics_id'],
-                'scimag_id': md5_dict['lgli_file']['scimag_id'],
-                'standarts_id': md5_dict['lgli_file']['standarts_id'],
-                'magz_id': md5_dict['lgli_file']['magz_id'],
-                'scimag_archive_path': md5_dict['lgli_file']['scimag_archive_path'],
+        if aarecord['lgli_file'] is not None:
+            aarecord['lgli_file'] = {
+                'f_id': aarecord['lgli_file']['f_id'],
+                'md5': aarecord['lgli_file']['md5'],
+                'libgen_topic': aarecord['lgli_file']['libgen_topic'],
+                'libgen_id': aarecord['lgli_file']['libgen_id'],
+                'fiction_id': aarecord['lgli_file']['fiction_id'],
+                'fiction_rus_id': aarecord['lgli_file']['fiction_rus_id'],
+                'comics_id': aarecord['lgli_file']['comics_id'],
+                'scimag_id': aarecord['lgli_file']['scimag_id'],
+                'standarts_id': aarecord['lgli_file']['standarts_id'],
+                'magz_id': aarecord['lgli_file']['magz_id'],
+                'scimag_archive_path': aarecord['lgli_file']['scimag_archive_path'],
             }
-        if md5_dict['zlib_book'] is not None:
-            md5_dict['zlib_book'] = {
-                'zlibrary_id': md5_dict['zlib_book']['zlibrary_id'],
-                'md5': md5_dict['zlib_book']['md5'],
-                'md5_reported': md5_dict['zlib_book']['md5_reported'],
-                'filesize': md5_dict['zlib_book']['filesize'],
-                'filesize_reported': md5_dict['zlib_book']['filesize_reported'],
-                'in_libgen': md5_dict['zlib_book']['in_libgen'],
-                'pilimi_torrent': md5_dict['zlib_book']['pilimi_torrent'],
+        if aarecord['zlib_book'] is not None:
+            aarecord['zlib_book'] = {
+                'zlibrary_id': aarecord['zlib_book']['zlibrary_id'],
+                'md5': aarecord['zlib_book']['md5'],
+                'md5_reported': aarecord['zlib_book']['md5_reported'],
+                'filesize': aarecord['zlib_book']['filesize'],
+                'filesize_reported': aarecord['zlib_book']['filesize_reported'],
+                'in_libgen': aarecord['zlib_book']['in_libgen'],
+                'pilimi_torrent': aarecord['zlib_book']['pilimi_torrent'],
             }
-        if md5_dict['aa_lgli_comics_2022_08_file'] is not None:
-            md5_dict ['aa_lgli_comics_2022_08_file'] = {
-                'path': md5_dict['aa_lgli_comics_2022_08_file']['path'],
-                'md5': md5_dict['aa_lgli_comics_2022_08_file']['md5'],
-                'filesize': md5_dict['aa_lgli_comics_2022_08_file']['filesize'],
+        if aarecord['aa_lgli_comics_2022_08_file'] is not None:
+            aarecord ['aa_lgli_comics_2022_08_file'] = {
+                'path': aarecord['aa_lgli_comics_2022_08_file']['path'],
+                'md5': aarecord['aa_lgli_comics_2022_08_file']['md5'],
+                'filesize': aarecord['aa_lgli_comics_2022_08_file']['filesize'],
             }
-        if md5_dict['ia_record'] is not None:
-            md5_dict ['ia_record'] = {
-                'ia_id': md5_dict['ia_record']['ia_id'],
-                'has_thumb': md5_dict['ia_record']['has_thumb'],
+        if aarecord['ia_record'] is not None:
+            aarecord ['ia_record'] = {
+                'ia_id': aarecord['ia_record']['ia_id'],
+                'has_thumb': aarecord['ia_record']['has_thumb'],
                 'aa_ia_file': {
-                    'type': md5_dict['ia_record']['aa_ia_file']['type'],
-                    'filesize': md5_dict['ia_record']['aa_ia_file']['filesize'],
-                    'extension': md5_dict['ia_record']['aa_ia_file']['extension'],
-                    'ia_id': md5_dict['ia_record']['aa_ia_file']['ia_id'],
+                    'type': aarecord['ia_record']['aa_ia_file']['type'],
+                    'filesize': aarecord['ia_record']['aa_ia_file']['filesize'],
+                    'extension': aarecord['ia_record']['aa_ia_file']['extension'],
+                    'ia_id': aarecord['ia_record']['aa_ia_file']['ia_id'],
                 },
             }
 
         # Even though `additional` is only for computing real-time stuff,
         # we'd like to cache some fields for in the search results.
         with force_locale('en'):
-            additional = get_additional_for_md5_dict(md5_dict)
-            md5_dict['file_unified_data']['has_aa_downloads'] = additional['has_aa_downloads']
-            md5_dict['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
+            additional = get_additional_for_aarecord(aarecord)
+            aarecord['file_unified_data']['has_aa_downloads'] = additional['has_aa_downloads']
+            aarecord['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
 
-        md5_dict['search_only_fields'] = {
-            'search_filesize': md5_dict['file_unified_data']['filesize_best'],
-            'search_year': md5_dict['file_unified_data']['year_best'],
-            'search_extension': md5_dict['file_unified_data']['extension_best'],
-            'search_content_type': md5_dict['file_unified_data']['content_type'],
-            'search_most_likely_language_code': md5_dict['file_unified_data']['most_likely_language_code'],
-            'search_isbn13': (md5_dict['file_unified_data']['identifiers_unified'].get('isbn13') or []),
-            'search_doi': (md5_dict['file_unified_data']['identifiers_unified'].get('doi') or []),
+        aarecord['search_only_fields'] = {
+            'search_filesize': aarecord['file_unified_data']['filesize_best'],
+            'search_year': aarecord['file_unified_data']['year_best'],
+            'search_extension': aarecord['file_unified_data']['extension_best'],
+            'search_content_type': aarecord['file_unified_data']['content_type'],
+            'search_most_likely_language_code': aarecord['file_unified_data']['most_likely_language_code'],
+            'search_isbn13': (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []),
+            'search_doi': (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []),
             'search_text': "\n".join(list(dict.fromkeys([
-                md5_dict['file_unified_data']['title_best'][:1000],
-                md5_dict['file_unified_data']['title_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                md5_dict['file_unified_data']['author_best'][:1000],
-                md5_dict['file_unified_data']['author_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                md5_dict['file_unified_data']['edition_varia_best'][:1000],
-                md5_dict['file_unified_data']['edition_varia_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                md5_dict['file_unified_data']['publisher_best'][:1000],
-                md5_dict['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                md5_dict['file_unified_data']['original_filename_best_name_only'][:1000],
-                md5_dict['file_unified_data']['extension_best'],
-                *[str(item) for items in md5_dict['file_unified_data']['identifiers_unified'].values() for item in items],
-                *[str(item) for items in md5_dict['file_unified_data']['classifications_unified'].values() for item in items],
+                aarecord['file_unified_data']['title_best'][:1000],
+                aarecord['file_unified_data']['title_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['author_best'][:1000],
+                aarecord['file_unified_data']['author_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['edition_varia_best'][:1000],
+                aarecord['file_unified_data']['edition_varia_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['publisher_best'][:1000],
+                aarecord['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
+                aarecord['file_unified_data']['extension_best'],
+                *[str(item) for items in aarecord['file_unified_data']['identifiers_unified'].values() for item in items],
+                *[str(item) for items in aarecord['file_unified_data']['classifications_unified'].values() for item in items],
             ])))
         }
 
         # At the very end
-        md5_dict['search_only_fields']['search_score_base'] = float(md5_dict_score_base(md5_dict))
+        aarecord['search_only_fields']['search_score_base'] = float(aarecord_score_base(aarecord))
 
-        md5_dicts.append(md5_dict)
+        aarecords.append(aarecord)
 
-    return md5_dicts
+    return aarecords
 
 def get_md5_problem_type_mapping():
     return { 
@@ -1767,7 +1767,7 @@ def format_filesize(num):
 def compute_download_speed(targeted_seconds, filesize):
     return int(filesize/1000/targeted_seconds)
 
-def add_partner_servers(path, aa_exclusive, md5_dict, additional):
+def add_partner_servers(path, aa_exclusive, aarecord, additional):
     additional['has_aa_downloads'] = 1
     targeted_seconds = 180
     if aa_exclusive:
@@ -1775,47 +1775,47 @@ def add_partner_servers(path, aa_exclusive, md5_dict, additional):
         additional['has_aa_exclusive_downloads'] = 1
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, md5_dict['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename']), ""))
 
-def get_additional_for_md5_dict(md5_dict):
+def get_additional_for_aarecord(aarecord):
     additional = {}
-    additional['most_likely_language_name'] = (get_display_name_for_lang(md5_dict['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if md5_dict['file_unified_data'].get('most_likely_language_code', None) else '')
+    additional['most_likely_language_name'] = (get_display_name_for_lang(aarecord['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if aarecord['file_unified_data'].get('most_likely_language_code', None) else '')
 
     additional['top_box'] = {
         'meta_information': [item for item in [
-                md5_dict['file_unified_data'].get('title_best', None) or '',
-                md5_dict['file_unified_data'].get('author_best', None) or '',
-                (md5_dict['file_unified_data'].get('stripped_description_best', None) or '')[0:100],
-                md5_dict['file_unified_data'].get('publisher_best', None) or '',
-                md5_dict['file_unified_data'].get('edition_varia_best', None) or '',
-                md5_dict['file_unified_data'].get('original_filename_best_name_only', None) or '',
+                aarecord['file_unified_data'].get('title_best', None) or '',
+                aarecord['file_unified_data'].get('author_best', None) or '',
+                (aarecord['file_unified_data'].get('stripped_description_best', None) or '')[0:100],
+                aarecord['file_unified_data'].get('publisher_best', None) or '',
+                aarecord['file_unified_data'].get('edition_varia_best', None) or '',
+                aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
             ] if item != ''],
-        'cover_url': md5_dict['file_unified_data'].get('cover_url_best', None) or '',
+        'cover_url': aarecord['file_unified_data'].get('cover_url_best', None) or '',
         'top_row': ", ".join([item for item in [
                 additional['most_likely_language_name'],
-                md5_dict['file_unified_data'].get('extension_best', None) or '',
-                format_filesize(md5_dict['file_unified_data'].get('filesize_best', None) or 0),
-                md5_dict['file_unified_data'].get('original_filename_best_name_only', None) or '',
+                aarecord['file_unified_data'].get('extension_best', None) or '',
+                format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0),
+                aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
             ] if item != '']),
-        'title': md5_dict['file_unified_data'].get('title_best', None) or '',
+        'title': aarecord['file_unified_data'].get('title_best', None) or '',
         'publisher_and_edition': ", ".join([item for item in [
-                md5_dict['file_unified_data'].get('publisher_best', None) or '',
-                md5_dict['file_unified_data'].get('edition_varia_best', None) or '',
+                aarecord['file_unified_data'].get('publisher_best', None) or '',
+                aarecord['file_unified_data'].get('edition_varia_best', None) or '',
             ] if item != '']),
-        'author': md5_dict['file_unified_data'].get('author_best', None) or '',
-        'description': md5_dict['file_unified_data'].get('stripped_description_best', None) or '',
+        'author': aarecord['file_unified_data'].get('author_best', None) or '',
+        'description': aarecord['file_unified_data'].get('stripped_description_best', None) or '',
     }
 
     filename_info = [item for item in [
-            md5_dict['file_unified_data'].get('title_best', None) or '',
-            md5_dict['file_unified_data'].get('author_best', None) or '',
-            md5_dict['file_unified_data'].get('edition_varia_best', None) or '',
-            md5_dict['file_unified_data'].get('original_filename_best_name_only', None) or '',
-            md5_dict['file_unified_data'].get('publisher_best', None) or '',
+            aarecord['file_unified_data'].get('title_best', None) or '',
+            aarecord['file_unified_data'].get('author_best', None) or '',
+            aarecord['file_unified_data'].get('edition_varia_best', None) or '',
+            aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
+            aarecord['file_unified_data'].get('publisher_best', None) or '',
         ] if item != '']
     filename_slug = slugify.slugify(" ".join(filename_info), allow_unicode=True, max_length=50, word_boundary=True)
-    filename_extension = md5_dict['file_unified_data'].get('extension_best', None) or ''    
+    filename_extension = aarecord['file_unified_data'].get('extension_best', None) or ''    
     additional['filename'] = f"{filename_slug}--annas-archive.{filename_extension}"
 
     additional['download_urls'] = []
@@ -1824,61 +1824,61 @@ def get_additional_for_md5_dict(md5_dict):
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
-    if md5_dict.get('aa_lgli_comics_2022_08_file') is not None:
-        if md5_dict['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/comics'):
-            stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(md5_dict['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):]))
+    if aarecord.get('aa_lgli_comics_2022_08_file') is not None:
+        if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/comics'):
+            stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):]))
             partner_path = f"a/comics_2022_08/{stripped_path}"
-            add_partner_servers(partner_path, True, md5_dict, additional)
-    if md5_dict.get('lgrsnf_book') is not None:
-        lgrsnf_thousands_dir = (md5_dict['lgrsnf_book']['id'] // 1000) * 1000
+            add_partner_servers(partner_path, True, aarecord, additional)
+    if aarecord.get('lgrsnf_book') is not None:
+        lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         if lgrsnf_thousands_dir < 3659000:
-            lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{md5_dict['lgrsnf_book']['md5'].lower()}"
-            add_partner_servers(lgrsnf_path, False, md5_dict, additional)
+            lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
+            add_partner_servers(lgrsnf_path, False, aarecord, additional)
 
-        additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{md5_dict['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
+        additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{aarecord['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
-    if md5_dict.get('lgrsfic_book') is not None:
-        lgrsfic_thousands_dir = (md5_dict['lgrsfic_book']['id'] // 1000) * 1000
+    if aarecord.get('lgrsfic_book') is not None:
+        lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
         if lgrsfic_thousands_dir < 2667000 and lgrsfic_thousands_dir not in [2203000, 2204000, 2207000, 2209000, 2210000, 2211000]:
-            lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{md5_dict['lgrsfic_book']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
-            add_partner_servers(lgrsfic_path, False, md5_dict, additional)
+            lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+            add_partner_servers(lgrsfic_path, False, aarecord, additional)
 
-        additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{md5_dict['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
+        additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{aarecord['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
-    if md5_dict.get('lgli_file') is not None:
+    if aarecord.get('lgli_file') is not None:
         # TODO: use `['fiction_id']` when ES indexing has been done
-        lglific_id = md5_dict['lgli_file'].get('fiction_id', 0)
+        lglific_id = aarecord['lgli_file'].get('fiction_id', 0)
         if lglific_id > 0:
             lglific_thousands_dir = (lglific_id // 1000) * 1000
             if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000 and lglific_thousands_dir not in [2201000, 2306000, 2869000, 2896000, 2945000, 3412000, 3453000]:
-                lglific_path = f"e/lglific/{lglific_thousands_dir}/{md5_dict['lgli_file']['md5'].lower()}.{md5_dict['file_unified_data']['extension_best']}"
-                add_partner_servers(lglific_path, False, md5_dict, additional)
+                lglific_path = f"e/lglific/{lglific_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+                add_partner_servers(lglific_path, False, aarecord, additional)
         # TODO: use `['scimag_id']` when ES indexing has been done
-        scimag_id = md5_dict['lgli_file'].get('scimag_id', 0)
+        scimag_id = aarecord['lgli_file'].get('scimag_id', 0)
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
             scimag_tenmillion_dir = (scimag_id // 10000000)
-            scimag_filename = urllib.request.pathname2url(urllib.request.pathname2url(md5_dict['lgli_file']['scimag_archive_path'].replace('\\', '/')))
+            scimag_filename = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/')))
             scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
-            add_partner_servers(scimag_path, False, md5_dict, additional)
+            add_partner_servers(scimag_path, False, aarecord, additional)
 
-        additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={md5_dict['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
+        additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
-    if len(md5_dict.get('ipfs_infos') or []) > 0:
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://cloudflare-ipfs.com/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{md5_dict['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
-    if md5_dict['zlib_book'] is not None and len(md5_dict['zlib_book']['pilimi_torrent'] or '') > 0:
-        zlib_path = make_temp_anon_zlib_path(md5_dict['zlib_book']['zlibrary_id'], md5_dict['zlib_book']['pilimi_torrent'])
-        add_partner_servers(zlib_path, len(additional['fast_partner_urls']) == 0, md5_dict, additional)
-    for doi in (md5_dict['file_unified_data']['identifiers_unified'].get('doi') or []):
+    if len(aarecord.get('ipfs_infos') or []) > 0:
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://cloudflare-ipfs.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
+    if aarecord['zlib_book'] is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
+        zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
+        add_partner_servers(zlib_path, len(additional['fast_partner_urls']) == 0, aarecord, additional)
+    for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
-    if md5_dict.get('zlib_book') is not None:
-        additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{md5_dict['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
+    if aarecord.get('zlib_book') is not None:
+        additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
     return additional
 
-def add_additional_to_md5_dict(md5_dict):
-    return { **md5_dict, 'additional': get_additional_for_md5_dict(md5_dict) }
+def add_additional_to_aarecord(aarecord):
+    return { **aarecord, 'additional': get_additional_for_aarecord(aarecord) }
 
 
 @page.get("/md5/<string:md5_input>")
@@ -1894,18 +1894,18 @@ def md5_page(md5_input):
         return redirect(f"/md5/{canonical_md5}", code=301)
 
     with Session(engine) as session:
-        md5_dicts = get_md5_dicts_elasticsearch(session, [canonical_md5])
+        aarecords = get_aarecords_elasticsearch(session, [canonical_md5])
 
-        if len(md5_dicts) == 0:
+        if len(aarecords) == 0:
             return render_template("page/md5.html", header_active="search", md5_input=md5_input)
 
-        md5_dict = md5_dicts[0]
+        aarecord = aarecords[0]
 
         render_fields = {
             "header_active": "search",
             "md5_input": md5_input,
-            "md5_dict": md5_dict,
-            "md5_dict_json": nice_json(md5_dict),
+            "aarecord": aarecord,
+            "aarecord_json": nice_json(aarecord),
             "md5_content_type_mapping": get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale())),
             "md5_problem_type_mapping": get_md5_problem_type_mapping(),
             "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
@@ -1923,11 +1923,11 @@ def md5_json(md5_input):
             return "{}", 404
 
         with Session(engine) as session:
-            md5_dicts = get_md5_dicts_elasticsearch(session, [canonical_md5])
-            if len(md5_dicts) == 0:
+            aarecords = get_aarecords_elasticsearch(session, [canonical_md5])
+            if len(aarecords) == 0:
                 return "{}", 404
             
-            md5_dict_comments = {
+            aarecord_comments = {
                 "md5": ("before", ["File from the combined collections of Anna's Archive.",
                                    "More details at https://annas-archive.org/datasets",
                                    allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
@@ -1943,15 +1943,15 @@ def md5_json(md5_input):
                 "search_only_fields": ("before", ["Data that is not shown to the user, but used during searching."]),
                 "additional": ("before", ["Data that is derived at a late stage, and not stored in the search index."]),
             }
-            md5_dict = add_comments_to_dict(md5_dicts[0], md5_dict_comments)
+            aarecord = add_comments_to_dict(aarecords[0], aarecord_comments)
 
-            md5_dict['additional'].pop('fast_partner_urls')
-            md5_dict['additional'].pop('slow_partner_urls')
+            aarecord['additional'].pop('fast_partner_urls')
+            aarecord['additional'].pop('slow_partner_urls')
 
-            return nice_json(md5_dict), {'Content-Type': 'text/json; charset=utf-8'}
+            return nice_json(aarecord), {'Content-Type': 'text/json; charset=utf-8'}
 
 
-sort_search_md5_dicts_script = """
+sort_search_aarecords_script = """
 float score = params.boost + $('search_only_fields.search_score_base', 0);
 
 score += _score / 100.0;
@@ -1987,7 +1987,7 @@ search_query_aggs = {
 
 @functools.cache
 def all_search_aggs(display_lang):
-    search_results_raw = es.search(index="md5_dicts", size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT)
+    search_results_raw = es.search(index="aarecords", size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
@@ -2075,7 +2075,7 @@ def search_page():
                 "script_score": {
                     "query": { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
                     "script": {
-                        "source": sort_search_md5_dicts_script,
+                        "source": sort_search_aarecords_script,
                         "params": { "lang_code": allthethings.utils.get_base_lang_code(get_locale()), "boost": 100000 }
                     }
                 }
@@ -2084,7 +2084,7 @@ def search_page():
                 "script_score": {
                     "query": { "simple_query_string": {"query": search_input, "fields": ["search_only_fields.search_text"], "default_operator": "and"} },
                     "script": {
-                        "source": sort_search_md5_dicts_script,
+                        "source": sort_search_aarecords_script,
                         "params": { "lang_code": allthethings.utils.get_base_lang_code(get_locale()), "boost": 0 }
                     }
                 }
@@ -2096,7 +2096,7 @@ def search_page():
     max_additional_display_results = 50
 
     search_results_raw = es.search(
-        index="md5_dicts", 
+        index="aarecords", 
         size=max_display_results, 
         query=search_query,
         aggs=search_query_aggs,
@@ -2152,17 +2152,17 @@ def search_page():
     aggregations['search_content_type']              = sorted(aggregations['search_content_type'],              key=lambda bucket: bucket['doc_count'], reverse=True)
     aggregations['search_extension']                 = sorted(aggregations['search_extension'],                 key=lambda bucket: bucket['doc_count'], reverse=True)
 
-    search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in search_filtered_bad_md5s]
+    search_aarecords = [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in search_filtered_bad_md5s]
 
-    max_search_md5_dicts_reached = False
-    max_additional_search_md5_dicts_reached = False
-    additional_search_md5_dicts = []
+    max_search_aarecords_reached = False
+    max_additional_search_aarecords_reached = False
+    additional_search_aarecords = []
 
-    if len(search_md5_dicts) < max_display_results:
+    if len(search_aarecords) < max_display_results:
         # For partial matches, first try our original query again but this time without filters.
-        seen_md5s = set([md5_dict['md5'] for md5_dict in search_md5_dicts])
+        seen_md5s = set([aarecord['md5'] for aarecord in search_aarecords])
         search_results_raw = es.search(
-            index="md5_dicts", 
+            index="aarecords", 
             size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
             query=search_query,
             sort=custom_search_sorting+['_score'],
@@ -2170,14 +2170,14 @@ def search_page():
             timeout=ES_TIMEOUT,
         )
         if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
-            max_additional_search_md5_dicts_reached = True
-        additional_search_md5_dicts = [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in seen_md5s and md5_dict['_id'] not in search_filtered_bad_md5s]
+            max_additional_search_aarecords_reached = True
+        additional_search_aarecords = [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in seen_md5s and aarecord['_id'] not in search_filtered_bad_md5s]
 
         # Then do an "OR" query, but this time with the filters again.
-        if len(search_md5_dicts) + len(additional_search_md5_dicts) < max_display_results:
-            seen_md5s = seen_md5s.union(set([md5_dict['md5'] for md5_dict in additional_search_md5_dicts]))
+        if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
+            seen_md5s = seen_md5s.union(set([aarecord['md5'] for aarecord in additional_search_aarecords]))
             search_results_raw = es.search(
-                index="md5_dicts",
+                index="aarecords",
                 size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                 # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                 query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
@@ -2186,14 +2186,14 @@ def search_page():
                 timeout=ES_TIMEOUT,
             )
             if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
-                max_additional_search_md5_dicts_reached = True
-            additional_search_md5_dicts += [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in seen_md5s and md5_dict['_id'] not in search_filtered_bad_md5s]
+                max_additional_search_aarecords_reached = True
+            additional_search_aarecords += [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in seen_md5s and aarecord['_id'] not in search_filtered_bad_md5s]
 
             # If we still don't have enough, do another OR query but this time without filters.
-            if len(search_md5_dicts) + len(additional_search_md5_dicts) < max_display_results:
-                seen_md5s = seen_md5s.union(set([md5_dict['md5'] for md5_dict in additional_search_md5_dicts]))
+            if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
+                seen_md5s = seen_md5s.union(set([aarecord['md5'] for aarecord in additional_search_aarecords]))
                 search_results_raw = es.search(
-                    index="md5_dicts",
+                    index="aarecords",
                     size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                     # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                     query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
@@ -2202,17 +2202,17 @@ def search_page():
                     timeout=ES_TIMEOUT,
                 )
                 if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
-                    max_additional_search_md5_dicts_reached = True
-                additional_search_md5_dicts += [add_additional_to_md5_dict({'md5': md5_dict['_id'], **md5_dict['_source']}) for md5_dict in search_results_raw['hits']['hits'] if md5_dict['_id'] not in seen_md5s and md5_dict['_id'] not in search_filtered_bad_md5s]
+                    max_additional_search_aarecords_reached = True
+                additional_search_aarecords += [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in seen_md5s and aarecord['_id'] not in search_filtered_bad_md5s]
     else:
-        max_search_md5_dicts_reached = True
+        max_search_aarecords_reached = True
 
     
     search_dict = {}
-    search_dict['search_md5_dicts'] = search_md5_dicts[0:max_display_results]
-    search_dict['additional_search_md5_dicts'] = additional_search_md5_dicts[0:max_additional_display_results]
-    search_dict['max_search_md5_dicts_reached'] = max_search_md5_dicts_reached
-    search_dict['max_additional_search_md5_dicts_reached'] = max_additional_search_md5_dicts_reached
+    search_dict['search_aarecords'] = search_aarecords[0:max_display_results]
+    search_dict['additional_search_aarecords'] = additional_search_aarecords[0:max_additional_display_results]
+    search_dict['max_search_aarecords_reached'] = max_search_aarecords_reached
+    search_dict['max_additional_search_aarecords_reached'] = max_additional_search_aarecords_reached
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
 

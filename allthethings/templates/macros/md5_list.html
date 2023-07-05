@@ -1,4 +1,4 @@
-{% macro md5_list(md5_dicts=[], max_show_immediately=10) -%}
+{% macro md5_list(aarecords=[], max_show_immediately=10) -%}
   <script>
     // We can't do this in Jinja because of https://github.com/pallets/jinja/issues/1693 :(
     if (!window.md5_list_code_loaded) {
@@ -55,22 +55,22 @@
     }
   </script>
 
-  {% for md5_dict in md5_dicts %}
+  {% for aarecord in aarecords %}
     <div class="h-[125] {% if loop.index0 > max_show_immediately %}js-scroll-hidden{% endif %}">
       {% if loop.index0 > max_show_immediately %}<!--{% endif %}
-      <a href="/md5/{{md5_dict.md5}}" class="js-vim-focus custom-a flex items-center relative left-[-10px] w-[calc(100%+20px)] px-[10px] py-2 outline-offset-[-2px] outline-2 rounded-[3px] hover:bg-[#00000011] focus:outline {% if (md5_dict.file_unified_data.problems | length) > 0 %}opacity-[40%]{% endif %}">
+      <a href="/md5/{{aarecord.md5}}" class="js-vim-focus custom-a flex items-center relative left-[-10px] w-[calc(100%+20px)] px-[10px] py-2 outline-offset-[-2px] outline-2 rounded-[3px] hover:bg-[#00000011] focus:outline {% if (aarecord.file_unified_data.problems | length) > 0 %}opacity-[40%]{% endif %}">
         <div class="flex-none">
           <div class="relative overflow-hidden w-[72] h-[108] flex flex-col justify-center">
             <div class="absolute w-[100%] h-[90]" style="background-color: hsl({{ (loop.index0 % 4) * (256//3) + (range(0, 256//3) | random) }}deg 43% 73%)"></div>
-            <img class="relative inline-block" src="{{md5_dict.file_unified_data.cover_url_best if 'zlibcdn2' not in md5_dict.file_unified_data.cover_url_best}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
+            <img class="relative inline-block" src="{{aarecord.file_unified_data.cover_url_best if 'zlibcdn2' not in aarecord.file_unified_data.cover_url_best}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
           </div>
         </div>
         <div class="relative top-[-1] pl-4 grow overflow-hidden">
-          <div class="truncate text-xs text-gray-500">{{md5_dict.additional.most_likely_language_name + ", " if md5_dict.additional.most_likely_language_name | length > 0}}{{md5_dict.file_unified_data.extension_best}}, {% if md5_dict.file_unified_data.filesize_best | default(0, true) < 1000000 %}&lt;1MB{% else %}{{md5_dict.file_unified_data.filesize_best | default(0, true) | filesizeformat | replace(' ', '')}}{% endif %}{{', "' + md5_dict.file_unified_data.original_filename_best_name_only + '"' if md5_dict.file_unified_data.original_filename_best_name_only}}</div>
-          <h3 class="truncate text-xl font-bold">{{md5_dict.file_unified_data.title_best}}</h3>
-          <div class="truncate text-sm">{{md5_dict.file_unified_data.publisher_best}}{% if md5_dict.file_unified_data.publisher_best and md5_dict.file_unified_data.edition_varia_best %}, {% endif %}{{md5_dict.file_unified_data.edition_varia_best}}</div>
-          <div class="truncate italic">{{md5_dict.file_unified_data.author_best}}</div>
-          {% if (md5_dict.file_unified_data.problems | length) > 0 %}<div>{{ gettext('page.search.results.issues') }}</div>{% endif %}
+          <div class="truncate text-xs text-gray-500">{{aarecord.additional.most_likely_language_name + ", " if aarecord.additional.most_likely_language_name | length > 0}}{{aarecord.file_unified_data.extension_best}}, {% if aarecord.file_unified_data.filesize_best | default(0, true) < 1000000 %}&lt;1MB{% else %}{{aarecord.file_unified_data.filesize_best | default(0, true) | filesizeformat | replace(' ', '')}}{% endif %}{{', "' + aarecord.file_unified_data.original_filename_best_name_only + '"' if aarecord.file_unified_data.original_filename_best_name_only}}</div>
+          <h3 class="truncate text-xl font-bold">{{aarecord.file_unified_data.title_best}}</h3>
+          <div class="truncate text-sm">{{aarecord.file_unified_data.publisher_best}}{% if aarecord.file_unified_data.publisher_best and aarecord.file_unified_data.edition_varia_best %}, {% endif %}{{aarecord.file_unified_data.edition_varia_best}}</div>
+          <div class="truncate italic">{{aarecord.file_unified_data.author_best}}</div>
+          {% if (aarecord.file_unified_data.problems | length) > 0 %}<div>{{ gettext('page.search.results.issues') }}</div>{% endif %}
         </div>
       </a>
       {% if loop.index0 > max_show_immediately %}-->{% endif %}

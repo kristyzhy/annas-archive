@@ -36,7 +36,7 @@ from sqlalchemy.orm import Session
 from pymysql.constants import CLIENT
 from allthethings.extensions import ComputedAllMd5s
 
-from allthethings.page.views import get_md5_dicts_mysql
+from allthethings.page.views import get_aarecords_mysql
 
 cli = Blueprint("cli", __name__, template_folder="templates")
 
@@ -57,10 +57,10 @@ def dbreset():
 # ./run flask cli nonpersistent_dbreset
 @cli.cli.command('nonpersistent_dbreset')
 def nonpersistent_dbreset():
-    # print("Erasing nonpersist databases (1 MariaDB databases servers + 1 ElasticSearch)! Did you double-check that any production/large databases are offline/inaccessible from here?")
-    # time.sleep(2)
-    # print("Giving you 5 seconds to abort..")
-    # time.sleep(5)
+    print("Erasing nonpersist databases (1 MariaDB databases servers + 1 ElasticSearch)! Did you double-check that any production/large databases are offline/inaccessible from here?")
+    time.sleep(2)
+    print("Giving you 5 seconds to abort..")
+    time.sleep(5)
 
     nonpersistent_dbreset_internal()
     print("Done! Search for example for 'Rhythms of the brain': http://localhost:8000/search?q=Rhythms+of+the+brain")
@@ -81,8 +81,8 @@ def nonpersistent_dbreset_internal():
 
     time.sleep(1)
     Reflected.prepare(engine_multi)
-    elastic_reset_md5_dicts_internal()
-    elastic_build_md5_dicts_internal()
+    elastic_reset_aarecords_internal()
+    elastic_build_aarecords_internal()
 
 
 def chunks(l, n):
@@ -111,7 +111,7 @@ def query_yield_batches(conn, qry, pk_attr, maxrq):
 
 #################################################################################################
 # Rebuild "computed_all_md5s" table in MySQL. At the time of writing, this isn't
-# used in the app, but it is used for `./run flask cli elastic_build_md5_dicts`.
+# used in the app, but it is used for `./run flask cli elastic_build_aarecords`.
 # ./run flask cli mysql_build_computed_all_md5s
 @cli.cli.command('mysql_build_computed_all_md5s')
 def mysql_build_computed_all_md5s():
@@ -142,21 +142,21 @@ def mysql_build_computed_all_md5s_internal():
 
 
 #################################################################################################
-# Recreate "md5_dicts" index in ElasticSearch, without filling it with data yet.
-# (That is done with `./run flask cli elastic_build_md5_dicts`)
-# ./run flask cli elastic_reset_md5_dicts
-@cli.cli.command('elastic_reset_md5_dicts')
-def elastic_reset_md5_dicts():
-    print("Erasing entire ElasticSearch 'md5_dicts' index! Did you double-check that any production/large databases are offline/inaccessible from here?")
+# Recreate "aarecords" index in ElasticSearch, without filling it with data yet.
+# (That is done with `./run flask cli elastic_build_aarecords`)
+# ./run flask cli elastic_reset_aarecords
+@cli.cli.command('elastic_reset_aarecords')
+def elastic_reset_aarecords():
+    print("Erasing entire ElasticSearch 'aarecords' index! Did you double-check that any production/large databases are offline/inaccessible from here?")
     time.sleep(2)
     print("Giving you 5 seconds to abort..")
     time.sleep(5)
 
-    elastic_reset_md5_dicts_internal()
+    elastic_reset_aarecords_internal()
 
-def elastic_reset_md5_dicts_internal():
-    es.options(ignore_status=[400,404]).indices.delete(index='md5_dicts')
-    es.indices.create(index='md5_dicts', body={
+def elastic_reset_aarecords_internal():
+    es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
+    es.indices.create(index='aarecords', body={
         "mappings": {
             "dynamic": False,
             "properties": {
@@ -185,44 +185,44 @@ def elastic_reset_md5_dicts_internal():
     })
 
 #################################################################################################
-# Regenerate "md5_dicts" index in ElasticSearch.
-# ./run flask cli elastic_build_md5_dicts
-@cli.cli.command('elastic_build_md5_dicts')
-def elastic_build_md5_dicts():
-    elastic_build_md5_dicts_internal()
+# Regenerate "aarecords" index in ElasticSearch.
+# ./run flask cli elastic_build_aarecords
+@cli.cli.command('elastic_build_aarecords')
+def elastic_build_aarecords():
+    elastic_build_aarecords_internal()
 
-def elastic_build_md5_dicts_job(canonical_md5s):
+def elastic_build_aarecords_job(canonical_md5s):
     try:
         with Session(engine) as session:
-            md5_dicts = get_md5_dicts_mysql(session, canonical_md5s)
-            for md5_dict in md5_dicts:
-                md5_dict['_op_type'] = 'index'
-                md5_dict['_index'] = 'md5_dicts'
-                md5_dict['_id'] = md5_dict['md5']
-                del md5_dict['md5']
+            aarecords = get_aarecords_mysql(session, canonical_md5s)
+            for aarecord in aarecords:
+                aarecord['_op_type'] = 'index'
+                aarecord['_index'] = 'aarecords'
+                aarecord['_id'] = aarecord['md5']
+                del aarecord['md5']
                 
             try:
-                elasticsearch.helpers.bulk(es, md5_dicts, request_timeout=30)
+                elasticsearch.helpers.bulk(es, aarecords, request_timeout=30)
             except Exception as err:
                 if hasattr(err, 'errors'):
                     print(err.errors)
                 print(repr(err))
                 print("Got the above error; retrying..")
                 try:
-                    elasticsearch.helpers.bulk(es, md5_dicts, request_timeout=30)
+                    elasticsearch.helpers.bulk(es, aarecords, request_timeout=30)
                 except Exception as err:
                     if hasattr(err, 'errors'):
                         print(err.errors)
                     print(repr(err))
                     print("Got the above error; retrying one more time..")
-                    elasticsearch.helpers.bulk(es, md5_dicts, request_timeout=30)
-            # print(f"Processed {len(md5_dicts)} md5s")
+                    elasticsearch.helpers.bulk(es, aarecords, request_timeout=30)
+            # print(f"Processed {len(aarecords)} md5s")
     except Exception as err:
         print(repr(err))
         traceback.print_tb(err.__traceback__)
         raise err
 
-def elastic_build_md5_dicts_internal():
+def elastic_build_aarecords_internal():
     THREADS = 10
     CHUNK_SIZE = 30
     BATCH_SIZE = 100000
@@ -245,7 +245,7 @@ def elastic_build_md5_dicts_internal():
             for batch in query_yield_batches(conn, select(ComputedAllMd5s.md5).where(ComputedAllMd5s.md5 >= first_md5), ComputedAllMd5s.md5, BATCH_SIZE):
                 with multiprocessing.Pool(THREADS) as executor:
                     print(f"Processing {len(batch)} md5s from computed_all_md5s ( starting md5: {batch[0][0]} )...")
-                    executor.map(elastic_build_md5_dicts_job, chunks([item[0] for item in batch], CHUNK_SIZE))
+                    executor.map(elastic_build_aarecords_job, chunks([item[0] for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
             print(f"Done!")
@@ -253,37 +253,37 @@ def elastic_build_md5_dicts_internal():
 
 # Kept for future reference, for future migrations
 # #################################################################################################
-# # ./run flask cli elastic_migrate_from_md5_dicts_to_md5_dicts2
-# @cli.cli.command('elastic_migrate_from_md5_dicts_to_md5_dicts2')
-# def elastic_migrate_from_md5_dicts_to_md5_dicts2():
-#     print("Erasing entire ElasticSearch 'md5_dicts2' index! Did you double-check that any production/large databases are offline/inaccessible from here?")
+# # ./run flask cli elastic_migrate_from_aarecords_to_aarecords2
+# @cli.cli.command('elastic_migrate_from_aarecords_to_aarecords2')
+# def elastic_migrate_from_aarecords_to_aarecords2():
+#     print("Erasing entire ElasticSearch 'aarecords2' index! Did you double-check that any production/large databases are offline/inaccessible from here?")
 #     time.sleep(2)
 #     print("Giving you 5 seconds to abort..")
 #     time.sleep(5)
 
-#     elastic_migrate_from_md5_dicts_to_md5_dicts2_internal()
+#     elastic_migrate_from_aarecords_to_aarecords2_internal()
 
-# def elastic_migrate_from_md5_dicts_to_md5_dicts2_job(canonical_md5s):
+# def elastic_migrate_from_aarecords_to_aarecords2_job(canonical_md5s):
 #     try:
-#         search_results_raw = es.mget(index="md5_dicts", ids=canonical_md5s)
+#         search_results_raw = es.mget(index="aarecords", ids=canonical_md5s)
 #         # print(f"{search_results_raw}"[0:10000])
-#         new_md5_dicts = []
+#         new_aarecords = []
 #         for item in search_results_raw['docs']:
-#             new_md5_dicts.append({
+#             new_aarecords.append({
 #                 **item['_source'],
 #                 '_op_type': 'index',
-#                 '_index': 'md5_dicts2',
+#                 '_index': 'aarecords2',
 #                 '_id': item['_id'],
 #             })
                 
-#         elasticsearch.helpers.bulk(es, new_md5_dicts, request_timeout=30)
-#         # print(f"Processed {len(new_md5_dicts)} md5s")
+#         elasticsearch.helpers.bulk(es, new_aarecords, request_timeout=30)
+#         # print(f"Processed {len(new_aarecords)} md5s")
 #     except Exception as err:
 #         print(repr(err))
 #         raise err
 
-# def elastic_migrate_from_md5_dicts_to_md5_dicts2_internal():
-#     elastic_reset_md5_dicts_internal()
+# def elastic_migrate_from_aarecords_to_aarecords2_internal():
+#     elastic_reset_aarecords_internal()
 
 #     THREADS = 60
 #     CHUNK_SIZE = 70
@@ -299,7 +299,7 @@ def elastic_build_md5_dicts_internal():
 #             for batch in query_yield_batches(conn, select(ComputedAllMd5s.md5).where(ComputedAllMd5s.md5 >= first_md5), ComputedAllMd5s.md5, BATCH_SIZE):
 #                 with multiprocessing.Pool(THREADS) as executor:
 #                     print(f"Processing {len(batch)} md5s from computed_all_md5s (starting md5: {batch[0][0]})...")
-#                     executor.map(elastic_migrate_from_md5_dicts_to_md5_dicts2_job, chunks([item[0] for item in batch], CHUNK_SIZE))
+#                     executor.map(elastic_migrate_from_aarecords_to_aarecords2_job, chunks([item[0] for item in batch], CHUNK_SIZE))
 #                     pbar.update(len(batch))
 
 #             print(f"Done!")
