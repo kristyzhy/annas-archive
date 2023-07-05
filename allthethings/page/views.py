@@ -378,10 +378,6 @@ def copyright_page():
 
 
 def get_zlib_book_dicts(session, key, values):
-    # Filter out bad data
-    if key.lower() in ['md5', 'md5_reported']:
-        values = [val for val in values if val not in search_filtered_bad_md5s]
-
     zlib_books = []
     try:
         zlib_books = session.scalars(select(ZlibBook).where(getattr(ZlibBook, key).in_(values))).unique().all()
@@ -443,10 +439,6 @@ def extract_list_from_ia_json_field(ia_record_dict, key):
     return val
 
 def get_ia_record_dicts(session, key, values):
-    # Filter out bad data
-    if key.lower() in ['md5']:
-        values = [val for val in values if val not in search_filtered_bad_md5s]
-
     ia_entries = []
     try:
         base_query = select(AaIa202306Metadata, AaIa202306Files).join(AaIa202306Files, AaIa202306Files.ia_id == AaIa202306Metadata.ia_id, isouter=True)
@@ -716,10 +708,6 @@ def ol_book_page(ol_book_id):
         )
 
 def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
-    # Filter out bad data
-    if key.lower() == 'md5':
-        values = [val for val in values if val not in search_filtered_bad_md5s]
-
     aa_lgli_comics_2022_08_files = []
     try:
         aa_lgli_comics_2022_08_files = session.connection().execute(
@@ -736,10 +724,6 @@ def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
 
 
 def get_lgrsnf_book_dicts(session, key, values):
-    # Filter out bad data
-    if key.lower() == 'md5':
-        values = [val for val in values if val not in search_filtered_bad_md5s]
-
     lgrsnf_books = []
     try:
         # Hack: we explicitly name all the fields, because otherwise some get overwritten below due to lowercasing the column names.
@@ -797,10 +781,6 @@ def get_lgrsnf_book_dicts(session, key, values):
 
 
 def get_lgrsfic_book_dicts(session, key, values):
-    # Filter out bad data
-    if key.lower() == 'md5':
-        values = [val for val in values if val not in search_filtered_bad_md5s]
-
     lgrsfic_books = []
     try:
         # Hack: we explicitly name all the fields, because otherwise some get overwritten below due to lowercasing the column names.
@@ -931,10 +911,6 @@ def lgli_map_descriptions(descriptions):
 
 # See https://libgen.li/community/app.php/article/new-database-structure-published-o%CF%80y6%D0%BB%D0%B8%C4%B8o%D0%B2a%D0%BDa-%D0%BDo%D0%B2a%D1%8F-c%D1%82py%C4%B8%D1%82ypa-6a%D0%B7%C6%85i-%D0%B4a%D0%BD%D0%BD%C6%85ix
 def get_lgli_file_dicts(session, key, values):
-    # Filter out bad data
-    if key.lower() == 'md5':
-        values = [val for val in values if val not in search_filtered_bad_md5s]
-
     description_metadata = libgenli_elem_descr(session.connection())
 
     lgli_files = session.scalars(
@@ -1234,7 +1210,7 @@ def isbn_page(isbn_input):
             sort={ "search_only_fields.search_score_base": "desc" },
             timeout=ES_TIMEOUT,
         )
-        search_aarecords = [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in search_filtered_bad_md5s]
+        search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
         isbn_dict['search_aarecords'] = search_aarecords
         
         return render_template(
@@ -1260,7 +1236,7 @@ def doi_page(doi_input):
         sort={ "search_only_fields.search_score_base": "desc" },
         timeout=ES_TIMEOUT,
     )
-    search_aarecords = [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in search_filtered_bad_md5s]
+    search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
 
     doi_dict = {}
     doi_dict['search_aarecords'] = search_aarecords
@@ -1303,8 +1279,8 @@ def get_aarecords_elasticsearch(session, canonical_md5s):
     # Uncomment the following line to use MySQL directly; useful for local development.
     # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, canonical_md5s)]
 
-    search_results_raw = es.mget(index="aarecords", ids=canonical_md5s)
-    return [add_additional_to_aarecord({'md5': result['_id'], **result['_source']}) for result in search_results_raw['docs'] if result['found']]
+    search_results_raw = es.mget(index="aarecords", ids=[f"md5:{canonical_md5}" for canonical_md5 in canonical_md5s])
+    return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['docs'] if aarecord_raw['found'] and (aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s)]
 
 def aarecord_score_base(aarecord):
     if len(aarecord['file_unified_data'].get('problems') or []) > 0:
@@ -1365,6 +1341,7 @@ def get_aarecords_mysql(session, canonical_md5s):
     aarecords = []
     for canonical_md5 in canonical_md5s:
         aarecord = {}
+        aarecord['id'] = 'md5:' + canonical_md5
         aarecord['md5'] = canonical_md5
         aarecord['lgrsnf_book'] = lgrsnf_book_dicts.get(canonical_md5)
         aarecord['lgrsfic_book'] = lgrsfic_book_dicts.get(canonical_md5)
@@ -2152,7 +2129,7 @@ def search_page():
     aggregations['search_content_type']              = sorted(aggregations['search_content_type'],              key=lambda bucket: bucket['doc_count'], reverse=True)
     aggregations['search_extension']                 = sorted(aggregations['search_extension'],                 key=lambda bucket: bucket['doc_count'], reverse=True)
 
-    search_aarecords = [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in search_filtered_bad_md5s]
+    search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s]
 
     max_search_aarecords_reached = False
     max_additional_search_aarecords_reached = False
@@ -2160,50 +2137,50 @@ def search_page():
 
     if len(search_aarecords) < max_display_results:
         # For partial matches, first try our original query again but this time without filters.
-        seen_md5s = set([aarecord['md5'] for aarecord in search_aarecords])
+        seen_ids = set([aarecord['id'] for aarecord in search_aarecords])
         search_results_raw = es.search(
             index="aarecords", 
-            size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
+            size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
             query=search_query,
             sort=custom_search_sorting+['_score'],
             track_total_hits=False,
             timeout=ES_TIMEOUT,
         )
-        if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
+        if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
-        additional_search_aarecords = [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in seen_md5s and aarecord['_id'] not in search_filtered_bad_md5s]
+        additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s]
 
         # Then do an "OR" query, but this time with the filters again.
         if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
-            seen_md5s = seen_md5s.union(set([aarecord['md5'] for aarecord in additional_search_aarecords]))
+            seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
             search_results_raw = es.search(
                 index="aarecords",
-                size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
+                size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                 # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                 query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
                 sort=custom_search_sorting+['_score'],
                 track_total_hits=False,
                 timeout=ES_TIMEOUT,
             )
-            if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
+            if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
-            additional_search_aarecords += [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in seen_md5s and aarecord['_id'] not in search_filtered_bad_md5s]
+            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s]
 
             # If we still don't have enough, do another OR query but this time without filters.
             if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
-                seen_md5s = seen_md5s.union(set([aarecord['md5'] for aarecord in additional_search_aarecords]))
+                seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
                 search_results_raw = es.search(
                     index="aarecords",
-                    size=len(seen_md5s)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
+                    size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                     # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                     query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
                     sort=custom_search_sorting+['_score'],
                     track_total_hits=False,
                     timeout=ES_TIMEOUT,
                 )
-                if len(seen_md5s)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
+                if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                     max_additional_search_aarecords_reached = True
-                additional_search_aarecords += [add_additional_to_aarecord({'md5': aarecord['_id'], **aarecord['_source']}) for aarecord in search_results_raw['hits']['hits'] if aarecord['_id'] not in seen_md5s and aarecord['_id'] not in search_filtered_bad_md5s]
+                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_source']['md5'] not in search_filtered_bad_md5s]
     else:
         max_search_aarecords_reached = True
 

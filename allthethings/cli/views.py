@@ -198,8 +198,7 @@ def elastic_build_aarecords_job(canonical_md5s):
             for aarecord in aarecords:
                 aarecord['_op_type'] = 'index'
                 aarecord['_index'] = 'aarecords'
-                aarecord['_id'] = aarecord['md5']
-                del aarecord['md5']
+                aarecord['_id'] = aarecord['id']
                 
             try:
                 elasticsearch.helpers.bulk(es, aarecords, request_timeout=30)
