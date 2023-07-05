@@ -1,0 +1,30 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Datasets{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <div class="mb-4">Datasets ▶ Internet Archive Digital Lending Library</div>
+
+    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
+      <p class="mb-4">
+        This dataset is closely related to the <a href="/datasets/openlib">Open Library dataset</a>. It contains a scrape of the metadata of the books in the Internet Archive’s Digital Lending Library, which concluded in June 2023. These records are being referred to directly from the Open Library dataset, but also contains records that are not in Open Library. We also have a number of data files scraped by community members over the years.
+      </p>
+
+      <p><strong>Resources</strong></p>
+      <ul class="list-inside mb-4 ml-1">
+        <li class="list-disc">Last updated: 2023-06</li>
+        <li class="list-disc"><a href="/db/ia/100insightslesso0000maie.json">Example record on Anna’s Archive</a></li>
+        <li class="list-disc"><a href="http://2urmf2mk2dhmz4km522u4yfy2ynbzkbejf2cvmpcbzhpffvcuksrz6ad.onion/ia">Torrents by Anna’s Archive</a></li>
+        <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
+        <li class="list-disc"><a href="https://archive.org/">Main website</a></li>
+        <li class="list-disc"><a href="https://archive.org/details/inlibrary">Digital Lending Library</a></li>
+        <li class="list-disc"><a href="https://archive.org/developers/metadata-schema/index.html">Metadata documentation (most fields)</a></li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

@@ -316,6 +316,11 @@ def datasets_page():
         openlib_date=openlib_date,
     )
 
+@page.get("/datasets/ia")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def datasets_ia_page():
+    return render_template("page/datasets_ia.html", header_active="home/datasets")
+
 @page.get("/datasets/libgen_aux")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def datasets_libgen_aux_page():
