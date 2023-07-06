@@ -1,6 +1,7 @@
 import hashlib
 import os
 import functools
+import base64
 
 from celery import Celery
 from flask import Flask, request, g
@@ -131,6 +132,9 @@ def extensions(app):
     app.jinja_env.lstrip_blocks = True
     app.jinja_env.globals['get_locale'] = get_locale
     app.jinja_env.globals['FEATURE_FLAGS'] = allthethings.utils.FEATURE_FLAGS
+    def urlsafe_b64encode(string):
+        return base64.urlsafe_b64encode(string.encode()).decode()
+    app.jinja_env.globals['urlsafe_b64encode'] = urlsafe_b64encode
 
     # https://stackoverflow.com/a/18095320
     hash_cache = {}

@@ -17,6 +17,13 @@ import orjson
 import isbnlib
 from flask_babel import gettext, get_babel, force_locale
 
+from flask import Blueprint, request, g, make_response, render_template
+from flask_cors import cross_origin
+from sqlalchemy import select, func, text, inspect
+from sqlalchemy.orm import Session
+from flask_babel import format_timedelta
+
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
 from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY
 
 FEATURE_FLAGS = {}
@@ -167,6 +174,9 @@ def usd_currency_rates_cached():
     #     # 2023-05-04 fallback
     return {'EUR': 0.9161704076958315, 'JPY': 131.46129180027486, 'BGN': 1.7918460833715073, 'CZK': 21.44663307375172, 'DKK': 6.8263857077416406, 'GBP': 0.8016032982134678, 'HUF': 344.57169033440226, 'PLN': 4.293449381584975, 'RON': 4.52304168575355, 'SEK': 10.432890517636281, 'CHF': 0.9049931287219424, 'ISK': 137.15071003206597, 'NOK': 10.43105817682089, 'TRY': 19.25744388456253, 'AUD': 1.4944571690334403, 'BRL': 5.047732478240953, 'CAD': 1.3471369674759506, 'CNY': 6.8725606962895105, 'HKD': 7.849931287219422, 'IDR': 14924.993128721942, 'INR': 81.87402656894183, 'KRW': 1318.1951442968393, 'MXN': 18.288960146587264, 'MYR': 4.398992212551534, 'NZD': 1.592945487860742, 'PHP': 54.56894182317912, 'SGD': 1.3290884104443428, 'THB': 34.054970224461755, 'ZAR': 18.225286303252407}
 
+def account_is_member(account):
+    return (account is not None) and (account.membership_expiration > datetime.datetime.now()) and (int(account.membership_tier or "0") >= 2)
+
 @functools.cache
 def membership_tier_names(locale):
     with force_locale(locale):
@@ -193,6 +203,18 @@ MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
     "1": 0, "3": 5, "6": 10, "12": 15,
 }
+MEMBERSHIP_DOWNLOADS_PER_DAY = {
+    "2": 20, "3": 50, "4": 100, "5": 1000,
+}
+
+def get_account_fast_download_info(mariapersist_session, account_id):
+    account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
+    if not account_is_member(account):
+        return None
+    downloads_left = MEMBERSHIP_DOWNLOADS_PER_DAY[account.membership_tier]
+    recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= (datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)).timestamp()) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(10000)).scalars()]
+    downloads_left -= len(recently_downloaded_md5s)
+    return { 'downloads_left': max(0, downloads_left), 'recently_downloaded_md5s': recently_downloaded_md5s }
 
 def cents_to_usd_str(cents):
     return str(cents)[:-2] + "." + str(cents)[-2:]
@@ -274,8 +296,14 @@ def membership_costs_data(locale):
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename):
     limit_multiple_field = 'y' if limit_multiple else 'x'
     expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)).timestamp())
-    md5 = base64.urlsafe_b64encode(hashlib.md5(f"{limit_multiple_field}/{expiry}/{speed_kbps}/{urllib.parse.unquote(path)},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
-    return f"d1/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/{md5}/{filename}"
+    return f"d1/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/XXXXXXXXXXX/{filename}"
+
+def sign_anon_download_uri(uri):
+    if not uri.startswith('d1/'):
+        raise Exception("Invalid uri")
+    base_uri = urllib.parse.unquote(uri[len('d1/'):].split('~/')[0])
+    md5 = base64.urlsafe_b64encode(hashlib.md5(f"{base_uri},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
+    return uri.replace('~/XXXXXXXXXXX/', f"~/{md5}/")
 
 DICT_COMMENTS_NO_API_DISCLAIMER = "This page is *not* intended as an API. If you need programmatic access to this JSON, please set up your own instance. For more information, see: https://annas-archive.org/datasets and https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports"
 

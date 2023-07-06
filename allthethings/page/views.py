@@ -1761,10 +1761,11 @@ def add_partner_servers(path, aa_exclusive, aarecord, additional):
     if aa_exclusive:
         targeted_seconds = 300
         additional['has_aa_exclusive_downloads'] = 1
+    # When changing the domains, don't forget to change md5_fast_download.
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename']), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename']), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://nrzr.li/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), ""))
 
 def get_additional_for_aarecord(aarecord):
     additional = {}
@@ -1947,6 +1948,38 @@ def md5_json(md5_input):
             return nice_json(aarecord), {'Content-Type': 'text/json; charset=utf-8'}
 
 
+@page.get("/fast_download/<string:md5_input>/<string:url>")
+@allthethings.utils.no_cache()
+def md5_fast_download(md5_input, url):
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
+        raise Exception("Non-canonical md5")
+
+    url = base64.urlsafe_b64decode(url.encode()).decode()
+
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    with Session(mariapersist_engine) as mariapersist_session:
+        account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
+        if account_fast_download_info is None:
+            return redirect(f"/donate", code=302)
+
+        if canonical_md5 not in account_fast_download_info['recently_downloaded_md5s']:
+            if account_fast_download_info['downloads_left'] <= 0:
+                return redirect(f"/donate", code=302)
+
+            data_md5 = bytes.fromhex(canonical_md5)
+            data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
+            mariapersist_session.connection().execute(text('INSERT INTO mariapersist_fast_download_access (md5, ip, account_id) VALUES (:md5, :ip, :account_id)').bindparams(md5=data_md5, ip=data_ip, account_id=account_id))
+            mariapersist_session.commit()
+
+    split_url = url.split('/d1/')
+    if split_url[0] not in ['https://momot.in', 'https://momot.rs']:
+        raise Exception(f"Invalid URL prefix in md5_summary: {url}")
+    signed_uri = allthethings.utils.sign_anon_download_uri('d1/' + split_url[1])
+    return redirect(f"{split_url[0]}/{signed_uri}", code=302)
+
+
 sort_search_aarecords_script = """
 float score = params.boost + $('search_only_fields.search_score_base', 0);
 
@@ -2032,18 +2065,18 @@ def search_page():
     sort_value = request.args.get("sort", "").strip()
 
     if bool(re.match(r"^[a-fA-F\d]{32}$", search_input)):
-        return redirect(f"/md5/{search_input}", code=301)
+        return redirect(f"/md5/{search_input}", code=302)
 
     if bool(re.match(r"^OL\d+M$", search_input)):
-        return redirect(f"/ol/{search_input}", code=301)
+        return redirect(f"/ol/{search_input}", code=302)
 
     potential_doi = normalize_doi(search_input)
     if potential_doi != '':
-        return redirect(f"/doi/{potential_doi}", code=301)
+        return redirect(f"/doi/{potential_doi}", code=302)
 
     canonical_isbn13 = allthethings.utils.normalize_isbn(search_input)
     if canonical_isbn13 != '':
-        return redirect(f"/isbn/{canonical_isbn13}", code=301)
+        return redirect(f"/isbn/{canonical_isbn13}", code=302)
 
     post_filter = []
     for filter_key, filter_value in filter_values.items():

@@ -7,14 +7,16 @@ import jwt
 import re
 import collections
 import shortuuid
+import urllib.parse
+import base64
 
-from flask import Blueprint, request, g, make_response, render_template
+from flask import Blueprint, request, g, make_response, render_template, redirect
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads
+from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
 from config.settings import SECRET_KEY
 from allthethings.page.views import get_aarecords_elasticsearch
 
@@ -170,9 +172,19 @@ def md5_summary(md5_input):
         downloads_total = mariapersist_session.connection().execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == data_md5).limit(1)).scalar() or 0
         great_quality_count = mariapersist_session.connection().execute(select(func.count(MariapersistReactions.reaction_id)).where(MariapersistReactions.resource == f"md5:{canonical_md5}").limit(1)).scalar()
         user_reaction = None
+        downloads_left = 0
+        is_member = 0
+        download_still_active = 0
         if account_id is not None:
             user_reaction = mariapersist_session.connection().execute(select(MariapersistReactions.type).where((MariapersistReactions.resource == f"md5:{canonical_md5}") & (MariapersistReactions.account_id == account_id)).limit(1)).scalar()
-        return orjson.dumps({ "reports_count": reports_count, "comments_count": comments_count, "lists_count": lists_count, "downloads_total": downloads_total, "great_quality_count": great_quality_count, "user_reaction": user_reaction })
+
+            account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
+            if account_fast_download_info is not None:
+                is_member = 1
+                downloads_left = account_fast_download_info['downloads_left']
+                if canonical_md5 in account_fast_download_info['recently_downloaded_md5s']:
+                    download_still_active = 1
+        return orjson.dumps({ "reports_count": reports_count, "comments_count": comments_count, "lists_count": lists_count, "downloads_total": downloads_total, "great_quality_count": great_quality_count, "user_reaction": user_reaction, "downloads_left": downloads_left, "is_member": is_member, "download_still_active": download_still_active })
 
 
 @dyn.put("/md5_report/<string:md5_input>")

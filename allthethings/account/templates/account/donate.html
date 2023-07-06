@@ -28,7 +28,7 @@
   </p>
 
   <div class="flex flex-wrap justify-between md:overflow-hidden">
-    <div class="md:min-w-[170px] w-[calc(50%-6px)] md:w-[19%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-2" aria-selected="false">
+    <div class="md:min-w-[170px] w-[calc(50%-6px)] md:w-[21%] px-2 py-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-2" aria-selected="false">
       <div class="js-membership-name-tier whitespace-nowrap text-center mb-2"></div>
       <div class="js-membership-cost-tier text-center font-bold text-xl mb-2"></div>
       <button onclick="window.membershipTierToggle('2')" class="text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
@@ -37,10 +37,11 @@
       </button>
       <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=35) }}</div>
       <ul class="pl-[20px]">
+        <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.fast_downloads', number=MEMBERSHIP_DOWNLOADS_PER_DAY['2']) }}</li>
         <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.credits') }}</li>
       </ul>
     </div>
-    <div class="md:min-w-[180px] w-[calc(50%-6px)] md:w-[23%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-3" aria-selected="false">
+    <div class="md:min-w-[180px] w-[calc(50%-6px)] md:w-[21%] px-2 py-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-3" aria-selected="false">
       <div class="js-membership-name-tier whitespace-nowrap text-center mb-2"></div>
       <div class="js-membership-cost-tier text-center font-bold text-xl mb-2"></div>
       <button onclick="window.membershipTierToggle('3')" class="text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
@@ -50,10 +51,11 @@
       <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=35) }}</div>
       <ul class="pl-[20px]">
         <li class="text-sm relative mb-1">{{ gettext('page.donate.perks.previous_plus') }}</li>
+        <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.fast_downloads', number=MEMBERSHIP_DOWNLOADS_PER_DAY['3']) }}</li>
         <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.early_access') }}</li>
       </ul>
     </div>
-    <div class="md:min-w-[180px] w-[calc(50%-6px)] md:w-[23%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-4" aria-selected="false">
+    <div class="md:min-w-[180px] w-[calc(50%-6px)] md:w-[23%] px-2 py-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-4" aria-selected="false">
       <div class="js-membership-name-tier whitespace-nowrap text-center mb-2"></div>
       <div class="js-membership-cost-tier text-center font-bold text-xl mb-2"></div>
       <button onclick="window.membershipTierToggle('4')" class="text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
@@ -63,10 +65,11 @@
       <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=35) }}</div>
       <ul class="pl-[20px]">
         <li class="text-sm relative mb-1">{{ gettext('page.donate.perks.previous_plus') }}</li>
+        <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.fast_downloads', number=MEMBERSHIP_DOWNLOADS_PER_DAY['4']) }}</li>
         <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.exclusive_telegram') }}</li>
       </ul>
     </div>
-    <div class="md:min-w-[240px] w-[calc(50%-6px)] md:w-[29%] p-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-5" aria-selected="false">
+    <div class="md:min-w-[240px] w-[calc(50%-6px)] md:w-[29%] px-2 py-4 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-5" aria-selected="false">
       <div class="js-membership-name-tier whitespace-nowrap text-center mb-2"></div>
       <div class="js-membership-cost-tier text-center font-bold text-xl mb-2"></div>
       <button onclick="window.membershipTierToggle('5')" class="text-center mb-1 block bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-2 py-1 rounded-md text-white w-[100%]">
@@ -76,6 +79,7 @@
       <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=35) }}</div>
       <ul class="pl-[20px]">
         <li class="text-sm relative mb-1">{{ gettext('page.donate.perks.previous_plus') }}</li>
+        <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.fast_downloads', number=MEMBERSHIP_DOWNLOADS_PER_DAY['5']) }}</li>
         <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.adopt') }}</li>
       </ul>
     </div>

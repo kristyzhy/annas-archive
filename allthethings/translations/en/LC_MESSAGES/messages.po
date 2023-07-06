@@ -534,8 +534,8 @@ msgid "page.account.logged_in.membership_none"
 msgstr "Membership: <strong>None</strong> <a %(a_become)s>(become a member)</a>"
 
 #: allthethings/account/templates/account/index.html:23
-msgid "page.account.logged_in.membership_some"
-msgstr "Membership: <strong>%s(tier_name)</strong> until %(until_date) <a %(a_extend)s>(extend)</a>"
+msgid "page.account.logged_in.membership_has_some"
+msgstr "Membership: <strong>%(tier_name)s</strong> until %(until_date)s <a %(a_extend)s>(extend)</a>"
 
 #: allthethings/account/templates/account/index.html:29
 msgid "page.account.logged_in.logout.button"
@@ -1031,16 +1031,24 @@ msgid "page.md5.box.issues.text2"
 msgstr "If you still want to download this file, be sure to only use trusted, updated software to open it."
 
 #: allthethings/page/templates/page/md5.html:49
-msgid "page.md5.box.download.header_fast_logged_out"
-msgstr "🚀 Fast downloads from our partners (requires <a %(a_login)s>logging in</a>)"
+msgid "page.md5.box.download.header_fast_no_member"
+msgstr "<strong>🚀 Fast downloads</strong> (requires <a %(a_membership)s>membership</a>)"
 
 #: allthethings/page/templates/page/md5.html:50
-msgid "page.md5.box.download.header_fast_logged_in"
-msgstr "🚀 Fast downloads (you are logged in!)"
+msgid "page.md5.box.download.header_fast_member"
+msgstr "<strong>🚀 Fast downloads</strong> (%(remaining)s left today)"
 
-#: allthethings/page/templates/page/md5.html:54
-#: allthethings/page/templates/page/md5.html:55
-#: allthethings/page/templates/page/md5.html:71
+#: allthethings/page/templates/page/md5.html:51
+msgid "page.md5.box.download.header_fast_member_no_remaining"
+msgstr "<strong>🚀 Fast downloads</strong> (no more remaining today; <a %(a_membership)s>upgrade membership</a>)"
+
+#: allthethings/page/templates/page/md5.html:52
+msgid "page.md5.box.download.header_fast_member_valid_for"
+msgstr "<strong>🚀 Fast downloads</strong> (recently downloaded; links remain valid for a while)"
+
+#: allthethings/page/templates/page/md5.html:56
+#: allthethings/page/templates/page/md5.html:61
+#: allthethings/page/templates/page/md5.html:81
 msgid "page.md5.box.download.option"
 msgstr "Option #%(num)d: %(link)s %(extra)s"
 

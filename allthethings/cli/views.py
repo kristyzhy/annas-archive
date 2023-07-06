@@ -337,6 +337,7 @@ def mariapersist_reset_internal():
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_003.sql')).read_text())
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_004.sql')).read_text())
     cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_005.sql')).read_text())
+    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_006.sql')).read_text())
     cursor.close()
 
 #################################################################################################

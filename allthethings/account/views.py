@@ -47,10 +47,13 @@ def account_index_page():
         if account is None:
             raise Exception("Valid account_id was not found in db!")
 
+        is_member = allthethings.utils.account_is_member(account)
+
         return render_template(
             "account/index.html",
             header_active="account",
             account_dict=dict(account),
+            is_member=is_member,
             membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
         )
 
@@ -224,6 +227,7 @@ def donate_page():
         MEMBERSHIP_TIER_COSTS=allthethings.utils.MEMBERSHIP_TIER_COSTS,
         MEMBERSHIP_METHOD_DISCOUNTS=allthethings.utils.MEMBERSHIP_METHOD_DISCOUNTS,
         MEMBERSHIP_DURATION_DISCOUNTS=allthethings.utils.MEMBERSHIP_DURATION_DISCOUNTS,
+        MEMBERSHIP_DOWNLOADS_PER_DAY=allthethings.utils.MEMBERSHIP_DOWNLOADS_PER_DAY,
     )
 
 

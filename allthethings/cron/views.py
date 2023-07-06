@@ -37,7 +37,7 @@ def infinite_loop():
                     if 'url' in download_test:
                         url = download_test['url']
                     else:
-                        uri = allthethings.utils.make_anon_download_uri(False, 999999999, download_test['path'], 'dummy')
+                        uri = allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(False, 999999999, download_test['path'], 'dummy'))
                         url = f"{download_test['server']}/{uri}"
                     httpx.get(url, timeout=300)
                 except httpx.ConnectError as err:
