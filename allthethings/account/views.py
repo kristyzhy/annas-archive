@@ -47,13 +47,11 @@ def account_index_page():
         if account is None:
             raise Exception("Valid account_id was not found in db!")
 
-        is_member = allthethings.utils.account_is_member(account)
-
         return render_template(
             "account/index.html",
             header_active="account",
             account_dict=dict(account),
-            is_member=is_member,
+            account_fast_download_info=allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id),
             membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
         )
 

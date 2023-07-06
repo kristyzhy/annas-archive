@@ -214,7 +214,7 @@ def get_account_fast_download_info(mariapersist_session, account_id):
     downloads_left = MEMBERSHIP_DOWNLOADS_PER_DAY[account.membership_tier]
     recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= (datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)).timestamp()) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(10000)).scalars()]
     downloads_left -= len(recently_downloaded_md5s)
-    return { 'downloads_left': max(0, downloads_left), 'recently_downloaded_md5s': recently_downloaded_md5s }
+    return { 'downloads_left': max(0, downloads_left), 'recently_downloaded_md5s': recently_downloaded_md5s, 'downloads_per_day': MEMBERSHIP_DOWNLOADS_PER_DAY[account.membership_tier] }
 
 def cents_to_usd_str(cents):
     return str(cents)[:-2] + "." + str(cents)[-2:]
