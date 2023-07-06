@@ -211,15 +211,15 @@ def account_profile_page():
 @allthethings.utils.no_cache()
 def donate_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
+    existing_unpaid_donation_id = None
     if account_id is not None:
         with Session(mariapersist_engine) as mariapersist_session:
             existing_unpaid_donation_id = mariapersist_session.connection().execute(select(MariapersistDonations.donation_id).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
-            if existing_unpaid_donation_id is not None:
-                return redirect(f"/account/donations/{existing_unpaid_donation_id}", code=302)
-
+            
     return render_template(
         "account/donate.html", 
         header_active="donate", 
+        existing_unpaid_donation_id=existing_unpaid_donation_id,
         membership_costs_data=allthethings.utils.membership_costs_data(get_locale()),
         membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
         MEMBERSHIP_TIER_COSTS=allthethings.utils.MEMBERSHIP_TIER_COSTS,

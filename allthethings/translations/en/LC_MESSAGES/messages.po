@@ -35,289 +35,297 @@ msgid "common.donation.order_processing_status_labels.4"
 msgstr "waiting for Anna to confirm"
 
 #: allthethings/account/templates/account/donate.html:3
-#: allthethings/account/templates/account/donate.html:6
+#: allthethings/account/templates/account/donate.html:13
 msgid "page.donate.title"
 msgstr "Donate"
 
+#: allthethings/account/templates/account/donate.html:8
+msgid "page.donate.header.existing_unpaid_donation"
+msgstr "You have an <a %(a_donation)s>existing donation</a> in progress. Please finish or cancel that donation before making a new donation."
+
 #: allthethings/account/templates/account/donate.html:9
+msgid "page.donate.header.existing_unpaid_donation_view_all"
+msgstr "<a %(a_all_donations)s>View all my donations</a>"
+
+#: allthethings/account/templates/account/donate.html:16
 msgid "page.donate.header.text1"
 msgstr "Anna’s Archive is a non-profit, open-source, open-data project. By donating and becoming a member, you support our operations and development. To all our members: thank you for keeping us going! ❤️"
 
-#: allthethings/account/templates/account/donate.html:13
+#: allthethings/account/templates/account/donate.html:20
 msgid "page.donate.header.text2"
 msgstr "For more information, check out the <a href=\"/donation_faq\">Donation FAQ</a>."
 
-#: allthethings/account/templates/account/donate.html:17
+#: allthethings/account/templates/account/donate.html:24
 msgid "page.donate.header.text3"
 msgstr "You can also make a donation without creating an account (the same payment methods are supported for one-time donations and memberships):"
 
-#: allthethings/account/templates/account/donate.html:22
-#: allthethings/account/templates/account/donate.html:23
+#: allthethings/account/templates/account/donate.html:29
+#: allthethings/account/templates/account/donate.html:30
 msgid "page.donate.buttons.one_time"
 msgstr "Make a one-time anonymous donation (no perks)"
 
-#: allthethings/account/templates/account/donate.html:27
+#: allthethings/account/templates/account/donate.html:34
 msgid "page.donate.header.large_donations"
 msgstr "For donations over $5000 please contact us directly at <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
 
-#: allthethings/account/templates/account/donate.html:35
-#: allthethings/account/templates/account/donate.html:48
-#: allthethings/account/templates/account/donate.html:62
-#: allthethings/account/templates/account/donate.html:76
+#: allthethings/account/templates/account/donate.html:42
+#: allthethings/account/templates/account/donate.html:55
+#: allthethings/account/templates/account/donate.html:69
+#: allthethings/account/templates/account/donate.html:83
 msgid "page.donate.buttons.join"
 msgstr "Join"
 
-#: allthethings/account/templates/account/donate.html:36
-#: allthethings/account/templates/account/donate.html:49
-#: allthethings/account/templates/account/donate.html:63
-#: allthethings/account/templates/account/donate.html:77
+#: allthethings/account/templates/account/donate.html:43
+#: allthethings/account/templates/account/donate.html:56
+#: allthethings/account/templates/account/donate.html:70
+#: allthethings/account/templates/account/donate.html:84
 msgid "page.donate.buttons.selected"
 msgstr "Selected"
 
-#: allthethings/account/templates/account/donate.html:38
-#: allthethings/account/templates/account/donate.html:51
-#: allthethings/account/templates/account/donate.html:65
-#: allthethings/account/templates/account/donate.html:79
+#: allthethings/account/templates/account/donate.html:45
+#: allthethings/account/templates/account/donate.html:58
+#: allthethings/account/templates/account/donate.html:72
+#: allthethings/account/templates/account/donate.html:86
 msgid "page.donate.buttons.up_to_discounts"
 msgstr "up to %(percentage)s%% discounts"
 
-#: allthethings/account/templates/account/donate.html:40
-#: allthethings/account/templates/account/donate.html:54
-#: allthethings/account/templates/account/donate.html:68
-#: allthethings/account/templates/account/donate.html:82
+#: allthethings/account/templates/account/donate.html:47
+#: allthethings/account/templates/account/donate.html:61
+#: allthethings/account/templates/account/donate.html:75
+#: allthethings/account/templates/account/donate.html:89
 msgid "page.donate.perks.fast_downloads"
 msgstr "%(number)s fast downloads per day"
 
-#: allthethings/account/templates/account/donate.html:41
+#: allthethings/account/templates/account/donate.html:48
 msgid "page.donate.perks.credits"
 msgstr "Your username or anonymous mention in the credits"
 
-#: allthethings/account/templates/account/donate.html:53
-#: allthethings/account/templates/account/donate.html:67
-#: allthethings/account/templates/account/donate.html:81
+#: allthethings/account/templates/account/donate.html:60
+#: allthethings/account/templates/account/donate.html:74
+#: allthethings/account/templates/account/donate.html:88
 msgid "page.donate.perks.previous_plus"
 msgstr "Previous perks, plus:"
 
-#: allthethings/account/templates/account/donate.html:55
+#: allthethings/account/templates/account/donate.html:62
 msgid "page.donate.perks.early_access"
 msgstr "Early access to new features"
 
-#: allthethings/account/templates/account/donate.html:69
+#: allthethings/account/templates/account/donate.html:76
 msgid "page.donate.perks.exclusive_telegram"
 msgstr "Exclusive Telegram with behind-the-scenes updates"
 
-#: allthethings/account/templates/account/donate.html:83
+#: allthethings/account/templates/account/donate.html:90
 msgid "page.donate.perks.adopt"
 msgstr "“Adopt a torrent”: your username or message in a torrent filename <div class=\"text-gray-500 text-sm\">once every 12 months of membership</div>"
 
-#: allthethings/account/templates/account/donate.html:90
+#: allthethings/account/templates/account/donate.html:97
 msgid "page.donate.login"
 msgstr "To become a member, please <a href=\"/login\">Log in or Register</a>. If you prefer not to create an account, select “Make a one-time anonymous donation” above. Thanks for your support!"
 
-#: allthethings/account/templates/account/donate.html:95
+#: allthethings/account/templates/account/donate.html:102
 msgid "page.donate.payment.intro"
 msgstr "Select a payment option. We give discounts for crypto-based payments %(bitcoin_icon)s, because we incur (way) fewer fees."
 
-#: allthethings/account/templates/account/donate.html:99
-#: allthethings/account/templates/account/donate.html:180
+#: allthethings/account/templates/account/donate.html:106
+#: allthethings/account/templates/account/donate.html:187
 msgid "page.donate.payment.buttons.crypto"
 msgstr "Crypto %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:99
-#: allthethings/account/templates/account/donate.html:100
-#: allthethings/account/templates/account/donate.html:101
-#: allthethings/account/templates/account/donate.html:135
-#: allthethings/account/templates/account/donate.html:136
-#: allthethings/account/templates/account/donate.html:137
+#: allthethings/account/templates/account/donate.html:106
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:142
+#: allthethings/account/templates/account/donate.html:143
+#: allthethings/account/templates/account/donate.html:144
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:101
-#: allthethings/account/templates/account/donate.html:182
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:189
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:184
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:191
 msgid "page.donate.payment.buttons.alipay"
 msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:185
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:192
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix (Brazil)"
 
-#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:119
 msgid "page.donate.payment.desc.crypto"
 msgstr "With crypto you can donate using BTC, ETH, XMR, and SOL. Use this option if you are already familiar with cryptocurrency."
 
-#: allthethings/account/templates/account/donate.html:118
+#: allthethings/account/templates/account/donate.html:125
 msgid "page.donate.payment.desc.paypal"
 msgstr "To donate using PayPal, we’re going to use PayPal Crypto, which allows us to remain anonymous. We appreciate you taking the time to learn how to donate using this method, since it helps us out a lot."
 
-#: allthethings/account/templates/account/donate.html:129
+#: allthethings/account/templates/account/donate.html:136
 msgid "page.donate.duration.intro"
 msgstr "Select how long you want to subscribe for."
 
-#: allthethings/account/templates/account/donate.html:134
+#: allthethings/account/templates/account/donate.html:141
 msgid "page.donate.duration.1_mo"
 msgstr "1 month"
 
-#: allthethings/account/templates/account/donate.html:135
+#: allthethings/account/templates/account/donate.html:142
 msgid "page.donate.duration.3_mo"
 msgstr "3 months"
 
-#: allthethings/account/templates/account/donate.html:136
+#: allthethings/account/templates/account/donate.html:143
 msgid "page.donate.duration.6_mo"
 msgstr "6 months"
 
-#: allthethings/account/templates/account/donate.html:137
+#: allthethings/account/templates/account/donate.html:144
 msgid "page.donate.duration.12_mo"
 msgstr "12 months"
 
-#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:147
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>after <span %(span_discount)s></span> discounts</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:146
-#: allthethings/account/templates/account/donate.html:194
-#: allthethings/account/templates/account/donate.html:215
+#: allthethings/account/templates/account/donate.html:153
+#: allthethings/account/templates/account/donate.html:201
+#: allthethings/account/templates/account/donate.html:222
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>Important note:</strong> Crypto prices can fluctuate wildly, sometimes even as much as 20%% in a few minutes. This is still less than the fees we incur with many payment providers, who often charge 50-60%% for working with a “shadow charity” like us. <u>If you send us the receipt with the original price you paid, we will still credit your account for the chosen membership</u> (as long as the receipt is not older than a few hours). We really appreciate that you’re willing to put up with stuff like this in order to support us! ❤️"
 
-#: allthethings/account/templates/account/donate.html:153
+#: allthethings/account/templates/account/donate.html:160
 msgid "page.donate.submit.confirm"
 msgstr "Click the donate button to confirm this donation."
 
-#: allthethings/account/templates/account/donate.html:161
+#: allthethings/account/templates/account/donate.html:168
 msgid "page.donate.submit.button"
 msgstr "Donate <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:166
+#: allthethings/account/templates/account/donate.html:173
 msgid "page.donate.submit.cancel_note"
 msgstr "You can still cancel the donation during checkout."
 
-#: allthethings/account/templates/account/donate.html:169
+#: allthethings/account/templates/account/donate.html:176
 msgid "page.donate.submit.success"
 msgstr "✅ Redirecting to the donation page…"
 
-#: allthethings/account/templates/account/donate.html:170
+#: allthethings/account/templates/account/donate.html:177
 msgid "page.donate.submit.failure"
 msgstr "❌ Something went wrong. Please reload the page and try again."
 
-#: allthethings/account/templates/account/donate.html:176
+#: allthethings/account/templates/account/donate.html:183
 msgid "page.donate.one_time_payment.intro"
 msgstr "Select a payment option. Please consider using a crypto-based payment %(bitcoin_icon)s, because we incur (way) fewer fees."
 
-#: allthethings/account/templates/account/donate.html:190
+#: allthethings/account/templates/account/donate.html:197
 msgid "page.donate.crypto.intro"
 msgstr "If you already have crypto money, these are our addresses."
 
-#: allthethings/account/templates/account/donate.html:205
-#: allthethings/account/templates/account/donate.html:243
-#: allthethings/account/templates/account/donate.html:258
-#: allthethings/account/templates/account/donate.html:272
-#: allthethings/account/templates/account/donate.html:282
+#: allthethings/account/templates/account/donate.html:212
+#: allthethings/account/templates/account/donate.html:250
+#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:279
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.text_thank_you"
 msgstr "Thank you so much for helping out! This project would not be possible without you."
 
-#: allthethings/account/templates/account/donate.html:211
+#: allthethings/account/templates/account/donate.html:218
 msgid "page.donate.one_time_payment.paypal.text1"
 msgstr "To donate using PayPal, we’re going to use PayPal Crypto, which allows us to remain anonymous. We appreciate you taking the time to learn how to donate using this method, since it helps us out a lot."
 
-#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:225
 #: allthethings/account/templates/account/donation.html:70
 msgid "page.donate.submit.header1"
 msgstr "<span %(span_circle)s>1</span>Buy Bitcoin on Paypal"
 
-#: allthethings/account/templates/account/donate.html:221
+#: allthethings/account/templates/account/donate.html:228
 #: allthethings/account/templates/account/donation.html:73
 msgid "page.donate.one_time_payment.paypal.text2"
 msgstr "Find the “Crypto” page in your PayPal app or website. This is typically under “Finances”."
 
-#: allthethings/account/templates/account/donate.html:225
+#: allthethings/account/templates/account/donate.html:232
 msgid "page.donate.one_time_payment.paypal.text3"
 msgstr "Follow the instructions to buy Bitcoin (BTC). You only need to buy the amount that you want to donate."
 
-#: allthethings/account/templates/account/donate.html:228
+#: allthethings/account/templates/account/donate.html:235
 #: allthethings/account/templates/account/donation.html:80
 msgid "page.donate.submit.header2"
 msgstr "<span %(span_circle)s>2</span>Transfer the Bitcoin to our address"
 
-#: allthethings/account/templates/account/donate.html:231
+#: allthethings/account/templates/account/donate.html:238
 #: allthethings/account/templates/account/donation.html:83
 msgid "page.donate.one_time_payment.paypal.text4"
 msgstr "Go to the “Bitcoin” page in your PayPal app or website. Press the “Transfer” button %(transfer_icon)s, and then “Send”."
 
-#: allthethings/account/templates/account/donate.html:235
+#: allthethings/account/templates/account/donate.html:242
 msgid "page.donate.one_time_payment.paypal.text5"
 msgstr "Enter our Bitcoin (BTC) address as the receipient, and follow the instructions to send your donation:"
 
-#: allthethings/account/templates/account/donate.html:239
+#: allthethings/account/templates/account/donate.html:246
 #: allthethings/account/templates/account/donation.html:91
 #: allthethings/account/templates/account/donation.html:140
 msgid "page.donate.copy"
 msgstr "copy"
 
-#: allthethings/account/templates/account/donate.html:239
+#: allthethings/account/templates/account/donate.html:246
 #: allthethings/account/templates/account/donation.html:91
 #: allthethings/account/templates/account/donation.html:140
 msgid "page.donate.copied"
 msgstr "copied!"
 
-#: allthethings/account/templates/account/donate.html:254
-#: allthethings/account/templates/account/donate.html:268
+#: allthethings/account/templates/account/donate.html:261
+#: allthethings/account/templates/account/donate.html:275
 #: allthethings/account/templates/account/donation.html:104
 #: allthethings/account/templates/account/donation.html:117
 #: allthethings/account/templates/account/donation.html:129
 msgid "page.donate.strange_account"
 msgstr "Note that the account name or picture might look strange. No need to worry! These accounts are managed by our donation partners. Our accounts have not been hacked."
 
-#: allthethings/account/templates/account/donate.html:264
+#: allthethings/account/templates/account/donate.html:271
 msgid "page.donate.one_time_payment.alipay.text"
 msgstr "Please use <a %(a_account)s>this Alipay account</a> to send your donation."
 
-#: allthethings/account/templates/account/donate.html:278
+#: allthethings/account/templates/account/donate.html:285
 msgid "page.donate.one_time_payment.pix.text"
 msgstr "Please use <a %(a_account)s>this Pix account</a> to send your donation."
 
-#: allthethings/account/templates/account/donate.html:340
+#: allthethings/account/templates/account/donate.html:347
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:341
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / month"
 
-#: allthethings/account/templates/account/donate.html:344
+#: allthethings/account/templates/account/donate.html:351
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "for 1 month"
 
-#: allthethings/account/templates/account/donate.html:345
+#: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "for 3 months"
 
-#: allthethings/account/templates/account/donate.html:346
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "for 6 months"
 
-#: allthethings/account/templates/account/donate.html:347
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "for 12 months"
 
-#: allthethings/account/templates/account/donate.html:351
+#: allthethings/account/templates/account/donate.html:358
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "for 1 month “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:352
+#: allthethings/account/templates/account/donate.html:359
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "for 3 months “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:353
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "for 6 months “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:354
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "for 12 months “%(tier_name)s”"
 
@@ -478,7 +486,7 @@ msgstr "If your payment method is not in the list, the easiest thing to do would
 
 #: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
-msgstr "<div class=\"font-bold\">What do you spend donations on?</div> 100%% is going to preserving and making accessible the world's knowledge and culture. Currently we spend it mostly on servers, storage, and bandwidth. No money is going to any team members personally. That would be too dangerous anyway."
+msgstr "<div class=\"font-bold\">What do you spend donations on?</div> 100%% is going to preserving and making accessible the world's knowledge and culture. Currently we spend it mostly on servers, storage, and bandwidth. No money is going to any team members personally."
 
 #: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_large_donation"

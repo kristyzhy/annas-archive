@@ -543,9 +543,9 @@ def account_buy_membership():
         raise Exception(f"Invalid costCentsUsdVerification")
 
     with Session(mariapersist_engine) as mariapersist_session:
-        existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
-        if existing_unpaid_donations_counts > 0:
-            raise Exception(f"Existing unpaid or manualconfirm donations open")
+        # existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
+        # if existing_unpaid_donations_counts > 0:
+        #     raise Exception(f"Existing unpaid or manualconfirm donations open")
 
         data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
         data = {
@@ -568,7 +568,7 @@ def account_buy_membership():
         mariapersist_session.execute('INSERT INTO mariapersist_donations (donation_id, account_id, cost_cents_usd, cost_cents_native_currency, native_currency_code, processing_status, donation_type, ip, json) VALUES (:donation_id, :account_id, :cost_cents_usd, :cost_cents_native_currency, :native_currency_code, :processing_status, :donation_type, :ip, :json)', [data])
         mariapersist_session.commit()
 
-        return "{}"
+        return orjson.dumps({ 'redirect_url': '/account/donations/' + data['donation_id'] })
 
 
 @dyn.put("/account/mark_manual_donation_sent/<string:donation_id>")
