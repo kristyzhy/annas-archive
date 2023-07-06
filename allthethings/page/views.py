@@ -29,7 +29,7 @@ import hashlib
 import shortuuid
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import engine, es, babel, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files
+from allthethings.extensions import engine, es, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
@@ -366,6 +366,16 @@ def datasets_isbn_ranges_page():
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def copyright_page():
     return render_template("page/copyright.html", header_active="")
+
+@page.get("/fast_download_no_more")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def fast_download_no_more_page():
+    return render_template("page/fast_download_no_more.html", header_active="")
+
+@page.get("/fast_download_not_member")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def fast_download_not_member_page():
+    return render_template("page/fast_download_not_member.html", header_active="")
 
 
 def get_zlib_book_dicts(session, key, values):
@@ -1962,11 +1972,11 @@ def md5_fast_download(md5_input, url):
     with Session(mariapersist_engine) as mariapersist_session:
         account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
         if account_fast_download_info is None:
-            return redirect(f"/donate", code=302)
+            return redirect(f"/fast_download_not_member", code=302)
 
         if canonical_md5 not in account_fast_download_info['recently_downloaded_md5s']:
             if account_fast_download_info['downloads_left'] <= 0:
-                return redirect(f"/donate", code=302)
+                return redirect(f"/fast_download_no_more", code=302)
 
             data_md5 = bytes.fromhex(canonical_md5)
             data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)

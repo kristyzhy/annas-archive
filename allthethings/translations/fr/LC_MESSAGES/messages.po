@@ -530,7 +530,7 @@ msgid "page.account.logged_in.title"
 msgstr "Compte"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:37
+#: allthethings/account/templates/account/index.html:38
 msgid "page.account.logged_out.title"
 msgstr "Se connecter / S'inscrire"
 
@@ -550,55 +550,59 @@ msgstr ""
 msgid "page.account.logged_in.membership_fast_downloads_used"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:30
+#: allthethings/account/templates/account/index.html:25
+msgid "page.account.logged_in.membership_upgrade"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:31
 msgid "page.account.logged_in.logout.button"
 msgstr "Se déconnecter"
 
-#: allthethings/account/templates/account/index.html:33
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Vous êtes désormais déconnecté. Rafraîchissez la page pour vous connecter à nouveau."
 
-#: allthethings/account/templates/account/index.html:34
+#: allthethings/account/templates/account/index.html:35
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Une erreur a eu lieu. Veuillez rafraîchir la page et essayer à nouveau."
 
-#: allthethings/account/templates/account/index.html:39
+#: allthethings/account/templates/account/index.html:40
 msgid "page.account.logged_out.key_form.text"
 msgstr "Entrez votre clé secrète pour vous connecter :"
 
-#: allthethings/account/templates/account/index.html:42
+#: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Clé secrète"
 
-#: allthethings/account/templates/account/index.html:43
+#: allthethings/account/templates/account/index.html:44
 msgid "page.account.logged_out.key_form.button"
 msgstr "Se connecter"
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:46
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:50
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_out.registered.text1"
 msgstr "Vous êtes bien inscrit ! Votre clé secrète est : <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:53
+#: allthethings/account/templates/account/index.html:54
 msgid "page.account.logged_out.registered.text2"
 msgstr "Conservez cette clé soigneusement. En la perdant, vous perdez l'accès à votre compte."
 
-#: allthethings/account/templates/account/index.html:57
+#: allthethings/account/templates/account/index.html:58
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Page en favori.</strong> Vous pouvez ajouter cette page à vos favoris afin de conserver votre clé.</li><li %(li_item)s><strong>Téléchargement.</strong> Cliquez sur <a %(a_download)s>ce lien</a> pour télécharger votre clé.</li><li %(li_item)s><strong>Gestionnaire de mots de passe.</strong> Pour votre confort, la clé est pré-remplie ci-dessus, afin que vous puissiez l'entrer dans votre gestionnaire de mots de passe en vous connectant.</li>"
 
-#: allthethings/account/templates/account/index.html:60
+#: allthethings/account/templates/account/index.html:61
 msgid "page.account.logged_out.register.header"
 msgstr "Vous n'avez pas encore de compte ?"
 
-#: allthethings/account/templates/account/index.html:63
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.register.button"
 msgstr "Créer un nouveau compte"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:67
 msgid "page.account.logged_out.old_email.button"
 msgstr "Compte enregistré avec un ancien email ? Entrez votre <a %(a_open)s>email ici</a>."
 
@@ -709,110 +713,110 @@ msgstr "Mettre en ligne"
 msgid "page.upload.text1"
 msgstr "Pour le moment, nous vous suggérons de mettre en ligne les nouveaux livres sur les forks de Library Genesis. Voici un <a %(a_guide)s>guide pratique</a>. Remarquez que les deux forks que nous indexons sur ce site tirent leur source de ce même sytème de mise en ligne."
 
-#: allthethings/page/views.py:1721
+#: allthethings/page/views.py:1731
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Non visible dans Libgen.rs Non-Fiction"
 
-#: allthethings/page/views.py:1722
+#: allthethings/page/views.py:1732
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Non visible dans Libgen.rs Fiction"
 
-#: allthethings/page/views.py:1723
+#: allthethings/page/views.py:1733
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Non visible dans Libgen.li"
 
-#: allthethings/page/views.py:1724
+#: allthethings/page/views.py:1734
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Marqué comme endommagé dans Libgen.li"
 
-#: allthethings/page/views.py:1725
+#: allthethings/page/views.py:1735
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Manquant dans Z-Library"
 
-#: allthethings/page/views.py:1731
+#: allthethings/page/views.py:1741
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Livre (inconnu)"
 
-#: allthethings/page/views.py:1732
+#: allthethings/page/views.py:1742
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Livre (non-fiction)"
 
-#: allthethings/page/views.py:1733
+#: allthethings/page/views.py:1743
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Livre (fiction)"
 
-#: allthethings/page/views.py:1734
+#: allthethings/page/views.py:1744
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Article de journal"
 
-#: allthethings/page/views.py:1735
+#: allthethings/page/views.py:1745
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Documents standards"
 
-#: allthethings/page/views.py:1736
+#: allthethings/page/views.py:1746
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Magazine"
 
-#: allthethings/page/views.py:1737
+#: allthethings/page/views.py:1747
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Bande dessinée"
 
-#: allthethings/page/views.py:1739
+#: allthethings/page/views.py:1749
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "Livre (tous)"
 
-#: allthethings/page/views.py:1765 allthethings/page/views.py:1766
+#: allthethings/page/views.py:1775 allthethings/page/views.py:1776
 msgid "common.md5.servers.fast_partner"
 msgstr "Serveur rapide #%(number)s"
 
-#: allthethings/page/views.py:1767 allthethings/page/views.py:1768
+#: allthethings/page/views.py:1777 allthethings/page/views.py:1778
 msgid "common.md5.servers.slow_partner"
 msgstr "Serveur lent #%(number)s"
 
-#: allthethings/page/views.py:1830
+#: allthethings/page/views.py:1840
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Non-Fiction"
 
-#: allthethings/page/views.py:1830 allthethings/page/views.py:1838
-#: allthethings/page/views.py:1856
+#: allthethings/page/views.py:1840 allthethings/page/views.py:1848
+#: allthethings/page/views.py:1866
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(cliquez ensuite sur \"GET\" en haut de la page)"
 
-#: allthethings/page/views.py:1830 allthethings/page/views.py:1838
-#: allthethings/page/views.py:1856
+#: allthethings/page/views.py:1840 allthethings/page/views.py:1848
+#: allthethings/page/views.py:1866
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(cliquez sur \"GET\" en haut de la page)"
 
-#: allthethings/page/views.py:1838
+#: allthethings/page/views.py:1848
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Fiction"
 
-#: allthethings/page/views.py:1856
+#: allthethings/page/views.py:1866
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:1859 allthethings/page/views.py:1860
-#: allthethings/page/views.py:1861
+#: allthethings/page/views.py:1869 allthethings/page/views.py:1870
+#: allthethings/page/views.py:1871
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "Portail IPFS #%(num)d"
 
-#: allthethings/page/views.py:1859
+#: allthethings/page/views.py:1869
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(vous devrez peut-être essayer plusieurs fois avec IPFS)"
 
-#: allthethings/page/views.py:1871
+#: allthethings/page/views.py:1881
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub : %(doi)s"
 
-#: allthethings/page/views.py:1871
+#: allthethings/page/views.py:1881
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(le DOI associé peut ne pas être disponible dans Sci-Hub)"
 
-#: allthethings/page/views.py:1873
+#: allthethings/page/views.py:1883
 msgid "page.md5.box.download.zlib_tor"
 msgstr "Z-Library avec TOR"
 
-#: allthethings/page/views.py:1873
+#: allthethings/page/views.py:1883
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(nécessite le Navigateur TOR)"
 
@@ -926,6 +930,14 @@ msgstr "Aucuns fichiers correspondants dans notre base de données."
 #: allthethings/page/templates/page/md5.html:121
 msgid "common.tech_details"
 msgstr "Afficher les détails techniques"
+
+#: allthethings/page/templates/page/fast_download_no_more.html:5
+msgid "page.fast_downloads.no_more"
+msgstr ""
+
+#: allthethings/page/templates/page/fast_download_not_member.html:5
+msgid "page.fast_downloads.no_member"
+msgstr ""
 
 #: allthethings/page/templates/page/home.html:5
 msgid "page.home.intro.text1"
