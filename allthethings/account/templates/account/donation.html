@@ -5,7 +5,7 @@
 {% block body %}
   <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
     <div class="font-bold">{{ gettext('page.donation.title') }}</div>
-    <div>{{ gettext('page.donation.header.id', id=donation_dict.donation_id) }}</div>
+    <div>{{ gettext('page.donation.header.id', id=('AnnaReceipts+' + donation_dict.receipt_id) + '@proton.me') }}</div>
     <div>{{ gettext('page.donation.header.date', date=(donation_dict.created | dateformat(format='long'))) }}</div>
     <div>
       {% if donation_dict.json.discounts > 0 %}
@@ -61,9 +61,9 @@
       </p>
 
       <ul class="list-inside mb-4">
-        <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a></li>
-        <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
         <li>- Monero XMR: <a style="word-break: break-all;" rel="payment" href="monero:445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t">445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t</a></li>
+        <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
+        <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a></li>
         <li>- Solana SOL: <a style="word-break: break-all;" rel="payment" href="solana:HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP">HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP</a></li>
       </ul>
     {% elif donation_dict.json.method == 'paypal' %}
