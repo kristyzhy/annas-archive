@@ -1919,7 +1919,6 @@ def md5_page(md5_input):
             "header_active": "search",
             "md5_input": md5_input,
             "aarecord": aarecord,
-            "aarecord_json": nice_json(aarecord),
             "md5_content_type_mapping": get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale())),
             "md5_problem_type_mapping": get_md5_problem_type_mapping(),
             "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
