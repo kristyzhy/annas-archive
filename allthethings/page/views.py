@@ -274,7 +274,8 @@ def home_page():
 @page.get("/login")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def login_page():
-    return render_template("page/login.html", header_active="account")
+    return redirect(f"/account", code=301)
+    # return render_template("page/login.html", header_active="account")
 
 @page.get("/about")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)

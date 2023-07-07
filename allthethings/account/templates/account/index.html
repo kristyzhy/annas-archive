@@ -64,7 +64,7 @@
         <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">{{ gettext('page.account.logged_out.register.button') }}</button>
       </form>
 
-      <p class="mb-1">{{ gettext('page.account.logged_out.old_email.button', a_open=('href="#" onclick="document.querySelector(\'.js-account-email-form\').classList.remove(\'hidden\'); event.preventDefault(); return false"' | safe)) }}</p>
+<!--       <p class="mb-1">{{ gettext('page.account.logged_out.old_email.button', a_open=('href="#" onclick="document.querySelector(\'.js-account-email-form\').classList.remove(\'hidden\'); event.preventDefault(); return false"' | safe)) }}</p>
 
       <script>
         let accountEmailUsedForError;
@@ -126,7 +126,7 @@
         </fieldset>
         <div class="hidden js-success">✅ If <strong class="js-account-sent-email"></strong> is a valid account on Anna’s Archive, then we sent you an email. Check your email inbox. If you don’t see anything, wait a minute, and check your spam folder. If that doesn’t work, please register a new account above.</div>
         <div class="hidden js-failure">❌ Something went wrong. Please reload the page and try again.</div>
-      </form>
+      </form> -->
     {% endif %}
   {% endif %}
 {% endblock %}
