@@ -1830,9 +1830,14 @@ def get_additional_for_aarecord(aarecord):
             stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):]))
             partner_path = f"a/comics_2022_08/{stripped_path}"
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
-        # Temp hack:
-        additional['has_aa_downloads'] = 1
-        additional['has_aa_exclusive_downloads'] = 1
+        if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/repository/'):
+            stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/repository/'):]))
+            partner_path = f"a/c_2022_12_thousand_dirs/{stripped_path}"
+            add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+        if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_magz/repository/'):
+            stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_magz/repository/'):]))
+            partner_path = f"a/c_2022_12_thousand_dirs_magz/{stripped_path}"
+            add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         if lgrsnf_thousands_dir < 3659000:
