@@ -508,7 +508,7 @@ def get_ia_record_dicts(session, key, values):
         ])
 
         allthethings.utils.init_identifiers_and_classification_unified(ia_record_dict['aa_ia_derived'])
-
+        allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ocaid', ia_record_dict['ia_id'])
         for item in (extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_work')):
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'openlibrary', item)
         for item in extract_list_from_ia_json_field(ia_record_dict, 'item'):
@@ -1102,6 +1102,15 @@ def get_lgli_file_dicts(session, key, values):
             else:
                 lgli_file_dict['scimag_url_guess'] = 'https://doi.org/' + lgli_file_dict['scimag_url_guess']
 
+        allthethings.utils.init_identifiers_and_classification_unified(lgli_file_dict)
+        potential_doi_scimag_archive_path = lgli_file_dict['scimag_archive_path'].replace('\\', '/')
+        if potential_doi_scimag_archive_path.endswith('.pdf'):
+            potential_doi_scimag_archive_path = potential_doi_scimag_archive_path[:-len('.pdf')]
+        potential_doi_scimag_archive_path = normalize_doi(potential_doi_scimag_archive_path)
+        if potential_doi_scimag_archive_path != '':
+            allthethings.utils.add_identifier_unified(lgli_file_dict, 'doi', potential_doi_scimag_archive_path)
+
+
         lgli_file_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "f_id": ("before", ["This is a Libgen.li file record, augmented by Anna's Archive.",
@@ -1582,6 +1591,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
             *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
         ])
