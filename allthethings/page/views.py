@@ -1716,6 +1716,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 aarecord['file_unified_data']['publisher_best'][:1000],
                 aarecord['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
+                aarecord['file_unified_data']['original_filename_best_name_only'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 aarecord['file_unified_data']['extension_best'],
                 *[str(item) for items in aarecord['file_unified_data']['identifiers_unified'].values() for item in items],
                 *[str(item) for items in aarecord['file_unified_data']['classifications_unified'].values() for item in items],
