@@ -59,7 +59,7 @@ def downloads_increment(md5_input):
         raise Exception("Non-canonical md5")
 
     # Prevent hackers from filling up our database with non-existing MD5s.
-    if not es.exists(index="aarecords", id=canonical_md5):
+    if not es.exists(index="aarecords", id=f"md5:{canonical_md5}"):
         raise Exception("Md5 not found")
 
     with Session(mariapersist_engine) as mariapersist_session:
