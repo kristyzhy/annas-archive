@@ -3,9 +3,11 @@
 {% block title %}{{ gettext('page.donate.title') }}{% endblock %}
 
 {% block body %}
-  {% if existing_unpaid_donation_id %}
+  {% if has_made_donations %}
     <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
-      <div class="mb-4">{{ gettext('page.donate.header.existing_unpaid_donation', a_donation=(('href="/account/donations/' + existing_unpaid_donation_id + '"') | safe)) }}</div>
+      {% if existing_unpaid_donation_id %}
+        <div class="mb-4">{{ gettext('page.donate.header.existing_unpaid_donation', a_donation=(('href="/account/donations/' + existing_unpaid_donation_id + '"') | safe)) }}</div>
+      {% endif %}
       <div>{{ gettext('page.donate.header.existing_unpaid_donation_view_all', a_all_donations=('href="/account/donations/"' | safe)) }}</div>
     </div>
   {% endif %}
