@@ -1765,12 +1765,14 @@ def format_filesize(num):
 def compute_download_speed(targeted_seconds, filesize):
     return int(filesize/1000/targeted_seconds)
 
-def add_partner_servers(path, aa_exclusive, aarecord, additional):
+def add_partner_servers(path, modifier, aarecord, additional):
     additional['has_aa_downloads'] = 1
     targeted_seconds = 180
-    if aa_exclusive:
+    if modifier == 'aa_exclusive':
         targeted_seconds = 300
         additional['has_aa_exclusive_downloads'] = 1
+    if modifier == 'scimag':
+        targeted_seconds = 3
     # When changing the domains, don't forget to change md5_fast_download.
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
@@ -1827,7 +1829,7 @@ def get_additional_for_aarecord(aarecord):
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/comics'):
             stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):]))
             partner_path = f"a/comics_2022_08/{stripped_path}"
-            add_partner_servers(partner_path, True, aarecord, additional)
+            add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
         # Temp hack:
         additional['has_aa_downloads'] = 1
         additional['has_aa_exclusive_downloads'] = 1
@@ -1835,7 +1837,7 @@ def get_additional_for_aarecord(aarecord):
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         if lgrsnf_thousands_dir < 3659000:
             lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
-            add_partner_servers(lgrsnf_path, False, aarecord, additional)
+            add_partner_servers(lgrsnf_path, '', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{aarecord['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -1843,7 +1845,7 @@ def get_additional_for_aarecord(aarecord):
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
         if lgrsfic_thousands_dir < 2667000 and lgrsfic_thousands_dir not in [2203000, 2204000, 2207000, 2209000, 2210000, 2211000]:
             lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
-            add_partner_servers(lgrsfic_path, False, aarecord, additional)
+            add_partner_servers(lgrsfic_path, '', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{aarecord['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -1854,14 +1856,14 @@ def get_additional_for_aarecord(aarecord):
             lglific_thousands_dir = (lglific_id // 1000) * 1000
             if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000 and lglific_thousands_dir not in [2201000, 2306000, 2869000, 2896000, 2945000, 3412000, 3453000]:
                 lglific_path = f"e/lglific/{lglific_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
-                add_partner_servers(lglific_path, False, aarecord, additional)
+                add_partner_servers(lglific_path, '', aarecord, additional)
         # TODO: use `['scimag_id']` when ES indexing has been done
         scimag_id = aarecord['lgli_file'].get('scimag_id', 0)
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
             scimag_tenmillion_dir = (scimag_id // 10000000)
             scimag_filename = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/')))
             scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
-            add_partner_servers(scimag_path, False, aarecord, additional)
+            add_partner_servers(scimag_path, 'scimag', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -1871,7 +1873,7 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
     if aarecord['zlib_book'] is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
-        add_partner_servers(zlib_path, len(additional['fast_partner_urls']) == 0, aarecord, additional)
+        add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
     if aarecord.get('ia_record') is not None:
         additional['download_urls'].append(("Borrow from the Internet Archive", f"https://archive.org/details/{aarecord['ia_record']['ia_id']}", ""))
         # Temp hack:
