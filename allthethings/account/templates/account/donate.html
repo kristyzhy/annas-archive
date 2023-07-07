@@ -145,9 +145,6 @@
     </div>
 
     <div class="js-membership-descr js-membership-descr-crypto js-membership-descr-paypal">
-      <p class="my-4">
-        {{ gettext('page.donate.submit.crypto_note') }}
-      </p>
     </div>
 
     <form onsubmit="window.submitForm(event, '/dyn/account/buy_membership/', (data) => window.location = data.redirect_url)" class="js-membership-form mt-4 mb-4">
@@ -197,10 +194,6 @@
         {{ gettext('page.donate.crypto.intro') }}
       </p>
 
-      <p class="mb-4">
-        {{ gettext('page.donate.submit.crypto_note') }}
-      </p>
-
       <ul class="list-inside mb-4">
         <li>- Monero XMR: <a style="word-break: break-all;" rel="payment" href="monero:445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t">445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t</a></li>
         <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
@@ -218,10 +211,6 @@
         {{ gettext('page.donate.one_time_payment.paypal.text1') }}
       </p>
 
-      <p class="mb-4">
-        {{ gettext('page.donate.submit.crypto_note') }}
-      </p>
-
       <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
@@ -230,6 +219,10 @@
 
       <p class="mb-4">
         {{ gettext('page.donate.one_time_payment.paypal.text3') }}
+      </p>
+
+      <p class="mb-4">
+        {{ gettext('page.donate.one_time_payment.paypal.text3b') }}
       </p>
 
       <p class="mb-4 mt-8 font-bold">{{ gettext('page.donate.submit.header2', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>

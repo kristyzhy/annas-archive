@@ -51,6 +51,12 @@
   {% endif %}
 
   <div class="js-donation-instructions {% if donation_dict.processing_status != 0 %}hidden{% endif %}">
+    {% if donation_dict.json.method in ['crypto', 'paypal'] %}
+      <p class="mb-4">
+        {{ gettext('page.donate.submit.crypto_note') }}
+      </p>
+    {% endif %}
+
     {% if donation_dict.json.method == 'crypto' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.crypto.top_header') }}</h2>
 
