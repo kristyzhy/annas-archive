@@ -492,13 +492,91 @@ OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
     'isbn_13': 'isbn13',
     'national_diet_library,_japan': 'ndl',
     'oclc_numbers': 'oclcworldcat',
+    'isfdb': 'isfdbpubideditions',
     # Plus more added below!
 }
 OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
     'dewey_decimal_class': 'ddc',
     'dewey_number': 'ddc',
-    'lc_classifications': 'libraryofcongressclassification'
+    'lc_classifications': 'libraryofcongressclassification',
+    'library_bibliographical_classification': 'lbc',
+    'udc': 'udc',
     # Plus more added below!
+}
+# Hardcoded labels for OL. The "label" fields in ol_edition.json become "description" instead.
+OPENLIB_LABELS = {
+    "abaa": "ABAA",
+    "abebooks.de": "Abebooks",
+    "abwa_bibliographic_number": "ABWA",
+    "alibris_id": "Alibris",
+    "bayerische_staatsbibliothek": "BSB-ID",
+    "bcid": "BCID",
+    "better_world_books": "BWB",
+    "bhl": "BHL",
+    "bibliothèque_nationale_de_france": "BnF",
+    "bibsys": "Bibsys",
+    "bodleian,_oxford_university": "Bodleian",
+    "booklocker.com": "BookLocker",
+    "bookmooch": "Book Mooch",
+    "booksforyou": "Books For You",
+    "bookwire": "BookWire",
+    "boston_public_library": "BPL",
+    "canadian_national_library_archive": "CNLA",
+    "choosebooks": "Choosebooks",
+    "cornell_university_library": "Cornell",
+    "cornell_university_online_library": "Cornell",
+    "dc_books": "DC",
+    "depósito_legal": "Depósito Legal",
+    "digital_library_pomerania": "Pomerania",
+    "discovereads": "Discovereads",
+    "dnb": "DNB",
+    "dominican_institute_for_oriental_studies_library": "Al Kindi",
+    "etsc": "ETSC",
+    "fennica": "Fennica",
+    "finnish_public_libraries_classification_system": "FPL",
+    "folio": "Folio",
+    "freebase": "Freebase",
+    "goethe_university_library,_frankfurt": "Goethe",
+    "goodreads": "Goodreads",
+    "grand_comics_database": "Grand Comics DB",
+    "harvard": "Harvard",
+    "hathi_trust": "Hathi",
+    "identificativo_sbn": "SBN",
+    "ilmiolibro": "Ilmiolibro",
+    "inducks": "INDUCKS",
+    "issn": "ISSN",
+    "istc": "ISTC",
+    "lccn": "LCCN",
+    "learnawesome": "LearnAwesome",
+    "library_and_archives_canada_cataloguing_in_publication": "CIP",
+    "librarything": "Library Thing",
+    "libris": "Libris",
+    "librivox": "LibriVox",
+    "lulu": "Lulu",
+    "magcloud": "Magcloud",
+    "nbuv": "NBUV",
+    "nla": "NLA",
+    "nur": "NUR",
+    "ocaid": "IA",
+    "openstax": "OpenStax",
+    "overdrive": "OverDrive",
+    "paperback_swap": "Paperback Swap",
+    "project_gutenberg": "Gutenberg",
+    "publishamerica": "PublishAmerica",
+    "rvk": "RVK",
+    "scribd": "Scribd",
+    "shelfari": "Shelfari",
+    "siso": "SISO",
+    "smashwords_book_download": "Smashwords",
+    "standard_ebooks": "Standard Ebooks",
+    "storygraph": "Storygraph",
+    "ulrls": "ULRLS",
+    "ulrls_classmark": "ULRLS Classmark",
+    "w._w._norton": "W.W.Norton",
+    "wikidata": "Wikidata",
+    "wikisource": "Wikisource",
+    "yakaboo": "Yakaboo",
+    "zdb-id": "ZDB-ID",
 }
 # Retrieved from https://openlibrary.org/config/edition.json on 2023-07-02
 ol_edition_json = orjson.loads(open(os.path.dirname(os.path.realpath(__file__)) + '/page/ol_edition.json').read())
@@ -508,20 +586,34 @@ for identifier in ol_edition_json['identifiers']:
     unified_name = identifier['name']
     if unified_name in OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING:
         unified_name = OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[unified_name]
+        if unified_name not in UNIFIED_IDENTIFIERS:
+            raise Exception(f"unified_name '{unified_name}' should be in UNIFIED_IDENTIFIERS")
     else:
         OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[unified_name] = unified_name
-    if unified_name not in UNIFIED_IDENTIFIERS:
-        UNIFIED_IDENTIFIERS[unified_name] = identifier
+        if unified_name not in UNIFIED_IDENTIFIERS:
+            # If unified name is not in OPENLIB_TO_UNIFIED_*_MAPPING, then it *has* to be in OPENLIB_LABELS.
+            label = OPENLIB_LABELS[unified_name]
+            description = ''
+            if identifier.get('description', '') != label:
+                description = identifier.get('description', '')
+            UNIFIED_IDENTIFIERS[unified_name] = { **identifier, 'label': label, 'description': description }
 for classification in ol_edition_json['classifications']:
     if 'website' in classification:
         classification['website'] = classification['website'].split(' ')[0] # Sometimes there's a suffix in text..
     unified_name = classification['name']
     if unified_name in OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
         unified_name = OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[unified_name]
+        if unified_name not in UNIFIED_CLASSIFICATIONS:
+            raise Exception(f"unified_name '{unified_name}' should be in UNIFIED_CLASSIFICATIONS")
     else:
         OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[unified_name] = unified_name
-    if unified_name not in UNIFIED_CLASSIFICATIONS:
-        UNIFIED_CLASSIFICATIONS[unified_name] = classification
+        if unified_name not in UNIFIED_CLASSIFICATIONS:
+            # If unified name is not in OPENLIB_TO_UNIFIED_*_MAPPING, then it *has* to be in OPENLIB_LABELS.
+            label = OPENLIB_LABELS[unified_name]
+            description = ''
+            if classification.get('description', '') != label:
+                description = classification.get('description', '')
+            UNIFIED_CLASSIFICATIONS[unified_name] = { **classification, 'label': label, 'description': description }
 
 def init_identifiers_and_classification_unified(output_dict):
     if 'identifiers_unified' not in output_dict:
