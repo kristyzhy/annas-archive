@@ -77,7 +77,7 @@
       </div>
     </div>
 
-    <div class="px-6 pt-4 pb-3 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-1" aria-selected="false">
+    <div class="text-sm px-4 pt-2 pb-1 bg-white border border-gray-200 aria-selected:border-[#09008e] rounded-lg shadow mb-3 js-membership-tier js-membership-tier-1" aria-selected="false">
       <span class="inline-block mr-1 mb-1">{{ gettext('page.donate.header.text3') }}</span>
 
       <button onclick="window.membershipTierToggle('1')" class="mb-1 bg-[#0095ff] hover:bg-[#007ed8] [[aria-selected=true]_&]:bg-[#09008e] px-4 py-1 rounded-md text-white">
@@ -88,12 +88,12 @@
   </div>
 
   <div class="hidden js-membership-section-method">
-    <div class="[html.aa-logged-in_&]:hidden mt-4 mb-8">
+    <div class="[html.aa-logged-in_&]:hidden mt-8 mb-8">
       {{ gettext('page.donate.login') }}
     </div>
 
     <div class="[html:not(.aa-logged-in)_&]:hidden">
-      <p class="mt-4 mb-4">
+      <p class="mt-8 mb-4">
         {{ gettext('page.donate.payment.intro', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }}
       </p>
 
@@ -172,7 +172,7 @@
   </div>
 
   <div class="hidden js-membership-section-one-time">
-    <p class="mt-4 mb-1">
+    <p class="mt-8 mb-1">
       {{ gettext('page.donate.one_time_payment.intro', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom text-gray-500"></span>' | safe)) }}
     </p>
 
