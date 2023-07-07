@@ -2014,6 +2014,10 @@ if (params.lang_code == 'bg' && $('search_only_fields.search_most_likely_languag
 if ($('search_only_fields.search_most_likely_language_code', '') == 'en') {
     score += 5.0;
 }
+// Hack:
+if (doc['search_only_fields.search_record_sources'].length == 1 && doc['search_only_fields.search_record_sources'][0] == 'ia') {
+    return 0.0;
+}
 
 return score;
 """
