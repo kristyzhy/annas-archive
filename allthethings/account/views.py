@@ -214,7 +214,6 @@ def donate_page():
     has_made_donations = False
     existing_unpaid_donation_id = None
     if account_id is not None:
-        has_made_donations = True
         with Session(mariapersist_engine) as mariapersist_session:
             existing_unpaid_donation_id = mariapersist_session.connection().execute(select(MariapersistDonations.donation_id).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
             previous_donation_id = mariapersist_session.connection().execute(select(MariapersistDonations.donation_id).where((MariapersistDonations.account_id == account_id)).limit(1)).scalar()
