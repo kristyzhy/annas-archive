@@ -31,6 +31,39 @@
           }
         })();
       </script>
+
+      <div class="mt-4 text-xs flex flex-wrap js-md5-codes-tabs" role="tablist" aria-label="code tabs" aria-multiselectable="true">
+        {% for code_item in aarecord.additional.codes %}
+          <a class="mb-1 mr-1 pr-1 inline-block border border-[#aaa] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" href="#" aria-selected="false" id="md5-codes-tab-{{ loop.index }}" aria-controls="md5-codes-panel-{{ loop.index }}" tabindex="0"><div class="inline-block bg-[#aaa] mr-1 px-1">{{ code_item.info.label or code_item.key }}</div>{{ code_item.masked_isbn or code_item.value }}</a>
+        {% endfor %}
+      </div>
+      <div>
+        {% for code_item in aarecord.additional.codes %}
+          <div id="md5-codes-panel-{{ loop.index }}" role="tabpanel" aria-labelledby="md5-codes-tab-{{ loop.index }}" hidden class="text-sm mt-2">
+            <div><strong>{{ code_item.info.label or code_item.key }}:</strong> {{ code_item.masked_isbn or code_item.value }}</div>
+            {% if code_item.info.description %}<div class="">{{ code_item.info.description }}</div>{% endif %}
+            {% if code_item.info.url %}<div class="">URL: <a href="{{ code_item.info.url | replace('%s', code_item.value) }}" rel="noopener noreferrer nofollow">{{ code_item.info.url | replace('%s', code_item.value) }}</a></div>{% endif %}
+            {% if code_item.info.website %}<div class="">Website: <a href="{{ code_item.info.website }}" rel="noopener noreferrer nofollow">{{ code_item.info.website }}</a></div>{% endif %}
+            <div><a href="/search?q={{ code_item.value | urlencode }}">Search Anna’s Archive for “{{ code_item.value }}”</a></div>
+          </div>
+        {% endfor %}
+      </div>
+      <script>
+        (function() {
+          const tabEls = document.querySelectorAll('.js-md5-codes-tabs-tab');
+          for (const el of tabEls) {
+            el.addEventListener('click', (e) => {
+              if (el.getAttribute('aria-selected') === "false") {
+                for (otherEl of tabEls) {
+                  if (otherEl != el && otherEl.getAttribute('aria-selected') === "true") {
+                    document.querySelector('.js-md5-codes-tabs').ariaTablist.close(otherEl);
+                  }
+                }
+              }
+            })
+          }
+        })();
+      </script>
     </div>
 
     {% if (aarecord.file_unified_data.problems | length) > 0 %}

@@ -472,8 +472,8 @@ LGRS_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
 }
 
 UNIFIED_IDENTIFIERS = {
-    "isbn10": { "label": "ISBN-10", "url": "/isbn/%s", "description": ""},
-    "isbn13": { "label": "ISBN-13", "url": "/isbn/%s", "description": ""},
+    "isbn10": { "label": "ISBN-10", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": ""},
+    "isbn13": { "label": "ISBN-13", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": ""},
     "doi": { "label": "DOI", "url": "https://doi.org/%s", "description": "Digital Object Identifier"},
     **LGLI_IDENTIFIERS,
     # Plus more added below!
