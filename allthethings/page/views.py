@@ -456,7 +456,7 @@ def get_ia_record_dicts(session, key, values):
                 base_query.where(getattr(AaIa202306Metadata, key).in_(values))
             ).unique().all()
     except Exception as err:
-        print(f"Error in get_ia_dicts when querying {key}; {values}")
+        print(f"Error in get_ia_record_dicts when querying {key}; {values}")
         print(repr(err))
         traceback.print_tb(err.__traceback__)
 
@@ -479,7 +479,7 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict['aa_ia_derived']['original_filename'] = ia_record_dict['ia_id'] + '.pdf'
         ia_record_dict['aa_ia_derived']['cover_url'] = f"https://archive.org/download/{ia_record_dict['ia_id']}/__ia_thumb.jpg"
         ia_record_dict['aa_ia_derived']['title'] = ' '.join(extract_list_from_ia_json_field(ia_record_dict, 'title'))
-        ia_record_dict['aa_ia_derived']['author'] = '; '.join(extract_list_from_ia_json_field(ia_record_dict, 'creator'))
+        ia_record_dict['aa_ia_derived']['author'] = '; '.join(extract_list_from_ia_json_field(ia_record_dict, 'creator') + extract_list_from_ia_json_field(ia_record_dict, 'associated-names'))
         ia_record_dict['aa_ia_derived']['publisher'] = '; '.join(extract_list_from_ia_json_field(ia_record_dict, 'publisher'))
         ia_record_dict['aa_ia_derived']['combined_comments'] = '\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'notes') + extract_list_from_ia_json_field(ia_record_dict, 'comment') + extract_list_from_ia_json_field(ia_record_dict, 'curation'))
         ia_record_dict['aa_ia_derived']['subjects'] = '\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'subject') + extract_list_from_ia_json_field(ia_record_dict, 'level_subject'))
@@ -531,7 +531,7 @@ def get_ia_record_dicts(session, key, values):
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "cover_url": ("before", "Constructed directly from ia_id."),
-            "author": ("after", "From `metadata.creator`."),
+            "author": ("after", "From `metadata.creator` and `metadata.associated-names`."),
             "combined_comments": ("after", "From `metadata.notes`, `metadata.comment`, and `metadata.curation`."),
             "subjects": ("after", "From `metadata.subject` and `metadata.level_subject`."),
             "stripped_description_and_references": ("after", "From `metadata.description` and `metadata.references`, stripped from HTML tags."),
