@@ -1864,6 +1864,29 @@ def get_additional_for_aarecord(aarecord):
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
+    if aarecord.get('ia_record') is not None:
+        ia_id = aarecord['ia_record']['aa_ia_file']['ia_id']
+        extension = aarecord['ia_record']['aa_ia_file']['extension']
+        ia_file_type = aarecord['ia_record']['aa_ia_file']['type']
+        if ia_file_type == 'acsm':
+            directory = 'other'
+            if bool(re.match(r"^[a-z]", ia_id)):
+                directory = ia_id[0]
+            partner_path = f"u/annas-archive-ia-2023-06-acsm/{directory}/{ia_id}.{extension}"
+        elif ia_file_type == 'lcpdf':
+            directory = 'other'
+            if ia_id.startswith('per_c'):
+                directory = 'per_c'
+            elif ia_id.startswith('per_w'):
+                directory = 'per_w'
+            elif ia_id.startswith('per_'):
+                directory = 'per_'
+            elif bool(re.match(r"^[a-z]", ia_id)):
+                directory = ia_id[0]
+            partner_path = f"u/annas-archive-ia-2023-06-lcpdf/{directory}/{ia_id}.{extension}"
+        else:
+            raise Exception("Unknown ia_record file type: {ia_file_type}")
+        add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('aa_lgli_comics_2022_08_file') is not None:
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/comics'):
             stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):]))
@@ -1918,11 +1941,6 @@ def get_additional_for_aarecord(aarecord):
     if aarecord['zlib_book'] is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
-    if aarecord.get('ia_record') is not None:
-        additional['download_urls'].append(("Borrow from the Internet Archive", f"https://archive.org/details/{aarecord['ia_record']['ia_id']}", ""))
-        # Temp hack:
-        additional['has_aa_downloads'] = 1
-        additional['has_aa_exclusive_downloads'] = 1
     for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord.get('zlib_book') is not None:
@@ -2051,10 +2069,6 @@ if (params.lang_code == 'bg' && $('search_only_fields.search_most_likely_languag
 }
 if ($('search_only_fields.search_most_likely_language_code', '') == 'en') {
     score += 5.0;
-}
-// Hack:
-if (doc['search_only_fields.search_record_sources'].length == 1 && doc['search_only_fields.search_record_sources'][0] == 'ia') {
-    return 0.0;
 }
 
 return score;
