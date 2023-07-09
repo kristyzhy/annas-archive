@@ -2141,20 +2141,21 @@ def search_page():
     if bool(re.match(r"^[a-fA-F\d]{32}$", search_input)):
         return redirect(f"/md5/{search_input}", code=302)
 
-    # if bool(re.match(r"^OL\d+M$", search_input)):
-    #     return redirect(f"/ol/{search_input}", code=302)
-
-    # potential_doi = normalize_doi(search_input)
-    # if potential_doi != '':
-    #     return redirect(f"/doi/{potential_doi}", code=302)
-
-    # canonical_isbn13 = allthethings.utils.normalize_isbn(search_input)
-    # if canonical_isbn13 != '':
-    #     return redirect(f"/isbn/{canonical_isbn13}", code=302)
-
     potential_isbn = search_input.replace('-', '')
     if search_input != potential_isbn and (isbnlib.is_isbn13(potential_isbn) or isbnlib.is_isbn10(potential_isbn)):
         return redirect(f"/search?q={potential_isbn}", code=302)
+
+    ol_page = None
+    if bool(re.match(r"^OL\d+M$", search_input)):
+        ol_page = search_input
+    doi_page = None
+    potential_doi = normalize_doi(search_input)
+    if potential_doi != '':
+        doi_page = potential_doi
+    isbn_page = None
+    canonical_isbn13 = allthethings.utils.normalize_isbn(search_input)
+    if canonical_isbn13 != '':
+        isbn_page = canonical_isbn13
 
     post_filter = []
     for filter_key, filter_value in filter_values.items():
@@ -2328,4 +2329,9 @@ def search_page():
         header_active="search",
         search_input=search_input,
         search_dict=search_dict,
+        redirect_pages={
+            'ol_page': ol_page,
+            'doi_page': doi_page,
+            'isbn_page': isbn_page,
+        }
     )
