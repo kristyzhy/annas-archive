@@ -1323,8 +1323,8 @@ def aarecord_score_base(aarecord):
             score += 3.0
     if (aarecord['file_unified_data'].get('has_aa_downloads') or 0) > 0:
         score += 5.0
-    if (aarecord['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0:
-        score += 5.0
+    if ((aarecord['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0) and (aarecord['search_only_fields']['search_record_sources'] != ['ia']):
+        score += 3.0
     if len(aarecord['file_unified_data'].get('title_best') or '') > 0:
         score += 10.0
     if len(aarecord['file_unified_data'].get('author_best') or '') > 0:
