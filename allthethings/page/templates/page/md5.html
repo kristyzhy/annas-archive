@@ -84,7 +84,7 @@
 
         <ul class="mb-4 js-fast-download-links-disabled">
           {% for label, url, extra in aarecord.additional.fast_partner_urls %}
-            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=label, extra=extra) }}</li>
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=label, extra='') }}</li>
           {% endfor %}
         </ul>
         <ul class="mb-4 hidden js-fast-download-links-enabled">

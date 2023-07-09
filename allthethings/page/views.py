@@ -1788,9 +1788,9 @@ def add_partner_servers(path, modifier, aarecord, additional):
     if modifier == 'scimag':
         targeted_seconds = 3
     # When changing the domains, don't forget to change md5_fast_download.
-    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
+    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), "(links are valid for 1 day)"))
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), "(links are valid for 1 day)"))
     additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://nrzr.li/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), ""))
 
 def get_additional_for_aarecord(aarecord):
@@ -1945,6 +1945,7 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord.get('zlib_book') is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
+    additional['download_urls'].append(("Bulk torrent downloads", "/datasets", "(experts only)"))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
     return additional
 
