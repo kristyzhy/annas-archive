@@ -37,12 +37,15 @@
 
     <div class="js-home-stats-downloads-chart h-[200px] mb-2 rounded overflow-hidden"></div>
 
-    <div class="text-center" style="font-size: 90%; color: #555">{{ gettext('page.home.access.label') }}</div>
+    <div class="text-center" style="font-size: 90%; color: #555">{{ gettext('page.home.access.label', hourly=('<span class="js-home-stats-downloads-hourly">…</span>' | safe), daily=('<span class="js-home-stats-downloads-daily">…</span>' | safe)) }}</div>
 
     <script>
       const fetchPromise = fetch("/dyn/downloads/stats/").then((response) => response.json());
       const loadedPromise = new Promise((resolve, reject) => document.addEventListener("DOMContentLoaded", () => { resolve () }));
       Promise.all([fetchPromise, loadedPromise]).then(([json]) => {
+        const hourlyAverage = json.timeseries_y.reduce((a,c) => a + c, 0) / json.timeseries_y.length;
+        document.querySelector(".js-home-stats-downloads-hourly").innerText = Math.round(hourlyAverage/1000).toLocaleString() + "k";
+        document.querySelector(".js-home-stats-downloads-daily").innerText = Math.round(hourlyAverage*24/1000).toLocaleString() + "k";
         Plotly.newPlot(document.querySelector(".js-home-stats-downloads-chart"), [{
           type: "bar",
           x: json.timeseries_x.map((t) => new Date(t * 3600000)),
