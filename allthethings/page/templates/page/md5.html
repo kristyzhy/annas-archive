@@ -44,7 +44,7 @@
             {% if code_item.info.description %}<div class="">{{ code_item.info.description }}</div>{% endif %}
             {% if code_item.info.url %}<div class="">URL: <a href="{{ code_item.info.url | replace('%s', code_item.value) }}" rel="noopener noreferrer nofollow">{{ code_item.info.url | replace('%s', code_item.value) }}</a></div>{% endif %}
             {% if code_item.info.website %}<div class="">Website: <a href="{{ code_item.info.website }}" rel="noopener noreferrer nofollow">{{ code_item.info.website }}</a></div>{% endif %}
-            <div><a href="/search?q={{ code_item.value | urlencode }}">Search Anna’s Archive for “{{ code_item.value }}”</a></div>
+            <div>AA: <a href="/search?q={{ code_item.value | urlencode }}">Search Anna’s Archive for “{{ code_item.value }}”</a></div>
           </div>
         {% endfor %}
       </div>
