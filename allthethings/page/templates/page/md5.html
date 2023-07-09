@@ -68,7 +68,10 @@
       <div>{{ gettext('page.md5.box.issues.text1') }}</div>
       <ul class="list-inside mb-4">
         {% for problem in aarecord.file_unified_data.problems %}
-        <li>- {{ md5_problem_type_mapping[problem.type] }}{% if problem.descr %} ("{{problem.descr}}"){% endif %}</li>
+          <li>- {{ md5_problem_type_mapping[problem.type] }}{% if problem.descr %} ("{{problem.descr}}"){% endif %}</li>
+          {% if problem.better_md5 %}
+            <li>- A better version of this file might be available at <a href="/md5/{{ problem.better_md5 | urlencode }}">/md5/{{ problem.better_md5 }}</a></li>
+          {% endif %}
         {% endfor %}
       </ul>
 

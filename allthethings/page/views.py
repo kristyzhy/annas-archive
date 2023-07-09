@@ -1605,15 +1605,15 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         aarecord['file_unified_data']['problems'] = []
         if ((aarecord['lgrsnf_book'] or {}).get('visible') or '') != '':
-            aarecord['file_unified_data']['problems'].append({ 'type': 'lgrsnf_visible', 'descr': ((aarecord['lgrsnf_book'] or {}).get('visible') or '') })
+            aarecord['file_unified_data']['problems'].append({ 'type': 'lgrsnf_visible', 'descr': ((aarecord['lgrsnf_book'] or {}).get('visible') or ''), 'better_md5': ((aarecord['lgrsnf_book'] or {}).get('generic') or '') })
         if ((aarecord['lgrsfic_book'] or {}).get('visible') or '') != '':
-            aarecord['file_unified_data']['problems'].append({ 'type': 'lgrsfic_visible', 'descr': ((aarecord['lgrsfic_book'] or {}).get('visible') or '') })
+            aarecord['file_unified_data']['problems'].append({ 'type': 'lgrsfic_visible', 'descr': ((aarecord['lgrsfic_book'] or {}).get('visible') or ''), 'better_md5': ((aarecord['lgrsfic_book'] or {}).get('generic') or '') })
         if ((aarecord['lgli_file'] or {}).get('visible') or '') != '':
-            aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_visible', 'descr': ((aarecord['lgli_file'] or {}).get('visible') or '') })
+            aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_visible', 'descr': ((aarecord['lgli_file'] or {}).get('visible') or ''), 'better_md5': ((aarecord['lgli_file'] or {}).get('generic') or '') })
         if ((aarecord['lgli_file'] or {}).get('broken') or '') in [1, "1", "y", "Y"]:
-            aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_broken', 'descr': ((aarecord['lgli_file'] or {}).get('broken') or '') })
+            aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_broken', 'descr': ((aarecord['lgli_file'] or {}).get('broken') or ''), 'better_md5': ((aarecord['lgli_file'] or {}).get('generic') or '') })
         if (aarecord['zlib_book'] and (aarecord['zlib_book']['in_libgen'] or False) == False and (aarecord['zlib_book']['pilimi_torrent'] or '') == ''):
-            aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '' })
+            aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', better_md5: '' })
 
         aarecord['file_unified_data']['content_type'] = 'book_unknown'
         if aarecord['lgli_file'] is not None:
