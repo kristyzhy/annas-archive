@@ -1718,8 +1718,9 @@ def get_aarecords_mysql(session, aarecord_ids):
                 aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
                 aarecord['file_unified_data']['original_filename_best_name_only'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 aarecord['file_unified_data']['extension_best'],
-                *[str(item) for items in aarecord['file_unified_data']['identifiers_unified'].values() for item in items],
-                *[str(item) for items in aarecord['file_unified_data']['classifications_unified'].values() for item in items],
+                *[f"{item} {key}:{item}" for key, items in aarecord['file_unified_data']['identifiers_unified'].items() for item in items],
+                *[f"{item} {key}:{item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
+                aarecord_id,
             ]))),
             'search_access_types': ['external_download', *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else [])],
             'search_record_sources': list(set([
