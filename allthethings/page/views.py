@@ -1902,7 +1902,7 @@ def get_additional_for_aarecord(aarecord):
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
-        if lgrsnf_thousands_dir < 3659000:
+        if lgrsnf_thousands_dir <= 3730000:
             lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
             add_partner_servers(lgrsnf_path, '', aarecord, additional)
 
@@ -1910,7 +1910,7 @@ def get_additional_for_aarecord(aarecord):
         shown_click_get = True
     if aarecord.get('lgrsfic_book') is not None:
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
-        if lgrsfic_thousands_dir < 2667000 and lgrsfic_thousands_dir not in [2203000, 2204000, 2207000, 2209000, 2210000, 2211000]:
+        if lgrsfic_thousands_dir <= 2715000:
             lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
             add_partner_servers(lgrsfic_path, '', aarecord, additional)
 
