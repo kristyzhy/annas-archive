@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         AriaTablist(el, {
             onOpen: (panel, tab) => {
                 panel.dispatchEvent(new Event("panelOpen"));
+                tab.dispatchEvent(new Event("tabOpen"));
             },
         });
     }

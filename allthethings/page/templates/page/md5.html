@@ -52,12 +52,10 @@
         (function() {
           const tabEls = document.querySelectorAll('.js-md5-codes-tabs-tab');
           for (const el of tabEls) {
-            el.addEventListener('click', (e) => {
-              if (el.getAttribute('aria-selected') === "false") {
-                for (otherEl of tabEls) {
-                  if (otherEl != el && otherEl.getAttribute('aria-selected') === "true") {
-                    document.querySelector('.js-md5-codes-tabs').ariaTablist.close(otherEl);
-                  }
+            el.addEventListener('tabOpen', () => {
+              for (otherEl of tabEls) {
+                if (otherEl != el && otherEl.getAttribute('aria-selected') === "true") {
+                  document.querySelector('.js-md5-codes-tabs').ariaTablist.close(otherEl);
                 }
               }
             })
