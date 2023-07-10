@@ -1776,7 +1776,7 @@ def format_filesize(num):
         return f"{num:.1f}YB"
 
 def compute_download_speed(targeted_seconds, filesize):
-    return int(filesize/1000/targeted_seconds)
+    return max(30, int(filesize/1000/targeted_seconds))
 
 def add_partner_servers(path, modifier, aarecord, additional):
     additional['has_aa_downloads'] = 1
@@ -1789,6 +1789,7 @@ def add_partner_servers(path, modifier, aarecord, additional):
     # When changing the domains, don't forget to change md5_fast_download.
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), "(unlimited downloads!)" if len(additional['slow_partner_urls']) == 0 else ""))
     additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), ""))
     additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://nrzr.li/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), ""))
 
