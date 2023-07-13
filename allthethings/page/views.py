@@ -1776,13 +1776,13 @@ def format_filesize(num):
         return f"{num:.1f}YB"
 
 def compute_download_speed(targeted_seconds, filesize):
-    return max(30, int(filesize/1000/targeted_seconds))
+    return min(150, max(30, int(filesize/1000/targeted_seconds)))
 
 def add_partner_servers(path, modifier, aarecord, additional):
     additional['has_aa_downloads'] = 1
-    targeted_seconds = 180
+    targeted_seconds = 60
     if modifier == 'aa_exclusive':
-        targeted_seconds = 300
+        targeted_seconds = 180
         additional['has_aa_exclusive_downloads'] = 1
     if modifier == 'scimag':
         targeted_seconds = 3
