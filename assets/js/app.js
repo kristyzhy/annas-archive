@@ -1,16 +1,16 @@
-import emailMisspelled, { microsoft, all } from "email-misspelled";
+// import emailMisspelled, { microsoft, all } from "email-misspelled";
 import AriaTablist from 'aria-tablist';
-import Plotly from 'plotly.js-dist-min'
+import Plotly from 'plotly.js-basic-dist-min'
 
 window.Plotly = Plotly;
 
 
-const microsoftWithMsn = microsoft.concat(
-    microsoft.filter(e => e.includes('hotmail')).map(e => e.replace('hotmail', 'msn'))
-);
-window.emailMisspelled = {
-    emailMisspelled, microsoft: microsoftWithMsn, all
-};
+// const microsoftWithMsn = microsoft.concat(
+//     microsoft.filter(e => e.includes('hotmail')).map(e => e.replace('hotmail', 'msn'))
+// );
+// window.emailMisspelled = {
+//     emailMisspelled, microsoft: microsoftWithMsn, all
+// };
 
 document.addEventListener("DOMContentLoaded", () => {
     for (const el of document.querySelectorAll('[role="tablist"]')) {
