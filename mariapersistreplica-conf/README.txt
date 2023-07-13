@@ -1,4 +1,4 @@
-To set up the replicae, run something like this on the server:
+To set up the replica, run something like this on the server:
 
 CHANGE MASTER TO
   MASTER_HOST='mariapersist',
