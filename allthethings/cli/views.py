@@ -325,7 +325,7 @@ def mariapersist_reset_internal():
     cursor = mariapersist_engine_multi.raw_connection().cursor()
 
     # From https://stackoverflow.com/a/8248281
-    cursor.execute("SELECT concat('DROP TABLE IF EXISTS `', table_name, '`;') FROM information_schema.tables WHERE table_schema = 'mariapersist';")
+    cursor.execute("SELECT concat('DROP TABLE IF EXISTS `', table_name, '`;') FROM information_schema.tables WHERE table_schema = 'mariapersist' AND table_name LIKE 'mariapersist_%';")
     delete_all_query = "\n".join([item[0] for item in cursor.fetchall()])
     if len(delete_all_query) > 0:
         cursor.execute("SET FOREIGN_KEY_CHECKS = 0;")
