@@ -16,7 +16,6 @@ from allthethings.blog.views import blog
 from allthethings.page.views import page, all_search_aggs
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
-from allthethings.cron.views import cron
 from allthethings.extensions import engine, mariapersist_engine, es, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist, mail, LibgenrsUpdated, LibgenliFiles
 from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY
 
@@ -88,7 +87,6 @@ def create_app(settings_override=None):
     app.register_blueprint(dyn)
     app.register_blueprint(page)
     app.register_blueprint(cli)
-    app.register_blueprint(cron)
 
     extensions(app)
 

@@ -182,12 +182,6 @@ services:
       retries: 3
     profiles: ["web"]
 
-  cron:
-    <<: *default-app
-    container_name: cron
-    command: "flask cron infinite_loop"
-    profiles: ["cron"]
-
   # worker:
   #   <<: *default-app
   #   container_name: worker

@@ -27,10 +27,6 @@ services:
     networks:
       - "mynetwork"
 
-  cron:
-    networks:
-      - "mynetwork"
-
   elasticsearch:
     # ports:
     #   - "${ELASTICSEARCH_PORT_FORWARD:-127.0.0.1:9200}:9200"

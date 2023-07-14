@@ -50,6 +50,7 @@ def dbreset():
     print("Giving you 5 seconds to abort..")
     time.sleep(5)
 
+    mariapersist_reset_internal()
     nonpersistent_dbreset_internal()
     print("Done! Search for example for 'Rhythms of the brain': http://localhost:8000/search?q=Rhythms+of+the+brain")
 
