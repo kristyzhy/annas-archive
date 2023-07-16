@@ -2030,7 +2030,8 @@ def md5_fast_download(md5_input, url):
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
         raise Exception("Non-canonical md5")
 
-    url = base64.urlsafe_b64decode(url.encode()).decode()
+    # https://stackoverflow.com/a/49459036
+    url = base64.urlsafe_b64decode(url.encode() + b'==').decode()
 
     account_id = allthethings.utils.get_account_id(request.cookies)
     with Session(mariapersist_engine) as mariapersist_session:
