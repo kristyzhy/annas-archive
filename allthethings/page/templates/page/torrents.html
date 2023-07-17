@@ -14,8 +14,12 @@
       These are all the torrents currently managed and released by Anna’s Archive. For more information, see “Our projects” on the <a href="/datasets">Datasets</a> page.
     </p>
 
-    {% for small_file in small_files %}
-      <div><a href="/small_file/{{ small_file.file_path }}">{{ small_file.file_path }}</a></div>
+    {% for group, small_files in small_file_dicts_grouped.items() %}
+      <h3 class="mt-4 mb-1 text-xl font-bold" id="{{ group }}">{{ group }}</h3>
+
+      {% for small_file in small_files %}
+        <div>{{ small_file.created | datetimeformat('yyyy-MM-dd') }} <a href="/small_file/{{ small_file.file_path }}">{{ small_file.file_path }}</a></div>
+      {% endfor %}
     {% endfor %}
   </div>
 {% endblock %}
