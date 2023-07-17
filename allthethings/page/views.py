@@ -28,8 +28,8 @@ import base64
 import hashlib
 import shortuuid
 
-from flask import g, Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import engine, es, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files
+from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
+from allthethings.extensions import engine, es, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files, MariapersistSmallFiles
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
@@ -377,6 +377,24 @@ def fast_download_no_more_page():
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def fast_download_not_member_page():
     return render_template("page/fast_download_not_member.html", header_active="")
+
+@page.get("/torrents")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def torrents_page():
+    with mariapersist_engine.connect() as conn:
+        small_files = conn.execute(select(MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.file_path.asc()).limit(10000)).all()
+        return render_template(
+            "page/torrents.html",
+            header_active="home/torrents",
+            small_files=[dict(small_file) for small_file in small_files],
+        )
+
+@page.get("/small_file/<path:file_path>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def small_file_page(file_path):
+    with mariapersist_engine.connect() as conn:
+        file = conn.execute(select(MariapersistSmallFiles.data).where(MariapersistSmallFiles.file_path == file_path).limit(10000)).first()
+        return send_file(io.BytesIO(file.data), as_attachment=True, download_name=file_path.split('/')[-1])
 
 
 def get_zlib_book_dicts(session, key, values):

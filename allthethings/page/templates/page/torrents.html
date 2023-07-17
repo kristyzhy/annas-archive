@@ -1,0 +1,21 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Torrents{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <h2 class="mt-4 mb-1 text-3xl font-bold">Torrents</h2>
+
+    <p class="mb-4">
+      These are all the torrents currently managed and released by Anna’s Archive. For more information, see “Our projects” on the <a href="/datasets">Datasets</a> page.
+    </p>
+
+    {% for small_file in small_files %}
+      <div><a href="/small_file/{{ small_file.file_path }}">{{ small_file.file_path }}</a></div>
+    {% endfor %}
+  </div>
+{% endblock %}
