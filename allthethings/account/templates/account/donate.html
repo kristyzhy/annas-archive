@@ -3,6 +3,8 @@
 {% block title %}{{ gettext('page.donate.title') }}{% endblock %}
 
 {% block body %}
+  {% from 'macros/copy_button.html' import copy_button %}
+
   {% if has_made_donations %}
     <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
       {% if existing_unpaid_donation_id %}
@@ -194,11 +196,11 @@
         {{ gettext('page.donate.crypto.intro') }}
       </p>
 
-      <ul class="list-inside mb-4">
-        <li>- Monero XMR: <a style="word-break: break-all;" rel="payment" href="monero:445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t">445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t</a></li>
-        <li>- Ethereum ETH: <a style="word-break: break-all;" rel="payment" href="ethereum:0x4a47880518eD21937e7d44251bd87054c1be022E">0x4a47880518eD21937e7d44251bd87054c1be022E</a></li>
-        <li>- Bitcoin BTC: <a style="word-break: break-all;" rel="payment" href="bitcoin:15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o">15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o</a></li>
-        <li>- Solana SOL: <a style="word-break: break-all;" rel="payment" href="solana:HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP">HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP</a></li>
+      <ul class="list-inside mb-4 break-all">
+        <li>- Bitcoin BTC: 15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o{{ copy_button('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}</li>
+        <li>- Ethereum ETH: 0x4a47880518eD21937e7d44251bd87054c1be022E{{ copy_button('0x4a47880518eD21937e7d44251bd87054c1be022E') }}</li>
+        <li>- Monero XMR: 445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t{{ copy_button('445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t') }}</li>
+        <li>- Solana SOL: HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP{{ copy_button('HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP') }}</li>
       </ul>
 
       <p class="mb-4">
@@ -236,7 +238,7 @@
       </p>
 
       <p class="mb-4 font-mono font-bold">
-        15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o<button class="font-sans font-normal text-sm button bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white ml-3" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-xl"></span> <span class="[[aria-selected=true]_&]:hidden">{{ gettext('page.donate.copy') }}</span><span class="[[aria-selected=false]_&]:hidden">{{ gettext('page.donate.copied') }}</span></button>
+        15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o{{ copy_button('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}
       </p>
 
       <p class="mb-4">

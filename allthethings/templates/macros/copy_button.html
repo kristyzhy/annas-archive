@@ -1,0 +1,3 @@
+{% macro copy_button(text) -%}
+<button class="inline-block font-sans font-normal text-xs button bg-gray-500 hover:bg-gray-600 px-1 py-0.5 rounded-md text-white ml-1 align-[2px]" onclick="if (navigator.clipboard) { navigator.clipboard.writeText('{{ text }}').then(() => { this.setAttribute('aria-selected', 'true'); }); }" aria-selected="false"><span class="icon-[solar--clipboard-bold] [[aria-selected=true]_&]:icon-[solar--clipboard-check-bold] align-[-5px] text-lg"></span> <span class="[[aria-selected=true]_&]:hidden">{{ gettext('page.donate.copy') }}</span><span class="[[aria-selected=false]_&]:hidden">{{ gettext('page.donate.copied') }}</span></button>
+{%- endmacro %}
