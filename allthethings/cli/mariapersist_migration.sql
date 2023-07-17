@@ -1,4 +1,42 @@
-# When adding one of these, be sure to update mariapersist_reset_internal!
+CREATE TABLE `mariapersist_downloads_hourly_by_ip` ( `ip` BINARY(16), `hour_since_epoch` BIGINT, `count` INT, PRIMARY KEY(ip, hour_since_epoch) ) ENGINE=InnoDB;
+
+CREATE TABLE `mariapersist_downloads_hourly_by_md5` ( `md5` BINARY(16), `hour_since_epoch` BIGINT, `count` INT, PRIMARY KEY(md5, hour_since_epoch) ) ENGINE=InnoDB;
+
+CREATE TABLE `mariapersist_downloads_total_by_md5` ( `md5` BINARY(16), `count` INT, PRIMARY KEY(md5) ) ENGINE=InnoDB;
+
+CREATE TABLE mariapersist_downloads (
+    `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    `md5` BINARY(16) NOT NULL,
+    `ip` BINARY(16) NOT NULL,
+    PRIMARY KEY (`timestamp`, `md5`, `ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+CREATE TABLE `mariapersist_downloads_hourly` ( `hour_since_epoch` BIGINT, `count` INT, PRIMARY KEY(hour_since_epoch) ) ENGINE=InnoDB;
+
+CREATE TABLE mariapersist_accounts (
+    `account_id` CHAR(7) NOT NULL,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `email_verified` VARCHAR(255) NOT NULL,
+    `display_name` VARCHAR(255) NOT NULL,
+    `newsletter_unsubscribe` TINYINT(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`account_id`),
+    UNIQUE INDEX (`email_verified`),
+    UNIQUE INDEX (`display_name`),
+    INDEX (`created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+CREATE TABLE mariapersist_account_logins (
+    `account_id` CHAR(7) NOT NULL,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `ip` BINARY(16) NOT NULL,
+    PRIMARY KEY (`account_id`, `created`, `ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+ALTER TABLE mariapersist_downloads ADD COLUMN `account_id` CHAR(7) NULL;
+ALTER TABLE mariapersist_downloads ADD CONSTRAINT `mariapersist_downloads_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
+ALTER TABLE mariapersist_account_logins ADD CONSTRAINT `mariapersist_account_logins_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
+ALTER TABLE mariapersist_downloads ADD INDEX `account_id_timestamp` (`account_id`, `timestamp`);
 
 CREATE TABLE mariapersist_copyright_claims (
     `copyright_claim_id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -82,3 +120,37 @@ CREATE TABLE mariapersist_list_entries (
 ALTER TABLE mariapersist_list_entries ADD CONSTRAINT `mariapersist_list_entries_account_id` FOREIGN KEY(`account_id`) REFERENCES `mariapersist_accounts` (`account_id`);
 ALTER TABLE mariapersist_list_entries ADD CONSTRAINT `mariapersist_list_entries_list_id` FOREIGN KEY(`list_id`) REFERENCES `mariapersist_lists` (`list_id`);
 
+CREATE TABLE mariapersist_donations (
+    `donation_id` CHAR(22) NOT NULL,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `account_id` CHAR(7) NOT NULL,
+    `cost_cents_usd` INT NOT NULL,
+    `cost_cents_native_currency` INT NOT NULL,
+    `native_currency_code` CHAR(10) NOT NULL,
+    `processing_status` TINYINT NOT NULL, # 0=unpaid, 1=paid, 2=cancelled, 3=expired, 4=manualconfirm
+    `donation_type` SMALLINT NOT NULL, # 0=manual
+    `ip` BINARY(16) NOT NULL,
+    `json` JSON NOT NULL,
+    PRIMARY KEY (`donation_id`),
+    INDEX (`created`),
+    INDEX (`account_id`, `processing_status`, `created`),
+    INDEX (`donation_type`, `created`),
+    INDEX (`processing_status`, `created`),
+    INDEX (`cost_cents_usd`, `created`),
+    INDEX (`cost_cents_native_currency`, `created`),
+    INDEX (`native_currency_code`, `created`),
+    INDEX (`ip`, `created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+ALTER TABLE mariapersist_accounts ADD COLUMN `membership_tier` CHAR(7) NOT NULL DEFAULT 0;
+ALTER TABLE mariapersist_accounts ADD COLUMN `membership_expiration` TIMESTAMP NULL;
+
+ALTER TABLE mariapersist_accounts MODIFY `email_verified` VARCHAR(255) NULL;
+
+CREATE TABLE mariapersist_fast_download_access (
+    `account_id` CHAR(7) NOT NULL,
+    `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    `md5` BINARY(16) NOT NULL,
+    `ip` BINARY(16) NOT NULL,
+    PRIMARY KEY (`account_id`, `timestamp`, `md5`, `ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

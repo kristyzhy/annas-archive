@@ -333,12 +333,7 @@ def mariapersist_reset_internal():
         cursor.execute(delete_all_query)
         cursor.execute("SET FOREIGN_KEY_CHECKS = 1; COMMIT;")
 
-    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_001.sql')).read_text())
-    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_002.sql')).read_text())
-    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_003.sql')).read_text())
-    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_004.sql')).read_text())
-    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_005.sql')).read_text())
-    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration_006.sql')).read_text())
+    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariapersist_migration.sql')).read_text())
     cursor.close()
 
 #################################################################################################
