@@ -29,30 +29,30 @@ docker compose up -d --no-deps --build
 # Download the data. You can skip any of these scripts if you have already downloaded the data and don't want to repeat it.
 # You can also run these in parallel in multiple terminal windows.
 # We recommend looking through each script in detail before running it.
-docker exec -it aa-data-import--mariadb /scripts/download_libgenli.sh # Look at data-imports/scripts/download_libgenli_proxies_template.sh to speed up downloading.
-# E.g.: docker exec -it aa-data-import--mariadb /scripts/download_libgenli_proxies.sh; docker exec -it aa-data-import--mariadb /scripts/download_libgenli.sh
-docker exec -it aa-data-import--mariadb /scripts/download_libgenrs.sh
-docker exec -it aa-data-import--mariadb /scripts/download_openlib.sh
-docker exec -it aa-data-import--mariadb /scripts/download_pilimi_isbndb.sh
-docker exec -it aa-data-import--mariadb /scripts/download_pilimi_zlib.sh
-docker exec -it aa-data-import--mariadb /scripts/download_aa_various.sh
+docker exec -it aa-data-import--web /scripts/download_libgenli.sh # Look at data-imports/scripts/download_libgenli_proxies_template.sh to speed up downloading.
+# E.g.: docker exec -it aa-data-import--web /scripts/download_libgenli_proxies.sh; docker exec -it aa-data-import--web /scripts/download_libgenli.sh
+docker exec -it aa-data-import--web /scripts/download_libgenrs.sh
+docker exec -it aa-data-import--web /scripts/download_openlib.sh
+docker exec -it aa-data-import--web /scripts/download_pilimi_isbndb.sh
+docker exec -it aa-data-import--web /scripts/download_pilimi_zlib.sh
+docker exec -it aa-data-import--web /scripts/download_aa_various.sh
 
 # Load the data.
-docker exec -it aa-data-import--mariadb /scripts/load_libgenli.sh
-docker exec -it aa-data-import--mariadb /scripts/load_libgenrs.sh
-docker exec -it aa-data-import--mariadb /scripts/load_openlib.sh
-docker exec -it aa-data-import--mariadb /scripts/load_pilimi_isbndb.sh
-docker exec -it aa-data-import--mariadb /scripts/load_pilimi_zlib.sh
-docker exec -it aa-data-import--mariadb /scripts/load_aa_various.sh
+docker exec -it aa-data-import--web /scripts/load_libgenli.sh
+docker exec -it aa-data-import--web /scripts/load_libgenrs.sh
+docker exec -it aa-data-import--web /scripts/load_openlib.sh
+docker exec -it aa-data-import--web /scripts/load_pilimi_isbndb.sh
+docker exec -it aa-data-import--web /scripts/load_pilimi_zlib.sh
+docker exec -it aa-data-import--web /scripts/load_aa_various.sh
 
 # If you ever want to see what is going on in MySQL as these scripts run:
-# docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SHOW PROCESSLIST;'
+# docker exec -it aa-data-import--web mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SHOW PROCESSLIST;'
 
 # First sanity check to make sure the right tables exist.
-docker exec -it aa-data-import--mariadb /scripts/check_after_imports.sh
+docker exec -it aa-data-import--web /scripts/check_after_imports.sh
 
 # Sanity check to make sure the tables are filled.
-docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
+docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
 
 # Calculate derived data:
 docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s && docker exec -it aa-data-import--web flask cli elastic_reset_aarecords && docker exec -it aa-data-import--web flask cli elastic_build_aarecords

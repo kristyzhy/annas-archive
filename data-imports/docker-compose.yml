@@ -1,9 +1,7 @@
 services:
   "aa-data-import--mariadb":
     container_name: "aa-data-import--mariadb"
-    build:
-      context: '.'
-      dockerfile: Dockerfile-mariadb
+    image: "mariadb:10.10.2"
     environment:
       MARIADB_USER: "allthethings"
       MARIADB_PASSWORD: "password"
@@ -11,7 +9,6 @@ services:
       MARIADB_DATABASE: "allthethings"
       MARIADB_INITDB_SKIP_TZINFO: "1" # https://github.com/MariaDB/mariadb-docker/issues/262#issuecomment-672375238
     volumes:
-      - "./scripts:/scripts"
       - "./mariadb-conf:/etc/mysql/conf.d"
       # These two are outside the repo, so we don't get huge contexts whenever building (neither in this subdir
       # nor when running docker in the root of the repo).
@@ -57,4 +54,8 @@ services:
     restart: "unless-stopped"
     stop_grace_period: "3s"
     volumes:
+      - "./scripts:/scripts"
+      - "../../aa-data-import--temp-dir:/temp-dir"
+      - "../../aa-data-import--allthethings-mysql-data:/var/lib/mysql/"
+      - "./mariadb-conf:/etc/mysql/conf.d"
       - "../public:/app/public"

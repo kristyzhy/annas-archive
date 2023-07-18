@@ -7,7 +7,7 @@ ARG UID=1000
 ARG GID=1000
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends build-essential \
+  && apt-get install -y build-essential \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean \
   && groupmod -g "${GID}" node && usermod -u "${UID}" -g "${GID}" node \
@@ -42,7 +42,7 @@ ARG UID=1000
 ARG GID=1000
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends build-essential curl libpq-dev python3-dev default-libmysqlclient-dev \
+  && apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar-free curl python3 python3-pip ctorrent mariadb-client \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean \
   && groupadd -g "${GID}" python \
