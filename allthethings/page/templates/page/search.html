@@ -90,4 +90,21 @@
       </div>
     {% endif %}
   {% endif %}
+  
+  {% if search_input != '' %}
+    <script>
+      (function() {
+        const searchInput = {{ search_input | tojson }};
+        try {
+          if (window.sessionStorage['search_counted_' + searchInput] === "1") {
+            return;
+          }
+          window.sessionStorage['search_counted_' + searchInput] = "1";
+        } catch(e) {
+          console.error("Error with sessionStorage: ", e);
+        }
+        navigator.sendBeacon("/dyn/log_search?q=" + searchInput);
+      })();
+    </script>
+  {% endif %}
 {% endblock %}

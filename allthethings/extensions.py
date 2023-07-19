@@ -144,6 +144,7 @@ class MariapersistFastDownloadAccess(ReflectedMariapersist):
     __tablename__ = "mariapersist_fast_download_access"
 class MariapersistSmallFiles(ReflectedMariapersist):
     __tablename__ = "mariapersist_small_files"
-
+class MariapersistSearches(ReflectedMariapersist):
+    __tablename__ = "mariapersist_searches"
 
 
