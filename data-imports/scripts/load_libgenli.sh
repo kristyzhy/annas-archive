@@ -8,13 +8,13 @@ set -Eeuxo pipefail
 
 cd /temp-dir
 
-rm -rf libgen_new /var/lib/mysql/libgen_new/ /temp-dir/libgen_new/
+rm -rf libgen_new /aa-data-import--allthethings-mysql-data/libgen_new/ /temp-dir/libgen_new/
 
 unrar x libgen_new.part001.rar
 
-mv /temp-dir/libgen_new /var/lib/mysql/
-chown -R mysql /var/lib/mysql/libgen_new
-chgrp -R mysql /var/lib/mysql/libgen_new
+mv /temp-dir/libgen_new /aa-data-import--allthethings-mysql-data/
+chown -R mysql /aa-data-import--allthethings-mysql-data/libgen_new
+chgrp -R mysql /aa-data-import--allthethings-mysql-data/libgen_new
 
 mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv < /scripts/helpers/libgenli_pre_export.sql
 

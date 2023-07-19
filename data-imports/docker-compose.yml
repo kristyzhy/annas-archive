@@ -56,6 +56,7 @@ services:
     volumes:
       - "./scripts:/scripts"
       - "../../aa-data-import--temp-dir:/temp-dir"
-      - "../../aa-data-import--allthethings-mysql-data:/var/lib/mysql/"
+      - "../../aa-data-import--allthethings-mysql-data:/aa-data-import--allthethings-mysql-data"
+      - "../../aa-data-import--allthethings-elastic-data:/aa-data-import--allthethings-elastic-data"
       - "./mariadb-conf:/etc/mysql/conf.d"
       - "../public:/app/public"

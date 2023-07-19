@@ -41,8 +41,9 @@ WORKDIR /app
 ARG UID=1000
 ARG GID=1000
 
-RUN apt-get update \
-  && apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar-free curl python3 python3-pip ctorrent mariadb-client \
+RUN sed -i -e's/ main/ main contrib non-free/g' /etc/apt/sources.list \
+  && apt-get update \
+  && apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar curl python3 python3-pip ctorrent mariadb-client pv rclone \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean \
   && groupadd -g "${GID}" python \
