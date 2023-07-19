@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL
 
 FEATURE_FLAGS = {}
 
@@ -206,6 +206,9 @@ MEMBERSHIP_DURATION_DISCOUNTS = {
 MEMBERSHIP_DOWNLOADS_PER_DAY = {
     "2": 20, "3": 50, "4": 100, "5": 1000,
 }
+MEMBERSHIP_TELEGRAM_URL = {
+    "2": "", "3": "", "4": MEMBERS_TELEGRAM_URL, "5": MEMBERS_TELEGRAM_URL,
+}
 
 def get_account_fast_download_info(mariapersist_session, account_id):
     account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
@@ -214,7 +217,7 @@ def get_account_fast_download_info(mariapersist_session, account_id):
     downloads_left = MEMBERSHIP_DOWNLOADS_PER_DAY[account.membership_tier]
     recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(10000)).scalars()]
     downloads_left -= len(recently_downloaded_md5s)
-    return { 'downloads_left': max(0, downloads_left), 'recently_downloaded_md5s': recently_downloaded_md5s, 'downloads_per_day': MEMBERSHIP_DOWNLOADS_PER_DAY[account.membership_tier] }
+    return { 'downloads_left': max(0, downloads_left), 'recently_downloaded_md5s': recently_downloaded_md5s, 'downloads_per_day': MEMBERSHIP_DOWNLOADS_PER_DAY[account.membership_tier], 'telegram_url': MEMBERSHIP_TELEGRAM_URL[account.membership_tier] }
 
 def cents_to_usd_str(cents):
     return str(cents)[:-2] + "." + str(cents)[-2:]

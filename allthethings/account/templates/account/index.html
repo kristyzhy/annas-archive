@@ -22,6 +22,11 @@
       {% else %}
         <div>{{ gettext('page.account.logged_in.membership_has_some', a_extend=(('href="/donate?tier=' + account_dict.membership_tier + '"') | safe), tier_name=membership_tier_names[account_dict.membership_tier], until_date=(account_dict.membership_expiration | dateformat(format='long'))) }}</div>
         <div>{{ gettext('page.account.logged_in.membership_fast_downloads_used', used=(account_fast_download_info.downloads_per_day-account_fast_download_info.downloads_left), total=account_fast_download_info.downloads_per_day ) }}</div>
+        {% if account_fast_download_info.telegram_url %}
+          <div>Exclusive Telegram group: <a href="{{ account_fast_download_info.telegram_url }}">Join us here!</a></div>
+        {% else %}
+          <div>Exclusive Telegram group: <em>Upgrade to a <a href="/donate">higher tier</a> to join our group</em>.</div>
+        {% endif %}
         <div>{{ gettext('page.account.logged_in.membership_upgrade') }}</div>
       {% endif %}
     </div>
