@@ -634,11 +634,11 @@ def recent_downloads():
 @dyn.post("/log_search")
 @allthethings.utils.no_cache()
 def log_search():
-    search_input = request.args.get("q", "").strip()
-    if len(search_input) > 0:
-        with Session(mariapersist_engine) as mariapersist_session:
-            mariapersist_session.connection().execute(text('INSERT INTO mariapersist_searches (search_input) VALUES (:search_input)').bindparams(search_input=search_input.encode('utf-8')))
-            mariapersist_session.commit()
+    # search_input = request.args.get("q", "").strip()
+    # if len(search_input) > 0:
+    #     with Session(mariapersist_engine) as mariapersist_session:
+    #         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_searches (search_input) VALUES (:search_input)').bindparams(search_input=search_input.encode('utf-8')))
+    #         mariapersist_session.commit()
     return ""
 
 
