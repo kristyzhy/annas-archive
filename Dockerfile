@@ -38,22 +38,15 @@ LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
 
-ARG UID=1000
-ARG GID=1000
+RUN sed -i -e's/ main/ main contrib non-free/g' /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar curl python3 python3-pip ctorrent mariadb-client pv rclone
 
-RUN sed -i -e's/ main/ main contrib non-free/g' /etc/apt/sources.list \
-  && apt-get update \
-  && apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar curl python3 python3-pip ctorrent mariadb-client pv rclone \
-  && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
-  && apt-get clean \
-  && groupadd -g "${GID}" python \
-  && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" python \
-  && chown python:python -R /app
+RUN rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
+RUN apt-get clean
 
-USER python
-
-COPY --chown=python:python requirements*.txt ./
-COPY --chown=python:python bin/ ./bin
+COPY requirements*.txt ./
+COPY bin/ ./bin
 
 RUN chmod 0755 bin/* && bin/pip3-install
 
@@ -62,12 +55,10 @@ ENV FLASK_DEBUG="${FLASK_DEBUG}" \
     FLASK_APP="allthethings.app" \
     FLASK_SKIP_DOTENV="true" \
     PYTHONUNBUFFERED="true" \
-    PYTHONPATH="." \
-    PATH="${PATH}:/home/python/.local/bin" \
-    USER="python"
+    PYTHONPATH="."
 
-COPY --chown=python:python --from=assets /app/public /public
-COPY --chown=python:python . .
+COPY --from=assets /app/public /public
+COPY . .
 
 # RUN if [ "${FLASK_DEBUG}" != "true" ]; then \
 #   ln -s /public /app/public && flask digest compile && rm -rf /app/public; fi
