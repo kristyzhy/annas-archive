@@ -1339,12 +1339,7 @@ def aarecord_score_base(aarecord):
     if (aarecord['file_unified_data'].get('extension_best') or '') in ['epub', 'pdf']:
         score += 10.0
     if len(aarecord['file_unified_data'].get('cover_url_best') or '') > 0:
-        # Since we only use the zlib cover as a last resort, and zlib is down / only on Tor,
-        # stronlgy demote zlib-only books for now.
-        if 'covers.zlibcdn2.com' in (aarecord['file_unified_data'].get('cover_url_best') or ''):
-            score -= 15.0
-        else:
-            score += 3.0
+        score += 3.0
     if (aarecord['file_unified_data'].get('has_aa_downloads') or 0) > 0:
         score += 5.0
     if ((aarecord['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0) and (aarecord['search_only_fields']['search_record_sources'] != ['ia']):
@@ -1855,7 +1850,7 @@ def get_additional_for_aarecord(aarecord):
                 aarecord['file_unified_data'].get('edition_varia_best', None) or '',
                 aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
             ] if item != ''],
-        'cover_url': aarecord['file_unified_data'].get('cover_url_best', None) or '',
+        'cover_url': (aarecord['file_unified_data'].get('cover_url_best', None) or '').replace('https://covers.zlibcdn2.com/', 'https://static.1lib.sk/'),
         'top_row': ", ".join([item for item in [
                 additional['most_likely_language_name'],
                 aarecord['file_unified_data'].get('extension_best', None) or '',
