@@ -2,6 +2,8 @@ import hashlib
 import os
 import functools
 import base64
+import sys
+import time
 
 from celery import Celery
 from flask import Flask, request, g
@@ -10,6 +12,7 @@ from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_babel import get_locale, get_translations, force_locale
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from allthethings.account.views import account
 from allthethings.blog.views import blog
@@ -104,13 +107,27 @@ def extensions(app):
     flask_static_digest.init_app(app)
     with app.app_context():
         try:
+            with Session(engine) as session:
+                session.execute('SELECT 1')
+        except:
+            print("mariadb not yet online, restarting")
+            time.sleep(3)
+            sys.exit(1)
+
+        try:
+            with Session(mariapersist_engine) as mariapersist_session:
+                mariapersist_session.execute('SELECT 1')
+        except:
+            print("mariapersist not yet online, continuing since it's optional")
+
+        try:
             Reflected.prepare(engine)
         except:
             if os.getenv("DATA_IMPORTS_MODE", "") == "1":
                 print("Ignoring db error because DATA_IMPORTS_MODE=1")
             else:
-                print("Error in loading tables; comment out the following 'raise' in app.py to prevent restarts; and then reset using './run flask cli dbreset'")
-                raise
+                print("Error in loading tables; reset using './run flask cli dbreset'")
+
         try:
             ReflectedMariapersist.prepare(mariapersist_engine)
         except:

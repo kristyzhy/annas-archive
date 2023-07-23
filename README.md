@@ -11,7 +11,9 @@ cp .env.dev .env
 docker compose up --build
 ```
 
-Now open http://localhost:8000. It should give you an error, since MySQL is not yet initialized. In another terminal window, run:
+It might take a while for everything to settle, so wait a minute until there are no more logs changing. The errors that you get from the `web` container are normal during this first setup.
+
+When everything is settled, in another terminal window, run:
 
 ```bash
 ./run flask cli dbreset
@@ -24,9 +26,6 @@ Common issues:
 * MariaDB wants too much RAM: comment out `key_buffer_size` in `mariadb-conf/my.cnf`
 * Note that the example data is pretty funky / weird because of some joined tables not lining up nicely when only exporting a small number of records.
 * You might need to adjust the size of ElasticSearch's heap size, by changing `ES_JAVA_OPTS` in `docker-compose.yml`.
-
-TODO:
-* [Importing actual data](https://annas-software.org/AnnaArchivist/annas-archive/-/issues/4)
 
 Notes:
 * This repo is based on [docker-flask-example](https://github.com/nickjj/docker-flask-example).
