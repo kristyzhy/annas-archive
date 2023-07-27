@@ -196,8 +196,8 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # "cc":     20,
     "paypal": 20,
     # "bmc":    0,
-    "alipay": 0,
-    "pix":    0,
+    # "alipay": 0,
+    # "pix":    0,
 }
 MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
@@ -208,6 +208,14 @@ MEMBERSHIP_DOWNLOADS_PER_DAY = {
 }
 MEMBERSHIP_TELEGRAM_URL = {
     "2": "", "3": "", "4": MEMBERS_TELEGRAM_URL, "5": MEMBERS_TELEGRAM_URL,
+}
+MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
+    "crypto": 0,
+    # "cc":     20,
+    "paypal": 3500,
+    # "bmc":    0,
+    # "alipay": 0,
+    # "pix":    0,
 }
 
 def get_account_fast_download_info(mariapersist_session, account_id):

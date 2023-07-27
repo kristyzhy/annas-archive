@@ -151,25 +151,30 @@
 
     <form onsubmit="window.submitForm(event, '/dyn/account/buy_membership/', (data) => window.location = data.redirect_url)" class="js-membership-form mt-4 mb-4">
       <fieldset class="mb-2">
-        <p class="mb-4">
-          {{ gettext('page.donate.submit.confirm') }}
-        </p>
+        <div class="js-membership-donate-minimum mb-4 hidden"></div>
 
-        <input type="hidden" name="tier" value="">
-        <input type="hidden" name="method" value="">
-        <input type="hidden" name="duration" value="">
-        <input type="hidden" name="costCentsUsdVerification" value="">
-        <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">
-          {{ gettext('page.donate.submit.button', span_cost=('class="font-bold js-membership-donate-button-cost"' | safe), span_label=('class="text-xs js-membership-donate-button-label"' | safe)) }}
-        </button>
-        <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+        <div class="js-membership-donate-submit-confirmation">
+          <p class="mb-4">
+            {{ gettext('page.donate.submit.confirm') }}
+          </p>
 
-        <p class="text-xs text-gray-500">
-          {{ gettext('page.donate.submit.cancel_note') }}
-        </p>
-      </fieldset>
-      <div class="hidden js-success">{{ gettext('page.donate.submit.success') }}</div>
-      <div class="hidden js-failure">{{ gettext('page.donate.submit.failure') }}</div>
+
+          <input type="hidden" name="tier" value="">
+          <input type="hidden" name="method" value="">
+          <input type="hidden" name="duration" value="">
+          <input type="hidden" name="costCentsUsdVerification" value="">
+          <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">
+            {{ gettext('page.donate.submit.button', span_cost=('class="font-bold js-membership-donate-button-cost"' | safe), span_label=('class="text-xs js-membership-donate-button-label"' | safe)) }}
+          </button>
+          <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+
+          <p class="text-xs text-gray-500">
+            {{ gettext('page.donate.submit.cancel_note') }}
+          </p>
+        </fieldset>
+        <div class="hidden js-success">{{ gettext('page.donate.submit.success') }}</div>
+        <div class="hidden js-failure">{{ gettext('page.donate.submit.failure') }}</div>
+      </div>
     </form>
   </div>
 
@@ -292,6 +297,7 @@
       const MEMBERSHIP_TIER_COSTS = {{ MEMBERSHIP_TIER_COSTS | tojson }};
       const MEMBERSHIP_METHOD_DISCOUNTS = {{ MEMBERSHIP_METHOD_DISCOUNTS | tojson }};
       const MEMBERSHIP_DURATION_DISCOUNTS = {{ MEMBERSHIP_DURATION_DISCOUNTS | tojson }};
+      const MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {{ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD | tojson }};
       const membershipCostsData = {{ membership_costs_data | tojson }};
 
       function getMembershipParams() {
@@ -358,6 +364,17 @@
             '24': `{{ gettext('page.donate.submit.button.label.24_mo', tier_name=('${costsData.tier_name}' | safe)) }}`,
           }[costsData.duration];
           document.querySelector('.js-membership-form [name=costCentsUsdVerification]').value = costsData.cost_cents_usd;
+
+          const minimumCents = MEMBERSHIP_METHOD_MINIMUM_CENTS_USD[membershipParams.method];
+          const minimumEl = document.querySelector('.js-membership-donate-minimum');
+          if (costsData.cost_cents_usd < minimumCents) {
+            minimumEl.classList.remove('hidden')
+            minimumEl.innerText = "Unfortunately, this payment method requires a minimum of $" + Math.floor(minimumCents/100) + " USD. Please select a different duration or payment method."
+            document.querySelector(".js-membership-donate-submit-confirmation").classList.add("hidden");
+          } else {
+            minimumEl.classList.add('hidden')
+            document.querySelector(".js-membership-donate-submit-confirmation").classList.remove("hidden");
+          }
         }
 
         document.querySelector('.js-membership-form [name=tier]').value = membershipParams.tier;
