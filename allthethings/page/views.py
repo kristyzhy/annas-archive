@@ -2180,6 +2180,7 @@ def all_search_aggs(display_lang):
 
 
 @page.get("/random_book")
+@allthethings.utils.no_cache()
 def random_book():
     """
     Gets a random record from the elastic search index and redirects to the page for that book.
