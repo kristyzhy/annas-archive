@@ -1,0 +1,14 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Partner download{% endblock %}
+
+{% block meta_tags %}
+  <meta property="robots" content="noindex" />
+{% endblock %}
+
+{% block body %}
+  <h2 class="mt-4 mb-1 text-3xl font-bold">Download from partner website</h2>
+  <p class="mb-4">
+    Use the following URL to download: <a href="{{ url }}">{{ url }}</a>
+  </p>
+{% endblock %}

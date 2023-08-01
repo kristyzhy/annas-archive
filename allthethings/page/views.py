@@ -246,7 +246,7 @@ def add_comments_to_dict(before_dict, comments):
     return after_dict
 
 @page.get("/")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def home_page():
     popular_ids = [
         "md5:8336332bf5877e3adbfb60ac70720cd5", # Against intellectual monopoly
@@ -272,24 +272,28 @@ def home_page():
         )
 
 @page.get("/login")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def login_page():
     return redirect(f"/account", code=301)
     # return render_template("page/login.html", header_active="account")
 
 @page.get("/about")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def about_page():
     return render_template("page/about.html", header_active="home/about")
 
 @page.get("/mobile")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def mobile_page():
     return render_template("page/mobile.html", header_active="home/mobile")
 
+@page.get("/browser_verification")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def browser_verification_page():
+    return render_template("page/browser_verification.html", header_active="home/search")
 
 @page.get("/datasets")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_page():
     with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
@@ -309,32 +313,32 @@ def datasets_page():
     )
 
 @page.get("/datasets/ia")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_ia_page():
     return render_template("page/datasets_ia.html", header_active="home/datasets")
 
 @page.get("/datasets/libgen_aux")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_libgen_aux_page():
     return render_template("page/datasets_libgen_aux.html", header_active="home/datasets")
 
 @page.get("/datasets/libgenli_comics")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_libgenli_comics_page():
     return render_template("page/datasets_libgenli_comics.html", header_active="home/datasets")
 
 @page.get("/datasets/zlib_scrape")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_zlib_scrape_page():
     return render_template("page/datasets_zlib_scrape.html", header_active="home/datasets")
 
 @page.get("/datasets/isbndb_scrape")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_isbndb_scrape_page():
     return render_template("page/datasets_isbndb_scrape.html", header_active="home/datasets")
 
 @page.get("/datasets/libgen_rs")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_libgen_rs_page():
     with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
@@ -342,7 +346,7 @@ def datasets_libgen_rs_page():
     return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", libgenrs_date=libgenrs_date)
 
 @page.get("/datasets/libgen_li")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_libgen_li_page():
     with engine.connect() as conn:
         libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
@@ -350,7 +354,7 @@ def datasets_libgen_li_page():
     return render_template("page/datasets_libgen_li.html", header_active="home/datasets", libgenli_date=libgenli_date)
 
 @page.get("/datasets/openlib")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_openlib_page():
     with engine.connect() as conn:
         # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
@@ -359,27 +363,27 @@ def datasets_openlib_page():
     return render_template("page/datasets_openlib.html", header_active="home/datasets", openlib_date=openlib_date)
 
 @page.get("/datasets/isbn_ranges")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_isbn_ranges_page():
     return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets")
 
 @page.get("/copyright")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def copyright_page():
     return render_template("page/copyright.html", header_active="")
 
 @page.get("/fast_download_no_more")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def fast_download_no_more_page():
     return render_template("page/fast_download_no_more.html", header_active="")
 
 @page.get("/fast_download_not_member")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def fast_download_not_member_page():
     return render_template("page/fast_download_not_member.html", header_active="")
 
 @page.get("/torrents")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def torrents_page():
     with mariapersist_engine.connect() as conn:
         small_files = conn.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
@@ -396,7 +400,7 @@ def torrents_page():
         )
 
 @page.get("/small_file/<path:file_path>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def small_file_page(file_path):
     with mariapersist_engine.connect() as conn:
         file = conn.execute(select(MariapersistSmallFiles.data).where(MariapersistSmallFiles.file_path == file_path).limit(10000)).first()
@@ -450,7 +454,7 @@ def get_zlib_book_dicts(session, key, values):
 
 
 @page.get("/db/zlib/<int:zlib_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def zlib_book_json(zlib_id):
     with Session(engine) as session:
         zlib_book_dicts = get_zlib_book_dicts(session, "zlibrary_id", [zlib_id])
@@ -586,7 +590,7 @@ def get_ia_record_dicts(session, key, values):
     return ia_record_dicts
 
 @page.get("/db/ia/<string:ia_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def ia_record_json(ia_id):
     with Session(engine) as session:
         ia_record_dicts = get_ia_record_dicts(session, "ia_id", [ia_id])
@@ -596,7 +600,7 @@ def ia_record_json(ia_id):
 
 
 @page.get("/ol/<string:ol_book_id>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def ol_book_page(ol_book_id):
     ol_book_id = ol_book_id[0:20]
 
@@ -870,7 +874,7 @@ def get_lgrsfic_book_dicts(session, key, values):
 
 
 @page.get("/db/lgrs/nf/<int:lgrsnf_book_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def lgrsnf_book_json(lgrsnf_book_id):
     with Session(engine) as session:
         lgrs_book_dicts = get_lgrsnf_book_dicts(session, "ID", [lgrsnf_book_id])
@@ -878,7 +882,7 @@ def lgrsnf_book_json(lgrsnf_book_id):
             return "{}", 404
         return nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 @page.get("/db/lgrs/fic/<int:lgrsfic_book_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def lgrsfic_book_json(lgrsfic_book_id):
     with Session(engine) as session:
         lgrs_book_dicts = get_lgrsfic_book_dicts(session, "ID", [lgrsfic_book_id])
@@ -1153,7 +1157,7 @@ def get_lgli_file_dicts(session, key, values):
 
 
 @page.get("/db/lgli/file/<int:lgli_file_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def lgli_file_json(lgli_file_id):
     with Session(engine) as session:
         lgli_file_dicts = get_lgli_file_dicts(session, "f_id", [lgli_file_id])
@@ -1163,7 +1167,7 @@ def lgli_file_json(lgli_file_id):
 
 
 @page.get("/isbn/<string:isbn_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def isbn_page(isbn_input):
     isbn_input = isbn_input[0:20]
 
@@ -1266,7 +1270,7 @@ def isbn_page(isbn_input):
         )
 
 @page.get("/doi/<path:doi_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def doi_page(doi_input):
     doi_input = normalize_doi(doi_input[0:100])
 
@@ -1838,12 +1842,12 @@ def add_partner_servers(path, modifier, aarecord, additional):
         additional['has_aa_exclusive_downloads'] = 1
     if modifier == 'scimag':
         targeted_seconds = 3
-    # When changing the domains, don't forget to change md5_fast_download.
-    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename']), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://momot.rs/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), "(unlimited downloads!)" if len(additional['slow_partner_urls']) == 0 else ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://ktxr.rs/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), "https://nrzr.li/" + allthethings.utils.sign_anon_download_uri(allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])), ""))
+    # When changing the domains, don't forget to change md5_fast_download and md5_slow_download.
+    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename'])).encode()).decode(), ""))
+    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename'])).encode()).decode(), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://momot.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])).encode()).decode(), '(might require <a href="/browser_verification">browser verification</a> — unlimited downloads!)' if len(additional['slow_partner_urls']) == 0 else ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])).encode()).decode(), ""))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])).encode()).decode(), ""))
 
 def get_additional_for_aarecord(aarecord):
     additional = {}
@@ -2006,7 +2010,7 @@ def add_additional_to_aarecord(aarecord):
 
 
 @page.get("/md5/<string:md5_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def md5_page(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -2104,7 +2108,32 @@ def md5_fast_download(md5_input, url):
     if split_url[0] not in ['https://momot.in', 'https://momot.rs']:
         raise Exception(f"Invalid URL prefix in md5_summary: {url}")
     signed_uri = allthethings.utils.sign_anon_download_uri('d1/' + split_url[1])
-    return redirect(f"{split_url[0]}/{signed_uri}", code=302)
+    return render_template(
+        "page/partner_download.html",
+        header_active="search",
+        url=f"{split_url[0]}/{signed_uri}",
+    )
+
+@page.get("/slow_download/<string:md5_input>/<string:url>")
+@allthethings.utils.no_cache()
+def md5_slow_download(md5_input, url):
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
+        raise Exception("Non-canonical md5")
+
+    # https://stackoverflow.com/a/49459036
+    url = base64.urlsafe_b64decode(url.encode() + b'==').decode()
+
+    split_url = url.split('/d1/')
+    if split_url[0] not in ['https://momot.rs', 'https://ktxr.rs', 'https://nrzr.li']:
+        raise Exception(f"Invalid URL prefix in md5_summary: {url}")
+    signed_uri = allthethings.utils.sign_anon_download_uri('d1/' + split_url[1])
+    return render_template(
+        "page/partner_download.html",
+        header_active="search",
+        url=f"{split_url[0]}/{signed_uri}",
+    )
 
 
 sort_search_aarecords_script = """
@@ -2194,7 +2223,7 @@ def random_book():
 
 
 @page.get("/search")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def search_page():
     search_input = request.args.get("q", "").strip()
     filter_values = {

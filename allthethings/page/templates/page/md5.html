@@ -92,7 +92,7 @@
         </ul>
         <ul class="mb-4 hidden js-fast-download-links-enabled">
           {% for label, url, extra in aarecord.additional.fast_partner_urls %}
-            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="/fast_download/' + md5_input + '/' + (urlsafe_b64encode(url)) + '" rel="noopener noreferrer nofollow" target="_blank" class="js-download-link">' + label + '</a>') | safe), extra=extra) }}</li>
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
           {% endfor %}
         </ul>
       </div>
@@ -112,7 +112,7 @@
       {% if (aarecord.additional.download_urls | length) > 0 %}
         <ul class="mb-4">
           {% for label, url, extra in aarecord.additional.download_urls %}
-            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" target="_blank" class="js-download-link">' + label + '</a>') | safe), extra=extra) }}</li>
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" {% if not url.startswith("/") }target="_blank"{% endif %} class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
           {% endfor %}
         </ul>
         {% if (aarecord.file_unified_data.problems | length) == 0 %}
