@@ -2010,7 +2010,7 @@ def add_additional_to_aarecord(aarecord):
 
 
 @page.get("/md5/<string:md5_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def md5_page(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -2123,6 +2123,7 @@ def md5_slow_download(md5_input, url):
         raise Exception("Non-canonical md5")
 
     # https://stackoverflow.com/a/49459036
+    print(url.encode() + b'==')
     url = base64.urlsafe_b64decode(url.encode() + b'==').decode()
 
     split_url = url.split('/d1/')
