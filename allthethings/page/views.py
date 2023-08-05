@@ -1789,7 +1789,11 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *[f"{item} {key}:{item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
                 aarecord_id,
             ]))),
-            'search_access_types': ['external_download', *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else [])],
+            'search_access_types': [
+                *(['external_download'] if any([field in aarecord for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book']]) else []),
+                *(['external_borrow'] if any([field in aarecord for field in ['ia_record']]) else []),
+                *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
+            ],
             'search_record_sources': list(set([
                 *(['lgrs'] if aarecord['lgrsnf_book'] is not None else []),
                 *(['lgrs'] if aarecord['lgrsfic_book'] is not None else []),
