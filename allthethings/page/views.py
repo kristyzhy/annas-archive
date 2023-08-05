@@ -2019,7 +2019,7 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('ia_record') is not None:
         ia_id = aarecord['ia_record']['aa_ia_file']['ia_id']
         additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", ''))
-    additional['download_urls'].append(("Bulk torrent downloads", "/datasets", gettext('page.md5.box.download.experts_only')))
+    additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
     return additional
 
