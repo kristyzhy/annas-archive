@@ -1852,9 +1852,9 @@ def add_partner_servers(path, modifier, aarecord, additional):
     if modifier == 'scimag':
         targeted_seconds = 3
     # When changing the domains, don't forget to change md5_fast_download and md5_slow_download.
-    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/0', '(no browser verification required)' if len(additional['fast_partner_urls']) == 0 else ''))
+    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/0', gettext("common.md5.servers.no_browser_verification") if len(additional['fast_partner_urls']) == 0 else ''))
     additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/1', ''))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/0', '(might require <a href="/browser_verification">browser verification</a> — unlimited downloads!)' if len(additional['slow_partner_urls']) == 0 else ''))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/0', gettext("common.md5.servers.browser_verification_unlimited", a_browser='href="/browser_verification"') if len(additional['slow_partner_urls']) == 0 else ''))
     additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/1', ''))
     additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/2', ''))
     additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
@@ -2012,7 +2012,10 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord.get('zlib_book') is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
-    additional['download_urls'].append(("Bulk torrent downloads", "/datasets", "(experts only)"))
+    if aarecord.get('ia_record') is not None:
+        ia_id = aarecord['ia_record']['aa_ia_file']['ia_id']
+        additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", ''))
+    additional['download_urls'].append(("Bulk torrent downloads", "/datasets", gettext('page.md5.box.download.experts_only')))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
     return additional
 
