@@ -307,14 +307,8 @@ def membership_costs_data(locale):
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename):
     limit_multiple_field = 'y' if limit_multiple else 'x'
     expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=12)).timestamp())
-    return f"d1/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/XXXXXXXXXXX/{filename}"
-
-def sign_anon_download_uri(uri):
-    if not uri.startswith('d1/'):
-        raise Exception("Invalid uri")
-    base_uri = urllib.parse.unquote(uri[len('d1/'):].split('~/')[0])
-    md5 = base64.urlsafe_b64encode(hashlib.md5(f"{base_uri},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
-    return uri.replace('~/XXXXXXXXXXX/', f"~/{md5}/")
+    md5 = base64.urlsafe_b64encode(hashlib.md5(f"{limit_multiple_field}/{expiry}/{speed_kbps}/{path},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
+    return f"d1/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/{md5}/{filename}"
 
 DICT_COMMENTS_NO_API_DISCLAIMER = "This page is *not* intended as an API. If you need programmatic access to this JSON, please set up your own instance. For more information, see: https://annas-archive.org/datasets and https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports"
 

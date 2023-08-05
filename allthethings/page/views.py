@@ -1831,9 +1831,6 @@ def format_filesize(num):
             num /= 1000.0
         return f"{num:.1f}YB"
 
-def compute_download_speed(targeted_seconds, filesize):
-    return min(150, max(30, int(filesize/1000/targeted_seconds)))
-
 def add_partner_servers(path, modifier, aarecord, additional):
     additional['has_aa_downloads'] = 1
     targeted_seconds = 60
@@ -1843,11 +1840,12 @@ def add_partner_servers(path, modifier, aarecord, additional):
     if modifier == 'scimag':
         targeted_seconds = 3
     # When changing the domains, don't forget to change md5_fast_download and md5_slow_download.
-    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://momot.in/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename'])).encode()).decode(), ""))
-    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://momot.rs/" + allthethings.utils.make_anon_download_uri(False, 20000, path, additional['filename'])).encode()).decode(), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://momot.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])).encode()).decode(), '(might require <a href="/browser_verification">browser verification</a> — unlimited downloads!)' if len(additional['slow_partner_urls']) == 0 else ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://ktxr.rs/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])).encode()).decode(), ""))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + base64.urlsafe_b64encode(("https://nrzr.li/" + allthethings.utils.make_anon_download_uri(True, compute_download_speed(targeted_seconds, aarecord['file_unified_data']['filesize_best']), path, additional['filename'])).encode()).decode(), ""))
+    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/0', ''))
+    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/1', ''))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/0', '(might require <a href="/browser_verification">browser verification</a> — unlimited downloads!)' if len(additional['slow_partner_urls']) == 0 else ''))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/1', ''))
+    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/2', ''))
+    additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
 
 def get_additional_for_aarecord(aarecord):
     additional = {}
@@ -1917,6 +1915,7 @@ def get_additional_for_aarecord(aarecord):
     additional['download_urls'] = []
     additional['fast_partner_urls'] = []
     additional['slow_partner_urls'] = []
+    additional['partner_url_paths'] = []
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
@@ -2010,7 +2009,7 @@ def add_additional_to_aarecord(aarecord):
 
 
 @page.get("/md5/<string:md5_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def md5_page(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -2078,16 +2077,25 @@ def md5_json(md5_input):
             return nice_json(aarecord), {'Content-Type': 'text/json; charset=utf-8'}
 
 
-@page.get("/fast_download/<string:md5_input>/<string:url>")
+@page.get("/fast_download/<string:md5_input>/<int:path_index>/<int:server_index>")
 @allthethings.utils.no_cache()
-def md5_fast_download(md5_input, url):
+def md5_fast_download(md5_input, path_index, server_index):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
-    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        raise Exception("Non-canonical md5")
 
-    # https://stackoverflow.com/a/49459036
-    url = base64.urlsafe_b64decode(url.encode() + b'==').decode()
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
+        return redirect(f"/md5/{md5_input}", code=302)
+    with Session(engine) as session:
+        aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
+        if len(aarecords) == 0:
+            return render_template("page/md5.html", header_active="search", md5_input=md5_input)
+        aarecord = aarecords[0]
+        try:
+            server = ['https://momot.in/', 'https://momot.rs/'][server_index]
+            path_info = aarecord['additional']['partner_url_paths'][path_index]
+        except:
+            return redirect(f"/md5/{md5_input}", code=302)
+        url = server + allthethings.utils.make_anon_download_uri(False, 20000, path_info['path'], aarecord['additional']['filename'])
 
     account_id = allthethings.utils.get_account_id(request.cookies)
     with Session(mariapersist_engine) as mariapersist_session:
@@ -2104,36 +2112,40 @@ def md5_fast_download(md5_input, url):
             mariapersist_session.connection().execute(text('INSERT INTO mariapersist_fast_download_access (md5, ip, account_id) VALUES (:md5, :ip, :account_id)').bindparams(md5=data_md5, ip=data_ip, account_id=account_id))
             mariapersist_session.commit()
 
-    split_url = url.split('/d1/')
-    if split_url[0] not in ['https://momot.in', 'https://momot.rs']:
-        raise Exception(f"Invalid URL prefix in md5_summary: {url}")
-    signed_uri = allthethings.utils.sign_anon_download_uri('d1/' + split_url[1])
     return render_template(
         "page/partner_download.html",
         header_active="search",
-        url=f"{split_url[0]}/{signed_uri}",
+        url=url,
     )
 
-@page.get("/slow_download/<string:md5_input>/<string:url>")
-@allthethings.utils.no_cache()
-def md5_slow_download(md5_input, url):
+def compute_download_speed(targeted_seconds, filesize):
+    return min(150, max(30, int(filesize/1000/targeted_seconds)))
+
+@page.get("/slow_download/<string:md5_input>/<int:path_index>/<int:server_index>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+def md5_slow_download(md5_input, path_index, server_index):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
-    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        raise Exception("Non-canonical md5")
 
-    # https://stackoverflow.com/a/49459036
-    print(url.encode() + b'==')
-    url = base64.urlsafe_b64decode(url.encode() + b'==').decode()
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
+        return redirect(f"/md5/{md5_input}", code=302)
+    with Session(engine) as session:
+        aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
+        if len(aarecords) == 0:
+            return render_template("page/md5.html", header_active="search", md5_input=md5_input)
+        aarecord = aarecords[0]
+        try:
+            server = ['https://momot.rs/', 'https://ktxr.rs/', 'https://nrzr.li/'][server_index]
+            path_info = aarecord['additional']['partner_url_paths'][path_index]
+        except:
+            return redirect(f"/md5/{md5_input}", code=302)
+        speed = compute_download_speed(path_info['targeted_seconds'], aarecord['file_unified_data']['filesize_best'])
+        url = server + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'])
 
-    split_url = url.split('/d1/')
-    if split_url[0] not in ['https://momot.rs', 'https://ktxr.rs', 'https://nrzr.li']:
-        raise Exception(f"Invalid URL prefix in md5_summary: {url}")
-    signed_uri = allthethings.utils.sign_anon_download_uri('d1/' + split_url[1])
     return render_template(
         "page/partner_download.html",
         header_active="search",
-        url=f"{split_url[0]}/{signed_uri}",
+        url=url,
     )
 
 
