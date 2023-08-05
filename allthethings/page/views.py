@@ -652,6 +652,10 @@ def ol_book_page(ol_book_id):
         for item in (ol_book_dict['json'].get('dewey_number') or []):
             allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
         for classification_type, items in (ol_book_dict['json'].get('classifications') or {}).items():
+            if classification_type not in allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
+                # TODO: Do a scrape / review of all classification types in OL.
+                print(f"Warning: missing classification_type: {classification_type}")
+                continue
             for item in items:
                 allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
         if ol_book_dict['work']:
@@ -663,6 +667,10 @@ def ol_book_page(ol_book_id):
             for item in (ol_book_dict['work']['json'].get('dewey_number') or []):
                 allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
             for classification_type, items in (ol_book_dict['work']['json'].get('classifications') or {}).items():
+                if classification_type not in allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
+                    # TODO: Do a scrape / review of all classification types in OL.
+                    print(f"Warning: missing classification_type: {classification_type}")
+                    continue
                 for item in items:
                     allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
         for item in (ol_book_dict['json'].get('lccn') or []):
@@ -670,6 +678,10 @@ def ol_book_page(ol_book_id):
         for item in (ol_book_dict['json'].get('oclc_numbers') or []):
             allthethings.utils.add_identifier_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['oclc_numbers'], item)
         for identifier_type, items in (ol_book_dict['json'].get('identifiers') or {}).items():
+            if identifier_type not in allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING:
+                # TODO: Do a scrape / review of all identifier types in OL.
+                print(f"Warning: missing identifier_type: {identifier_type}")
+                continue
             for item in items:
                 allthethings.utils.add_identifier_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[identifier_type], item)
 
