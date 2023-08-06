@@ -404,6 +404,8 @@ def torrents_page():
 def small_file_page(file_path):
     with mariapersist_engine.connect() as conn:
         file = conn.execute(select(MariapersistSmallFiles.data).where(MariapersistSmallFiles.file_path == file_path).limit(10000)).first()
+        if file is None:
+            return "File not found", 404
         return send_file(io.BytesIO(file.data), as_attachment=True, download_name=file_path.split('/')[-1])
 
 
