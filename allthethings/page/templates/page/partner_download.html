@@ -7,11 +7,18 @@
 {% endblock %}
 
 {% block body %}
-  <h2 class="mt-4 mb-1 text-3xl font-bold">Download from partner website</h2>
+  <h2 class="mt-4 mb-1 text-3xl font-bold">{{ gettext('page.partner_download.header') }}</h2>
   <p class="mb-4">
-    Use the following URL to download: <a href="{{ url }}">{{ url }}</a>
+    {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" target="_blank">' + url + '</a>') | safe)) }}
   </p>
+
+  {% if slow_download %}
+    <p class="mb-4">
+      {{ gettext('page.partner_download.faster_downloads', a_membership=('href="/donate" target="_blank"' | safe)) }}
+    </p>
+  {% endif %}
+
   <p class="mb-4">
-    If you are interested in bulk mirroring of our collection, check out the <a href="/datasets">Datasets</a> and <a href="/torrents">Torrents</a> pages.
+    {{ gettext('page.partner_download.bulk_mirroring', a_datasets=('href="/datasets" target="_blank"' | safe), a_torrents=('href="/torrents" target="_blank"' | safe)) }}
   </p>
 {% endblock %}

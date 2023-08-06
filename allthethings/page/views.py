@@ -2135,6 +2135,7 @@ def md5_fast_download(md5_input, path_index, server_index):
         "page/partner_download.html",
         header_active="search",
         url=url,
+        slow_download=False,
     )
 
 def compute_download_speed(targeted_seconds, filesize):
@@ -2165,6 +2166,7 @@ def md5_slow_download(md5_input, path_index, server_index):
         "page/partner_download.html",
         header_active="search",
         url=url,
+        slow_download=True,
     )
 
 
