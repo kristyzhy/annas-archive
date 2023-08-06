@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-07-19 21:35+0000\n"
-"PO-Revision-Date: 2023-07-24 03:46+0000\n"
+"PO-Revision-Date: 2023-08-06 02:47+0000\n"
 "Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
 "Language-Team: Arabic <https://translate.annas-software.org/projects/annas-archive/main-website/ar/>\n"
 "Language: ar\n"
@@ -60,7 +60,7 @@ msgstr ""
 
 #: allthethings/account/templates/account/donate.html:11
 msgid "page.donate.header.existing_unpaid_donation_view_all"
-msgstr ""
+msgstr "<a %(a_all_donations)s>عرض كل تبرعاتي</a>"
 
 #: allthethings/account/templates/account/donate.html:18
 msgid "page.donate.header.text1"
@@ -96,7 +96,7 @@ msgstr "تخفيضات تصل الى %(percentage)s%%"
 #: allthethings/account/templates/account/donate.html:60
 #: allthethings/account/templates/account/donate.html:74
 msgid "page.donate.perks.fast_downloads"
-msgstr ""
+msgstr "%(number)s تنزيلات سريعة في اليوم"
 
 #: allthethings/account/templates/account/donate.html:33
 msgid "page.donate.perks.credits"
@@ -114,7 +114,7 @@ msgstr "وصول مبكر للمزايا الجديدة"
 
 #: allthethings/account/templates/account/donate.html:61
 msgid "page.donate.perks.exclusive_telegram"
-msgstr "وصول حصري لقناة التليجرام مع كواليس التحديثات"
+msgstr "وصول حصري لقناة التليجرام مع تحديثات وراء كواليس"
 
 #: allthethings/account/templates/account/donate.html:75
 msgid "page.donate.perks.adopt"
@@ -197,7 +197,7 @@ msgstr "سنة كاملة"
 
 #: allthethings/account/templates/account/donate.html:140
 msgid "page.donate.duration.24_mo"
-msgstr ""
+msgstr "٢٤ أشهر"
 
 #: allthethings/account/templates/account/donate.html:143
 msgid "page.donate.duration.summary"
@@ -209,7 +209,7 @@ msgstr "اضغط على زر التبرع لتاكيد عملية التبرع."
 
 #: allthethings/account/templates/account/donate.html:161
 msgid "page.donate.submit.button"
-msgstr ""
+msgstr "تبرع <span %(span_cost)s></span> <span %(span_label)s></span>"
 
 #: allthethings/account/templates/account/donate.html:166
 msgid "page.donate.submit.cancel_note"
@@ -315,27 +315,27 @@ msgstr "%(percentage)s%%"
 
 #: allthethings/account/templates/account/donate.html:341
 msgid "page.donate.duration.summary.monthly_cost"
-msgstr ""
+msgstr "%(monthly_cost)s / شهر"
 
 #: allthethings/account/templates/account/donate.html:344
 msgid "page.donate.duration.summary.duration.1_mo"
-msgstr ""
+msgstr "لمدة ١ شهر"
 
 #: allthethings/account/templates/account/donate.html:345
 msgid "page.donate.duration.summary.duration.3_mo"
-msgstr ""
+msgstr "لمدة ٣ شهر"
 
 #: allthethings/account/templates/account/donate.html:346
 msgid "page.donate.duration.summary.duration.6_mo"
-msgstr ""
+msgstr "لمدة ٦ شهر"
 
 #: allthethings/account/templates/account/donate.html:347
 msgid "page.donate.duration.summary.duration.12_mo"
-msgstr ""
+msgstr "لمدة ١٢ شهر"
 
 #: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.duration.24_mo"
-msgstr ""
+msgstr "لمدة ٢٤ شهر"
 
 #: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.submit.button.label.1_mo"
@@ -535,7 +535,7 @@ msgstr ""
 #: allthethings/account/templates/account/donations.html:3
 #: allthethings/account/templates/account/donations.html:6
 msgid "page.my_donations.title"
-msgstr ""
+msgstr "تبرعاتي"
 
 #: allthethings/account/templates/account/donations.html:8
 msgid "page.my_donations.not_shown"
@@ -939,11 +939,11 @@ msgstr "DOI %(doi_input)s"
 
 #: allthethings/page/templates/page/doi.html:6
 msgid "page.doi.breadcrumbs"
-msgstr "مجموعات البيانات ▶ DOIs ▶ DOI %(doi_input)s"
+msgstr "مجموعات البيانات ◀ DOI %(doi_input)s ◀ DOIs"
 
 #: allthethings/page/templates/page/doi.html:9
 msgid "page.doi.invalid.header"
-msgstr "غير موجود"
+msgstr "لم يتم العثور عليه"
 
 #: allthethings/page/templates/page/doi.html:11
 msgid "page.doi.invalid.text"
@@ -1048,11 +1048,11 @@ msgstr "ISBN %(isbn_input)s"
 
 #: allthethings/page/templates/page/isbn.html:6
 msgid "page.isbn.breadcrumbs"
-msgstr "مجموعات البيانات ▶ ISBNs ▶ ISBN %(isbn_input)s"
+msgstr "مجموعات البيانات ◀ ISBN %(isbn_input)s ◀ ISBNs"
 
 #: allthethings/page/templates/page/isbn.html:9
 msgid "page.isbn.invalid.header"
-msgstr "غير موجود"
+msgstr "لم يتم العثور عليه"
 
 #: allthethings/page/templates/page/isbn.html:11
 msgid "page.isbn.invalid.text"
@@ -1247,7 +1247,7 @@ msgstr "🔍 محرك بحث في مكتبات الظل: كتب، أوراق، �
 
 #: allthethings/templates/layouts/index.html:238
 msgid "layout.index.header.recent_downloads"
-msgstr ""
+msgstr "أحدث التنزيلات:"
 
 #: allthethings/templates/layouts/index.html:321
 #: allthethings/templates/layouts/index.html:328
@@ -1304,7 +1304,7 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:385
 #: allthethings/templates/layouts/index.html:396
 msgid "layout.index.header.nav.request"
-msgstr ""
+msgstr "طلب كتب"
 
 #: allthethings/templates/layouts/index.html:355
 #: allthethings/templates/layouts/index.html:361
@@ -1325,19 +1325,19 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:382
 #: allthethings/templates/layouts/index.html:393
 msgid "layout.index.header.nav.public_profile"
-msgstr ""
+msgstr "الملف الشخصي العام"
 
 #: allthethings/templates/layouts/index.html:374
 #: allthethings/templates/layouts/index.html:383
 #: allthethings/templates/layouts/index.html:394
 msgid "layout.index.header.nav.downloaded_files"
-msgstr ""
+msgstr "الملفات التي تم تنزيلها"
 
 #: allthethings/templates/layouts/index.html:375
 #: allthethings/templates/layouts/index.html:384
 #: allthethings/templates/layouts/index.html:395
 msgid "layout.index.header.nav.my_donations"
-msgstr ""
+msgstr "تبرعاتي"
 
 #: allthethings/templates/layouts/index.html:392
 msgid "layout.index.header.nav.account"
@@ -1397,7 +1397,7 @@ msgstr "ترجمة"
 
 #: allthethings/templates/layouts/index.html:431
 msgid "layout.index.footer.list2.dmca_copyright"
-msgstr ""
+msgstr "مطالبات حقوق التأليف والنشر / DMCA"
 
 #: allthethings/templates/layouts/index.html:436
 msgid "layout.index.footer.list3.header"

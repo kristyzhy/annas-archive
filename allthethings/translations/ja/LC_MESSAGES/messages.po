@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-07-14 22:16+0000\n"
-"PO-Revision-Date: 2023-07-24 03:46+0000\n"
+"PO-Revision-Date: 2023-08-06 02:47+0000\n"
 "Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
 "Language-Team: Japanese <https://translate.annas-software.org/projects/annas-archive/main-website/ja/>\n"
 "Language: ja\n"
@@ -23,7 +23,7 @@ msgstr "幸運の司書"
 
 #: allthethings/utils.py:186
 msgid "common.membership.tier_name.4"
-msgstr "まばゆいばかりの情報保持者"
+msgstr "まばゆき情報保持者"
 
 #: allthethings/utils.py:187
 msgid "common.membership.tier_name.5"
@@ -43,7 +43,7 @@ msgstr "キャンセル済み"
 
 #: allthethings/account/views.py:250
 msgid "common.donation.order_processing_status_labels.3"
-msgstr "すでに支払済み"
+msgstr "期限切れ"
 
 #: allthethings/account/views.py:251
 msgid "common.donation.order_processing_status_labels.4"
@@ -550,7 +550,7 @@ msgstr "他の寄付をする。"
 #: allthethings/account/templates/account/downloaded.html:3
 #: allthethings/account/templates/account/downloaded.html:6
 msgid "page.downloaded.title"
-msgstr "ファイルをダウンロード"
+msgstr "ダウンロード済みのファイル"
 
 #: allthethings/account/templates/account/downloaded.html:8
 msgid "page.downloaded.not_public"
@@ -580,7 +580,7 @@ msgstr "メンバーシップ：<strong>未加入</strong><a %(a_become)s>(メ�
 
 #: allthethings/account/templates/account/index.html:23
 msgid "page.account.logged_in.membership_has_some"
-msgstr "メンバーシップ：<strong>%(tier_name)s</strong>あと %(until_date)s <a %(a_extend)s>(無効)</a>"
+msgstr "メンバーシップ：%(until_date)sまで<strong>%(tier_name)s</strong><a %(a_extend)s>(延長)</a>"
 
 #: allthethings/account/templates/account/index.html:24
 msgid "page.account.logged_in.membership_fast_downloads_used"
@@ -1005,7 +1005,7 @@ msgstr "私たちはパートナーと協力し、コレクションに誰でも
 
 #: allthethings/page/templates/page/home.html:40
 msgid "page.home.access.label"
-msgstr "過去30日間の1時間あたりのダウンロード数。一時間あたり%(hourly)s。一日あたり%(daily)s。"
+msgstr "過去30日間の1時間あたりのダウンロード数。一時間あたりで%(hourly)s回。一日あたりで%(daily)s回。"
 
 #: allthethings/page/templates/page/home.html:64
 msgid "page.home.search.header"
@@ -1028,7 +1028,7 @@ msgstr "検索"
 
 #: allthethings/page/templates/page/home.html:77
 msgid "page.home.explore.header"
-msgstr "書籍の検索"
+msgstr "書籍を探索"
 
 #: allthethings/page/templates/page/home.html:80
 msgid "page.home.explore.intro"
@@ -1097,7 +1097,7 @@ msgstr "<strong>🚀 高速ダウンロード</strong><a %(a_membership)s>メン
 
 #: allthethings/page/templates/page/md5.html:50
 msgid "page.md5.box.download.header_fast_member"
-msgstr "%(remaining)sの<strong>🚀高速ダウンロード</strong>が今日より使用できます。メンバーになってくれてありがとう！❤️"
+msgstr "今日はあと%(remaining)s回<strong>🚀高速ダウンロード</strong>が使用できます。メンバーになってくれてありがとう！❤️"
 
 #: allthethings/page/templates/page/md5.html:51
 msgid "page.md5.box.download.header_fast_member_no_remaining"
@@ -1223,7 +1223,7 @@ msgstr "アンナのアーカイブを検索"
 
 #: allthethings/templates/layouts/index.html:52
 msgid "layout.index.header.banner.new_donation_method"
-msgstr "新しい寄付の方法をご用意しました: %(method_name)s 。%(donate_link_open_tag)s寄付</a>を検討していただけるとありがたいです。 - このウェブサイトを運営するのは決して安くはありません。ありがとうございます。"
+msgstr "%(method_name)s という新しい寄付の方法をご用意しました。%(donate_link_open_tag)s寄付</a>を検討していただけるとありがたいです。 - このウェブサイトを運営するのは決して安くはありません。ありがとうございます。"
 
 #: allthethings/templates/layouts/index.html:67
 msgid "layout.index.banners.comics_fundraiser.text"
@@ -1235,7 +1235,7 @@ msgstr "アンナのアーカイブ"
 
 #: allthethings/templates/layouts/index.html:235
 msgid "layout.index.header.tagline"
-msgstr "📚 世界で最も大きなオープンソース・オープンデータの図書館。 ⭐️ Z-Library、Library Genesis、Sci-Hubなどなど。 %(book_any)s本、%(journal_article)s論文、%(book_comic)sコミック、%(magazine)s雑誌が永久に保存されます。どなたでも大歓迎です❤言葉を広めませんか？"
+msgstr "📚 世界で最も大きなオープンソース・オープンデータの図書館。 ⭐️ Z-Library、Library Genesis、Sci-Hubなどなど。 %(book_any)s冊の本、%(journal_article)sもの論文、%(book_comic)s冊の漫画、%(magazine)s冊の雑誌が永久に保存されます。どなたでも大歓迎です❤言葉を広めませんか？"
 
 #: allthethings/templates/layouts/index.html:238
 msgid "layout.index.header.recent_downloads"
@@ -1263,7 +1263,7 @@ msgstr "携帯アプリ"
 #: allthethings/templates/layouts/index.html:331
 #: allthethings/templates/layouts/index.html:336
 msgid "layout.index.header.nav.home"
-msgstr "サイトトップ"
+msgstr "トップページ"
 
 #: allthethings/templates/layouts/index.html:340
 msgid "layout.index.header.nav.annasblog"
@@ -1323,7 +1323,7 @@ msgstr "公開プロフィール"
 #: allthethings/templates/layouts/index.html:383
 #: allthethings/templates/layouts/index.html:394
 msgid "layout.index.header.nav.downloaded_files"
-msgstr "ファイルをダウンロード"
+msgstr "ダウンロード済みのファイル"
 
 #: allthethings/templates/layouts/index.html:375
 #: allthethings/templates/layouts/index.html:384
@@ -1341,7 +1341,7 @@ msgstr "アンナのアーカイブ"
 
 #: allthethings/templates/layouts/index.html:408
 msgid "layout.index.footer.list1.home"
-msgstr "サイトトップ"
+msgstr "トップページ"
 
 #: allthethings/templates/layouts/index.html:409
 msgid "layout.index.footer.list1.about"
