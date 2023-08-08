@@ -13,8 +13,7 @@ rm -rf libgen_new /aa-data-import--allthethings-mysql-data/libgen_new/ /temp-dir
 unrar x libgen_new.part001.rar
 
 mv /temp-dir/libgen_new /aa-data-import--allthethings-mysql-data/
-chown -R mysql /aa-data-import--allthethings-mysql-data/libgen_new
-chgrp -R mysql /aa-data-import--allthethings-mysql-data/libgen_new
+chown -R 999:999 /aa-data-import--allthethings-mysql-data/libgen_new
 
 mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv < /scripts/helpers/libgenli_pre_export.sql
 

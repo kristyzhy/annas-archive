@@ -390,6 +390,9 @@ def torrents_page():
 
         small_file_dicts_grouped = collections.defaultdict(list)
         for small_file in small_files:
+            metadata_json = orjson.loads(small_file.metadata)
+            if metadata_json.get('by_script') == 1:
+                continue
             group = small_file.file_path.split('/')[2]
             small_file_dicts_grouped[group].append(dict(small_file))
 
@@ -398,6 +401,21 @@ def torrents_page():
             header_active="home/torrents",
             small_file_dicts_grouped=small_file_dicts_grouped,
         )
+
+@page.get("/torrents.json")
+@allthethings.utils.no_cache()
+def torrents_json_page():
+    with mariapersist_engine.connect() as conn:
+        small_files = conn.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
+
+        output_json = []
+        for small_file in small_files:
+            output_json.append({ 
+                "file_path": small_file.file_path,
+                "metadata": orjson.loads(small_file.metadata),
+            })
+
+        return orjson.dumps({ "small_files": output_json })
 
 @page.get("/small_file/<path:file_path>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
