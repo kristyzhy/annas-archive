@@ -9,4 +9,5 @@ cd /temp-dir
 
 rm -f isbndb_2022_09.jsonl.gz
 
-ctorrent -e 0 /scripts/torrents/isbndb_2022_09.torrent
+# Tried ctorrent and aria2, but webtorrent seems to work best overall.
+webtorrent /scripts/torrents/isbndb_2022_09.torrent

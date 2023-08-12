@@ -17,8 +17,8 @@ CREATE TABLE mariapersist_accounts (
     `account_id` CHAR(7) NOT NULL,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `email_verified` VARCHAR(255) NOT NULL,
-    `display_name` VARCHAR(255) NOT NULL,
+    `email_verified` VARCHAR(250) NOT NULL,
+    `display_name` VARCHAR(250) NOT NULL,
     `newsletter_unsubscribe` TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (`account_id`),
     UNIQUE INDEX (`email_verified`),
@@ -69,7 +69,7 @@ CREATE TABLE mariapersist_comments (
     `comment_id` BIGINT NOT NULL AUTO_INCREMENT,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `account_id` CHAR(7) NOT NULL,
-    `resource` VARCHAR(255) NOT NULL,
+    `resource` VARCHAR(250) NOT NULL,
     `content` TEXT NOT NULL,
     PRIMARY KEY (`comment_id`),
     INDEX (`created`),
@@ -81,7 +81,7 @@ ALTER TABLE mariapersist_comments ADD CONSTRAINT `mariapersist_comments_account_
 CREATE TABLE mariapersist_reactions (
     `reaction_id` BIGINT NOT NULL AUTO_INCREMENT,
     `account_id` CHAR(7) NOT NULL,
-    `resource` VARCHAR(255) NOT NULL,
+    `resource` VARCHAR(250) NOT NULL,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `type` TINYINT(1) NOT NULL, # 0=unset, 1=abuse, 2=thumbsup, 3=thumbsdown
@@ -95,7 +95,7 @@ ALTER TABLE mariapersist_reactions ADD CONSTRAINT `mariapersist_reactions_accoun
 CREATE TABLE mariapersist_lists (
     `list_id` CHAR(7) NOT NULL,
     `account_id` CHAR(7) NOT NULL,
-    `name` VARCHAR(255) NOT NULL,
+    `name` VARCHAR(250) NOT NULL,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`list_id`),
@@ -108,7 +108,7 @@ CREATE TABLE mariapersist_list_entries (
     `list_entry_id` BIGINT NOT NULL AUTO_INCREMENT,
     `account_id` CHAR(7) NOT NULL,
     `list_id` CHAR(7) NOT NULL,
-    `resource` VARCHAR(255) NOT NULL,
+    `resource` VARCHAR(250) NOT NULL,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`list_entry_id`),
@@ -145,7 +145,7 @@ CREATE TABLE mariapersist_donations (
 ALTER TABLE mariapersist_accounts ADD COLUMN `membership_tier` CHAR(7) NOT NULL DEFAULT 0;
 ALTER TABLE mariapersist_accounts ADD COLUMN `membership_expiration` TIMESTAMP NULL;
 
-ALTER TABLE mariapersist_accounts MODIFY `email_verified` VARCHAR(255) NULL;
+ALTER TABLE mariapersist_accounts MODIFY `email_verified` VARCHAR(250) NULL;
 
 CREATE TABLE mariapersist_fast_download_access (
     `account_id` CHAR(7) NOT NULL,

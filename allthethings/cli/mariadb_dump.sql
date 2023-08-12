@@ -2784,7 +2784,7 @@ DROP TABLE IF EXISTS `aa_ia_2023_06_metadata`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `aa_ia_2023_06_metadata` (
-  `ia_id` varchar(100) NOT NULL,
+  `ia_id` varchar(200) NOT NULL,
   `has_thumb` tinyint(1) NOT NULL,
   `libgen_md5` char(32) NULL,
   `json` longtext DEFAULT NULL CHECK (json_valid(`json`)),
@@ -2809,12 +2809,46 @@ CREATE TABLE `aa_ia_2023_06_files` (
   `md5` char(32) NOT NULL,
   `type` char(5) NOT NULL,
   `filesize` int(11) NOT NULL,
-  `ia_id` varchar(255) DEFAULT NULL,
+  `ia_id` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`md5`),
   UNIQUE KEY `ia_id` (`ia_id`) USING HASH
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 INSERT INTO `aa_ia_2023_06_files` VALUES ('74f3b80bbb292475043d13f21e5f5059','acsm',15257229,'100insightslesso0000maie');
+
+DROP TABLE IF EXISTS `annas_archive_meta__aacid__zlib3_records`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `annas_archive_meta__aacid__zlib3_records` (
+  `aacid` varchar(250) NOT NULL,
+  `primary_id` varchar(250) DEFAULT NULL,
+  `md5` char(32) CHARACTER SET ascii COLLATE ascii_general_ci DEFAULT NULL,
+  `data_folder` varchar(250) DEFAULT NULL,
+  `metadata` longtext NOT NULL CHECK (json_valid(`metadata`)),
+  PRIMARY KEY (`aacid`),
+  KEY `primary_id` (`primary_id`),
+  KEY `md5` (`md5`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO `annas_archive_meta__aacid__zlib3_records` VALUES
+('aacid__zlib3_records__20230808T014342Z__22433983__URsJNGy5CjokTsNT6hUmmj','22433983','63332c8d6514aa6081d088de96ed1d4f',NULL,'{\"zlibrary_id\":22433983,\"date_added\":\"2022-08-25\",\"date_modified\":\"2023-01-28\",\"extension\":\"epub\",\"filesize_reported\":1432434,\"md5_reported\":\"63332c8d6514aa6081d088de96ed1d4f\",\"title\":\"Crown of Lies\",\"author\":\"Annika West\",\"publisher\":\"Mad Hag Publishing\",\"language\":\"english\",\"series\":\"The Demon Detective \",\"volume\":\"1\",\"edition\":\"\",\"year\":\"2022\",\"pages\":\"458\",\"description\":\"If he learns who I am, he\'ll kill me. Half-demons don\'t belong in angel territory. But I\'m kind of an expert at staying hidden and running my quiet magical business from my sister\'s cafe. So, imagine my surprise when an archangel tracks me down and offers me a new job. He insists that someone\'s attacking archangel students at a prestigious college, and no one -- not even the best investigators -- can crack the case. Why does this man think I can? Who the hell knows. I\'m a tracker for lost items. I\'m not a crime investigator. Besides, who cares if the snotty, rich archangels are in danger? I certainly shouldn\'t. But everything in me is pushing me to take this job. Urging to follow this gorgeous, lethal man into the shadows to find a killer. All I have to do is go undercover at the school and find the culprit before the month is over. If I fail, someone else dies. If I\'m caught, I could be next.\",\"cover_path\":\"/covers/books/63/33/2c/63332c8d6514aa6081d088de96ed1d4f.jpg\",\"isbns\":[\"B0B6HNHVV9\"],\"category_id\":\"271\"}');
+
+DROP TABLE IF EXISTS `annas_archive_meta__aacid__zlib3_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `annas_archive_meta__aacid__zlib3_files` (
+  `aacid` varchar(250) NOT NULL,
+  `primary_id` varchar(250) DEFAULT NULL,
+  `md5` char(32) CHARACTER SET ascii COLLATE ascii_general_ci DEFAULT NULL,
+  `data_folder` varchar(250) DEFAULT NULL,
+  `metadata` longtext NOT NULL CHECK (json_valid(`metadata`)),
+  PRIMARY KEY (`aacid`),
+  KEY `primary_id` (`primary_id`),
+  KEY `md5` (`md5`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO `annas_archive_meta__aacid__zlib3_files` VALUES
+('aacid__zlib3_files__20230808T051503Z__22433983__NRgUGwTJYJpkQjTbz2jA3M','22433983','63332c8d6514aa6081d088de96ed1d4f','annas_archive_data__aacid__zlib3_files__20230808T051503Z--20230808T051504Z','{\"zlibrary_id\":\"22433983\",\"md5\":\"63332c8d6514aa6081d088de96ed1d4f\"}');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

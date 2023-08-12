@@ -22,6 +22,7 @@ mariadb_host = os.getenv("MARIADB_HOST", "mariadb")
 mariadb_port = os.getenv("MARIADB_PORT", "3306")
 mariadb_db = os.getenv("MARIADB_DATABASE", mariadb_user)
 mariadb_url = f"mysql+pymysql://{mariadb_user}:{mariadb_password}@{mariadb_host}:{mariadb_port}/{mariadb_db}?read_timeout=120&write_timeout=120"
+mariadb_url_no_timeout = f"mysql+pymysql://root:{mariadb_password}@{mariadb_host}:{mariadb_port}/{mariadb_db}"
 engine = create_engine(mariadb_url, future=True, isolation_level="AUTOCOMMIT")
 
 mariapersist_user = os.getenv("MARIAPERSIST_USER", "allthethings")

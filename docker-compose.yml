@@ -49,7 +49,7 @@ services:
     environment:
       MARIADB_USER: "${MARIADB_USER}"
       MARIADB_PASSWORD: "${MARIADB_PASSWORD}"
-      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+      MARIADB_ROOT_PASSWORD: "${MARIADB_PASSWORD}"
       MARIADB_DATABASE: "${MARIADB_DATABASE}"
       MARIADB_INITDB_SKIP_TZINFO: "1" # https://github.com/MariaDB/mariadb-docker/issues/262#issuecomment-672375238
     image: "mariadb:10.10.2"

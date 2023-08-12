@@ -9,4 +9,5 @@ cd /temp-dir
 
 rm -f pilimi-zlib2-index-2022-08-24-fixed.sql.gz
 
-ctorrent -e 0 /scripts/torrents/pilimi-zlib2-index-2022-08-24-fixed.torrent
+# Tried ctorrent and aria2, but webtorrent seems to work best overall.
+webtorrent /scripts/torrents/pilimi-zlib2-index-2022-08-24-fixed.torrent

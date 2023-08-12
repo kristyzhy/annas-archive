@@ -27,9 +27,10 @@ import datetime
 import base64
 import hashlib
 import shortuuid
+import pymysql.cursors
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
-from allthethings.extensions import engine, es, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, ComputedAllMd5s, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files, MariapersistSmallFiles
+from allthethings.extensions import engine, es, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files, MariapersistSmallFiles
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
@@ -181,6 +182,10 @@ def make_temp_anon_zlib_path(zlibrary_id, pilimi_torrent):
     if "-zlib2-" in pilimi_torrent:
         prefix = "zlib2"
     return f"e/{prefix}/{pilimi_torrent.replace('.torrent', '')}/{zlibrary_id}"
+
+def make_temp_anon_aac_zlib3_path(file_aac_id, data_folder):
+    date = data_folder.split('__')[3][0:8]
+    return f"o/zlib3_files/{date}/{data_folder}/{file_aac_id}"
 
 def strip_description(description):
     return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n')))
@@ -390,10 +395,12 @@ def torrents_page():
 
         small_file_dicts_grouped = collections.defaultdict(list)
         for small_file in small_files:
-            metadata_json = orjson.loads(small_file.metadata)
-            if metadata_json.get('by_script') == 1:
-                continue
+            # if orjson.loads(small_file.metadata).get('by_script') == 1:
+            #     continue
             group = small_file.file_path.split('/')[2]
+            filename = small_file.file_path.split('/')[3]
+            if 'zlib3' in filename:
+                group = 'zlib3'
             small_file_dicts_grouped[group].append(dict(small_file))
 
         return render_template(
@@ -405,6 +412,29 @@ def torrents_page():
 @page.get("/torrents.json")
 @allthethings.utils.no_cache()
 def torrents_json_page():
+    with mariapersist_engine.connect() as conn:
+        small_files = conn.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
+        output_json = []
+        for small_file in small_files:
+            output_json.append({ 
+                "file_path": small_file.file_path,
+                "metadata": orjson.loads(small_file.metadata),
+            })
+        return orjson.dumps({ "small_files": output_json })
+
+@page.get("/torrents/latest_aac_meta/<string:collection>.torrent")
+@allthethings.utils.no_cache()
+def torrents_latest_aac_page(collection):
+    with mariapersist_engine.connect() as connection:
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        print("collection", collection)
+        cursor.execute('SELECT data FROM mariapersist_small_files WHERE file_path LIKE CONCAT("torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__", %(collection)s, "%%") ORDER BY created DESC LIMIT 1', { "collection": collection })
+        file = cursor.fetchone()
+        print(file)
+        if file is None:
+            return "File not found", 404
+        return send_file(io.BytesIO(file['data']), as_attachment=True, download_name=f'{collection}.torrent')
+
     with mariapersist_engine.connect() as conn:
         small_files = conn.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
 
@@ -427,6 +457,36 @@ def small_file_page(file_path):
         return send_file(io.BytesIO(file.data), as_attachment=True, download_name=file_path.split('/')[-1])
 
 
+zlib_book_dict_comments = {
+    **allthethings.utils.COMMON_DICT_COMMENTS,
+    "zlibrary_id": ("before", ["This is a file from the Z-Library collection of Anna's Archive.",
+                      "More details at https://annas-archive.org/datasets/zlib_scrape",
+                      "The source URL is http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/<md5_reported>",
+                      allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+    "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', and 'year' fields; combining them into a single field for display and search."]),
+    "in_libgen": ("after", ["Whether at the time of indexing, the book was also available in Libgen."]),
+    "pilimi_torrent": ("after", ["Which torrent by Anna's Archive (formerly the Pirate Library Mirror or 'pilimi') the file belongs to."]),
+    "filesize_reported": ("after", ["The file size as reported by the Z-Library metadata. Is sometimes different from the actually observed file size of the file, as determined by Anna's Archive."]),
+    "md5_reported": ("after", ["The md5 as reported by the Z-Library metadata. Is sometimes different from the actually observed md5 of the file, as determined by Anna's Archive."]),
+    "unavailable": ("after", ["Set when Anna's Archive was unable to download the book."]),
+    "filesize": ("after", ["The actual filesize as determined by Anna's Archive. Missing for AAC zlib3 records"]),
+    "category_id": ("after", ["Z-Library's own categorization system; currently only present for AAC zlib3 records (and not actually used yet)"]),
+    "file_data_folder": ("after", ["The AAC data folder / torrent that contains this file"]),
+    "record_aacid": ("after", ["The AACID of the corresponding metadata entry in the zlib3_records collection"]),
+    "file_aacid": ("after", ["The AACID of the corresponding metadata entry in the zlib3_files collection (corresponding to the data filename)"]),
+}
+def zlib_add_edition_varia_normalized(zlib_book_dict):
+    edition_varia_normalized = []
+    if len((zlib_book_dict.get('series') or '').strip()) > 0:
+        edition_varia_normalized.append(zlib_book_dict['series'].strip())
+    if len((zlib_book_dict.get('volume') or '').strip()) > 0:
+        edition_varia_normalized.append(zlib_book_dict['volume'].strip())
+    if len((zlib_book_dict.get('edition') or '').strip()) > 0:
+        edition_varia_normalized.append(zlib_book_dict['edition'].strip())
+    if len((zlib_book_dict.get('year') or '').strip()) > 0:
+        edition_varia_normalized.append(zlib_book_dict['year'].strip())
+    zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
+
 def get_zlib_book_dicts(session, key, values):
     zlib_books = []
     try:
@@ -441,36 +501,49 @@ def get_zlib_book_dicts(session, key, values):
         zlib_book_dict = zlib_book.to_dict()
         zlib_book_dict['stripped_description'] = strip_description(zlib_book_dict['description'])
         zlib_book_dict['language_codes'] = get_bcp47_lang_codes(zlib_book_dict['language'] or '')
-        edition_varia_normalized = []
-        if len((zlib_book_dict.get('series') or '').strip()) > 0:
-            edition_varia_normalized.append(zlib_book_dict['series'].strip())
-        if len((zlib_book_dict.get('volume') or '').strip()) > 0:
-            edition_varia_normalized.append(zlib_book_dict['volume'].strip())
-        if len((zlib_book_dict.get('edition') or '').strip()) > 0:
-            edition_varia_normalized.append(zlib_book_dict['edition'].strip())
-        if len((zlib_book_dict.get('year') or '').strip()) > 0:
-            edition_varia_normalized.append(zlib_book_dict['year'].strip())
-        zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
+        zlib_add_edition_varia_normalized(zlib_book_dict)
 
         allthethings.utils.init_identifiers_and_classification_unified(zlib_book_dict)
         allthethings.utils.add_isbns_unified(zlib_book_dict, [record.isbn for record in zlib_book.isbns])
 
-        zlib_book_dict_comments = {
-            **allthethings.utils.COMMON_DICT_COMMENTS,
-            "zlibrary_id": ("before", ["This is a file from the Z-Library collection of Anna's Archive.",
-                              "More details at https://annas-archive.org/datasets/zlib_scrape",
-                              "The source URL is http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/<md5_reported>",
-                              allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
-            "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', and 'year' fields; combining them into a single field for display and search."]),
-            "in_libgen": ("after", ["Whether at the time of indexing, the book was also available in Libgen."]),
-            "pilimi_torrent": ("after", ["Which torrent by Anna's Archive (formerly the Pirate Library Mirror or 'pilimi') the file belongs to."]),
-            "filesize_reported": ("after", ["The file size as reported by the Z-Library metadata. Is sometimes different from the actually observed file size of the file, as determined by Anna's Archive."]),
-            "md5_reported": ("after", ["The md5 as reported by the Z-Library metadata. Is sometimes different from the actually observed md5 of the file, as determined by Anna's Archive."]),
-            "unavailable": ("after", ["Set when Anna's Archive was unable to download the book."]),
-        }
         zlib_book_dicts.append(add_comments_to_dict(zlib_book_dict, zlib_book_dict_comments))
-
     return zlib_book_dicts
+
+def get_aac_zlib3_book_dicts(session, key, values):
+    if key == 'zlibrary_id':
+        aac_key = 'annas_archive_meta__aacid__zlib3_records.primary_id'
+    elif key == 'md5':
+        aac_key = 'annas_archive_meta__aacid__zlib3_files.md5'
+    elif key == 'md5_reported':
+        aac_key = 'annas_archive_meta__aacid__zlib3_records.md5'
+    else:
+        raise Exception(f"Unexpected 'key' in get_aac_zlib3_book_dicts: '{key}'")
+    aac_zlib3_books = []
+    try:
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s', { "values": values })
+        aac_zlib3_books = cursor.fetchall()
+    except Exception as err:
+        print(f"Error in get_aac_zlib3_book_dicts when querying {key}; {values}")
+        print(repr(err))
+        traceback.print_tb(err.__traceback__)
+
+    aac_zlib3_book_dicts = []
+    for zlib_book in aac_zlib3_books:
+        aac_zlib3_book_dict = orjson.loads(zlib_book['record_metadata'])
+        aac_zlib3_book_dict['md5'] = orjson.loads(zlib_book['file_metadata'])['md5']
+        aac_zlib3_book_dict['record_aacid'] = zlib_book['record_aacid']
+        aac_zlib3_book_dict['file_aacid'] = zlib_book['file_aacid']
+        aac_zlib3_book_dict['file_data_folder'] = zlib_book['file_data_folder']
+        aac_zlib3_book_dict['stripped_description'] = strip_description(aac_zlib3_book_dict['description'])
+        aac_zlib3_book_dict['language_codes'] = get_bcp47_lang_codes(aac_zlib3_book_dict['language'] or '')
+        zlib_add_edition_varia_normalized(aac_zlib3_book_dict)
+
+        allthethings.utils.init_identifiers_and_classification_unified(aac_zlib3_book_dict)
+        allthethings.utils.add_isbns_unified(aac_zlib3_book_dict, aac_zlib3_book_dict['isbns'])
+
+        aac_zlib3_book_dicts.append(add_comments_to_dict(aac_zlib3_book_dict, zlib_book_dict_comments))
+    return aac_zlib3_book_dicts
 
 
 @page.get("/db/zlib/<int:zlib_id>.json")
@@ -481,6 +554,15 @@ def zlib_book_json(zlib_id):
         if len(zlib_book_dicts) == 0:
             return "{}", 404
         return nice_json(zlib_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+
+@page.get("/db/aac_zlib3/<int:zlib_id>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def aac_zlib3_book_json(zlib_id):
+    with Session(engine) as session:
+        aac_zlib3_book_dicts = get_aac_zlib3_book_dicts(session, "zlibrary_id", [zlib_id])
+        if len(aac_zlib3_book_dicts) == 0:
+            return "{}", 404
+        return nice_json(aac_zlib3_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def extract_list_from_ia_json_field(ia_record_dict, key):
     val = ia_record_dict['json'].get('metadata', {}).get(key, [])
@@ -1443,6 +1525,8 @@ def get_aarecords_mysql(session, aarecord_ids):
     lgli_file_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_lgli_file_dicts(session, "md5", split_ids['md5']))
     zlib_book_dicts1 = dict(('md5:' + item['md5_reported'].lower(), item) for item in get_zlib_book_dicts(session, "md5_reported", split_ids['md5']))
     zlib_book_dicts2 = dict(('md5:' + item['md5'].lower(), item) for item in get_zlib_book_dicts(session, "md5", split_ids['md5']))
+    aac_zlib3_book_dicts1 = dict(('md5:' + item['md5_reported'].lower(), item) for item in get_aac_zlib3_book_dicts(session, "md5_reported", split_ids['md5']))
+    aac_zlib3_book_dicts2 = dict(('md5:' + item['md5'].lower(), item) for item in get_aac_zlib3_book_dicts(session, "md5", split_ids['md5']))
     aa_lgli_comics_2022_08_file_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_aa_lgli_comics_2022_08_file_dicts(session, "md5", split_ids['md5']))
     ia_record_dicts = dict(('md5:' + item['aa_ia_file']['md5'].lower(), item) for item in get_ia_record_dicts(session, "md5", split_ids['md5']) if item.get('aa_ia_file') is not None)
 
@@ -1457,6 +1541,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         if aarecord.get('lgli_file'):
             aarecord['lgli_file']['editions'] = aarecord['lgli_file']['editions'][0:5]
         aarecord['zlib_book'] = zlib_book_dicts1.get(aarecord_id) or zlib_book_dicts2.get(aarecord_id)
+        aarecord['aac_zlib3_book'] = aac_zlib3_book_dicts1.get(aarecord_id) or aac_zlib3_book_dicts2.get(aarecord_id)
         aarecord['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(aarecord_id)
         aarecord['ia_record'] = ia_record_dicts.get(aarecord_id)
 
@@ -1501,6 +1586,7 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         extension_multiple = [
             (((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('extension') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['zlib_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgrsnf_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgrsfic_book'] or {}).get('extension') or '').strip().lower(),
@@ -1516,6 +1602,7 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         filesize_multiple = [
             ((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('filesize') or 0,
+            (aarecord['aac_zlib3_book'] or {}).get('filesize_reported') or 0,
             (aarecord['zlib_book'] or {}).get('filesize_reported') or 0,
             (aarecord['zlib_book'] or {}).get('filesize') or 0,
             (aarecord['lgrsnf_book'] or {}).get('filesize') or 0,
@@ -1536,6 +1623,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('title') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('title') or '').strip(),
             ((lgli_single_edition or {}).get('title') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or {}).get('title') or '').strip(),
             ((aarecord['zlib_book'] or {}).get('title') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('title') or '').strip(),
         ]
@@ -1551,6 +1639,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             (aarecord['lgrsnf_book'] or {}).get('author', '').strip(),
             (aarecord['lgrsfic_book'] or {}).get('author', '').strip(),
             (lgli_single_edition or {}).get('authors_normalized', '').strip(),
+            (aarecord['aac_zlib3_book'] or {}).get('author', '').strip(),
             (aarecord['zlib_book'] or {}).get('author', '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('author') or '').strip(),
         ]
@@ -1564,6 +1653,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('publisher') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('publisher') or '').strip(),
             ((lgli_single_edition or {}).get('publisher_normalized') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or {}).get('publisher') or '').strip(),
             ((aarecord['zlib_book'] or {}).get('publisher') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('publisher') or '').strip(),
         ]
@@ -1577,6 +1667,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((lgli_single_edition or {}).get('edition_varia_normalized') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((aarecord['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('edition_varia_normalized') or '').strip(),
         ]
@@ -1591,6 +1682,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsfic_book'] or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('issue_year_number') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or {}).get('year') or '').strip(),
             ((aarecord['zlib_book'] or {}).get('year') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('year') or '').strip(),
         ]
@@ -1633,6 +1725,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((aarecord['lgrsfic_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((lgli_single_edition or {}).get('stripped_description') or '').strip()[0:5000],
+            ((aarecord['aac_zlib3_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((aarecord['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000],
         ]
@@ -1646,6 +1739,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('language_codes') or []),
             ((aarecord['lgrsfic_book'] or {}).get('language_codes') or []),
             ((lgli_single_edition or {}).get('language_codes') or []),
+            ((aarecord['aac_zlib3_book'] or {}).get('language_codes') or []),
             ((aarecord['zlib_book'] or {}).get('language_codes') or []),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('language_codes') or []),
         ])
@@ -1677,6 +1771,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['aac_zlib3_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
             *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
@@ -1685,6 +1780,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('classifications_unified') or {}),
+            ((aarecord['aac_zlib3_book'] or {}).get('classifications_unified') or {}),
             ((aarecord['zlib_book'] or {}).get('classifications_unified') or {}),
             *[(edition.get('classifications_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('classifications_unified') or {}),
@@ -1760,6 +1856,16 @@ def get_aarecords_mysql(session, aarecord_ids):
                 'in_libgen': aarecord['zlib_book']['in_libgen'],
                 'pilimi_torrent': aarecord['zlib_book']['pilimi_torrent'],
             }
+        if aarecord['aac_zlib3_book'] is not None:
+            aarecord['aac_zlib3_book'] = {
+                'zlibrary_id': aarecord['aac_zlib3_book']['zlibrary_id'],
+                'md5': aarecord['aac_zlib3_book']['md5'],
+                'md5_reported': aarecord['aac_zlib3_book']['md5_reported'],
+                'filesize_reported': aarecord['aac_zlib3_book']['filesize_reported'],
+                'file_data_folder': aarecord['aac_zlib3_book']['file_data_folder'],
+                'record_aacid': aarecord['aac_zlib3_book']['record_aacid'],
+                'file_aacid': aarecord['aac_zlib3_book']['file_aacid'],
+            }
         if aarecord['aa_lgli_comics_2022_08_file'] is not None:
             aarecord ['aa_lgli_comics_2022_08_file'] = {
                 'path': aarecord['aa_lgli_comics_2022_08_file']['path'],
@@ -1810,7 +1916,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 aarecord_id,
             ]))),
             'search_access_types': [
-                *(['external_download'] if any([field in aarecord for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book']]) else []),
+                *(['external_download'] if any([field in aarecord for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book']]) else []),
                 *(['external_borrow'] if any([field in aarecord for field in ['ia_record']]) else []),
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
             ],
@@ -1819,6 +1925,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['lgrs'] if aarecord['lgrsfic_book'] is not None else []),
                 *(['lgli'] if aarecord['lgli_file'] is not None else []),
                 *(['zlib'] if aarecord['zlib_book'] is not None else []),
+                *(['zlib'] if aarecord['aac_zlib3_book'] is not None else []),
                 *(['lgli'] if aarecord['aa_lgli_comics_2022_08_file'] is not None else []),
                 *(['ia']   if aarecord['ia_record'] is not None else []),
             ])),
@@ -2029,13 +2136,18 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://cloudflare-ipfs.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
-    if aarecord['zlib_book'] is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
+    if aarecord.get('zlib_book') is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
+        add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
+    if aarecord.get('aac_zlib3_book') is not None:
+        zlib_path = make_temp_anon_aac_zlib3_path(aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
     for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord.get('zlib_book') is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
+    if aarecord.get('aac_zlib3_book') is not None:
+        additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['aac_zlib3_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
     if aarecord.get('ia_record') is not None:
         ia_id = aarecord['ia_record']['aa_ia_file']['ia_id']
         additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", ''))
@@ -2100,6 +2212,7 @@ def md5_json(md5_input):
                 "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/fic/<id>.json"]),
                 "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/file/<f_id>.json"]),
                 "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
+                "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
                 "aa_lgli_comics_2022_08_file": ("before", ["File from the Libgen.li comics backup by Anna's Archive",
                                                            "See https://annas-archive.org/datasets/libgenli_comics",
                                                            "No additional source data beyond what is shown here."]),

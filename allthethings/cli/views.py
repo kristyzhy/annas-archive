@@ -26,10 +26,11 @@ import ftlangdetect
 import traceback
 import flask_mail
 import click
+import pymysql.cursors
 
 from config import settings
 from flask import Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import engine, mariadb_url, es, Reflected, mail, mariapersist_url
+from allthethings.extensions import engine, mariadb_url, mariadb_url_no_timeout, es, Reflected, mail, mariapersist_url
 from sqlalchemy import select, func, text, create_engine
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session
@@ -71,7 +72,7 @@ def nonpersistent_dbreset_internal():
     # Per https://stackoverflow.com/a/4060259
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-    engine_multi = create_engine(mariadb_url, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
+    engine_multi = create_engine(mariadb_url_no_timeout, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
     cursor = engine_multi.raw_connection().cursor()
 
     # Generated with `docker compose exec mariadb mysqldump -u allthethings -ppassword --opt --where="1 limit 100" --skip-comments --ignore-table=computed_all_md5s allthethings > mariadb_dump.sql`
@@ -124,22 +125,83 @@ def mysql_build_computed_all_md5s():
     mysql_build_computed_all_md5s_internal()
 
 def mysql_build_computed_all_md5s_internal():
-    engine_multi = create_engine(mariadb_url, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
+    engine_multi = create_engine(mariadb_url_no_timeout, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
     cursor = engine_multi.raw_connection().cursor()
-    sql = """
-        DROP TABLE IF EXISTS `computed_all_md5s`;
-        CREATE TABLE computed_all_md5s (
-            md5 CHAR(32) NOT NULL,
-            PRIMARY KEY (md5)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 SELECT md5 FROM libgenli_files;
-        INSERT IGNORE INTO computed_all_md5s SELECT LOWER(md5) FROM zlib_book WHERE md5 != '';
-        INSERT IGNORE INTO computed_all_md5s SELECT LOWER(md5_reported) FROM zlib_book WHERE md5_reported != '';
-        INSERT IGNORE INTO computed_all_md5s SELECT LOWER(MD5) FROM libgenrs_updated;
-        INSERT IGNORE INTO computed_all_md5s SELECT LOWER(MD5) FROM libgenrs_fiction;
-        INSERT IGNORE INTO computed_all_md5s SELECT LOWER(MD5) FROM aa_ia_2023_06_files LEFT JOIN aa_ia_2023_06_metadata USING (ia_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NULL;
-    """
-    cursor.execute(sql)
+    print("Removing table computed_all_md5s (if exists)")
+    cursor.execute('DROP TABLE IF EXISTS computed_all_md5s')
+    print("Load indexes of libgenli_files")
+    cursor.execute('LOAD INDEX INTO CACHE libgenli_files')
+    print("Creating table computed_all_md5s and load with libgenli_files")
+    cursor.execute('CREATE TABLE computed_all_md5s (md5 BINARY(16) NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM ROW_FORMAT=FIXED SELECT UNHEX(md5) AS md5 FROM libgenli_files WHERE md5 IS NOT NULL')
+    print("Load indexes of computed_all_md5s")
+    cursor.execute('LOAD INDEX INTO CACHE computed_all_md5s')
+    print("Load indexes of zlib_book")
+    cursor.execute('LOAD INDEX INTO CACHE zlib_book')
+    print("Inserting from 'zlib_book' (md5_reported)")
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5) SELECT UNHEX(md5_reported) FROM zlib_book WHERE md5_reported != "" AND md5_reported IS NOT NULL')
+    print("Inserting from 'zlib_book' (md5)")
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5) SELECT UNHEX(md5) FROM zlib_book WHERE zlib_book.md5 != "" AND md5 IS NOT NULL')
+    print("Load indexes of libgenrs_fiction")
+    cursor.execute('LOAD INDEX INTO CACHE libgenrs_fiction')
+    print("Inserting from 'libgenrs_fiction'")
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5) SELECT UNHEX(md5) FROM libgenrs_fiction WHERE md5 IS NOT NULL')
+    print("Load indexes of libgenrs_updated")
+    cursor.execute('LOAD INDEX INTO CACHE libgenrs_updated')
+    print("Inserting from 'libgenrs_updated'")
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5) SELECT UNHEX(md5) FROM libgenrs_updated WHERE md5 IS NOT NULL')
+    print("Load indexes of aa_ia_2023_06_files and aa_ia_2023_06_metadata")
+    cursor.execute('LOAD INDEX INTO CACHE aa_ia_2023_06_files, aa_ia_2023_06_metadata')
+    print("Inserting from 'aa_ia_2023_06_files'")
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5) SELECT UNHEX(md5) FROM aa_ia_2023_06_metadata USE INDEX (libgen_md5) JOIN aa_ia_2023_06_files USING (ia_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NULL')
+    print("Load indexes of annas_archive_meta__aacid__zlib3_records")
+    cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_records')
+    print("Inserting from 'annas_archive_meta__aacid__zlib3_records'")
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5) SELECT UNHEX(md5) FROM annas_archive_meta__aacid__zlib3_records WHERE md5 IS NOT NULL')
+    print("Load indexes of annas_archive_meta__aacid__zlib3_files")
+    cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_files')
+    print("Inserting from 'annas_archive_meta__aacid__zlib3_files'")
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5) SELECT UNHEX(md5) FROM annas_archive_meta__aacid__zlib3_files WHERE md5 IS NOT NULL')
     cursor.close()
+    # engine_multi = create_engine(mariadb_url_no_timeout, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
+    # cursor = engine_multi.raw_connection().cursor()
+    # print("Removing table computed_all_md5s (if exists)")
+    # cursor.execute('DROP TABLE IF EXISTS computed_all_md5s')
+    # print("Load indexes of libgenli_files")
+    # cursor.execute('LOAD INDEX INTO CACHE libgenli_files')
+    # # print("Creating table computed_all_md5s and load with libgenli_files")
+    # # cursor.execute('CREATE TABLE computed_all_md5s (md5 CHAR(32) NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE ascii_bin ROW_FORMAT=FIXED SELECT md5 FROM libgenli_files')
+
+    # # print("Load indexes of computed_all_md5s")
+    # # cursor.execute('LOAD INDEX INTO CACHE computed_all_md5s')
+    # print("Load indexes of zlib_book")
+    # cursor.execute('LOAD INDEX INTO CACHE zlib_book')
+    # # print("Inserting from 'zlib_book' (md5_reported)")
+    # # cursor.execute('INSERT INTO computed_all_md5s SELECT md5_reported FROM zlib_book LEFT JOIN computed_all_md5s ON (computed_all_md5s.md5 = zlib_book.md5_reported) WHERE md5_reported != "" AND computed_all_md5s.md5 IS NULL')
+    # # print("Inserting from 'zlib_book' (md5)")
+    # # cursor.execute('INSERT INTO computed_all_md5s SELECT md5 FROM zlib_book LEFT JOIN computed_all_md5s USING (md5) WHERE zlib_book.md5 != "" AND computed_all_md5s.md5 IS NULL')
+    # print("Load indexes of libgenrs_fiction")
+    # cursor.execute('LOAD INDEX INTO CACHE libgenrs_fiction')
+    # # print("Inserting from 'libgenrs_fiction'")
+    # # cursor.execute('INSERT INTO computed_all_md5s SELECT LOWER(libgenrs_fiction.MD5) FROM libgenrs_fiction LEFT JOIN computed_all_md5s ON (computed_all_md5s.md5 = LOWER(libgenrs_fiction.MD5)) WHERE computed_all_md5s.md5 IS NULL')
+    # print("Load indexes of libgenrs_updated")
+    # cursor.execute('LOAD INDEX INTO CACHE libgenrs_updated')
+    # # print("Inserting from 'libgenrs_updated'")
+    # # cursor.execute('INSERT INTO computed_all_md5s SELECT MD5 FROM libgenrs_updated LEFT JOIN computed_all_md5s USING (md5) WHERE computed_all_md5s.md5 IS NULL')
+    # print("Load indexes of aa_ia_2023_06_files")
+    # cursor.execute('LOAD INDEX INTO CACHE aa_ia_2023_06_files')
+    # # print("Inserting from 'aa_ia_2023_06_files'")
+    # # cursor.execute('INSERT INTO computed_all_md5s SELECT MD5 FROM aa_ia_2023_06_files LEFT JOIN aa_ia_2023_06_metadata USING (ia_id) LEFT JOIN computed_all_md5s USING (md5) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NULL AND computed_all_md5s.md5 IS NULL')
+    # print("Load indexes of annas_archive_meta__aacid__zlib3_records")
+    # cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_records')
+    # # print("Inserting from 'annas_archive_meta__aacid__zlib3_records'")
+    # # cursor.execute('INSERT INTO computed_all_md5s SELECT md5 FROM annas_archive_meta__aacid__zlib3_records LEFT JOIN computed_all_md5s USING (md5) WHERE md5 IS NOT NULL AND computed_all_md5s.md5 IS NULL')
+    # print("Load indexes of annas_archive_meta__aacid__zlib3_files")
+    # cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_files')
+    # # print("Inserting from 'annas_archive_meta__aacid__zlib3_files'")
+    # # cursor.execute('INSERT INTO computed_all_md5s SELECT md5 FROM annas_archive_meta__aacid__zlib3_files LEFT JOIN computed_all_md5s USING (md5) WHERE md5 IS NOT NULL AND computed_all_md5s.md5 IS NULL')
+    # print("Creating table computed_all_md5s")
+    # cursor.execute('CREATE TABLE computed_all_md5s (md5 CHAR(32) NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE ascii_bin ROW_FORMAT=FIXED IGNORE SELECT DISTINCT md5 AS md5 FROM libgenli_files UNION DISTINCT (SELECT DISTINCT md5_reported AS md5 FROM zlib_book WHERE md5_reported != "") UNION DISTINCT (SELECT DISTINCT md5 AS md5 FROM zlib_book WHERE md5 != "") UNION DISTINCT (SELECT DISTINCT LOWER(libgenrs_fiction.MD5) AS md5 FROM libgenrs_fiction) UNION DISTINCT (SELECT DISTINCT MD5 AS md5 FROM libgenrs_updated) UNION DISTINCT (SELECT DISTINCT md5 AS md5 FROM aa_ia_2023_06_files LEFT JOIN aa_ia_2023_06_metadata USING (ia_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NULL) UNION DISTINCT (SELECT DISTINCT md5 AS md5 FROM annas_archive_meta__aacid__zlib3_records WHERE md5 IS NOT NULL) UNION DISTINCT (SELECT DISTINCT md5 AS md5 FROM annas_archive_meta__aacid__zlib3_files WHERE md5 IS NOT NULL)')
+    # cursor.close()
 
 
 #################################################################################################
@@ -225,8 +287,8 @@ def elastic_build_aarecords_job(canonical_md5s):
         raise err
 
 def elastic_build_aarecords_internal():
-    THREADS = 10
-    CHUNK_SIZE = 30
+    THREADS = 50
+    CHUNK_SIZE = 50
     BATCH_SIZE = 100000
 
     # Uncomment to do them one by one
@@ -244,10 +306,10 @@ def elastic_build_aarecords_internal():
     with engine.connect() as conn:
         total = conn.execute(select([func.count(ComputedAllMd5s.md5)])).scalar()
         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-            for batch in query_yield_batches(conn, select(ComputedAllMd5s.md5).where(ComputedAllMd5s.md5 >= first_md5), ComputedAllMd5s.md5, BATCH_SIZE):
+            for batch in query_yield_batches(conn, select(ComputedAllMd5s.md5).where(ComputedAllMd5s.md5 >= bytes.fromhex(first_md5)), ComputedAllMd5s.md5, BATCH_SIZE):
                 with multiprocessing.Pool(THREADS) as executor:
-                    print(f"Processing {len(batch)} md5s from computed_all_md5s ( starting md5: {batch[0][0]} )...")
-                    executor.map(elastic_build_aarecords_job, chunks([item[0] for item in batch], CHUNK_SIZE))
+                    print(f"Processing {len(batch)} md5s from computed_all_md5s ( starting md5: {batch[0][0].hex()} )...")
+                    executor.map(elastic_build_aarecords_job, chunks([item[0].hex() for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
             print(f"Done!")
