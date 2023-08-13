@@ -60,7 +60,7 @@ search_filtered_bad_aarecord_ids = [
     "md5:351024f9b101ac7797c648ff43dcf76e",
 ]
 
-ES_TIMEOUT = "5s"
+ES_TIMEOUT = 5 # seconds
 
 # Retrieved from https://openlibrary.org/config/edition.json on 2023-07-02
 ol_edition_json = json.load(open(os.path.dirname(os.path.realpath(__file__)) + '/ol_edition.json'))
@@ -297,9 +297,8 @@ def mobile_page():
 def browser_verification_page():
     return render_template("page/browser_verification.html", header_active="home/search")
 
-@page.get("/datasets")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def datasets_page():
+@functools.cache
+def get_stats_data():
     with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
         libgenrs_date = str(libgenrs_time.date()) if libgenrs_time is not None else ''
@@ -309,38 +308,115 @@ def datasets_page():
         openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL111%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
         openlib_date = str(openlib_time.date()) if openlib_time is not None else ''
 
+        stats_data_es = dict(es.msearch(
+            request_timeout=20,
+            max_concurrent_searches=10,
+            max_concurrent_shard_requests=10,
+            searches=[
+                # { "index": "aarecords", "request_cache": False },
+                { "index": "aarecords" },
+                { "track_total_hits": True, "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
+                # { "index": "aarecords", "request_cache": False },
+                { "index": "aarecords" },
+                {
+                    "track_total_hits": True,
+                    "size": 0,
+                    "query": { "bool": { "must_not": [{ "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } }] } },
+                    "aggs": {
+                        "search_record_sources": {
+                            "terms": { "field": "search_only_fields.search_record_sources" },
+                            "aggs": {
+                                "search_filesize": { "sum": { "field": "search_only_fields.search_filesize" } },
+                                "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } },
+                            },
+                        },
+                    },
+                },
+                # { "index": "aarecords", "request_cache": False },
+                { "index": "aarecords" },
+                {
+                    "track_total_hits": True,
+                    "size": 0,
+                    "query": { "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } },
+                    "aggs": { "search_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } },
+                },
+                # { "index": "aarecords", "request_cache": False },
+                { "index": "aarecords" },
+                {
+                    "track_total_hits": True,
+                    "size": 0,
+                    "query": { "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } },
+                    "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
+                },
+                # { "index": "aarecords", "request_cache": False },
+                { "index": "aarecords" },
+                {
+                    "track_total_hits": True,
+                    "size": 0,
+                    "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
+                },
+            ],
+        ))
+        if any([response['timed_out'] for response in stats_data_es['responses']]):
+            raise Exception("One of the 'get_stats_data' responses timed out")
+
+        stats_by_group = {}
+        for bucket in stats_data_es['responses'][1]['aggregations']['search_record_sources']['buckets']:
+            stats_by_group[bucket['key']] = {
+                'count': bucket['doc_count'],
+                'filesize': bucket['search_filesize']['value'],
+                'aa_count': bucket['search_access_types']['buckets'][0]['doc_count'],
+            }
+        stats_by_group['journals'] = {
+            'count': stats_data_es['responses'][2]['hits']['total']['value'],
+            'filesize': stats_data_es['responses'][2]['aggregations']['search_filesize']['value'],
+            'aa_count': stats_data_es['responses'][3]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
+        }
+        stats_by_group['total'] = {
+            'count': stats_data_es['responses'][0]['hits']['total']['value'],
+            'filesize': stats_data_es['responses'][0]['aggregations']['total_filesize']['value'],
+            'aa_count': stats_data_es['responses'][4]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
+        }
+
+    return {
+        'stats_by_group': stats_by_group,
+        'libgenrs_date': libgenrs_date,
+        'libgenli_date': libgenli_date,
+        'openlib_date': openlib_date,
+        'zlib_date': '2022-11-22',
+        'ia_date': '2023-06-28',
+        'isbndb_date': '2022-09-01',
+        'isbn_country_date': '2022-02-11',
+    }
+
+@page.get("/datasets")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def datasets_page():
     return render_template(
         "page/datasets.html",
         header_active="home/datasets",
-        libgenrs_date=libgenrs_date,
-        libgenli_date=libgenli_date,
-        openlib_date=openlib_date,
+        stats_data=get_stats_data(),
     )
 
 @page.get("/datasets/ia")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_ia_page():
-    return render_template("page/datasets_ia.html", header_active="home/datasets")
+    return render_template("page/datasets_ia.html", header_active="home/datasets", stats_data=get_stats_data())
 
-@page.get("/datasets/libgen_aux")
+@page.get("/datasets/zlib")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def datasets_libgen_aux_page():
-    return render_template("page/datasets_libgen_aux.html", header_active="home/datasets")
+def datasets_zlib_page():
+    return render_template("page/datasets_zlib.html", header_active="home/datasets", stats_data=get_stats_data())
 
-@page.get("/datasets/libgenli_comics")
+@page.get("/datasets/isbndb")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def datasets_libgenli_comics_page():
-    return render_template("page/datasets_libgenli_comics.html", header_active="home/datasets")
+def datasets_isbndb_page():
+    return render_template("page/datasets_isbndb.html", header_active="home/datasets", stats_data=get_stats_data())
 
-@page.get("/datasets/zlib_scrape")
+@page.get("/datasets/scihub")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def datasets_zlib_scrape_page():
-    return render_template("page/datasets_zlib_scrape.html", header_active="home/datasets")
-
-@page.get("/datasets/isbndb_scrape")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def datasets_isbndb_scrape_page():
-    return render_template("page/datasets_isbndb_scrape.html", header_active="home/datasets")
+def datasets_scihub_page():
+    return render_template("page/datasets_scihub.html", header_active="home/datasets", stats_data=get_stats_data())
 
 @page.get("/datasets/libgen_rs")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -348,29 +424,22 @@ def datasets_libgen_rs_page():
     with engine.connect() as conn:
         libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
         libgenrs_date = str(libgenrs_time.date())
-    return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", libgenrs_date=libgenrs_date)
+    return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", stats_data=get_stats_data())
 
 @page.get("/datasets/libgen_li")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_libgen_li_page():
-    with engine.connect() as conn:
-        libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
-        libgenli_date = str(libgenli_time.date())
-    return render_template("page/datasets_libgen_li.html", header_active="home/datasets", libgenli_date=libgenli_date)
+    return render_template("page/datasets_libgen_li.html", header_active="home/datasets", stats_data=get_stats_data())
 
 @page.get("/datasets/openlib")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_openlib_page():
-    with engine.connect() as conn:
-        # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
-        openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL11%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
-        openlib_date = str(openlib_time.date())
-    return render_template("page/datasets_openlib.html", header_active="home/datasets", openlib_date=openlib_date)
+    return render_template("page/datasets_openlib.html", header_active="home/datasets", stats_data=get_stats_data())
 
 @page.get("/datasets/isbn_ranges")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_isbn_ranges_page():
-    return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets")
+    return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets", stats_data=get_stats_data())
 
 @page.get("/copyright")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -400,7 +469,7 @@ def torrents_page():
             group = small_file.file_path.split('/')[2]
             filename = small_file.file_path.split('/')[3]
             if 'zlib3' in filename:
-                group = 'zlib3'
+                group = 'zlib'
             small_file_dicts_grouped[group].append(dict(small_file))
 
         return render_template(
@@ -427,25 +496,11 @@ def torrents_json_page():
 def torrents_latest_aac_page(collection):
     with mariapersist_engine.connect() as connection:
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        print("collection", collection)
         cursor.execute('SELECT data FROM mariapersist_small_files WHERE file_path LIKE CONCAT("torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__", %(collection)s, "%%") ORDER BY created DESC LIMIT 1', { "collection": collection })
         file = cursor.fetchone()
-        print(file)
         if file is None:
             return "File not found", 404
         return send_file(io.BytesIO(file['data']), as_attachment=True, download_name=f'{collection}.torrent')
-
-    with mariapersist_engine.connect() as conn:
-        small_files = conn.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
-
-        output_json = []
-        for small_file in small_files:
-            output_json.append({ 
-                "file_path": small_file.file_path,
-                "metadata": orjson.loads(small_file.metadata),
-            })
-
-        return orjson.dumps({ "small_files": output_json })
 
 @page.get("/small_file/<path:file_path>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -460,7 +515,7 @@ def small_file_page(file_path):
 zlib_book_dict_comments = {
     **allthethings.utils.COMMON_DICT_COMMENTS,
     "zlibrary_id": ("before", ["This is a file from the Z-Library collection of Anna's Archive.",
-                      "More details at https://annas-archive.org/datasets/zlib_scrape",
+                      "More details at https://annas-archive.org/datasets/zlib",
                       "The source URL is http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/<md5_reported>",
                       allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
     "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', and 'year' fields; combining them into a single field for display and search."]),
@@ -1370,7 +1425,7 @@ def isbn_page(isbn_input):
             size=100,
             query={ "term": { "search_only_fields.search_isbn13": canonical_isbn13 } },
             sort={ "search_only_fields.search_score_base": "desc" },
-            timeout=ES_TIMEOUT,
+            request_timeout=ES_TIMEOUT,
         )
         search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
         isbn_dict['search_aarecords'] = search_aarecords
@@ -1396,7 +1451,7 @@ def doi_page(doi_input):
         size=100,
         query={ "term": { "search_only_fields.search_doi": doi_input } },
         sort={ "search_only_fields.search_score_base": "desc" },
-        timeout=ES_TIMEOUT,
+        request_timeout=ES_TIMEOUT,
     )
     search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
 
@@ -1470,7 +1525,7 @@ def get_random_aarecord_elasticsearch():
                 "random_score": {},
             },
         },
-        timeout=ES_TIMEOUT,
+        request_timeout=ES_TIMEOUT,
     )
 
     first_hit = search_results_raw['hits']['hits'][0]
@@ -2214,7 +2269,7 @@ def md5_json(md5_input):
                 "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
                 "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
                 "aa_lgli_comics_2022_08_file": ("before", ["File from the Libgen.li comics backup by Anna's Archive",
-                                                           "See https://annas-archive.org/datasets/libgenli_comics",
+                                                           "See https://annas-archive.org/datasets/libgen_li",
                                                            "No additional source data beyond what is shown here."]),
                 "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
                 "ipfs_infos": ("before", ["Data about the IPFS files."]),
@@ -2339,7 +2394,7 @@ search_query_aggs = {
 
 @functools.cache
 def all_search_aggs(display_lang):
-    search_results_raw = es.search(index="aarecords", size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT)
+    search_results_raw = es.search(index="aarecords", size=0, aggs=search_query_aggs, request_timeout=ES_TIMEOUT)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
@@ -2473,7 +2528,7 @@ def search_page():
         post_filter={ "bool": { "filter": post_filter } },
         sort=custom_search_sorting+['_score'],
         track_total_hits=False,
-        timeout=ES_TIMEOUT,
+        request_timeout=ES_TIMEOUT,
     )
 
     all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()))
@@ -2537,7 +2592,7 @@ def search_page():
             query=search_query,
             sort=custom_search_sorting+['_score'],
             track_total_hits=False,
-            timeout=ES_TIMEOUT,
+            request_timeout=ES_TIMEOUT,
         )
         if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
@@ -2553,7 +2608,7 @@ def search_page():
                 query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
                 sort=custom_search_sorting+['_score'],
                 track_total_hits=False,
-                timeout=ES_TIMEOUT,
+                request_timeout=ES_TIMEOUT,
             )
             if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
@@ -2569,7 +2624,7 @@ def search_page():
                     query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
                     sort=custom_search_sorting+['_score'],
                     track_total_hits=False,
-                    timeout=ES_TIMEOUT,
+                    request_timeout=ES_TIMEOUT,
                 )
                 if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                     max_additional_search_aarecords_reached = True

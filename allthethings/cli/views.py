@@ -291,6 +291,11 @@ def elastic_build_aarecords_internal():
     CHUNK_SIZE = 50
     BATCH_SIZE = 100000
 
+    # Locally
+    # THREADS = 1
+    # CHUNK_SIZE = 10
+    # BATCH_SIZE = 1000
+
     # Uncomment to do them one by one
     # THREADS = 1
     # CHUNK_SIZE = 1
