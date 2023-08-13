@@ -60,7 +60,7 @@ search_filtered_bad_aarecord_ids = [
     "md5:351024f9b101ac7797c648ff43dcf76e",
 ]
 
-ES_TIMEOUT = 5 # seconds
+ES_TIMEOUT = "5s"
 
 # Retrieved from https://openlibrary.org/config/edition.json on 2023-07-02
 ol_edition_json = json.load(open(os.path.dirname(os.path.realpath(__file__)) + '/ol_edition.json'))
@@ -299,14 +299,19 @@ def browser_verification_page():
 
 @functools.cache
 def get_stats_data():
-    with engine.connect() as conn:
-        libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
+    with engine.connect() as connection:
+        libgenrs_time = connection.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
         libgenrs_date = str(libgenrs_time.date()) if libgenrs_time is not None else ''
-        libgenli_time = conn.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
+        libgenli_time = connection.execute(select(LibgenliFiles.time_last_modified).order_by(LibgenliFiles.f_id.desc()).limit(1)).scalars().first()
         libgenli_date = str(libgenli_time.date()) if libgenli_time is not None else ''
         # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
-        openlib_time = conn.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL111%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
+        openlib_time = connection.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL111%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
         openlib_date = str(openlib_time.date()) if openlib_time is not None else ''
+
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT metadata FROM annas_archive_meta__aacid__zlib3_records ORDER BY aacid DESC LIMIT 1')
+        zlib3_record = cursor.fetchone()
+        zlib_date = orjson.loads(zlib3_record['metadata'])['date_modified'] if zlib3_record is not None else ''
 
         stats_data_es = dict(es.msearch(
             request_timeout=20,
@@ -383,7 +388,7 @@ def get_stats_data():
         'libgenrs_date': libgenrs_date,
         'libgenli_date': libgenli_date,
         'openlib_date': openlib_date,
-        'zlib_date': '2022-11-22',
+        'zlib_date': zlib_date,
         'ia_date': '2023-06-28',
         'isbndb_date': '2022-09-01',
         'isbn_country_date': '2022-02-11',
@@ -1425,7 +1430,7 @@ def isbn_page(isbn_input):
             size=100,
             query={ "term": { "search_only_fields.search_isbn13": canonical_isbn13 } },
             sort={ "search_only_fields.search_score_base": "desc" },
-            request_timeout=ES_TIMEOUT,
+            timeout=ES_TIMEOUT,
         )
         search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
         isbn_dict['search_aarecords'] = search_aarecords
@@ -1451,7 +1456,7 @@ def doi_page(doi_input):
         size=100,
         query={ "term": { "search_only_fields.search_doi": doi_input } },
         sort={ "search_only_fields.search_score_base": "desc" },
-        request_timeout=ES_TIMEOUT,
+        timeout=ES_TIMEOUT,
     )
     search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
 
@@ -1525,7 +1530,7 @@ def get_random_aarecord_elasticsearch():
                 "random_score": {},
             },
         },
-        request_timeout=ES_TIMEOUT,
+        timeout=ES_TIMEOUT,
     )
 
     first_hit = search_results_raw['hits']['hits'][0]
@@ -2394,7 +2399,7 @@ search_query_aggs = {
 
 @functools.cache
 def all_search_aggs(display_lang):
-    search_results_raw = es.search(index="aarecords", size=0, aggs=search_query_aggs, request_timeout=ES_TIMEOUT)
+    search_results_raw = es.search(index="aarecords", size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
@@ -2528,7 +2533,7 @@ def search_page():
         post_filter={ "bool": { "filter": post_filter } },
         sort=custom_search_sorting+['_score'],
         track_total_hits=False,
-        request_timeout=ES_TIMEOUT,
+        timeout=ES_TIMEOUT,
     )
 
     all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()))
@@ -2592,7 +2597,7 @@ def search_page():
             query=search_query,
             sort=custom_search_sorting+['_score'],
             track_total_hits=False,
-            request_timeout=ES_TIMEOUT,
+            timeout=ES_TIMEOUT,
         )
         if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
@@ -2608,7 +2613,7 @@ def search_page():
                 query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
                 sort=custom_search_sorting+['_score'],
                 track_total_hits=False,
-                request_timeout=ES_TIMEOUT,
+                timeout=ES_TIMEOUT,
             )
             if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
@@ -2624,7 +2629,7 @@ def search_page():
                     query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
                     sort=custom_search_sorting+['_score'],
                     track_total_hits=False,
-                    request_timeout=ES_TIMEOUT,
+                    timeout=ES_TIMEOUT,
                 )
                 if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                     max_additional_search_aarecords_reached = True
