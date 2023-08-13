@@ -93,7 +93,7 @@ def account_index_post_page():
                 membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
             )
 
-        mariapersist_session.connection().execute(text('INSERT INTO mariapersist_account_logins (account_id, ip) VALUES (:account_id, :ip)')
+        mariapersist_session.connection().execute(text('INSERT IGNORE INTO mariapersist_account_logins (account_id, ip) VALUES (:account_id, :ip)')
             .bindparams(account_id=account_id, ip=allthethings.utils.canonical_ip_bytes(request.remote_addr)))
         mariapersist_session.commit()
 
@@ -154,6 +154,8 @@ def list_page(list_id):
 
     with Session(mariapersist_engine) as mariapersist_session:
         list_record = mariapersist_session.connection().execute(select(MariapersistLists).where(MariapersistLists.list_id == list_id).limit(1)).first()
+        if list_record is None:
+            return "List not found", 404
         account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == list_record.account_id).limit(1)).first()
         list_entries = mariapersist_session.connection().execute(select(MariapersistListEntries).where(MariapersistListEntries.list_id == list_id).order_by(MariapersistListEntries.updated.desc()).limit(10000)).all()
 
