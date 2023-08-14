@@ -591,7 +591,10 @@ def get_aac_zlib3_book_dicts(session, key, values):
     aac_zlib3_book_dicts = []
     for zlib_book in aac_zlib3_books:
         aac_zlib3_book_dict = orjson.loads(zlib_book['record_metadata'])
-        aac_zlib3_book_dict['md5'] = orjson.loads(zlib_book['file_metadata'])['md5']
+        file_metadata = orjson.loads(zlib_book['file_metadata'])
+        aac_zlib3_book_dict['md5'] = file_metadata['md5']
+        if 'filesize' in file_metadata:
+            aac_zlib3_book_dict['filesize'] = file_metadata['filesize']
         aac_zlib3_book_dict['record_aacid'] = zlib_book['record_aacid']
         aac_zlib3_book_dict['file_aacid'] = zlib_book['file_aacid']
         aac_zlib3_book_dict['file_data_folder'] = zlib_book['file_data_folder']
@@ -2175,15 +2178,13 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{aarecord['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
     if aarecord.get('lgli_file') is not None:
-        # TODO: use `['fiction_id']` when ES indexing has been done
-        lglific_id = aarecord['lgli_file'].get('fiction_id', 0)
+        lglific_id = aarecord['lgli_file']['fiction_id']
         if lglific_id > 0:
             lglific_thousands_dir = (lglific_id // 1000) * 1000
-            if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000 and lglific_thousands_dir not in [2201000, 2306000, 2869000, 2896000, 2945000, 3412000, 3453000]:
+            if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 4259000:
                 lglific_path = f"e/lglific/{lglific_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
                 add_partner_servers(lglific_path, '', aarecord, additional)
-        # TODO: use `['scimag_id']` when ES indexing has been done
-        scimag_id = aarecord['lgli_file'].get('scimag_id', 0)
+        scimag_id = aarecord['lgli_file']['scimag_id']
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
             scimag_tenmillion_dir = (scimag_id // 10000000)
             scimag_filename = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/')))

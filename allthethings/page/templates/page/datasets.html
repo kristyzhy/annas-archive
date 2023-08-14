@@ -2,10 +2,10 @@
 
 {% block title %}Datasets{% endblock %}
 
-{% macro stats_row(label, dict, updated) -%}
+{% macro stats_row(label, dict, updated, mirrored_note) -%}
   <td class="p-2 align-top">{{ label }}</td>
   <td class="p-2 align-top">{{ dict.count | numberformat }} files<br>{{ dict.filesize | filesizeformat }}</td>
-  <td class="p-2 align-top whitespace-nowrap">{{ (dict.aa_count/dict.count*100.0) | decimalformat }}%</td>
+  <td class="p-2 align-top whitespace-nowrap">{{ (dict.aa_count/dict.count*100.0) | decimalformat }}%{% if mirrored_note %}<div class="text-sm text-gray-500 whitespace-normal">{{ mirrored_note }}</div>{% endif %}</td>
   <td class="p-2 align-top whitespace-nowrap">{{ updated }}</td>
 {%- endmacro %}
 
@@ -34,7 +34,7 @@
       </tr>
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_rs">Libgen.rs</a><div class="text-sm text-gray-500">Non-Fiction and Fiction</div>' | safe, stats_data.stats_by_group.lgrs, stats_data.libgenrs_date) }}</tr>
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/scihub">Sci-Hub</a><div class="text-sm text-gray-500">Via Libgen.li “scimag”</div>' | safe, stats_data.stats_by_group.journals, '<div class="text-sm text-gray-500 whitespace-normal">Sci-Hub: frozen since 2021<div>Libgen.li: minor additions since then</div></div>' | safe) }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">Libgen.li</a><div class="text-sm text-gray-500">Excluding “scimag”</div>' | safe, stats_data.stats_by_group.lgli, stats_data.libgenli_date) }}</tr>
+      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">Libgen.li</a><div class="text-sm text-gray-500">Excluding “scimag”</div>' | safe, stats_data.stats_by_group.lgli, stats_data.libgenli_date, 'Direct downloads; fiction torrents are behind') }}</tr>
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/zlib">Z-Library</a>' | safe, stats_data.stats_by_group.zlib, stats_data.zlib_date) }}</tr>
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/ia">Internet Archive Controlled Digital Lending</a><div class="text-sm text-gray-500">Only mirrored files</div>' | safe, stats_data.stats_by_group.ia, stats_data.ia_date) }}</tr>
       <tr class="even:bg-[#f2f2f2] font-bold">{{ stats_row('Total<div class="text-sm font-normal text-gray-500">Excluding duplicates</div>' | safe, stats_data.stats_by_group.total, '') }}</tr>
@@ -65,57 +65,57 @@
       <tr class="even:bg-[#f2f2f2]">
         <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/libgen_rs">Libgen.rs</a></td>
         <td class="p-2 align-top">
-          <div>✅ Daily <a href="https://data.library.bz/dbdumps/">HTTP database dumps</a>.</div>
+          <div class="my-2 first:mt-0 last:mb-0">✅ Daily <a href="https://data.library.bz/dbdumps/">HTTP database dumps</a>.</div>
         </td>
         <td class="p-2 align-top">
-          <div>✅ Automated torrents for <a href="https://libgen.rs/repository_torrent/">Non-Fiction</a> and <a href="https://libgen.rs/fiction/repository_torrent/">Fiction</a></div>
-          <div>👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#libgenrs_covers">book cover torrents</a>.
+          <div class="my-2 first:mt-0 last:mb-0">✅ Automated torrents for <a href="https://libgen.rs/repository_torrent/">Non-Fiction</a> and <a href="https://libgen.rs/fiction/repository_torrent/">Fiction</a></div>
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#libgenrs_covers">book cover torrents</a>.
         </td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
         <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/scihub">Sci-Hub / Libgen “scimag”</a></td>
         <td class="p-2 align-top">
-          <div>❌ Sci-Hub has frozen new files since 2021.</div>
-          <div>✅ Metadata dumps available <a href="https://sci-hub.ru/database">here</a> and <a href="https://data.library.bz/dbdumps/">here</a>, as well as as part of the <a href="https://libgen.li/dirlist.php?dir=dbdumps">Libgen.li database</a> (which we use).</div>
+          <div class="my-2 first:mt-0 last:mb-0">❌ Sci-Hub has frozen new files since 2021.</div>
+          <div class="my-2 first:mt-0 last:mb-0">✅ Metadata dumps available <a href="https://sci-hub.ru/database">here</a> and <a href="https://data.library.bz/dbdumps/">here</a>, as well as as part of the <a href="https://libgen.li/dirlist.php?dir=dbdumps">Libgen.li database</a> (which we use).</div>
         </td>
         <td class="p-2 align-top">
-          <div>✅ Data torrents available <a href="https://sci-hub.ru/database">here</a>, <a href="https://libgen.rs/scimag/repository_torrent/">here</a>, and <a href="https://libgen.li/torrents/scimag/">here</a>.</div>
-          <div>❌ Some new files are <a href="https://libgen.rs/scimag/recent">being</a> <a href="https://libgen.li/index.php?req=fmode:last&topics%5B%5D=a">added</a> to Libgen’s “scimag”, but not enough to warrant new torrents.</div>
+          <div class="my-2 first:mt-0 last:mb-0">✅ Data torrents available <a href="https://sci-hub.ru/database">here</a>, <a href="https://libgen.rs/scimag/repository_torrent/">here</a>, and <a href="https://libgen.li/torrents/scimag/">here</a>.</div>
+          <div class="my-2 first:mt-0 last:mb-0">❌ Some new files are <a href="https://libgen.rs/scimag/recent">being</a> <a href="https://libgen.li/index.php?req=fmode:last&topics%5B%5D=a">added</a> to Libgen’s “scimag”, but not enough to warrant new torrents.</div>
         </td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
         <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">Libgen.li</a></td>
         <td class="p-2 align-top">
-          <div>✅ Quarterly <a href="https://libgen.li/dirlist.php?dir=dbdumps">HTTP database dumps</a>.</div>
+          <div class="my-2 first:mt-0 last:mb-0">✅ Quarterly <a href="https://libgen.li/dirlist.php?dir=dbdumps">HTTP database dumps</a>.</div>
         </td>
         <td class="p-2 align-top">
-          <div>✅ Non-Fiction torrents are shared with Libgen.rs (and mirrored <a href="https://libgen.li/torrents/libgen/">here</a>).</div>
-          <div>✅ Fiction collection has diverged but still has <a href="https://libgen.li/torrents/fiction/">torrents</a>.</div>
-          <div>👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#libgenli_comics">comic books and magazines</a>.
-          <div>❌ No torrents for Russian fiction and standard documents collections.</div>
+          <div class="my-2 first:mt-0 last:mb-0">✅ Non-Fiction torrents are shared with Libgen.rs (and mirrored <a href="https://libgen.li/torrents/libgen/">here</a>).</div>
+          <div class="my-2 first:mt-0 last:mb-0">🙃 Fiction collection has diverged but still has <a href="https://libgen.li/torrents/fiction/">torrents</a>, though not updated since 2022 (we do have direct downloads).</div>
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#libgenli_comics">comic books and magazines</a>.
+          <div class="my-2 first:mt-0 last:mb-0">❌ No torrents for Russian fiction and standard documents collections.</div>
         </td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
         <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/zlib">Z-Library</a></td>
         <td class="p-2 align-top">
-          <div>❌ No metadata available in bulk from Z-Library.</div>
-          <div>👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#zlib">Z-Library metadata</a>.
+          <div class="my-2 first:mt-0 last:mb-0">❌ No metadata available in bulk from Z-Library.</div>
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#zlib">Z-Library metadata</a>.
         </td>
         <td class="p-2 align-top">
-          <div>❌ No files available in bulk from Z-Library.</div>
-          <div>👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#zlib">Z-Library files</a>.
+          <div class="my-2 first:mt-0 last:mb-0">❌ No files available in bulk from Z-Library.</div>
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#zlib">Z-Library files</a>.
         </td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
         <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/ia">Internet Archive Controlled Digital Lending</a></td>
         <td class="p-2 align-top">
-          <div>✅ Some metadata available through <a href="https://openlibrary.org/developers/dumps">Open Library database dumps</a>, but those don’t cover the entire Internet Archive collection.</div>
-          <div>❌ No easily accessible metadata dumps available for their entire collection.</div>
-          <div>👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">Internet Archive metadata</a>.
+          <div class="my-2 first:mt-0 last:mb-0">✅ Some metadata available through <a href="https://openlibrary.org/developers/dumps">Open Library database dumps</a>, but those don’t cover the entire Internet Archive collection.</div>
+          <div class="my-2 first:mt-0 last:mb-0">❌ No easily accessible metadata dumps available for their entire collection.</div>
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">Internet Archive metadata</a>.
         </td>
         <td class="p-2 align-top">
-          <div>❌ Files only available for borrowing on a limited basis, with various access restrictions.</div>
-          <div>👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">Internet Archive files</a>.
+          <div class="my-2 first:mt-0 last:mb-0">❌ Files only available for borrowing on a limited basis, with various access restrictions.</div>
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">Internet Archive files</a>.
         </td>
       </tr>
     </table>
@@ -131,26 +131,26 @@
         <th class="p-2 align-bottom text-left">Last updated</th>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/openlib">Open Library</a></td>
-        <td class="p-2 align-top">
-          <div>✅ Monthly <a href="https://openlibrary.org/developers/dumps">database dumps</a>.</div>
+        <td class="p-2 align-middle"><a class="custom-a underline hover:opacity-60" href="/datasets/openlib">Open Library</a></td>
+        <td class="p-2 align-middle">
+          <div class="my-2 first:mt-0 last:mb-0">✅ Monthly <a href="https://openlibrary.org/developers/dumps">database dumps</a>.</div>
         </td>
-        <td class="p-2 align-top">{{ stats_data.openlib_date }}</td>
+        <td class="p-2 align-middle">{{ stats_data.openlib_date }}</td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
         <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/isbndb">ISBNdb</a></td>
         <td class="p-2 align-top">
-          <div>❌ Not available directly in bulk, only in semi-bulk behind a paywall.</div>
-          <div>👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#isbndb">ISBNdb metadata</a>.
+          <div class="my-2 first:mt-0 last:mb-0">❌ Not available directly in bulk, only in semi-bulk behind a paywall.</div>
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#isbndb">ISBNdb metadata</a>.
         </td>
         <td class="p-2 align-top">{{ stats_data.isbndb_date }}</td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/isbn_ranges">ISBN country information</a></td>
-        <td class="p-2 align-top">
-          <div>✅ Available for <a href="https://www.isbn-international.org/range_file_generation">automatic generation</a>.</div>
+        <td class="p-2 align-middle"><a class="custom-a underline hover:opacity-60" href="/datasets/isbn_ranges">ISBN country information</a></td>
+        <td class="p-2 align-middle">
+          <div class="my-2 first:mt-0 last:mb-0">✅ Available for <a href="https://www.isbn-international.org/range_file_generation">automatic generation</a>.</div>
         </td>
-        <td class="p-2 align-top">{{ stats_data.isbn_country_date }}</td>
+        <td class="p-2 align-middle">{{ stats_data.isbn_country_date }}</td>
       </tr>
     </table>
 
