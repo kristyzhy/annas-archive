@@ -2295,9 +2295,9 @@ def md5_json(md5_input):
             return nice_json(aarecord), {'Content-Type': 'text/json; charset=utf-8'}
 
 
-@page.get("/fast_download/<string:md5_input>/<int:path_index>/<int:server_index>")
+@page.get("/fast_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
 @allthethings.utils.no_cache()
-def md5_fast_download(md5_input, path_index, server_index):
+def md5_fast_download(md5_input, path_index, domain_index):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
 
@@ -2309,11 +2309,11 @@ def md5_fast_download(md5_input, path_index, server_index):
             return render_template("page/md5.html", header_active="search", md5_input=md5_input)
         aarecord = aarecords[0]
         try:
-            server = ['https://momot.in/', 'https://momot.rs/'][server_index]
+            domain = ['momot.in', 'momot.rs'][domain_index]
             path_info = aarecord['additional']['partner_url_paths'][path_index]
         except:
             return redirect(f"/md5/{md5_input}", code=302)
-        url = server + allthethings.utils.make_anon_download_uri(False, 20000, path_info['path'], aarecord['additional']['filename'])
+        url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(False, 20000, path_info['path'], aarecord['additional']['filename'], domain)
 
     account_id = allthethings.utils.get_account_id(request.cookies)
     with Session(mariapersist_engine) as mariapersist_session:
@@ -2340,9 +2340,9 @@ def md5_fast_download(md5_input, path_index, server_index):
 def compute_download_speed(targeted_seconds, filesize):
     return min(150, max(30, int(filesize/1000/targeted_seconds)))
 
-@page.get("/slow_download/<string:md5_input>/<int:path_index>/<int:server_index>")
+@page.get("/slow_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
-def md5_slow_download(md5_input, path_index, server_index):
+def md5_slow_download(md5_input, path_index, domain_index):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
 
@@ -2354,12 +2354,12 @@ def md5_slow_download(md5_input, path_index, server_index):
             return render_template("page/md5.html", header_active="search", md5_input=md5_input)
         aarecord = aarecords[0]
         try:
-            server = ['https://momot.rs/', 'https://ktxr.rs/', 'https://nrzr.li/'][server_index]
+            domain = ['momot.rs', 'ktxr.rs', 'nrzr.li'][domain_index]
             path_info = aarecord['additional']['partner_url_paths'][path_index]
         except:
             return redirect(f"/md5/{md5_input}", code=302)
         speed = compute_download_speed(path_info['targeted_seconds'], aarecord['file_unified_data']['filesize_best'])
-        url = server + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'])
+        url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'], domain)
 
     return render_template(
         "page/partner_download.html",

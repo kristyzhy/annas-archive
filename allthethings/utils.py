@@ -304,11 +304,11 @@ def membership_costs_data(locale):
                 data[f"{tier},{method},{duration}"] = calculate_membership_costs(inputs)
     return data
 
-def make_anon_download_uri(limit_multiple, speed_kbps, path, filename):
+def make_anon_download_uri(limit_multiple, speed_kbps, path, filename, domain):
     limit_multiple_field = 'y' if limit_multiple else 'x'
     expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=12)).timestamp())
-    md5 = base64.urlsafe_b64encode(hashlib.md5(f"{limit_multiple_field}/{expiry}/{speed_kbps}/{path},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
-    return f"d1/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/{md5}/{filename}"
+    md5 = base64.urlsafe_b64encode(hashlib.md5(f"{domain}/{limit_multiple_field}/{expiry}/{speed_kbps}/{path},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
+    return f"d2/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/{md5}/{filename}"
 
 DICT_COMMENTS_NO_API_DISCLAIMER = "This page is *not* intended as an API. If you need programmatic access to this JSON, please set up your own instance. For more information, see: https://annas-archive.org/datasets and https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports"
 
