@@ -2363,7 +2363,7 @@ def compute_download_speed(targeted_seconds, filesize):
     return min(300, max(10, int(filesize/1000/targeted_seconds)))
 
 @page.get("/slow_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+@allthethings.utils.no_cache()
 def md5_slow_download(md5_input, path_index, domain_index):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
@@ -2382,6 +2382,13 @@ def md5_slow_download(md5_input, path_index, domain_index):
             return redirect(f"/md5/{md5_input}", code=302)
         speed = compute_download_speed(path_info['targeted_seconds'], aarecord['file_unified_data']['filesize_best'])
         url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'], domain)
+
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    with Session(mariapersist_engine) as mariapersist_session:
+            data_md5 = bytes.fromhex(canonical_md5)
+            data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
+            mariapersist_session.connection().execute(text('INSERT IGNORE INTO mariapersist_slow_download_access (md5, ip, account_id) VALUES (:md5, :ip, :account_id)').bindparams(md5=data_md5, ip=data_ip, account_id=account_id))
+            mariapersist_session.commit()
 
     return render_template(
         "page/partner_download.html",

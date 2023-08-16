@@ -173,3 +173,21 @@ INSERT INTO `mariapersist_small_files` VALUES
 --     `search_input` BINARY(100) NOT NULL,
 --     PRIMARY KEY (`timestamp`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin PAGE_COMPRESSED=1;
+
+CREATE TABLE mariapersist_downloads (
+    `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    `md5` BINARY(16) NOT NULL,
+    `ip` BINARY(16) NOT NULL,
+    PRIMARY KEY (`timestamp`, `md5`, `ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+CREATE TABLE mariapersist_slow_download_access (
+    `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+    `md5` binary(16) NOT NULL,
+    `ip` binary(16) NOT NULL,
+    `account_id` char(7) DEFAULT NULL,
+    PRIMARY KEY (`timestamp`,`md5`,`ip`),
+    KEY `account_id_timestamp` (`account_id`,`timestamp`),
+    CONSTRAINT `mariapersist_slow_download_access_account_id` FOREIGN KEY (`account_id`) REFERENCES `mariapersist_accounts` (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+

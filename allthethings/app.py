@@ -247,7 +247,8 @@ def middleware(app):
         app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
     # Set the real IP address into request.remote_addr when behind a proxy.
-    app.wsgi_app = BlogMiddleware(ProxyFix(app.wsgi_app))
+    # x_for=2 because of Varnish, then Cloudflare.
+    app.wsgi_app = BlogMiddleware(ProxyFix(app.wsgi_app, x_for=2, x_proto=1))
 
     return None
 
