@@ -2360,7 +2360,7 @@ def md5_fast_download(md5_input, path_index, domain_index):
     )
 
 def compute_download_speed(targeted_seconds, filesize):
-    return min(150, max(30, int(filesize/1000/targeted_seconds)))
+    return min(300, max(10, int(filesize/1000/targeted_seconds)))
 
 @page.get("/slow_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)

@@ -306,7 +306,7 @@ def membership_costs_data(locale):
 
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename, domain):
     limit_multiple_field = 'y' if limit_multiple else 'x'
-    expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=12)).timestamp())
+    expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=6)).timestamp())
     md5 = base64.urlsafe_b64encode(hashlib.md5(f"{domain}/{limit_multiple_field}/{expiry}/{speed_kbps}/{path},{DOWNLOADS_SECRET_KEY}".encode('utf-8')).digest()).decode('utf-8').rstrip('=')
     return f"d2/{limit_multiple_field}/{expiry}/{speed_kbps}/{path}~/{md5}/{filename}"
 

@@ -14,11 +14,11 @@
 
   {% if slow_download %}
     <p class="mb-4">
-      {{ gettext('page.partner_download.faster_downloads', a_membership=('href="/donate" target="_blank"' | safe)) }}
+      {{ gettext('page.partner_download.faster_downloads', a_membership=('href="/donate"' | safe)) }}
     </p>
   {% endif %}
 
   <p class="mb-4">
-    {{ gettext('page.partner_download.bulk_mirroring', a_datasets=('href="/datasets" target="_blank"' | safe), a_torrents=('href="/torrents" target="_blank"' | safe)) }}
+    {{ gettext('page.partner_download.bulk_mirroring', a_datasets=('href="/datasets"' | safe), a_torrents=('href="/torrents"' | safe)) }}
   </p>
 {% endblock %}
