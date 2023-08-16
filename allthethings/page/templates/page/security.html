@@ -1,0 +1,25 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Security{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <h2 class="mt-4 mb-1 text-3xl font-bold">Security</h2>
+
+    <p class="mb-4">
+      We welcome security researchers to search for vulnerabilities in our systems. We are big proponents of responsible disclosure. Contact us at <a href="mailto:AnnaArchivist+security@proton.me">AnnaArchivist+&#8203;security@&#8203;proton.&#8203;me</a>.
+    </p>
+
+    <p class="mb-4">
+      We are currently unable to award bug bounties, except for vulnerabilities that have the potential to compromise our anonymity. We’d like to offer wider scope for bug bounties in the future! Please note that social engineering attacks are out of scope.
+    </p>
+
+    <p class="mb-4">
+      If you are interested in offensive security, and want to help archive the world’s knowledge and culture, be sure to contact us. There are many ways in which you can help.
+    </p>
+  </div>
+{% endblock %}

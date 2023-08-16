@@ -1,0 +1,207 @@
+{% extends "layouts/blog.html" %}
+
+{% block title %}Anna’s Archive Containers (AAC): standardizing releases from the world’s largest shadow library{% endblock %}
+
+{% block meta_tags %}
+<meta name="description" content="Anna’s Archive has become the largest shadow library in the world, requiring us to standardize our releases." />
+<meta name="twitter:card" value="summary">
+<meta name="twitter:creator" content="@AnnaArchivist"/>
+<meta property="og:title" content="Anna’s Archive Containers (AAC): standardizing releases from the world’s largest shadow library" />
+<meta property="og:image" content="https://annas-blog.org/aac.png" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://annas-blog.org/annas-archive-containers.html" />
+<meta property="og:description" content="Anna’s Archive has become the largest shadow library in the world, requiring us to standardize our releases." />
+<style>
+  code { word-break: break-all; font-size: 89%; letter-spacing: -0.3px; }
+</style>
+{% endblock %}
+
+{% block body %}
+  <h1>Anna’s Archive Containers (AAC): standardizing releases from the world’s largest shadow library</h1>
+  <p style="font-style: italic">
+    annas-blog.org, 2023-08-15
+  </p>
+
+  <p>
+    <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a> has become by far the largest shadow library in the world, and the only shadow library of its scale that is fully open-source and open-data. Below is a table from our Datasets page (slightly modified):
+  </p>
+
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <th style="padding: 0.5rem; vertical-align: bottom; text-align: left" width="35%">Source</th>
+      <th style="padding: 0.5rem; vertical-align: bottom; text-align: left" width="35%">Size</th>
+      <th style="padding: 0.5rem; vertical-align: bottom; text-align: left" width="30%">Mirrored by <div class="inline sm:block">Anna’s Archive</div></th>
+    </tr>
+    <tr style="background: #f2f2f2;">
+      <td style="padding: 0.5rem; vertical-align: top;">Sci-Hub</td>
+      <td style="padding: 0.5rem; vertical-align: top;">86,614,441 files<br>87.2 TB</td>
+      <td style="padding: 0.5rem; vertical-align: top; whitespace: nowrap;">99.957%</td>
+    </tr>
+    <tr>
+      <td style="padding: 0.5rem; vertical-align: top;">Library Genesis</td>
+      <td style="padding: 0.5rem; vertical-align: top;">16,291,379 files<br>208.1 TB</td>
+      <td style="padding: 0.5rem; vertical-align: top; whitespace: nowrap;">87%</td>
+    </tr>
+    <tr style="background: #f2f2f2;">
+      <td style="padding: 0.5rem; vertical-align: top;">Z-Library</td>
+      <td style="padding: 0.5rem; vertical-align: top;">13,769,031 files<br>97.3 TB</td>
+      <td style="padding: 0.5rem; vertical-align: top; whitespace: nowrap;">99.91%</td>
+    </tr>
+    <tr style="font-weight: bold">
+      <td style="padding: 0.5rem; vertical-align: top;">Total<div style="font-size: 87.5%; font-weight: normal; color: #6b7280;">Excluding duplicates</div></td>
+      <td style="padding: 0.5rem; vertical-align: top;">111,081,811 files<br>419.5 TB</td>
+      <td style="padding: 0.5rem; vertical-align: top; whitespace: nowrap;">97.998%</td>
+    </tr>
+  </table>
+
+  <p>
+    We accomplished this in three ways:
+  </p>
+  <ol>
+    <li>Mirroring existing open-data shadow libraries (like Sci-Hub and Library Genesis).</li>
+    <li>Helping out shadow libraries that want to be more open, but didn’t have the time or resources to do so (like the Libgen comics collection).</li>
+    <li>Scraping libraries that do not wish to share in bulk (like Z-Library).</li>
+  </ol>
+
+  <p>
+    For (2) and (3) we now manage a considerable collection of torrents ourselves (100s of TBs). So far we have approached these collections as one-offs, meaning bespoke infrastructure and data organization for each collection. This adds significant overhead to each release, and makes it particularly hard to do more incremental releases.
+  </p>
+
+  <p>
+    That’s why we decided to standardize our releases. This is a technical blog post in which we’re introducing our standard: <strong>Anna’s Archive Containers</strong>.
+  </p>
+
+  <h2>Design goals</h2>
+
+  <p>
+    Our primary use case is the distribution of files and associated metadata from different existing collections. Our most important considerations are:
+  </p>
+
+  <ul>
+    <li>Heterogeneous files and metadata, in as close to the original format as possible.</li>
+    <li>Heterogeneous identifiers in the source libraries, or even lack of identifiers.</li>
+    <li>Separate releases of metadata vs file data, or metadata-only releases (e.g. our ISBNdb release).</li>
+    <li>Distribution through torrents, though with the possibility of other distribution methods (e.g. IPFS).</li>
+    <li>Immutable records, since we should assume our torrents will live forever.</li>
+    <li>Incremental releases / appendable releases.</li>
+    <li>Machine-readable and writeable, conveniently and quickly, especially for our stack (Python, MySQL, ElasticSearch, Transmission, Debian, ext4).</li>
+    <li>Somewhat easy human inspection, though this is secondary to machine readability.</li>
+    <li>Easy to seed our collections with a standard rented seedbox.</li>
+    <li>Binary data can be served directly by webservers like Nginx.</li>
+  </ul>
+
+  <p>
+    Some non-goals:
+  </p>
+
+  <ul>
+    <li>We don’t care about files being easy to navigate manually on disk, or searchable without preprocessing.</li>
+    <li>We don’t care about being directly compatible with existing library software.</li>
+    <li>While it should be easy for anyone to seed our collection using torrents, we don’t expect the files to be usable without significant technical knowledge and commitment.</li>
+  </ul>
+
+  <p>
+    Since Anna’s Archive is open source, we want to dogfood our format directly. When we refresh our search index, we only access publicly available paths, so that anyone who forks our library can get up and running quickly.
+  </p>
+
+  <h2>The standard</h2>
+
+  <p>
+    Ultimately, we settled on a relatively simple standard. It’s fairly loose, non-normative, and a work in progress.
+  </p>
+
+  <ul>
+    <li><strong>AAC.</strong> AAC (Anna’s Archive Container) is a single item consisting of <strong>metadata</strong>, and optionally <strong>binary data</strong>, both of which are immutable. It has a globally unique identifier, called <strong>AACID</strong>.</li>
+    <li><strong>Collection.</strong> Each AAC belongs to a collection, which by definition is a list of AACs that are semantically consistent. That means that if you make a significant change to the format of the metadata, then you have to create a new collection.</li>
+    <li><strong>“records” and “files” collections.</strong> By convention, it’s often convenient to release “records” and “files” as different collections, so they can be released at different schedules, e.g. based on scraping rates. A “record” is a metadata-only collection, containing information like book titles, authors, ISBNs, etc, while “files” are the collections that contain the actual files themselves (pdf, epub).</li>
+    <li><strong>AACID.</strong> The format of AACID is this: <code style="color: #0093ff">aacid__{collection}__{ISO 8601 timestamp}__{collection-specific ID}__{shortuuid}</code>. For example, an actual AACID that we’re released is <code style="color: #0093ff">aacid__zlib3_records__20230808T014342Z__22433983__URsJNGy5CjokTsNT6hUmmj</code>.
+      <ul>
+        <li><code>{collection}</code>: the collection name, which may contain ASCII letters, numbers, and underscores (but no double underscores).</li>
+        <li><code>{ISO 8601 timestamp}</code>: a short version of the ISO 8601, always in UTC, e.g. <code>20220723T194746Z</code>. This number has to monotonically increase for every release, though its exact semantics can differ per collection. We suggest using the time of scraping or of generating the ID.</li>
+        <li><code>{collection-specific ID}</code>: a collection-specific identifier, if applicable, e.g. the Z-Library ID. May be omitted or truncated. Must be omitted or truncated if the AACID would otherwise exceed 150 characters.</li>
+        <li><code>{shortuuid}</code>: a UUID but compressed to ASCII, e.g. using base57. We currently use the <a href="https://github.com/skorokithakis/shortuuid/">shortuuid</a> Python library.</li>
+      </ul>
+    </li>
+    <li><strong>AACID range.</strong> Since AACIDs contain monotonically increasing timestamps, we can use that to denote ranges within a particular collection. We use this format: <code style="color: blue">aacid__{collection}__{from_timestamp}--{to_timestamp}</code>, where the timestamps are inclusive. This is consistent with ISO 8601 notation. Ranges are continuous, and may overlap, but in case of overlap must contain identical records as the one previously released in that collection (since AACs are immutable). Missing records are not allowed.</li>
+    <li><strong>Metadata file.</strong> A metadata file contains the metadata of a range of AACs, for one particular collection. These have the following properties:
+      <ul>
+        <li>Filename must be an AACID range, prefixed with <code style="color: red">annas_archive_meta__</code> and followed by <code>.jsonl.zstd</code>. For example, one of our releases is called<br><code><span style="color: red">annas_archive_meta__</span><span style="color: blue">aacid__zlib3_records__20230808T014342Z--20230808T023702Z</span>.jsonl.zst</code>.</li>
+        <li>As indicated by the file extension, the file type is <a href="https://jsonlines.org/">JSON Lines</a> compressed with <a href="http://www.zstd.net/">Zstandard</a>.</li>
+        <li>Each JSON object must contain the following fields at the top level: <strong>aacid</strong>, <strong>metadata</strong>, <strong>data_folder</strong> (optional). No other fields are allowed.</li>
+        <li><code>metadata</code> is arbitrary metadata, per the semantics of the collection. It must be semantically consistent within the collection.</li>
+        <li><code>data_folder</code> is optional, and is the name of binary data folder that contains the corresponding binary data. The filename of the corresponding binary data within that folder is the record’s AACID.</li>
+        <li>The <code style="color: red">annas_archive_meta__</code> prefix may be adapted to the name of your institution, e.g. <code style="color: red">my_institute_meta__</code>.</li>
+      </ul>
+    </li>
+    <li><strong>Binary data folder.</strong> A folder with the binary data of a range of AACs, for one particular collection. These have the following properties:
+      <ul>
+        <li>Directory name must be an AACID range, prefixed with <code style="color: green">annas_archive_data__</code>, and no suffix. For example, one of our actual releases has a directory called<br><code><span style="color: green">annas_archive_data__</span><span style="color: blue">aacid__zlib3_files__20230808T055130Z--20230808T055131Z</span></code>.</li>
+        <li>The directory must contain data files for all AACs within the specified range. Each data file must have its AACID as the filename (no extensions).</li>
+        <li>It’s recommended to make these folders somewhat manageable in size, e.g. not larger than 100GB-1TB each, though this recommendation may change over time.</li>
+      </ul>
+    </li>
+    <li><strong>Torrents.</strong> The metadata files and binary data folders may be bundled in torrents, with one torrent per metadata file, or one torrent per binary data folder. The torrents must have the original file/directory name plus a <code>.torrent</code> suffix as their filename.</li>
+  </ul>
+
+  <h2>Example</h2>
+
+  <p>
+    Let’s look at our recent Z-Library release as an example. It consists of two collections: “<span style="background: #fffaa3">zlib3_records</span>” and “<span style="background: #ffd6fe">zlib3_files</span>”. This allows us to separately scrape and release metadata records from the actual book files. As such, we released two torrents with metadata files:
+  </p>
+
+  <ul>
+    <li><code><span style="color: red">annas_archive_meta__</span><span style="color: blue">aacid__<span style="background: #fffaa3">zlib3_records</span>__20230808T014342Z--20230808T023702Z</span>.jsonl.zst.torrent</code></li>
+    <li><code><span style="color: red">annas_archive_meta__</span><span style="color: blue">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230808T051503Z--20230809T223215Z</span>.jsonl.zst.torrent</code></li>
+  </ul>
+
+  We also released a bunch of torrents with binary data folders, but only for the “<span style="background: #ffd6fe">zlib3_files</span>” collection, 62 in total:
+
+  <ul>
+    <li><code><span style="color: green">annas_archive_data__</span><span style="color: blue">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230808T055130Z--20230808T055131Z</span>.torrent</code></li>
+    <li><code><span style="color: green">annas_archive_data__</span><span style="color: blue">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230808T120246Z--20230808T120247Z</span>.torrent</code></li>
+    <li>…</li>
+    <li><code><span style="color: green">annas_archive_data__</span><span style="color: blue">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230809T204340Z--20230809T204341Z</span>.torrent</code></li>
+  </ul>
+
+  <p>
+    By running <code>zstdcat <span style="color: red">annas_archive_meta__</span><span style="color: blue">aacid__<span style="background: #fffaa3">zlib3_records</span>__20230808T014342Z--20230808T023702Z.jsonl.zst</code> we can see what’s inside:
+  </p>
+
+  <code style="font-size: 70%">
+    {"aacid":"<span style="color: #0093ff">aacid__<span style="background: #fffaa3">zlib3_records</span>__20230808T014342Z__22430000__hnyiZz2K44Ur5SBAuAgpg8</span>","metadata":{"zlibrary_id":22430000,"date_added":"2022-08-24","date_modified":"2023-04-05","extension":"epub","filesize_reported":483359,"md5_reported":"21f19f95c4b969d06fe5860a98e29f0d","title":"Els nens de la senyora Zlatin","author":"Maria Lluïsa Amorós","publisher":"ePubLibre","language":"catalan","series":"","volume":"","edition":"","year":"2021","pages":"","description":"França, 1943. Un grup de nens jueus, procedents de diversos països europeus, arriben a França per escapar de la tragèdia que devasta Europa durant la Segona Guerra Mundial. Amb l’ocupació de França per part dels alemanys, les seves vides corren perill. La Sabine Zlatin, infermera de la Creu Roja, tindrà cura d’ells i els buscarà un indret on puguin refugiar-se fins a l’acabament de la guerra. El 18 de maig del 1943, amb el temor que algú els aturi, arriben a Villa Anne-Marie, un casalici blanc on els nens compartiran pors i l’enyorança dels pares, que van deixar enrere, però també gaudiran de la pau del lloc, dels jocs vora la gran font i dels contes que en Léon, un educador, els relata perquè la son els venci. I, sobretot, retrobaran el valor de l’amistat, del primer amor i de tenir cura els uns dels altres.Paral·lelament, l’Octavi Verdier, un jove periodista, escriu una novel·la sobre la presència nazi a la Barcelona dels anys quaranta, que contrasta amb la Barcelona sotmesa pel franquisme. Durant aquest procés de creació que l’obliga a investigar, descobrirà què s’amaga darrere la porta del despatx d’en Gustau Verdier, el seu avi, que el 1944 va venir de França i va comprar una fàbrica tèxtil a Terrassa. En la recerca anirà a parar a Villa Anne-Marie, a Izieu.","cover_path":"/covers/books/21/f1/9f/21f19f95c4b969d06fe5860a98e29f0d.jpg","isbns":[],"category_id":""}}
+  </code>
+
+  <p>
+    In this case, it’s metadata of a French book, as reported by Z-Library. At the top-level we only have “aacid” and “metadata”, but no “data_folder”, since there is no corresponding binary data. The AACID contains “22430000” as the primary ID, which we can see is taken from “zlibrary_id”. We can expect other AACs in this collection to have the same structure.
+  </p>
+
+  <p>
+    Now let’s run <code>zstdcat <span style="color: red">annas_archive_meta__</span><span style="color: blue">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230808T051503Z--20230809T223215Z.jsonl.zst</span></code>:
+  </p>  
+
+  <code style="font-size: 70%">
+    {"aacid":"<span style="color: #0093ff">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230808T051503Z__22433983__NRgUGwTJYJpkQjTbz2jA3M</span>","data_folder":"<span style="color: green">annas_archive_data__</span><span style="color: blue">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230808T051503Z--20230808T051504Z</span>","metadata":{"zlibrary_id":"22433983","md5":"63332c8d6514aa6081d088de96ed1d4f"}}
+  </code>
+
+  <p>
+    This is a much smaller AAC metadata, though the bulk of this AAC is located elsewhere in a binary file! After all, we have a “data_folder” this time, so we can expect the corresponding binary data to be located at <code><span style="color: green">annas_archive_data__</span><span style="color: blue">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230808T051503Z--20230808T051504Z</span>/<span style="color: #0093ff">aacid__<span style="background: #ffd6fe">zlib3_files</span>__20230808T051503Z__22433983__NRgUGwTJYJpkQjTbz2jA3M</span></code>. The “metadata” contains the “zlibrary_id”, so we can easily associate it with the corresponding AAC in the “zlib_records” collection. We could’ve associated in a number of different ways, e.g. through AACID — the standard doesn’t prescribe that.
+  </p>
+
+  <p>
+    Note that it’s also not necessary for the “metadata” field to itself be JSON. It could be a string containing XML or any other data format. You could even store metadata information in the associated binary blob, e.g. if it’s a lot of data.
+  </p>
+
+  <h2>Conclusion</h2>
+
+  <p>
+    With this standard, we can make releases more incrementally, and more easily add new data sources. We already have a few exciting releases in the pipeline!
+  </p>
+
+  <p>
+    We also hope it becomes easier for other shadow libraries to mirror our collections. After all, our goal is to preserve human knowledge and culture forever, so the more redundancy the better.
+  </p>
+
+  <p>
+    - Anna and the team (<a href="https://twitter.com/AnnaArchivist">Twitter</a>, <a href="https://www.reddit.com/r/Annas_Archive/">Reddit</a>, <a href="https://t.me/annasarchiveorg">Telegram</a>)
+  </p>
+{% endblock %}

@@ -13,6 +13,10 @@ blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blo
 def index():
     return render_template("blog/index.html")
 
+@blog.get("/annas-archive-containers.html")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def aac():
+    return render_template("blog/annas-archive-containers.html")
 @blog.get("/backed-up-the-worlds-largest-comics-shadow-lib.html")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def comics():
@@ -120,6 +124,13 @@ def rss_xml():
             description = "The largest comic books shadow library in the world had a single point of failure.. until today.",
             author = "Anna and the team",
             pubDate = datetime.datetime(2023,5,13),
+        ),
+        Item(
+            title = "Anna’s Archive Containers (AAC): standardizing releases from the world’s largest shadow library",
+            link = "https://annas-blog.org/annas-archive-containers.html",
+            description = "Anna’s Archive has become the largest shadow library in the world, requiring us to standardize our releases.",
+            author = "Anna and the team",
+            pubDate = datetime.datetime(2023,8,15),
         ),
     ]
 

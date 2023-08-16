@@ -287,6 +287,11 @@ def login_page():
 def about_page():
     return render_template("page/about.html", header_active="home/about")
 
+@page.get("/security")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def security_page():
+    return render_template("page/security.html", header_active="home/security")
+
 @page.get("/mobile")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def mobile_page():

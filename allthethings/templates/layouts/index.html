@@ -54,14 +54,6 @@
         <!-- <div>
           We now have a <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://t.me/annasarchiveorg">Telegram</a> channel. Join us and discuss the future of Anna’s Archive.<br/>You can still also follow us on <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://twitter.com/AnnaArchivist">Twitter</a> and <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://www.reddit.com/r/Annas_Archive">Reddit</a>.
         </div> -->
-        <div class="max-w-[850px] mx-auto px-4 py-2 text-[#fff] flex justify-between bg-[#0160a7]">
-          <div>
-            Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please contact us at <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>.
-          </div>
-          <div>
-            <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
-          </div>
-        </div>
         <!-- <div class="max-w-[850px] mx-auto px-4 py-2">
           <div class="flex justify-between mb-2">
             <div>{{ gettext('layout.index.banners.comics_fundraiser.text') }}</div>
@@ -71,10 +63,31 @@
             {% include 'macros/fundraiser.html' %}
           </div>
         </div> -->
+        <!-- <div class="max-w-[850px] mx-auto px-4 py-2 text-[#fff] flex justify-between bg-[#0160a7]">
+          <div>
+            Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please contact us at <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>.
+          </div>
+          <div>
+            <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
+          </div>
+        </div> -->
+        <div class="max-w-[850px] mx-auto text-[#fff] bg-[#0160a7]">
+          <div class="flex justify-between">
+            <div class="px-4 py-2">
+              New technical blog post: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers (AAC): standardizing releases from the world’s largest shadow library</a>
+            </div>
+            <div class="px-4 py-2">
+              <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
+            </div>
+          </div>
+          <div class="px-4 py-2 bg-green-500">
+            Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please contact us at <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>.
+          </div>
+        </div>
       </div>
       <script>
         (function() {
-          var latestTopBannerType = '5';
+          var latestTopBannerType = '6';
           var topBannerMatch = document.cookie.match(/top_banner_hidden=([^$ ;}]+)/);
           var topBannerType = '';
           if (topBannerMatch) {
@@ -322,6 +335,7 @@
                 {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% elif header_active == 'home/torrents' %}Torrents
                 {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
+                {% elif header_active == 'home/security' %}Security
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
@@ -330,6 +344,7 @@
                 {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% elif header_active == 'home/torrents' %}Torrents
                 {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
+                {% elif header_active == 'home/security' %}Security
                 {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
@@ -412,7 +427,9 @@
           <a class="custom-a hover:text-[#333]" href="/about">{{ gettext('layout.index.footer.list1.about') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.footer.list1.donate') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.footer.list1.datasets') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="/torrents">Torrents</a><br>
           <a class="custom-a hover:text-[#333]" href="/mobile">{{ gettext('layout.index.footer.list1.mobile') }}</a><br>
+          <a class="custom-a hover:text-[#333]" href="/security">Security</a><br>
           <select class="p-1 rounded text-gray-500 mt-1" onchange="handleChangeLang(event)">
             {% for lang_code, lang_name in g.languages %}
               {% if g.domain_lang_code == lang_code %}
