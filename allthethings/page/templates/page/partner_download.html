@@ -9,7 +9,7 @@
 {% block body %}
   <h2 class="mt-4 mb-1 text-3xl font-bold">{{ gettext('page.partner_download.header') }}</h2>
   <p class="mb-4">
-    {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" target="_blank">' + url + '</a>') | safe)) }}
+    {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="break-all">' + url + '</a>') | safe)) }}
   </p>
 
   {% if slow_download %}

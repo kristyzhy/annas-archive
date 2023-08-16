@@ -2058,6 +2058,22 @@ def add_partner_servers(path, modifier, aarecord, additional):
     additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/2', ''))
     additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
 
+def max_length_with_word_boundary(sentence, max_len):
+    str_split = sentence.split(' ')
+    output_index = 0
+    output_total = 0
+    for item in str_split:
+        item = item.strip()
+        len_item = len(item)+1 # Also count a trailing space
+        if output_total+len_item-1 > max_len: # But don't count the very last trailing space here
+            break
+        output_index += 1
+        output_total += len_item
+    if output_index == 0:
+        return sentence[0:max_len].strip()
+    else:
+        return ' '.join(str_split[0:output_index]).strip()
+
 def get_additional_for_aarecord(aarecord):
     additional = {}
     additional['most_likely_language_name'] = (get_display_name_for_lang(aarecord['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if aarecord['file_unified_data'].get('most_likely_language_code', None) else '')
@@ -2113,15 +2129,21 @@ def get_additional_for_aarecord(aarecord):
     }
 
     filename_info = [item for item in [
-            aarecord['file_unified_data'].get('title_best', None) or '',
-            aarecord['file_unified_data'].get('author_best', None) or '',
-            aarecord['file_unified_data'].get('edition_varia_best', None) or '',
-            aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
-            aarecord['file_unified_data'].get('publisher_best', None) or '',
+            max_length_with_word_boundary(aarecord['file_unified_data'].get('title_best', None) or aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '', 100),
+            max_length_with_word_boundary(aarecord['file_unified_data'].get('author_best', None) or '', 100),
+            max_length_with_word_boundary(aarecord['file_unified_data'].get('edition_varia_best', None) or '', 100),
+            max_length_with_word_boundary(aarecord['file_unified_data'].get('publisher_best', None) or '', 100),
         ] if item != '']
-    filename_slug = slugify.slugify(" ".join(filename_info), allow_unicode=True, max_length=50, word_boundary=True)
+    filename_slug = max_length_with_word_boundary(" -- ".join(filename_info), 200)
+    if filename_slug.endswith(' --'):
+        filename_slug = filename_slug[0:-len(' --')]
     filename_extension = aarecord['file_unified_data'].get('extension_best', None) or ''    
-    additional['filename'] = f"{filename_slug}--annas-archive.{filename_extension}"
+    filename_code = ''
+    for code in additional['codes']:
+        if code['key'] in ['isbn13', 'isbn10', 'doi', 'issn']:
+            filename_code = f" -- {code['value']}"
+            break
+    additional['filename'] = urllib.parse.quote(f"{filename_slug}{filename_code} -- Anna’s Archive.{filename_extension}")
 
     additional['download_urls'] = []
     additional['fast_partner_urls'] = []
