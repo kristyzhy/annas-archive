@@ -1349,53 +1349,39 @@ def lgli_file_json(lgli_file_id):
             return "{}", 404
         return nice_json(lgli_file_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
+def get_isbn_dicts(session, canonical_isbn13s):
+    isbndb13_grouped = collections.defaultdict(list)
+    for row in session.connection().execute(select(IsbndbIsbns).where(IsbndbIsbns.isbn13.in_(canonical_isbn13s))).all():
+        isbndb13_grouped[row['isbn13']].append(row)
+    isbndb10_grouped = collections.defaultdict(list)
+    isbn10s = list(filter(lambda x: x is not None, [isbnlib.to_isbn10(isbn13) for isbn13 in canonical_isbn13s]))
+    if len(isbn10s) > 0:
+        for row in session.connection().execute(select(IsbndbIsbns).where(IsbndbIsbns.isbn10.in_(isbn10s))).all():
+            # ISBNdb has a bug where they just chop off the prefix of ISBN-13, which is incorrect if the prefix is anything
+            # besides "978"; so we double-check on this.
+            if row['isbn13'][0:3] == '978':
+                isbndb10_grouped[row['isbn10']].append(row)
 
-@page.get("/isbn/<string:isbn_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def isbn_page(isbn_input):
-    isbn_input = isbn_input[0:20]
+    isbn_dicts = []
+    for canonical_isbn13 in canonical_isbn13s:
+        isbn13_mask = isbnlib.mask(canonical_isbn13)
+        isbn_dict = {
+            "ean13": isbnlib.ean13(canonical_isbn13),
+            "isbn10": isbnlib.to_isbn10(canonical_isbn13),
+            "doi": isbnlib.doi(canonical_isbn13),
+            "info": isbnlib.info(canonical_isbn13),
+            "mask": isbn13_mask,
+            "mask_split": isbn13_mask.split('-'),
+        }
+        if isbn_dict['isbn10']:
+            isbn_dict['mask10'] = isbnlib.mask(isbn_dict['isbn10'])
 
-    canonical_isbn13 = allthethings.utils.normalize_isbn(isbn_input)
-    if canonical_isbn13 == '':
-        # TODO, check if a different prefix would help, like in
-        # https://github.com/inventaire/isbn3/blob/d792973ac0e13a48466d199b39326c96026b7fc3/lib/audit.js
-        return render_template("page/isbn.html", header_active="search", isbn_input=isbn_input)
-
-    if canonical_isbn13 != isbn_input:
-        return redirect(f"/isbn/{canonical_isbn13}", code=301)
-
-    barcode_svg = ''
-    try:
-        barcode_bytesio = io.BytesIO()
-        barcode.ISBN13(canonical_isbn13, writer=barcode.writer.SVGWriter()).write(barcode_bytesio)
-        barcode_bytesio.seek(0)
-        barcode_svg = barcode_bytesio.read().decode('utf-8').replace('fill:white', 'fill:transparent').replace(canonical_isbn13, '')
-    except Exception as err:
-        print(f"Error generating barcode: {err}")
-
-    isbn13_mask = isbnlib.mask(canonical_isbn13)
-    isbn_dict = {
-        "ean13": isbnlib.ean13(canonical_isbn13),
-        "isbn10": isbnlib.to_isbn10(canonical_isbn13),
-        "doi": isbnlib.doi(canonical_isbn13),
-        "info": isbnlib.info(canonical_isbn13),
-        "mask": isbn13_mask,
-        "mask_split": isbn13_mask.split('-'),
-        "barcode_svg": barcode_svg,
-    }
-    if isbn_dict['isbn10']:
-        isbn_dict['mask10'] = isbnlib.mask(isbn_dict['isbn10'])
-
-    with engine.connect() as conn:
         isbndb_books = {}
         if isbn_dict['isbn10']:
-            isbndb10_all = conn.execute(select(IsbndbIsbns).where(IsbndbIsbns.isbn10 == isbn_dict['isbn10']).limit(100)).all()
+            isbndb10_all = isbndb10_grouped[isbn_dict['isbn10']]
             for isbndb10 in isbndb10_all:
-                # ISBNdb has a bug where they just chop off the prefix of ISBN-13, which is incorrect if the prefix is anything
-                # besides "978"; so we double-check on this.
-                if isbndb10['isbn13'][0:3] == '978':
-                    isbndb_books[isbndb10['isbn13'] + '-' + isbndb10['isbn10']] = { **isbndb10, 'source_isbn': isbn_dict['isbn10'], 'matchtype': 'ISBN-10' }
-        isbndb13_all = conn.execute(select(IsbndbIsbns).where(IsbndbIsbns.isbn13 == canonical_isbn13).limit(100)).all()
+                isbndb_books[isbndb10['isbn13'] + '-' + isbndb10['isbn10']] = { **isbndb10, 'source_isbn': isbn_dict['isbn10'], 'matchtype': 'ISBN-10' }
+        isbndb13_all = isbndb13_grouped[canonical_isbn13]
         for isbndb13 in isbndb13_all:
             key = isbndb13['isbn13'] + '-' + isbndb13['isbn10']
             if key in isbndb_books:
@@ -1413,19 +1399,60 @@ def isbn_page(isbn_input):
         for isbndb_dict in isbn_dict['isbndb']:
             isbndb_dict['language_codes'] = get_bcp47_lang_codes(isbndb_dict['json'].get('language') or '')
             isbndb_dict['languages_and_codes'] = [(get_display_name_for_lang(lang_code, allthethings.utils.get_full_lang_code(get_locale())), lang_code) for lang_code in isbndb_dict['language_codes']]
+            isbndb_dict['edition_varia_normalized'] = ", ".join([item for item in [
+                str(isbndb_dict['json'].get('edition') or '').strip(),
+                str(isbndb_dict['json'].get('date_published') or '').split('T')[0].strip(),
+            ] if item != ''])
+            isbndb_dict['title_normalized'] = max([isbndb_dict['json'].get('title') or '', isbndb_dict['json'].get('title_long') or ''], key=len)
+            isbndb_dict['year_normalized'] = ''
+            potential_year = re.search(r"(\d\d\d\d)", str(isbndb_dict['json'].get('date_published') or '').split('T')[0])
+            if potential_year is not None:
+                isbndb_dict['year_normalized'] = potential_year[0]
 
+        isbn_dicts.append(isbn_dict)
+
+    return isbn_dicts
+
+
+@page.get("/isbn/<string:isbn_input>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def isbn_page(isbn_input):
+    isbn_input = isbn_input[0:20]
+
+    canonical_isbn13 = allthethings.utils.normalize_isbn(isbn_input)
+    if canonical_isbn13 == '':
+        # TODO, check if a different prefix would help, like in
+        # https://github.com/inventaire/isbn3/blob/d792973ac0e13a48466d199b39326c96026b7fc3/lib/audit.js
+        return render_template("page/isbn.html", header_active="search", isbn_input=isbn_input)
+
+    if canonical_isbn13 != isbn_input:
+        return redirect(f"/isbn/{canonical_isbn13}", code=301)
+
+    with Session(engine) as session:
+        isbn13_mask = isbnlib.mask(canonical_isbn13)
+        isbn_dict = get_isbn_dicts(session, [canonical_isbn13])[0]
+        isbn_dict['additional'] = {}
+
+        barcode_svg = ''
+        try:
+            barcode_bytesio = io.BytesIO()
+            barcode.ISBN13(canonical_isbn13, writer=barcode.writer.SVGWriter()).write(barcode_bytesio)
+            barcode_bytesio.seek(0)
+            isbn_dict['additional']['barcode_svg'] = barcode_bytesio.read().decode('utf-8').replace('fill:white', 'fill:transparent').replace(canonical_isbn13, '')
+        except Exception as err:
+            print(f"Error generating barcode: {err}")
+    
         if len(isbn_dict['isbndb']) > 0:
-            isbn_dict['top_box'] = {
-                'cover_url': isbn_dict['isbndb'][0]['json'].get('image', None) or '',
+            isbn_dict['additional']['top_box'] = {
+                'cover_url': isbn_dict['isbndb'][0]['json'].get('image') or '',
                 'top_row': isbn_dict['isbndb'][0]['languages_and_codes'][0][0] if len(isbn_dict['isbndb'][0]['languages_and_codes']) > 0 else '',
-                'title': isbn_dict['isbndb'][0]['json'].get('title', None) or '',
+                'title': isbn_dict['isbndb'][0]['title_normalized'],
                 'publisher_and_edition': ", ".join([item for item in [
-                        str(isbn_dict['isbndb'][0]['json'].get('publisher', None) or '').strip(),
-                        str(isbn_dict['isbndb'][0]['json'].get('edition', None) or '').strip(),
-                        str(isbn_dict['isbndb'][0]['json'].get('date_published', None) or '').strip(),
-                    ] if item != '']),
-                'author': ', '.join(isbn_dict['isbndb'][0]['json'].get('authors', None) or []),
-                'description': '\n\n'.join([strip_description(isbndb_dict['json'].get('synopsis') or ''), strip_description(isbndb_dict['json'].get('overview') or '')]).strip(),
+                    str(isbn_dict['isbndb'][0]['json'].get('publisher') or '').strip(),
+                    str(isbn_dict['isbndb'][0]['json'].get('edition_varia_normalized') or '').strip(),
+                ] if item != '']),
+                'author': ', '.join(isbn_dict['isbndb'][0]['json'].get('authors') or []),
+                'description': '\n\n'.join([strip_description(isbn_dict['isbndb'][0]['json'].get('synopsis') or ''), strip_description(isbn_dict['isbndb'][0]['json'].get('overview') or '')]).strip(),
             }
 
         # TODO: sort the results again by best matching language. But we should maybe also look at other matches like title, author, etc, in case we have mislabeled ISBNs.
@@ -1443,7 +1470,7 @@ def isbn_page(isbn_input):
             timeout=ES_TIMEOUT,
         )
         search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
-        isbn_dict['search_aarecords'] = search_aarecords
+        isbn_dict['additional']['search_aarecords'] = search_aarecords
         
         return render_template(
             "page/isbn.html",
@@ -1608,7 +1635,9 @@ def get_aarecords_mysql(session, aarecord_ids):
     aa_lgli_comics_2022_08_file_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_aa_lgli_comics_2022_08_file_dicts(session, "md5", split_ids['md5']))
     ia_record_dicts = dict(('md5:' + item['aa_ia_file']['md5'].lower(), item) for item in get_ia_record_dicts(session, "md5", split_ids['md5']) if item.get('aa_ia_file') is not None)
 
+    # First pass, so we can fetch more dependencies.
     aarecords = []
+    canonical_isbn13s = []
     for aarecord_id in aarecord_ids:
         aarecord = {}
         aarecord['id'] = aarecord_id
@@ -1623,13 +1652,43 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(aarecord_id)
         aarecord['ia_record'] = ia_record_dicts.get(aarecord_id)
 
+        lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
+
+        aarecord['file_unified_data'] = {}
+        aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
+            ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['aac_zlib3_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
+            *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
+        ])
+        for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+            canonical_isbn13s.append(canonical_isbn13)
+
+        aarecords.append(aarecord)
+
+    isbn_dicts = {item['ean13']: item for item in get_isbn_dicts(session, canonical_isbn13s)}
+
+    # Second pass
+    for aarecord in aarecords:
+        aarecord_id = aarecord['id']
+        lgli_single_edition = aarecord['lgli_file']['editions'][0] if len((aarecord.get('lgli_file') or {}).get('editions') or []) == 1 else None
+        lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
+
+        isbndb_all = []
+        for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+            for isbndb in isbn_dicts[canonical_isbn13]['isbndb']:
+                isbndb_all.append(isbndb)
+        if len(isbndb_all) > 5:
+            isbndb_all = []
+
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
             aarecord['ipfs_infos'].append({ 'ipfs_cid': aarecord['lgrsnf_book']['ipfs_cid'].lower(), 'from': 'lgrsnf' })
         if aarecord['lgrsfic_book'] and len(aarecord['lgrsfic_book'].get('ipfs_cid') or '') > 0:
             aarecord['ipfs_infos'].append({ 'ipfs_cid': aarecord['lgrsfic_book']['ipfs_cid'].lower(), 'from': 'lgrsfic' })
-        
-        aarecord['file_unified_data'] = {}
 
         original_filename_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('locator') or '').strip(),
@@ -1694,9 +1753,6 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['filesize_best'] = zlib_book_filesize
         aarecord['file_unified_data']['filesize_additional'] = [s for s in dict.fromkeys(filter(lambda fz: fz > 0, filesize_multiple)) if s != aarecord['file_unified_data']['filesize_best']]
 
-        lgli_single_edition = aarecord['lgli_file']['editions'][0] if len((aarecord.get('lgli_file') or {}).get('editions') or []) == 1 else None
-        lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
-
         title_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('title') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('title') or '').strip(),
@@ -1709,6 +1765,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage') or [])]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or [])]
+        title_multiple += [(isbndb.get('title_normalized') or '').strip() for isbndb in isbndb_all]
         if aarecord['file_unified_data']['title_best'] == '':
             aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
         aarecord['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != aarecord['file_unified_data']['title_best']]
@@ -1723,6 +1780,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
+        author_multiple += [", ".join(isbndb['json'].get('authors') or []) for isbndb in isbndb_all]
         if aarecord['file_unified_data']['author_best'] == '':
             aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
         aarecord['file_unified_data']['author_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(author_multiple) if s != aarecord['file_unified_data']['author_best']]
@@ -1737,6 +1795,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
+        publisher_multiple += [(isbndb['json'].get('publisher') or '').strip() for isbndb in isbndb_all]
         if aarecord['file_unified_data']['publisher_best'] == '':
             aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         aarecord['file_unified_data']['publisher_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(publisher_multiple) if s != aarecord['file_unified_data']['publisher_best']]
@@ -1751,6 +1810,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
+        edition_varia_multiple += [(isbndb.get('edition_varia_normalized') or '').strip() for isbndb in isbndb_all]
         if aarecord['file_unified_data']['edition_varia_best'] == '':
             aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         aarecord['file_unified_data']['edition_varia_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(edition_varia_multiple) if s != aarecord['file_unified_data']['edition_varia_best']]
@@ -1768,6 +1828,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple_raw]
         aarecord['file_unified_data']['year_best'] = max(year_multiple, key=len)
         year_multiple += [(edition.get('year_normalized') or '').strip() for edition in lgli_all_editions]
+        year_multiple += [(isbndb.get('year_normalized') or '').strip() for isbndb in isbndb_all]
         for year in year_multiple:
             # If a year appears in edition_varia_best, then use that, for consistency.
             if year != '' and year in aarecord['file_unified_data']['edition_varia_best']:
@@ -1805,12 +1866,17 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((lgli_single_edition or {}).get('stripped_description') or '').strip()[0:5000],
             ((aarecord['aac_zlib3_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((aarecord['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
-            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000],
         ]
         aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
+        stripped_description_multiple += [(isbndb['json'].get('synposis') or '').strip()[0:5000] for isbndb in isbndb_all]
+        stripped_description_multiple += [(isbndb['json'].get('overview') or '').strip()[0:5000] for isbndb in isbndb_all]
         if aarecord['file_unified_data']['stripped_description_best'] == '':
             aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
+        ia_descr = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000]
+        if len(ia_descr) > 0:
+            stripped_description_multiple += [ia_descr]
+            aarecord['file_unified_data']['stripped_description_best'] += '\n\n' + ia_descr
         aarecord['file_unified_data']['stripped_description_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(stripped_description_multiple) if s != aarecord['file_unified_data']['stripped_description_best']]
 
         aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
@@ -1823,6 +1889,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         ])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
+        if len(aarecord['file_unified_data']['language_codes']) == 0:
+            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(isbndb.get('language_codes') or []) for isbndb in isbndb_all])
 
         language_detection = ''
         if len(aarecord['file_unified_data']['stripped_description_best']) > 20:
@@ -1846,15 +1914,6 @@ def get_aarecords_mysql(session, aarecord_ids):
         elif len(language_detection) > 0:
             aarecord['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
 
-        aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
-            ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
-            ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
-            ((aarecord['aac_zlib3_book'] or {}).get('identifiers_unified') or {}),
-            ((aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
-            ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
-            *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
-            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
-        ])
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('classifications_unified') or {}),
@@ -2012,8 +2071,6 @@ def get_aarecords_mysql(session, aarecord_ids):
         # At the very end
         aarecord['search_only_fields']['search_score_base'] = float(aarecord_score_base(aarecord))
         aarecord['search_only_fields']['search_score_base_rank'] = aarecord['search_only_fields']['search_score_base']
-
-        aarecords.append(aarecord)
 
     return aarecords
 
