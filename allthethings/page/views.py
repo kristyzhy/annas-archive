@@ -676,9 +676,9 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict['aa_ia_derived'] = {}
         ia_record_dict['aa_ia_derived']['original_filename'] = ia_record_dict['ia_id'] + '.pdf'
         ia_record_dict['aa_ia_derived']['cover_url'] = f"https://archive.org/download/{ia_record_dict['ia_id']}/__ia_thumb.jpg"
-        ia_record_dict['aa_ia_derived']['title'] = ' '.join(extract_list_from_ia_json_field(ia_record_dict, 'title'))
-        ia_record_dict['aa_ia_derived']['author'] = '; '.join(extract_list_from_ia_json_field(ia_record_dict, 'creator') + extract_list_from_ia_json_field(ia_record_dict, 'associated-names'))
-        ia_record_dict['aa_ia_derived']['publisher'] = '; '.join(extract_list_from_ia_json_field(ia_record_dict, 'publisher'))
+        ia_record_dict['aa_ia_derived']['title'] = (' '.join(extract_list_from_ia_json_field(ia_record_dict, 'title'))).replace(' : ', ': ')
+        ia_record_dict['aa_ia_derived']['author'] = ('; '.join(extract_list_from_ia_json_field(ia_record_dict, 'creator') + extract_list_from_ia_json_field(ia_record_dict, 'associated-names'))).replace(' : ', ': ')
+        ia_record_dict['aa_ia_derived']['publisher'] = ('; '.join(extract_list_from_ia_json_field(ia_record_dict, 'publisher'))).replace(' : ', ': ')
         ia_record_dict['aa_ia_derived']['combined_comments'] = '\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'notes') + extract_list_from_ia_json_field(ia_record_dict, 'comment') + extract_list_from_ia_json_field(ia_record_dict, 'curation'))
         ia_record_dict['aa_ia_derived']['subjects'] = '\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'subject') + extract_list_from_ia_json_field(ia_record_dict, 'level_subject'))
         ia_record_dict['aa_ia_derived']['stripped_description_and_references'] = strip_description('\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'description') + extract_list_from_ia_json_field(ia_record_dict, 'references')))
