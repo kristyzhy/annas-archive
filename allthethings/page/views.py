@@ -1552,20 +1552,25 @@ def get_random_aarecord_elasticsearch():
 
 def aarecord_score_base(aarecord):
     if len(aarecord['file_unified_data'].get('problems') or []) > 0:
-        return 0.0
+        return 0.01
 
     score = 10000.0
+    # Filesize of >0.5MB is overriding everything else.
     if (aarecord['file_unified_data'].get('filesize_best') or 0) > 500000:
         score += 1000.0
     # If we're not confident about the language, demote.
     if len(aarecord['file_unified_data'].get('language_codes') or []) == 0:
         score -= 2.0
+    # Bump English a little bit regardless of the user's language
+    if (aarecord['search_only_fields']['search_most_likely_language_code'] == 'en'):
+        score += 5.0
     if (aarecord['file_unified_data'].get('extension_best') or '') in ['epub', 'pdf']:
         score += 10.0
     if len(aarecord['file_unified_data'].get('cover_url_best') or '') > 0:
         score += 3.0
     if (aarecord['file_unified_data'].get('has_aa_downloads') or 0) > 0:
         score += 5.0
+    # Don't bump IA too much.
     if ((aarecord['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0) and (aarecord['search_only_fields']['search_record_sources'] != ['ia']):
         score += 3.0
     if len(aarecord['file_unified_data'].get('title_best') or '') > 0:
@@ -2006,6 +2011,7 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         # At the very end
         aarecord['search_only_fields']['search_score_base'] = float(aarecord_score_base(aarecord))
+        aarecord['search_only_fields']['search_score_base_rank'] = aarecord['search_only_fields']['search_score_base']
 
         aarecords.append(aarecord)
 
@@ -2430,6 +2436,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
             )
 
 
+# TODO: Remove search_most_likely_language_code == 'en' when we do a refresh, since this is now baked
+# into the base score.
 sort_search_aarecords_script = """
 float score = params.boost + $('search_only_fields.search_score_base', 0);
 
