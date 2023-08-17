@@ -2362,8 +2362,8 @@ def md5_fast_download(md5_input, path_index, domain_index):
         slow_download=False,
     )
 
-def compute_download_speed(targeted_seconds, filesize):
-    return min(300, max(10, int(filesize/1000/targeted_seconds)))
+def compute_download_speed(targeted_seconds, filesize, minimum, maximum):
+    return min(maximum, max(minimum, int(filesize/1000/targeted_seconds)))
 
 @page.get("/slow_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
 @allthethings.utils.no_cache()
@@ -2371,34 +2371,61 @@ def md5_slow_download(md5_input, path_index, domain_index):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
 
+    data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
+    account_id = allthethings.utils.get_account_id(request.cookies)
+
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
         return redirect(f"/md5/{md5_input}", code=302)
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
-        if len(aarecords) == 0:
-            return render_template("page/md5.html", header_active="search", md5_input=md5_input)
-        aarecord = aarecords[0]
-        try:
-            domain = ['momot.rs', 'ktxr.rs', 'nrzr.li'][domain_index]
-            path_info = aarecord['additional']['partner_url_paths'][path_index]
-        except:
-            return redirect(f"/md5/{md5_input}", code=302)
-        speed = compute_download_speed(path_info['targeted_seconds'], aarecord['file_unified_data']['filesize_best'])
-        url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'], domain)
+        with Session(mariapersist_engine) as mariapersist_session:
+            aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
+            if len(aarecords) == 0:
+                return render_template("page/md5.html", header_active="search", md5_input=md5_input)
+            aarecord = aarecords[0]
+            try:
+                domain = ['momot.rs', 'ktxr.rs', 'nrzr.li'][domain_index]
+                path_info = aarecord['additional']['partner_url_paths'][path_index]
+            except:
+                return redirect(f"/md5/{md5_input}", code=302)
 
-    account_id = allthethings.utils.get_account_id(request.cookies)
-    with Session(mariapersist_engine) as mariapersist_session:
+            cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
+            cursor.execute('SELECT COUNT(DISTINCT md5) AS count FROM mariapersist_slow_download_access WHERE timestamp > (NOW() - INTERVAL 24 HOUR) AND SUBSTRING(ip, 1, 8) = %(data_ip)s LIMIT 1', { "data_ip": data_ip })
+            download_count_from_ip = cursor.fetchone()['count']
+            minimum = 30
+            maximum = 300
+            targeted_seconds_multiplier = 1.0
+            warning = False
+            if download_count_from_ip > 500:
+                targeted_seconds_multiplier = 3.0
+                minimum = 3
+                maximum = 50
+                warning = True
+            elif download_count_from_ip > 300:
+                targeted_seconds_multiplier = 2.0
+                minimum = 5
+                maximum = 100
+                warning = True
+            elif download_count_from_ip > 150:
+                targeted_seconds_multiplier = 1.5
+                minimum = 10
+                maximum = 150
+                warning = False
+
+            speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
+
+            url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'], domain)
+
             data_md5 = bytes.fromhex(canonical_md5)
-            data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
             mariapersist_session.connection().execute(text('INSERT IGNORE INTO mariapersist_slow_download_access (md5, ip, account_id) VALUES (:md5, :ip, :account_id)').bindparams(md5=data_md5, ip=data_ip, account_id=account_id))
             mariapersist_session.commit()
 
-    return render_template(
-        "page/partner_download.html",
-        header_active="search",
-        url=url,
-        slow_download=True,
-    )
+            return render_template(
+                "page/partner_download.html",
+                header_active="search",
+                url=url,
+                slow_download=True,
+                warning=warning
+            )
 
 
 sort_search_aarecords_script = """
