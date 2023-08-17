@@ -1506,6 +1506,9 @@ def get_aarecords_elasticsearch(session, aarecord_ids):
     # Filter out bad data
     aarecord_ids = [val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]
 
+    if len(aarecord_ids) == 0:
+        return []
+
     # Uncomment the following line to use MySQL directly; useful for local development.
     # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
