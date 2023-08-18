@@ -1543,7 +1543,7 @@ def get_aarecords_elasticsearch(session, aarecord_ids):
     # Uncomment the following line to use MySQL directly; useful for local development.
     # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
-    search_results_raw = es.mget(index="aarecords", ids=aarecord_ids)
+    search_results_raw = es.mget(docs=[{'_id': aarecord_id, '_index': allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':')[0]] } for aarecord_id in aarecord_ids ])
     return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['docs'] if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
@@ -1757,6 +1757,10 @@ def get_aarecords_mysql(session, aarecord_ids):
             (aarecord['lgli_file'] or {}).get('filesize') or 0,
         ]
         aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
+        if aarecord['ia_record'] is not None:
+            filesize_multiple.append(max(int(file['size']) for file in aarecord['ia_record']['json']['aa_shorter_files']))
+        if aarecord['file_unified_data']['filesize_best'] == 0:
+            aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
         zlib_book_filesize = (aarecord['zlib_book'] or {}).get('filesize') or 0
         if zlib_book_filesize > 0:
             # If we have a zlib_book with a `filesize`, then that is leading, since we measured it ourselves.
@@ -2317,7 +2321,8 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('ia_record') is not None:
         ia_id = aarecord['ia_record']['ia_id']
         additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", ''))
-    additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
+    if aarecord['id'].startswith('md5:'):
+        additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
     return additional
 
@@ -2347,26 +2352,47 @@ def md5_page(md5_input):
 
         render_fields = {
             "header_active": "search",
-            "md5_input": md5_input,
+            "aarecord_id": aarecord['id'],
+            "aarecord_id_split": aarecord['id'].split(':'),
             "aarecord": aarecord,
-            "md5_content_type_mapping": get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale())),
             "md5_problem_type_mapping": get_md5_problem_type_mapping(),
             "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
         }
-        
         return render_template("page/aarecord.html", **render_fields)
 
-@page.get("/db/aarecord/md5:<string:md5_input>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
-def md5_json(md5_input):
+@page.get("/ia/<string:ia_input>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def ia_page(ia_input):
     with Session(engine) as session:
-        md5_input = md5_input[0:50]
-        canonical_md5 = md5_input.strip().lower()[0:32]
-        if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-            return "{}", 404
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        count = cursor.execute('SELECT md5 FROM aa_ia_2023_06_files WHERE ia_id = %(ia_input)s LIMIT 1', { "ia_input": ia_input })
+        if count > 0:
+            md5 = cursor.fetchone()['md5']
+            return redirect(f"/md5/{md5}", code=301)
 
+        aarecords = get_aarecords_elasticsearch(session, [f"ia:{ia_input}"])
+
+        if len(aarecords) == 0:
+            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ia_input)
+
+        aarecord = aarecords[0]
+
+        render_fields = {
+            "header_active": "search",
+            "aarecord_id": aarecord['id'],
+            "aarecord_id_split": aarecord['id'].split(':'),
+            "aarecord": aarecord,
+            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
+            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
+        }
+        return render_template("page/aarecord.html", **render_fields)
+
+@page.get("/db/aarecord/<string:aarecord_id>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+def md5_json(aarecord_id):
+    with Session(engine) as session:
         with Session(engine) as session:
-            aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
+            aarecords = get_aarecords_elasticsearch(session, [aarecord_id])
             if len(aarecords) == 0:
                 return "{}", 404
             
@@ -2379,6 +2405,7 @@ def md5_json(md5_input):
                 "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/file/<f_id>.json"]),
                 "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
                 "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
+                "ia_record": ("before", ["Source data at: https://annas-archive.org/db/ia/<ia_id>.json"]),
                 "aa_lgli_comics_2022_08_file": ("before", ["File from the Libgen.li comics backup by Anna's Archive",
                                                            "See https://annas-archive.org/datasets/libgen_li",
                                                            "No additional source data beyond what is shown here."]),
@@ -2539,11 +2566,6 @@ search_query_aggs = {
     },
 }
 
-SEARCH_INDEX_SHORT_LONG_MAPPING = {
-    '': 'aarecords',
-    'digital_lending': 'aarecords_digital_lending',
-}
-
 @functools.cache
 def all_search_aggs(display_lang, search_index_long):
     search_results_raw = es.search(index=search_index_long, size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT)
@@ -2607,9 +2629,9 @@ def search_page():
     }
     sort_value = request.args.get("sort", "").strip()
     search_index_short = request.args.get("index", "").strip()
-    if search_index_short not in SEARCH_INDEX_SHORT_LONG_MAPPING:
+    if search_index_short not in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING:
         search_index_short = ""
-    search_index_long = SEARCH_INDEX_SHORT_LONG_MAPPING[search_index_short]
+    search_index_long = allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING[search_index_short]
 
     if bool(re.match(r"^[a-fA-F\d]{32}$", search_input)):
         return redirect(f"/md5/{search_input}", code=302)

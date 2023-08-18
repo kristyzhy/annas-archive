@@ -56,100 +56,20 @@
     </script>
   </div>
 
-  {% if (aarecord.file_unified_data.problems | length) > 0 %}
-    <div>{{ gettext('page.md5.box.issues.text1') }}</div>
-    <ul class="list-inside mb-4">
-      {% for problem in aarecord.file_unified_data.problems %}
-        <li>- {{ md5_problem_type_mapping[problem.type] }}{% if problem.descr %} ("{{problem.descr}}"){% endif %}</li>
-        {% if problem.better_md5 %}
-          <li>- A better version of this file might be available at <a href="/md5/{{ problem.better_md5 | lower | urlencode }}">/md5/{{ problem.better_md5 | lower }}</a></li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-
-    <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
-  {% endif %}
-
-  {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
-    <div class="mb-4">
-      <div class="js-fast-download-no-member-header">{{ gettext('page.md5.box.download.header_fast_no_member', a_membership=('href="/donate"' | safe)) }}</div>
-      <div class="hidden js-fast-download-member-header-remaining">{{ gettext('page.md5.box.download.header_fast_member', remaining='XXXXXX') }}</div>
-      <div class="hidden js-fast-download-member-header-no-remaining">{{ gettext('page.md5.box.download.header_fast_member_no_remaining', a_membership=('href="/donate" target="_blank"' | safe)) }}</div>
-      <div class="hidden js-fast-download-member-header-valid-for">{{ gettext('page.md5.box.download.header_fast_member_valid_for') }}</div>
-
-      <ul class="mb-4 js-fast-download-links-disabled">
-        {% for label, url, extra in aarecord.additional.fast_partner_urls %}
-          <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=label, extra='') }}</li>
-        {% endfor %}
-      </ul>
-      <ul class="mb-4 hidden js-fast-download-links-enabled">
-        {% for label, url, extra in aarecord.additional.fast_partner_urls %}
-          <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-
-    <div class="mb-4 js-fast-download-member hidden">
-
-    </div>
-  {% endif %}
-
-  <div class="mb-6">
-    {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
-      <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div>
-    {% else %}
-      <div class="font-bold">{{ gettext('page.md5.box.download.header_generic') }}</div>
-    {% endif %}
-
-    {% if (aarecord.additional.download_urls | length) > 0 %}
-      <ul class="mb-4">
-        {% for label, url, extra in aarecord.additional.download_urls %}
-          <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" {% if not url.startswith("/") }target="_blank"{% endif %} class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
-        {% endfor %}
-      </ul>
-      {% if (aarecord.file_unified_data.problems | length) == 0 %}
-        <div class="mb-4">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
-      {% endif %}
-
-      <script>
-        (function() {
-          const md5 = {{ md5_input | tojson }};
-          for (const el of document.querySelectorAll(".js-download-link")) {
-            // Increase counter when clicked.
-            el.addEventListener("click", function() {
-              try {
-                if (window.localStorage['md5_download_counted_' + md5] === "1") {
-                  return;
-                }
-                window.localStorage['md5_download_counted_' + md5] = "1";
-              } catch(e) {
-                console.error("Error with localStorage: ", e);
-              }
-              navigator.sendBeacon("/dyn/downloads/increment/" + md5);
-            });
-          }
-        })();
-      </script>
-    {% else %}
-      <p>{{ gettext('page.md5.box.download.no_found') }}</p>
-    {% endif %}
-  </div>
-
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
-
-  <div lang="en">
-    <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
+  <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
+    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] == 'md5' %}Downloads{% elif aarecord_id_split[0] == 'ia' %}Borrow{% endif %} ({{ (aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length) }})</button>
+    {% if aarecord_id_split[0] == 'md5' %}
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-discussion" aria-selected="false" id="md5-tab-discussion" aria-controls="md5-panel-discussion" tabindex="0">Discussion (–)</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">Lists (–)</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-stats" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats (–)</button>
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
-    </div>
+    {% endif %}
+    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
+  </div>
 
+  {% if aarecord_id_split[0] == 'md5' %}
     <script>
       (function() {
-        const md5 = {{ md5_input | tojson }};
+        const md5 = {{ aarecord_id_split[1] | tojson }};
 
         function fetchComments() {
           fetch("/dyn/md5_reports/" + md5).then((response) => response.ok ? response.text() : 'Error 827151').then((text) => {
@@ -209,7 +129,88 @@
         document.addEventListener("DOMContentLoaded", window.md5ReloadSummary);
       })();
     </script>
+  {% endif %}
 
+  <div id="md5-panel-downloads" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-downloads">
+    {% if (aarecord.file_unified_data.problems | length) > 0 %}
+      <div>{{ gettext('page.md5.box.issues.text1') }}</div>
+      <ul class="list-inside mb-4">
+        {% for problem in aarecord.file_unified_data.problems %}
+          <li>- {{ md5_problem_type_mapping[problem.type] }}{% if problem.descr %} ("{{problem.descr}}"){% endif %}</li>
+          {% if problem.better_md5 %}
+            <li>- A better version of this file might be available at <a href="/md5/{{ problem.better_md5 | lower | urlencode }}">/md5/{{ problem.better_md5 | lower }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
+    {% endif %}
+
+    {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
+      <div class="mb-4">
+        <div class="js-fast-download-no-member-header">{{ gettext('page.md5.box.download.header_fast_no_member', a_membership=('href="/donate"' | safe)) }}</div>
+        <div class="hidden js-fast-download-member-header-remaining">{{ gettext('page.md5.box.download.header_fast_member', remaining='XXXXXX') }}</div>
+        <div class="hidden js-fast-download-member-header-no-remaining">{{ gettext('page.md5.box.download.header_fast_member_no_remaining', a_membership=('href="/donate" target="_blank"' | safe)) }}</div>
+        <div class="hidden js-fast-download-member-header-valid-for">{{ gettext('page.md5.box.download.header_fast_member_valid_for') }}</div>
+
+        <ul class="mb-4 js-fast-download-links-disabled">
+          {% for label, url, extra in aarecord.additional.fast_partner_urls %}
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=label, extra='') }}</li>
+          {% endfor %}
+        </ul>
+        <ul class="mb-4 hidden js-fast-download-links-enabled">
+          {% for label, url, extra in aarecord.additional.fast_partner_urls %}
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <div>
+      {% if aarecord_id_split[0] == 'md5' %}
+        {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
+          <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div>
+        {% else %}
+          <div class="font-bold">{{ gettext('page.md5.box.download.header_generic') }}</div>
+        {% endif %}
+      {% endif %}
+
+      {% if (aarecord.additional.download_urls | length) > 0 %}
+        <ul class="mb-4">
+          {% for label, url, extra in aarecord.additional.download_urls %}
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" {% if not url.startswith("/") }target="_blank"{% endif %} class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
+          {% endfor %}
+        </ul>
+        {% if (aarecord.file_unified_data.problems | length) == 0 %}
+          <div class="mb-4">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
+        {% endif %}
+
+        <script>
+          (function() {
+            const md5 = {{ aarecord_id_split[1] | tojson }};
+            for (const el of document.querySelectorAll(".js-download-link")) {
+              // Increase counter when clicked.
+              el.addEventListener("click", function() {
+                try {
+                  if (window.localStorage['md5_download_counted_' + md5] === "1") {
+                    return;
+                  }
+                  window.localStorage['md5_download_counted_' + md5] = "1";
+                } catch(e) {
+                  console.error("Error with localStorage: ", e);
+                }
+                navigator.sendBeacon("/dyn/downloads/increment/" + md5);
+              });
+            }
+          })();
+        </script>
+      {% else %}
+        <p>{{ gettext('page.md5.box.download.no_found') }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if aarecord_id_split[0] == 'md5' %}
     <div id="md5-panel-discussion" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-discussion" hidden>
       <p class="mb-4">
         Help out the community by reporting the quality of this file! 🙌
@@ -218,12 +219,12 @@
       <div class="">
         <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; document.querySelector(".js-report-file-issues").classList.toggle("hidden"); document.querySelector(".js-new-comment").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'><span class='text-[18px] align-text-bottom text-white inline-block icon-[uil--exclamation-triangle]'></span> <span class="js-md5-button-new-issue-label">Report file issue (0)</span></button>
         
-        <span class="inline-block mb-2"><button class="shadow js-md5-button-great-quality custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded-l border-r border-[#999] align-bottom [&.selected]:bg-[#555] [&.selected]:pt-[5px] [&.selected]:pb-[3px] [&.selected]:shadow-[inset_0px_-1px_0px_0px_rgba(255,255,255,0.2),_inset_0px_1px_5px_0px_rgba(0,0,0,0.6)]" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; fetch("/dyn/reactions/" + (window.md5UserReaction === 2 ? 0 : 2) + "/md5:" + {{ md5_input | tojson }}, { method: "PUT" }).then(() => window.md5ReloadSummary())'><span class='text-[21px] align-[-4px] text-white inline-block icon-[material-symbols--star-outline] [button.selected>&]:icon-[material-symbols--star]'></span> <span class="js-md5-button-great-quality-label">Great file quality (0)</span></button><button class="disabled shadow js-md5-button-new-comment custom bg-[#777] hover:bg-[#999] [&.disabled]:opacity-40 [&.disabled]:hover:bg-[#777] [&.disabled]:cursor-auto text-white font-bold py-1 px-3 rounded-r" onclick='if (this.classList.contains("disabled")) { return; }; document.querySelector(".js-new-comment").classList.toggle("hidden"); document.querySelector(".js-report-file-issues").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'>Add comment (0)</button></span>
+        <span class="inline-block mb-2"><button class="shadow js-md5-button-great-quality custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded-l border-r border-[#999] align-bottom [&.selected]:bg-[#555] [&.selected]:pt-[5px] [&.selected]:pb-[3px] [&.selected]:shadow-[inset_0px_-1px_0px_0px_rgba(255,255,255,0.2),_inset_0px_1px_5px_0px_rgba(0,0,0,0.6)]" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; fetch("/dyn/reactions/" + (window.md5UserReaction === 2 ? 0 : 2) + "/md5:" + {{ aarecord_id_split[1] | tojson }}, { method: "PUT" }).then(() => window.md5ReloadSummary())'><span class='text-[21px] align-[-4px] text-white inline-block icon-[material-symbols--star-outline] [button.selected>&]:icon-[material-symbols--star]'></span> <span class="js-md5-button-great-quality-label">Great file quality (0)</span></button><button class="disabled shadow js-md5-button-new-comment custom bg-[#777] hover:bg-[#999] [&.disabled]:opacity-40 [&.disabled]:hover:bg-[#777] [&.disabled]:cursor-auto text-white font-bold py-1 px-3 rounded-r" onclick='if (this.classList.contains("disabled")) { return; }; document.querySelector(".js-new-comment").classList.toggle("hidden"); document.querySelector(".js-report-file-issues").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'>Add comment (0)</button></span>
       </div>
 
       <div class="js-discussion-logged-out hidden">Please <a href="/login">log in</a>.</div>
 
-      <form class="js-report-file-issues hidden mb-6" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ md5_input | tojson }})'>
+      <form class="js-report-file-issues hidden mb-6" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ aarecord_id_split[1] | tojson }})'>
         <fieldset>
           <p class="mb-2">
             What is wrong with this file?
@@ -271,9 +272,9 @@
               MD5 of a better version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension if you can find one), which people should use instead of this file. If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
             </p>
             <p class="mb-1">
-              You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ md5_input }}</strong>
+              You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ aarecord_id_split[1] }}</strong>
             </p>
-            <input type="text" name="better_md5" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%]" placeholder="{{ md5_input }}" minlength="32" maxlength="32" />
+            <input type="text" name="better_md5" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%]" placeholder="{{ aarecord_id_split[1] }}" minlength="32" maxlength="32" />
             <div class="">
               <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Submit report</button>
               <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
@@ -284,7 +285,7 @@
         <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
       </form>
 
-      <form class="js-new-comment hidden mb-4" onsubmit='window.submitForm(event, "/dyn/comments/md5:" + {{ md5_input | tojson }})'>
+      <form class="js-new-comment hidden mb-4" onsubmit='window.submitForm(event, "/dyn/comments/md5:" + {{ aarecord_id_split[1] | tojson }})'>
         <fieldset>
           <p class="mb-1">
             If this file has great quality, you can discuss anything about it here! If not, please use the “Report file issue” button.
@@ -301,10 +302,11 @@
 
       <div class="js-md5-issues-reports mt-4"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
     </div>
+
     <div id="md5-panel-lists" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-lists" hidden>
       <script>
         document.getElementById('md5-panel-lists').addEventListener("panelOpen", () => {
-          const md5 = {{ md5_input | tojson }};
+          const md5 = {{ aarecord_id_split[1] | tojson }};
           fetch("/dyn/lists/md5:" + md5).then((response) => response.ok ? response.text() : 'Error 921857').then((text) => {
             const reloadNode = document.querySelector(".js-md5-lists-wrapper");
             reloadNode.innerHTML = text;
@@ -314,6 +316,7 @@
       </script>
       <div class="js-md5-lists-wrapper"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
     </div>
+
     <div id="md5-panel-stats" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-stats" hidden>
       <p class="mb-4">
         Total downloads: <span class="js-md5-stats-total-downloads"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></span><br>
@@ -321,7 +324,7 @@
       </p>
       <script>
         document.getElementById('md5-panel-stats').addEventListener("panelOpen", () => {
-          const md5 = {{ md5_input | tojson }};
+          const md5 = {{ aarecord_id_split[1] | tojson }};
           fetch("/dyn/downloads/stats/" + md5).then((response) => response.json()).then((json) => {
             document.querySelector(".js-md5-stats-total-downloads").innerText = json.total;
             Plotly.newPlot(document.querySelector(".js-md5-stats-downloads-chart"), [{
@@ -342,7 +345,10 @@
         });
       </script>
     </div>
-    <div id="md5-panel-details" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-details" hidden>
+  {% endif %}
+
+  <div id="md5-panel-details" role="tabpanel" tabindex="0" aria-labelledby="md5-tab-details" hidden>
+    {% if aarecord_id_split[0] == 'md5' %}
       <p class="mb-4">
         A "file MD5" is a hash that gets computed from the file contents, and is reasonably unique based on that content. All shadow libraries that we have indexed on here primarily use MD5s to identify files.
       </p>
@@ -350,10 +356,14 @@
       <p class="mb-4">
         A file might appear in multiple shadow libraries. For information about the various datasets that we have compiled, see the <a href="/datasets">Datasets page</a>.
       </p>
-
+    {% elif aarecord_id_split[0] == 'ia' %}
       <p class="mb-4">
-        For information about this particular file, check out its <a href="/db/aarecord/md5:{{ md5_input }}.json">JSON file</a>.
+        This is a file managed by the <a href="https://archive.org/details/inlibrary">Internet Archive’s Digital Lending Library</a>, and indexed by Anna’s Archive for search. For information about the various datasets that we have compiled, see the <a href="/datasets">Datasets page</a>.
       </p>
-    </div>
+    {% endif %}
+
+    <p class="mb-4">
+      For information about this particular file, check out its <a href="/db/aarecord/{{ aarecord_id }}.json">JSON file</a>.
+    </p>
   </div>
 {% endblock %}

@@ -687,3 +687,12 @@ def merge_unified_fields(list_of_fields_unified):
             for value in values:
                 merged_sets[unified_name].add(value)
     return { unified_name: list(merged_set) for unified_name, merged_set in merged_sets.items() }
+
+SEARCH_INDEX_SHORT_LONG_MAPPING = {
+    '': 'aarecords',
+    'digital_lending': 'aarecords_digital_lending',
+}
+AARECORD_PREFIX_SEARCH_INDEX_MAPPING = {
+    'md5': 'aarecords',
+    'ia': 'aarecords_digital_lending',
+}
