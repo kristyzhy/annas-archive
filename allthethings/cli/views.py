@@ -219,7 +219,8 @@ def elastic_reset_aarecords():
 
 def elastic_reset_aarecords_internal():
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
-    es.indices.create(index='aarecords', body={
+    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_online_borrow')
+    body = {
         "mappings": {
             "dynamic": False,
             "properties": {
@@ -248,7 +249,9 @@ def elastic_reset_aarecords_internal():
             "index.sort.field": "search_only_fields.search_score_base",
             "index.sort.order": "desc",
         },
-    })
+    }
+    es.indices.create(index='aarecords', body=body)
+    es.indices.create(index='aarecords_online_borrow', body=body)
 
 #################################################################################################
 # Regenerate "aarecords" index in ElasticSearch.
@@ -260,27 +263,27 @@ def elastic_build_aarecords():
 def elastic_build_aarecords_job(canonical_md5s):
     try:
         with Session(engine) as session:
+            operations = []
             aarecords = get_aarecords_mysql(session, [f"md5:{canonical_md5}" for canonical_md5 in canonical_md5s])
             for aarecord in aarecords:
-                aarecord['_op_type'] = 'index'
-                aarecord['_index'] = 'aarecords'
-                aarecord['_id'] = aarecord['id']
+                for index in aarecord['indexes']:
+                    operations.append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
                 
             try:
-                elasticsearch.helpers.bulk(es, aarecords, request_timeout=30)
+                elasticsearch.helpers.bulk(es, operations, request_timeout=30)
             except Exception as err:
                 if hasattr(err, 'errors'):
                     print(err.errors)
                 print(repr(err))
                 print("Got the above error; retrying..")
                 try:
-                    elasticsearch.helpers.bulk(es, aarecords, request_timeout=30)
+                    elasticsearch.helpers.bulk(es, operations, request_timeout=30)
                 except Exception as err:
                     if hasattr(err, 'errors'):
                         print(err.errors)
                     print(repr(err))
                     print("Got the above error; retrying one more time..")
-                    elasticsearch.helpers.bulk(es, aarecords, request_timeout=30)
+                    elasticsearch.helpers.bulk(es, operations, request_timeout=30)
             # print(f"Processed {len(aarecords)} md5s")
     except Exception as err:
         print(repr(err))

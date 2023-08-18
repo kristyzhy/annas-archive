@@ -1684,6 +1684,10 @@ def get_aarecords_mysql(session, aarecord_ids):
         if len(isbndb_all) > 5:
             isbndb_all = []
 
+        aarecord['indexes'] = ['aarecords']
+        if aarecord['ia_record'] is not None:
+            aarecord['indexes'].append('aarecords_online_borrow')
+
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
             aarecord['ipfs_infos'].append({ 'ipfs_cid': aarecord['lgrsnf_book']['ipfs_cid'].lower(), 'from': 'lgrsnf' })
