@@ -113,9 +113,6 @@ class AaIa202306Metadata(Reflected):
 class AaIa202306Files(Reflected):
     __tablename__ = "aa_ia_2023_06_files"
 
-class ComputedAllMd5s(Reflected):
-    __tablename__ = "computed_all_md5s"
-
 
 class MariapersistDownloadsTotalByMd5(ReflectedMariapersist):
     __tablename__ = "mariapersist_downloads_total_by_md5"

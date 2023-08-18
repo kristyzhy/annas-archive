@@ -35,7 +35,6 @@ from sqlalchemy import select, func, text, create_engine
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session
 from pymysql.constants import CLIENT
-from allthethings.extensions import ComputedAllMd5s
 
 from allthethings.page.views import get_aarecords_mysql
 
@@ -260,11 +259,11 @@ def elastic_reset_aarecords_internal():
 def elastic_build_aarecords():
     elastic_build_aarecords_internal()
 
-def elastic_build_aarecords_job(canonical_md5s):
+def elastic_build_aarecords_job(aarecord_ids):
     try:
         with Session(engine) as session:
             operations = []
-            aarecords = get_aarecords_mysql(session, [f"md5:{canonical_md5}" for canonical_md5 in canonical_md5s])
+            aarecords = get_aarecords_mysql(session, aarecord_ids)
             for aarecord in aarecords:
                 for index in aarecord['indexes']:
                     operations.append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
@@ -312,16 +311,31 @@ def elastic_build_aarecords_internal():
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
 
-    with engine.connect() as conn:
-        total = conn.execute(select([func.count(ComputedAllMd5s.md5)])).scalar()
-        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-            for batch in query_yield_batches(conn, select(ComputedAllMd5s.md5).where(ComputedAllMd5s.md5 >= bytes.fromhex(first_md5)), ComputedAllMd5s.md5, BATCH_SIZE):
-                with multiprocessing.Pool(THREADS) as executor:
-                    print(f"Processing {len(batch)} md5s from computed_all_md5s ( starting md5: {batch[0][0].hex()} )...")
-                    executor.map(elastic_build_aarecords_job, chunks([item[0].hex() for item in batch], CHUNK_SIZE))
+    with engine.connect() as connection:
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        with multiprocessing.Pool(THREADS) as executor:
+            print("Processing from aa_ia_2023_06_metadata")
+            total = cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL')
+            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                while True:
+                    batch = list(cursor.fetchmany(BATCH_SIZE))
+                    if len(batch) == 0:
+                        break
+                    print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata ( starting ia_id: {batch[0]['ia_id']} )...")
+                    executor.map(elastic_build_aarecords_job, chunks([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
+                    pbar.update(len(batch))
+            print("Processing from computed_all_md5s")
+            total = cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 >= %(from)s', { "from": bytes.fromhex(first_md5) })
+            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                while True:
+                    batch = list(cursor.fetchmany(BATCH_SIZE))
+                    if len(batch) == 0:
+                        break
+                    print(f"Processing {len(batch)} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} )...")
+                    executor.map(elastic_build_aarecords_job, chunks([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
-            print(f"Done!")
+        print(f"Done!")
 
 
 # Kept for future reference, for future migrations

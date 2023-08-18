@@ -575,6 +575,8 @@ def get_zlib_book_dicts(session, key, values):
     return zlib_book_dicts
 
 def get_aac_zlib3_book_dicts(session, key, values):
+    if len(values) == 0:
+        return []
     if key == 'zlibrary_id':
         aac_key = 'annas_archive_meta__aacid__zlib3_records.primary_id'
     elif key == 'md5':
@@ -1634,6 +1636,7 @@ def get_aarecords_mysql(session, aarecord_ids):
     aac_zlib3_book_dicts2 = dict(('md5:' + item['md5'].lower(), item) for item in get_aac_zlib3_book_dicts(session, "md5", split_ids['md5']))
     aa_lgli_comics_2022_08_file_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_aa_lgli_comics_2022_08_file_dicts(session, "md5", split_ids['md5']))
     ia_record_dicts = dict(('md5:' + item['aa_ia_file']['md5'].lower(), item) for item in get_ia_record_dicts(session, "md5", split_ids['md5']) if item.get('aa_ia_file') is not None)
+    ia_record_dicts2 = dict(('ia:' + item['ia_id'].lower(), item) for item in get_ia_record_dicts(session, "ia_id", split_ids['ia']) if item.get('aa_ia_file') is None)
 
     # First pass, so we can fetch more dependencies.
     aarecords = []
@@ -1650,7 +1653,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['zlib_book'] = zlib_book_dicts1.get(aarecord_id) or zlib_book_dicts2.get(aarecord_id)
         aarecord['aac_zlib3_book'] = aac_zlib3_book_dicts1.get(aarecord_id) or aac_zlib3_book_dicts2.get(aarecord_id)
         aarecord['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(aarecord_id)
-        aarecord['ia_record'] = ia_record_dicts.get(aarecord_id)
+        aarecord['ia_record'] = ia_record_dicts.get(aarecord_id) or ia_record_dicts2.get(aarecord_id)
 
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -1684,9 +1687,12 @@ def get_aarecords_mysql(session, aarecord_ids):
         if len(isbndb_all) > 5:
             isbndb_all = []
 
-        aarecord['indexes'] = ['aarecords']
-        if aarecord['ia_record'] is not None:
-            aarecord['indexes'].append('aarecords_digital_lending')
+        if aarecord_id.startswith('md5:'):
+            aarecord['indexes'] = ['aarecords']
+        elif aarecord_id.startswith('ia:'):
+            aarecord['indexes'] = ['aarecords_digital_lending']
+        else:
+            raise Exception(f"Unknown aarecord_id prefix: {aarecord_id}")
 
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
@@ -2014,7 +2020,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 'filesize': aarecord['aa_lgli_comics_2022_08_file']['filesize'],
             }
         if aarecord['ia_record'] is not None:
-            aarecord ['ia_record'] = {
+            aarecord['ia_record'] = {
                 'ia_id': aarecord['ia_record']['ia_id'],
                 'has_thumb': aarecord['ia_record']['has_thumb'],
                 'aa_ia_file': {
@@ -2022,7 +2028,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                     'filesize': aarecord['ia_record']['aa_ia_file']['filesize'],
                     'extension': aarecord['ia_record']['aa_ia_file']['extension'],
                     'ia_id': aarecord['ia_record']['aa_ia_file']['ia_id'],
-                },
+                } if (aarecord['ia_record'].get('aa_ia_file') is not None) else None,
             }
 
         # Even though `additional` is only for computing real-time stuff,
@@ -2224,7 +2230,7 @@ def get_additional_for_aarecord(aarecord):
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
-    if aarecord.get('ia_record') is not None:
+    if (aarecord.get('ia_record') is not None) and (aarecord['ia_record'].get('aa_ia_file') is not None):
         ia_id = aarecord['ia_record']['aa_ia_file']['ia_id']
         extension = aarecord['ia_record']['aa_ia_file']['extension']
         ia_file_type = aarecord['ia_record']['aa_ia_file']['type']
@@ -2309,7 +2315,7 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('aac_zlib3_book') is not None:
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['aac_zlib3_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
     if aarecord.get('ia_record') is not None:
-        ia_id = aarecord['ia_record']['aa_ia_file']['ia_id']
+        ia_id = aarecord['ia_record']['ia_id']
         additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", ''))
     additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']

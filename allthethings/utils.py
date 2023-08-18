@@ -32,12 +32,14 @@ def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])
 
 def validate_aarecord_ids(aarecord_ids):
-    if not all([aarecord_id.startswith('md5:') for aarecord_id in aarecord_ids]):
+    try:
+        split_ids = split_aarecord_ids(aarecord_ids)
+    except:
         return False
-    return validate_canonical_md5s([aarecord_id[len("md5:"):] for aarecord_id in aarecord_ids if aarecord_id.startswith('md5:')])
+    return validate_canonical_md5s(split_ids['md5'])
 
 def split_aarecord_ids(aarecord_ids):
-    ret = {'md5': []}
+    ret = {'md5': [], 'ia': []}
     for aarecord_id in aarecord_ids:
         split_aarecord_id = aarecord_id.split(':')
         ret[split_aarecord_id[0]].append(split_aarecord_id[1])
