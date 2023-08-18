@@ -1714,18 +1714,13 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['original_filename_best_name_only'] =  re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1]
 
         # Select the cover_url_normalized in order of what is likely to be the best one: ia, zlib, lgrsnf, lgrsfic, lgli.
-        zlib_cover = ((aarecord['zlib_book'] or {}).get('cover_url') or '').strip()
         cover_url_multiple = [
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('cover_url') or '').strip(),
-            # Put the zlib_cover at the beginning if it starts with the right prefix.
-            # zlib_cover.strip() if zlib_cover.startswith('https://covers.zlibcdn2.com') else '',
+            ((aarecord['zlib_book'] or {}).get('cover_url') or '').strip(),
             ((aarecord['lgrsnf_book'] or {}).get('cover_url_normalized') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('cover_url_normalized') or '').strip(),
             ((aarecord['lgli_file'] or {}).get('cover_url_guess_normalized') or '').strip(),
-            # Otherwie put it at the end.
-            # '' if zlib_cover.startswith('https://covers.zlibcdn2.com') else zlib_cover.strip(),
-            # Temporarily always put it at the end because their servers are down.
-            zlib_cover.strip()
+            *[(isbndb['json'].get('image') or '').strip() for isbndb in isbndb_all],
         ]
         cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
         aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
