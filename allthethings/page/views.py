@@ -680,6 +680,7 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict['json'] = orjson.loads(ia_record_dict['json'])
 
         ia_record_dict['aa_ia_derived'] = {}
+        ia_record_dict['aa_ia_derived']['printdisabled_only'] = 'inlibrary' not in (ia_record_dict['json']['metadata'].get('collection') or [])
         ia_record_dict['aa_ia_derived']['original_filename'] = (ia_record_dict['ia_id'] + '.pdf') if ia_record_dict['aa_ia_file'] is not None else None
         ia_record_dict['aa_ia_derived']['cover_url'] = f"https://archive.org/download/{ia_record_dict['ia_id']}/__ia_thumb.jpg"
         ia_record_dict['aa_ia_derived']['title'] = (' '.join(extract_list_from_ia_json_field(ia_record_dict, 'title'))).replace(' : ', ': ')
@@ -2032,6 +2033,9 @@ def get_aarecords_mysql(session, aarecord_ids):
                     'extension': aarecord['ia_record']['aa_ia_file']['extension'],
                     'ia_id': aarecord['ia_record']['aa_ia_file']['ia_id'],
                 } if (aarecord['ia_record'].get('aa_ia_file') is not None) else None,
+                'aa_ia_derived': {
+                    'printdisabled_only': aarecord['ia_record']['aa_ia_derived']['printdisabled_only'],
+                }
             }
 
         # Even though `additional` is only for computing real-time stuff,
@@ -2068,8 +2072,9 @@ def get_aarecords_mysql(session, aarecord_ids):
                 aarecord_id,
             ]))),
             'search_access_types': [
-                *(['external_download'] if any([field in aarecord for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book']]) else []),
-                *(['external_borrow'] if any([field in aarecord for field in ['ia_record']]) else []),
+                *(['external_download'] if any([aarecord.get(field) is not None for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book']]) else []),
+                *(['external_borrow'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
+                *(['external_borrow_printdisabled'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
             ],
             'search_record_sources': list(set([
@@ -2323,7 +2328,8 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['aac_zlib3_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
     if aarecord.get('ia_record') is not None:
         ia_id = aarecord['ia_record']['ia_id']
-        additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", ''))
+        printdisabled_only = aarecord['ia_record']['aa_ia_derived']['printdisabled_only']
+        additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", '(print disabled patrons only)' if printdisabled_only else ''))
     if aarecord['id'].startswith('md5:'):
         additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
