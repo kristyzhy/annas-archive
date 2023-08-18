@@ -44,12 +44,14 @@
           <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
         {% endfor %}
       </select>
-      <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="ext">
-        <option value="">{{ gettext('page.search.filters.filetype.header') }}</option>
-        {% for bucket in search_dict.aggregations.search_extension %}
-          <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
-        {% endfor %}
-      </select>
+      {% if search_dict.search_index_short == '' %}
+        <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="ext">
+          <option value="">{{ gettext('page.search.filters.filetype.header') }}</option>
+          {% for bucket in search_dict.aggregations.search_extension %}
+            <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
+          {% endfor %}
+        </select>
+      {% endif %}
       <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="sort">
         <option value="">{{ gettext('page.search.filters.sorting.most_relevant') }}</option>
         <option value="newest" {% if search_dict.sort_value == 'newest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.newest') }}</option>

@@ -2636,6 +2636,8 @@ def search_page():
     if search_index_short not in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING:
         search_index_short = ""
     search_index_long = allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING[search_index_short]
+    if search_index_short == 'digital_lending':
+        filter_values['search_content_type'] = ''
 
     if bool(re.match(r"^[a-fA-F\d]{32}$", search_input)):
         return redirect(f"/md5/{search_input}", code=302)
