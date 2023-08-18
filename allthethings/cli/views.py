@@ -28,13 +28,13 @@ import flask_mail
 import click
 import pymysql.cursors
 
-from config import settings
 from flask import Blueprint, __version__, render_template, make_response, redirect, request
 from allthethings.extensions import engine, mariadb_url, mariadb_url_no_timeout, es, Reflected, mail, mariapersist_url
 from sqlalchemy import select, func, text, create_engine
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session
 from pymysql.constants import CLIENT
+from config.settings import SLOW_DATA_IMPORTS
 
 from allthethings.page.views import get_aarecords_mysql
 
@@ -58,11 +58,7 @@ def dbreset():
 # ./run flask cli nonpersistent_dbreset
 @cli.cli.command('nonpersistent_dbreset')
 def nonpersistent_dbreset():
-    print("Erasing nonpersist databases (1 MariaDB databases servers + 1 ElasticSearch)! Did you double-check that any production/large databases are offline/inaccessible from here?")
-    time.sleep(2)
-    print("Giving you 5 seconds to abort..")
-    time.sleep(5)
-
+    print("Erasing nonpersistent databases (1 MariaDB databases servers + 1 ElasticSearch)! Did you double-check that any production/large databases are offline/inaccessible from here?")
     nonpersistent_dbreset_internal()
     print("Done! Search for example for 'Rhythms of the brain': http://localhost:8000/search?q=Rhythms+of+the+brain")
 
@@ -295,9 +291,10 @@ def elastic_build_aarecords_internal():
     BATCH_SIZE = 100000
 
     # Locally
-    # THREADS = 1
-    # CHUNK_SIZE = 10
-    # BATCH_SIZE = 1000
+    if SLOW_DATA_IMPORTS:
+        THREADS = 1
+        CHUNK_SIZE = 10
+        BATCH_SIZE = 1000
 
     # Uncomment to do them one by one
     # THREADS = 1

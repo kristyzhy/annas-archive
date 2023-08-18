@@ -29,3 +29,5 @@ else:
     MAIL_SERVER = 'mail.annas-mail.org'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
+
+SLOW_DATA_IMPORTS = os.getenv("SLOW_DATA_IMPORTS", "")
