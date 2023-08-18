@@ -1686,7 +1686,7 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         aarecord['indexes'] = ['aarecords']
         if aarecord['ia_record'] is not None:
-            aarecord['indexes'].append('aarecords_online_borrow')
+            aarecord['indexes'].append('aarecords_digital_lending')
 
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
@@ -2533,9 +2533,14 @@ search_query_aggs = {
     },
 }
 
+SEARCH_INDEX_SHORT_LONG_MAPPING = {
+    '': 'aarecords',
+    'digital_lending': 'aarecords_digital_lending',
+}
+
 @functools.cache
-def all_search_aggs(display_lang):
-    search_results_raw = es.search(index="aarecords", size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT)
+def all_search_aggs(display_lang, search_index_long):
+    search_results_raw = es.search(index=search_index_long, size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
@@ -2595,6 +2600,10 @@ def search_page():
         'search_extension': request.args.get("ext", "").strip()[0:10],
     }
     sort_value = request.args.get("sort", "").strip()
+    search_index_short = request.args.get("index", "").strip()
+    if search_index_short not in SEARCH_INDEX_SHORT_LONG_MAPPING:
+        search_index_short = ""
+    search_index_long = SEARCH_INDEX_SHORT_LONG_MAPPING[search_index_short]
 
     if bool(re.match(r"^[a-fA-F\d]{32}$", search_input)):
         return redirect(f"/md5/{search_input}", code=302)
@@ -2662,7 +2671,7 @@ def search_page():
     max_additional_display_results = 50
 
     search_results_raw = es.search(
-        index="aarecords", 
+        index=search_index_long, 
         size=max_display_results, 
         query=search_query,
         aggs=search_query_aggs,
@@ -2672,7 +2681,7 @@ def search_page():
         timeout=ES_TIMEOUT,
     )
 
-    all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()))
+    all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()), search_index_long)
 
     doc_counts = {}
     doc_counts['search_most_likely_language_code'] = {}
@@ -2728,7 +2737,7 @@ def search_page():
         # For partial matches, first try our original query again but this time without filters.
         seen_ids = set([aarecord['id'] for aarecord in search_aarecords])
         search_results_raw = es.search(
-            index="aarecords", 
+            index=search_index_long, 
             size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
             query=search_query,
             sort=custom_search_sorting+['_score'],
@@ -2743,7 +2752,7 @@ def search_page():
         if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
             seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
             search_results_raw = es.search(
-                index="aarecords",
+                index=search_index_long,
                 size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                 # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                 query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
@@ -2759,7 +2768,7 @@ def search_page():
             if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
                 seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
                 search_results_raw = es.search(
-                    index="aarecords",
+                    index=search_index_long,
                     size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                     # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                     query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
@@ -2781,6 +2790,7 @@ def search_page():
     search_dict['max_additional_search_aarecords_reached'] = max_additional_search_aarecords_reached
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
+    search_dict['search_index_short'] = search_index_short
 
     return render_template(
         "page/search.html",

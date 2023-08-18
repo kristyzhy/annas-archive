@@ -23,7 +23,14 @@
     <div class="mb-4" style="font-size: 90%; color: #555">{{ gettext('page.search.header.update_info', last_data_refresh_date=(g.last_data_refresh_date | dateformat('long')), link_open_tag=('<a href="/datasets">' | safe)) }}</div>
   {% endif %}
 
-  <form action="/search" method="get" role="search">
+  <form action="/search" method="get" role="search" class="js-search-form">
+    <input type="hidden" name="index" value="{{ search_dict.search_index_short }}" class="js-search-form-index">
+
+    <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
+      <a href="/search" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-discussion" aria-selected="{{ 'true' if search_dict.search_index_short == '' else 'false' }}" id="md5-tab-discussion" aria-controls="md5-panel-discussion" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = ''; document.querySelector('.js-search-form').submit()">Download</a>
+      <a href="/search?index=digital_lending" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="{{ 'true' if search_dict.search_index_short == 'digital_lending' else 'false' }}" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'digital_lending'; document.querySelector('.js-search-form').submit()">Digital Lending</a>
+    </div>
+
     <div class="flex mb-4 max-w-[600px]" style="font-size: 87%">
       <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="lang">
         <option value="">{{ gettext('page.search.filters.language.header') }}</option>

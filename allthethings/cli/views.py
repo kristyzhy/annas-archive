@@ -219,7 +219,7 @@ def elastic_reset_aarecords():
 
 def elastic_reset_aarecords_internal():
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
-    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_online_borrow')
+    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
     body = {
         "mappings": {
             "dynamic": False,
@@ -251,7 +251,7 @@ def elastic_reset_aarecords_internal():
         },
     }
     es.indices.create(index='aarecords', body=body)
-    es.indices.create(index='aarecords_online_borrow', body=body)
+    es.indices.create(index='aarecords_digital_lending', body=body)
 
 #################################################################################################
 # Regenerate "aarecords" index in ElasticSearch.

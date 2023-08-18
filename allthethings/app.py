@@ -229,7 +229,7 @@ def extensions(app):
         g.languages.sort()
 
         g.last_data_refresh_date = last_data_refresh_date()
-        g.header_stats = {content_type['key']: "{:,}".format(content_type['doc_count']) for content_type in all_search_aggs('en')['search_content_type']}
+        g.header_stats = {content_type['key']: "{:,}".format(content_type['doc_count']) for content_type in all_search_aggs('en', 'aarecords')['search_content_type']}
 
 
     return None
