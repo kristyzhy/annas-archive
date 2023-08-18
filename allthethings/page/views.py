@@ -325,11 +325,12 @@ def get_stats_data():
             searches=[
                 # { "index": "aarecords", "request_cache": False },
                 { "index": "aarecords" },
-                { "track_total_hits": True, "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
+                { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
                 # { "index": "aarecords", "request_cache": False },
                 { "index": "aarecords" },
                 {
                     "track_total_hits": True,
+                    "timeout": "20s",
                     "size": 0,
                     "query": { "bool": { "must_not": [{ "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } }] } },
                     "aggs": {
@@ -346,6 +347,7 @@ def get_stats_data():
                 { "index": "aarecords" },
                 {
                     "track_total_hits": True,
+                    "timeout": "20s",
                     "size": 0,
                     "query": { "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } },
                     "aggs": { "search_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } },
@@ -354,6 +356,7 @@ def get_stats_data():
                 { "index": "aarecords" },
                 {
                     "track_total_hits": True,
+                    "timeout": "20s",
                     "size": 0,
                     "query": { "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } },
                     "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
@@ -362,6 +365,7 @@ def get_stats_data():
                 { "index": "aarecords" },
                 {
                     "track_total_hits": True,
+                    "timeout": "20s",
                     "size": 0,
                     "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
                 },
@@ -2696,6 +2700,25 @@ def search_page():
         }
     }
 
+    multi_searches = []
+    for search_index in list(set(allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING.values())):
+        multi_searches.append({ "index": search_index })
+        multi_searches.append({
+            "size": 0, 
+            "query": search_query,
+            "track_total_hits": 100,
+            "timeout": ES_TIMEOUT,
+        })
+    total_all_indexes = es.msearch(
+        request_timeout=20,
+        max_concurrent_searches=10,
+        max_concurrent_shard_requests=10,
+        searches=multi_searches,
+    )
+    total_by_index_long = {}
+    for i, result in enumerate(total_all_indexes['responses']):
+        total_by_index_long[multi_searches[i*2]['index']] = result['hits']['total']
+
     max_display_results = 200
     max_additional_display_results = 50
 
@@ -2820,6 +2843,7 @@ def search_page():
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
     search_dict['search_index_short'] = search_index_short
+    search_dict['total_by_index_long'] = total_by_index_long
 
     return render_template(
         "page/search.html",
