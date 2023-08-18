@@ -188,7 +188,7 @@ def make_temp_anon_aac_zlib3_path(file_aac_id, data_folder):
     return f"o/zlib3_files/{date}/{data_folder}/{file_aac_id}"
 
 def strip_description(description):
-    return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n')))
+    return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n'))).strip()
 
 def nice_json(some_dict):
     json_str = orjson.dumps(some_dict, option=orjson.OPT_INDENT_2 | orjson.OPT_NON_STR_KEYS, default=str).decode('utf-8')
@@ -676,7 +676,7 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict['json'] = orjson.loads(ia_record_dict['json'])
 
         ia_record_dict['aa_ia_derived'] = {}
-        ia_record_dict['aa_ia_derived']['original_filename'] = ia_record_dict['ia_id'] + '.pdf'
+        ia_record_dict['aa_ia_derived']['original_filename'] = (ia_record_dict['ia_id'] + '.pdf') if ia_record_dict['aa_ia_file'] is not None else None
         ia_record_dict['aa_ia_derived']['cover_url'] = f"https://archive.org/download/{ia_record_dict['ia_id']}/__ia_thumb.jpg"
         ia_record_dict['aa_ia_derived']['title'] = (' '.join(extract_list_from_ia_json_field(ia_record_dict, 'title'))).replace(' : ', ': ')
         ia_record_dict['aa_ia_derived']['author'] = ('; '.join(extract_list_from_ia_json_field(ia_record_dict, 'creator') + extract_list_from_ia_json_field(ia_record_dict, 'associated-names'))).replace(' : ', ': ')
@@ -694,7 +694,7 @@ def get_ia_record_dicts(session, key, values):
                 ia_record_dict['aa_ia_derived']['year'] = potential_year[0]
 
         ia_record_dict['aa_ia_derived']['content_type'] = 'book_unknown'
-        if ia_record_dict['ia_id'].split('_')[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_record_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
+        if ia_record_dict['ia_id'].split('_', 1)[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_record_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
             ia_record_dict['aa_ia_derived']['content_type'] = 'magazine'
 
         ia_record_dict['aa_ia_derived']['edition_varia_normalized'] = ', '.join([
@@ -1890,7 +1890,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ia_descr = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000]
         if len(ia_descr) > 0:
             stripped_description_multiple += [ia_descr]
-            aarecord['file_unified_data']['stripped_description_best'] += '\n\n' + ia_descr
+            aarecord['file_unified_data']['stripped_description_best'] = (aarecord['file_unified_data']['stripped_description_best'] + '\n\n' + ia_descr).strip()
         aarecord['file_unified_data']['stripped_description_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(stripped_description_multiple) if s != aarecord['file_unified_data']['stripped_description_best']]
 
         aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
@@ -2052,16 +2052,18 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_doi': (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []),
             'search_text': "\n".join(list(dict.fromkeys([
                 aarecord['file_unified_data']['title_best'][:1000],
-                aarecord['file_unified_data']['title_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['title_best'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 aarecord['file_unified_data']['author_best'][:1000],
-                aarecord['file_unified_data']['author_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['author_best'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 aarecord['file_unified_data']['edition_varia_best'][:1000],
-                aarecord['file_unified_data']['edition_varia_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['edition_varia_best'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 aarecord['file_unified_data']['publisher_best'][:1000],
-                aarecord['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
-                aarecord['file_unified_data']['original_filename_best_name_only'][:1000].replace('.', '. ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+                aarecord['file_unified_data']['original_filename_best_name_only'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 aarecord['file_unified_data']['extension_best'],
+                aarecord['id'][:1000],
+                aarecord['id'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
                 *[f"{item} {key}:{item}" for key, items in aarecord['file_unified_data']['identifiers_unified'].items() for item in items],
                 *[f"{item} {key}:{item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
                 aarecord_id,
@@ -2185,6 +2187,7 @@ def get_additional_for_aarecord(aarecord):
     CODES_PRIORITY = ['isbn13', 'isbn10', 'doi', 'issn', 'udc', 'oclcworldcat', 'openlibrary', 'ocaid', 'asin']
     additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100))
 
+    aarecord_id_split = aarecord['id'].split(':', 1)
     additional['top_box'] = {
         'meta_information': [item for item in [
                 aarecord['file_unified_data'].get('title_best', None) or '',
@@ -2200,6 +2203,7 @@ def get_additional_for_aarecord(aarecord):
                 aarecord['file_unified_data'].get('extension_best', None) or '',
                 format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0),
                 aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
+                aarecord_id_split[1] if aarecord_id_split[0] == 'ia' else '',
             ] if item != '']),
         'title': aarecord['file_unified_data'].get('title_best', None) or '',
         'publisher_and_edition': ", ".join([item for item in [
@@ -2353,7 +2357,7 @@ def md5_page(md5_input):
         render_fields = {
             "header_active": "search",
             "aarecord_id": aarecord['id'],
-            "aarecord_id_split": aarecord['id'].split(':'),
+            "aarecord_id_split": aarecord['id'].split(':', 1),
             "aarecord": aarecord,
             "md5_problem_type_mapping": get_md5_problem_type_mapping(),
             "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
@@ -2380,7 +2384,7 @@ def ia_page(ia_input):
         render_fields = {
             "header_active": "search",
             "aarecord_id": aarecord['id'],
-            "aarecord_id_split": aarecord['id'].split(':'),
+            "aarecord_id_split": aarecord['id'].split(':', 1),
             "aarecord": aarecord,
             "md5_problem_type_mapping": get_md5_problem_type_mapping(),
             "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
