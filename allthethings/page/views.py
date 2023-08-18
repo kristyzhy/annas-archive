@@ -680,7 +680,7 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict['json'] = orjson.loads(ia_record_dict['json'])
 
         ia_record_dict['aa_ia_derived'] = {}
-        ia_record_dict['aa_ia_derived']['printdisabled_only'] = 'inlibrary' not in (ia_record_dict['json']['metadata'].get('collection') or [])
+        ia_record_dict['aa_ia_derived']['printdisabled_only'] = 'inlibrary' not in ((ia_record_dict['json'].get('metadata') or {}).get('collection') or [])
         ia_record_dict['aa_ia_derived']['original_filename'] = (ia_record_dict['ia_id'] + '.pdf') if ia_record_dict['aa_ia_file'] is not None else None
         ia_record_dict['aa_ia_derived']['cover_url'] = f"https://archive.org/download/{ia_record_dict['ia_id']}/__ia_thumb.jpg"
         ia_record_dict['aa_ia_derived']['title'] = (' '.join(extract_list_from_ia_json_field(ia_record_dict, 'title'))).replace(' : ', ': ')
@@ -1405,7 +1405,6 @@ def get_isbn_dicts(session, canonical_isbn13s):
 
         for isbndb_dict in isbn_dict['isbndb']:
             isbndb_dict['language_codes'] = get_bcp47_lang_codes(isbndb_dict['json'].get('language') or '')
-            isbndb_dict['languages_and_codes'] = [(get_display_name_for_lang(lang_code, allthethings.utils.get_full_lang_code(get_locale())), lang_code) for lang_code in isbndb_dict['language_codes']]
             isbndb_dict['edition_varia_normalized'] = ", ".join([item for item in [
                 str(isbndb_dict['json'].get('edition') or '').strip(),
                 str(isbndb_dict['json'].get('date_published') or '').split('T')[0].strip(),
@@ -1448,11 +1447,11 @@ def isbn_page(isbn_input):
             isbn_dict['additional']['barcode_svg'] = barcode_bytesio.read().decode('utf-8').replace('fill:white', 'fill:transparent').replace(canonical_isbn13, '')
         except Exception as err:
             print(f"Error generating barcode: {err}")
-    
+
         if len(isbn_dict['isbndb']) > 0:
             isbn_dict['additional']['top_box'] = {
                 'cover_url': isbn_dict['isbndb'][0]['json'].get('image') or '',
-                'top_row': isbn_dict['isbndb'][0]['languages_and_codes'][0][0] if len(isbn_dict['isbndb'][0]['languages_and_codes']) > 0 else '',
+                'top_row': get_display_name_for_lang(isbn_dict['isbndb'][0]['language_codes'][0], allthethings.utils.get_full_lang_code(get_locale())) if len(isbn_dict['isbndb'][0]['language_codes']) > 0 else '',
                 'title': isbn_dict['isbndb'][0]['title_normalized'],
                 'publisher_and_edition': ", ".join([item for item in [
                     str(isbn_dict['isbndb'][0]['json'].get('publisher') or '').strip(),
@@ -1757,8 +1756,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (aarecord['lgli_file'] or {}).get('filesize') or 0,
         ]
         aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
-        if aarecord['ia_record'] is not None:
-            filesize_multiple.append(max(int(file['size']) for file in aarecord['ia_record']['json']['aa_shorter_files']))
+        if aarecord['ia_record'] is not None and len(aarecord['ia_record']['json']['aa_shorter_files']) > 0:
+            filesize_multiple.append(max(int(file.get('size') or '0') for file in aarecord['ia_record']['json']['aa_shorter_files']))
         if aarecord['file_unified_data']['filesize_best'] == 0:
             aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
         zlib_book_filesize = (aarecord['zlib_book'] or {}).get('filesize') or 0
