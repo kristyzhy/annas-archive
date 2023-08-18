@@ -2332,7 +2332,7 @@ def md5_page(md5_input):
     canonical_md5 = md5_input.strip().lower()[0:32]
 
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        return render_template("page/md5.html", header_active="search", md5_input=md5_input)
+        return render_template("page/aarecord.html", header_active="search", md5_input=md5_input)
 
     if canonical_md5 != md5_input:
         return redirect(f"/md5/{canonical_md5}", code=301)
@@ -2341,7 +2341,7 @@ def md5_page(md5_input):
         aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
 
         if len(aarecords) == 0:
-            return render_template("page/md5.html", header_active="search", md5_input=md5_input)
+            return render_template("page/aarecord.html", header_active="search", md5_input=md5_input)
 
         aarecord = aarecords[0]
 
@@ -2354,7 +2354,7 @@ def md5_page(md5_input):
             "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
         }
         
-        return render_template("page/md5.html", **render_fields)
+        return render_template("page/aarecord.html", **render_fields)
 
 @page.get("/db/aarecord/md5:<string:md5_input>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
@@ -2406,7 +2406,7 @@ def md5_fast_download(md5_input, path_index, domain_index):
     with Session(engine) as session:
         aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
         if len(aarecords) == 0:
-            return render_template("page/md5.html", header_active="search", md5_input=md5_input)
+            return render_template("page/aarecord.html", header_active="search", md5_input=md5_input)
         aarecord = aarecords[0]
         try:
             domain = ['momot.in', 'momot.rs'][domain_index]
@@ -2455,7 +2455,7 @@ def md5_slow_download(md5_input, path_index, domain_index):
         with Session(mariapersist_engine) as mariapersist_session:
             aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
             if len(aarecords) == 0:
-                return render_template("page/md5.html", header_active="search", md5_input=md5_input)
+                return render_template("page/aarecord.html", header_active="search", md5_input=md5_input)
             aarecord = aarecords[0]
             try:
                 domain = ['momot.rs', 'ktxr.rs', 'nrzr.li'][domain_index]
