@@ -192,16 +192,16 @@ MEMBERSHIP_TIER_COSTS = {
 }
 MEMBERSHIP_METHOD_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
-    "crypto": 20,
+    "crypto": 0,
     # "cc":     20,
-    "paypal": 20,
+    "paypal": 0,
     # "bmc":    0,
     # "alipay": 0,
     # "pix":    0,
 }
 MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
-    "1": 0, "3": 5, "6": 10, "12": 15, "24": 30,
+    "1": 0, "3": 5, "6": 10, "12": 15, "24": 25,
 }
 MEMBERSHIP_DOWNLOADS_PER_DAY = {
     "2": 20, "3": 50, "4": 100, "5": 1000,
