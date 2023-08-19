@@ -31,39 +31,53 @@
       <a href="/search?index=digital_lending" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="{{ 'true' if search_dict.search_index_short == 'digital_lending' else 'false' }}" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'digital_lending'; document.querySelector('.js-search-form').submit()">Digital Lending ({{ search_dict.total_by_index_long.aarecords_digital_lending.value | numberformat }}{% if search_dict.total_by_index_long.aarecords_digital_lending.relation == 'gte' %}+{% endif %})</a>
     </div>
 
-    <div class="flex mb-4 max-w-[600px]" style="font-size: 87%">
-      <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="lang">
-        <option value="">{{ gettext('page.search.filters.language.header') }}</option>
-        {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
-          <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
-        {% endfor %}
-      </select>
-      <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="content">
-        <option value="">{{ gettext('page.search.filters.content.header') }}</option>
-        {% for bucket in search_dict.aggregations.search_content_type %}
-          <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
-        {% endfor %}
-      </select>
-      {% if search_dict.search_index_short == '' %}
-        <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="ext">
-          <option value="">{{ gettext('page.search.filters.filetype.header') }}</option>
-          {% for bucket in search_dict.aggregations.search_extension %}
+    <div class="flex mb-4">
+      <button class="text-lg mr-2 opacity-50 hover:opacity-100 focus:opacity-80" alt="Filter settings" title="Filter settings" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.toggle('hidden')"><span class="icon-[mingcute--settings-6-line]"></span></button>
+      <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-[#00000011] px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %} title="Focus: '/' Scroll search results: 'j', 'k'">
+      <button class="text-[#777] hover:text-[#333]" type="submit">{{ gettext('common.search.submit') }}</button>
+    </div>
+
+    <div class="js-search-filter-settings fixed top-0 bottom-0 left-0 right-0 z-[999999999] bg-[rgba(230,230,230,0.7)] pointer-events-none p-4" style="font-size: 87%">
+      <div class="pointer-events-auto shadow-2xl rounded-xl absolute top-4 bottom-4 left-4 right-4 bg-white p-4 overflow-y-auto mx-auto max-w-[700px]">
+        <div class="flex justify-between items-center mb-4">
+          <div class="font-bold text-lg">Search settings</div>
+          <div class="">
+            <button class="opacity-50 focus:opacity-80 hover:opacity-100" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.toggle('hidden')">✕</button>
+          </div>
+        </div>
+        <div class="font-bold mb-1">{{ gettext('page.search.filters.language.header') }}</div>
+        <select class="w-[100%] mb-4 bg-[#00000011] px-2 py-1 rounded" name="lang">
+          <option value="">Any</option>
+          {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
             <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
           {% endfor %}
         </select>
-      {% endif %}
-      <select class="grow w-[25%] bg-[#00000011] px-2 py-1 mr-2 rounded" name="sort">
-        <option value="">{{ gettext('page.search.filters.sorting.most_relevant') }}</option>
-        <option value="newest" {% if search_dict.sort_value == 'newest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.newest') }}</option>
-        <option value="oldest" {% if search_dict.sort_value == 'oldest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.oldest') }}</option>
-        <option value="largest" {% if search_dict.sort_value == 'largest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.largest') }}</option>
-        <option value="smallest" {% if search_dict.sort_value == 'smallest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.smallest') }}</option>
-      </select>
-    </div>
-
-    <div class="flex mb-4">
-      <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-[#00000011] px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %} title="Focus: '/' Scroll search results: 'j', 'k'">
-      <button class="text-[#777] hover:text-[#333]" type="submit">{{ gettext('common.search.submit') }}</button>
+        <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
+        <select class="w-[100%] mb-4 bg-[#00000011] px-2 py-1 rounded" name="content">
+          <option value="">Any</option>
+          {% for bucket in search_dict.aggregations.search_content_type %}
+            <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
+          {% endfor %}
+        </select>
+        {% if search_dict.search_index_short == '' %}
+          <div class="font-bold mb-1">{{ gettext('page.search.filters.filetype.header') }}</div>
+          <select class="w-[100%] mb-4 bg-[#00000011] px-2 py-1 rounded" name="ext">
+            <option value="">Any</option>
+            {% for bucket in search_dict.aggregations.search_extension %}
+              <option value="{{bucket.key}}" {% if bucket.selected %}selected{% endif %}>{{bucket.label}} ({{'{0:,}'.format(bucket.doc_count)}})</option>
+            {% endfor %}
+          </select>
+        {% endif %}
+        <div class="font-bold mb-1">Order by</div>
+        <select class="w-[100%] mb-4 bg-[#00000011] px-2 py-1 rounded" name="sort">
+          <option value="">{{ gettext('page.search.filters.sorting.most_relevant') }}</option>
+          <option value="newest" {% if search_dict.sort_value == 'newest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.newest') }}</option>
+          <option value="oldest" {% if search_dict.sort_value == 'oldest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.oldest') }}</option>
+          <option value="largest" {% if search_dict.sort_value == 'largest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.largest') }}</option>
+          <option value="smallest" {% if search_dict.sort_value == 'smallest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.smallest') }}</option>
+        </select>
+        <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.toggle('hidden')">Done</button>
+      </div>
     </div>
   </form>
 
