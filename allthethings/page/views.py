@@ -2180,15 +2180,15 @@ def get_additional_for_aarecord(aarecord):
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('aa_lgli_comics_2022_08_file') is not None:
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/comics'):
-            stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):]))
+            stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):])
             partner_path = f"a/comics_2022_08/{stripped_path}"
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/repository/'):
-            stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/repository/'):]))
+            stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/repository/'):])
             partner_path = f"a/c_2022_12_thousand_dirs/{stripped_path}"
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_magz/repository/'):
-            stripped_path = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_magz/repository/'):]))
+            stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_magz/repository/'):])
             partner_path = f"a/c_2022_12_thousand_dirs_magz/{stripped_path}"
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('lgrsnf_book') is not None:
@@ -2217,7 +2217,7 @@ def get_additional_for_aarecord(aarecord):
         scimag_id = aarecord['lgli_file']['scimag_id']
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
             scimag_tenmillion_dir = (scimag_id // 10000000)
-            scimag_filename = urllib.request.pathname2url(urllib.request.pathname2url(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/')))
+            scimag_filename = urllib.parse.quote(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/'))
             scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
             add_partner_servers(scimag_path, 'scimag', aarecord, additional)
 
