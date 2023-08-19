@@ -1,23 +1,3 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2023-08-19 06:17+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: Slovenian <https://translate.annas-software.org/projects/annas-archive/main-website/sl/>\n"
-"Language: sl\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 4.15\n"
-
-#: allthethings/account/views.py:248
-msgid "common.donation.order_processing_status_labels.1"
-msgstr "plačljivo"
-
-#: allthethings/account/views.py:249
-msgid "common.donation.order_processing_status_labels.2"
-msgstr "preklicano"
-
 #: allthethings/utils.py:184
 msgid "common.membership.tier_name.2"
 msgstr "Sijajni knjižni molj"
@@ -26,11 +6,31 @@ msgstr "Sijajni knjižni molj"
 msgid "common.membership.tier_name.3"
 msgstr "Srečni knjižničar"
 
+#: allthethings/utils.py:186
+msgid "common.membership.tier_name.4"
+msgstr "Bleščeči hranilec podatkov"
+
 #: allthethings/utils.py:187
 msgid "common.membership.tier_name.5"
 msgstr "Čudovit arhivar"
 
+#: allthethings/account/views.py:249
+msgid "common.donation.order_processing_status_labels.0"
+msgstr "neplačljivo"
+
+#: allthethings/account/views.py:250
+msgid "common.donation.order_processing_status_labels.1"
+msgstr "plačljivo"
+
 #: allthethings/account/views.py:251
+msgid "common.donation.order_processing_status_labels.2"
+msgstr "preklicano"
+
+#: allthethings/account/views.py:252
+msgid "common.donation.order_processing_status_labels.3"
+msgstr "potečeno"
+
+#: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "čakam na Annino potrditev"
 
@@ -39,13 +39,28 @@ msgstr "čakam na Annino potrditev"
 msgid "page.donate.title"
 msgstr "Doniraj"
 
+#: allthethings/account/templates/account/donate.html:11
+msgid "page.donate.header.existing_unpaid_donation"
+msgstr "V teku je že <a %(a_donation)s>obstoječa donacija</a>. Prosimo, dokončajte ali prekličite to donacijo, preden začnete z novo donacijo."
+
 #: allthethings/account/templates/account/donate.html:13
 msgid "page.donate.header.existing_unpaid_donation_view_all"
 msgstr "<a %(a_all_donations)s>Ogled vseh mojih donacij</a>"
 
 #: allthethings/account/templates/account/donate.html:20
+msgid "page.donate.header.text1"
+msgstr "Annin arhiv je neprofitni, odprtokodni projekt z javno dostopnimi podatki. Z donacijo in članstvom podpirate naše delovanje in razvoj. Vsem našim članom: hvala, ker nas podpirate! ❤️"
+
+#: allthethings/account/templates/account/donate.html:20
 msgid "page.donate.header.text2"
 msgstr "Za več informacij si oglejte <a href=\"/donation_faq\">pogosta vprašanja o donacijah</a>."
+
+#: allthethings/account/templates/account/donate.html:29
+#: allthethings/account/templates/account/donate.html:42
+#: allthethings/account/templates/account/donate.html:56
+#: allthethings/account/templates/account/donate.html:70
+msgid "page.donate.buttons.join"
+msgstr "Pridruži se"
 
 #: allthethings/account/templates/account/donate.html:30
 #: allthethings/account/templates/account/donate.html:43
@@ -86,6 +101,10 @@ msgstr "Zgodnji dostop do novih funkcij"
 msgid "page.donate.perks.exclusive_telegram"
 msgstr "Ekskluzivni Telegram z informacijami iz zakulisja"
 
+#: allthethings/account/templates/account/donate.html:77
+msgid "page.donate.perks.adopt"
+msgstr "»Posvojite torrent«: vaše uporabniško ime ali sporočilo v imenu datoteke torrent <div class=\"text-gray-500 text-sm\">enkrat na vsakih 12 mesecev članstva</div>"
+
 #: allthethings/account/templates/account/donate.html:83
 msgid "page.donate.header.text3"
 msgstr "Donirate lahko tudi brez ustvarjanja računa:"
@@ -95,146 +114,221 @@ msgstr "Donirate lahko tudi brez ustvarjanja računa:"
 msgid "page.donate.buttons.one_time"
 msgstr "Enkratna donacija (brez ugodnosti)"
 
+#: allthethings/account/templates/account/donate.html:94
+msgid "page.donate.login"
+msgstr "Če želite postati član, se <a href=\"/login\">prijavite ali registrirajte</a>. Če ne želite ustvariti računa, izberite zgoraj »Izvedi enkratno anonimno donacijo«. Hvala za tvojo podporo!"
+
 #: allthethings/account/templates/account/donate.html:99
 msgid "page.donate.payment.intro"
 msgstr "Izberite možnost plačila. Dajemo popuste za kripto plačila %(bitcoin_icon)s, ker imamo (veliko) manj stroškov."
 
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:191
+#: allthethings/account/templates/account/donate.html:100
+msgid "page.donate.payment.intro2"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:104
+#: allthethings/account/templates/account/donate.html:192
 msgid "page.donate.payment.buttons.crypto"
 msgstr "Kripto %(bitcoin_icon)s"
 
+#: allthethings/account/templates/account/donate.html:104
 #: allthethings/account/templates/account/donate.html:105
-#: allthethings/account/templates/account/donate.html:193
+#: allthethings/account/templates/account/donate.html:106
+#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:141
+#: allthethings/account/templates/account/donate.html:142
+#: allthethings/account/templates/account/donate.html:143
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
+
+#: allthethings/account/templates/account/donate.html:106
+#: allthethings/account/templates/account/donate.html:194
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal (ZDA) %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:107
-#: allthethings/account/templates/account/donate.html:195
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:196
 msgid "page.donate.payment.buttons.alipay"
 msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:108
-#: allthethings/account/templates/account/donate.html:196
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:197
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix (Brazilija)"
 
-#: allthethings/account/templates/account/donate.html:122
+#: allthethings/account/templates/account/donate.html:117
+msgid "page.donate.payment.desc.crypto"
+msgstr "S kriptovalutami lahko donirate z uporabo BTC, ETH, XMR in SOL. Uporabite to možnost, če ste že seznanjeni s kriptovalutami."
+
+#: allthethings/account/templates/account/donate.html:123
 msgid "page.donate.payment.desc.paypal"
 msgstr "Za doniranje s PayPal US bomo uporabili PayPal Crypto, ki nam omogoča, da ostanemo anonimni. Cenimo, da ste si vzeli čas in se naučili darovati s to metodo, saj nam zelo pomaga."
 
-#: allthethings/account/templates/account/donate.html:133
+#: allthethings/account/templates/account/donate.html:134
 msgid "page.donate.duration.intro"
 msgstr "Izberite, za koliko časa se želite naročiti."
 
-#: allthethings/account/templates/account/donate.html:138
+#: allthethings/account/templates/account/donate.html:139
 msgid "page.donate.duration.1_mo"
 msgstr "1 mesec"
 
-#: allthethings/account/templates/account/donate.html:139
+#: allthethings/account/templates/account/donate.html:140
 msgid "page.donate.duration.3_mo"
 msgstr "3 mesece"
 
 #: allthethings/account/templates/account/donate.html:141
+msgid "page.donate.duration.6_mo"
+msgstr "6 mesecev"
+
+#: allthethings/account/templates/account/donate.html:142
 msgid "page.donate.duration.12_mo"
 msgstr "12 mesecev"
 
-#: allthethings/account/templates/account/donate.html:142
+#: allthethings/account/templates/account/donate.html:143
 msgid "page.donate.duration.24_mo"
 msgstr "24 mesecev"
 
-#: allthethings/account/templates/account/donate.html:158
+#: allthethings/account/templates/account/donate.html:146
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>po <span %(span_discount)s></span> popustih</div><div %(div_total)s></div> <div %(div_duration)s></div>"
+
+#: allthethings/account/templates/account/donate.html:159
 msgid "page.donate.submit.confirm"
 msgstr "Kliknite gumb doniraj, da potrdite to donacijo."
 
-#: allthethings/account/templates/account/donate.html:167
+#: allthethings/account/templates/account/donate.html:168
 msgid "page.donate.submit.button"
 msgstr "Donirajte <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:172
+#: allthethings/account/templates/account/donate.html:173
 msgid "page.donate.submit.cancel_note"
 msgstr "Donacijo lahko še vedno prekličete postopkom."
 
-#: allthethings/account/templates/account/donate.html:175
+#: allthethings/account/templates/account/donate.html:176
 msgid "page.donate.submit.success"
 msgstr "✅ Preusmeritev na stran za donacije…"
 
-#: allthethings/account/templates/account/donate.html:176
+#: allthethings/account/templates/account/donate.html:177
 msgid "page.donate.submit.failure"
 msgstr "❌ Nekaj je šlo narobe. Prosimo ponovno naložite stran in poskusite znova."
 
-#: allthethings/account/templates/account/donate.html:187
+#: allthethings/account/templates/account/donate.html:184
+msgid "page.donate.one_time_payment.intro"
+msgstr "Izberite možnost plačila. Prosimo, razmislite o uporabi kripto plačila %(bitcoin_icon)s, ker imamo (veliko) manj stroškov."
+
+#: allthethings/account/templates/account/donate.html:188
 msgid "page.donate.header.large_donations"
 msgstr "Za donacije nad 5000 USD nas kontaktirajte neposredno na <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@proton.me</a>."
 
-#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:202
+msgid "page.donate.crypto.intro"
+msgstr "Če že imate kripto valute, so to naši naslovi."
+
+#: allthethings/account/templates/account/donate.html:213
+#: allthethings/account/templates/account/donate.html:251
+#: allthethings/account/templates/account/donate.html:266
+#: allthethings/account/templates/account/donate.html:280
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.text_thank_you"
+msgstr "Najlepša hvala za pomoč! Brez vas tega projekta ne bi bilo."
+
+#: allthethings/account/templates/account/donate.html:219
 msgid "page.donate.one_time_payment.paypal.text1"
 msgstr "Za doniranje s PayPal US bomo uporabili PayPal Crypto, ki nam omogoča, da ostanemo anonimni. Cenimo, da ste si vzeli čas in se naučili darovati s to metodo, saj nam zelo pomaga."
 
-#: allthethings/account/templates/account/donate.html:221
+#: allthethings/account/templates/account/donate.html:222
 #: allthethings/account/templates/account/donation.html:78
 msgid "page.donate.submit.header1"
 msgstr "<span %(span_circle)s>1</span>Kupite Bitcoin na Paypalu"
 
-#: allthethings/account/templates/account/donate.html:228
+#: allthethings/account/templates/account/donate.html:225
+#: allthethings/account/templates/account/donation.html:81
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr "Poiščite stran »Kripto« v svoji aplikaciji ali spletnem mestu PayPal. To se običajno nahaja pod opcijo »Finance«."
+
+#: allthethings/account/templates/account/donate.html:229
 msgid "page.donate.one_time_payment.paypal.text3"
 msgstr "Sledite navodilom za nakup Bitcoin (BTC). Kupiti morate le znesek, ki ga želite donirati."
 
-#: allthethings/account/templates/account/donate.html:235
+#: allthethings/account/templates/account/donate.html:233
+msgid "page.donate.one_time_payment.paypal.text3b"
+msgstr "Če izgubite nekaj bitcoinov zaradi nihanj ali provizij, <em>ne skrbite</em>. To je normalno pri kriptovaluti, vendar nam omogoča, da delujemo anonimno."
+
+#: allthethings/account/templates/account/donate.html:236
 #: allthethings/account/templates/account/donation.html:88
 msgid "page.donate.submit.header2"
 msgstr "<span %(span_circle)s>2</span>Prenesite Bitcoin na naš naslov"
 
-#: allthethings/account/templates/account/donate.html:238
+#: allthethings/account/templates/account/donate.html:239
 #: allthethings/account/templates/account/donation.html:91
 msgid "page.donate.one_time_payment.paypal.text4"
 msgstr "Pojdite na stran »Bitcoin« v aplikaciji ali spletnem mestu PayPal. Pritisnite gumb »Prenos« %(transfer_icon)s in nato »Pošlji«."
 
-#: allthethings/account/templates/account/donate.html:242
+#: allthethings/account/templates/account/donate.html:243
 msgid "page.donate.one_time_payment.paypal.text5"
 msgstr "Vnesite naš Bitcoin (BTC) naslov kot prejemnika in sledite navodilom za pošiljanje donacije:"
 
-#: allthethings/account/templates/account/donate.html:271
+#: allthethings/account/templates/account/donate.html:262
+#: allthethings/account/templates/account/donate.html:276
+#: allthethings/account/templates/account/donation.html:112
+#: allthethings/account/templates/account/donation.html:125
+#: allthethings/account/templates/account/donation.html:137
+msgid "page.donate.strange_account"
+msgstr "Ime računa ali slika sta lahko videti nenavadna. Brez skrbi! Te račune upravljajo naši donatorski partnerji. Naši računi niso bili vdrti."
+
+#: allthethings/account/templates/account/donate.html:272
 msgid "page.donate.one_time_payment.alipay.text"
 msgstr "Za pošiljanje donacije uporabite <a %(a_account)s>ta račun Alipay</a>."
 
-#: allthethings/account/templates/account/donate.html:285
+#: allthethings/account/templates/account/donate.html:286
 msgid "page.donate.one_time_payment.pix.text"
 msgstr "Za pošiljanje donacije uporabite <a %(a_account)s>ta račun Pix</a>."
 
-#: allthethings/account/templates/account/donate.html:348
+#: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:349
+#: allthethings/account/templates/account/donate.html:350
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s/mesec"
 
 #: allthethings/account/templates/account/donate.html:353
+msgid "page.donate.duration.summary.duration.1_mo"
+msgstr "za 1 mesec"
+
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "za 3 mesece"
 
-#: allthethings/account/templates/account/donate.html:354
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "za 6 mesecev"
 
-#: allthethings/account/templates/account/donate.html:355
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "za 12 mesecev"
 
-#: allthethings/account/templates/account/donate.html:356
+#: allthethings/account/templates/account/donate.html:357
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "za 24 mesecev"
 
-#: allthethings/account/templates/account/donate.html:360
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "za 1 mesec »%(tier_name)s«"
 
 #: allthethings/account/templates/account/donate.html:362
+msgid "page.donate.submit.button.label.3_mo"
+msgstr "za 3 mesece »%(tier_name)s«"
+
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "za 6 mesecev »%(tier_name)s«"
 
 #: allthethings/account/templates/account/donate.html:364
+msgid "page.donate.submit.button.label.12_mo"
+msgstr "za 12 mesecev »%(tier_name)s«"
+
+#: allthethings/account/templates/account/donate.html:365
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "za 24 mesecev »%(tier_name)s«"
 
@@ -254,6 +348,10 @@ msgstr "Datum: %(date)s"
 #: allthethings/account/templates/account/donation.html:14
 msgid "page.donation.header.total_with_discount"
 msgstr "Skupaj: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mesec za %(duration)s mesecev)</span>"
+
+#: allthethings/account/templates/account/donation.html:16
+msgid "page.donation.header.total_no_discount"
+msgstr "Skupaj: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mesec za %(duration)s mesecev, vključno z %(discounts)s%% popustom)</span>"
 
 #: allthethings/account/templates/account/donation.html:19
 msgid "page.donation.header.status"
@@ -299,6 +397,10 @@ msgstr "Prikaži stara plačilna navodila"
 #: allthethings/account/templates/account/donation.html:48
 msgid "page.donation.old_instructions.intro_outdated"
 msgstr "Navodila za plačilo so zdaj zastarela. Če želite prispevati še eno donacijo, uporabite zgornji gumb »Preuredi vrstni red."
+
+#: allthethings/account/templates/account/donation.html:58
+msgid "page.donate.submit.crypto_note"
+msgstr "<strong>Pomembna opomba:</strong> Cene kriptovalut lahko močno nihajo, včasih tudi do 20 % % v nekaj minutah. To je še vedno manj od provizij, ki jih imamo pri številnih ponudnikih plačil, ki pogosto zaračunavajo 50–60 % % za sodelovanje z »dobrodelno organizacijo v senci«, kot je mi. <u>Če nam pošljete potrdilo s prvotno ceno, ki ste jo plačali, bomo vaš račun spremenili v izbrano članstvo</u> (če potrdilo ni starejše od nekaj ur). Resnično cenimo, da ste pripravljeni prenašati takšne stvari, da bi nas podprli! ❤️"
 
 #: allthethings/account/templates/account/donation.html:63
 msgid "page.donation.payment.crypto.top_header"
@@ -348,18 +450,50 @@ msgstr "Donirajte skupni znesek %(total)s z <a %(a_account)s>tem računom Pix"
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Pošljite nam potrdilo po e-pošti"
 
+#: allthethings/account/templates/account/donation.html:144
+msgid "page.donation.footer.text1"
+msgstr "Pošljite potrdilo ali posnetek zaslona na svoj osebni naslov za preverjanje:"
+
+#: allthethings/account/templates/account/donation.html:153
+msgid "page.donation.footer.crypto_note"
+msgstr "Če je tečaj kriptovalute med transakcijo nihal, obvezno priložite potrdilo, ki prikazuje prvotni menjalni tečaj. Resnično cenimo, da ste se potrudili pri uporabi kriptovalute, zelo nam pomaga!"
+
 #: allthethings/account/templates/account/donation.html:160
 msgid "page.donation.footer.text2"
 msgstr "Ko pošljete potrdilo po e-pošti, kliknite ta gumb, da ga bo Anna lahko ročno pregledala (to lahko traja nekaj dni):"
+
+#: allthethings/account/templates/account/donation.html:167
+msgid "page.donation.footer.button"
+msgstr "Da, potrdilo sem poslal po e-pošti"
 
 #: allthethings/account/templates/account/donation.html:170
 msgid "page.donation.footer.success"
 msgstr "✅ Hvala za vašo donacijo! Anna bo v nekaj dneh ročno aktivirala vaše članstvo."
 
+#: allthethings/account/templates/account/donation.html:171
+msgid "page.donation.footer.failure"
+msgstr "❌ Nekaj je šlo narobe. Ponovno naložite stran in poskusite znova."
+
 #: allthethings/account/templates/account/donation_faq.html:3
 #: allthethings/account/templates/account/donation_faq.html:6
 msgid "page.donate.faq.title"
 msgstr "Pogosta vprašanja o donacijah"
+
+#: allthethings/account/templates/account/donation_faq.html:9
+msgid "page.donate.faq.renew"
+msgstr "<div class=\"font-bold\">Ali se članstva samodejno podaljšujejo?</div> Članstva se <strong>ne</strong> podaljšujejo samodejno. Pridružite se nam lahko za kakor dolgo želite."
+
+#: allthethings/account/templates/account/donation_faq.html:13
+msgid "page.donate.faq.text_other_payment1"
+msgstr "<div class=\"font-bold\">Ali imate druge načine plačila?</div> Trenutno ne. Veliko ljudi si ne želi, da bi takšni arhivi obstajali, zato moramo biti previdni. Če nam lahko pomagate vzpostaviti druge (priročnejše) načine varnega plačila, se obrnite na %(email)s."
+
+#: allthethings/account/templates/account/donation_faq.html:17
+msgid "page.donate.faq.text_other_payment2"
+msgstr "Če vašega plačilnega sredstva ni na seznamu, bi bilo najlažje prenesti <a href=\"https://paypal.com/\">PayPal</a> ali <a href=\"https://coinbase .com/\">Coinbase</a> v telefonu in tam kupite delček Bitcoina (BTC). Nato ga lahko pošljete na naš naslov: %(address)s. V večini držav bi ta nastavitev trajala le nekaj minut."
+
+#: allthethings/account/templates/account/donation_faq.html:21
+msgid "page.donate.faq.spend"
+msgstr "<div class=\"font-bold\">Za kaj porabite donacije?</div> 100%% gre za ohranjanje in omogočanje dostopa do svetovnega znanja in kulture. Trenutno ga večinoma porabimo za strežnike, diskovni prostor in pasovno širino. Noben denar ne gre nobenemu članu ekipe osebno."
 
 #: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_large_donation"
@@ -368,6 +502,10 @@ msgstr "<div class=\"font-bold\">Ali lahko prispevam veliko?</div> To bi bilo ne
 #: allthethings/account/templates/account/donation_faq.html:29
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div class=\"font-bold\">Ali lahko prispevam na druge načine?</div> Da! Oglejte si <a href=\"/about\">stran o tem</a> pod “Kako pomagati”."
+
+#: allthethings/account/templates/account/donation_faq.html:33
+msgid "page.donate.faq.monetizing"
+msgstr "<div class=\"font-bold\">Ni mi všeč, da »monetizirate« Annin arhiv!</div> Če vam ni všeč, kako upravljamo naš projekt, zaženite svojo knjižnico v senci! Vsa naša koda in podatki so odprtokodni, zato za to ovir. ;)"
 
 #: allthethings/account/templates/account/donations.html:3
 #: allthethings/account/templates/account/donations.html:6
@@ -421,6 +559,10 @@ msgstr "Članstvo: <strong>Brez</strong> <a %(a_become)s>(postanite član)</a>"
 msgid "page.account.logged_in.membership_has_some"
 msgstr "Članstvo: <strong>%(tier_name)s</strong> do %(until_date)s <a %(a_extend)s>(podaljšaj)</a>"
 
+#: allthethings/account/templates/account/index.html:25
+msgid "page.account.logged_in.membership_fast_downloads_used"
+msgstr "Uporabljeni hitri prenosi (zadnjih 24 ur): <strong>%(uporabljeno)s / %(total)s</strong>"
+
 #: allthethings/account/templates/account/index.html:31
 msgid "page.account.logged_in.membership_upgrade"
 msgstr "Kontaktirajte Anno na AnnaArchivist@proton.me, če vas zanima nadgradnja članstva na višjo raven."
@@ -441,6 +583,14 @@ msgstr "❌ Nekaj je šlo narobe. Ponovno naložite stran in poskusite znova."
 msgid "page.account.logged_out.registered.text1"
 msgstr "Registracija uspešna! Vaš skrivni ključ je: <span %(span_key)s>%(key)s</span>"
 
+#: allthethings/account/templates/account/index.html:49
+msgid "page.account.logged_out.registered.text2"
+msgstr "Ta ključ skrbno shranite. Če ga izgubite, boste izgubili dostop do svojega računa."
+
+#: allthethings/account/templates/account/index.html:53
+msgid "page.account.logged_out.registered.text3"
+msgstr "<li %(li_item)s><strong>Zaznamek.</strong> To stran lahko dodate med zaznamke, da pridobite svoj ključ.</li><li %(li_item)s><strong>Prenos.</strong> Kliknite < %(a_download)s>to povezavo</a> za prenos ključa.</li><li %(li_item)s><strong>Upravitelj gesel.</strong> Za vaše udobje je ključ vnaprej izpolnjen spodaj, tako da ga lahko ob prijavi shranite v upravitelja gesel.</li>"
+
 #: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.key_form.text"
 msgstr "Za prijavo vnesite svoj skrivni ključ:"
@@ -448,6 +598,10 @@ msgstr "Za prijavo vnesite svoj skrivni ključ:"
 #: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Skrivni ključ"
+
+#: allthethings/account/templates/account/index.html:61
+msgid "page.account.logged_out.key_form.button"
+msgstr "Vpiši se"
 
 #: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.invalid_key"
@@ -473,9 +627,17 @@ msgstr "Seznam"
 msgid "page.list.header.edit.link"
 msgstr "uredi"
 
+#: allthethings/account/templates/account/list.html:11
+msgid "page.list.edit.button"
+msgstr "Shrani"
+
 #: allthethings/account/templates/account/list.html:14
 msgid "page.list.edit.success"
 msgstr "✅ Shranjeno. Ponovno naložite stran."
+
+#: allthethings/account/templates/account/list.html:15
+msgid "page.list.edit.failure"
+msgstr "❌ Nekaj je šlo narobe. Prosim poskusite ponovno."
 
 #: allthethings/account/templates/account/list.html:19
 msgid "page.list.by_and_date"
@@ -488,6 +650,14 @@ msgstr "Seznam je prazen."
 #: allthethings/account/templates/account/list.html:31
 msgid "page.list.new_item"
 msgstr "Dodajte ali odstranite s tega seznama tako, da poiščete datoteko in odprete zavihek »Seznami«."
+
+#: allthethings/account/templates/account/profile.html:3
+msgid "page.profile.title"
+msgstr "Profil"
+
+#: allthethings/account/templates/account/profile.html:7
+msgid "page.profile.not_found"
+msgstr "Profil ni bil najden."
 
 #: allthethings/account/templates/account/profile.html:9
 msgid "page.profile.header.edit"
@@ -504,6 +674,10 @@ msgstr "Shrani"
 #: allthethings/account/templates/account/profile.html:18
 msgid "page.profile.change_display_name.success"
 msgstr "✅ Shranjeno. Ponovno naložite stran."
+
+#: allthethings/account/templates/account/profile.html:19
+msgid "page.profile.change_display_name.failure"
+msgstr "❌ Nekaj je šlo narobe. Prosim poskusite ponovno."
 
 #: allthethings/account/templates/account/profile.html:22
 msgid "page.profile.created_time"
@@ -538,6 +712,11 @@ msgstr "<li %(li_item)s>Za e-knjige uporabite <a %(a_ebook)s>to nit</a>.</li><li
 msgid "page.request.text3"
 msgstr "V obeh primerih upoštevajte pravila, navedena v temah."
 
+#: allthethings/account/templates/account/request.html:21
+#: allthethings/account/templates/account/upload.html:13
+msgid "common.libgen.email"
+msgstr "Če vaš e-poštni naslov ne deluje na forumih Libgen, priporočamo uporabo <a %(a_mail)s>Proton Mail-a</a> (brezplačno). Lahko tudi <a %(a_manual)s>ročno zahtevate</a>, da se vaš račun aktivira."
+
 #: allthethings/account/templates/account/upload.html:3
 #: allthethings/account/templates/account/upload.html:6
 msgid "page.upload.title"
@@ -547,122 +726,131 @@ msgstr "Naloži"
 msgid "page.upload.text1"
 msgstr "Zaenkrat predlagamo nalaganje novih knjig v vejitve Library Genesis. Tukaj je <a %(a_guide)s>priročen vodnik</a>. Upoštevajte, da obe vejitvi kode, ki ju indeksiramo na tem spletnem mestu, črpata iz istega sistema za nalaganje."
 
-#: allthethings/page/views.py:1816
+#: allthethings/page/views.py:2014
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Ni vidno v Libgen.rs Non-Fiction"
 
-#: allthethings/page/views.py:1817
+#: allthethings/page/views.py:2015
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Ni vidno v Libgen.rs Fiction"
 
-#: allthethings/page/views.py:1818
+#: allthethings/page/views.py:2016
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Ni vidno v Libgen.li"
 
-#: allthethings/page/views.py:1819
+#: allthethings/page/views.py:2017
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Označeno kot pokvarjeno v Libgen.li"
 
-#: allthethings/page/views.py:1820
+#: allthethings/page/views.py:2018
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Manjka v Z-knjižnici"
 
-#: allthethings/page/views.py:1826
+#: allthethings/page/views.py:2024
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Knjiga (neznano)"
 
-#: allthethings/page/views.py:1827
+#: allthethings/page/views.py:2025
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Knjiga (neleposlovje)"
 
-#: allthethings/page/views.py:1828
+#: allthethings/page/views.py:2026
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Knjiga (leposlovje)"
 
-#: allthethings/page/views.py:1829
+#: allthethings/page/views.py:2027
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Članek v reviji"
 
-#: allthethings/page/views.py:1830
+#: allthethings/page/views.py:2028
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Standardni dokument"
 
-#: allthethings/page/views.py:1831
+#: allthethings/page/views.py:2029
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Revija"
 
-#: allthethings/page/views.py:1832
+#: allthethings/page/views.py:2030
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Strip"
 
-#: allthethings/page/views.py:1834
+#: allthethings/page/views.py:2032
 msgid "common.md5_content_type_mapping.book_any"
 msgstr "Knjiga (katerakoli)"
 
-#: allthethings/page/views.py:1859 allthethings/page/views.py:1860
+#: allthethings/page/views.py:2057 allthethings/page/views.py:2058
 msgid "common.md5.servers.fast_partner"
 msgstr "Hitri partnerski strežnik #%(number)s"
 
-#: allthethings/page/views.py:1859
+#: allthethings/page/views.py:2057
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(preverjanje brskalnika ni potrebno)"
 
-#: allthethings/page/views.py:1861 allthethings/page/views.py:1862
-#: allthethings/page/views.py:1863
+#: allthethings/page/views.py:2059 allthethings/page/views.py:2060
+#: allthethings/page/views.py:2061
 msgid "common.md5.servers.slow_partner"
 msgstr "Počasen partnerski strežnik #%(number)s"
 
-#: allthethings/page/views.py:1861
+#: allthethings/page/views.py:2059
 msgid "common.md5.servers.browser_verification_unlimited"
 msgstr "(morda zahteva <a %(a_browser)s>preverjanje brskalnika</a> — neomejeni prenosi!)"
 
-#: allthethings/page/views.py:1980
+#: allthethings/page/views.py:2200
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Neleposlovje"
 
-#: allthethings/page/views.py:1980 allthethings/page/views.py:1988
-#: allthethings/page/views.py:2006
+#: allthethings/page/views.py:2200 allthethings/page/views.py:2208
+#: allthethings/page/views.py:2224
+msgid "page.md5.box.download.extra_also_click_get"
+msgstr "(kliknite tudi \"GET\" na vrhu)"
+
+#: allthethings/page/views.py:2200 allthethings/page/views.py:2208
+#: allthethings/page/views.py:2224
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(kliknite \"GET\" na vrhu)"
 
-#: allthethings/page/views.py:1988
+#: allthethings/page/views.py:2208
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Leposlovje"
 
-#: allthethings/page/views.py:2006
+#: allthethings/page/views.py:2224
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:2009 allthethings/page/views.py:2010
-#: allthethings/page/views.py:2011
+#: allthethings/page/views.py:2227 allthethings/page/views.py:2228
+#: allthethings/page/views.py:2229
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "Prehod IPFS #%(num)d"
 
-#: allthethings/page/views.py:2016
+#: allthethings/page/views.py:2227
+msgid "page.md5.box.download.ipfs_gateway_extra"
+msgstr "(morda boste morali z IPFS poskusiti večkrat)"
+
+#: allthethings/page/views.py:2237
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:2016
+#: allthethings/page/views.py:2237
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(povezani DOI morda ni na voljo v Sci-Hubu)"
 
-#: allthethings/page/views.py:2018
+#: allthethings/page/views.py:2239 allthethings/page/views.py:2241
 msgid "page.md5.box.download.zlib_tor"
 msgstr "Z-Library na Tor omrežju"
 
-#: allthethings/page/views.py:2018
+#: allthethings/page/views.py:2239 allthethings/page/views.py:2241
 msgid "page.md5.box.download.zlib_tor_extra"
 msgstr "(zahteva brskalnik Tor)"
 
-#: allthethings/page/views.py:2021
+#: allthethings/page/views.py:2244
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Izposodi si iz Internet Archive"
 
-#: allthethings/page/views.py:2022
+#: allthethings/page/views.py:2245
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Množični prenosi torrentov"
 
-#: allthethings/page/views.py:2022
+#: allthethings/page/views.py:2245
 msgid "page.md5.box.download.experts_only"
 msgstr "(samo strokovnjaki)"
 
@@ -678,6 +866,10 @@ msgstr "O projektu"
 msgid "page.about.text1"
 msgstr "Annin arhiv je neprofitni odprtokodni iskalnik za »<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">senčne knjižnice</a>«. Ustvarila ga je <a href=\"http://annas-blog.org\">Anna</a>, ki je menila, da obstaja potreba po osrednjem spletnem mestu za iskanje knjig, časopisov, stripov, revij in drugih dokumentov."
 
+#: allthethings/page/templates/page/about.html:13
+msgid "page.about.text2"
+msgstr "Trdno verjamemo v prost pretok informacij ter ohranjanje znanja in kulture. S tem iskalnikom gradimo na plečih velikanov. Globoko spoštujemo trdo delo ljudi, ki so ustvarili različne senčne knjižnice, in upamo, da bo ta iskalnik razširil njihov doseg."
+
 #: allthethings/page/templates/page/about.html:17
 msgid "page.about.text3"
 msgstr "Če želite biti obveščeni o našem napredku, spremljajte Anno na <a href=\"https://twitter.com/AnnaArchivist\">Twitter-ju</a>, <a href=\"https://www.reddit.com/r/Annas_Archive /\">Reddit-i</a> ali <a href=\"https://t.me/annasarchiveorg\">Telegram-u</a>. Za vprašanja in povratne informacije se obrnite na Anno na %(email)s."
@@ -690,6 +882,49 @@ msgstr "Če imate veljavno pritožbo DMCA, si oglejte dno te strani ali nas kont
 msgid "page.about.help.header"
 msgstr "Kako pomagati"
 
+#: allthethings/page/templates/page/about.html:27
+msgid "page.about.help.text"
+msgstr "<li>1. Sledite nam na <a href=\"https://twitter.com/AnnaArchivist\">Twitter-ju</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit-u</a > ali <a href=\"https://t.me/annasarchiveorg\">Telegram-u</a>.</li><li>2. Razširite gla-s o Annine-m arhivu na Twitterju, Redditu, Tiktoku, Instagramu, v vaši lokalni kavarni ali knjižnici ali kamor koli že greste! Ne verjamemo v nadzor – če nas uničijo, se bomo preprosto pojavili drugje, saj so vsa naša koda in podatki popolnoma odprtokodni.</li><li>3. Če lahko, razmislite o <a href=\"/donate\">donira <a href=\"https://translate.annas-software.org/\">prevesti</a> naše spletno mesto v različne jezike.</li><li>5. Če ste programski inženir, razmislite o prispevanju k naši <a href=\"https://annas-software.org/\">odprti kodi</a> ali sejanju naših <a href=\"/datasets\">torrentov</a>.</li>"
+
+#: allthethings/page/templates/page/about.html:35
+#: allthethings/page/templates/page/about.html:36
+#: allthethings/page/templates/page/copyright.html:6
+#: allthethings/page/templates/page/copyright.html:7
+#: allthethings/page/templates/page/datasets.html:13
+#: allthethings/page/templates/page/datasets.html:14
+#: allthethings/page/templates/page/datasets_ia.html:6
+#: allthethings/page/templates/page/datasets_ia.html:7
+#: allthethings/page/templates/page/datasets_isbn_ranges.html:6
+#: allthethings/page/templates/page/datasets_isbn_ranges.html:7
+#: allthethings/page/templates/page/datasets_isbndb.html:6
+#: allthethings/page/templates/page/datasets_isbndb.html:7
+#: allthethings/page/templates/page/datasets_libgen_li.html:6
+#: allthethings/page/templates/page/datasets_libgen_li.html:7
+#: allthethings/page/templates/page/datasets_libgen_rs.html:6
+#: allthethings/page/templates/page/datasets_libgen_rs.html:7
+#: allthethings/page/templates/page/datasets_openlib.html:6
+#: allthethings/page/templates/page/datasets_openlib.html:7
+#: allthethings/page/templates/page/datasets_scihub.html:6
+#: allthethings/page/templates/page/datasets_scihub.html:7
+#: allthethings/page/templates/page/datasets_zlib.html:6
+#: allthethings/page/templates/page/datasets_zlib.html:7
+#: allthethings/page/templates/page/doi.html:40
+#: allthethings/page/templates/page/doi.html:41
+#: allthethings/page/templates/page/isbn.html:45
+#: allthethings/page/templates/page/isbn.html:46
+#: allthethings/page/templates/page/md5.html:146
+#: allthethings/page/templates/page/md5.html:147
+#: allthethings/page/templates/page/mobile.html:6
+#: allthethings/page/templates/page/mobile.html:7
+#: allthethings/page/templates/page/ol_book.html:8
+#: allthethings/page/templates/page/ol_book.html:9
+#: allthethings/page/templates/page/security.html:6
+#: allthethings/page/templates/page/security.html:7
+#: allthethings/page/templates/page/torrents.html:6
+#: allthethings/page/templates/page/torrents.html:7
+msgid "common.english_only"
+msgstr "Besedilo spodaj se nadaljuje v angleščini."
+
 #: allthethings/page/templates/page/browser_verification.html:3
 #: allthethings/page/templates/page/login.html:3
 #: allthethings/page/templates/page/login.html:6
@@ -700,6 +935,11 @@ msgstr "Prijavite se / Registrirajte se"
 #: allthethings/page/templates/page/login.html:9
 msgid "page.login.text1"
 msgstr "Da preprečimo, da bi roboti za neželeno pošto ustvarili veliko računov, moramo najprej preveriti vaš brskalnik."
+
+#: allthethings/page/templates/page/browser_verification.html:13
+#: allthethings/page/templates/page/login.html:14
+msgid "page.login.text2"
+msgstr "Če se ujamete v neskončno zanko, priporočamo namestitev <a href=\"https://privacypass.github.io/\">Privacy Pass</a>."
 
 #: allthethings/page/templates/page/doi.html:3
 msgid "page.doi.title"
@@ -713,13 +953,13 @@ msgstr "Datasets ▶ DOIs ▶ DOI %(doi_input)s"
 msgid "page.doi.invalid.header"
 msgstr "Ni najdeno"
 
-#: allthethings/page/templates/page/doi.html:15
-msgid "page.doi.box.header"
-msgstr "doi:%(doi_input)s"
-
 #: allthethings/page/templates/page/doi.html:11
 msgid "page.doi.invalid.text"
 msgstr "\"%(doi_input)s\" ni videti kot DOI. Začeti bi se moralo z \"10.\" in vsebovati poševnico (/)."
+
+#: allthethings/page/templates/page/doi.html:15
+msgid "page.doi.box.header"
+msgstr "doi:%(doi_input)s"
 
 #: allthethings/page/templates/page/doi.html:18
 msgid "page.doi.box.canonical_url"
@@ -733,11 +973,19 @@ msgstr "Ta datoteka je morda v %(link_open_tag)sSci-Hub</a>."
 msgid "page.doi.results.text"
 msgstr "Ujemajoče se datoteke v naši bazi podatkov:"
 
+#: allthethings/page/templates/page/doi.html:33
+msgid "page.doi.results.none"
+msgstr "V naši zbirki podatkov ni bilo najdenih ustreznih datotek."
+
 #: allthethings/page/templates/page/doi.html:37
 #: allthethings/page/templates/page/isbn.html:42
 #: allthethings/page/templates/page/md5.html:155
 msgid "common.tech_details"
 msgstr "Tehnične podrobnosti"
+
+#: allthethings/page/templates/page/fast_download_no_more.html:5
+msgid "page.fast_downloads.no_more"
+msgstr "Danes vam je zmanjkalo hitrih prenosov. Kontaktirajte Anno na AnnaArchivist@proton.me, če vas zanima nadgradnja članstva."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
@@ -747,258 +995,446 @@ msgstr "Postanite član, če želite uporabljati hitre prenose."
 msgid "page.home.intro.text1"
 msgstr "<span %(span_anna)s>Annin arhiv</span> je neprofitni projekt z dvema ciljema:"
 
-#: allthethings/account/views.py:247
-msgid "common.donation.order_processing_status_labels.0"
-msgstr "neplačljivo"
+#: allthethings/page/templates/page/home.html:9
+msgid "page.home.intro.text2"
+msgstr ""
 
-#: allthethings/account/views.py:250
-msgid "common.donation.order_processing_status_labels.3"
-msgstr "potečeno"
+#: allthethings/page/templates/page/home.html:13
+msgid "page.home.preservation.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:11
-msgid "page.donate.header.existing_unpaid_donation"
-msgstr "V teku je že <a %(a_donation)s>obstoječa donacija</a>. Prosimo, dokončajte ali prekličite to donacijo, preden začnete z novo donacijo."
+#: allthethings/page/templates/page/home.html:15
+msgid "page.home.preservation.text"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:20
-msgid "page.donate.header.text1"
-msgstr "Annin arhiv je neprofitni, odprtokodni projekt z javno dostopnimi podatki. Z donacijo in članstvom podpirate naše delovanje in razvoj. Vsem našim članom: hvala, ker nas podpirate! ❤️"
+#: allthethings/page/templates/page/home.html:29
+msgid "page.home.preservation.label"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:29
-#: allthethings/account/templates/account/donate.html:42
-#: allthethings/account/templates/account/donate.html:56
-#: allthethings/account/templates/account/donate.html:70
-msgid "page.donate.buttons.join"
-msgstr "Pridruži se"
+#: allthethings/page/templates/page/home.html:34
+msgid "page.home.access.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:77
-msgid "page.donate.perks.adopt"
-msgstr "»Posvojite torrent«: vaše uporabniško ime ali sporočilo v imenu datoteke torrent <div class=\"text-gray-500 text-sm\">enkrat na vsakih 12 mesecev članstva</div>"
+#: allthethings/page/templates/page/home.html:36
+msgid "page.home.access.text"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:94
-msgid "page.donate.login"
-msgstr "Če želite postati član, se <a href=\"/login\">prijavite ali registrirajte</a>. Če ne želite ustvariti računa, izberite zgoraj »Izvedi enkratno anonimno donacijo«. Hvala za tvojo podporo!"
+#: allthethings/page/templates/page/home.html:40
+msgid "page.home.access.label"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:105
-#: allthethings/account/templates/account/donate.html:139
-#: allthethings/account/templates/account/donate.html:140
-#: allthethings/account/templates/account/donate.html:141
-#: allthethings/account/templates/account/donate.html:142
-msgid "page.donate.discount"
-msgstr "-%(percentage)s%%"
+#: allthethings/page/templates/page/home.html:67
+msgid "page.home.search.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:116
-msgid "page.donate.payment.desc.crypto"
-msgstr "S kriptovalutami lahko donirate z uporabo BTC, ETH, XMR in SOL. Uporabite to možnost, če ste že seznanjeni s kriptovalutami."
+#: allthethings/page/templates/page/home.html:70
+msgid "page.home.search.intro"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:140
-msgid "page.donate.duration.6_mo"
-msgstr "6 mesecev"
+#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/search.html:56
+#: allthethings/templates/layouts/index.html:367
+msgid "common.search.placeholder"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:145
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>po <span %(span_discount)s></span> popustih</div><div %(div_total)s></div> <div %(div_duration)s></div>"
+#: allthethings/page/templates/page/home.html:76
+#: allthethings/page/templates/page/search.html:57
+msgid "common.search.submit"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:183
-msgid "page.donate.one_time_payment.intro"
-msgstr "Izberite možnost plačila. Prosimo, razmislite o uporabi kripto plačila %(bitcoin_icon)s, ker imamo (veliko) manj stroškov."
+#: allthethings/page/templates/page/home.html:80
+msgid "page.home.random_book.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:201
-msgid "page.donate.crypto.intro"
-msgstr "Če že imate kripto valute, so to naši naslovi."
+#: allthethings/page/templates/page/home.html:83
+msgid "page.home.random_book.intro"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:212
-#: allthethings/account/templates/account/donate.html:250
-#: allthethings/account/templates/account/donate.html:265
-#: allthethings/account/templates/account/donate.html:279
-#: allthethings/account/templates/account/donate.html:289
-msgid "page.donate.text_thank_you"
-msgstr "Najlepša hvala za pomoč! Brez vas tega projekta ne bi bilo."
+#: allthethings/page/templates/page/home.html:87
+msgid "page.home.random_book.submit"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:224
-#: allthethings/account/templates/account/donation.html:81
-msgid "page.donate.one_time_payment.paypal.text2"
-msgstr "Poiščite stran »Kripto« v svoji aplikaciji ali spletnem mestu PayPal. To se običajno nahaja pod opcijo »Finance«."
+#: allthethings/page/templates/page/home.html:90
+msgid "page.home.explore.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:232
-msgid "page.donate.one_time_payment.paypal.text3b"
-msgstr "Če izgubite nekaj bitcoinov zaradi nihanj ali provizij, <em>ne skrbite</em>. To je normalno pri kriptovaluti, vendar nam omogoča, da delujemo anonimno."
+#: allthethings/page/templates/page/home.html:93
+msgid "page.home.explore.intro"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:261
-#: allthethings/account/templates/account/donate.html:275
-#: allthethings/account/templates/account/donation.html:112
-#: allthethings/account/templates/account/donation.html:125
-#: allthethings/account/templates/account/donation.html:137
-msgid "page.donate.strange_account"
-msgstr "Ime računa ali slika sta lahko videti nenavadna. Brez skrbi! Te račune upravljajo naši donatorski partnerji. Naši računi niso bili vdrti."
+#: allthethings/page/templates/page/isbn.html:3
+msgid "page.isbn.title"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:352
-msgid "page.donate.duration.summary.duration.1_mo"
-msgstr "za 1 mesec"
+#: allthethings/page/templates/page/isbn.html:6
+msgid "page.isbn.breadcrumbs"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:361
-msgid "page.donate.submit.button.label.3_mo"
-msgstr "za 3 mesece »%(tier_name)s«"
+#: allthethings/page/templates/page/isbn.html:9
+msgid "page.isbn.invalid.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:363
-msgid "page.donate.submit.button.label.12_mo"
-msgstr "za 12 mesecev »%(tier_name)s«"
+#: allthethings/page/templates/page/isbn.html:11
+msgid "page.isbn.invalid.text"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:16
-msgid "page.donation.header.total_no_discount"
-msgstr "Skupaj: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mesec za %(duration)s mesecev, vključno z %(discounts)s%% popustom)</span>"
+#: allthethings/page/templates/page/isbn.html:29
+msgid "page.isbn.results.text"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:58
-msgid "page.donate.submit.crypto_note"
-msgstr "<strong>Pomembna opomba:</strong> Cene kriptovalut lahko močno nihajo, včasih tudi do 20 % % v nekaj minutah. To je še vedno manj od provizij, ki jih imamo pri številnih ponudnikih plačil, ki pogosto zaračunavajo 50–60 % % za sodelovanje z »dobrodelno organizacijo v senci«, kot je mi. <u>Če nam pošljete potrdilo s prvotno ceno, ki ste jo plačali, bomo vaš račun spremenili v izbrano članstvo</u> (če potrdilo ni starejše od nekaj ur). Resnično cenimo, da ste pripravljeni prenašati takšne stvari, da bi nas podprli! ❤️"
+#: allthethings/page/templates/page/isbn.html:36
+msgid "page.isbn.results.none"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:144
-msgid "page.donation.footer.text1"
-msgstr "Pošljite potrdilo ali posnetek zaslona na svoj osebni naslov za preverjanje:"
+#: allthethings/page/templates/page/login.html:18
+msgid "page.login.continue"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:153
-msgid "page.donation.footer.crypto_note"
-msgstr "Če je tečaj kriptovalute med transakcijo nihal, obvezno priložite potrdilo, ki prikazuje prvotni menjalni tečaj. Resnično cenimo, da ste se potrudili pri uporabi kriptovalute, zelo nam pomaga!"
+#: allthethings/page/templates/page/md5.html:13
+msgid "page.md5.invalid.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:167
-msgid "page.donation.footer.button"
-msgstr "Da, potrdilo sem poslal po e-pošti"
+#: allthethings/page/templates/page/md5.html:15
+msgid "page.md5.invalid.text"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:171
-msgid "page.donation.footer.failure"
-msgstr "❌ Nekaj je šlo narobe. Ponovno naložite stran in poskusite znova."
+#: allthethings/page/templates/page/md5.html:68
+msgid "page.md5.box.issues.text1"
+msgstr ""
 
-#: allthethings/account/templates/account/donation_faq.html:9
-msgid "page.donate.faq.renew"
-msgstr "<div class=\"font-bold\">Ali se članstva samodejno podaljšujejo?</div> Članstva se <strong>ne</strong> podaljšujejo samodejno. Pridružite se nam lahko za kakor dolgo želite."
+#: allthethings/page/templates/page/md5.html:78
+msgid "page.md5.box.issues.text2"
+msgstr ""
 
-#: allthethings/account/templates/account/donation_faq.html:13
-msgid "page.donate.faq.text_other_payment1"
-msgstr "<div class=\"font-bold\">Ali imate druge načine plačila?</div> Trenutno ne. Veliko ljudi si ne želi, da bi takšni arhivi obstajali, zato moramo biti previdni. Če nam lahko pomagate vzpostaviti druge (priročnejše) načine varnega plačila, se obrnite na %(email)s."
+#: allthethings/page/templates/page/md5.html:83
+msgid "page.md5.box.download.header_fast_no_member"
+msgstr ""
 
-#: allthethings/account/templates/account/donation_faq.html:17
-msgid "page.donate.faq.text_other_payment2"
-msgstr "Če vašega plačilnega sredstva ni na seznamu, bi bilo najlažje prenesti <a href=\"https://paypal.com/\">PayPal</a> ali <a href=\"https://coinbase .com/\">Coinbase</a> v telefonu in tam kupite delček Bitcoina (BTC). Nato ga lahko pošljete na naš naslov: %(address)s. V večini držav bi ta nastavitev trajala le nekaj minut."
+#: allthethings/page/templates/page/md5.html:84
+msgid "page.md5.box.download.header_fast_member"
+msgstr ""
 
-#: allthethings/account/templates/account/donation_faq.html:21
-msgid "page.donate.faq.spend"
-msgstr "<div class=\"font-bold\">Za kaj porabite donacije?</div> 100%% gre za ohranjanje in omogočanje dostopa do svetovnega znanja in kulture. Trenutno ga večinoma porabimo za strežnike, diskovni prostor in pasovno širino. Noben denar ne gre nobenemu članu ekipe osebno."
+#: allthethings/page/templates/page/md5.html:85
+msgid "page.md5.box.download.header_fast_member_no_remaining"
+msgstr ""
 
-#: allthethings/account/templates/account/donation_faq.html:33
-msgid "page.donate.faq.monetizing"
-msgstr "<div class=\"font-bold\">Ni mi všeč, da »monetizirate« Annin arhiv!</div> Če vam ni všeč, kako upravljamo naš projekt, zaženite svojo knjižnico v senci! Vsa naša koda in podatki so odprtokodni, zato za to ovir. ;)"
+#: allthethings/page/templates/page/md5.html:86
+msgid "page.md5.box.download.header_fast_member_valid_for"
+msgstr ""
 
-#: allthethings/utils.py:186
-msgid "common.membership.tier_name.4"
-msgstr "Bleščeči hranilec podatkov"
+#: allthethings/page/templates/page/md5.html:90
+#: allthethings/page/templates/page/md5.html:95
+#: allthethings/page/templates/page/md5.html:115
+msgid "page.md5.box.download.option"
+msgstr ""
 
-#: allthethings/account/templates/account/index.html:25
-msgid "page.account.logged_in.membership_fast_downloads_used"
-msgstr "Uporabljeni hitri prenosi (zadnjih 24 ur): <strong>%(uporabljeno)s / %(total)s</strong>"
+#: allthethings/page/templates/page/md5.html:107
+msgid "page.md5.box.download.header_slow"
+msgstr ""
 
-#: allthethings/account/templates/account/index.html:49
-msgid "page.account.logged_out.registered.text2"
-msgstr "Ta ključ skrbno shranite. Če ga izgubite, boste izgubili dostop do svojega računa."
+#: allthethings/page/templates/page/md5.html:109
+msgid "page.md5.box.download.header_generic"
+msgstr ""
 
-#: allthethings/account/templates/account/index.html:53
-msgid "page.account.logged_out.registered.text3"
-msgstr "<li %(li_item)s><strong>Zaznamek.</strong> To stran lahko dodate med zaznamke, da pridobite svoj ključ.</li><li %(li_item)s><strong>Prenos.</strong> Kliknite < %(a_download)s>to povezavo</a> za prenos ključa.</li><li %(li_item)s><strong>Upravitelj gesel.</strong> Za vaše udobje je ključ vnaprej izpolnjen spodaj, tako da ga lahko ob prijavi shranite v upravitelja gesel.</li>"
+#: allthethings/page/templates/page/md5.html:119
+msgid "page.md5.box.download.no_issues_notice"
+msgstr ""
 
-#: allthethings/account/templates/account/index.html:61
-msgid "page.account.logged_out.key_form.button"
-msgstr "Vpiši se"
+#: allthethings/page/templates/page/md5.html:142
+msgid "page.md5.box.download.no_found"
+msgstr ""
 
-#: allthethings/account/templates/account/list.html:11
-msgid "page.list.edit.button"
-msgstr "Shrani"
+#: allthethings/page/templates/page/partner_download.html:10
+msgid "page.partner_download.header"
+msgstr ""
 
-#: allthethings/account/templates/account/list.html:15
-msgid "page.list.edit.failure"
-msgstr "❌ Nekaj je šlo narobe. Prosim poskusite ponovno."
+#: allthethings/page/templates/page/partner_download.html:12
+msgid "page.partner_download.url"
+msgstr ""
 
-#: allthethings/account/templates/account/profile.html:3
-msgid "page.profile.title"
-msgstr "Profil"
+#: allthethings/page/templates/page/partner_download.html:19
+msgid "page.partner_download.faster_downloads"
+msgstr ""
 
-#: allthethings/account/templates/account/profile.html:7
-msgid "page.profile.not_found"
-msgstr "Profil ni bil najden."
+#: allthethings/page/templates/page/partner_download.html:24
+msgid "page.partner_download.bulk_mirroring"
+msgstr ""
 
-#: allthethings/account/templates/account/profile.html:19
-msgid "page.profile.change_display_name.failure"
-msgstr "❌ Nekaj je šlo narobe. Prosim poskusite ponovno."
+#: allthethings/page/templates/page/search.html:8
+msgid "page.search.title.results"
+msgstr ""
 
-#: allthethings/account/templates/account/request.html:21
-#: allthethings/account/templates/account/upload.html:13
-msgid "common.libgen.email"
-msgstr "Če vaš e-poštni naslov ne deluje na forumih Libgen, priporočamo uporabo <a %(a_mail)s>Proton Mail-a</a> (brezplačno). Lahko tudi <a %(a_manual)s>ročno zahtevate</a>, da se vaš račun aktivira."
+#: allthethings/page/templates/page/search.html:8
+msgid "page.search.title.new"
+msgstr ""
 
-#: allthethings/page/views.py:1980 allthethings/page/views.py:1988
-#: allthethings/page/views.py:2006
-msgid "page.md5.box.download.extra_also_click_get"
-msgstr "(kliknite tudi \"GET\" na vrhu)"
+#: allthethings/page/templates/page/search.html:14
+msgid "page.search.breadcrumbs.results_more"
+msgstr ""
 
-#: allthethings/page/views.py:2009
-msgid "page.md5.box.download.ipfs_gateway_extra"
-msgstr "(morda boste morali z IPFS poskusiti večkrat)"
+#: allthethings/page/templates/page/search.html:14
+msgid "page.search.breadcrumbs.results"
+msgstr ""
 
-#: allthethings/page/templates/page/about.html:13
-msgid "page.about.text2"
-msgstr "Trdno verjamemo v prost pretok informacij ter ohranjanje znanja in kulture. S tem iskalnikom gradimo na plečih velikanov. Globoko spoštujemo trdo delo ljudi, ki so ustvarili različne senčne knjižnice, in upamo, da bo ta iskalnik razširil njihov doseg."
+#: allthethings/page/templates/page/search.html:16
+msgid "page.search.breadcrumbs.error"
+msgstr ""
 
-#: allthethings/page/templates/page/about.html:27
-msgid "page.about.help.text"
-msgstr "<li>1. Sledite nam na <a href=\"https://twitter.com/AnnaArchivist\">Twitter-ju</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit-u</a > ali <a href=\"https://t.me/annasarchiveorg\">Telegram-u</a>.</li><li>2. Razširite gla-s o Annine-m arhivu na Twitterju, Redditu, Tiktoku, Instagramu, v vaši lokalni kavarni ali knjižnici ali kamor koli že greste! Ne verjamemo v nadzor – če nas uničijo, se bomo preprosto pojavili drugje, saj so vsa naša koda in podatki popolnoma odprtokodni.</li><li>3. Če lahko, razmislite o <a href=\"/donate\">donira <a href=\"https://translate.annas-software.org/\">prevesti</a> naše spletno mesto v različne jezike.</li><li>5. Če ste programski inženir, razmislite o prispevanju k naši <a href=\"https://annas-software.org/\">odprti kodi</a> ali sejanju naših <a href=\"/datasets\">torrentov</a>.</li>"
+#: allthethings/page/templates/page/search.html:19
+msgid "page.search.breadcrumbs.new"
+msgstr ""
 
-#: allthethings/page/templates/page/about.html:35
-#: allthethings/page/templates/page/about.html:36
-#: allthethings/page/templates/page/copyright.html:6
-#: allthethings/page/templates/page/copyright.html:7
-#: allthethings/page/templates/page/datasets.html:6
-#: allthethings/page/templates/page/datasets.html:7
-#: allthethings/page/templates/page/datasets_ia.html:6
-#: allthethings/page/templates/page/datasets_ia.html:7
-#: allthethings/page/templates/page/datasets_isbn_ranges.html:6
-#: allthethings/page/templates/page/datasets_isbn_ranges.html:7
-#: allthethings/page/templates/page/datasets_isbndb_scrape.html:6
-#: allthethings/page/templates/page/datasets_isbndb_scrape.html:7
-#: allthethings/page/templates/page/datasets_libgen_aux.html:6
-#: allthethings/page/templates/page/datasets_libgen_aux.html:7
-#: allthethings/page/templates/page/datasets_libgen_li.html:6
-#: allthethings/page/templates/page/datasets_libgen_li.html:7
-#: allthethings/page/templates/page/datasets_libgen_rs.html:6
-#: allthethings/page/templates/page/datasets_libgen_rs.html:7
-#: allthethings/page/templates/page/datasets_libgenli_comics.html:6
-#: allthethings/page/templates/page/datasets_libgenli_comics.html:7
-#: allthethings/page/templates/page/datasets_openlib.html:6
-#: allthethings/page/templates/page/datasets_openlib.html:7
-#: allthethings/page/templates/page/datasets_zlib_scrape.html:6
-#: allthethings/page/templates/page/datasets_zlib_scrape.html:7
-#: allthethings/page/templates/page/doi.html:40
-#: allthethings/page/templates/page/doi.html:41
-#: allthethings/page/templates/page/isbn.html:45
-#: allthethings/page/templates/page/isbn.html:46
-#: allthethings/page/templates/page/md5.html:146
-#: allthethings/page/templates/page/md5.html:147
-#: allthethings/page/templates/page/mobile.html:6
-#: allthethings/page/templates/page/mobile.html:7
-#: allthethings/page/templates/page/ol_book.html:8
-#: allthethings/page/templates/page/ol_book.html:9
-#: allthethings/page/templates/page/torrents.html:6
-#: allthethings/page/templates/page/torrents.html:7
-msgid "common.english_only"
-msgstr "Besedilo spodaj se nadaljuje v angleščini."
+#: allthethings/page/templates/page/search.html:23
+msgid "page.search.header.update_info"
+msgstr ""
 
-#: allthethings/page/templates/page/browser_verification.html:13
-#: allthethings/page/templates/page/login.html:14
-msgid "page.login.text2"
-msgstr "Če se ujamete v neskončno zanko, priporočamo namestitev <a href=\"https://privacypass.github.io/\">Privacy Pass</a>."
+#: allthethings/page/templates/page/search.html:29
+msgid "page.search.filters.language.header"
+msgstr ""
 
-#: allthethings/page/templates/page/doi.html:33
-msgid "page.doi.results.none"
-msgstr "V naši zbirki podatkov ni bilo najdenih ustreznih datotek."
+#: allthethings/page/templates/page/search.html:35
+msgid "page.search.filters.content.header"
+msgstr ""
 
-#: allthethings/page/templates/page/fast_download_no_more.html:5
-msgid "page.fast_downloads.no_more"
-msgstr "Danes vam je zmanjkalo hitrih prenosov. Kontaktirajte Anno na AnnaArchivist@proton.me, če vas zanima nadgradnja članstva."
+#: allthethings/page/templates/page/search.html:41
+msgid "page.search.filters.filetype.header"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:47
+msgid "page.search.filters.sorting.most_relevant"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:48
+msgid "page.search.filters.sorting.newest"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:49
+msgid "page.search.filters.sorting.oldest"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:50
+msgid "page.search.filters.sorting.largest"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:51
+msgid "page.search.filters.sorting.smallest"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:73
+msgid "page.search.results.error.header"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:75
+msgid "page.search.results.error.text"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:78
+msgid "page.search.results.none"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:86
+msgid "page.search.results.partial_more"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:86
+msgid "page.search.results.partial"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:4
+msgid "layout.index.title"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:10
+msgid "layout.index.meta.description"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:19
+msgid "layout.index.meta.opensearch"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:53
+msgid "layout.index.header.banner.new_donation_method"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:60
+msgid "layout.index.banners.comics_fundraiser.text"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:112
+msgid "layout.index.header.title"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:249
+msgid "layout.index.header.tagline"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:252
+msgid "layout.index.header.recent_downloads"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:335
+#: allthethings/templates/layouts/index.html:344
+#: allthethings/templates/layouts/index.html:355
+msgid "layout.index.header.nav.about"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:336
+#: allthethings/templates/layouts/index.html:345
+#: allthethings/templates/layouts/index.html:356
+msgid "layout.index.header.nav.datasets"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:338
+#: allthethings/templates/layouts/index.html:347
+#: allthethings/templates/layouts/index.html:358
+msgid "layout.index.header.nav.mobile"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:340
+#: allthethings/templates/layouts/index.html:349
+#: allthethings/templates/layouts/index.html:354
+msgid "layout.index.header.nav.home"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:359
+msgid "layout.index.header.nav.annasblog"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:360
+msgid "layout.index.header.nav.annassoftware"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:361
+msgid "layout.index.header.nav.translate"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:363
+msgid "layout.index.header.nav.donate"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:364
+msgid "layout.index.header.nav.search"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:370
+msgid "layout.index.header.nav.beta"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:373
+#: allthethings/templates/layouts/index.html:379
+#: allthethings/templates/layouts/index.html:387
+#: allthethings/templates/layouts/index.html:395
+#: allthethings/templates/layouts/index.html:404
+#: allthethings/templates/layouts/index.html:415
+msgid "layout.index.header.nav.request"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:380
+#: allthethings/templates/layouts/index.html:388
+#: allthethings/templates/layouts/index.html:396
+#: allthethings/templates/layouts/index.html:405
+#: allthethings/templates/layouts/index.html:416
+msgid "layout.index.header.nav.upload"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:381
+#: allthethings/templates/layouts/index.html:386
+msgid "layout.index.header.nav.login_register"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:392
+#: allthethings/templates/layouts/index.html:401
+#: allthethings/templates/layouts/index.html:412
+msgid "layout.index.header.nav.public_profile"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:393
+#: allthethings/templates/layouts/index.html:402
+#: allthethings/templates/layouts/index.html:413
+msgid "layout.index.header.nav.downloaded_files"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:394
+#: allthethings/templates/layouts/index.html:403
+#: allthethings/templates/layouts/index.html:414
+msgid "layout.index.header.nav.my_donations"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:411
+msgid "layout.index.header.nav.account"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:426
+msgid "layout.index.footer.list1.header"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:427
+msgid "layout.index.footer.list1.home"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:428
+msgid "layout.index.footer.list1.about"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:429
+msgid "layout.index.footer.list1.donate"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:430
+msgid "layout.index.footer.list1.datasets"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:432
+msgid "layout.index.footer.list1.mobile"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:446
+msgid "layout.index.footer.list2.header"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:447
+msgid "layout.index.footer.list2.twitter"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:447
+msgid "layout.index.footer.list2.reddit"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:447
+msgid "layout.index.footer.list2.telegram"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:448
+msgid "layout.index.footer.list2.blog"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:449
+msgid "layout.index.footer.list2.software"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:450
+msgid "layout.index.footer.list2.translate"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:452
+msgid "layout.index.footer.list2.dmca_copyright"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:457
+msgid "layout.index.footer.list3.header"
+msgstr ""
+
+#: allthethings/templates/macros/aarecord_list.html:73
+msgid "page.search.results.issues"
+msgstr ""
+
+#: allthethings/templates/macros/copy_button.html:2
+msgid "page.donate.copy"
+msgstr ""
+
+#: allthethings/templates/macros/copy_button.html:2
+msgid "page.donate.copied"
+msgstr ""
+
