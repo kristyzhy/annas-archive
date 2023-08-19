@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-09 07:21+0000\n"
-"PO-Revision-Date: 2023-08-10 21:19+0000\n"
-"Last-Translator: Jonathan Soares <m29y0bka@duck.com>\n"
+"PO-Revision-Date: 2023-08-19 06:16+0000\n"
+"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
 "Language-Team: Portuguese <https://translate.annas-software.org/projects/annas-archive/main-website/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -488,11 +488,11 @@ msgstr "❌ Algo deu errado. Por favor, recarregue a página e tente novamente."
 #: allthethings/account/templates/account/donation_faq.html:3
 #: allthethings/account/templates/account/donation_faq.html:6
 msgid "page.donate.faq.title"
-msgstr "FAQ sobre doações"
+msgstr "Dúvidas frequentes sobre doações"
 
 #: allthethings/account/templates/account/donation_faq.html:9
 msgid "page.donate.faq.renew"
-msgstr ""
+msgstr "<div class=\"font-bold\">As assinaturas são renovadas automaticamente?</div> As assinaturas <strong>não</strong> são renovadas automaticamente. Você pode participar por quanto tempo quiser."
 
 #: allthethings/account/templates/account/donation_faq.html:13
 msgid "page.donate.faq.text_other_payment1"
@@ -529,7 +529,7 @@ msgstr "Os detalhes de doações não são exibidos publicamente."
 
 #: allthethings/account/templates/account/donations.html:11
 msgid "page.my_donations.no_donations"
-msgstr ""
+msgstr "Ainda não há doações. <a %(a_donate)s>Quero fazer minha primeira doação.</a>"
 
 #: allthethings/account/templates/account/donations.html:13
 msgid "page.my_donations.make_another"
@@ -556,7 +556,7 @@ msgstr "Conta"
 #: allthethings/account/templates/account/index.html:7
 #: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_out.title"
-msgstr ""
+msgstr "Entrar / Registrar"
 
 #: allthethings/account/templates/account/index.html:19
 msgid "page.account.logged_in.public_profile"
@@ -564,27 +564,27 @@ msgstr "Perfil público: %(profile_link)s"
 
 #: allthethings/account/templates/account/index.html:22
 msgid "page.account.logged_in.membership_none"
-msgstr ""
+msgstr "Filiação:  <strong>None</strong> <a %(a_become)s>(Torne-se um Membro)</a>"
 
 #: allthethings/account/templates/account/index.html:24
 msgid "page.account.logged_in.membership_has_some"
-msgstr ""
+msgstr "Membro: <strong>%(tier_name)s</strong> até %(until_date)s <a %(a_extend)s>(estender)</a>"
 
 #: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_fast_downloads_used"
-msgstr ""
+msgstr "Downloads rápidos usados (últimas 24 horas): <strong>%(used)s / %(total)s</strong>"
 
 #: allthethings/account/templates/account/index.html:31
 msgid "page.account.logged_in.membership_upgrade"
-msgstr ""
+msgstr "Entre em contato com Anna em AnnaArchivist@proton.me se estiver interessado em atualizar sua filiação para um nível superior."
 
 #: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.logout.button"
-msgstr ""
+msgstr "Sair"
 
 #: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.success"
-msgstr ""
+msgstr "✅ Agora você está desconectado. Recarregue a página para fazer login novamente."
 
 #: allthethings/account/templates/account/index.html:40
 msgid "page.account.logged_in.logout.failure"
@@ -600,11 +600,11 @@ msgstr "Guarde essa chave com cuidado. Se você perdê-la, você perderá o aces
 
 #: allthethings/account/templates/account/index.html:53
 msgid "page.account.logged_out.registered.text3"
-msgstr ""
+msgstr "<li %(li_item)s><strong>Marcador.</strong> Você pode marcar esta página para recuperar sua chave.</li><li %(li_item)s><strong>Baixar.</strong> Clique em < a %(a_download)s>este link</a> para baixar sua chave.</li><li %(li_item)s><strong>Gerenciador de senhas.</strong> Para sua conveniência, a chave é pré-preenchida abaixo, assim, quando você fizer login, poderá salvá-lo em seu gerenciador de senhas.</li>"
 
 #: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.key_form.text"
-msgstr ""
+msgstr "Digite sua chave secreta para fazer login:"
 
 #: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.placeholder"
@@ -612,7 +612,7 @@ msgstr "Chave secreta"
 
 #: allthethings/account/templates/account/index.html:61
 msgid "page.account.logged_out.key_form.button"
-msgstr ""
+msgstr "Entrar"
 
 #: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.invalid_key"
@@ -628,7 +628,7 @@ msgstr "Registrar uma nova conta"
 
 #: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.old_email.button"
-msgstr ""
+msgstr "Conta antiga baseada em e-mail? Insira seu <a %(a_open)s>email aqui</a>."
 
 #: allthethings/account/templates/account/list.html:3
 msgid "page.list.title"
@@ -652,7 +652,7 @@ msgstr "❌ Algo deu errado. Por favor tente novamente."
 
 #: allthethings/account/templates/account/list.html:19
 msgid "page.list.by_and_date"
-msgstr ""
+msgstr "Lista por %(by)s, criada <span %(span_time)s>%(time)s</span>"
 
 #: allthethings/account/templates/account/list.html:23
 msgid "page.list.empty"
@@ -676,15 +676,15 @@ msgstr "editar"
 
 #: allthethings/account/templates/account/profile.html:14
 msgid "page.profile.change_display_name.text"
-msgstr ""
+msgstr "Altere o seu nome de perfil. O seu identificador (a parte a seguir a \"#\") não pode ser alterada."
 
 #: allthethings/account/templates/account/profile.html:15
 msgid "page.profile.change_display_name.button"
-msgstr ""
+msgstr "Guardar"
 
 #: allthethings/account/templates/account/profile.html:18
 msgid "page.profile.change_display_name.success"
-msgstr ""
+msgstr "✅ Guardado. Por favor atualize a página."
 
 #: allthethings/account/templates/account/profile.html:19
 msgid "page.profile.change_display_name.failure"
@@ -692,7 +692,7 @@ msgstr "❌ Algo deu errado. Por favor tente novamente."
 
 #: allthethings/account/templates/account/profile.html:22
 msgid "page.profile.created_time"
-msgstr ""
+msgstr "Perfil criado <span %(span_time)s>%(time)s</span>"
 
 #: allthethings/account/templates/account/profile.html:24
 msgid "page.profile.lists.header"
@@ -704,7 +704,7 @@ msgstr "Nenhuma lista ainda"
 
 #: allthethings/account/templates/account/profile.html:31
 msgid "page.profile.lists.new_list"
-msgstr ""
+msgstr "Crie uma nova lista escolhendo um ficheiro e abrindo o separador \"Listas\"."
 
 #: allthethings/account/templates/account/request.html:3
 #: allthethings/account/templates/account/request.html:6
@@ -713,11 +713,11 @@ msgstr "Requisitar livros"
 
 #: allthethings/account/templates/account/request.html:9
 msgid "page.request.text1"
-msgstr ""
+msgstr "Por ora, você poderia enviar seus pedidos de eBooks ao <a %(a_forum)s>fórum Libgen.rs</a>? Você pode criar uma conta lá e postar em um desses tópicos:"
 
 #: allthethings/account/templates/account/request.html:13
 msgid "page.request.text2"
-msgstr ""
+msgstr "<li %(li_item)s>Para eBooks, use <a %(a_ebook)s>esse tópico</a>.</li><li %(li_item)s>Para livros não disponíveis como eBooks, use <a %(a_regular)s>esse tópico</a>.</li>"
 
 #: allthethings/account/templates/account/request.html:17
 msgid "page.request.text3"
@@ -791,20 +791,20 @@ msgstr "Livro (todos)"
 
 #: allthethings/page/views.py:1859 allthethings/page/views.py:1860
 msgid "common.md5.servers.fast_partner"
-msgstr ""
+msgstr "Servidor Parceiro Rápido #%(number)s"
 
 #: allthethings/page/views.py:1859
 msgid "common.md5.servers.no_browser_verification"
-msgstr ""
+msgstr "(não é necessária a verificação do browser)"
 
 #: allthethings/page/views.py:1861 allthethings/page/views.py:1862
 #: allthethings/page/views.py:1863
 msgid "common.md5.servers.slow_partner"
-msgstr ""
+msgstr "Servidor Parceiro Lento #%(number)s"
 
 #: allthethings/page/views.py:1861
 msgid "common.md5.servers.browser_verification_unlimited"
-msgstr ""
+msgstr "(pode exigir <a %(a_browser)s>verificação do browser</a> — downloads ilimitados!)"
 
 #: allthethings/page/views.py:1980
 msgid "page.md5.box.download.lgrsnf"
@@ -855,15 +855,15 @@ msgstr "(precisa do navegador TOR)"
 
 #: allthethings/page/views.py:2021
 msgid "page.md5.box.download.ia_borrow"
-msgstr ""
+msgstr "Emprestar do Internet Archive"
 
 #: allthethings/page/views.py:2022
 msgid "page.md5.box.download.bulk_torrents"
-msgstr ""
+msgstr "Downloads torrent em massa"
 
 #: allthethings/page/views.py:2022
 msgid "page.md5.box.download.experts_only"
-msgstr ""
+msgstr "(apenas especialistas)"
 
 #: allthethings/page/templates/page/about.html:3
 msgid "page.about.title"
@@ -945,12 +945,12 @@ msgstr "Entrar / Registrar"
 #: allthethings/page/templates/page/browser_verification.html:9
 #: allthethings/page/templates/page/login.html:9
 msgid "page.login.text1"
-msgstr ""
+msgstr "Para evitar que bots de spam criem muitas contas, precisamos verificar seu browser primeiro."
 
 #: allthethings/page/templates/page/browser_verification.html:13
 #: allthethings/page/templates/page/login.html:14
 msgid "page.login.text2"
-msgstr ""
+msgstr "Se você cair em um loop infinito, recomendamos que instale <a href=\"https://privacypass.github.io/\">Privacy Pass</a>."
 
 #: allthethings/page/templates/page/doi.html:3
 msgid "page.doi.title"
@@ -996,19 +996,19 @@ msgstr "Detalhes técnicos (em inglês)"
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more"
-msgstr ""
+msgstr "Já não tem downloads rápidos hoje. Contace Anna em AnnaArchivist@proton.me se tiver interesse em atualizar a sua subscrição."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
-msgstr ""
+msgstr "Torne-se um membro para usar downloads rápidos."
 
 #: allthethings/page/templates/page/home.html:5
 msgid "page.home.intro.text1"
-msgstr ""
+msgstr "<span %(span_anna)s>Arquivo da Anna</span> é um projeto sem fins lucrativos com dois objetivos:"
 
 #: allthethings/page/templates/page/home.html:9
 msgid "page.home.intro.text2"
-msgstr ""
+msgstr "<li><strong>Preservação:</strong> Fazer o back up de todo o conhecimento e cultura da humanidade.</li><li><strong>Accesso:</strong> Tornar esse conhecimento e cultura disponíveis a qualquer pessoa no mundo.</li>"
 
 #: allthethings/page/templates/page/home.html:13
 msgid "page.home.preservation.header"
@@ -1016,11 +1016,11 @@ msgstr "Preservação"
 
 #: allthethings/page/templates/page/home.html:15
 msgid "page.home.preservation.text"
-msgstr ""
+msgstr "Preservamos livros, artigos, quadrinhos, revistas e mais, trazendo esses materiais de várias  <a href=\"https://en.wikipedia.org/wiki/Shadow_library\">shadow libraries</a>  e unindo-os em um único lugar. Todos esses dados são preservados para sempre porque os tornamos fáceis de duplicar em massa, resultando em várias cópias ao redor do mundo. Essa distribuição ampla, combinada com código aberto, também torna nosso site resiliente a derrubadas. Saiba mais sobre  <a href=\"/datasets\">nossos datasets</a>."
 
 #: allthethings/page/templates/page/home.html:29
 msgid "page.home.preservation.label"
-msgstr ""
+msgstr "Estimamos que já preservamos cerca de <a href=\"https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html\">5%% dos livros do mundo</a>."
 
 #: allthethings/page/templates/page/home.html:34
 msgid "page.home.access.header"
@@ -1055,15 +1055,15 @@ msgstr "Pesquisar"
 
 #: allthethings/page/templates/page/home.html:80
 msgid "page.home.random_book.header"
-msgstr ""
+msgstr "Livro Aleatório"
 
 #: allthethings/page/templates/page/home.html:83
 msgid "page.home.random_book.intro"
-msgstr ""
+msgstr "Ir a um livro aleatório do catálogo."
 
 #: allthethings/page/templates/page/home.html:87
 msgid "page.home.random_book.submit"
-msgstr ""
+msgstr "Livro Aleatório"
 
 #: allthethings/page/templates/page/home.html:90
 msgid "page.home.explore.header"
@@ -1099,7 +1099,7 @@ msgstr "Nenhum arquivo correspondente em nosso banco de dados."
 
 #: allthethings/page/templates/page/login.html:18
 msgid "page.login.continue"
-msgstr ""
+msgstr "Continuar"
 
 #: allthethings/page/templates/page/md5.html:13
 msgid "page.md5.invalid.header"
@@ -1119,19 +1119,19 @@ msgstr "Se você ainda quiser baixar este arquivo, certifique-se de usar apenas 
 
 #: allthethings/page/templates/page/md5.html:83
 msgid "page.md5.box.download.header_fast_no_member"
-msgstr ""
+msgstr "<strong>🚀 Downloads rápidos </strong> Torne-se um <a %(a_membership)s>membro</a> para apoiar a preservação a longo prazo de livros, artigos, e mais. Para mostrar nossa gratidão pelo seu apoio, você ganha downloads rápidos. ❤️"
 
 #: allthethings/page/templates/page/md5.html:84
 msgid "page.md5.box.download.header_fast_member"
-msgstr ""
+msgstr "<strong>🚀 Downloads rápidos</strong> Você tem %(remaining)s sobrando hoje. Obrigado por ser um membro! ❤️"
 
 #: allthethings/page/templates/page/md5.html:85
 msgid "page.md5.box.download.header_fast_member_no_remaining"
-msgstr ""
+msgstr "<strong>🚀 Downloads rápidos</strong> Seus downloads rápidos esgotaram por hoje. Por favor, contate a Anna em AnnaArchivist@proton.me se você tiver interesse em fazer um upgrade na sua assinatura."
 
 #: allthethings/page/templates/page/md5.html:86
 msgid "page.md5.box.download.header_fast_member_valid_for"
-msgstr ""
+msgstr "<strong>🚀 Downloads rápidos</strong> Você baixou esse arquivo recentemente. Links continuam válidos por um tempo."
 
 #: allthethings/page/templates/page/md5.html:90
 #: allthethings/page/templates/page/md5.html:95
@@ -1141,11 +1141,11 @@ msgstr "Opção #%(num)d: %(link)s %(extra)s"
 
 #: allthethings/page/templates/page/md5.html:107
 msgid "page.md5.box.download.header_slow"
-msgstr ""
+msgstr "🐢 Downloads lentos e externos"
 
 #: allthethings/page/templates/page/md5.html:109
 msgid "page.md5.box.download.header_generic"
-msgstr ""
+msgstr "Downloads"
 
 #: allthethings/page/templates/page/md5.html:119
 msgid "page.md5.box.download.no_issues_notice"
@@ -1153,23 +1153,23 @@ msgstr "Todas as opções de download têm o mesmo arquivo e são seguras. Dito 
 
 #: allthethings/page/templates/page/md5.html:142
 msgid "page.md5.box.download.no_found"
-msgstr ""
+msgstr "Nenhum download encontrado."
 
 #: allthethings/page/templates/page/partner_download.html:10
 msgid "page.partner_download.header"
-msgstr ""
+msgstr "Download de site parceiro"
 
 #: allthethings/page/templates/page/partner_download.html:12
 msgid "page.partner_download.url"
-msgstr ""
+msgstr "📚 Use a seguinte URL para baixar: %(url)s"
 
 #: allthethings/page/templates/page/partner_download.html:17
 msgid "page.partner_download.faster_downloads"
-msgstr ""
+msgstr "🚀 Para ter downloads mais rápidos, <a %(a_membership)s>vire um membro</a>."
 
 #: allthethings/page/templates/page/partner_download.html:22
 msgid "page.partner_download.bulk_mirroring"
-msgstr ""
+msgstr "📡 Para fazer um mirror em massa da nossa coleção, cheque as páginas de <a %(a_datasets)s>Datasets</a> e <a %(a_torrents)s>Torrents</a>."
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
@@ -1257,11 +1257,11 @@ msgstr "Arquivo da Anna"
 
 #: allthethings/templates/layouts/index.html:10
 msgid "layout.index.meta.description"
-msgstr ""
+msgstr "A maior biblioteca open-source e open-data do mundo. Inclui Sci-Hub, Library Genesis, Z-Library, e mais."
 
 #: allthethings/templates/layouts/index.html:19
 msgid "layout.index.meta.opensearch"
-msgstr ""
+msgstr "Buscar no Arquivo da Anna"
 
 #: allthethings/templates/layouts/index.html:52
 msgid "layout.index.header.banner.new_donation_method"
@@ -1269,7 +1269,7 @@ msgstr "Temos um novo método para receber doações: %(method_name)s. Por favor
 
 #: allthethings/templates/layouts/index.html:67
 msgid "layout.index.banners.comics_fundraiser.text"
-msgstr ""
+msgstr "Estamos fazendo uma campanha para <a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">fazer o backup</a>  da maior shadow library de quadrinhos do mundo Obrigado pelo seu apoio! <a href=\"/donate\">Doar.</a> Se você não puder doar, considere nos apoiar falando para seus amigos e nos seguindo no <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>, <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a>, ou <a href=\"https://t.me/annasarchiveorg\">Telegram</a>."
 
 #: allthethings/templates/layouts/index.html:98
 msgid "layout.index.header.title"
@@ -1281,7 +1281,7 @@ msgstr "📚&nbsp; A maior biblioteca de código aberto e dados abertos do mundo
 
 #: allthethings/templates/layouts/index.html:238
 msgid "layout.index.header.recent_downloads"
-msgstr ""
+msgstr "Downloads recentes:"
 
 #: allthethings/templates/layouts/index.html:321
 #: allthethings/templates/layouts/index.html:329
@@ -1329,7 +1329,7 @@ msgstr "Pesquisar"
 
 #: allthethings/templates/layouts/index.html:354
 msgid "layout.index.header.nav.beta"
-msgstr ""
+msgstr "beta"
 
 #: allthethings/templates/layouts/index.html:357
 #: allthethings/templates/layouts/index.html:363
@@ -1338,7 +1338,7 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:388
 #: allthethings/templates/layouts/index.html:399
 msgid "layout.index.header.nav.request"
-msgstr ""
+msgstr "Pedir livros"
 
 #: allthethings/templates/layouts/index.html:358
 #: allthethings/templates/layouts/index.html:364
@@ -1347,13 +1347,13 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:389
 #: allthethings/templates/layouts/index.html:400
 msgid "layout.index.header.nav.upload"
-msgstr ""
+msgstr "Upload"
 
 #: allthethings/templates/layouts/index.html:359
 #: allthethings/templates/layouts/index.html:365
 #: allthethings/templates/layouts/index.html:370
 msgid "layout.index.header.nav.login_register"
-msgstr ""
+msgstr "Entrar / Cadastrar"
 
 #: allthethings/templates/layouts/index.html:376
 #: allthethings/templates/layouts/index.html:385
