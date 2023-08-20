@@ -11,9 +11,9 @@
     <div>{{ gettext('page.donation.header.date', date=(donation_dict.created | dateformat(format='long'))) }}</div>
     <div>
       {% if donation_dict.json.discounts > 0 %}
-        {{ gettext('page.donation.header.total_with_discount', span_details=('class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration, discounts=donation_dict.json.discounts) }}
+        {{ gettext('page.donation.header.total_including_discount', span_details=('class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration, discounts=donation_dict.json.discounts) }}
       {% else %}
-        {{ gettext('page.donation.header.total_no_discount', span_details=('class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration) }}
+        {{ gettext('page.donation.header.total_without_discount', span_details=('class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration) }}
       {% endif %}
     </div>
     <div>{{ gettext('page.donation.header.status', label=order_processing_status_labels[donation_dict.processing_status], span_label=('class="italic"' | safe)) }}</div>

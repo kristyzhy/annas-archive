@@ -346,12 +346,12 @@ msgid "page.donation.header.date"
 msgstr "Datum: %(date)s"
 
 #: allthethings/account/templates/account/donation.html:14
-msgid "page.donation.header.total_with_discount"
-msgstr "Skupaj: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mesec za %(duration)s mesecev)</span>"
+msgid "page.donation.header.total_including_discount"
+msgstr "Skupaj: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mesec za %(duration)s mesecev, vključno z %(discounts)s%% popustom)</span>"
 
 #: allthethings/account/templates/account/donation.html:16
-msgid "page.donation.header.total_no_discount"
-msgstr "Skupaj: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mesec za %(duration)s mesecev, vključno z %(discounts)s%% popustom)</span>"
+msgid "page.donation.header.total_without_discount"
+msgstr "Skupaj: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mesec za %(duration)s mesecev)</span>"
 
 #: allthethings/account/templates/account/donation.html:19
 msgid "page.donation.header.status"
@@ -400,7 +400,7 @@ msgstr "Navodila za plačilo so zdaj zastarela. Če želite prispevati še eno d
 
 #: allthethings/account/templates/account/donation.html:58
 msgid "page.donate.submit.crypto_note"
-msgstr "<strong>Pomembna opomba:</strong> Cene kriptovalut lahko močno nihajo, včasih tudi do 20 % % v nekaj minutah. To je še vedno manj od provizij, ki jih imamo pri številnih ponudnikih plačil, ki pogosto zaračunavajo 50–60 % % za sodelovanje z »dobrodelno organizacijo v senci«, kot je mi. <u>Če nam pošljete potrdilo s prvotno ceno, ki ste jo plačali, bomo vaš račun spremenili v izbrano članstvo</u> (če potrdilo ni starejše od nekaj ur). Resnično cenimo, da ste pripravljeni prenašati takšne stvari, da bi nas podprli! ❤️"
+msgstr "<strong>Pomembna opomba:</strong> Cene kriptovalut lahko močno nihajo, včasih tudi do 20 %% v nekaj minutah. To je še vedno manj od provizij, ki jih imamo pri številnih ponudnikih plačil, ki pogosto zaračunavajo 50–60 %% za sodelovanje z »dobrodelno organizacijo v senci«, kot je mi. <u>Če nam pošljete potrdilo s prvotno ceno, ki ste jo plačali, bomo vaš račun spremenili v izbrano članstvo</u> (če potrdilo ni starejše od nekaj ur). Resnično cenimo, da ste pripravljeni prenašati takšne stvari, da bi nas podprli! ❤️"
 
 #: allthethings/account/templates/account/donation.html:63
 msgid "page.donation.payment.crypto.top_header"
@@ -561,7 +561,7 @@ msgstr "Članstvo: <strong>%(tier_name)s</strong> do %(until_date)s <a %(a_exten
 
 #: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_fast_downloads_used"
-msgstr "Uporabljeni hitri prenosi (zadnjih 24 ur): <strong>%(uporabljeno)s / %(total)s</strong>"
+msgstr "Uporabljeni hitri prenosi (zadnjih 24 ur): <strong>%(used)s / %(total)s</strong>"
 
 #: allthethings/account/templates/account/index.html:31
 msgid "page.account.logged_in.membership_upgrade"
@@ -1033,7 +1033,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/home.html:75
 #: allthethings/page/templates/page/search.html:56
-#: allthethings/templates/layouts/index.html:367
+#: allthethings/templates/layouts/index.html:366
 msgid "common.search.placeholder"
 msgstr ""
 
@@ -1264,60 +1264,69 @@ msgstr ""
 msgid "layout.index.header.title"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:249
+#: allthethings/templates/layouts/index.html:248
 msgid "layout.index.header.tagline"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:252
+#: allthethings/templates/layouts/index.html:251
 msgid "layout.index.header.recent_downloads"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:334
+#: allthethings/templates/layouts/index.html:343
+#: allthethings/templates/layouts/index.html:354
+msgid "layout.index.header.nav.about"
 msgstr ""
 
 #: allthethings/templates/layouts/index.html:335
 #: allthethings/templates/layouts/index.html:344
 #: allthethings/templates/layouts/index.html:355
-msgid "layout.index.header.nav.about"
-msgstr ""
-
-#: allthethings/templates/layouts/index.html:336
-#: allthethings/templates/layouts/index.html:345
-#: allthethings/templates/layouts/index.html:356
 msgid "layout.index.header.nav.datasets"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:338
-#: allthethings/templates/layouts/index.html:347
-#: allthethings/templates/layouts/index.html:358
+#: allthethings/templates/layouts/index.html:337
+#: allthethings/templates/layouts/index.html:346
+#: allthethings/templates/layouts/index.html:357
 msgid "layout.index.header.nav.mobile"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:340
-#: allthethings/templates/layouts/index.html:349
-#: allthethings/templates/layouts/index.html:354
+#: allthethings/templates/layouts/index.html:339
+#: allthethings/templates/layouts/index.html:348
+#: allthethings/templates/layouts/index.html:353
 msgid "layout.index.header.nav.home"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:359
+#: allthethings/templates/layouts/index.html:358
 msgid "layout.index.header.nav.annasblog"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:360
+#: allthethings/templates/layouts/index.html:359
 msgid "layout.index.header.nav.annassoftware"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:361
+#: allthethings/templates/layouts/index.html:360
 msgid "layout.index.header.nav.translate"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:363
+#: allthethings/templates/layouts/index.html:362
 msgid "layout.index.header.nav.donate"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:364
+#: allthethings/templates/layouts/index.html:363
 msgid "layout.index.header.nav.search"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:369
 msgid "layout.index.header.nav.beta"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:372
+#: allthethings/templates/layouts/index.html:378
+#: allthethings/templates/layouts/index.html:386
+#: allthethings/templates/layouts/index.html:394
+#: allthethings/templates/layouts/index.html:403
+#: allthethings/templates/layouts/index.html:414
+msgid "layout.index.header.nav.request"
 msgstr ""
 
 #: allthethings/templates/layouts/index.html:373
@@ -1326,103 +1335,94 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:395
 #: allthethings/templates/layouts/index.html:404
 #: allthethings/templates/layouts/index.html:415
-msgid "layout.index.header.nav.request"
+msgid "layout.index.header.nav.upload"
 msgstr ""
 
 #: allthethings/templates/layouts/index.html:374
 #: allthethings/templates/layouts/index.html:380
-#: allthethings/templates/layouts/index.html:388
-#: allthethings/templates/layouts/index.html:396
-#: allthethings/templates/layouts/index.html:405
-#: allthethings/templates/layouts/index.html:416
-msgid "layout.index.header.nav.upload"
+#: allthethings/templates/layouts/index.html:385
+msgid "layout.index.header.nav.login_register"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:375
-#: allthethings/templates/layouts/index.html:381
-#: allthethings/templates/layouts/index.html:386
-msgid "layout.index.header.nav.login_register"
+#: allthethings/templates/layouts/index.html:391
+#: allthethings/templates/layouts/index.html:400
+#: allthethings/templates/layouts/index.html:411
+msgid "layout.index.header.nav.public_profile"
 msgstr ""
 
 #: allthethings/templates/layouts/index.html:392
 #: allthethings/templates/layouts/index.html:401
 #: allthethings/templates/layouts/index.html:412
-msgid "layout.index.header.nav.public_profile"
+msgid "layout.index.header.nav.downloaded_files"
 msgstr ""
 
 #: allthethings/templates/layouts/index.html:393
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:413
-msgid "layout.index.header.nav.downloaded_files"
-msgstr ""
-
-#: allthethings/templates/layouts/index.html:394
-#: allthethings/templates/layouts/index.html:403
-#: allthethings/templates/layouts/index.html:414
 msgid "layout.index.header.nav.my_donations"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:411
+#: allthethings/templates/layouts/index.html:410
 msgid "layout.index.header.nav.account"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:425
 msgid "layout.index.footer.list1.header"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:427
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list1.home"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:427
 msgid "layout.index.footer.list1.about"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:429
+#: allthethings/templates/layouts/index.html:428
 msgid "layout.index.footer.list1.donate"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.footer.list1.datasets"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:432
+#: allthethings/templates/layouts/index.html:431
 msgid "layout.index.footer.list1.mobile"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:446
+#: allthethings/templates/layouts/index.html:445
 msgid "layout.index.footer.list2.header"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.footer.list2.twitter"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.footer.list2.reddit"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.footer.list2.telegram"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:448
+#: allthethings/templates/layouts/index.html:447
 msgid "layout.index.footer.list2.blog"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:449
+#: allthethings/templates/layouts/index.html:448
 msgid "layout.index.footer.list2.software"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:449
 msgid "layout.index.footer.list2.translate"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:451
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:456
 msgid "layout.index.footer.list3.header"
 msgstr ""
 

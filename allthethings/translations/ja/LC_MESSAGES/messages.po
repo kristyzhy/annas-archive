@@ -346,12 +346,12 @@ msgid "page.donation.header.date"
 msgstr "日付：%(date)s"
 
 #: allthethings/account/templates/account/donation.html:14
-msgid "page.donation.header.total_with_discount"
-msgstr "合計%(total)s<span %(span_details)s>(%(monthly_amount_usd)s / %(duration)sか月間)</span>"
+msgid "page.donation.header.total_including_discount"
+msgstr "合計：%(total)s <span %(span_details)s>(%(monthly_amount_usd)s /%(duration)sか月間、%(discounts)s%% の割引)</span>"
 
 #: allthethings/account/templates/account/donation.html:16
-msgid "page.donation.header.total_no_discount"
-msgstr "合計：%(total)s <span %(span_details)s>(%(monthly_amount_usd)s /%(duration)sか月間、%(discounts)s%% の割引)</span>"
+msgid "page.donation.header.total_without_discount"
+msgstr "合計%(total)s<span %(span_details)s>(%(monthly_amount_usd)s / %(duration)sか月間)</span>"
 
 #: allthethings/account/templates/account/donation.html:19
 msgid "page.donation.header.status"
@@ -1033,7 +1033,7 @@ msgstr "影の図書館のカタログを検索。"
 
 #: allthethings/page/templates/page/home.html:75
 #: allthethings/page/templates/page/search.html:56
-#: allthethings/templates/layouts/index.html:367
+#: allthethings/templates/layouts/index.html:366
 msgid "common.search.placeholder"
 msgstr "タイトル、著者、DOI、ISBN、MD5…"
 
@@ -1264,61 +1264,70 @@ msgstr "世界最大のコミックの影の図書館を<a href=\"https://annas-
 msgid "layout.index.header.title"
 msgstr "アンナのアーカイブ"
 
-#: allthethings/templates/layouts/index.html:249
+#: allthethings/templates/layouts/index.html:248
 msgid "layout.index.header.tagline"
 msgstr "📚 世界で最も大きなオープンソース・オープンデータの図書館。 ⭐️ Z-Library、Library Genesis、Sci-Hubなどなど。 %(book_any)s冊の本、%(journal_article)sもの論文、%(book_comic)s冊の漫画、%(magazine)s冊の雑誌が永久に保存されます。どなたでも大歓迎です❤言葉を広めませんか？"
 
-#: allthethings/templates/layouts/index.html:252
+#: allthethings/templates/layouts/index.html:251
 msgid "layout.index.header.recent_downloads"
 msgstr "最近のダウンロード："
+
+#: allthethings/templates/layouts/index.html:334
+#: allthethings/templates/layouts/index.html:343
+#: allthethings/templates/layouts/index.html:354
+msgid "layout.index.header.nav.about"
+msgstr "当サイトについて"
 
 #: allthethings/templates/layouts/index.html:335
 #: allthethings/templates/layouts/index.html:344
 #: allthethings/templates/layouts/index.html:355
-msgid "layout.index.header.nav.about"
-msgstr "当サイトについて"
-
-#: allthethings/templates/layouts/index.html:336
-#: allthethings/templates/layouts/index.html:345
-#: allthethings/templates/layouts/index.html:356
 msgid "layout.index.header.nav.datasets"
 msgstr "データセット"
 
-#: allthethings/templates/layouts/index.html:338
-#: allthethings/templates/layouts/index.html:347
-#: allthethings/templates/layouts/index.html:358
+#: allthethings/templates/layouts/index.html:337
+#: allthethings/templates/layouts/index.html:346
+#: allthethings/templates/layouts/index.html:357
 msgid "layout.index.header.nav.mobile"
 msgstr "携帯アプリ"
 
-#: allthethings/templates/layouts/index.html:340
-#: allthethings/templates/layouts/index.html:349
-#: allthethings/templates/layouts/index.html:354
+#: allthethings/templates/layouts/index.html:339
+#: allthethings/templates/layouts/index.html:348
+#: allthethings/templates/layouts/index.html:353
 msgid "layout.index.header.nav.home"
 msgstr "トップページ"
 
-#: allthethings/templates/layouts/index.html:359
+#: allthethings/templates/layouts/index.html:358
 msgid "layout.index.header.nav.annasblog"
 msgstr "アンナのブログ↗"
 
-#: allthethings/templates/layouts/index.html:360
+#: allthethings/templates/layouts/index.html:359
 msgid "layout.index.header.nav.annassoftware"
 msgstr "アンナのソフトウェア↗"
 
-#: allthethings/templates/layouts/index.html:361
+#: allthethings/templates/layouts/index.html:360
 msgid "layout.index.header.nav.translate"
 msgstr "翻訳する ↗"
 
-#: allthethings/templates/layouts/index.html:363
+#: allthethings/templates/layouts/index.html:362
 msgid "layout.index.header.nav.donate"
 msgstr "寄付"
 
-#: allthethings/templates/layouts/index.html:364
+#: allthethings/templates/layouts/index.html:363
 msgid "layout.index.header.nav.search"
 msgstr "検索"
 
-#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:369
 msgid "layout.index.header.nav.beta"
 msgstr "ベータ"
+
+#: allthethings/templates/layouts/index.html:372
+#: allthethings/templates/layouts/index.html:378
+#: allthethings/templates/layouts/index.html:386
+#: allthethings/templates/layouts/index.html:394
+#: allthethings/templates/layouts/index.html:403
+#: allthethings/templates/layouts/index.html:414
+msgid "layout.index.header.nav.request"
+msgstr "本をリクエスト"
 
 #: allthethings/templates/layouts/index.html:373
 #: allthethings/templates/layouts/index.html:379
@@ -1326,103 +1335,94 @@ msgstr "ベータ"
 #: allthethings/templates/layouts/index.html:395
 #: allthethings/templates/layouts/index.html:404
 #: allthethings/templates/layouts/index.html:415
-msgid "layout.index.header.nav.request"
-msgstr "本をリクエスト"
-
-#: allthethings/templates/layouts/index.html:374
-#: allthethings/templates/layouts/index.html:380
-#: allthethings/templates/layouts/index.html:388
-#: allthethings/templates/layouts/index.html:396
-#: allthethings/templates/layouts/index.html:405
-#: allthethings/templates/layouts/index.html:416
 msgid "layout.index.header.nav.upload"
 msgstr "アップロード"
 
-#: allthethings/templates/layouts/index.html:375
-#: allthethings/templates/layouts/index.html:381
-#: allthethings/templates/layouts/index.html:386
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:380
+#: allthethings/templates/layouts/index.html:385
 msgid "layout.index.header.nav.login_register"
 msgstr "ログイン/登録"
+
+#: allthethings/templates/layouts/index.html:391
+#: allthethings/templates/layouts/index.html:400
+#: allthethings/templates/layouts/index.html:411
+msgid "layout.index.header.nav.public_profile"
+msgstr "公開プロフィール"
 
 #: allthethings/templates/layouts/index.html:392
 #: allthethings/templates/layouts/index.html:401
 #: allthethings/templates/layouts/index.html:412
-msgid "layout.index.header.nav.public_profile"
-msgstr "公開プロフィール"
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "ダウンロード済みのファイル"
 
 #: allthethings/templates/layouts/index.html:393
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:413
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "ダウンロード済みのファイル"
-
-#: allthethings/templates/layouts/index.html:394
-#: allthethings/templates/layouts/index.html:403
-#: allthethings/templates/layouts/index.html:414
 msgid "layout.index.header.nav.my_donations"
 msgstr "私の寄付"
 
-#: allthethings/templates/layouts/index.html:411
+#: allthethings/templates/layouts/index.html:410
 msgid "layout.index.header.nav.account"
 msgstr "アカウント"
 
-#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:425
 msgid "layout.index.footer.list1.header"
 msgstr "アンナのアーカイブ"
 
-#: allthethings/templates/layouts/index.html:427
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.footer.list1.home"
 msgstr "トップページ"
 
-#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:427
 msgid "layout.index.footer.list1.about"
 msgstr "当サイトについて"
 
-#: allthethings/templates/layouts/index.html:429
+#: allthethings/templates/layouts/index.html:428
 msgid "layout.index.footer.list1.donate"
 msgstr "寄付"
 
-#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.footer.list1.datasets"
 msgstr "データセット"
 
-#: allthethings/templates/layouts/index.html:432
+#: allthethings/templates/layouts/index.html:431
 msgid "layout.index.footer.list1.mobile"
 msgstr "携帯アプリ"
 
-#: allthethings/templates/layouts/index.html:446
+#: allthethings/templates/layouts/index.html:445
 msgid "layout.index.footer.list2.header"
 msgstr "連絡を取る"
 
-#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.footer.list2.twitter"
 msgstr "Twitter"
 
-#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:448
+#: allthethings/templates/layouts/index.html:447
 msgid "layout.index.footer.list2.blog"
 msgstr "アンナのブログ"
 
-#: allthethings/templates/layouts/index.html:449
+#: allthethings/templates/layouts/index.html:448
 msgid "layout.index.footer.list2.software"
 msgstr "アンナのソフトウェア"
 
-#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:449
 msgid "layout.index.footer.list2.translate"
 msgstr "翻訳"
 
-#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:451
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA/著作権主張"
 
-#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:456
 msgid "layout.index.footer.list3.header"
 msgstr "ミラーサイト"
 
