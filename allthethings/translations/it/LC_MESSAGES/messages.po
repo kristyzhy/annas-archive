@@ -1,6 +1,6 @@
 #: allthethings/utils.py:184
 msgid "common.membership.tier_name.2"
-msgstr "Topo da Biblioteca Geniale"
+msgstr "Topo da Biblioteca"
 
 #: allthethings/utils.py:185
 msgid "common.membership.tier_name.3"
@@ -41,7 +41,7 @@ msgstr "Donare"
 
 #: allthethings/account/templates/account/donate.html:11
 msgid "page.donate.header.existing_unpaid_donation"
-msgstr "Hai una donazione esistente in corso <a %(a_donation)s> <a/>. Per favore concludi o cancella la donazione prima di crearne una nuova"
+msgstr "Hai una <a %(a_donation)s>donazione esistente<a/> in corso . Per favore concludi o cancella quella donazione prima di crearne una nuova."
 
 #: allthethings/account/templates/account/donate.html:13
 msgid "page.donate.header.existing_unpaid_donation_view_all"
@@ -74,14 +74,14 @@ msgstr "Selezionato"
 #: allthethings/account/templates/account/donate.html:59
 #: allthethings/account/templates/account/donate.html:73
 msgid "page.donate.buttons.up_to_discounts"
-msgstr "fino al %(percentage)s%%  di sconto"
+msgstr "fino al %(percentage)s%% di sconto"
 
 #: allthethings/account/templates/account/donate.html:34
 #: allthethings/account/templates/account/donate.html:48
 #: allthethings/account/templates/account/donate.html:62
 #: allthethings/account/templates/account/donate.html:76
 msgid "page.donate.perks.fast_downloads"
-msgstr "%(number)s  download veloci al giorno"
+msgstr "%(number)s download veloci al giorno"
 
 #: allthethings/account/templates/account/donate.html:35
 msgid "page.donate.perks.credits"
@@ -103,7 +103,7 @@ msgstr "Telegram esclusivo con aggiornamenti dietro le quinte"
 
 #: allthethings/account/templates/account/donate.html:77
 msgid "page.donate.perks.adopt"
-msgstr "\"Adotta un torrent\": il tuo username o messaggio all'interno di un filename torrent  <div class=\"text-gray-500 text-sm\">ogni 12 mesi di membership</div>"
+msgstr "\"Adotta un torrent\": il tuo username o messaggio all'interno di un nome di file torrent <div class=\"text-gray-500 text-sm\">ogni 12 mesi di membership</div>"
 
 #: allthethings/account/templates/account/donate.html:83
 msgid "page.donate.header.text3"
@@ -124,12 +124,12 @@ msgstr "Seleziona una modalità di pagamento. Offriamo sconti per pagamenti tram
 
 #: allthethings/account/templates/account/donate.html:100
 msgid "page.donate.payment.intro2"
-msgstr ""
+msgstr "Scegli un'opzione di pagamento. Al momento supportiamo soltanto pagamenti con criptovalute %(bitcoin_icon)s, dato che elaboratori di pagamento tradizionali si rifiutano di lavorare con noi."
 
 #: allthethings/account/templates/account/donate.html:104
 #: allthethings/account/templates/account/donate.html:192
 msgid "page.donate.payment.buttons.crypto"
-msgstr ""
+msgstr "Criptovaluta %(bitcoin_icon)s"
 
 #: allthethings/account/templates/account/donate.html:104
 #: allthethings/account/templates/account/donate.html:105
@@ -139,22 +139,22 @@ msgstr ""
 #: allthethings/account/templates/account/donate.html:142
 #: allthethings/account/templates/account/donate.html:143
 msgid "page.donate.discount"
-msgstr ""
+msgstr "-%(percentage)s%%"
 
 #: allthethings/account/templates/account/donate.html:106
 #: allthethings/account/templates/account/donate.html:194
 msgid "page.donate.payment.buttons.paypal"
-msgstr ""
+msgstr "PayPal (US) %(bitcoin_icon)s"
 
 #: allthethings/account/templates/account/donate.html:108
 #: allthethings/account/templates/account/donate.html:196
 msgid "page.donate.payment.buttons.alipay"
-msgstr ""
+msgstr "Alipay"
 
 #: allthethings/account/templates/account/donate.html:109
 #: allthethings/account/templates/account/donate.html:197
 msgid "page.donate.payment.buttons.pix"
-msgstr ""
+msgstr "Pix (Brasile)"
 
 #: allthethings/account/templates/account/donate.html:117
 msgid "page.donate.payment.desc.crypto"
@@ -162,7 +162,7 @@ msgstr "Con le criptovalute è possibile donare utilizzando BTC, ETH, XMR e SOL.
 
 #: allthethings/account/templates/account/donate.html:123
 msgid "page.donate.payment.desc.paypal"
-msgstr ""
+msgstr "Per donazioni tramite PayPal US, usiamo PayPal Crypto, che ci consente di rimanere anonimi. Apprezziamo il tempo che dedichi ad imparare come donare tramite questo metodo, che ci aiuta moltissimo."
 
 #: allthethings/account/templates/account/donate.html:134
 msgid "page.donate.duration.intro"
@@ -210,7 +210,7 @@ msgstr "✅ Reindirizzamento verso la pagina di donazione…"
 
 #: allthethings/account/templates/account/donate.html:177
 msgid "page.donate.submit.failure"
-msgstr "❌ Qualcosa è andato storto. Per favore ricarica la pagina e prova di nuovo"
+msgstr "❌ Qualcosa è andato storto. Per favore ricarica la pagina e prova di nuovo."
 
 #: allthethings/account/templates/account/donate.html:184
 msgid "page.donate.one_time_payment.intro"
@@ -244,7 +244,7 @@ msgstr "<span %(span_circle)s>1</span>Compra Bitcoin tramite Paypal"
 #: allthethings/account/templates/account/donate.html:225
 #: allthethings/account/templates/account/donation.html:81
 msgid "page.donate.one_time_payment.paypal.text2"
-msgstr ""
+msgstr "Trova la pagina \"Cripto\" nella tua app o sito PayPal. Si trova generalmente sotto \"Finanze\"."
 
 #: allthethings/account/templates/account/donate.html:229
 msgid "page.donate.one_time_payment.paypal.text3"
@@ -262,11 +262,11 @@ msgstr "<span %(span_circle)s>2</span> Trasferire il Bitcoin al nostro indirizzo
 #: allthethings/account/templates/account/donate.html:239
 #: allthethings/account/templates/account/donation.html:91
 msgid "page.donate.one_time_payment.paypal.text4"
-msgstr ""
+msgstr "Vai alla pagina \"Bitcoin\" nella tua app o sito PayPal. Premi il bottone \"Trasferisci\" %(transfer_icon)s, e poi \"Invia\"."
 
 #: allthethings/account/templates/account/donate.html:243
 msgid "page.donate.one_time_payment.paypal.text5"
-msgstr ""
+msgstr "Inserisci il nostro indirizzo Bitcoin (BTC) come destinatario, e segui le istruzioni per inviare la tua donazione:"
 
 #: allthethings/account/templates/account/donate.html:262
 #: allthethings/account/templates/account/donate.html:276
@@ -278,210 +278,210 @@ msgstr "Nota che il nome o l'immagine dell'account potrebbero sembrare strani. N
 
 #: allthethings/account/templates/account/donate.html:272
 msgid "page.donate.one_time_payment.alipay.text"
-msgstr ""
+msgstr "Per favore usa <a %(a_account)s>questo account Alipay</a> per inviare la tua donazione."
 
 #: allthethings/account/templates/account/donate.html:286
 msgid "page.donate.one_time_payment.pix.text"
-msgstr ""
+msgstr "Per favore usa <a %(a_account)s>questo account Pix</a> per inviare la tua donazione."
 
 #: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.discount"
-msgstr ""
+msgstr "%(percentage)s%%"
 
 #: allthethings/account/templates/account/donate.html:350
 msgid "page.donate.duration.summary.monthly_cost"
-msgstr ""
+msgstr "%(monthly_cost)s / mese"
 
 #: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.1_mo"
-msgstr ""
+msgstr "per 1 mese"
 
 #: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.3_mo"
-msgstr ""
+msgstr "per 3 mesi"
 
 #: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.6_mo"
-msgstr ""
+msgstr "per 6 mesi"
 
 #: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.12_mo"
-msgstr ""
+msgstr "per 12 mesi"
 
 #: allthethings/account/templates/account/donate.html:357
 msgid "page.donate.duration.summary.duration.24_mo"
-msgstr ""
+msgstr "per 24 mesi"
 
 #: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.1_mo"
-msgstr ""
+msgstr "per 1 mese \"%(tier_name)s\""
 
 #: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.3_mo"
-msgstr ""
+msgstr "per 3 mesi \"%(tier_name)s\""
 
 #: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.6_mo"
-msgstr ""
+msgstr "per 6 mesi \"%(tier_name)s\""
 
 #: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.12_mo"
-msgstr ""
+msgstr "per 12 mesi \"%(tier_name)s\""
 
 #: allthethings/account/templates/account/donate.html:365
 msgid "page.donate.submit.button.label.24_mo"
-msgstr ""
+msgstr "per 24 mesi \"%(tier_name)s\""
 
 #: allthethings/account/templates/account/donation.html:3
 #: allthethings/account/templates/account/donation.html:9
 msgid "page.donation.title"
-msgstr ""
+msgstr "Donazione"
 
 #: allthethings/account/templates/account/donation.html:10
 msgid "page.donation.header.id"
-msgstr ""
+msgstr "Identificatore: %(id)s"
 
 #: allthethings/account/templates/account/donation.html:11
 msgid "page.donation.header.date"
-msgstr ""
+msgstr "Data: %(date)s"
 
 #: allthethings/account/templates/account/donation.html:14
 msgid "page.donation.header.total_including_discount"
-msgstr ""
+msgstr "Totale: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mese for %(duration)s mesi)</span>"
 
 #: allthethings/account/templates/account/donation.html:16
 msgid "page.donation.header.total_without_discount"
-msgstr ""
+msgstr "Totale: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / mese for %(duration)s mesi, incluso sconto di %(discounts)s%%)</span>"
 
 #: allthethings/account/templates/account/donation.html:19
 msgid "page.donation.header.status"
-msgstr ""
+msgstr "Stato: <span %(span_label)s>%(label)s</span>"
 
 #: allthethings/account/templates/account/donation.html:25
 msgid "page.donation.header.cancel.button"
-msgstr ""
+msgstr "Annulla"
 
 #: allthethings/account/templates/account/donation.html:26
 msgid "page.donation.header.cancel.confirm.msg"
-msgstr ""
+msgstr "Sei sicuro di voler annullare? Non annullare se hai già pagato."
 
 #: allthethings/account/templates/account/donation.html:26
 msgid "page.donation.header.cancel.confirm.button"
-msgstr ""
+msgstr "Sì, annulla per favore"
 
 #: allthethings/account/templates/account/donation.html:28
 msgid "page.donation.header.cancel.success"
-msgstr ""
+msgstr "✅ La tua donazione è stata annullata."
 
 #: allthethings/account/templates/account/donation.html:28
 msgid "page.donation.header.cancel.new_donation"
-msgstr ""
+msgstr "Nuova donazione"
 
 #: allthethings/account/templates/account/donation.html:29
 msgid "page.donation.header.cancel.failure"
-msgstr ""
+msgstr "❌ Qualcosa è andato storto. Per favore ricarica la pagina e prova di nuovo."
 
 #: allthethings/account/templates/account/donation.html:33
 msgid "page.donation.header.reorder"
-msgstr ""
+msgstr "Riordina"
 
 #: allthethings/account/templates/account/donation.html:40
 msgid "page.donation.old_instructions.intro_paid"
-msgstr ""
+msgstr "Hai già pagato. Sei vuoi rivedere comunque le istruzioni di pagamento, clicca qui:"
 
 #: allthethings/account/templates/account/donation.html:43
 #: allthethings/account/templates/account/donation.html:51
 msgid "page.donation.old_instructions.show_button"
-msgstr ""
+msgstr "Visualizza le vecchie istruzioni di pagamento"
 
 #: allthethings/account/templates/account/donation.html:48
 msgid "page.donation.old_instructions.intro_outdated"
-msgstr ""
+msgstr "Le istruzioni di pagamento sono obsolete. Se vuoi fare una nuova donazione, usa il tasto \"Riordina\" qui sopra."
 
 #: allthethings/account/templates/account/donation.html:58
 msgid "page.donate.submit.crypto_note"
-msgstr ""
+msgstr "<strong>Nota importante:</strong> I prezzi delle Criptovalute sono molto volatili, possono fluttuare anche del 20%% in pochi minuti. questo sarà meno delle tasse di pagamento con tanti fornitori di pagamenti, who spesso addebitano il 50-60%% per lavorare con un “ente di beneficenza ombra” come noi. <u>Se ci puoi mandare la ricevuta col prezzo che hai pagato originariamente, accrediteremo comunque il tuo account con la membership scelta</u> (fni tanto che la ricevuta non sia più vecchia di qualche ora). Apprezziamo davvero che sei disposto a sopportare cose del genere pur di supportarci! ❤️"
 
 #: allthethings/account/templates/account/donation.html:63
 msgid "page.donation.payment.crypto.top_header"
-msgstr ""
+msgstr "Istruzioni Criptovalute"
 
 #: allthethings/account/templates/account/donation.html:65
 msgid "page.donation.payment.crypto.header1"
-msgstr ""
+msgstr "<span %(span_circle)s>1</span>Trasferisci ad uno dei nostri account di criptovalute"
 
 #: allthethings/account/templates/account/donation.html:68
 msgid "page.donation.payment.crypto.text1"
-msgstr ""
+msgstr "Dona il valore totale di %(total)s ad uno dei nostri indirizzi:"
 
 #: allthethings/account/templates/account/donation.html:85
 msgid "page.donation.payment.paypal.text3"
-msgstr ""
+msgstr "Seguite le istruzioni per acquistare Bitcoin (BTC). È sufficiente acquistare l'importo che si desidera donare, %(total)s."
 
 #: allthethings/account/templates/account/donation.html:95
 msgid "page.donation.payment.paypal.text5"
-msgstr ""
+msgstr "Inserisci il nostro indirizzo Bitcoin (BTC) come destinatario, e segui le istruzioni per inviare la tua donazione di %(total)s:"
 
 #: allthethings/account/templates/account/donation.html:116
 msgid "page.donation.payment.alipay.top_header"
-msgstr ""
+msgstr "Istruzioni Alipay"
 
 #: allthethings/account/templates/account/donation.html:118
 msgid "page.donation.payment.alipay.header1"
-msgstr ""
+msgstr "<span %(span_circle)s>1</span>Dona via Alipay"
 
 #: allthethings/account/templates/account/donation.html:121
 msgid "page.donation.payment.alipay.text1"
-msgstr ""
+msgstr "Dona il valore totale di %(total)s con <a %(a_account)s>questo account Alipay"
 
 #: allthethings/account/templates/account/donation.html:128
 msgid "page.donation.payment.pix.top_header"
-msgstr ""
+msgstr "Istruzioni Pix"
 
 #: allthethings/account/templates/account/donation.html:130
 msgid "page.donation.payment.pix.header1"
-msgstr ""
+msgstr "<span %(span_circle)s>1</span>Dona via Pix"
 
 #: allthethings/account/templates/account/donation.html:133
 msgid "page.donation.payment.pix.text1"
-msgstr ""
+msgstr "Dona il valore totale di %(total)s con <a %(a_account)s>questo account Pix"
 
 #: allthethings/account/templates/account/donation.html:141
 msgid "page.donation.footer.header"
-msgstr ""
+msgstr "<span %(span_circle)s>%(circle_number)s</span>Inviaci la ricevuta per email"
 
 #: allthethings/account/templates/account/donation.html:144
 msgid "page.donation.footer.text1"
-msgstr ""
+msgstr "Manda una ricevuta o screenshot al tuo indirizzo di verifica personale:"
 
 #: allthethings/account/templates/account/donation.html:153
 msgid "page.donation.footer.crypto_note"
-msgstr ""
+msgstr "Se il tasso di conversione della criptovaluta fluttua nel mezzo della transazione, assicurati d'includere la ricevuta mostrando il tasso di conversione originale. Apprezziamo davvero che ti prendi il disturbo di usare criptovalute, ci aiuta un sacco!"
 
 #: allthethings/account/templates/account/donation.html:160
 msgid "page.donation.footer.text2"
-msgstr ""
+msgstr "Quando ci avrai inviato la tua ricevuta, premi questo tasto, così che Anna portà verificarla manualmente (ci potrà volere qualche giorno):"
 
 #: allthethings/account/templates/account/donation.html:167
 msgid "page.donation.footer.button"
-msgstr ""
+msgstr "Sì, ho inviato la mia ricevuta"
 
 #: allthethings/account/templates/account/donation.html:170
 msgid "page.donation.footer.success"
-msgstr ""
+msgstr "✅ grazie per la donazione! Anna attiverà manualmente la tua membership entro qualche giorno."
 
 #: allthethings/account/templates/account/donation.html:171
 msgid "page.donation.footer.failure"
-msgstr ""
+msgstr "❌ Qualcosa è andato storto. Per favore ricarica la pagina e prova di nuovo."
 
 #: allthethings/account/templates/account/donation_faq.html:3
 #: allthethings/account/templates/account/donation_faq.html:6
 msgid "page.donate.faq.title"
-msgstr ""
+msgstr "FAQ Donazioni"
 
 #: allthethings/account/templates/account/donation_faq.html:9
 msgid "page.donate.faq.renew"
-msgstr ""
+msgstr "<div class=\"font-bold\">Le memberships si rinnovano automaticamente?</div> Le membership <strong>non</strong> si rinnovano automaticamente. Puoi partecipare quanto a lungo o corto vuoi."
 
 #: allthethings/account/templates/account/donation_faq.html:13
 msgid "page.donate.faq.text_other_payment1"
@@ -489,11 +489,11 @@ msgstr "<div class=\"font-bold\">Avete altri metodi di pagamento?</div> Attualme
 
 #: allthethings/account/templates/account/donation_faq.html:17
 msgid "page.donate.faq.text_other_payment2"
-msgstr "Se il tuo metodo di pagamento non è in lista, la cosa più semplice sarebbe scaricare <a href=\"https://www.coinbase.com/\">Coinbase</a> sul tuo telefono, e comprare una frazione di Bitcoin (BTC) lì. Puoi poi mandarli al nostro indirizzo: %(address)s. In molti paesi, questo dovrebbe richiedere solo qualche minuto per impostarlo."
+msgstr "Se il tuo metodo di pagamento non è in lista, la cosa più semplice sarebbe scaricare <a href=\"https://paypal.com/\">PayPal</a> o <a href=\"https://coinbase.com/\">Coinbase</a> sul tuo telefono, e comprare una frazione di Bitcoin (BTC) lì. Puoi poi mandarli al nostro indirizzo: %(address)s. Nella maggior parte dei paesi, dovrebbe richiedere solo qualche minuto."
 
 #: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
-msgstr ""
+msgstr "<div class=\"font-bold\">Per cosa spendete i fondi delle donazioni?</div> Il 100%% è speso nel preservare e rendere accessibile la conoscenza e cultura di tutto il mondo. Al momento li spendiamo principalmente per server, memoria, e banda. Nessun fondo va personalmente ad alcun membro del team."
 
 #: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_large_donation"
@@ -505,171 +505,171 @@ msgstr "<div class=\"font-bold\">Posso contribuire in altre maniere?</div> Certo
 
 #: allthethings/account/templates/account/donation_faq.html:33
 msgid "page.donate.faq.monetizing"
-msgstr ""
+msgstr "<div class=\"font-bold\">Non mi piace che state “monetizzando” l'Archivio di Anna!</div> Se non ti piace come gestiamo il progetto, apri la tua libreria ombra! Tutto il nostro codice e dati sono open source, quindi non c'è niente a fermarti. ;)"
 
 #: allthethings/account/templates/account/donations.html:3
 #: allthethings/account/templates/account/donations.html:6
 msgid "page.my_donations.title"
-msgstr ""
+msgstr "Le mie donazioni"
 
 #: allthethings/account/templates/account/donations.html:8
 msgid "page.my_donations.not_shown"
-msgstr ""
+msgstr "I dettagli delle donazioni non sono mostrati pubblicamente."
 
 #: allthethings/account/templates/account/donations.html:11
 msgid "page.my_donations.no_donations"
-msgstr ""
+msgstr "Ancora nessuna donazione. <a %(a_donate)s>Fai la tua prima donazione.</a>"
 
 #: allthethings/account/templates/account/donations.html:13
 msgid "page.my_donations.make_another"
-msgstr ""
+msgstr "Fai un'altra donazione."
 
 #: allthethings/account/templates/account/downloaded.html:3
 #: allthethings/account/templates/account/downloaded.html:6
 msgid "page.downloaded.title"
-msgstr ""
+msgstr "File scaricati"
 
 #: allthethings/account/templates/account/downloaded.html:8
 msgid "page.downloaded.not_public"
-msgstr ""
+msgstr "I file scaricati non sono mostrati pubblicamente."
 
 #: allthethings/account/templates/account/downloaded.html:11
 msgid "page.downloaded.no_files"
-msgstr ""
+msgstr "Ancora nessun file scaricato."
 
 #: allthethings/account/templates/account/index.html:5
 #: allthethings/account/templates/account/index.html:13
 msgid "page.account.logged_in.title"
-msgstr ""
+msgstr "Account"
 
 #: allthethings/account/templates/account/index.html:7
 #: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_out.title"
-msgstr ""
+msgstr "Log In / Registrati"
 
 #: allthethings/account/templates/account/index.html:19
 msgid "page.account.logged_in.public_profile"
-msgstr ""
+msgstr "Profilo pubblico: %(profile_link)s"
 
 #: allthethings/account/templates/account/index.html:22
 msgid "page.account.logged_in.membership_none"
-msgstr ""
+msgstr "Membership: <strong>Nessuna</strong> <a %(a_become)s>(diventa un membro)</a>"
 
 #: allthethings/account/templates/account/index.html:24
 msgid "page.account.logged_in.membership_has_some"
-msgstr ""
+msgstr "Membership: <strong>%(tier_name)s</strong> fino al %(until_date)s <a %(a_extend)s>(estendi)</a>"
 
 #: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_fast_downloads_used"
-msgstr ""
+msgstr "Download veloci usati (ultime 24 ore): <strong>%(used)s / %(total)s</strong>"
 
 #: allthethings/account/templates/account/index.html:31
 msgid "page.account.logged_in.membership_upgrade"
-msgstr ""
+msgstr "Contatta Anna via AnnaArchivist@proton.me se vuoi aggiornare la tua membership ad un livello superiore."
 
 #: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.logout.button"
-msgstr ""
+msgstr "Logout"
 
 #: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.success"
-msgstr ""
+msgstr "✅ Sei stato disconnesso. Ricarica la pagina per effettuare di nuove il log in."
 
 #: allthethings/account/templates/account/index.html:40
 msgid "page.account.logged_in.logout.failure"
-msgstr ""
+msgstr "❌ Qualcosa è andato storto. Per favore ricarica la pagina e prova di nuovo."
 
 #: allthethings/account/templates/account/index.html:46
 msgid "page.account.logged_out.registered.text1"
-msgstr ""
+msgstr "Registrazione completata! La tua chiave segreta è: <span %(span_key)s>%(key)s</span>"
 
 #: allthethings/account/templates/account/index.html:49
 msgid "page.account.logged_out.registered.text2"
-msgstr ""
+msgstr "Salva questa chiave con cura. Se la perdi, perderai accesso al tuo account."
 
 #: allthethings/account/templates/account/index.html:53
 msgid "page.account.logged_out.registered.text3"
-msgstr ""
+msgstr "<li %(li_item)s><strong>Preferiti.</strong> Puoi aggiungere questa pagina ai preferiti per recuperare la tua chiave.</li><li %(li_item)s><strong>Scarica.</strong> Premi su <a %(a_download)s>questo link</a> per scaricare la tua chiave.</li><li %(li_item)s><strong>Gestore di password.</strong> Per comodità, la tua chiave è precompilata qui sotto, quindi quando effettuerai il login la potrai salvare nel tuo gestore di password.</li>"
 
 #: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.key_form.text"
-msgstr ""
+msgstr "Inserisci la tua chiave segreta per entrare:"
 
 #: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.placeholder"
-msgstr ""
+msgstr "Chiave segreta"
 
 #: allthethings/account/templates/account/index.html:61
 msgid "page.account.logged_out.key_form.button"
-msgstr ""
+msgstr "Log in"
 
 #: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.invalid_key"
-msgstr ""
+msgstr "Chiave segreta non valida. Verifica la tua chiave e riprova, o alternativamente registra un nuovo account qui sotto."
 
 #: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.register.header"
-msgstr ""
+msgstr "Non hai ancora un account?"
 
 #: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.register.button"
-msgstr ""
+msgstr "Registra un nuovo account"
 
 #: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.old_email.button"
-msgstr ""
+msgstr "Hai un vecchio account via email? Inserisci qui la tua <a %(a_open)s>email</a>."
 
 #: allthethings/account/templates/account/list.html:3
 msgid "page.list.title"
-msgstr ""
+msgstr "Lista"
 
 #: allthethings/account/templates/account/list.html:6
 msgid "page.list.header.edit.link"
-msgstr ""
+msgstr "modifica"
 
 #: allthethings/account/templates/account/list.html:11
 msgid "page.list.edit.button"
-msgstr ""
+msgstr "Salva"
 
 #: allthethings/account/templates/account/list.html:14
 msgid "page.list.edit.success"
-msgstr ""
+msgstr "✅ Salvati, Per favore ricaricare la pagina."
 
 #: allthethings/account/templates/account/list.html:15
 msgid "page.list.edit.failure"
-msgstr ""
+msgstr "❌ Qualcosa è andato storto. Per favore riprova."
 
 #: allthethings/account/templates/account/list.html:19
 msgid "page.list.by_and_date"
-msgstr ""
+msgstr "Lista di %(by)s, creata il <span %(span_time)s> alle %(time)s</span>"
 
 #: allthethings/account/templates/account/list.html:23
 msgid "page.list.empty"
-msgstr ""
+msgstr "La lista è vuota."
 
 #: allthethings/account/templates/account/list.html:31
 msgid "page.list.new_item"
-msgstr ""
+msgstr "Aggiungi o rimuovi da questa lista aprendo in un file la tab \"Liste\"."
 
 #: allthethings/account/templates/account/profile.html:3
 msgid "page.profile.title"
-msgstr ""
+msgstr "Profilo"
 
 #: allthethings/account/templates/account/profile.html:7
 msgid "page.profile.not_found"
-msgstr ""
+msgstr "Profilo non trovato."
 
 #: allthethings/account/templates/account/profile.html:9
 msgid "page.profile.header.edit"
-msgstr ""
+msgstr "modifica"
 
 #: allthethings/account/templates/account/profile.html:14
 msgid "page.profile.change_display_name.text"
-msgstr ""
+msgstr "Cambia il tuo nome profilo pubblico. Il tuo identificatore (la parte dopo il \"#\") non può essere cambiata."
 
 #: allthethings/account/templates/account/profile.html:15
 msgid "page.profile.change_display_name.button"
-msgstr ""
+msgstr "Salva"
 
 #: allthethings/account/templates/account/profile.html:18
 msgid "page.profile.change_display_name.success"
@@ -677,54 +677,54 @@ msgstr "✅ Salvati, Per favore ricaricare la pagina."
 
 #: allthethings/account/templates/account/profile.html:19
 msgid "page.profile.change_display_name.failure"
-msgstr ""
+msgstr "❌ Qualcosa è andato storto. Per favore riprova."
 
 #: allthethings/account/templates/account/profile.html:22
 msgid "page.profile.created_time"
-msgstr ""
+msgstr "Profilo creato il <span %(span_time)s> alle %(time)s</span>"
 
 #: allthethings/account/templates/account/profile.html:24
 msgid "page.profile.lists.header"
-msgstr ""
+msgstr "Liste"
 
 #: allthethings/account/templates/account/profile.html:29
 msgid "page.profile.lists.no_lists"
-msgstr ""
+msgstr "Ancora nessuna lista"
 
 #: allthethings/account/templates/account/profile.html:31
 msgid "page.profile.lists.new_list"
-msgstr ""
+msgstr "Crea una nuova lista aprendo in un file la tab \"Liste\"."
 
 #: allthethings/account/templates/account/request.html:3
 #: allthethings/account/templates/account/request.html:6
 msgid "page.request.title"
-msgstr ""
+msgstr "Richiedi libri"
 
 #: allthethings/account/templates/account/request.html:9
 msgid "page.request.text1"
-msgstr ""
+msgstr "Per ora, vi chiediamo di richiedere eBook sul <a %(a_forum)s>forum Libgen.rs</a>? Puoi anche creare un account lì e postare in uno di questi thread:"
 
 #: allthethings/account/templates/account/request.html:13
 msgid "page.request.text2"
-msgstr ""
+msgstr "<li %(li_item)s>Per eBook, usa <a %(a_ebook)s>questo thread</a>.</li><li %(li_item)s>Per libri che non sono disponibile come eBook, usa <a %(a_regular)s>questo thread</a>.</li>"
 
 #: allthethings/account/templates/account/request.html:17
 msgid "page.request.text3"
-msgstr ""
+msgstr "In entrambi i casi, assicurati di seguire le regole menzionate nei thread."
 
 #: allthethings/account/templates/account/request.html:21
 #: allthethings/account/templates/account/upload.html:13
 msgid "common.libgen.email"
-msgstr ""
+msgstr "Se il tuo indirizzo email non funziona sui forum Libgen, consigliamo di usare <a %(a_mail)s>Proton Mail</a> (gratuito). Puoi anche <a %(a_manual)s>richiedere manualmente</a> l'attivazione del tuo account."
 
 #: allthethings/account/templates/account/upload.html:3
 #: allthethings/account/templates/account/upload.html:6
 msgid "page.upload.title"
-msgstr ""
+msgstr "Carica"
 
 #: allthethings/account/templates/account/upload.html:9
 msgid "page.upload.text1"
-msgstr ""
+msgstr "Per ora, vi consigliamo di caricare nuovi libri su un fork di Library Genesis. Ecco una <a %(a_guide)s>guida pratica</a>. Nota che entrambi i fork che indicizziamo su questo sito prendono dallo stesso sistema di caricamenti."
 
 #: allthethings/page/views.py:2014
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -780,20 +780,20 @@ msgstr "Libri (tutti)"
 
 #: allthethings/page/views.py:2057 allthethings/page/views.py:2058
 msgid "common.md5.servers.fast_partner"
-msgstr ""
+msgstr "Server Partner Veloce #%(number)s"
 
 #: allthethings/page/views.py:2057
 msgid "common.md5.servers.no_browser_verification"
-msgstr ""
+msgstr "(nessuna verifica del browser richiesta)"
 
 #: allthethings/page/views.py:2059 allthethings/page/views.py:2060
 #: allthethings/page/views.py:2061
 msgid "common.md5.servers.slow_partner"
-msgstr ""
+msgstr "Server Partner Lento #%(number)s"
 
 #: allthethings/page/views.py:2059
 msgid "common.md5.servers.browser_verification_unlimited"
-msgstr ""
+msgstr "(potrebbe richiedere la <a %(a_browser)s>verifica del browser</a> — download illimitati!)"
 
 #: allthethings/page/views.py:2200
 msgid "page.md5.box.download.lgrsnf"
@@ -844,15 +844,15 @@ msgstr "(necessita di TOR browser)"
 
 #: allthethings/page/views.py:2244
 msgid "page.md5.box.download.ia_borrow"
-msgstr ""
+msgstr "Prendi in prestito da Internet Archive"
 
 #: allthethings/page/views.py:2245
 msgid "page.md5.box.download.bulk_torrents"
-msgstr ""
+msgstr "Scarica torrent in massa"
 
 #: allthethings/page/views.py:2245
 msgid "page.md5.box.download.experts_only"
-msgstr ""
+msgstr "(solo esperti)"
 
 #: allthethings/page/templates/page/about.html:3
 msgid "page.about.title"
@@ -864,7 +864,7 @@ msgstr "Chi siamo"
 
 #: allthethings/page/templates/page/about.html:9
 msgid "page.about.text1"
-msgstr "Anna’s Archive è un motore di ricerca non-profit e open-source per “<a href=\"https://it.wikipedia.org/wiki/Shadow_library\">shadow libraries</a>”. Creato da <a href=\"http://annas-blog.org\">Anna</a>, la persona che è dietro il <a href=\"https://en.wikipedia.org/wiki/Pirate_Library_Mirror\">Pirate Library Mirror</a>, un backup della Z-Library. Sentiva che c'era bisogno di un posto centrale dove cercare libri, giornali, fumetti, riviste e altri documenti."
+msgstr "Anna’s Archive è un motore di ricerca non-profit e open-source per “<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">librerie ombra</a>”. È stato creato da <a href=\"http://annas-blog.org\">Anna</a>, che sentiva ci fosse bisogno di un posto centrale dove cercare libri, giornali, fumetti, riviste e altri documenti."
 
 #: allthethings/page/templates/page/about.html:13
 msgid "page.about.text2"
@@ -872,7 +872,7 @@ msgstr "Crediamo fermamente nella libera circolazione di informazioni e nella co
 
 #: allthethings/page/templates/page/about.html:17
 msgid "page.about.text3"
-msgstr "Per restare aggiornato sui nostri progressi, segui Anna su <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a> o <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>. Per domande e feedback contatta Anna su %(email)s."
+msgstr "Per restare aggiornato sui nostri progressi, segui Anna su <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a> o <a href=\"https://t.me/annasarchiveorg\">Telegram</a>. Per domande e riscontri contatta Anna su %(email)s."
 
 #: allthethings/page/templates/page/about.html:21
 msgid "page.about.text4"
@@ -884,7 +884,7 @@ msgstr "Come aiutarci"
 
 #: allthethings/page/templates/page/about.html:27
 msgid "page.about.help.text"
-msgstr "<li>1. Seguici su <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a> or <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>.</li><li>2. Diffondi la parola riguardo l'archivio di Anna su Twitter, Reddit, Tiktok, Instagram, al tuo bar o libreria locale, o ovunque tu vada! Non crediamo nel gatekeeping — se renderanno il sito inattivo appariremo da quache altra parte, dal momento che il nostro codice è totalmente open source.</li><li>3. Se puoi, considera <a href=\"/donate\">donare</a>.</li><li>4. Aiutaci a <a href=\"https://translate.annas-software.org/\">tradurre</a> il nostro sito nelle varie lingue.</li><li>5. Se sei un ingegnere informatico, considera la contribuzione al nostro <a href=\"https://annas-software.org/\">open source</a>, o condividi i nostri<a href=\"https://en.wikipedia.org/wiki/Pirate_Library_Mirror\">torrents e IPFS</a>.</li>"
+msgstr "<li>1. Seguici su <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a> o <a href=\"https://t.me/annasarchiveorg\">Telegram</a>.</li><li>2. Diffondi la parola riguardo l'archivio di Anna su Twitter, Reddit, Tiktok, Instagram, al tuo bar o libreria locale, o ovunque tu vada! Non crediamo nel gatekeeping — se renderanno il sito inattivo appariremo da quache altra parte, dal momento che il nostro codice è totalmente open source.</li><li>3. Se puoi, considera <a href=\"/donate\">una donazione</a>.</li><li>4. Aiutaci a <a href=\"https://translate.annas-software.org/\">tradurre</a> il nostro sito in varie lingue.</li><li>5. Se sei un ingegnere informatico, considera la contribuzione al nostro <a href=\"https://annas-software.org/\">open source</a>, o condividerei nostri <a href=\"/datasets\">torrent</a>.</li>"
 
 #: allthethings/page/templates/page/about.html:35
 #: allthethings/page/templates/page/about.html:36
@@ -929,17 +929,17 @@ msgstr "Il testo seguente è disponibile solo in inglese."
 #: allthethings/page/templates/page/login.html:3
 #: allthethings/page/templates/page/login.html:6
 msgid "page.login.title"
-msgstr ""
+msgstr "Log In / Registrati"
 
 #: allthethings/page/templates/page/browser_verification.html:9
 #: allthethings/page/templates/page/login.html:9
 msgid "page.login.text1"
-msgstr ""
+msgstr "Per impedire a spam-bot di creare account in massa, dobbiamo prima verificare il tuo browser."
 
 #: allthethings/page/templates/page/browser_verification.html:13
 #: allthethings/page/templates/page/login.html:14
 msgid "page.login.text2"
-msgstr ""
+msgstr "Se ti ritrovi bloccato in un ciclo infinito, consigliamo d'installare <a href=\"https://privacypass.github.io/\">Privacy Pass</a>."
 
 #: allthethings/page/templates/page/doi.html:3
 msgid "page.doi.title"
@@ -947,7 +947,7 @@ msgstr "DOI %(doi_input)s"
 
 #: allthethings/page/templates/page/doi.html:6
 msgid "page.doi.breadcrumbs"
-msgstr "Datasets ▶ DOIs ▶ DOI %(doi_input)s"
+msgstr "Dataset ▶ DOI ▶ DOI %(doi_input)s"
 
 #: allthethings/page/templates/page/doi.html:9
 msgid "page.doi.invalid.header"
@@ -985,51 +985,51 @@ msgstr "Dettagli tecnici (in inglese)"
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more"
-msgstr ""
+msgstr "Hai esaurito i tuoi download veloci per oggi. Contatta Anna via AnnaArchivist@proton.me se vuoi aggiornare la tua membership."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
-msgstr ""
+msgstr "Diventa un membro per usufruire dei download veloci."
 
 #: allthethings/page/templates/page/home.html:5
 msgid "page.home.intro.text1"
-msgstr ""
+msgstr "L'<span %(span_anna)s>Archivio di Anna</span> è un progetto non-profit con due obbiettivi:"
 
 #: allthethings/page/templates/page/home.html:9
 msgid "page.home.intro.text2"
-msgstr ""
+msgstr "<li><strong>Preservazione:</strong> Backup di tutta la conoscenza e cultura dell'umanità.</li><li><strong>Accesso:</strong> Rendere questa conoscenza e cultura disponibile a chiunque al mondo.</li>"
 
 #: allthethings/page/templates/page/home.html:13
 msgid "page.home.preservation.header"
-msgstr ""
+msgstr "Preservazione"
 
 #: allthethings/page/templates/page/home.html:15
 msgid "page.home.preservation.text"
-msgstr ""
+msgstr "Preserviamo libri, giornali, fumetti, riviste, ed altri, riunendo questi materiali da varie <a href=\"https://en.wikipedia.org/wiki/Shadow_library\">librerie ombra</a> insieme in un singolo luogo. Tutti questi dati sono preservati per sempre rendendoli facili da duplicare in massa, risultando in molte copie in tutto il mondo. Quest'ampia distribuzione, combinata con codice open-source, rende anche il nostro sito resistente a takedown. Ulteriori informazioni sul <a href=\"/datasets\">nostro dataset</a>."
 
 #: allthethings/page/templates/page/home.html:29
 msgid "page.home.preservation.label"
-msgstr ""
+msgstr "Stimiamo d'aver preservato circa <a href=\"https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html\">5%% dei libri del mondo</a>."
 
 #: allthethings/page/templates/page/home.html:34
 msgid "page.home.access.header"
-msgstr ""
+msgstr "Accesso"
 
 #: allthethings/page/templates/page/home.html:36
 msgid "page.home.access.text"
-msgstr ""
+msgstr "Lavoriamo con partner per rendere le nostre collezioni facilmente e gratuitamente accessibili da tutti. Crediamo che tutti abbiano diritto alla saggezza collettiva dell'umanità. E <a %(a_search)s>non a spese degli autori</a>."
 
 #: allthethings/page/templates/page/home.html:40
 msgid "page.home.access.label"
-msgstr ""
+msgstr "Download orari negli ultimi 30 giorni. Media oraria: %(hourly)s. Media giornaliera: %(daily)s."
 
 #: allthethings/page/templates/page/home.html:67
 msgid "page.home.search.header"
-msgstr "Ricerca"
+msgstr "Cerca"
 
 #: allthethings/page/templates/page/home.html:70
 msgid "page.home.search.intro"
-msgstr "Ricerca nel nostro catalogo delle shadow libraries."
+msgstr "Cerca nel nostro catalogo."
 
 #: allthethings/page/templates/page/home.html:75
 #: allthethings/page/templates/page/search.html:56
@@ -1040,19 +1040,19 @@ msgstr "Cerca titolo, autore, lingua, tipo di file, ISBN, MD5, …"
 #: allthethings/page/templates/page/home.html:76
 #: allthethings/page/templates/page/search.html:57
 msgid "common.search.submit"
-msgstr "Ricerca"
+msgstr "Cerca"
 
 #: allthethings/page/templates/page/home.html:80
 msgid "page.home.random_book.header"
-msgstr ""
+msgstr "Libro Casuale"
 
 #: allthethings/page/templates/page/home.html:83
 msgid "page.home.random_book.intro"
-msgstr ""
+msgstr "Vai ad un libro casuale dal nostro catalogo."
 
 #: allthethings/page/templates/page/home.html:87
 msgid "page.home.random_book.submit"
-msgstr ""
+msgstr "Libro casuale"
 
 #: allthethings/page/templates/page/home.html:90
 msgid "page.home.explore.header"
@@ -1068,7 +1068,7 @@ msgstr "ISBN %(isbn_input)s"
 
 #: allthethings/page/templates/page/isbn.html:6
 msgid "page.isbn.breadcrumbs"
-msgstr "Datasets ▶ ISBNs ▶ ISBN %(isbn_input)s"
+msgstr "Dataset ▶ ISBN ▶ ISBN %(isbn_input)s"
 
 #: allthethings/page/templates/page/isbn.html:9
 msgid "page.isbn.invalid.header"
@@ -1088,7 +1088,7 @@ msgstr "Nessun file corrispondente trovato nel nostro database."
 
 #: allthethings/page/templates/page/login.html:18
 msgid "page.login.continue"
-msgstr ""
+msgstr "Continua"
 
 #: allthethings/page/templates/page/md5.html:13
 msgid "page.md5.invalid.header"
@@ -1108,19 +1108,19 @@ msgstr "Se desideri comunque scaricare questo file, assicurati di utilizzare sol
 
 #: allthethings/page/templates/page/md5.html:83
 msgid "page.md5.box.download.header_fast_no_member"
-msgstr ""
+msgstr "<strong>🚀 Download rapidi</strong> Diventa un <a %(a_membership)s>membro</a> per supportare la preservazione a lungo termine di libri, giornali, ed altro. Per dimostrare la nostra gratitudine per il tuo supporto, avrai accesso a download rapidi. ❤️"
 
 #: allthethings/page/templates/page/md5.html:84
 msgid "page.md5.box.download.header_fast_member"
-msgstr ""
+msgstr "<strong>🚀 Download rapidi</strong> Ne hai %(remaining)s rimanenti per oggi. Grazie per essere membro! ❤️"
 
 #: allthethings/page/templates/page/md5.html:85
 msgid "page.md5.box.download.header_fast_member_no_remaining"
-msgstr ""
+msgstr "<strong>🚀 Download rapidi</strong> Hai terminato i tuoi download rapidi per oggi. Contatta Anna via AnnaArchivist@proton.me se vuoi aggiornare la tua membership."
 
 #: allthethings/page/templates/page/md5.html:86
 msgid "page.md5.box.download.header_fast_member_valid_for"
-msgstr ""
+msgstr "<strong>🚀 Download rapidi</strong> Hai scaricato questo file di recente. I link restano validi per un po'."
 
 #: allthethings/page/templates/page/md5.html:90
 #: allthethings/page/templates/page/md5.html:95
@@ -1130,11 +1130,11 @@ msgstr "Opzione #%(num)d: %(link)s %(extra)s"
 
 #: allthethings/page/templates/page/md5.html:107
 msgid "page.md5.box.download.header_slow"
-msgstr ""
+msgstr "🐢 Download lenti ed esterni"
 
 #: allthethings/page/templates/page/md5.html:109
 msgid "page.md5.box.download.header_generic"
-msgstr ""
+msgstr "Download"
 
 #: allthethings/page/templates/page/md5.html:119
 msgid "page.md5.box.download.no_issues_notice"
@@ -1142,27 +1142,27 @@ msgstr "Tutti i mirror possiedono lo stesso file e dovrebbero essere sicuri da u
 
 #: allthethings/page/templates/page/md5.html:142
 msgid "page.md5.box.download.no_found"
-msgstr ""
+msgstr "Nessun download trovato."
 
 #: allthethings/page/templates/page/partner_download.html:10
 msgid "page.partner_download.header"
-msgstr ""
+msgstr "Scarica dal sito partner"
 
 #: allthethings/page/templates/page/partner_download.html:12
 msgid "page.partner_download.url"
-msgstr ""
+msgstr "📚 Usa il seguente indirizzo per scaricare: <a %(a_download)s>Scarica ora</a>."
 
 #: allthethings/page/templates/page/partner_download.html:19
 msgid "page.partner_download.faster_downloads"
-msgstr ""
+msgstr "🚀 Per ottenere download rapidi e saltare il controllo del browser, <a %(a_membership)s>diventa membro</a>."
 
 #: allthethings/page/templates/page/partner_download.html:24
 msgid "page.partner_download.bulk_mirroring"
-msgstr ""
+msgstr "📡 Per monitoraggio di massa della nostra collezione, controlla le pagine <a %(a_datasets)s>Dataset</a> e <a %(a_torrents)s>Torrent</a>."
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
-msgstr "%(search_input)s - Ricerca"
+msgstr "%(search_input)s - Cerca"
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.new"
@@ -1170,7 +1170,7 @@ msgstr "Nuova ricerca"
 
 #: allthethings/page/templates/page/search.html:14
 msgid "page.search.breadcrumbs.results_more"
-msgstr "Ricerca ▶ %(num)d+ risultati per <span class=\"italic\">%(search_input)s</span> (in shadow library metadata)"
+msgstr "Cerca ▶ %(num)d+ risultati per <span class=\"italic\">%(search_input)s</span> (in shadow library metadata)"
 
 #: allthethings/page/templates/page/search.html:14
 msgid "page.search.breadcrumbs.results"
@@ -1178,7 +1178,7 @@ msgstr "Cerca ▶ %(num)d risultati per <span class=\"italic\">%(search_input)s<
 
 #: allthethings/page/templates/page/search.html:16
 msgid "page.search.breadcrumbs.error"
-msgstr "Ricerca ▶ Errore di ricerca per <span class=\"italic\">%(search_input)s</span>"
+msgstr "Cerca ▶ Errore di ricerca per <span class=\"italic\">%(search_input)s</span>"
 
 #: allthethings/page/templates/page/search.html:19
 msgid "page.search.breadcrumbs.new"
@@ -1226,7 +1226,7 @@ msgstr "Errore durante la ricerca."
 
 #: allthethings/page/templates/page/search.html:75
 msgid "page.search.results.error.text"
-msgstr "Prova a <a href=\"javascript:location.reload()\">aggiornare la pagina</a>. Se il problema persiste, per favore faccielo sapere <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a> or <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>."
+msgstr "Prova a <a href=\"javascript:location.reload()\">ricaricare la pagina</a>. Se il problema persiste, per favore faccielo sapere su <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>,<a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a> o <a href=\"https://t.me/annasarchiveorg\">Telegram</a>."
 
 #: allthethings/page/templates/page/search.html:78
 msgid "page.search.results.none"
@@ -1246,11 +1246,11 @@ msgstr "Archivio di Anna"
 
 #: allthethings/templates/layouts/index.html:10
 msgid "layout.index.meta.description"
-msgstr ""
+msgstr "La più grande biblioteca open-source open-data al mondo. Mirror di Sci-Hub, Library Genesis, Z-Library, ed altri."
 
 #: allthethings/templates/layouts/index.html:19
 msgid "layout.index.meta.opensearch"
-msgstr ""
+msgstr "Cerca nell'Archivio di Anna"
 
 #: allthethings/templates/layouts/index.html:53
 msgid "layout.index.header.banner.new_donation_method"
@@ -1258,7 +1258,7 @@ msgstr "Abbiamo un nuovo metodo di donazione:%(method_name)s. Considerate per fa
 
 #: allthethings/templates/layouts/index.html:60
 msgid "layout.index.banners.comics_fundraiser.text"
-msgstr ""
+msgstr "Stiamo organizzando una raccolta fondi per <a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">backup</a> delle più grandi librerie ombra per fumetti nel mondo. Grazie per il vostro sostegno! <a href=\"/donate\">Fai una donazione.</a> Se non puoi donare, considera di supportarci dicendolo ai tuoi amici, e seguendoci su <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>, <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a>, o <a href=\"https://t.me/annasarchiveorg\">Telegram </a>."
 
 #: allthethings/templates/layouts/index.html:112
 msgid "layout.index.header.title"
@@ -1266,11 +1266,11 @@ msgstr "Archivio di Anna"
 
 #: allthethings/templates/layouts/index.html:248
 msgid "layout.index.header.tagline"
-msgstr "🔍 Motore di ricerca delle biblioteche ombra: libri, giornali, fumetti, riviste. ⭐️ Z-Library, Library Genesis, Sci-Hub. ⚙️ Completamente resiliente grazie al codice e ai dati open source. ❤️ Spargete la voce: tutti sono i benvenuti qui!"
+msgstr "📚&nbsp;La più grande biblioteca open-source open-data al mondo. ⭐️&nbsp;Mirror di Sci-Hub, Library Genesis, Z-Library, ed altri. 📈&nbsp;%(book_any)s libri, %(journal_article)s giornali, %(book_comic)s fumetti, %(magazine)s riviste— preservati per sempre."
 
 #: allthethings/templates/layouts/index.html:251
 msgid "layout.index.header.recent_downloads"
-msgstr ""
+msgstr "Download recenti:"
 
 #: allthethings/templates/layouts/index.html:334
 #: allthethings/templates/layouts/index.html:343
@@ -1314,11 +1314,11 @@ msgstr "Donazioni"
 
 #: allthethings/templates/layouts/index.html:363
 msgid "layout.index.header.nav.search"
-msgstr "Ricerca"
+msgstr "Cerca"
 
 #: allthethings/templates/layouts/index.html:369
 msgid "layout.index.header.nav.beta"
-msgstr ""
+msgstr "beta"
 
 #: allthethings/templates/layouts/index.html:372
 #: allthethings/templates/layouts/index.html:378
@@ -1336,35 +1336,35 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:404
 #: allthethings/templates/layouts/index.html:415
 msgid "layout.index.header.nav.upload"
-msgstr ""
+msgstr "Carica"
 
 #: allthethings/templates/layouts/index.html:374
 #: allthethings/templates/layouts/index.html:380
 #: allthethings/templates/layouts/index.html:385
 msgid "layout.index.header.nav.login_register"
-msgstr ""
+msgstr "Log In / Registrati"
 
 #: allthethings/templates/layouts/index.html:391
 #: allthethings/templates/layouts/index.html:400
 #: allthethings/templates/layouts/index.html:411
 msgid "layout.index.header.nav.public_profile"
-msgstr ""
+msgstr "Profilo pubblico"
 
 #: allthethings/templates/layouts/index.html:392
 #: allthethings/templates/layouts/index.html:401
 #: allthethings/templates/layouts/index.html:412
 msgid "layout.index.header.nav.downloaded_files"
-msgstr ""
+msgstr "File scaricati"
 
 #: allthethings/templates/layouts/index.html:393
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:413
 msgid "layout.index.header.nav.my_donations"
-msgstr ""
+msgstr "Le mie donazioni"
 
 #: allthethings/templates/layouts/index.html:410
 msgid "layout.index.header.nav.account"
-msgstr ""
+msgstr "Account"
 
 #: allthethings/templates/layouts/index.html:425
 msgid "layout.index.footer.list1.header"
@@ -1420,7 +1420,7 @@ msgstr "Traduci"
 
 #: allthethings/templates/layouts/index.html:451
 msgid "layout.index.footer.list2.dmca_copyright"
-msgstr ""
+msgstr "DMCA / rivendicazioni sul copyright"
 
 #: allthethings/templates/layouts/index.html:456
 msgid "layout.index.footer.list3.header"
@@ -1432,11 +1432,11 @@ msgstr "❌ Questo file potrebbe avere problemi."
 
 #: allthethings/templates/macros/copy_button.html:2
 msgid "page.donate.copy"
-msgstr ""
+msgstr "copia"
 
 #: allthethings/templates/macros/copy_button.html:2
 msgid "page.donate.copied"
-msgstr ""
+msgstr "copiato!"
 
 #~ msgid "page.md5.box.download.mirror"
 #~ msgstr "Mirror #%(num)d: %(link)s %(extra)s"
