@@ -2146,7 +2146,7 @@ def get_additional_for_aarecord(aarecord):
         if code['key'] in ['isbn13', 'isbn10', 'doi', 'issn']:
             filename_code = f" -- {code['value']}"
             break
-    additional['filename'] = urllib.parse.quote(f"{filename_slug}{filename_code} -- Anna’s Archive.{filename_extension}", safe='')
+    additional['filename'] = urllib.parse.quote(f"{filename_slug}{filename_code} -- {aarecord['id'].split(':', 1)[1]} -- Anna’s Archive.{filename_extension}", safe='')
 
     additional['download_urls'] = []
     additional['fast_partner_urls'] = []
