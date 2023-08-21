@@ -793,8 +793,10 @@ def ol_book_page(ol_book_id):
         unredirected_ol_authors = []
         if 'authors' in ol_book_dict['json'] and len(ol_book_dict['json']['authors']) > 0:
             unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_([author['key'] for author in ol_book_dict['json']['authors']])).limit(10)).all()
-        elif ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json'] and len(ol_book_dict['work']['json']['authors']) > 0:
-            unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_([author['author']['key'] for author in ol_book_dict['work']['json']['authors']])).limit(10)).all()
+        elif ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json']:
+            author_keys = [author['author']['key'] for author in ol_book_dict['work']['json']['authors'] if 'author' in author]
+            if len(author_keys) > 0:
+                unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys)).limit(10)).all()
         ol_authors = []
         # TODO: Batch them up.
         for unredirected_ol_author in unredirected_ol_authors:
