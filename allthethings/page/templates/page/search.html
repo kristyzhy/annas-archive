@@ -34,7 +34,7 @@
     <div class="flex mb-2 items-center">
       <a href="#" class="custom-a sm:hidden text-lg mr-2 opacity-50 hover:opacity-100" alt="Filter settings" title="Filter settings" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="icon-[mingcute--settings-6-line]"></span></a>
       <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-[#00000011] px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %} title="Focus: '/' Scroll search results: 'j', 'k'">
-      <button class="text-[#777] hover:text-[#333]" type="submit">{{ gettext('common.search.submit') }}</button>
+      <button class="sm:hidden text-[#777] hover:text-[#333]" type="submit">{{ gettext('common.search.submit') }}</button>
     </div>
 
     <div class="text-xs flex flex-wrap mb-4 sm:hidden">
@@ -63,6 +63,7 @@
     <div class="flex w-[100%]">
       <div aria-labelledby="Search settings" class="max-sm:hidden sm:text-sm max-sm:cursor-pointer js-search-filter-settings max-sm:fixed max-sm:top-0 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:z-[999999999] max-sm:bg-[rgba(230,230,230,0.7)] max-sm:p-4 sm:w-[25%] sm:max-w-[240px] sm:shrink-0 md:pr-6 sm:pr-3" onclick="if(event.target === event.currentTarget) { event.preventDefault(); event.stopPropagation(); document.querySelector('.js-search-form').submit() }">
         <div class="max-sm:cursor-auto max-sm:shadow-2xl max-sm:rounded-xl max-sm:absolute max-sm:top-4 max-sm:bottom-4 max-sm:left-4 max-sm:right-4 max-sm:bg-white max-sm:p-4 max-sm:overflow-y-auto max-sm:mx-auto max-sm:max-w-[700px]">
+          <button class="hidden sm:block bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" type="submit">Search</button>
           <div class="flex justify-between items-center mb-4 sm:hidden">
             <div class="font-bold text-lg">Search settings</div>
             <div class="">
