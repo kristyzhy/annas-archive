@@ -2558,8 +2558,6 @@ def md5_slow_download(md5_input, path_index, domain_index):
             )
 
 
-# TODO: Remove search_most_likely_language_code == 'en' when we do a refresh, since this is now baked
-# into the base score.
 sort_search_aarecords_script = """
 float score = params.boost + $('search_only_fields.search_score_base', 0);
 
@@ -2573,9 +2571,6 @@ if (params.lang_code == 'ca' && $('search_only_fields.search_most_likely_languag
 }
 if (params.lang_code == 'bg' && $('search_only_fields.search_most_likely_language_code', '') == 'ru') {
     score += 10.0;
-}
-if ($('search_only_fields.search_most_likely_language_code', '') == 'en') {
-    score += 5.0;
 }
 
 return score;
