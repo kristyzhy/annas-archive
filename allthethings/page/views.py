@@ -2078,7 +2078,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_access_types': [
                 *(['external_download'] if any([aarecord.get(field) is not None for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book']]) else []),
                 *(['external_borrow'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
-                *(['external_borrow_printdisabled'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
+                *(['external_borrow_printdisabled'] if (aarecord.get('ia_record') and (aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
             ],
             'search_record_sources': list(set([
@@ -2117,6 +2117,24 @@ def get_md5_content_type_mapping(display_lang):
             "standards_document": gettext("common.md5_content_type_mapping.standards_document"),
             "magazine":           gettext("common.md5_content_type_mapping.magazine"),
             "book_comic":         gettext("common.md5_content_type_mapping.book_comic"),
+        }
+
+def get_access_types_mapping(display_lang):
+    with force_locale(display_lang):
+        return {
+            "aa_download": "Partner Server download",
+            "external_download": "External download",
+            "external_borrow": "External borrow",
+            "external_borrow_printdisabled": "External borrow (print disabled)",
+        }
+
+def get_record_sources_mapping(display_lang):
+    with force_locale(display_lang):
+        return {
+            "lgrs": "Libgen.rs",
+            "lgli": "Libgen.li (includes Sci-Hub)",
+            "zlib": "Z-Library",
+            "ia": "Internet Archive",
         }
 
 def format_filesize(num):
@@ -2574,6 +2592,12 @@ search_query_aggs = {
     "search_extension": {
       "terms": { "field": "search_only_fields.search_extension", "size": 9 } 
     },
+    "search_access_types": {
+      "terms": { "field": "search_only_fields.search_access_types", "size": 100 } 
+    },
+    "search_record_sources": {
+      "terms": { "field": "search_only_fields.search_record_sources", "size": 100 } 
+    },
 }
 
 @functools.cache
@@ -2588,7 +2612,7 @@ def all_search_aggs(display_lang, search_index_long):
             all_aggregations['search_most_likely_language_code'].append({ 'key': '_empty', 'label': get_display_name_for_lang('', display_lang), 'doc_count': bucket['doc_count'] })
         else:
             all_aggregations['search_most_likely_language_code'].append({ 'key': bucket['key'], 'label': get_display_name_for_lang(bucket['key'], display_lang), 'doc_count': bucket['doc_count'] })
-    all_aggregations['search_most_likely_language_code'] = sorted(all_aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
+    all_aggregations['search_most_likely_language_code'].sort(key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
 
     content_type_buckets = list(search_results_raw['aggregations']['search_content_type']['buckets'])
     md5_content_type_mapping = get_md5_content_type_mapping(display_lang)
@@ -2598,7 +2622,7 @@ def all_search_aggs(display_lang, search_index_long):
         if key not in content_type_keys_present:
             all_aggregations['search_content_type'].append({ 'key': key, 'label': label, 'doc_count': 0 })
     search_content_type_sorting = ['book_nonfiction', 'book_fiction', 'book_unknown', 'journal_article']
-    all_aggregations['search_content_type'] = sorted(all_aggregations['search_content_type'], key=lambda bucket: (search_content_type_sorting.index(bucket['key']) if bucket['key'] in search_content_type_sorting else 99999, -bucket['doc_count']))
+    all_aggregations['search_content_type'].sort(key=lambda bucket: (search_content_type_sorting.index(bucket['key']) if bucket['key'] in search_content_type_sorting else 99999, -bucket['doc_count']))
 
     # Similarly to the "unknown language" issue above, we have to filter for empty-string extensions, since it gives too much trouble.
     all_aggregations['search_extension'] = []
@@ -2607,6 +2631,24 @@ def all_search_aggs(display_lang, search_index_long):
             all_aggregations['search_extension'].append({ 'key': '_empty', 'label': 'unknown', 'doc_count': bucket['doc_count'] })
         else:
             all_aggregations['search_extension'].append({ 'key': bucket['key'], 'label': bucket['key'], 'doc_count': bucket['doc_count'] })
+
+    access_types_buckets = list(search_results_raw['aggregations']['search_access_types']['buckets'])
+    access_types_mapping = get_access_types_mapping(display_lang)
+    all_aggregations['search_access_types'] = [{ 'key': bucket['key'], 'label': access_types_mapping[bucket['key']], 'doc_count': bucket['doc_count'] } for bucket in access_types_buckets]
+    content_type_keys_present = set([bucket['key'] for bucket in access_types_buckets])
+    for key, label in access_types_mapping.items():
+        if key not in content_type_keys_present:
+            all_aggregations['search_access_types'].append({ 'key': key, 'label': label, 'doc_count': 0 })
+    search_access_types_sorting = list(access_types_mapping.keys())
+    all_aggregations['search_access_types'].sort(key=lambda bucket: (search_access_types_sorting.index(bucket['key']) if bucket['key'] in search_access_types_sorting else 99999, -bucket['doc_count']))
+
+    record_sources_buckets = list(search_results_raw['aggregations']['search_record_sources']['buckets'])
+    record_sources_mapping = get_record_sources_mapping(display_lang)
+    all_aggregations['search_record_sources'] = [{ 'key': bucket['key'], 'label': record_sources_mapping[bucket['key']], 'doc_count': bucket['doc_count'] } for bucket in record_sources_buckets]
+    content_type_keys_present = set([bucket['key'] for bucket in record_sources_buckets])
+    for key, label in record_sources_mapping.items():
+        if key not in content_type_keys_present:
+            all_aggregations['search_record_sources'].append({ 'key': key, 'label': label, 'doc_count': 0 })
 
     return all_aggregations
 
@@ -2633,6 +2675,8 @@ def search_page():
         'search_most_likely_language_code': [val.strip()[0:15] for val in request.args.getlist("lang")],
         'search_content_type': [val.strip()[0:25] for val in request.args.getlist("content")],
         'search_extension': [val.strip()[0:10] for val in request.args.getlist("ext")],
+        'search_access_types': [val.strip()[0:50] for val in request.args.getlist("acc")],
+        'search_record_sources': [val.strip()[0:20] for val in request.args.getlist("src")],
     }
     sort_value = request.args.get("sort", "").strip()
     search_index_short = request.args.get("index", "").strip()
@@ -2739,6 +2783,8 @@ def search_page():
     doc_counts['search_most_likely_language_code'] = {}
     doc_counts['search_content_type'] = {}
     doc_counts['search_extension'] = {}
+    doc_counts['search_access_types'] = {}
+    doc_counts['search_record_sources'] = {}
     if search_input == '':
         for bucket in all_aggregations['search_most_likely_language_code']:
             doc_counts['search_most_likely_language_code'][bucket['key']] = bucket['doc_count']
@@ -2746,6 +2792,10 @@ def search_page():
             doc_counts['search_content_type'][bucket['key']] = bucket['doc_count']
         for bucket in all_aggregations['search_extension']:
             doc_counts['search_extension'][bucket['key']] = bucket['doc_count']
+        for bucket in all_aggregations['search_access_types']:
+            doc_counts['search_access_types'][bucket['key']] = bucket['doc_count']
+        for bucket in all_aggregations['search_record_sources']:
+            doc_counts['search_record_sources'][bucket['key']] = bucket['doc_count']
     else:
         for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
             doc_counts['search_most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
@@ -2753,6 +2803,10 @@ def search_page():
             doc_counts['search_content_type'][bucket['key']] = bucket['doc_count']
         for bucket in search_results_raw['aggregations']['search_extension']['buckets']:
             doc_counts['search_extension'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
+        for bucket in search_results_raw['aggregations']['search_access_types']['buckets']:
+            doc_counts['search_access_types'][bucket['key']] = bucket['doc_count']
+        for bucket in search_results_raw['aggregations']['search_record_sources']['buckets']:
+            doc_counts['search_record_sources'][bucket['key']] = bucket['doc_count']
 
     aggregations = {}
     aggregations['search_most_likely_language_code'] = [{
@@ -2770,6 +2824,16 @@ def search_page():
             'doc_count': doc_counts['search_extension'].get(bucket['key'], 0),
             'selected':  (bucket['key'] in filter_values['search_extension']),
         } for bucket in all_aggregations['search_extension']]
+    aggregations['search_access_types'] = [{
+            **bucket,
+            'doc_count': doc_counts['search_access_types'].get(bucket['key'], 0),
+            'selected':  (bucket['key'] in filter_values['search_access_types']),
+        } for bucket in all_aggregations['search_access_types']]
+    aggregations['search_record_sources'] = [{
+            **bucket,
+            'doc_count': doc_counts['search_record_sources'].get(bucket['key'], 0),
+            'selected':  (bucket['key'] in filter_values['search_record_sources']),
+        } for bucket in all_aggregations['search_record_sources']]
 
     # Only sort languages, for the other lists we want consistency.
     aggregations['search_most_likely_language_code'] = sorted(aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)

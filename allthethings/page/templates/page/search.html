@@ -46,6 +46,12 @@
           <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.filetype.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_extension | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
         {% endif %}
       {% endif %}
+      {% if (search_dict.aggregations.search_access_types | selectattr("selected") | list | length) > 0 %}
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">Access</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_access_types | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
+      {% endif %}
+      {% if (search_dict.aggregations.search_record_sources | selectattr("selected") | list | length) > 0 %}
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">Source</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_record_sources | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
+      {% endif %}
       {% if search_dict.sort_value != '' %}
         <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">Order by</span><span class="py-[2px]">{% if search_dict.sort_value == 'newest' %}{{ gettext('page.search.filters.sorting.newest') }}{% endif %}{% if search_dict.sort_value == 'oldest' %}{{ gettext('page.search.filters.sorting.oldest') }}{% endif %}{% if search_dict.sort_value == 'largest' %}{{ gettext('page.search.filters.sorting.largest') }}{% endif %}{% if search_dict.sort_value == 'smallest' %}{{ gettext('page.search.filters.sorting.smallest') }}{% endif %}</span></a>
       {% endif %}
@@ -77,6 +83,20 @@
               {% endfor %}
             </div>
           {% endif %}
+          <div class="font-bold mb-1">Access</div>
+          <div class="mb-4">
+            {% for bucket in search_dict.aggregations.search_access_types %}
+              {% if bucket.key != 'external_borrow_printdisabled' %}
+              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="acc" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;')}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="font-bold mb-1">Source</div>
+          <div class="mb-4">
+            {% for bucket in search_dict.aggregations.search_record_sources %}
+              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="src" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe) | replace('(', '<br>(' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+            {% endfor %}
+          </div>
           <div class="font-bold mb-1">Order by</div>
           <select class="pr-8 mb-4 bg-[#00000011] px-2 py-1 rounded" name="sort">
             <option value="">{{ gettext('page.search.filters.sorting.most_relevant') }}</option>
