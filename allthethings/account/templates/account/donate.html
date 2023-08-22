@@ -97,7 +97,8 @@
     <div class="[html:not(.aa-logged-in)_&]:hidden">
       <p class="mt-8 mb-4">
         <!-- {{ gettext('page.donate.payment.intro', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }} -->
-        {{ gettext('page.donate.payment.intro2', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }}
+        <!-- {{ gettext('page.donate.payment.intro2', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }} -->
+        Select a payment option. We mostly have crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, since traditional payment processors don't like to work with us.
       </p>
 
       <div class="mb-4 flex flex-wrap items-end">
@@ -139,9 +140,15 @@
     </div>
 
     <div class="js-membership-descr js-membership-descr-paypalreg">
+      <p class="mb-4">
+        Donate using your regular PayPal account.
+      </p>
     </div>
 
     <div class="js-membership-descr js-membership-descr-amazon">
+      <p class="mb-4">
+        Donate using an Amazon gift card.
+      </p>
     </div>
 
     <!-- <div class="js-membership-descr js-membership-descr-bmc">
