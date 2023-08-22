@@ -297,6 +297,11 @@ def security_page():
 def mobile_page():
     return render_template("page/mobile.html", header_active="home/mobile")
 
+@page.get("/wechat")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def wechat_page():
+    return render_template("page/wechat.html", header_active="home/wechat")
+
 @page.get("/browser_verification")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def browser_verification_page():
