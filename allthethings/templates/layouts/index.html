@@ -443,7 +443,7 @@
         </div>
         <div class="mr-4 mb-4" style="flex-grow: 1">
           <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
-          <a class="custom-a hover:text-[#333]" href="https://twitter.com/AnnaArchivist">{{ gettext('layout.index.footer.list2.twitter') }}</a> / <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://t.me/annasarchiveorg">{{ gettext('layout.index.footer.list2.telegram') }}</a> / <a class="custom-a hover:text-[#333]" href="/wechat">Unofficial WeChat</a><br>
+          <a class="custom-a hover:text-[#333]" href="https://twitter.com/AnnaArchivist">{{ gettext('layout.index.footer.list2.twitter') }}</a> / <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://t.me/annasarchiveorg">{{ gettext('layout.index.footer.list2.telegram') }}</a>{% if not g.show_wechat_in_footer %} / <a class="custom-a hover:text-[#333]" href="/wechat">Unofficial WeChat</a>{% endif %}<br>
           <a class="custom-a hover:text-[#333]" href="https://annas-blog.org">{{ gettext('layout.index.footer.list2.blog') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.footer.list2.software') }}</a><br>
           <a class="custom-a hover:text-[#333]" href="https://translate.annas-software.org">{{ gettext('layout.index.footer.list2.translate') }}</a><br>
@@ -456,6 +456,10 @@
           <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list3.header') }}</strong><br>
           <a class="custom-a hover:text-[#333] js-annas-archive-org" href="https://annas-archive.org">annas-archive.org</a></a><br>
           <a class="custom-a hover:text-[#333] js-annas-archive-gs" href="https://annas-archive.gs">annas-archive.gs</a><br>
+          {% if g.show_wechat_in_footer %}
+            <a class="custom-a hover:text-[#333] js-annas-archive-gs" href="/wechat">Unofficial WeChat</a><br>
+            <div class="bg-white p-2 max-w-[130px]"><img class="w-[100%]" src="/images/wechat.jpg"></div>
+          {% endif %}
         </div>
       </div>
     </footer>
