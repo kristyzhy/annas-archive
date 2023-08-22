@@ -101,9 +101,13 @@
       </p>
 
       <div class="mb-4 flex flex-wrap items-end">
-        <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}<!--<span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span>--></button>
         <!-- <button class="js-membership-method js-membership-method-cc     relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('cc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button> -->
-        <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.paypal', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}<!--<span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span>--></button>
+        <!-- <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.paypal', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}<span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button> -->
+        <button class="js-membership-method js-membership-method-binance relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('binance')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Binance bank or card (most countries) <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span></button>
+        <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}<!--<span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span>--></button>
+        <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal Crypto <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span></button>
+        <!-- <button class="js-membership-method js-membership-method-paypalreg relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypalreg')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal (regular)</button> -->
+        <button class="js-membership-method js-membership-method-amazon relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('amazon')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Amazon Gift Card</button>
         <!-- <button class="js-membership-method js-membership-method-bmc    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('bmc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button> -->
         <!-- <button class="js-membership-method js-membership-method-alipay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('alipay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay') }}</button> -->
         <!-- <button class="js-membership-method js-membership-method-pix    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('pix')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.pix') }}</button> -->
@@ -122,6 +126,22 @@
       <p class="mb-4">
         {{ gettext('page.donate.payment.desc.paypal') }}
       </p>
+    </div>
+
+    <div class="js-membership-descr js-membership-descr-binance">
+      <p class="mb-4">
+        With Binance, you buy Bitcoin with a credit/debit card or bank account, and then donate that Bitcoin to us. That way we can remain secure and anonymous when accepting your donation.
+      </p>
+
+      <p class="mb-4">
+        Binance is available in almost every country, and supports most banks and credit/debit cards. This is currently our main recommendation. We appreciate you taking the time to learn how to donate using this method, since it helps us out a lot.
+      </p>
+    </div>
+
+    <div class="js-membership-descr js-membership-descr-paypalreg">
+    </div>
+
+    <div class="js-membership-descr js-membership-descr-amazon">
     </div>
 
     <!-- <div class="js-membership-descr js-membership-descr-bmc">
@@ -145,9 +165,6 @@
       <div class="flex flex-col justify-center w-[100%] max-w-[350px] text-center">
         {{ gettext('page.donate.duration.summary', div_monthly_cost=('class="text-2xl font-bold js-membership-monthly-cost"' | safe), div_after=('class="text-sm text-gray-500 font-[300] mb-4"' | safe), span_discount=('class="font-[800] js-membership-discount-percentage"' | safe), div_total=('class="text-2xl font-bold js-membership-total-cost"' | safe), div_duration=('class="text-sm text-gray-500 font-[300] js-membership-total-duration"' | safe)) }}
       </div>
-    </div>
-
-    <div class="js-membership-descr js-membership-descr-crypto js-membership-descr-paypal">
     </div>
 
     <form onsubmit="window.submitForm(event, '/dyn/account/buy_membership/', (data) => window.location = data.redirect_url)" class="js-membership-form mt-4 mb-4">
@@ -189,9 +206,13 @@
     </p>
 
     <div class="mb-4 flex flex-wrap items-end">
-      <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}</button>
       <!-- <button class="js-membership-method js-membership-method-cc     relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('cc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span></button> -->
-      <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.paypal', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}</button>
+      <!-- <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.paypal', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}</button> -->
+      <button class="js-membership-method js-membership-method-binance relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('binance')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Binance bank or card (most countries) <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span></button>
+      <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}</button>
+      <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal Crypto (US) <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span></button>
+      <!-- <button class="js-membership-method js-membership-method-paypalreg relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('paypalreg')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal (regular)</button> -->
+      <button class="js-membership-method js-membership-method-amazon relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('amazon')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Amazon Gift Card</button>
       <!-- <button class="js-membership-method js-membership-method-bmc    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('bmc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button> -->
       <!-- <button class="js-membership-method js-membership-method-alipay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('alipay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay') }}</button> -->
       <!-- <button class="js-membership-method js-membership-method-pix    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('pix')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.pix') }}</button> -->
@@ -208,6 +229,40 @@
         <li>- Monero XMR: 445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t{{ copy_button('445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t') }}</li>
         <li>- Solana SOL: HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP{{ copy_button('HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP') }}</li>
       </ul>
+
+      <p class="mb-4">
+        {{ gettext('page.donate.text_thank_you') }}
+      </p>
+    </div>
+
+    <div class="js-membership-descr js-membership-descr-binance">
+      <p class="mb-4">
+        With Binance, you buy Bitcoin with a credit/debit card or bank account, and then donate that Bitcoin to us. That way we can remain secure and anonymous when accepting your donation.
+      </p>
+
+      <p class="mb-4">
+        Binance is available in almost every country, and supports most banks and credit/debit cards. This is currently our main recommendation. We appreciate you taking the time to learn how to donate using this method, since it helps us out a lot.
+      </p>
+
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin on Binance</p>
+
+      <p class="mb-4">
+        Create an account on <a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a> and buy Bitcoin (BTC). Use this <a href="https://www.binance.com/en/how-to-buy/bitcoin" rel="noopener noreferrer nofollow" target="_blank">extensive guide</a> if you get stuck.
+      </p>
+
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Transfer the Bitcoin to our address</p>
+
+      <p class="mb-4">
+        Go to Withdraw -> BTC.
+      </p>
+
+      <p class="mb-4">
+        Enter our Bitcoin (BTC) address as the recipient, and follow the instructions to send your donation:
+      </p>
+
+      <p class="mb-4 font-mono font-bold">
+        15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o{{ copy_button('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}
+      </p>
 
       <p class="mb-4">
         {{ gettext('page.donate.text_thank_you') }}
@@ -249,6 +304,22 @@
 
       <p class="mb-4">
         {{ gettext('page.donate.text_thank_you') }}
+      </p>
+    </div>
+
+    <div class="js-membership-descr js-membership-descr-paypalreg">
+      <p class="mb-4">
+        We currently only support donating to PayPal to get a membership. If you wish to make a one-time donation, please use a different payment option.
+      </p>
+    </div>
+
+    <div class="js-membership-descr js-membership-descr-amazon">
+      <p class="mb-4">
+        Please send your Amazon gift cards to:
+      </p>
+
+      <p class="mb-4 font-mono font-bold">
+        AnnaReceipts@proton.me{{ copy_button('AnnaReceipts@proton.me') }}
       </p>
     </div>
 

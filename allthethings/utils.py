@@ -196,7 +196,10 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
     "crypto": 0,
     # "cc":     20,
+    "binance": 0,
     "paypal": 0,
+    "paypalreg": 0,
+    "amazon": 0,
     # "bmc":    0,
     # "alipay": 0,
     # "pix":    0,
@@ -214,7 +217,10 @@ MEMBERSHIP_TELEGRAM_URL = {
 MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "crypto": 0,
     # "cc":     20,
+    "binance": 0,
     "paypal": 3500,
+    "paypalreg": 0,
+    "amazon": 0,
     # "bmc":    0,
     # "alipay": 0,
     # "pix":    0,

@@ -74,6 +74,26 @@
         <li>- Monero XMR: 445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t{{ copy_button('445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t') }}</li>
         <li>- Solana SOL: HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP{{ copy_button('HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP') }}</li>
       </ul>
+    {% elif donation_dict.json.method == 'binance' %}
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin on Binance</p>
+
+      <p class="mb-4">
+        Create an account on <a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a> and buy Bitcoin (BTC). Use this <a href="https://www.binance.com/en/how-to-buy/bitcoin" rel="noopener noreferrer nofollow" target="_blank">extensive guide</a> if you get stuck.
+      </p>
+
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Transfer the Bitcoin to our address</p>
+
+      <p class="mb-4">
+        Go to Withdraw -> BTC.
+      </p>
+
+      <p class="mb-4">
+        Enter our Bitcoin (BTC) address as the recipient, and follow the instructions to send your donation:
+      </p>
+
+      <p class="mb-4 font-mono font-bold">
+        15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o{{ copy_button('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}
+      </p>
     {% elif donation_dict.json.method == 'paypal' %}
       <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
@@ -97,6 +117,18 @@
 
       <p class="mb-4 font-mono font-bold">
         15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o{{ copy_button('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}
+      </p>
+    {% elif donation_dict.json.method == 'paypalreg' %}
+      <h2 class="mt-4 mb-4 text-xl font-bold">PayPal (regular) instructions</h2>
+
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate on PayPal</p>
+
+      <p class="mb-4">
+        Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on PayPal to the following email address:
+      </p>
+
+      <p class="mb-4 font-mono font-bold">
+        AnnaReceipts@proton.me{{ copy_button('AnnaReceipts@proton.me') }}
       </p>
     {% elif donation_dict.json.method == 'bmc' %}
       <!--
@@ -138,27 +170,48 @@
       </p>
     {% endif %}
 
-    <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe), circle_number=(3 if donation_dict.json.method == 'paypal' else 2)) }}
+    {% if donation_dict.json.method == 'amazon' %}
+      <p class="mb-4 font-bold">Amazon gift card</p>
 
-    <p class="mb-4">
-      {{ gettext('page.donation.footer.text1') }}
-    </p>
-
-    <p class="mb-4 font-mono font-bold">
-      AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
-    </p>
-
-    {% if donation_dict.json.method in ['crypto', 'paypal'] %}
       <p class="mb-4">
-        {{ gettext('page.donation.footer.crypto_note') }}
+        Send an <a href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank">Amazon gift card</a> of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} to this email address (which has been generated just for your account):
+      </p>
+
+      <p class="mb-4 font-mono font-bold">
+        AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
+      </p>
+
+      <p class="mb-4">
+        When you have sent your gift card, click this button, so Anna can manually review it (this might take a few days):
+      </p>
+    {% else %}
+      <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
+
+      <p class="mb-4">
+        {% if donation_dict.json.method == 'paypalreg' %}
+          Send a receipt or screenshot to your personal verification address. Do NOT use this email address for your PayPal donation.
+        {% else %}
+          {{ gettext('page.donation.footer.text1') }}
+        {% endif %}
+      </p>
+
+      <p class="mb-4 font-mono font-bold">
+        AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
+      </p>
+
+      {% if donation_dict.json.method in ['crypto', 'paypal'] %}
+        <p class="mb-4">
+          {{ gettext('page.donation.footer.crypto_note') }}
+        </p>
+      {% endif %}
+
+      <p class="mb-4">
+        {{ gettext('page.donation.footer.text2') }}
       </p>
     {% endif %}
 
     <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
       <fieldset class="mb-2">
-        <p class="mb-4">
-          {{ gettext('page.donation.footer.text2') }}
-        </p>
 
         <input type="hidden" name="tier" value="">
         <input type="hidden" name="method" value="">
