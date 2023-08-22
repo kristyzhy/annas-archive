@@ -55,7 +55,7 @@
     </div>
 
     <div class="flex w-[100%]">
-      <div aria-labelledby="Search settings" class="max-sm:hidden sm:text-sm max-sm:cursor-pointer js-search-filter-settings max-sm:fixed max-sm:top-0 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:z-[999999999] max-sm:bg-[rgba(230,230,230,0.7)] max-sm:p-4 sm:w-[210px] sm:shrink-0 sm:pr-6" onclick="if(event.target === event.currentTarget) { event.preventDefault(); event.stopPropagation(); document.querySelector('.js-search-form').submit() }">
+      <div aria-labelledby="Search settings" class="max-sm:hidden sm:text-sm max-sm:cursor-pointer js-search-filter-settings max-sm:fixed max-sm:top-0 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:z-[999999999] max-sm:bg-[rgba(230,230,230,0.7)] max-sm:p-4 sm:w-[25%] sm:max-w-[240px] sm:shrink-0 md:pr-6 sm:pr-3" onclick="if(event.target === event.currentTarget) { event.preventDefault(); event.stopPropagation(); document.querySelector('.js-search-form').submit() }">
         <div class="max-sm:cursor-auto max-sm:shadow-2xl max-sm:rounded-xl max-sm:absolute max-sm:top-4 max-sm:bottom-4 max-sm:left-4 max-sm:right-4 max-sm:bg-white max-sm:p-4 max-sm:overflow-y-auto max-sm:mx-auto max-sm:max-w-[700px]">
           <div class="flex justify-between items-center mb-4 sm:hidden">
             <div class="font-bold text-lg">Search settings</div>
@@ -66,14 +66,14 @@
           <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_content_type %}
-              <label class="flex cursor-pointer"><input type="checkbox" class="mr-1" name="content" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span>{{bucket.label}}<span class="text-sm sm:text-xs ml-2 text-gray-500">({{'{0:,}'.format(bucket.doc_count)}})</span></span></label>
+              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="content" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
             {% endfor %}
           </div>
           {% if search_dict.search_index_short == '' %}
             <div class="font-bold mb-1">{{ gettext('page.search.filters.filetype.header') }}</div>
             <div class="mb-4">
               {% for bucket in search_dict.aggregations.search_extension %}
-                <label class="flex cursor-pointer"><input type="checkbox" class="mr-1" name="ext" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span>{{bucket.label}}<span class="text-sm sm:text-xs ml-2 text-gray-500">({{'{0:,}'.format(bucket.doc_count)}})</span></span></label>
+                <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="ext" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
               {% endfor %}
             </div>
           {% endif %}
@@ -88,7 +88,7 @@
           <div class="font-bold mb-1">{{ gettext('page.search.filters.language.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
-              <label class="flex cursor-pointer"><input type="checkbox" class="mr-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span>{{bucket.label}}<span class="text-sm sm:text-xs ml-2 text-gray-500">({{'{0:,}'.format(bucket.doc_count)}})</span></span></label>
+              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
             {% endfor %}
           </div>
           <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" type="submit">Search</button>

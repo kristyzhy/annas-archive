@@ -185,25 +185,27 @@
           <div class="mb-4">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
         {% endif %}
 
-        <script>
-          (function() {
-            const md5 = {{ aarecord_id_split[1] | tojson }};
-            for (const el of document.querySelectorAll(".js-download-link")) {
-              // Increase counter when clicked.
-              el.addEventListener("click", function() {
-                try {
-                  if (window.localStorage['md5_download_counted_' + md5] === "1") {
-                    return;
+        {% if aarecord_id_split[0] == 'md5' %}
+          <script>
+            (function() {
+              const md5 = {{ aarecord_id_split[1] | tojson }};
+              for (const el of document.querySelectorAll(".js-download-link")) {
+                // Increase counter when clicked.
+                el.addEventListener("click", function() {
+                  try {
+                    if (window.localStorage['md5_download_counted_' + md5] === "1") {
+                      return;
+                    }
+                    window.localStorage['md5_download_counted_' + md5] = "1";
+                  } catch(e) {
+                    console.error("Error with localStorage: ", e);
                   }
-                  window.localStorage['md5_download_counted_' + md5] = "1";
-                } catch(e) {
-                  console.error("Error with localStorage: ", e);
-                }
-                navigator.sendBeacon("/dyn/downloads/increment/" + md5);
-              });
-            }
-          })();
-        </script>
+                  navigator.sendBeacon("/dyn/downloads/increment/" + md5);
+                });
+              }
+            })();
+          </script>
+        {% endif %}
       {% else %}
         <p>{{ gettext('page.md5.box.download.no_found') }}</p>
       {% endif %}

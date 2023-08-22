@@ -2732,7 +2732,8 @@ def search_page():
         timeout=ES_TIMEOUT,
     )
 
-    all_aggregations = all_search_aggs(allthethings.utils.get_base_lang_code(get_locale()), search_index_long)
+    display_lang = allthethings.utils.get_base_lang_code(get_locale())
+    all_aggregations = all_search_aggs(display_lang, search_index_long)
 
     doc_counts = {}
     doc_counts['search_most_likely_language_code'] = {}
@@ -2770,9 +2771,8 @@ def search_page():
             'selected':  (bucket['key'] in filter_values['search_extension']),
         } for bucket in all_aggregations['search_extension']]
 
-    # aggregations['search_most_likely_language_code'] = sorted(aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'], reverse=True)
-    # aggregations['search_content_type']              = sorted(aggregations['search_content_type'],              key=lambda bucket: bucket['doc_count'], reverse=True)
-    # aggregations['search_extension']                 = sorted(aggregations['search_extension'],                 key=lambda bucket: bucket['doc_count'], reverse=True)
+    # Only sort languages, for the other lists we want consistency.
+    aggregations['search_most_likely_language_code'] = sorted(aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
 
     search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
