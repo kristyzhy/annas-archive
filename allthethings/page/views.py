@@ -2557,26 +2557,6 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 warning=warning
             )
 
-
-sort_search_aarecords_script = """
-float score = params.boost + $('search_only_fields.search_score_base', 0);
-
-score += _score / 100.0;
-
-if (params.lang_code == $('search_only_fields.search_most_likely_language_code', '')) {
-    score += 15.0;
-}
-if (params.lang_code == 'ca' && $('search_only_fields.search_most_likely_language_code', '') == 'es') {
-    score += 10.0;
-}
-if (params.lang_code == 'bg' && $('search_only_fields.search_most_likely_language_code', '') == 'ru') {
-    score += 10.0;
-}
-
-return score;
-"""
-
-
 search_query_aggs = {
     "search_most_likely_language_code": {
       "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 50 } 
@@ -2717,25 +2697,49 @@ def search_page():
 
     search_query = {
         "bool": {
-            "should": [{
-                "script_score": {
-                    "query": { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
-                    "script": {
-                        "source": sort_search_aarecords_script,
-                        "params": { "lang_code": allthethings.utils.get_base_lang_code(get_locale()), "boost": 100000 }
-                    }
-                }
-            }],
-            "must": [{
-                "script_score": {
-                    "query": { "simple_query_string": {"query": search_input, "fields": ["search_only_fields.search_text"], "default_operator": "and"} },
-                    "script": {
-                        "source": sort_search_aarecords_script,
-                        "params": { "lang_code": allthethings.utils.get_base_lang_code(get_locale()), "boost": 0 }
-                    }
-                }
-            }]
-        }
+            "should": [
+                {
+                    "bool": {
+                        "should": [
+                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 100.0 } },
+                            { 
+                                "constant_score": {
+                                    "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
+                                    "boost": 15*100.0,
+                                },
+                            },
+                        ],
+                        "must": [
+                            { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
+                        ],
+                    },
+                },
+            ],
+            "must": [
+                {
+                    "bool": {
+                        "should": [
+                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 100.0/100000.0 } },
+                            {
+                                "constant_score": {
+                                    "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
+                                    "boost": 1500.0/100000.0,
+                                },
+                            },
+                        ],
+                        "must": [
+                            {
+                                "simple_query_string": {
+                                    "query": search_input, "fields": ["search_only_fields.search_text"],
+                                    "default_operator": "and",
+                                    "boost": 1/100000.0,
+                                },
+                            },
+                        ],
+                    },
+                },
+            ],
+        },
     }
 
     multi_searches = []
