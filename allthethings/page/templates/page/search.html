@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-  {% if (search_input | length) > 0 %}
+<!--   {% if (search_input | length) > 0 %}
     {% if search_dict %}
       <div class="mb-4">{% if search_dict.max_search_aarecords_reached %}{{ gettext('page.search.breadcrumbs.results_more', search_input=search_input, num=(search_dict.search_aarecords | length)) }}{% else %}{{ gettext('page.search.breadcrumbs.results', search_input=search_input, num=(search_dict.search_aarecords | length)) }}{% endif %}</div>
     {% else %}
@@ -17,18 +17,14 @@
     {% endif %}
   {% else %}
     <div class="mb-4">{{ gettext('page.search.breadcrumbs.new') }}</div>
-  {% endif %}
-
-  {% if g.last_data_refresh_date %}
-    <div class="mb-4" style="font-size: 90%; color: #555">{{ gettext('page.search.header.update_info', last_data_refresh_date=(g.last_data_refresh_date | dateformat('long')), link_open_tag=('<a href="/datasets">' | safe)) }}</div>
-  {% endif %}
+  {% endif %} -->
 
   <form action="/search" method="get" role="search" class="js-search-form">
     <input type="hidden" name="index" value="{{ search_dict.search_index_short }}" class="js-search-form-index">
 
     <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
-      <a href="/search" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-discussion" aria-selected="{{ 'true' if search_dict.search_index_short == '' else 'false' }}" id="md5-tab-discussion" aria-controls="md5-panel-discussion" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = ''; document.querySelector('.js-search-form').submit()">Download ({{ search_dict.total_by_index_long.aarecords.value | numberformat }}{% if search_dict.total_by_index_long.aarecords.relation == 'gte' %}+{% endif %})</a>
-      <a href="/search?index=digital_lending" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="{{ 'true' if search_dict.search_index_short == 'digital_lending' else 'false' }}" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'digital_lending'; document.querySelector('.js-search-form').submit()">Digital Lending ({{ search_dict.total_by_index_long.aarecords_digital_lending.value | numberformat }}{% if search_dict.total_by_index_long.aarecords_digital_lending.relation == 'gte' %}+{% endif %})</a>
+      <a href="/search" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-discussion" aria-selected="{{ 'true' if search_dict.search_index_short == '' else 'false' }}" id="md5-tab-discussion" aria-controls="md5-panel-discussion" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = ''; document.querySelector('.js-search-form').submit()">Download {% if (search_input | length) > 0 %}({{ search_dict.total_by_index_long.aarecords.value | numberformat }}{% if search_dict.total_by_index_long.aarecords.relation == 'gte' %}+{% endif %}){% endif %}</a>
+      <a href="/search?index=digital_lending" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="{{ 'true' if search_dict.search_index_short == 'digital_lending' else 'false' }}" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'digital_lending'; document.querySelector('.js-search-form').submit()">Digital Lending {% if (search_input | length) > 0 %}({{ search_dict.total_by_index_long.aarecords_digital_lending.value | numberformat }}{% if search_dict.total_by_index_long.aarecords_digital_lending.relation == 'gte' %}+{% endif %}){% endif %}</a>
     </div>
 
     <div class="flex mb-2 items-center">
@@ -63,13 +59,15 @@
     <div class="flex w-[100%]">
       <div aria-labelledby="Search settings" class="max-sm:hidden sm:text-sm max-sm:cursor-pointer js-search-filter-settings max-sm:fixed max-sm:top-0 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:z-[999999999] max-sm:bg-[rgba(230,230,230,0.7)] max-sm:p-4 sm:w-[25%] sm:max-w-[240px] sm:shrink-0 md:pr-6 sm:pr-3" onclick="if(event.target === event.currentTarget) { event.preventDefault(); event.stopPropagation(); document.querySelector('.js-search-form').submit() }">
         <div class="max-sm:cursor-auto max-sm:shadow-2xl max-sm:rounded-xl max-sm:absolute max-sm:top-4 max-sm:bottom-4 max-sm:left-4 max-sm:right-4 max-sm:bg-white max-sm:p-4 max-sm:overflow-y-auto max-sm:mx-auto max-sm:max-w-[700px]">
-          <button class="hidden sm:block bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" type="submit">Search</button>
+          <button class="hidden sm:block bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4" type="submit">Search</button>
+
           <div class="flex justify-between items-center mb-4 sm:hidden">
             <div class="font-bold text-lg">Search settings</div>
             <div class="">
               <button class="opacity-50 focus:opacity-80 hover:opacity-100" type="submit">✕</button>
             </div>
           </div>
+
           <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_content_type %}
@@ -113,6 +111,10 @@
             {% endfor %}
           </div>
           <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" type="submit">Search</button>
+
+          {% if g.last_data_refresh_date %}
+            <div class="mt-4 mb-2" style="font-size: 90%; color: #555">{{ gettext('page.search.header.update_info', last_data_refresh_date=(g.last_data_refresh_date | dateformat('long')), link_open_tag=('<a href="/datasets">' | safe)) }}</div>
+          {% endif %}
         </div>
       </div>
 
@@ -134,7 +136,7 @@
             <p class="mt-4">{{ gettext('page.search.results.error.text') }}</p>
           {% else %}
             {% if (search_dict.search_aarecords | length) == 0 %}
-              <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
+              <div class="mt-4 h-[50vh]">{{ gettext('page.search.results.none') }}</div>
             {% endif %}
 
             <div class="mb-4">
@@ -148,6 +150,8 @@
               {% endif %}
             </div>
           {% endif %}
+        {% else %}
+          <div class="sm:mt-6 h-[50vh]">Type in the box to start searching our catalog of {{ g.header_stats.total }} files.</div>
         {% endif %}
         
         {% if search_input != '' %}

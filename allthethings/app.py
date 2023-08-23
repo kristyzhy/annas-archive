@@ -231,6 +231,7 @@ def extensions(app):
 
         g.last_data_refresh_date = last_data_refresh_date()
         doc_counts = {content_type['key']: content_type['doc_count'] for content_type in all_search_aggs('en', 'aarecords')['search_content_type']}
+        doc_counts['total'] = sum(doc_counts.values())
         doc_counts['book_any'] = doc_counts['book_unknown'] + doc_counts['book_fiction'] + doc_counts['book_nonfiction']
         g.header_stats = {key: "{:,}".format(value) for key, value in doc_counts.items() }
 
