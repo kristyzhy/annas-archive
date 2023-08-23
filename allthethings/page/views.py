@@ -2151,9 +2151,9 @@ def format_filesize(num):
 
 def add_partner_servers(path, modifier, aarecord, additional):
     additional['has_aa_downloads'] = 1
-    targeted_seconds = 60
+    targeted_seconds = 30
     if modifier == 'aa_exclusive':
-        targeted_seconds = 180
+        targeted_seconds = 100
         additional['has_aa_exclusive_downloads'] = 1
     if modifier == 'scimag':
         targeted_seconds = 3
