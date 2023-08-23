@@ -248,8 +248,8 @@
         </div>
 
         <div class="mb-[6px]">
-          <div class="hidden sm:block">{{ gettext('layout.index.header.tagline', **g.header_stats) }}</div>
-          <div class="sm:hidden text-sm">📚 The world’s largest open-source open-data library.<br>⭐️ Mirrors Sci-Hub, Libgen, Zlib, and more.</div>
+          <div class="hidden sm:block">{{ gettext('layout.index.header.tagline', **g.header_stats) }} <a class="text-xs" href="/about">Learn more…</a></div>
+          <div class="sm:hidden text-sm">📚 The world’s largest open-source open-data library.<br>⭐️ Mirrors Scihub, Libgen, Zlib, and more. <a class="text-xs" href="/about">Learn more…</a></div>
         </div>
 
         <div class="hidden sm:flex text-xs mb-1" aria-hidden="true">
@@ -341,7 +341,7 @@
                 {% elif header_active == 'home/torrents' %}Torrents
                 {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
                 {% elif header_active == 'home/security' %}Security
-                {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
+                {% else %}{{ gettext('layout.index.header.nav.search') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
@@ -350,12 +350,12 @@
                 {% elif header_active == 'home/torrents' %}Torrents
                 {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
                 {% elif header_active == 'home/security' %}Security
-                {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
+                {% else %}{{ gettext('layout.index.header.nav.search') }}{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
             </a>
             <div class="absolute left-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
-              <a class="custom-a block py-1 {% if header_active == 'home'     %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
+              <a class="custom-a block py-1 {% if header_active == 'home'          %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.search') }}</a>
               <a class="custom-a block py-1 {% if header_active == 'home/about'    %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
               <a class="custom-a block py-1 {% if header_active == 'home/datasets' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
               <a class="custom-a block py-1 {% if header_active == 'home/torrents' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/torrents">Torrents</a>
@@ -365,7 +365,6 @@
               <a class="custom-a block py-1 text-[#000000a3] hover:text-black" href="https://translate.annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.translate') }}</a>
             </div>
             <a href="/donate" class="{{ 'header-link-active' if header_active == 'donate' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.donate') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.donate') }}</span></a>
-            <a href="/search" class="{{ 'header-link-active' if header_active == 'search' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.search') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.search') }}</span></a>
           </div>
           <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
             <input class="js-slash-focus rounded" name="q" type="search" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" title="Focus: '/' Scroll search results: 'j', 'k'" {% if header_active == "home" %}autofocus{% endif %}>

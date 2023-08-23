@@ -253,6 +253,17 @@ def add_comments_to_dict(before_dict, comments):
 @page.get("/")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def home_page():
+    return search_page()
+
+@page.get("/login")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def login_page():
+    return redirect(f"/account", code=301)
+    # return render_template("page/login.html", header_active="account")
+
+@page.get("/about")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def about_page():
     popular_ids = [
         "md5:8336332bf5877e3adbfb60ac70720cd5", # Against intellectual monopoly
         "md5:f0a0beca050610397b9a1c2604c1a472", # Harry Potter
@@ -271,21 +282,10 @@ def home_page():
         aarecords.sort(key=lambda aarecord: popular_ids.index(aarecord['id']))
 
         return render_template(
-            "page/home.html",
-            header_active="home",
+            "page/about.html",
+            header_active="home/about",
             aarecords=aarecords,
         )
-
-@page.get("/login")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def login_page():
-    return redirect(f"/account", code=301)
-    # return render_template("page/login.html", header_active="account")
-
-@page.get("/about")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def about_page():
-    return render_template("page/about.html", header_active="home/about")
 
 @page.get("/security")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -300,7 +300,7 @@ def mobile_page():
 @page.get("/wechat")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def wechat_page():
-    return render_template("page/wechat.html", header_active="home/wechat")
+    return render_template("page/wechat.html", header_active="")
 
 @page.get("/browser_verification")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -2905,7 +2905,7 @@ def search_page():
 
     return render_template(
         "page/search.html",
-        header_active="search",
+        header_active="home",
         search_input=search_input,
         search_dict=search_dict,
         redirect_pages={
