@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-24 09:32+0000\n"
-"PO-Revision-Date: 2023-08-24 09:32+0000\n"
+"PO-Revision-Date: 2023-08-24 10:09+0000\n"
 "Last-Translator: Ahmet <ahmetm_u@proton.me>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: tr\n"
@@ -415,7 +415,7 @@ msgstr "Ödeme yönergeleri şu anda eskimiş durumda. Eğer başka bir bağış
 
 #: allthethings/account/templates/account/donation.html:58
 msgid "page.donate.submit.crypto_note"
-msgstr ""
+msgstr "<strong>Önemli not:</strong> Kripto fiyatları bazen birkaç dakikada 20%% olacak kadar çılgınca dalgalanabilir. Bu yine de çoğu ödeme sağlayıcısına ödediğimiz komisyonlardan düşüktür; genellikle bizim gibi bir \"gölge hayır işi\" ile çalışırken 50-60%% komisyon keserler. <u>Eğer bize ödediğiniz asıl fiyatla birlikte bir makbuz gönderirseniz, sizin hesabınıza seçilen üyeliği tanımlayacağız </u> (makbuzun birkaç saatten daha eski olmaması koşuluyla). Bizi desteklemek için böyle şeylere katlanmaya niyetli olmanızı gerçekten takdir ediyoruz! ❤️"
 
 #: allthethings/account/templates/account/donation.html:63
 msgid "page.donation.payment.crypto.top_header"
@@ -431,47 +431,47 @@ msgstr "Bu adreslerden birine toplam %(total)s miktarını bağışlayın:"
 
 #: allthethings/account/templates/account/donation.html:85
 msgid "page.donation.payment.paypal.text3"
-msgstr ""
+msgstr "Bitcoin (BTC) almak için talimatları takip edin. Yalnızca bağış yapmak istediğiniz miktarı satın almanız gerekli, %(total)s."
 
 #: allthethings/account/templates/account/donation.html:95
 msgid "page.donation.payment.paypal.text5"
-msgstr ""
+msgstr "Bitcoin (BTC) adresimizi alıcı olarak girin ve %(total)s tutarındaki bağışınızı göndermek için talimatları takip edin:"
 
 #: allthethings/account/templates/account/donation.html:116
 msgid "page.donation.payment.alipay.top_header"
-msgstr ""
+msgstr "Alipay talimatları"
 
 #: allthethings/account/templates/account/donation.html:118
 msgid "page.donation.payment.alipay.header1"
-msgstr ""
+msgstr "<span %(span_circle)s>1</span>Alipay'de bağış yap"
 
 #: allthethings/account/templates/account/donation.html:121
 msgid "page.donation.payment.alipay.text1"
-msgstr ""
+msgstr "Toplam %(total)s tutarını <a %(a_account)s>bu Alipay hesabını kullanarak bağışlayın"
 
 #: allthethings/account/templates/account/donation.html:128
 msgid "page.donation.payment.pix.top_header"
-msgstr ""
+msgstr "Pix talimatları"
 
 #: allthethings/account/templates/account/donation.html:130
 msgid "page.donation.payment.pix.header1"
-msgstr ""
+msgstr "<span %(span_circle)s>1</span>Pix'te bağış yap"
 
 #: allthethings/account/templates/account/donation.html:133
 msgid "page.donation.payment.pix.text1"
-msgstr ""
+msgstr "Toplam %(total)s tutarını <a %(a_account)s>bu Pix hesabını kullanarak bağışlayın"
 
 #: allthethings/account/templates/account/donation.html:141
 msgid "page.donation.footer.header"
-msgstr ""
+msgstr "<span %(span_circle)s>%(circle_number)s</span>Makbuzu bize e-posta yoluyla gönderin"
 
 #: allthethings/account/templates/account/donation.html:144
 msgid "page.donation.footer.text1"
-msgstr ""
+msgstr "Şahsi doğrulama adresinize bir makbuz veya ekran görüntüsünü gönderin:"
 
 #: allthethings/account/templates/account/donation.html:153
 msgid "page.donation.footer.crypto_note"
-msgstr ""
+msgstr "Eğer kripto kuru işlem sırasında dalgalandıysa, makbuzun orijinal kuru gösterdiğinden emin olun. Kriptoyu kullanma zahmetine katlanmanızı gerçekten takdir ediyoruz, bize çok yardımcı oluyor!"
 
 #: allthethings/account/templates/account/donation.html:160
 msgid "page.donation.footer.text2"
@@ -655,16 +655,17 @@ msgid "page.list.edit.failure"
 msgstr "❌ Bir şeyler yanlış gitti. Lütfen tekrar deneyin."
 
 #: allthethings/account/templates/account/list.html:19
+#, fuzzy
 msgid "page.list.by_and_date"
-msgstr ""
+msgstr "Listeleme ölçütü %(by)s, <span %(span_time)s>%(time)s</span> tarihinde oluşturuldu"
 
 #: allthethings/account/templates/account/list.html:23
 msgid "page.list.empty"
-msgstr ""
+msgstr "Liste boş."
 
 #: allthethings/account/templates/account/list.html:31
 msgid "page.list.new_item"
-msgstr ""
+msgstr "Bir dosya bularak ve \"Listeler\" sekmesini açarak bu listeye ekle veya bu listeden sil."
 
 #: allthethings/account/templates/account/profile.html:3
 msgid "page.profile.title"
@@ -700,7 +701,7 @@ msgstr "Profil <span %(span_time)s>%(time)s</span> önce yaratıldı"
 
 #: allthethings/account/templates/account/profile.html:24
 msgid "page.profile.lists.header"
-msgstr ""
+msgstr "Listeler"
 
 #: allthethings/account/templates/account/profile.html:29
 msgid "page.profile.lists.no_lists"
@@ -795,20 +796,20 @@ msgstr "Kitap (tümü)"
 
 #: allthethings/page/views.py:2057 allthethings/page/views.py:2058
 msgid "common.md5.servers.fast_partner"
-msgstr ""
+msgstr "Hızlı Ortak Sunucu #%(number)s"
 
 #: allthethings/page/views.py:2057
 msgid "common.md5.servers.no_browser_verification"
-msgstr ""
+msgstr "(tarayıcı doğrulama gerekmez)"
 
 #: allthethings/page/views.py:2059 allthethings/page/views.py:2060
 #: allthethings/page/views.py:2061
 msgid "common.md5.servers.slow_partner"
-msgstr ""
+msgstr "Yavaş Ortak Sunucu #%(number)s"
 
 #: allthethings/page/views.py:2059
 msgid "common.md5.servers.browser_verification_unlimited"
-msgstr ""
+msgstr "(<a %(a_browser)s>tarayıcı doğrulama</a> gerektirebilir — sınırsız indirme!)"
 
 #: allthethings/page/views.py:2200
 msgid "page.md5.box.download.lgrsnf"
@@ -859,15 +860,15 @@ msgstr "(Tor Browser gerekli)"
 
 #: allthethings/page/views.py:2244
 msgid "page.md5.box.download.ia_borrow"
-msgstr ""
+msgstr "Internet Archive'den ödünç al"
 
 #: allthethings/page/views.py:2245
 msgid "page.md5.box.download.bulk_torrents"
-msgstr ""
+msgstr "Toplu torrent indirmeleri"
 
 #: allthethings/page/views.py:2245
 msgid "page.md5.box.download.experts_only"
-msgstr ""
+msgstr "(sadece uzmanlar)"
 
 #: allthethings/page/templates/page/about.html:3
 msgid "page.about.title"
@@ -944,17 +945,17 @@ msgstr "Metin aşağıda İngilizce olarak devam etmektedir."
 #: allthethings/page/templates/page/login.html:3
 #: allthethings/page/templates/page/login.html:6
 msgid "page.login.title"
-msgstr ""
+msgstr "Giriş yap / Kaydol"
 
 #: allthethings/page/templates/page/browser_verification.html:9
 #: allthethings/page/templates/page/login.html:9
 msgid "page.login.text1"
-msgstr ""
+msgstr "Spambotların birçok hesap açmasını önlemek için önce tarayıcınızı doğrulamamız gerekmekte."
 
 #: allthethings/page/templates/page/browser_verification.html:13
 #: allthethings/page/templates/page/login.html:14
 msgid "page.login.text2"
-msgstr ""
+msgstr "Eğer sonsuz bir döngüye yakalandıysanız, <a href=\"https://privacypass.github.io/\">Privacy Pass</a> kurmanızı öneriririz."
 
 #: allthethings/page/templates/page/doi.html:3
 msgid "page.doi.title"
@@ -1000,23 +1001,23 @@ msgstr "Teknik ayrıntılar"
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more"
-msgstr ""
+msgstr "Bugünlük hızlı indirmeleri tükettiniz. Eğer üyeliğinizi yükseltmekle ilgileniyorsanız, AnnaArchivist@proton.me adresinden Anna ile iletişime geçin."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
-msgstr ""
+msgstr "Hızlı indirmeleri kullanmak için üye olun."
 
 #: allthethings/page/templates/page/home.html:5
 msgid "page.home.intro.text1"
-msgstr ""
+msgstr "<span %(span_anna)s>Anna'nın Arşivi</span> iki amacı olan kâr amacı gütmeyen bir projedir:"
 
 #: allthethings/page/templates/page/home.html:9
 msgid "page.home.intro.text2"
-msgstr ""
+msgstr "<li><strong>Koruma:</strong> İnsanlığım tüm bilgi ve kültürünü yedekleme.</li><li><strong>Erişim:</strong> Bu bilgiyi ve kültürü dünyadaki herkese erişilebilir kılma.</li>"
 
 #: allthethings/page/templates/page/home.html:13
 msgid "page.home.preservation.header"
-msgstr ""
+msgstr "Koruma"
 
 #: allthethings/page/templates/page/home.html:15
 msgid "page.home.preservation.text"
