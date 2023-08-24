@@ -85,9 +85,7 @@
           <div class="font-bold mb-1">Access</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_access_types %}
-              {% if bucket.key != 'external_borrow_printdisabled' %}
               <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="acc" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;')}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
-              {% endif %}
             {% endfor %}
           </div>
           <div class="font-bold mb-1">Source</div>
@@ -136,7 +134,7 @@
             <p class="mt-4">{{ gettext('page.search.results.error.text') }}</p>
           {% else %}
             {% if (search_dict.search_aarecords | length) == 0 %}
-              <div class="mt-4 h-[50vh]">{{ gettext('page.search.results.none') }}</div>
+              <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
             {% endif %}
 
             <div class="mb-4">
