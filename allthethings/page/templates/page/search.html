@@ -91,7 +91,7 @@
           <div class="font-bold mb-1">Source</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_record_sources %}
-              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="src" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe) | replace('(', '<br>(' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="src" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
             {% endfor %}
           </div>
           <div class="font-bold mb-1">Order by</div>
@@ -149,7 +149,11 @@
             </div>
           {% endif %}
         {% else %}
-          <div class="sm:mt-6 h-[50vh]">Type in the box to start searching our catalog of {{ g.header_stats.total }} files.</div>
+          {% if search_dict.search_index_short == '' %}
+             <div class="sm:mt-6 h-[50vh]">Type in the box to start searching our catalog of {{ g.header_stats.total }} files.</div>
+          {% else %}
+            <div class="sm:mt-6 h-[50vh]">Type in the box to start searching.</div>
+          {% endif %}
         {% endif %}
         
         {% if search_input != '' %}
