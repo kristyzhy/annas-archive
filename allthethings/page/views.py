@@ -374,6 +374,9 @@ def get_stats_data():
                     "size": 0,
                     "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
                 },
+                # { "index": "aarecords_digital_lending", "request_cache": False },
+                { "index": "aarecords_digital_lending" },
+                { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
             ],
         ))
         if any([response['timed_out'] for response in stats_data_es['responses']]):
@@ -396,6 +399,10 @@ def get_stats_data():
             'filesize': stats_data_es['responses'][0]['aggregations']['total_filesize']['value'],
             'aa_count': stats_data_es['responses'][4]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
         }
+        stats_by_group['ia']['count'] += stats_data_es['responses'][5]['hits']['total']['value']
+        stats_by_group['total']['count'] += stats_data_es['responses'][5]['hits']['total']['value']
+        stats_by_group['ia']['filesize'] += stats_data_es['responses'][5]['aggregations']['total_filesize']['value']
+        stats_by_group['total']['filesize'] += stats_data_es['responses'][5]['aggregations']['total_filesize']['value']
 
     return {
         'stats_by_group': stats_by_group,
