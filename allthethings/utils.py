@@ -15,6 +15,7 @@ import hashlib
 import urllib.parse
 import orjson
 import isbnlib
+import math
 from flask_babel import gettext, get_babel, force_locale
 
 from flask import Blueprint, request, g, make_response, render_template
@@ -194,10 +195,10 @@ MEMBERSHIP_TIER_COSTS = {
 }
 MEMBERSHIP_METHOD_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
-    "crypto": 0,
+    "crypto": 20,
     # "cc":     20,
-    "binance": 0,
-    "paypal": 0,
+    "binance": 20,
+    "paypal": 20,
     "paypalreg": 0,
     "amazon": 0,
     # "bmc":    0,
@@ -220,7 +221,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "binance": 0,
     "paypal": 3500,
     "paypalreg": 0,
-    "amazon": 0,
+    "amazon": 1000,
     # "bmc":    0,
     # "alipay": 0,
     # "pix":    0,
@@ -284,6 +285,22 @@ def membership_costs_data(locale):
         # elif method == 'bmc':
         #     native_currency_code = 'COFFEE'
         #     cost_cents_native_currency = round(cost_cents_usd / 500)
+        elif method == 'amazon':
+            if cost_cents_usd < 1000:
+                cost_cents_usd = 1000
+            elif cost_cents_usd < 1500:
+                cost_cents_usd = 1500
+            elif cost_cents_usd < 2000:
+                cost_cents_usd = 2000
+            elif cost_cents_usd < 2500:
+                cost_cents_usd = 2500
+            elif cost_cents_usd < 10000:
+                cost_cents_usd = math.ceil(cost_cents_usd / 1000) * 1000
+            elif cost_cents_usd < 100000:
+                cost_cents_usd = math.ceil(cost_cents_usd / 5000) * 5000
+            else:
+                cost_cents_usd = math.ceil(cost_cents_usd / 10000) * 10000
+            cost_cents_native_currency = cost_cents_usd
         elif method == 'pix':
             native_currency_code = 'BRL'
             cost_cents_native_currency = round(cost_cents_usd * usd_currency_rates['BRL'] / 100) * 100

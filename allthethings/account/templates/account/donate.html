@@ -29,7 +29,7 @@
           <span class="[[aria-selected=true]_&]:hidden">{{ gettext('page.donate.buttons.join') }}</span>
           <span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> {{ gettext('page.donate.buttons.selected') }}</span>
         </button>
-        <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=25) }}</div>
+        <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=45) }}</div>
         <ul class="pl-[20px]">
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.fast_downloads', number=(('<strong>' + (MEMBERSHIP_DOWNLOADS_PER_DAY['2'] | string) + '</strong>') | safe)) }}</li>
           <!-- <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.credits') }}</li> -->
@@ -42,7 +42,7 @@
           <span class="[[aria-selected=true]_&]:hidden">{{ gettext('page.donate.buttons.join') }}</span>
           <span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> {{ gettext('page.donate.buttons.selected') }}</span>
         </button>
-        <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=25) }}</div>
+        <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=45) }}</div>
         <ul class="pl-[20px]">
           <!-- <li class="text-sm relative mb-1">{{ gettext('page.donate.perks.previous_plus') }}</li> -->
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.fast_downloads', number=(('<strong>' + (MEMBERSHIP_DOWNLOADS_PER_DAY['3'] | string) + '</strong>') | safe)) }}</li>
@@ -56,7 +56,7 @@
           <span class="[[aria-selected=true]_&]:hidden">{{ gettext('page.donate.buttons.join') }}</span>
           <span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> {{ gettext('page.donate.buttons.selected') }}</span>
         </button>
-        <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=25) }}</div>
+        <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=45) }}</div>
         <ul class="pl-[20px]">
           <!-- <li class="text-sm relative mb-1">{{ gettext('page.donate.perks.previous_plus') }}</li> -->
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.fast_downloads', number=(('<strong>' + (MEMBERSHIP_DOWNLOADS_PER_DAY['4'] | string) + '</strong>') | safe)) }}</li>
@@ -70,7 +70,7 @@
           <span class="[[aria-selected=true]_&]:hidden">{{ gettext('page.donate.buttons.join') }}</span>
           <span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> {{ gettext('page.donate.buttons.selected') }}</span>
         </button>
-        <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=25) }}</div>
+        <div class="text-xs text-gray-500 text-center mb-4">{{ gettext('page.donate.buttons.up_to_discounts', percentage=45) }}</div>
         <ul class="pl-[20px]">
           <li class="text-sm relative mb-1">{{ gettext('page.donate.perks.previous_plus') }}</li>
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> {{ gettext('page.donate.perks.fast_downloads', number=(('<strong>' + (MEMBERSHIP_DOWNLOADS_PER_DAY['5'] | string) + '</strong>') | safe)) }}</li>
@@ -96,19 +96,19 @@
 
     <div class="[html:not(.aa-logged-in)_&]:hidden">
       <p class="mt-8 mb-4">
-        <!-- {{ gettext('page.donate.payment.intro', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }} -->
+        {{ gettext('page.donate.payment.intro', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }}
         <!-- {{ gettext('page.donate.payment.intro2', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }} -->
-        Select a payment option. We mostly have crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, since traditional payment processors don't like to work with us.
+        <!-- Select a payment option. We mostly have crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, since traditional payment processors don't like to work with us. -->
       </p>
 
       <div class="mb-4 flex flex-wrap items-end">
         <!-- <button class="js-membership-method js-membership-method-cc     relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('cc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button> -->
         <!-- <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.paypal', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}<span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button> -->
-        <button class="js-membership-method js-membership-method-binance relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('binance')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Binance bank or card (most countries) <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span></button>
-        <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}<!--<span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span>--></button>
-        <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal Crypto <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span></button>
+        <button class="js-membership-method js-membership-method-binance relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('binance')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Binance bank or card (most countries) <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button>
+        <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}<span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button>
+        <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal Crypto <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button>
         <!-- <button class="js-membership-method js-membership-method-paypalreg relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypalreg')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal (regular)</button> -->
-        <!-- <button class="js-membership-method js-membership-method-amazon relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('amazon')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Amazon Gift Card</button> -->
+        <button class="js-membership-method js-membership-method-amazon relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('amazon')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Amazon Gift Card</button>
         <!-- <button class="js-membership-method js-membership-method-bmc    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('bmc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button> -->
         <!-- <button class="js-membership-method js-membership-method-alipay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('alipay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay') }}</button> -->
         <!-- <button class="js-membership-method js-membership-method-pix    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('pix')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.pix') }}</button> -->
@@ -147,7 +147,11 @@
 
     <div class="js-membership-descr js-membership-descr-amazon">
       <p class="mb-4">
-        Donate using an Amazon gift card.
+        Donate using an Amazon gift card. Note that we need to round up to amounts accepted by our resellers.
+      </p>
+
+      <p class="mb-4">
+        <strong>IMPORTANT:</strong> We only support Amazon.com, not other Amazon websites. For example, .de, .co.uk, .ca, are NOT supported.
       </p>
     </div>
 
@@ -219,7 +223,7 @@
       <button class="js-membership-method js-membership-method-crypto relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('crypto')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}</button>
       <button class="js-membership-method js-membership-method-paypal relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal Crypto (US) <span class="icon-[mdi--bitcoin] text-lg align-text-bottom"></span></button>
       <!-- <button class="js-membership-method js-membership-method-paypalreg relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('paypalreg')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal (regular)</button> -->
-      <!-- <button class="js-membership-method js-membership-method-amazon relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('amazon')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Amazon Gift Card</button> -->
+      <button class="js-membership-method js-membership-method-amazon relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('amazon')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Amazon Gift Card</button>
       <!-- <button class="js-membership-method js-membership-method-bmc    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('bmc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button> -->
       <!-- <button class="js-membership-method js-membership-method-alipay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('alipay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay') }}</button> -->
       <!-- <button class="js-membership-method js-membership-method-pix    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('pix')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.pix') }}</button> -->
@@ -322,11 +326,7 @@
 
     <div class="js-membership-descr js-membership-descr-amazon">
       <p class="mb-4">
-        Please send your Amazon gift cards to:
-      </p>
-
-      <p class="mb-4 font-mono font-bold">
-        AnnaReceipts@proton.me{{ copy_button('AnnaReceipts@proton.me') }}
+        We currently only support donating with Amazon gift cards to get a membership. If you wish to make a one-time donation, please use a different payment option.
       </p>
     </div>
 

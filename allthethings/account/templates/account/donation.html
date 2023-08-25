@@ -171,14 +171,22 @@
     {% endif %}
 
     {% if donation_dict.json.method == 'amazon' %}
-      <p class="mb-4 font-bold">Amazon gift card</p>
+      <p class="mb-4 font-bold">Amazon.com gift card</p>
+
+      <!-- <p class="mb-4">
+        <img class="w-[100%] max-w-[600px]" src="/images/annagifts.png">
+      </p> -->
 
       <p class="mb-4">
-        Send an <a href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank">Amazon gift card</a> of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} to this email address (which has been generated just for your account):
+        Please use the <a href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank">official Amazon.com form</a> to send us a gift card of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} to the email address below (which has been generated just for your account). We cannot except other methods of gift cards, <strong>only the offical form on Amazon.com</strong> (not on other Amazon domains). We cannot return your gift card if you do not use this form.
       </p>
 
-      <p class="mb-4 font-mono font-bold">
-        AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
+      <p class="mb-4">
+        Gift card email address: <span class="font-mono font-bold">AnnaGifts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaGifts+' + donation_dict.receipt_id + '@proton.me') }}</span>
+      </p>
+
+      <p class="mb-4">
+        <strong>IMPORTANT:</strong> We only support Amazon.com, not other Amazon websites. For example, .de, .co.uk, .ca, are NOT supported.
       </p>
 
       <p class="mb-4">
