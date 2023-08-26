@@ -286,17 +286,27 @@ def membership_costs_data(locale):
         #     native_currency_code = 'COFFEE'
         #     cost_cents_native_currency = round(cost_cents_usd / 500)
         elif method == 'amazon':
-            if cost_cents_usd < 1000:
+            if cost_cents_usd <= 1000:
                 cost_cents_usd = 1000
-            elif cost_cents_usd < 1500:
+            elif cost_cents_usd <= 1500:
                 cost_cents_usd = 1500
-            elif cost_cents_usd < 2000:
+            elif cost_cents_usd <= 2000:
                 cost_cents_usd = 2000
-            elif cost_cents_usd < 2500:
+            elif cost_cents_usd <= 2700:
                 cost_cents_usd = 2500
-            elif cost_cents_usd < 10000:
-                cost_cents_usd = math.ceil(cost_cents_usd / 1000) * 1000
-            elif cost_cents_usd < 100000:
+            elif cost_cents_usd == 5100:
+                cost_cents_usd = 4500
+            elif cost_cents_usd == 5400:
+                cost_cents_usd = 5500
+            elif cost_cents_usd == 8550:
+                cost_cents_usd = 8500
+            elif cost_cents_usd == 9000:
+                cost_cents_usd = 8500
+            elif cost_cents_usd == 30600:
+                cost_cents_usd = 30000
+            elif cost_cents_usd <= 100000:
+                cost_cents_usd = round(cost_cents_usd / 1000) * 1000
+            elif cost_cents_usd <= 200000:
                 cost_cents_usd = math.ceil(cost_cents_usd / 5000) * 5000
             else:
                 cost_cents_usd = math.ceil(cost_cents_usd / 10000) * 10000

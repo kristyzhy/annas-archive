@@ -91,7 +91,7 @@
         Enter our Bitcoin (BTC) address as the recipient, and follow the instructions to send your donation:
       </p>
 
-      <p class="mb-4 font-mono font-bold">
+      <p class="mb-4 font-mono font-bold text-sm">
         15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o{{ copy_button('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}
       </p>
     {% elif donation_dict.json.method == 'paypal' %}
@@ -115,7 +115,7 @@
         {{ gettext('page.donation.payment.paypal.text5', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
       </p>
 
-      <p class="mb-4 font-mono font-bold">
+      <p class="mb-4 font-mono font-bold text-sm">
         15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o{{ copy_button('15ruLg4LeREntByp7Xyzhf5hu2qGn8ta2o') }}
       </p>
     {% elif donation_dict.json.method == 'paypalreg' %}
@@ -127,7 +127,7 @@
         Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on PayPal to the following email address:
       </p>
 
-      <p class="mb-4 font-mono font-bold">
+      <p class="mb-4 font-mono font-bold text-sm">
         AnnaReceipts@proton.me{{ copy_button('AnnaReceipts@proton.me') }}
       </p>
     {% elif donation_dict.json.method == 'bmc' %}
@@ -173,16 +173,12 @@
     {% if donation_dict.json.method == 'amazon' %}
       <p class="mb-4 font-bold">Amazon.com gift card</p>
 
-      <!-- <p class="mb-4">
-        <img class="w-[100%] max-w-[600px]" src="/images/annagifts.png">
-      </p> -->
-
       <p class="mb-4">
-        Please use the <a href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank">official Amazon.com form</a> to send us a gift card of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} to the email address below (which has been generated just for your account). We cannot except other methods of gift cards, <strong>only the offical form on Amazon.com</strong> (not on other Amazon domains). We cannot return your gift card if you do not use this form.
+        Please use the <a href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank">official Amazon.com form</a> to send us a gift card of <span class="font-bold">{{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}</span> to the email address below (which has been generated just for your account). We cannot except other methods of gift cards, <strong>only sent directly from the official form on Amazon.com</strong> (not on other Amazon domains, and no forwarded emails). We cannot return your gift card if you do not use this form.
       </p>
 
       <p class="mb-4">
-        Gift card email address: <span class="font-mono font-bold">AnnaGifts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaGifts+' + donation_dict.receipt_id + '@proton.me') }}</span>
+        "To" recipient email in the form: <span class="font-mono font-bold text-sm">AnnaGifts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaGifts+' + donation_dict.receipt_id + '@proton.me') }}</span>
       </p>
 
       <p class="mb-4">
@@ -203,7 +199,7 @@
         {% endif %}
       </p>
 
-      <p class="mb-4 font-mono font-bold">
+      <p class="mb-4 font-mono font-bold text-sm">
         AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
       </p>
 
@@ -231,5 +227,13 @@
       <div class="hidden js-success">{{ gettext('page.donation.footer.success') }}</div>
       <div class="hidden js-failure">{{ gettext('page.donation.footer.failure') }}</div>
     </form>
+
+    {% if donation_dict.json.method == 'amazon' %}
+      <p class="mb-4">Example:</p>
+
+      <p class="mb-4 bg-gray-100 rounded">
+        <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts2.png">
+      </p>
+    {% endif %}
   </div>
 {% endblock %}
