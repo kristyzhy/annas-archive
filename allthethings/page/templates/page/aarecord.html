@@ -145,6 +145,10 @@
       <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
     {% endif %}
 
+    <p class="mb-4">
+      If you like this and can afford it, consider buying the original, or supporting the authors directly.
+    </p>
+
     {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
       <div class="mb-4">
         <div class="js-fast-download-no-member-header">{{ gettext('page.md5.box.download.header_fast_no_member', a_membership=('href="/donate"' | safe)) }}</div>
