@@ -57,7 +57,7 @@
   </div>
 
   <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
-    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] == 'md5' %}Downloads{% elif aarecord_id_split[0] == 'ia' %}Borrow{% endif %} ({{ (aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length) }})</button>
+    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] == 'md5' %}Downloads{% elif aarecord_id_split[0] == 'ia' %}Borrow{% elif aarecord_id_split[0] == 'isbn' %}Explore metadata{% endif %} ({{ (aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length) }})</button>
     {% if aarecord_id_split[0] == 'md5' %}
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">Lists (–)</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-stats" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats (–)</button>

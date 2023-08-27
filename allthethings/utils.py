@@ -40,7 +40,7 @@ def validate_aarecord_ids(aarecord_ids):
     return validate_canonical_md5s(split_ids['md5'])
 
 def split_aarecord_ids(aarecord_ids):
-    ret = {'md5': [], 'ia': []}
+    ret = {'md5': [], 'ia': [], 'isbn': []}
     for aarecord_id in aarecord_ids:
         split_aarecord_id = aarecord_id.split(':')
         ret[split_aarecord_id[0]].append(split_aarecord_id[1])
@@ -724,8 +724,10 @@ def merge_unified_fields(list_of_fields_unified):
 SEARCH_INDEX_SHORT_LONG_MAPPING = {
     '': 'aarecords',
     'digital_lending': 'aarecords_digital_lending',
+    'meta': 'aarecords_metadata',
 }
 AARECORD_PREFIX_SEARCH_INDEX_MAPPING = {
     'md5': 'aarecords',
     'ia': 'aarecords_digital_lending',
+    'isbn': 'aarecords_metadata',
 }

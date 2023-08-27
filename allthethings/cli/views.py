@@ -215,6 +215,7 @@ def elastic_reset_aarecords():
 def elastic_reset_aarecords_internal():
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
+    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
     body = {
         "mappings": {
             "dynamic": False,
@@ -247,6 +248,7 @@ def elastic_reset_aarecords_internal():
     }
     es.indices.create(index='aarecords', body=body)
     es.indices.create(index='aarecords_digital_lending', body=body)
+    es.indices.create(index='aarecords_metadata', body=body)
 
 #################################################################################################
 # Regenerate "aarecords" index in ElasticSearch.
@@ -320,6 +322,16 @@ def elastic_build_aarecords_internal():
                         break
                     print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata ( starting ia_id: {batch[0]['ia_id']} )...")
                     executor.map(elastic_build_aarecords_job, chunks([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
+                    pbar.update(len(batch))
+            print("Processing from isbndb_isbns")
+            total = cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns')
+            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                while True:
+                    batch = list(cursor.fetchmany(BATCH_SIZE))
+                    if len(batch) == 0:
+                        break
+                    print(f"Processing {len(batch)} aarecords from isbndb_isbns ( starting isbn13: {batch[0]['isbn13']} )...")
+                    executor.map(elastic_build_aarecords_job, chunks([f"isbn:{item['isbn13']}" for item in batch if item['isbn10'] != "0000000000"], CHUNK_SIZE))
                     pbar.update(len(batch))
             print("Processing from computed_all_md5s")
             total = cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 >= %(from)s', { "from": bytes.fromhex(first_md5) })
