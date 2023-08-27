@@ -31,3 +31,5 @@ else:
     MAIL_USE_TLS = True
 
 SLOW_DATA_IMPORTS = os.getenv("SLOW_DATA_IMPORTS", "")
+
+FLASK_DEBUG = str(os.getenv("FLASK_DEBUG", "")).lower() in ["1","true"]

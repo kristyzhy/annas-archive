@@ -2382,7 +2382,9 @@ def ia_page(ia_input):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def isbn_page(isbn_input):
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, [f"isbn:{isbn_input}"])
+        aarecords = []
+        if allthethings.utils.FEATURE_FLAGS["isbn"]:
+            aarecords = get_aarecords_elasticsearch(session, [f"isbn:{isbn_input}"])
 
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=isbn_input)
@@ -2743,7 +2745,10 @@ def search_page():
     )
     total_by_index_long = {}
     for i, result in enumerate(total_all_indexes['responses']):
-        total_by_index_long[multi_searches[i*2]['index']] = result['hits']['total']
+        count = 0
+        if 'hits' in result:
+            count = result['hits']['total']
+        total_by_index_long[multi_searches[i*2]['index']] = count
 
     max_display_results = 200
     max_additional_display_results = 50
