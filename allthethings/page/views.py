@@ -197,22 +197,26 @@ def nice_json(some_dict):
 
 @functools.cache
 def get_bcp47_lang_codes_parse_substr(substr):
-        lang = ''
+    lang = ''
+    try:
+        lang = str(langcodes.get(substr))
+    except:
         try:
-            lang = str(langcodes.get(substr))
+            lang = str(langcodes.find(substr))
         except:
+            # In rare cases, disambiguate by saying that `substr` is written in English
             try:
-                lang = str(langcodes.find(substr))
+                lang = str(langcodes.find(substr, language='en'))
             except:
                 lang = ''
-        # We have a bunch of weird data that gets interpreted as "Egyptian Sign Language" when it's
-        # clearly all just Spanish..
-        if lang == "esl":
-            lang = "es"
-        # Further specification of English is unnecessary.
-        if lang.startswith("en-"):
-            lang = "en"
-        return lang
+    # We have a bunch of weird data that gets interpreted as "Egyptian Sign Language" when it's
+    # clearly all just Spanish..
+    if lang == "esl":
+        lang = "es"
+    # Further specification of English is unnecessary.
+    if lang.startswith("en-"):
+        lang = "en"
+    return lang
 
 @functools.cache
 def get_bcp47_lang_codes(string):
@@ -1390,13 +1394,7 @@ def get_isbndb_dicts(session, canonical_isbn13s):
         isbn_dict = {
             "ean13": isbnlib.ean13(canonical_isbn13),
             "isbn10": isbnlib.to_isbn10(canonical_isbn13),
-            "doi": isbnlib.doi(canonical_isbn13),
-            "info": isbnlib.info(canonical_isbn13),
-            "mask": isbn13_mask,
-            "mask_split": isbn13_mask.split('-'),
         }
-        if isbn_dict['isbn10']:
-            isbn_dict['mask10'] = isbnlib.mask(isbn_dict['isbn10'])
 
         isbndb_books = {}
         if isbn_dict['isbn10']:
@@ -1436,72 +1434,6 @@ def get_isbndb_dicts(session, canonical_isbn13s):
 
     return isbn_dicts
 
-
-# @page.get("/isbn/<string:isbn_input>")
-# @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-# def isbn_page(isbn_input):
-#     isbn_input = isbn_input[0:20]
-
-#     canonical_isbn13 = allthethings.utils.normalize_isbn(isbn_input)
-#     if canonical_isbn13 == '':
-#         # TODO, check if a different prefix would help, like in
-#         # https://github.com/inventaire/isbn3/blob/d792973ac0e13a48466d199b39326c96026b7fc3/lib/audit.js
-#         return render_template("page/isbn.html", header_active="search", isbn_input=isbn_input)
-
-#     if canonical_isbn13 != isbn_input:
-#         return redirect(f"/isbn/{canonical_isbn13}", code=301)
-
-#     with Session(engine) as session:
-#         isbn13_mask = isbnlib.mask(canonical_isbn13)
-#         isbn_dict = get_isbndb_dicts(session, [canonical_isbn13])[0]
-#         isbn_dict['additional'] = {}
-
-#         barcode_svg = ''
-#         try:
-#             barcode_bytesio = io.BytesIO()
-#             barcode.ISBN13(canonical_isbn13, writer=barcode.writer.SVGWriter()).write(barcode_bytesio)
-#             barcode_bytesio.seek(0)
-#             isbn_dict['additional']['barcode_svg'] = barcode_bytesio.read().decode('utf-8').replace('fill:white', 'fill:transparent').replace(canonical_isbn13, '')
-#         except Exception as err:
-#             print(f"Error generating barcode: {err}")
-
-#         if len(isbn_dict['isbndb']) > 0:
-#             isbn_dict['additional']['top_box'] = {
-#                 'cover_url': isbn_dict['isbndb'][0]['json'].get('image') or '',
-#                 'top_row': get_display_name_for_lang(isbn_dict['isbndb'][0]['language_codes'][0], allthethings.utils.get_full_lang_code(get_locale())) if len(isbn_dict['isbndb'][0]['language_codes']) > 0 else '',
-#                 'title': isbn_dict['isbndb'][0]['title_normalized'],
-#                 'publisher_and_edition': ", ".join([item for item in [
-#                     str(isbn_dict['isbndb'][0]['json'].get('publisher') or '').strip(),
-#                     str(isbn_dict['isbndb'][0]['json'].get('edition_varia_normalized') or '').strip(),
-#                 ] if item != '']),
-#                 'author': ', '.join(isbn_dict['isbndb'][0]['json'].get('authors') or []),
-#                 'description': '\n\n'.join([strip_description(isbn_dict['isbndb'][0]['json'].get('synopsis') or ''), strip_description(isbn_dict['isbndb'][0]['json'].get('overview') or '')]).strip(),
-#             }
-
-#         # TODO: sort the results again by best matching language. But we should maybe also look at other matches like title, author, etc, in case we have mislabeled ISBNs.
-#         # Get the language codes from the first match.
-#         # language_codes_probs = {}
-#         # if len(isbn_dict['isbndb']) > 0:
-#         #     for lang_code in isbn_dict['isbndb'][0]['language_codes']:
-#         #         language_codes_probs[lang_code] = 1.0
-
-#         search_results_raw = es.search(
-#             index="aarecords",
-#             size=100,
-#             query={ "term": { "search_only_fields.search_isbn13": canonical_isbn13 } },
-#             sort={ "search_only_fields.search_score_base": "desc" },
-#             timeout=ES_TIMEOUT,
-#         )
-#         search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
-#         isbn_dict['additional']['search_aarecords'] = search_aarecords
-        
-#         return render_template(
-#             "page/isbn.html",
-#             header_active="search",
-#             isbn_input=isbn_input,
-#             isbn_dict=isbn_dict,
-#             isbn_dict_json=nice_json(isbn_dict),
-#         )
 
 @page.get("/doi/<path:doi_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -1924,6 +1856,12 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(isbndb.get('language_codes') or []) for isbndb in aarecord['isbndb']])
+        if len(aarecord['file_unified_data']['language_codes']) == 0:
+            for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+                potential_code = get_bcp47_lang_codes_parse_substr(isbnlib.info(canonical_isbn13))
+                if potential_code != '':
+                    aarecord['file_unified_data']['language_codes'] = [potential_code]
+                    break
 
         language_detection = ''
         if len(aarecord['file_unified_data']['stripped_description_best']) > 20:
