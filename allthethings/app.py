@@ -203,6 +203,7 @@ def extensions(app):
                 translations.add_fallback(get_translations())
             translations_with_english_fallback.add(translations)
 
+        g.app_debug = app.debug
         g.base_domain = 'annas-archive.org'
         valid_other_domains = ['annas-archive.gs']
         if app.debug:
