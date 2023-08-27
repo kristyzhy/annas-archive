@@ -151,9 +151,47 @@
           {% endif %}
         {% else %}
           {% if search_dict.search_index_short == '' %}
-             <div class="sm:mt-6 h-[50vh]">Type in the box to start searching our catalog of {{ g.header_stats.total }} files.</div>
+            <div class="sm:mt-6 h-[50vh]">
+              <p class="mb-4">
+                Type in the box to search our catalog of {{ g.header_stats.total }} directly downloadable files, which we <a href="/about">preserve forever</a>.
+              </p>
+              <p class="mb-4">
+                We currently have the world’s most comprehensive catalog of books, papers, and magazines, directly mirroring Library Genesis, Z-Library, Sci-Hub, <a href="/datasets">and more</a>.
+              </p>
+              <p class="mb-4">
+                If you find other “shadow libraries” that we should mirror, or if you have any questions, please contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a>. For DMCA requests <a href="/dmca">click here</a>.
+              </p>
+            </div>
+          {% elif search_dict.search_index_short == 'digital_lending' %}
+            <div class="sm:mt-6 h-[50vh]">
+              <p class="mb-4">
+                Type in the box to search for files in digital lending libraries.
+              </p>
+              <p class="mb-4">
+                This search index currently includes metadata from the Internet Archive’s Controlled Digital Lending library. <a href="/datasets">More about our datasets</a>.
+              </p>
+              <p class="mb-4">
+                For more digital lending libraries, see <a href="https://en.wikipedia.org/wiki/E-book_lending">Wikipedia</a> and the <a href="https://wiki.mobileread.com/wiki/EBook_Lending_Libraries">MobileRead Wiki</a>.
+              </p>
+            </div>
+          {% elif search_dict.search_index_short == 'meta' %}
+            <div class="sm:mt-6 h-[50vh]">
+              <p class="mb-4">
+                Type in the box to search for metadata from libraries. This can be useful when <a href="/account/request">requesting a file</a>.
+              </p>
+              <p class="mb-4">
+                This search index currently includes metadata from ISBNdb. <a href="/datasets">More about our datasets</a>.
+              </p>
+              <p class="mb-4">
+                There are many, many sources of metadata for written works around the world. <a href="https://en.wikipedia.org/wiki/Wikipedia:Book_sources">This Wikipedia page</a> is a good start, but if you know of other good lists, please let us know.
+              </p>
+            </div>
           {% else %}
-            <div class="sm:mt-6 h-[50vh]">Type in the box to start searching.</div>
+            <div class="sm:mt-6 h-[50vh]">
+              <p class="mb-4">
+                Type in the box to search.
+              </p>
+            </div>
           {% endif %}
         {% endif %}
         

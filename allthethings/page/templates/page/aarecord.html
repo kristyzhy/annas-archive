@@ -7,6 +7,18 @@
 {% endblock %}
 
 {% block body %}
+  {% if aarecord_id_split[0] == 'ia' %}
+    <div class="text-xl mb-1 font-bold">Internet Archive Controlled Digital Lending file “{{ aarecord_id_split[1] }}”</div>
+    <p class="mb-4">
+      This is a record of a file from the Internet Archive, not a directly downloadable file. You can try to borrow the book (link below), or use this URL when <a href="/account/request">requesting a file</a>.
+    </p>
+  {% elif aarecord_id_split[0] == 'isbn' %}
+    <div class="text-xl mb-1 font-bold">ISBN {{ aarecord_id_split[1] }} metadata record</div>
+    <p class="mb-4">
+      This is a metadata record, not a downloadable file. You can use this URL when <a href="/account/request">requesting a file</a>.
+    </p>
+  {% endif %}
+
   <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
     <img class="float-right max-w-[25%] ml-4" src="{{aarecord.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
     <div class="text-sm text-gray-500">{{aarecord.additional.top_box.top_row}}</div>
