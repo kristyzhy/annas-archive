@@ -145,9 +145,11 @@
       <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
     {% endif %}
 
-    <p class="mb-4">
-      If you like this and can afford it, consider buying the original, or supporting the authors directly.
-    </p>
+    {% if aarecord_id_split[0] == 'md5' %}
+      <p class="mb-4">
+        If you like this and can afford it, consider buying the original, or supporting the authors directly.
+      </p>
+    {% endif %}
 
     {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
       <div class="mb-4">
@@ -185,7 +187,9 @@
           {% endfor %}
         </ul>
         {% if (aarecord.file_unified_data.problems | length) == 0 %}
-          <div class="mb-4 text-sm text-gray-500">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
+          {% if aarecord_id_split[0] == 'md5' %}
+            <div class="mb-4 text-sm text-gray-500">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
+          {% endif %}
         {% endif %}
 
         {% if aarecord_id_split[0] == 'md5' %}
@@ -214,103 +218,105 @@
       {% endif %}
     </div>
 
-    {% if gettext('common.english_only') != 'Text below continues in English.' %}
-      <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-    {% endif %}
+    {% if aarecord_id_split[0] == 'md5' %}
+      {% if gettext('common.english_only') != 'Text below continues in English.' %}
+        <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+      {% endif %}
 
-    <div lang="en">
-      <h3 class="font-bold">📂 File quality</h3>
+      <div lang="en">
+        <h3 class="font-bold">📂 File quality</h3>
 
-      <p class="mb-4">
-        Help out the community by reporting the quality of this file! 🙌
-      </p>
+        <p class="mb-4">
+          Help out the community by reporting the quality of this file! 🙌
+        </p>
 
-      <div class="">
-        <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; document.querySelector(".js-report-file-issues").classList.toggle("hidden"); document.querySelector(".js-new-comment").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'><span class='text-[18px] align-text-bottom text-white inline-block icon-[uil--exclamation-triangle]'></span> <span class="js-md5-button-new-issue-label">Report file issue (0)</span></button>
-        
-        <span class="inline-block mb-2"><button class="shadow js-md5-button-great-quality custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded-l border-r border-[#999] align-bottom [&.selected]:bg-[#555] [&.selected]:pt-[5px] [&.selected]:pb-[3px] [&.selected]:shadow-[inset_0px_-1px_0px_0px_rgba(255,255,255,0.2),_inset_0px_1px_5px_0px_rgba(0,0,0,0.6)]" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; fetch("/dyn/reactions/" + (window.md5UserReaction === 2 ? 0 : 2) + "/md5:" + {{ aarecord_id_split[1] | tojson }}, { method: "PUT" }).then(() => window.md5ReloadSummary())'><span class='text-[21px] align-[-4px] text-white inline-block icon-[material-symbols--star-outline] [button.selected>&]:icon-[material-symbols--star]'></span> <span class="js-md5-button-great-quality-label">Great file quality (0)</span></button><button class="disabled shadow js-md5-button-new-comment custom bg-[#777] hover:bg-[#999] [&.disabled]:opacity-40 [&.disabled]:hover:bg-[#777] [&.disabled]:cursor-auto text-white font-bold py-1 px-3 rounded-r" onclick='if (this.classList.contains("disabled")) { return; }; document.querySelector(".js-new-comment").classList.toggle("hidden"); document.querySelector(".js-report-file-issues").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'>Add comment (0)</button></span>
-      </div>
+        <div class="">
+          <button class="custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; document.querySelector(".js-report-file-issues").classList.toggle("hidden"); document.querySelector(".js-new-comment").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'><span class='text-[18px] align-text-bottom text-white inline-block icon-[uil--exclamation-triangle]'></span> <span class="js-md5-button-new-issue-label">Report file issue (0)</span></button>
+          
+          <span class="inline-block mb-2"><button class="shadow js-md5-button-great-quality custom bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded-l border-r border-[#999] align-bottom [&.selected]:bg-[#555] [&.selected]:pt-[5px] [&.selected]:pb-[3px] [&.selected]:shadow-[inset_0px_-1px_0px_0px_rgba(255,255,255,0.2),_inset_0px_1px_5px_0px_rgba(0,0,0,0.6)]" onclick='if (localStorage["aa_logged_in"] !== "1") { document.querySelector(".js-discussion-logged-out").classList.toggle("hidden"); return; }; fetch("/dyn/reactions/" + (window.md5UserReaction === 2 ? 0 : 2) + "/md5:" + {{ aarecord_id_split[1] | tojson }}, { method: "PUT" }).then(() => window.md5ReloadSummary())'><span class='text-[21px] align-[-4px] text-white inline-block icon-[material-symbols--star-outline] [button.selected>&]:icon-[material-symbols--star]'></span> <span class="js-md5-button-great-quality-label">Great file quality (0)</span></button><button class="disabled shadow js-md5-button-new-comment custom bg-[#777] hover:bg-[#999] [&.disabled]:opacity-40 [&.disabled]:hover:bg-[#777] [&.disabled]:cursor-auto text-white font-bold py-1 px-3 rounded-r" onclick='if (this.classList.contains("disabled")) { return; }; document.querySelector(".js-new-comment").classList.toggle("hidden"); document.querySelector(".js-report-file-issues").classList.add("hidden"); document.querySelector(".js-add-to-list").classList.add("hidden")'>Add comment (0)</button></span>
+        </div>
 
-      <div class="js-discussion-logged-out hidden">Please <a href="/login">log in</a>.</div>
+        <div class="js-discussion-logged-out hidden">Please <a href="/login">log in</a>.</div>
 
-      <form class="js-report-file-issues hidden mb-6" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ aarecord_id_split[1] | tojson }})'>
-        <fieldset>
-          <p class="mb-2">
-            What is wrong with this file?
-          </p>
-          <select name="type" class="bg-[#00000011] px-2 py-1 rounded mb-4 w-[100%] max-w-[400px]" oninput="for (el of document.querySelectorAll('.js-report-file-issues-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-issues-submenu-' + this.value).classList.remove('hidden')">
-            <option></option>
-            {% for type in md5_report_type_mapping %}
-              <option value="{{ type }}">{{ md5_report_type_mapping[type] }}</option>
-            {% endfor %}
-          </select>
-
-          <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-copyright">
-            <p class="">
-              Please use the <a href="/copyright">DMCA / Copyright claim form</a>.
-            </p>
-          </div>
-
-          <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-metadata">
-            <p class="mb-4">
-              Please report metadata errors at the source library. If there are multiple source libraries, know that we pull metadata from top to bottom, so the first one might be sufficient.
-            </p>
-
-            {% if aarecord.lgrsnf_book %}
-              - <strong>Libgen.rs Non-Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
-              <a href="http://library.lol/main/{{aarecord['lgrsnf_book']['md5'].lower()}}" target="_blank">http://library.lol/main/{{aarecord['lgrsnf_book']['md5'].lower()}}</a><br>
-            {% endif %}
-            {% if aarecord.lgrsfic_book %}
-              - <strong>Libgen.rs Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
-              <a href="http://library.lol/fiction/{{aarecord['lgrsfic_book']['md5'].lower()}}" target="_blank">http://library.lol/fiction/{{aarecord['lgrsfic_book']['md5'].lower()}}</a><br>
-            {% endif %}
-            {% if aarecord.lgli_file %}
-              - <strong>Libgen.li:</strong> Go to <a href="https://libgen.li/file.php?md5={{aarecord['lgli_file']['md5'].lower()}}" target="_blank">this page</a> and click “Report an error”. Alternatively, create a new post in <a href="https://libgen.li/community/viewforum.php?f=2" target="_blank">this forum thread</a>.<br>
-            {% endif %}
-            {% if aarecord.zlib_book %}
-              - <strong>Z-Library:</strong> Go to <a href="https://libgen.li/file.php?md5=http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{{aarecord['zlib_book']['md5_reported'].lower()}}" target="_blank">this page</a> (requires TOR browser), and click on “Something wrong?” => “Suggest correction”.<br>
-            {% endif %}
-          </div>
-
-          <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-download js-report-file-issues-submenu-broken js-report-file-issues-submenu-pages js-report-file-issues-submenu-spam js-report-file-issues-submenu-other">
-            <p class="mb-1">
-              Describe the issue (required)
-            </p>
-            <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%] h-[120px]" placeholder="Issue description"></textarea>
+        <form class="js-report-file-issues hidden mb-6" onsubmit='window.submitForm(event, "/dyn/md5_report/" + {{ aarecord_id_split[1] | tojson }})'>
+          <fieldset>
             <p class="mb-2">
-              MD5 of a better version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension if you can find one), which people should use instead of this file. If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
+              What is wrong with this file?
             </p>
+            <select name="type" class="bg-[#00000011] px-2 py-1 rounded mb-4 w-[100%] max-w-[400px]" oninput="for (el of document.querySelectorAll('.js-report-file-issues-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-issues-submenu-' + this.value).classList.remove('hidden')">
+              <option></option>
+              {% for type in md5_report_type_mapping %}
+                <option value="{{ type }}">{{ md5_report_type_mapping[type] }}</option>
+              {% endfor %}
+            </select>
+
+            <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-copyright">
+              <p class="">
+                Please use the <a href="/copyright">DMCA / Copyright claim form</a>.
+              </p>
+            </div>
+
+            <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-metadata">
+              <p class="mb-4">
+                Please report metadata errors at the source library. If there are multiple source libraries, know that we pull metadata from top to bottom, so the first one might be sufficient.
+              </p>
+
+              {% if aarecord.lgrsnf_book %}
+                - <strong>Libgen.rs Non-Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
+                <a href="http://library.lol/main/{{aarecord['lgrsnf_book']['md5'].lower()}}" target="_blank">http://library.lol/main/{{aarecord['lgrsnf_book']['md5'].lower()}}</a><br>
+              {% endif %}
+              {% if aarecord.lgrsfic_book %}
+                - <strong>Libgen.rs Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
+                <a href="http://library.lol/fiction/{{aarecord['lgrsfic_book']['md5'].lower()}}" target="_blank">http://library.lol/fiction/{{aarecord['lgrsfic_book']['md5'].lower()}}</a><br>
+              {% endif %}
+              {% if aarecord.lgli_file %}
+                - <strong>Libgen.li:</strong> Go to <a href="https://libgen.li/file.php?md5={{aarecord['lgli_file']['md5'].lower()}}" target="_blank">this page</a> and click “Report an error”. Alternatively, create a new post in <a href="https://libgen.li/community/viewforum.php?f=2" target="_blank">this forum thread</a>.<br>
+              {% endif %}
+              {% if aarecord.zlib_book %}
+                - <strong>Z-Library:</strong> Go to <a href="https://libgen.li/file.php?md5=http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{{aarecord['zlib_book']['md5_reported'].lower()}}" target="_blank">this page</a> (requires TOR browser), and click on “Something wrong?” => “Suggest correction”.<br>
+              {% endif %}
+            </div>
+
+            <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-download js-report-file-issues-submenu-broken js-report-file-issues-submenu-pages js-report-file-issues-submenu-spam js-report-file-issues-submenu-other">
+              <p class="mb-1">
+                Describe the issue (required)
+              </p>
+              <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%] h-[120px]" placeholder="Issue description"></textarea>
+              <p class="mb-2">
+                MD5 of a better version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension if you can find one), which people should use instead of this file. If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
+              </p>
+              <p class="mb-1">
+                You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ aarecord_id_split[1] }}</strong>
+              </p>
+              <input type="text" name="better_md5" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%]" placeholder="{{ aarecord_id_split[1] }}" minlength="32" maxlength="32" />
+              <div class="">
+                <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Submit report</button>
+                <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+              </div>
+            </div>
+          </fieldset>
+          <div class="hidden js-success">✅ Thank you for submitting your report. It will be shown on this page, as well as reviewed manually by Anna (until we have a proper moderation system).</div>
+          <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
+        </form>
+
+        <form class="js-new-comment hidden mb-4" onsubmit='window.submitForm(event, "/dyn/comments/md5:" + {{ aarecord_id_split[1] | tojson }})'>
+          <fieldset>
             <p class="mb-1">
-              You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ aarecord_id_split[1] }}</strong>
+              If this file has great quality, you can discuss anything about it here! If not, please use the “Report file issue” button.
             </p>
-            <input type="text" name="better_md5" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-[100%]" placeholder="{{ aarecord_id_split[1] }}" minlength="32" maxlength="32" />
+            <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%] h-[80px]" placeholder="I loved this book!"></textarea>
             <div class="">
-              <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Submit report</button>
+              <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Leave comment</button>
               <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
             </div>
-          </div>
-        </fieldset>
-        <div class="hidden js-success">✅ Thank you for submitting your report. It will be shown on this page, as well as reviewed manually by Anna (until we have a proper moderation system).</div>
-        <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
-      </form>
+          </fieldset>
+          <div class="hidden js-success">✅ You left a comment. It might take a minute for it to show up.</div>
+          <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
+        </form>
 
-      <form class="js-new-comment hidden mb-4" onsubmit='window.submitForm(event, "/dyn/comments/md5:" + {{ aarecord_id_split[1] | tojson }})'>
-        <fieldset>
-          <p class="mb-1">
-            If this file has great quality, you can discuss anything about it here! If not, please use the “Report file issue” button.
-          </p>
-          <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-[100%] h-[80px]" placeholder="I loved this book!"></textarea>
-          <div class="">
-            <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Leave comment</button>
-            <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-          </div>
-        </fieldset>
-        <div class="hidden js-success">✅ You left a comment. It might take a minute for it to show up.</div>
-        <div class="hidden js-failure mb-4">❌ Something went wrong. Please reload the page and try again.</div>
-      </form>
-
-      <div class="js-md5-issues-reports mt-4"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
-    </div>
+        <div class="js-md5-issues-reports mt-4"><span class="mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></div>
+      </div>
+    {% endif %}
   </div>
 
   {% if aarecord_id_split[0] == 'md5' %}
