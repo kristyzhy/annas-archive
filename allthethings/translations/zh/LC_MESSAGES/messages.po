@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-23 19:03+0000\n"
-"PO-Revision-Date: 2023-08-23 19:03+0000\n"
-"Last-Translator: Rang-Ping <gamandromeda@gmail.com>\n"
+"PO-Revision-Date: 2023-09-01 15:14+0000\n"
+"Last-Translator: gumblex <abcdoyle888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -362,7 +362,7 @@ msgstr "日期：%(date)s"
 
 #: allthethings/account/templates/account/donation.html:14
 msgid "page.donation.header.total_including_discount"
-msgstr ""
+msgstr "总计：%(total)s <span %(span_details)s>（每月 %(monthly_amount_usd)s，共 %(duration)s 个月，折扣 %(discounts)s%%）</span>"
 
 #: allthethings/account/templates/account/donation.html:16
 msgid "page.donation.header.total_without_discount"
@@ -572,11 +572,11 @@ msgstr "成员属性：<strong>无</strong> <a %(a_become)s>(成为成员)</a>"
 
 #: allthethings/account/templates/account/index.html:24
 msgid "page.account.logged_in.membership_has_some"
-msgstr ""
+msgstr "会员：<strong>%(tier_name)s</strong>，%(until_date)s 到期<a %(a_extend)s>（续期）</a>"
 
 #: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_fast_downloads_used"
-msgstr ""
+msgstr "高速下载使用量（最近24小时）：<strong>%(used)s / %(total)s</strong>"
 
 #: allthethings/account/templates/account/index.html:31
 msgid "page.account.logged_in.membership_upgrade"
@@ -604,7 +604,7 @@ msgstr "请小心保存此密钥。如果您丢失了它，您将失去访问您
 
 #: allthethings/account/templates/account/index.html:53
 msgid "page.account.logged_out.registered.text3"
-msgstr ""
+msgstr "<li %(li_item)s><strong>加入书签。</strong>你可以在浏览器中收藏此页面以保存你的密钥。</li><li %(li_item)s><strong>下载。</strong> 点击<a %(a_download)s>此链接</a>下载你的密钥。</li><li %(li_item)s><strong>密码管理器。</strong>为方便起见，下面已经填充了你的密钥。这样当你登录时，你可以在密码管理器中保存密钥。</li>"
 
 #: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.key_form.text"
@@ -656,23 +656,23 @@ msgstr "❌ 出错了，请重试。"
 
 #: allthethings/account/templates/account/list.html:19
 msgid "page.list.by_and_date"
-msgstr ""
+msgstr "%(by)s 的书单，创建于 <span %(span_time)s>%(time)s</span>"
 
 #: allthethings/account/templates/account/list.html:23
 msgid "page.list.empty"
-msgstr ""
+msgstr "空书单。"
 
 #: allthethings/account/templates/account/list.html:31
 msgid "page.list.new_item"
-msgstr ""
+msgstr "要从此书单中添加或删除项目，请先查找文件，再打开“书单”标签。"
 
 #: allthethings/account/templates/account/profile.html:3
 msgid "page.profile.title"
-msgstr ""
+msgstr "个人信息"
 
 #: allthethings/account/templates/account/profile.html:7
 msgid "page.profile.not_found"
-msgstr ""
+msgstr "个人资料未找到。"
 
 #: allthethings/account/templates/account/profile.html:9
 msgid "page.profile.header.edit"
@@ -680,66 +680,66 @@ msgstr "编辑"
 
 #: allthethings/account/templates/account/profile.html:14
 msgid "page.profile.change_display_name.text"
-msgstr ""
+msgstr "更改显示名称。你的标识符（# 号后的内容）无法更改。"
 
 #: allthethings/account/templates/account/profile.html:15
 msgid "page.profile.change_display_name.button"
-msgstr ""
+msgstr "保存"
 
 #: allthethings/account/templates/account/profile.html:18
 msgid "page.profile.change_display_name.success"
-msgstr ""
+msgstr "✅已保存。请重新加载页面。"
 
 #: allthethings/account/templates/account/profile.html:19
 msgid "page.profile.change_display_name.failure"
-msgstr ""
+msgstr "❌出错了，请再试一次。"
 
 #: allthethings/account/templates/account/profile.html:22
 msgid "page.profile.created_time"
-msgstr ""
+msgstr "个人资料创建于 <span %(span_time)s>%(time)s</span>"
 
 #: allthethings/account/templates/account/profile.html:24
 msgid "page.profile.lists.header"
-msgstr ""
+msgstr "书单"
 
 #: allthethings/account/templates/account/profile.html:29
 msgid "page.profile.lists.no_lists"
-msgstr ""
+msgstr "暂无书单"
 
 #: allthethings/account/templates/account/profile.html:31
 msgid "page.profile.lists.new_list"
-msgstr ""
+msgstr "先查找文件，再打开“书单”标签，即可创建新书单。"
 
 #: allthethings/account/templates/account/request.html:3
 #: allthethings/account/templates/account/request.html:6
 msgid "page.request.title"
-msgstr ""
+msgstr "请求书籍"
 
 #: allthethings/account/templates/account/request.html:9
 msgid "page.request.text1"
-msgstr ""
+msgstr "目前，请你暂时先在 <a %(a_forum)s>Libgen.rs 论坛</a>上请求电子书。你可以在那边创建一个账号，然后在下列主题中发帖："
 
 #: allthethings/account/templates/account/request.html:13
 msgid "page.request.text2"
-msgstr ""
+msgstr "<li %(li_item)s>电子书，在<a %(a_ebook)s>这个主题</a>下跟帖。</li><li %(li_item)s>没有电子版的书籍，在<a %(a_regular)s>这个主题</a>下跟帖。</li>"
 
 #: allthethings/account/templates/account/request.html:17
 msgid "page.request.text3"
-msgstr ""
+msgstr "无论是哪种情况，一定要遵守这些主题中的规定。"
 
 #: allthethings/account/templates/account/request.html:21
 #: allthethings/account/templates/account/upload.html:13
 msgid "common.libgen.email"
-msgstr ""
+msgstr "如果你的电子邮件地址无法在 Libgen 论坛上使用，我们推荐使用 <a %(a_mail)s>Proton Mail</a>（免费）。你也可以<a %(a_manual)s>手动申请</a>激活你的账号。"
 
 #: allthethings/account/templates/account/upload.html:3
 #: allthethings/account/templates/account/upload.html:6
 msgid "page.upload.title"
-msgstr ""
+msgstr "上传"
 
 #: allthethings/account/templates/account/upload.html:9
 msgid "page.upload.text1"
-msgstr ""
+msgstr "目前，我们建议你先在 Library Genesis 的分支网站上传新书。这里是一份<a %(a_guide)s>快速指南</a>。注意，本站索引的那两个分支网站都从同一个上传系统中获取数据。"
 
 #: allthethings/page/views.py:2014
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -795,20 +795,20 @@ msgstr "任何类型的图书"
 
 #: allthethings/page/views.py:2057 allthethings/page/views.py:2058
 msgid "common.md5.servers.fast_partner"
-msgstr ""
+msgstr "高速服务器（合作方提供） #%(number)s"
 
 #: allthethings/page/views.py:2057
 msgid "common.md5.servers.no_browser_verification"
-msgstr ""
+msgstr "（无需验证浏览器）"
 
 #: allthethings/page/views.py:2059 allthethings/page/views.py:2060
 #: allthethings/page/views.py:2061
 msgid "common.md5.servers.slow_partner"
-msgstr ""
+msgstr "低速服务器（合作方提供） #%(number)s"
 
 #: allthethings/page/views.py:2059
 msgid "common.md5.servers.browser_verification_unlimited"
-msgstr ""
+msgstr "（可能需要<a %(a_browser)s>验证浏览器</a>——无限次下载！）"
 
 #: allthethings/page/views.py:2200
 msgid "page.md5.box.download.lgrsnf"
@@ -859,15 +859,15 @@ msgstr "（需要TOR浏览器）"
 
 #: allthethings/page/views.py:2244
 msgid "page.md5.box.download.ia_borrow"
-msgstr ""
+msgstr "从互联网档案馆借阅"
 
 #: allthethings/page/views.py:2245
 msgid "page.md5.box.download.bulk_torrents"
-msgstr ""
+msgstr "批量种子下载"
 
 #: allthethings/page/views.py:2245
 msgid "page.md5.box.download.experts_only"
-msgstr ""
+msgstr "（仅限专家）"
 
 #: allthethings/page/templates/page/about.html:3
 msgid "page.about.title"
@@ -944,17 +944,17 @@ msgstr "下面的文字仅以英文继续。"
 #: allthethings/page/templates/page/login.html:3
 #: allthethings/page/templates/page/login.html:6
 msgid "page.login.title"
-msgstr ""
+msgstr "登录/注册"
 
 #: allthethings/page/templates/page/browser_verification.html:9
 #: allthethings/page/templates/page/login.html:9
 msgid "page.login.text1"
-msgstr ""
+msgstr "为了防止发布垃圾信息的机器人创建大量帐户，我们需要首先验证您的浏览器。"
 
 #: allthethings/page/templates/page/browser_verification.html:13
 #: allthethings/page/templates/page/login.html:14
 msgid "page.login.text2"
-msgstr ""
+msgstr "如果你卡在无限循环中了，我们推荐安装 <a href=\"https://privacypass.github.io/\">Privacy Pass</a>。"
 
 #: allthethings/page/templates/page/doi.html:3
 msgid "page.doi.title"
@@ -1032,11 +1032,11 @@ msgstr "链接"
 
 #: allthethings/page/templates/page/home.html:36
 msgid "page.home.access.text"
-msgstr ""
+msgstr "我们与合作伙伴共同努力，让任何人都能轻松、自由地获得我们的收藏。我们相信每个人都有权分享人类的集体智慧，不<a %(a_search)s>枉费作者的心血</a>。"
 
 #: allthethings/page/templates/page/home.html:40
 msgid "page.home.access.label"
-msgstr ""
+msgstr "过去30日内每小时下载量。平均每小时：%(hourly)s。平均每天：%(daily)s。"
 
 #: allthethings/page/templates/page/home.html:67
 msgid "page.home.search.header"
@@ -1059,15 +1059,15 @@ msgstr "搜索"
 
 #: allthethings/page/templates/page/home.html:80
 msgid "page.home.random_book.header"
-msgstr ""
+msgstr "随机书籍"
 
 #: allthethings/page/templates/page/home.html:83
 msgid "page.home.random_book.intro"
-msgstr ""
+msgstr "从目录中随便找本书。"
 
 #: allthethings/page/templates/page/home.html:87
 msgid "page.home.random_book.submit"
-msgstr ""
+msgstr "随机书籍"
 
 #: allthethings/page/templates/page/home.html:90
 msgid "page.home.explore.header"
@@ -1103,7 +1103,7 @@ msgstr "我们的数据库中没有匹配的文件。"
 
 #: allthethings/page/templates/page/login.html:18
 msgid "page.login.continue"
-msgstr ""
+msgstr "继续"
 
 #: allthethings/page/templates/page/md5.html:13
 msgid "page.md5.invalid.header"
@@ -1123,19 +1123,19 @@ msgstr "如果您仍想下载此文件，请确保仅使用受信任的最新软
 
 #: allthethings/page/templates/page/md5.html:83
 msgid "page.md5.box.download.header_fast_no_member"
-msgstr ""
+msgstr "<strong>🚀高速下载</strong> 成为<a %(a_membership)s>会员</a>以支持书籍、论文等的长期保存。为了感谢您对我们的支持，您将获得高速下载权益。❤️"
 
 #: allthethings/page/templates/page/md5.html:84
 msgid "page.md5.box.download.header_fast_member"
-msgstr ""
+msgstr "<strong>🚀 高速下载</strong> 今日还剩 %(remaining)s 次。感谢您成为会员！❤️"
 
 #: allthethings/page/templates/page/md5.html:85
 msgid "page.md5.box.download.header_fast_member_no_remaining"
-msgstr ""
+msgstr "<strong>🚀 高速下载</strong> 今日高速下载次数已经用完了。若想升级会员资格，请联系安娜：AnnaArchivist@proton.me。"
 
 #: allthethings/page/templates/page/md5.html:86
 msgid "page.md5.box.download.header_fast_member_valid_for"
-msgstr ""
+msgstr "<strong>🚀 高速下载</strong> 你最近下载过此文件。链接在一段时间内仍然有效。"
 
 #: allthethings/page/templates/page/md5.html:90
 #: allthethings/page/templates/page/md5.html:95
@@ -1145,11 +1145,11 @@ msgstr "选择 #%(num)d: %(link)s %(extra)s"
 
 #: allthethings/page/templates/page/md5.html:107
 msgid "page.md5.box.download.header_slow"
-msgstr ""
+msgstr "🐢 低速与外部下载"
 
 #: allthethings/page/templates/page/md5.html:109
 msgid "page.md5.box.download.header_generic"
-msgstr ""
+msgstr "下载"
 
 #: allthethings/page/templates/page/md5.html:119
 msgid "page.md5.box.download.no_issues_notice"
@@ -1157,23 +1157,23 @@ msgstr "所有下载选项都有相同的文件，应该可以安全使用。 �
 
 #: allthethings/page/templates/page/md5.html:142
 msgid "page.md5.box.download.no_found"
-msgstr ""
+msgstr "未找到下载链接。"
 
 #: allthethings/page/templates/page/partner_download.html:10
 msgid "page.partner_download.header"
-msgstr ""
+msgstr "从合作伙伴网站下载"
 
 #: allthethings/page/templates/page/partner_download.html:12
 msgid "page.partner_download.url"
-msgstr ""
+msgstr "📚 使用以下网址下载：<a %(a_download)s>立即下载</a>。"
 
 #: allthethings/page/templates/page/partner_download.html:19
 msgid "page.partner_download.faster_downloads"
-msgstr ""
+msgstr "🚀 想要提高下载速度，跳过浏览器检查？请<a %(a_membership)s>成为会员</a>。"
 
 #: allthethings/page/templates/page/partner_download.html:24
 msgid "page.partner_download.bulk_mirroring"
-msgstr ""
+msgstr "📡 若需要批量镜像我们的收藏，请参阅“<a %(a_datasets)s>数据集</a>”和“<a %(a_torrents)s>种子</a>”页面。"
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
@@ -1261,11 +1261,11 @@ msgstr "安娜的档案"
 
 #: allthethings/templates/layouts/index.html:10
 msgid "layout.index.meta.description"
-msgstr ""
+msgstr "世界上最大的开放源代码和数据的图书馆。不仅是 Sci-Hub、Library Genesis、Z-Library 等网站的镜像。"
 
 #: allthethings/templates/layouts/index.html:19
 msgid "layout.index.meta.opensearch"
-msgstr ""
+msgstr "在安娜的档案中搜索"
 
 #: allthethings/templates/layouts/index.html:53
 msgid "layout.index.header.banner.new_donation_method"
@@ -1273,7 +1273,7 @@ msgstr "我们现在有了一种新的捐款途径： %(method_name)s. 恳请考
 
 #: allthethings/templates/layouts/index.html:60
 msgid "layout.index.banners.comics_fundraiser.text"
-msgstr ""
+msgstr "我们正在为<a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">备份</a>世界上最大的影子漫画图书馆筹款。感谢您的支持！<a href=\"/donate\">点此捐助</a>。如果您无法捐助，也请帮忙转告亲友，或关注我们的 <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>、<a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a> 或 <a href=\"https://t.me/annasarchiveorg\">Telegram</a>。"
 
 #: allthethings/templates/layouts/index.html:112
 msgid "layout.index.header.title"
