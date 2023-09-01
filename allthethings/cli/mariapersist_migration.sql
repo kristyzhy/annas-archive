@@ -128,7 +128,7 @@ CREATE TABLE mariapersist_donations (
     `cost_cents_native_currency` INT NOT NULL,
     `native_currency_code` CHAR(10) NOT NULL,
     `processing_status` TINYINT NOT NULL, # 0=unpaid, 1=paid, 2=cancelled, 3=expired, 4=manualconfirm
-    `donation_type` SMALLINT NOT NULL, # 0=manual
+    `donation_type` SMALLINT NOT NULL, # 0=manual, 1=payment1
     `ip` BINARY(16) NOT NULL,
     `json` JSON NOT NULL,
     PRIMARY KEY (`donation_id`),

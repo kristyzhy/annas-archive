@@ -549,6 +549,10 @@ def account_buy_membership():
         # if existing_unpaid_donations_counts > 0:
         #     raise Exception(f"Existing unpaid or manualconfirm donations open")
 
+        donation_type = 0 # manual
+        if method == 'payment1':
+            donation_type = 1
+
         data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
         data = {
             'donation_id': shortuuid.uuid(),
@@ -557,7 +561,7 @@ def account_buy_membership():
             'cost_cents_native_currency': membership_costs['cost_cents_native_currency'],
             'native_currency_code': membership_costs['native_currency_code'],
             'processing_status': 0, # unpaid
-            'donation_type': 0, # manual
+            'donation_type': donation_type,
             'ip': allthethings.utils.canonical_ip_bytes(request.remote_addr),
             'json': orjson.dumps({
                 'tier': tier,
