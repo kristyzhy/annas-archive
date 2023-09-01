@@ -11,6 +11,7 @@ import hashlib
 import base64
 import re
 import functools
+import urllib
 
 from flask import Blueprint, request, g, render_template, make_response, redirect
 from flask_cors import cross_origin
@@ -20,7 +21,7 @@ from flask_babel import gettext, ngettext, force_locale, get_locale
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations
 from allthethings.page.views import get_aarecords_elasticsearch
-from config.settings import SECRET_KEY
+from config.settings import SECRET_KEY, PAYMENT1_ID, PAYMENT1_KEY
 
 import allthethings.utils
 
@@ -279,6 +280,22 @@ def donation_page(donation_id):
             return "", 403
 
         donation_json = orjson.loads(donation['json'])
+
+        if donation_json['method'] == 'payment1':
+            data = {
+                # Note that these are sorted by key.
+                "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
+                "name": "Anna’s Archive Membership",
+                "notify_url": "https://annas-archive.org/dyn/payment1_notify/",
+                "out_trade_no": str(donation.donation_id),
+                "pid": PAYMENT1_ID,
+                "return_url": "https://annas-archive.org/account/",
+                "sitename": "Anna’s Archive",
+                # "type": method,
+            }
+            sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
+            sign = hashlib.md5((sign_str).encode()).hexdigest()
+            return redirect(f'https://merchant.pacypay.net/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
         return render_template(
             "account/donation.html", 

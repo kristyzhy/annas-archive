@@ -144,6 +144,19 @@
           {{ gettext('page.donate.strange_account') }}
         </p>
       -->
+    {% elif donation_dict.json.method == 'givebutter' %}
+    
+      <h2 class="mt-4 mb-4 text-xl font-bold">“Card / PayPal / Venmo” instructions</h2>
+
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our “Card / PayPal / Venmo” page</p>
+
+      <p class="mb-4">
+        Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://givebutter.com/donate-annas-archive" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
+      </p>
+
+      <!-- <p class="mb-4">
+        {{ gettext('page.donate.strange_account') }}
+      </p> -->
     {% elif donation_dict.json.method == 'alipay' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.alipay.top_header') }}</h2>
 

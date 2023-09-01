@@ -204,6 +204,8 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # "bmc":    0,
     # "alipay": 0,
     # "pix":    0,
+    "payment1": 0,
+    "givebutter": 0,
 }
 MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
@@ -225,6 +227,8 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     # "bmc":    0,
     # "alipay": 0,
     # "pix":    0,
+    "payment1": 0,
+    "givebutter": 500,
 }
 
 def get_account_fast_download_info(mariapersist_session, account_id):
@@ -239,27 +243,33 @@ def get_account_fast_download_info(mariapersist_session, account_id):
 def cents_to_usd_str(cents):
     return str(cents)[:-2] + "." + str(cents)[-2:]
 
+def format_currency(cost_cents_native_currency, native_currency_code, locale):
+    output = babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)
+    if output.endswith('.00') or output.endswith(',00'):
+        output = output[0:-3]
+    return output
+
 def membership_format_native_currency(locale, native_currency_code, cost_cents_native_currency, cost_cents_usd):
     if native_currency_code != 'USD':
         return {
-            'cost_cents_native_currency_str_calculator': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)} ({babel.numbers.format_currency(cost_cents_usd / 100, 'USD', locale=locale)}) total",
-            'cost_cents_native_currency_str_button': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)}",
-            'cost_cents_native_currency_str_donation_page_formal': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)} ({babel.numbers.format_currency(cost_cents_usd / 100, 'USD', locale=locale)})",
-            'cost_cents_native_currency_str_donation_page_instructions': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, native_currency_code, locale=locale)} ({babel.numbers.format_currency(cost_cents_usd / 100, 'USD', locale=locale)})",
+            'cost_cents_native_currency_str_calculator': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)} ({format_currency(cost_cents_usd, 'USD', locale)}) total",
+            'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)}",
+            'cost_cents_native_currency_str_donation_page_formal': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)} ({format_currency(cost_cents_usd, 'USD', locale)})",
+            'cost_cents_native_currency_str_donation_page_instructions': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)} ({format_currency(cost_cents_usd, 'USD', locale)})",
         }
     # elif native_currency_code == 'COFFEE':
     #     return {
-    #         'cost_cents_native_currency_str_calculator': f"{babel.numbers.format_currency(cost_cents_native_currency * 5, 'USD', locale=locale)} ({cost_cents_native_currency} ☕️) total",
-    #         'cost_cents_native_currency_str_button': f"{babel.numbers.format_currency(cost_cents_native_currency * 5, 'USD', locale=locale)}",
-    #         'cost_cents_native_currency_str_donation_page_formal': f"{babel.numbers.format_currency(cost_cents_native_currency * 5, 'USD', locale=locale)} ({cost_cents_native_currency} ☕️)",
-    #         'cost_cents_native_currency_str_donation_page_instructions': f"{cost_cents_native_currency} “coffee” ({babel.numbers.format_currency(cost_cents_native_currency * 5, 'USD', locale=locale)})",
+    #         'cost_cents_native_currency_str_calculator': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)} ({cost_cents_native_currency} ☕️) total",
+    #         'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)}",
+    #         'cost_cents_native_currency_str_donation_page_formal': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)} ({cost_cents_native_currency} ☕️)",
+    #         'cost_cents_native_currency_str_donation_page_instructions': f"{cost_cents_native_currency} “coffee” ({format_currency(cost_cents_native_currency * 5, 'USD', locale)})",
     #     }
     else:
         return {
-            'cost_cents_native_currency_str_calculator': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, 'USD', locale=locale)} total",
-            'cost_cents_native_currency_str_button': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, 'USD', locale=locale)}",
-            'cost_cents_native_currency_str_donation_page_formal': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, 'USD', locale=locale)}",
-            'cost_cents_native_currency_str_donation_page_instructions': f"{babel.numbers.format_currency(cost_cents_native_currency / 100, 'USD', locale=locale)}",
+            'cost_cents_native_currency_str_calculator': f"{format_currency(cost_cents_native_currency, 'USD', locale)} total",
+            'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
+            'cost_cents_native_currency_str_donation_page_formal': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
+            'cost_cents_native_currency_str_donation_page_instructions': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
         }
 
 @cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=60*60))
@@ -279,9 +289,9 @@ def membership_costs_data(locale):
 
         native_currency_code = 'USD'
         cost_cents_native_currency = cost_cents_usd
-        if method == 'alipay':
+        if method in ['alipay', 'payment1']:
             native_currency_code = 'CNY'
-            cost_cents_native_currency = round(cost_cents_usd * usd_currency_rates['CNY'] / 100) * 100
+            cost_cents_native_currency = math.floor(cost_cents_usd * 7 / 100) * 100
         # elif method == 'bmc':
         #     native_currency_code = 'COFFEE'
         #     cost_cents_native_currency = round(cost_cents_usd / 500)

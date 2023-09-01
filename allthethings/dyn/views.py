@@ -9,6 +9,8 @@ import collections
 import shortuuid
 import urllib.parse
 import base64
+import pymysql
+import hashlib
 
 from flask import Blueprint, request, g, make_response, render_template, redirect
 from flask_cors import cross_origin
@@ -17,7 +19,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY
+from config.settings import SECRET_KEY, PAYMENT1_KEY
 from allthethings.page.views import get_aarecords_elasticsearch
 
 import allthethings.utils
@@ -640,6 +642,69 @@ def log_search():
     #         mariapersist_session.connection().execute(text('INSERT INTO mariapersist_searches (search_input) VALUES (:search_input)').bindparams(search_input=search_input.encode('utf-8')))
     #         mariapersist_session.commit()
     return ""
+
+@dyn.get("/payment1_notify/")
+@allthethings.utils.no_cache()
+def payment1_notify():
+    data = {
+        # Note that these are sorted by key.
+        "money": request.args.get('money'),
+        "name": request.args.get('name'),
+        "out_trade_no": request.args.get('out_trade_no'),
+        "pid": request.args.get('pid'),
+        "trade_no": request.args.get('trade_no'),
+        "trade_status": request.args.get('trade_status'),
+        "type": request.args.get('type'),
+    }
+    sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
+    sign = hashlib.md5((sign_str).encode()).hexdigest()
+    if sign != request.args.get('sign'):
+        print(f"Warning: failed payment1_notify request because of incorrect signature {sign_str} /// {dict(request.args)}.")
+        return "fail"
+    if data['trade_status'] == 'TRADE_SUCCESS':
+        with mariapersist_engine.connect() as connection:
+            donation_id = data['out_trade_no']
+            cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+            cursor.execute('SELECT * FROM mariapersist_donations WHERE donation_id=%(donation_id)s LIMIT 1', { 'donation_id': donation_id })
+            donation = cursor.fetchone()
+            if donation is None:
+                print(f"Warning: failed payment1_notify request because of donation not found: {donation_id}")
+                return "fail"
+            if donation['processing_status'] != 0:
+                print(f"Warning: failed payment1_notify request because processing_status != 0: {donation_id}")
+                return "fail"
+            # Allow for 10% margin
+            if float(data['money']) * 110 < donation['cost_cents_native_currency']:
+                print(f"Warning: failed payment1_notify request of 'money' being too small: {data}")
+                return "fail"
+
+            donation_json = orjson.loads(donation['json'])
+            if donation_json['method'] != 'payment1':
+                print(f"Warning: failed payment1_notify request because method != 'payment1': {donation_id}")
+                return "fail"
+
+            cursor.execute('SELECT * FROM mariapersist_accounts WHERE account_id=%(account_id)s LIMIT 1', { 'account_id': donation['account_id'] })
+            account = cursor.fetchone()
+            if account is None:
+                print(f"Warning: failed payment1_notify request because of account not found: {donation_id}")
+                return "fail"
+            new_tier = int(donation_json['tier'])
+            old_tier = int(account['membership_tier'])
+            datetime_today = datetime.datetime.combine(datetime.datetime.utcnow().date(), datetime.datetime.min.time())
+            old_membership_expiration = datetime_today
+            if ('membership_expiration' in account) and (account['membership_expiration'] is not None) and account['membership_expiration'] > datetime_today:
+                old_membership_expiration = account['membership_expiration']
+            if new_tier > old_tier:
+                # When upgrading to a new tier, cancel the previous membership and start a new one.
+                old_membership_expiration = datetime_today
+            new_membership_expiration = old_membership_expiration + datetime.timedelta(days=1) + datetime.timedelta(days=31*int(donation_json['duration']))
+
+            donation_json['payment1_notify'] = data
+            cursor.execute('UPDATE mariapersist_accounts SET membership_tier=%(membership_tier)s, membership_expiration=%(membership_expiration)s WHERE account_id=%(account_id)s LIMIT 1', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'] })
+            cursor.execute('UPDATE mariapersist_donations SET json=%(json)s, processing_status=1 WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
+            cursor.execute('COMMIT')
+    return "success"
+
 
 
 
