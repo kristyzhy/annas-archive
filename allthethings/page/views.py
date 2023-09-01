@@ -2382,9 +2382,7 @@ def ia_page(ia_input):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def isbn_page(isbn_input):
     with Session(engine) as session:
-        aarecords = []
-        if allthethings.utils.FEATURE_FLAGS["isbn"]:
-            aarecords = get_aarecords_elasticsearch(session, [f"isbn:{isbn_input}"])
+        aarecords = get_aarecords_elasticsearch(session, [f"isbn:{isbn_input}"])
 
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=isbn_input)
