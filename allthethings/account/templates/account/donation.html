@@ -7,7 +7,7 @@
 
   <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
     <div class="font-bold">{{ gettext('page.donation.title') }}</div>
-    <div>{{ gettext('page.donation.header.id', id=('AnnaReceipts+' + donation_dict.receipt_id) + '@proton.me') }}</div>
+    <div>{{ gettext('page.donation.header.id', id=('+' + donation_dict.receipt_id)) }}</div>
     <div>{{ gettext('page.donation.header.date', date=(donation_dict.created | dateformat(format='long'))) }}</div>
     <div>
       {% if donation_dict.json.discounts > 0 %}
