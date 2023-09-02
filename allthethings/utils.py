@@ -231,6 +231,10 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "givebutter": 500,
 }
 
+MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
+    "payment1": 40000,
+}
+
 def get_account_fast_download_info(mariapersist_session, account_id):
     account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
     if not account_is_member(account):
