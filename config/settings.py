@@ -7,6 +7,7 @@ DOWNLOADS_SECRET_KEY = os.getenv("DOWNLOADS_SECRET_KEY", None)
 MEMBERS_TELEGRAM_URL = os.getenv("MEMBERS_TELEGRAM_URL", None)
 PAYMENT1_ID = os.getenv("PAYMENT1_ID", None)
 PAYMENT1_KEY = os.getenv("PAYMENT1_KEY", None)
+BIP39_MNEMONIC = os.getenv("BIP39_MNEMONIC", None)
 
 # Redis.
 # REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")

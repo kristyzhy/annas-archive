@@ -16,6 +16,7 @@ import urllib.parse
 import orjson
 import isbnlib
 import math
+import bip_utils
 from flask_babel import gettext, get_babel, force_locale
 
 from flask import Blueprint, request, g, make_response, render_template
@@ -25,7 +26,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, BIP39_MNEMONIC
 
 FEATURE_FLAGS = { "isbn": FLASK_DEBUG }
 
@@ -352,6 +353,28 @@ def membership_costs_data(locale):
                 inputs = { 'tier': tier, 'method': method, 'duration': duration }
                 data[f"{tier},{method},{duration}"] = calculate_membership_costs(inputs)
     return data
+
+@cachetools.cached(cache=cachetools.LRUCache(maxsize=1024))
+def crypto_addresses(year, month, day):
+    days_elapsed = (datetime.date(year, month, day) - datetime.date(2023, 9, 1)).days
+
+    # BTC 
+    base_account_number = (days_elapsed // 3) * 2
+    btc_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.BITCOIN).Purpose().Coin().Account(base_account_number+0).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
+    btc_address_membership_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.BITCOIN).Purpose().Coin().Account(base_account_number+1).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
+    eth_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.ETHEREUM).Purpose().Coin().Account(base_account_number+0).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
+    eth_address_membership_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.ETHEREUM).Purpose().Coin().Account(base_account_number+1).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
+
+    return {
+        "btc_address_one_time_donation": btc_address_one_time_donation,
+        "btc_address_membership_donation": btc_address_membership_donation,
+        "eth_address_one_time_donation": eth_address_one_time_donation,
+        "eth_address_membership_donation": eth_address_membership_donation,
+    }
+
+def crypto_addresses_today():
+    utc_now = datetime.datetime.utcnow() 
+    return crypto_addresses(utc_now.year, utc_now.month, utc_now.day)
 
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename, domain):
     limit_multiple_field = 'y' if limit_multiple else 'x'

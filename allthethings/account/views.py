@@ -222,7 +222,7 @@ def donate_page():
             previous_donation_id = mariapersist_session.connection().execute(select(MariapersistDonations.donation_id).where((MariapersistDonations.account_id == account_id)).limit(1)).scalar()
             if (existing_unpaid_donation_id is not None) or (previous_donation_id is not None):
                 has_made_donations = True
-            
+
     return render_template(
         "account/donate.html", 
         header_active="donate", 
@@ -236,13 +236,14 @@ def donate_page():
         MEMBERSHIP_DOWNLOADS_PER_DAY=allthethings.utils.MEMBERSHIP_DOWNLOADS_PER_DAY,
         MEMBERSHIP_METHOD_MINIMUM_CENTS_USD=allthethings.utils.MEMBERSHIP_METHOD_MINIMUM_CENTS_USD,
         MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE=allthethings.utils.MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE,
+        CRYPTO_ADDRESSES=allthethings.utils.crypto_addresses_today(),
     )
 
 
 @account.get("/donation_faq")
 @allthethings.utils.no_cache()
 def donation_faq_page():
-    return render_template("account/donation_faq.html", header_active="donate")
+    return render_template("account/donation_faq.html", header_active="donate", CRYPTO_ADDRESSES=allthethings.utils.crypto_addresses_today())
 
 @functools.cache
 def get_order_processing_status_labels(locale):
@@ -303,6 +304,7 @@ def donation_page(donation_id):
             header_active="account/donations",
             donation_dict=make_donation_dict(donation),
             order_processing_status_labels=get_order_processing_status_labels(get_locale()),
+            CRYPTO_ADDRESSES=allthethings.utils.crypto_addresses(donation.created.year, donation.created.month, donation.created.day),
         )
 
 
