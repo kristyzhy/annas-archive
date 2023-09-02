@@ -356,9 +356,9 @@ def membership_costs_data(locale):
 
 @cachetools.cached(cache=cachetools.LRUCache(maxsize=1024))
 def crypto_addresses(year, month, day):
-    days_elapsed = (datetime.date(year, month, day) - datetime.date(2023, 9, 1)).days
+    days_elapsed = max(0, (datetime.date(year, month, day) - datetime.date(2023, 9, 1)).days)
 
-    # BTC 
+    # BTC
     base_account_number = (days_elapsed // 3) * 2
     btc_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.BITCOIN).Purpose().Coin().Account(base_account_number+0).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
     btc_address_membership_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.BITCOIN).Purpose().Coin().Account(base_account_number+1).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
