@@ -264,7 +264,7 @@ def make_donation_dict(donation):
         'json': donation_json,
         'total_amount_usd': babel.numbers.format_currency(donation.cost_cents_usd / 100.0, 'USD', locale=get_locale()),
         'monthly_amount_usd': babel.numbers.format_currency(donation_json['monthly_cents'] / 100.0, 'USD', locale=get_locale()),
-        'receipt_id': shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation.donation_id)),
+        'receipt_id': allthethings.utils.donation_id_to_receipt_id(donation.donation_id),
         'formatted_native_currency': allthethings.utils.membership_format_native_currency(get_locale(), donation.native_currency_code, donation.cost_cents_native_currency, donation.cost_cents_usd),
     }
 
@@ -283,7 +283,7 @@ def donation_page(donation_id):
 
         donation_json = orjson.loads(donation['json'])
 
-        if donation_json['method'] == 'payment1':
+        if donation_json['method'] == 'payment1' and donation.processing_status == 0:
             data = {
                 # Note that these are sorted by key.
                 "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),

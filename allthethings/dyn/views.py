@@ -544,18 +544,27 @@ def account_buy_membership():
     if str(membership_costs['cost_cents_usd']) != cost_cents_usd_verification:
         raise Exception(f"Invalid costCentsUsdVerification")
 
+    donation_type = 0 # manual
+    if method == 'payment1':
+        donation_type = 1
+
+    donation_id = shortuuid.uuid()
+    donation_json = {
+        'tier': tier,
+        'method': method,
+        'duration': duration,
+        'monthly_cents': membership_costs['monthly_cents'],
+        'discounts': membership_costs['discounts'],
+    }
+
     with Session(mariapersist_engine) as mariapersist_session:
         # existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
         # if existing_unpaid_donations_counts > 0:
         #     raise Exception(f"Existing unpaid or manualconfirm donations open")
 
-        donation_type = 0 # manual
-        if method == 'payment1':
-            donation_type = 1
-
         data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
         data = {
-            'donation_id': shortuuid.uuid(),
+            'donation_id': donation_id,
             'account_id': account_id,
             'cost_cents_usd': membership_costs['cost_cents_usd'],
             'cost_cents_native_currency': membership_costs['cost_cents_native_currency'],
@@ -563,13 +572,7 @@ def account_buy_membership():
             'processing_status': 0, # unpaid
             'donation_type': donation_type,
             'ip': allthethings.utils.canonical_ip_bytes(request.remote_addr),
-            'json': orjson.dumps({
-                'tier': tier,
-                'method': method,
-                'duration': duration,
-                'monthly_cents': membership_costs['monthly_cents'],
-                'discounts': membership_costs['discounts'],
-            }),
+            'json': orjson.dumps(donation_json),
         }
         mariapersist_session.execute('INSERT INTO mariapersist_donations (donation_id, account_id, cost_cents_usd, cost_cents_native_currency, native_currency_code, processing_status, donation_type, ip, json) VALUES (:donation_id, :account_id, :cost_cents_usd, :cost_cents_native_currency, :native_currency_code, :processing_status, :donation_type, :ip, :json)', [data])
         mariapersist_session.commit()

@@ -17,6 +17,7 @@ import orjson
 import isbnlib
 import math
 import bip_utils
+import shortuuid
 from flask_babel import gettext, get_babel, force_locale
 
 from flask import Blueprint, request, g, make_response, render_template
@@ -168,6 +169,9 @@ def get_md5_report_type_mapping():
         'copyright': 'Copyright claim',
         'other': 'Other',
     }
+
+def donation_id_to_receipt_id(donation_id):
+    return shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation_id))
 
 @cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=6*60*60))
 def usd_currency_rates_cached():

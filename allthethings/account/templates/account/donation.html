@@ -183,70 +183,72 @@
       </p>
     {% endif %}
 
-    {% if donation_dict.json.method == 'amazon' %}
-      <p class="mb-4 font-bold">Amazon.com gift card</p>
+    {% if donation_dict.json.method not in ['payment1'] %}
+      {% if donation_dict.json.method == 'amazon' %}
+        <p class="mb-4 font-bold">Amazon.com gift card</p>
 
-      <p class="mb-4">
-        Please use the <a href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank">official Amazon.com form</a> to send us a gift card of <span class="font-bold">{{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}</span> to the email address below (which has been generated just for your account). We cannot except other methods of gift cards, <strong>only sent directly from the official form on Amazon.com</strong> (not on other Amazon domains, and no forwarded emails). We cannot return your gift card if you do not use this form.
-      </p>
-
-      <p class="mb-4">
-        "To" recipient email in the form: <span class="font-mono font-bold text-sm">AnnaGifts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaGifts+' + donation_dict.receipt_id + '@proton.me') }}</span>
-      </p>
-
-      <p class="mb-4">
-        <strong>IMPORTANT:</strong> We only support Amazon.com, not other Amazon websites. For example, .de, .co.uk, .ca, are NOT supported.
-      </p>
-
-      <p class="mb-4">
-        When you have sent your gift card, click this button, so Anna can manually review it (this might take a few days):
-      </p>
-    {% else %}
-      <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
-
-      <p class="mb-4">
-        {% if donation_dict.json.method == 'paypalreg' %}
-          Send a receipt or screenshot to your personal verification address. Do NOT use this email address for your PayPal donation.
-        {% else %}
-          {{ gettext('page.donation.footer.text1') }}
-        {% endif %}
-      </p>
-
-      <p class="mb-4 font-mono font-bold text-sm">
-        AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
-      </p>
-
-      {% if donation_dict.json.method in ['crypto', 'paypal'] %}
         <p class="mb-4">
-          {{ gettext('page.donation.footer.crypto_note') }}
+          Please use the <a href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank">official Amazon.com form</a> to send us a gift card of <span class="font-bold">{{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}</span> to the email address below (which has been generated just for your account). We cannot except other methods of gift cards, <strong>only sent directly from the official form on Amazon.com</strong> (not on other Amazon domains, and no forwarded emails). We cannot return your gift card if you do not use this form.
+        </p>
+
+        <p class="mb-4">
+          "To" recipient email in the form: <span class="font-mono font-bold text-sm">AnnaGifts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaGifts+' + donation_dict.receipt_id + '@proton.me') }}</span>
+        </p>
+
+        <p class="mb-4">
+          <strong>IMPORTANT:</strong> We only support Amazon.com, not other Amazon websites. For example, .de, .co.uk, .ca, are NOT supported.
+        </p>
+
+        <p class="mb-4">
+          When you have sent your gift card, click this button, so Anna can manually review it (this might take a few days):
+        </p>
+      {% else %}
+        <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
+
+        <p class="mb-4">
+          {% if donation_dict.json.method == 'paypalreg' %}
+            Send a receipt or screenshot to your personal verification address. Do NOT use this email address for your PayPal donation.
+          {% else %}
+            {{ gettext('page.donation.footer.text1') }}
+          {% endif %}
+        </p>
+
+        <p class="mb-4 font-mono font-bold text-sm">
+          AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
+        </p>
+
+        {% if donation_dict.json.method in ['crypto', 'paypal'] %}
+          <p class="mb-4">
+            {{ gettext('page.donation.footer.crypto_note') }}
+          </p>
+        {% endif %}
+
+        <p class="mb-4">
+          {{ gettext('page.donation.footer.text2') }}
         </p>
       {% endif %}
 
-      <p class="mb-4">
-        {{ gettext('page.donation.footer.text2') }}
-      </p>
-    {% endif %}
+      <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
+        <fieldset class="mb-2">
 
-    <form onsubmit='event.preventDefault(); {% if donation_dict.processing_status == 0 %}window.submitForm(event, "/dyn/account/mark_manual_donation_sent/" + {{ donation_dict.donation_id | tojson }}){% endif %}' class="mb-4">
-      <fieldset class="mb-2">
+          <input type="hidden" name="tier" value="">
+          <input type="hidden" name="method" value="">
+          <input type="hidden" name="duration" value="">
+          <input type="hidden" name="totalCentsVerification" value="">
+          <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.footer.button') }}</button>
+          <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
+        </fieldset>
+        <div class="hidden js-success">{{ gettext('page.donation.footer.success') }}</div>
+        <div class="hidden js-failure">{{ gettext('page.donation.footer.failure') }}</div>
+      </form>
 
-        <input type="hidden" name="tier" value="">
-        <input type="hidden" name="method" value="">
-        <input type="hidden" name="duration" value="">
-        <input type="hidden" name="totalCentsVerification" value="">
-        <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.footer.button') }}</button>
-        <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
-      </fieldset>
-      <div class="hidden js-success">{{ gettext('page.donation.footer.success') }}</div>
-      <div class="hidden js-failure">{{ gettext('page.donation.footer.failure') }}</div>
-    </form>
+      {% if donation_dict.json.method == 'amazon' %}
+        <p class="mb-4">Example:</p>
 
-    {% if donation_dict.json.method == 'amazon' %}
-      <p class="mb-4">Example:</p>
-
-      <p class="mb-4 bg-gray-100 rounded">
-        <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts2.png">
-      </p>
+        <p class="mb-4 bg-gray-100 rounded">
+          <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts2.png">
+        </p>
+      {% endif %}
     {% endif %}
   </div>
 {% endblock %}
