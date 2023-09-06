@@ -8,6 +8,11 @@ MEMBERS_TELEGRAM_URL = os.getenv("MEMBERS_TELEGRAM_URL", None)
 PAYMENT1_ID = os.getenv("PAYMENT1_ID", None)
 PAYMENT1_KEY = os.getenv("PAYMENT1_KEY", None)
 BIP39_MNEMONIC = os.getenv("BIP39_MNEMONIC", None)
+PAYMENT2_URL = os.getenv("PAYMENT2_URL", None)
+PAYMENT2_API_KEY = os.getenv("PAYMENT2_API_KEY", None)
+PAYMENT2_HMAC = os.getenv("PAYMENT2_HMAC", None)
+PAYMENT2_PROXIES = os.getenv("PAYMENT2_PROXIES", None)
+PAYMENT2_SIG_HEADER = os.getenv("PAYMENT2_SIG_HEADER", None)
 
 # Redis.
 # REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")

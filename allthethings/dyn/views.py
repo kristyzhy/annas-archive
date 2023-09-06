@@ -11,6 +11,8 @@ import urllib.parse
 import base64
 import pymysql
 import hashlib
+import hmac
+import httpx
 
 from flask import Blueprint, request, g, make_response, render_template, redirect
 from flask_cors import cross_origin
@@ -19,7 +21,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, PAYMENT1_KEY
+from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER
 from allthethings.page.views import get_aarecords_elasticsearch
 
 import allthethings.utils
@@ -545,7 +547,7 @@ def account_buy_membership():
         raise Exception(f"Invalid costCentsUsdVerification")
 
     donation_type = 0 # manual
-    if method == 'payment1':
+    if method in ['payment1', 'payment2']:
         donation_type = 1
 
     donation_id = shortuuid.uuid()
@@ -556,6 +558,25 @@ def account_buy_membership():
         'monthly_cents': membership_costs['monthly_cents'],
         'discounts': membership_costs['discounts'],
     }
+
+    if method == 'payment2':
+        pay_currency = request.form['pay_currency']
+        if pay_currency not in ['btc','eth','bch','ltc','xmr','ada','bnbbsc','busdbsc','dai','doge','dot','matic','near','pax','pyusd','sol','ton','trx','tusd','usdc','usdt','usdterc20','usdttrc20','xrp']:
+            raise Exception(f"Invalid pay_currency: {pay_currency}")
+
+        donation_json['payment2_request'] = httpx.post(PAYMENT2_URL, headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, json={
+            "price_amount": round(float(membership_costs['cost_cents_usd']) / 100.0, 2),
+            "price_currency": "usd",
+            "pay_currency": pay_currency,
+            "order_id": donation_id,
+        }).json()
+
+        if 'code' in donation_json['payment2_request']:
+            if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
+                return orjson.dumps({ 'error': 'This coin has a higher than usual minimum. Please select a different duration or a different coin.' })
+            else:
+                print(f"Warning: unknown error in payment2: {donation_json['payment2_request']}")
+                return orjson.dumps({ 'error': 'An unknown error occurred. Please contact us at AnnaArchivist@proton.me with a screenshot.' })
 
     with Session(mariapersist_engine) as mariapersist_session:
         # existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
@@ -672,51 +693,23 @@ def payment1_notify():
         with mariapersist_engine.connect() as connection:
             donation_id = data['out_trade_no']
             cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-            cursor.execute('SELECT * FROM mariapersist_donations WHERE donation_id=%(donation_id)s LIMIT 1', { 'donation_id': donation_id })
-            donation = cursor.fetchone()
-            if donation is None:
-                print(f"Warning: failed payment1_notify request because of donation not found: {donation_id}")
+            if allthethings.utils.confirm_membership(cursor, donation_id, 'payment1_notify', data):
+                return "success"
+            else:
                 return "fail"
-            if donation['processing_status'] != 0:
-                print(f"Warning: failed payment1_notify request because processing_status != 0: {donation_id}")
-                return "fail"
-            # Allow for 10% margin
-            if float(data['money']) * 110 < donation['cost_cents_native_currency']:
-                print(f"Warning: failed payment1_notify request of 'money' being too small: {data}")
-                return "fail"
-
-            donation_json = orjson.loads(donation['json'])
-            if donation_json['method'] != 'payment1':
-                print(f"Warning: failed payment1_notify request because method != 'payment1': {donation_id}")
-                return "fail"
-
-            cursor.execute('SELECT * FROM mariapersist_accounts WHERE account_id=%(account_id)s LIMIT 1', { 'account_id': donation['account_id'] })
-            account = cursor.fetchone()
-            if account is None:
-                print(f"Warning: failed payment1_notify request because of account not found: {donation_id}")
-                return "fail"
-            new_tier = int(donation_json['tier'])
-            old_tier = int(account['membership_tier'])
-            datetime_today = datetime.datetime.combine(datetime.datetime.utcnow().date(), datetime.datetime.min.time())
-            old_membership_expiration = datetime_today
-            if ('membership_expiration' in account) and (account['membership_expiration'] is not None) and account['membership_expiration'] > datetime_today:
-                old_membership_expiration = account['membership_expiration']
-            if new_tier > old_tier:
-                # When upgrading to a new tier, cancel the previous membership and start a new one.
-                old_membership_expiration = datetime_today
-            new_membership_expiration = old_membership_expiration + datetime.timedelta(days=1) + datetime.timedelta(days=31*int(donation_json['duration']))
-
-            donation_json['payment1_notify'] = data
-            cursor.execute('UPDATE mariapersist_accounts SET membership_tier=%(membership_tier)s, membership_expiration=%(membership_expiration)s WHERE account_id=%(account_id)s LIMIT 1', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'] })
-            cursor.execute('UPDATE mariapersist_donations SET json=%(json)s, processing_status=1 WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
-            cursor.execute('COMMIT')
     return "success"
 
-
-
-
-
-
+@dyn.post("/payment2_notify/")
+@allthethings.utils.no_cache()
+def payment2_notify():
+    sign_str = orjson.dumps(dict(sorted(request.json.items())))
+    if request.headers.get(PAYMENT2_SIG_HEADER) != hmac.new(PAYMENT2_HMAC.encode(), sign_str, hashlib.sha512).hexdigest():
+        print(f"Warning: failed payment1_notify request because of incorrect signature {sign_str} /// {dict(sorted(request.json.items()))}.")
+        return "Bad request", 404
+    with mariapersist_engine.connect() as connection:
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        allthethings.utils.payment2_check(cursor, request.json['payment_id'])
+    return ""
 
 
 

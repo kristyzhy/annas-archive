@@ -18,6 +18,9 @@ import isbnlib
 import math
 import bip_utils
 import shortuuid
+import pymysql
+import httpx
+
 from flask_babel import gettext, get_babel, force_locale
 
 from flask import Blueprint, request, g, make_response, render_template
@@ -27,7 +30,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, BIP39_MNEMONIC
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, BIP39_MNEMONIC, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES
 
 FEATURE_FLAGS = { "isbn": FLASK_DEBUG }
 
@@ -201,6 +204,7 @@ MEMBERSHIP_TIER_COSTS = {
 MEMBERSHIP_METHOD_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
     "crypto": 20,
+    "payment2": 20,
     # "cc":     20,
     "binance": 20,
     "paypal": 20,
@@ -224,6 +228,7 @@ MEMBERSHIP_TELEGRAM_URL = {
 }
 MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "crypto": 0,
+    "payment2": 0,
     # "cc":     20,
     "binance": 0,
     "paypal": 3500,
@@ -379,6 +384,58 @@ def crypto_addresses(year, month, day):
 def crypto_addresses_today():
     utc_now = datetime.datetime.utcnow() 
     return crypto_addresses(utc_now.year, utc_now.month, utc_now.day)
+
+def confirm_membership(cursor, donation_id, data_key, data_value):
+    cursor.execute('SELECT * FROM mariapersist_donations WHERE donation_id=%(donation_id)s LIMIT 1', { 'donation_id': donation_id })
+    donation = cursor.fetchone()
+    if donation is None:
+        print(f"Warning: failed {data_key} request because of donation not found: {donation_id}")
+        return False
+    if donation['processing_status'] == 1:
+        # Already confirmed
+        return True
+    if donation['processing_status'] != 0:
+        print(f"Warning: failed {data_key} request because processing_status != 0: {donation_id}")
+        return False
+    # # Allow for 10% margin
+    # if float(data['money']) * 110 < donation['cost_cents_native_currency']:
+    #     print(f"Warning: failed {data_key} request of 'money' being too small: {data}")
+    #     return False
+
+    donation_json = orjson.loads(donation['json'])
+    if donation_json['method'] not in ['payment1', 'payment2']:
+        print(f"Warning: failed {data_key} request because method is not valid: {donation_id}")
+        return False
+
+    cursor.execute('SELECT * FROM mariapersist_accounts WHERE account_id=%(account_id)s LIMIT 1', { 'account_id': donation['account_id'] })
+    account = cursor.fetchone()
+    if account is None:
+        print(f"Warning: failed {data_key} request because of account not found: {donation_id}")
+        return False
+    new_tier = int(donation_json['tier'])
+    old_tier = int(account['membership_tier'])
+    datetime_today = datetime.datetime.combine(datetime.datetime.utcnow().date(), datetime.datetime.min.time())
+    old_membership_expiration = datetime_today
+    if ('membership_expiration' in account) and (account['membership_expiration'] is not None) and account['membership_expiration'] > datetime_today:
+        old_membership_expiration = account['membership_expiration']
+    if new_tier != old_tier:
+        # When upgrading to a new tier, cancel the previous membership and start a new one.
+        old_membership_expiration = datetime_today
+    new_membership_expiration = old_membership_expiration + datetime.timedelta(days=1) + datetime.timedelta(days=31*int(donation_json['duration']))
+
+    donation_json[data_key] = data_value
+    cursor.execute('UPDATE mariapersist_accounts SET membership_tier=%(membership_tier)s, membership_expiration=%(membership_expiration)s WHERE account_id=%(account_id)s LIMIT 1', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'] })
+    cursor.execute('UPDATE mariapersist_donations SET json=%(json)s, processing_status=1 WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
+    cursor.execute('COMMIT')
+    return True
+
+
+def payment2_check(cursor, payment_id):
+    payment2_status = httpx.get(f"{PAYMENT2_URL}{payment_id}", headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES).json()
+    if payment2_status['payment_status'] in ['confirmed', 'sending', 'finished']:
+        confirm_membership(cursor, payment2_status['order_id'], 'payment2_status', payment2_status)
+    return payment2_status
+
 
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename, domain):
     limit_multiple_field = 'y' if limit_multiple else 'x'

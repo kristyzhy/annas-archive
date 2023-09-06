@@ -44,6 +44,10 @@
     </div>
   {% elif donation_dict.processing_status != 0 %}
     <div class='js-donation-instructions-hidden'>
+      <p class="mb-4 font-bold">
+        Thank you for your donation!
+      </p>
+
       <p class="mb-4">
         {{ gettext('page.donation.old_instructions.intro_outdated') }}
       </p>
@@ -118,6 +122,27 @@
       <p class="mb-4 font-mono font-bold text-sm">
         {{ CRYPTO_ADDRESSES.btc_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.btc_address_membership_donation) }}
       </p>
+    {% elif donation_dict.json.method == 'payment2' %}
+      <h2 class="mt-4 mb-4 text-xl font-bold">{{ donation_dict.json.payment2_request.pay_currency | upper }} instructions</h2>
+
+      {% if donation_time_expired %}
+        <p class="mb-4">
+          This transfer has expired. Please cancel and create a new donation.
+        </p>
+      {% else %}
+        <p class="mb-4">
+          Transfer {{ donation_dict.json.payment2_request.pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_dict.json.payment2_request.pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
+        </p>
+
+        <p class="mb-4">
+          <strong>Status:</strong> {% if donation_confirming %}Waiting for confirmation on the blockchain…{% else %}Waiting for transfer…{% endif %}<br>
+          <strong>Time left:</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}(you might want to cancel and create a new donation){% endif %}
+        </p>
+
+        <p class="mb-4">
+          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Update status</button>
+        </p>
+      {% endif %}
     {% elif donation_dict.json.method == 'paypalreg' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">PayPal (regular) instructions</h2>
 
@@ -183,7 +208,7 @@
       </p>
     {% endif %}
 
-    {% if donation_dict.json.method not in ['payment1'] %}
+    {% if donation_dict.json.method not in ['payment1', 'payment2'] %}
       {% if donation_dict.json.method == 'amazon' %}
         <p class="mb-4 font-bold">Amazon.com gift card</p>
 

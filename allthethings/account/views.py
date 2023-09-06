@@ -12,6 +12,8 @@ import base64
 import re
 import functools
 import urllib
+import pymysql
+import httpx
 
 from flask import Blueprint, request, g, render_template, make_response, redirect
 from flask_cors import cross_origin
@@ -276,6 +278,11 @@ def donation_page(donation_id):
     if account_id is None:
         return "", 403
 
+    donation_confirming = False
+    donation_time_left = datetime.timedelta()
+    donation_time_left_not_much = False
+    donation_time_expired = False
+
     with Session(mariapersist_engine) as mariapersist_session:
         donation = mariapersist_session.connection().execute(select(MariapersistDonations).where((MariapersistDonations.account_id == account_id) & (MariapersistDonations.donation_id == donation_id)).limit(1)).first()
         if donation is None:
@@ -299,12 +306,28 @@ def donation_page(donation_id):
             sign = hashlib.md5((sign_str).encode()).hexdigest()
             return redirect(f'https://merchant.pacypay.net/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
+        if donation_json['method'] == 'payment2' and donation.processing_status == 0:
+            donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(hours=12)
+            if donation_time_left < datetime.timedelta(hours=2):
+                donation_time_left_not_much = True
+            if donation_time_left < datetime.timedelta():
+                donation_time_expired = True
+
+            cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
+            payment2_status = allthethings.utils.payment2_check(cursor, donation_json['payment2_request']['payment_id'])
+            if payment2_status['payment_status'] == 'confirming':
+                donation_confirming = True
+
         return render_template(
             "account/donation.html", 
             header_active="account/donations",
             donation_dict=make_donation_dict(donation),
             order_processing_status_labels=get_order_processing_status_labels(get_locale()),
             CRYPTO_ADDRESSES=allthethings.utils.crypto_addresses(donation.created.year, donation.created.month, donation.created.day),
+            donation_confirming=donation_confirming,
+            donation_time_left=donation_time_left,
+            donation_time_left_not_much=donation_time_left_not_much,
+            donation_time_expired=donation_time_expired,
         )
 
 
