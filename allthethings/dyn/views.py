@@ -547,7 +547,7 @@ def account_buy_membership():
         raise Exception(f"Invalid costCentsUsdVerification")
 
     donation_type = 0 # manual
-    if method in ['payment1', 'payment2', 'payment2paypal']:
+    if method in ['payment1', 'payment2', 'payment2paypal', 'payment2cc']:
         donation_type = 1
 
     donation_id = shortuuid.uuid()
@@ -559,11 +559,13 @@ def account_buy_membership():
         'discounts': membership_costs['discounts'],
     }
 
-    if method in ['payment2', 'payment2paypal']:
+    if method in ['payment2', 'payment2paypal', 'payment2cc']:
         if method == 'payment2':
             pay_currency = request.form['pay_currency']
         elif method == 'payment2paypal':
             pay_currency = 'pyusd'
+        elif method == 'payment2cc':
+            pay_currency = 'btc'
         if pay_currency not in ['btc','eth','bch','ltc','xmr','ada','bnbbsc','busdbsc','dai','doge','dot','matic','near','pax','pyusd','sol','ton','trx','tusd','usdc','usdterc20','usdttrc20','xrp']:
             raise Exception(f"Invalid pay_currency: {pay_currency}")
 
