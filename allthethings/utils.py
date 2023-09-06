@@ -208,6 +208,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # "cc":     20,
     "binance": 20,
     "paypal": 20,
+    "payment2paypal": 20,
     "paypalreg": 0,
     "amazon": 0,
     # "bmc":    0,
@@ -231,7 +232,8 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "payment2": 0,
     # "cc":     20,
     "binance": 0,
-    "paypal": 2000,
+    "paypal": 3500,
+    "payment2paypal": 2000,
     "paypalreg": 0,
     "amazon": 1000,
     # "bmc":    0,
@@ -368,11 +370,11 @@ def crypto_addresses(year, month, day):
     days_elapsed = max(0, (datetime.date(year, month, day) - datetime.date(2023, 9, 1)).days)
 
     # BTC
-    base_account_number = (days_elapsed // 3) * 2
-    btc_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.BITCOIN).Purpose().Coin().Account(base_account_number+0).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
-    btc_address_membership_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.BITCOIN).Purpose().Coin().Account(base_account_number+1).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
-    eth_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.ETHEREUM).Purpose().Coin().Account(base_account_number+0).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
-    eth_address_membership_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.ETHEREUM).Purpose().Coin().Account(base_account_number+1).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
+    base_account_number = days_elapsed // 7
+    btc_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.BITCOIN).Purpose().Coin().Account(base_account_number).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
+    btc_address_membership_donation = btc_address_one_time_donation
+    eth_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.ETHEREUM).Purpose().Coin().Account(base_account_number).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
+    eth_address_membership_donation = eth_address_one_time_donation
 
     return {
         "btc_address_one_time_donation": btc_address_one_time_donation,
@@ -403,7 +405,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     #     return False
 
     donation_json = orjson.loads(donation['json'])
-    if donation_json['method'] not in ['payment1', 'payment2']:
+    if donation_json['method'] not in ['payment1', 'payment2', 'payment2paypal']:
         print(f"Warning: failed {data_key} request because method is not valid: {donation_id}")
         return False
 

@@ -122,6 +122,39 @@
       <p class="mb-4 font-mono font-bold text-sm">
         {{ CRYPTO_ADDRESSES.btc_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.btc_address_membership_donation) }}
       </p>
+    {% elif donation_dict.json.method == 'payment2paypal' %}
+      <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span> Buy PYUSD coin on PayPal</p>
+
+      <p class="mb-4">
+        {{ gettext('page.donate.one_time_payment.paypal.text2') }}
+      </p>
+
+      <p class="mb-4">
+        Follow the instructions to buy PYUSD coin (PayPal USD). Buy a bit more (at least $1) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees.
+      </p>
+
+      <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span> Transfer the PYUSD to our address</p>
+
+      <p class="mb-4">
+        Go to the “PYUSD” page in your PayPal app or website. Press the “Transfer” button <span class="icon-[cil--transfer] align-middle"></span>, and then “Send”.
+      </p>
+
+      <p class="mb-4">
+        Transfer {{ donation_pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
+      </p>
+
+      <p class="mb-4">
+        <strong>Status:</strong> {% if donation_confirming %}Waiting for confirmation on the blockchain…{% else %}Waiting for transfer…{% endif %}<br>
+        <strong>Time left:</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}(you might want to cancel and create a new donation){% endif %}
+      </p>
+
+      <p class="mb-4">
+        To reset the timer, simply create a new donation.
+      </p>
+
+      <p class="mb-4">
+        <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Update status</button>
+      </p>
     {% elif donation_dict.json.method == 'payment2' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">{{ donation_dict.json.payment2_request.pay_currency | upper }} instructions</h2>
 
@@ -137,6 +170,10 @@
         <p class="mb-4">
           <strong>Status:</strong> {% if donation_confirming %}Waiting for confirmation on the blockchain…{% else %}Waiting for transfer…{% endif %}<br>
           <strong>Time left:</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}(you might want to cancel and create a new donation){% endif %}
+        </p>
+
+        <p class="mb-4">
+          To reset the timer, simply create a new donation.
         </p>
 
         <p class="mb-4">
@@ -208,7 +245,7 @@
       </p>
     {% endif %}
 
-    {% if donation_dict.json.method not in ['payment1', 'payment2'] %}
+    {% if donation_dict.json.method not in ['payment1', 'payment2', 'payment2paypal'] %}
       {% if donation_dict.json.method == 'amazon' %}
         <p class="mb-4 font-bold">Amazon.com gift card</p>
 
