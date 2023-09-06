@@ -561,12 +561,16 @@ def account_buy_membership():
 
     if method == 'payment2':
         pay_currency = request.form['pay_currency']
-        if pay_currency not in ['btc','eth','bch','ltc','xmr','ada','bnbbsc','busdbsc','dai','doge','dot','matic','near','pax','pyusd','sol','ton','trx','tusd','usdc','usdt','usdterc20','usdttrc20','xrp']:
+        if pay_currency not in ['btc','eth','bch','ltc','xmr','ada','bnbbsc','busdbsc','dai','doge','dot','matic','near','pax','pyusd','sol','ton','trx','tusd','usdc','usdterc20','usdttrc20','xrp']:
             raise Exception(f"Invalid pay_currency: {pay_currency}")
 
+        price_currency = 'usd'
+        if pay_currency in ['busdbsc','dai','pyusd','tusd','usdc','usdterc20','usdttrc20']:
+            price_currency = pay_currency
+
         donation_json['payment2_request'] = httpx.post(PAYMENT2_URL, headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, json={
-            "price_amount": round(float(membership_costs['cost_cents_usd']) / 100.0, 2),
-            "price_currency": "usd",
+            "price_amount": round(float(membership_costs['cost_cents_usd']) * (1.03 if price_currency == 'usd' else 1.0) / 100.0, 2),
+            "price_currency": price_currency,
             "pay_currency": pay_currency,
             "order_id": donation_id,
         }).json()

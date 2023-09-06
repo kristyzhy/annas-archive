@@ -282,6 +282,7 @@ def donation_page(donation_id):
     donation_time_left = datetime.timedelta()
     donation_time_left_not_much = False
     donation_time_expired = False
+    donation_pay_amount = ""
 
     with Session(mariapersist_engine) as mariapersist_session:
         donation = mariapersist_session.connection().execute(select(MariapersistDonations).where((MariapersistDonations.account_id == account_id) & (MariapersistDonations.donation_id == donation_id)).limit(1)).first()
@@ -313,6 +314,11 @@ def donation_page(donation_id):
             if donation_time_left < datetime.timedelta():
                 donation_time_expired = True
 
+            if donation_json['payment2_request']['pay_amount']*100 == int(donation_json['payment2_request']['pay_amount']*100):
+                donation_pay_amount = f"{donation_json['payment2_request']['pay_amount']:.2f}"
+            else:
+                donation_pay_amount = f"{donation_json['payment2_request']['pay_amount']}"
+
             cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
             payment2_status = allthethings.utils.payment2_check(cursor, donation_json['payment2_request']['payment_id'])
             if payment2_status['payment_status'] == 'confirming':
@@ -328,6 +334,7 @@ def donation_page(donation_id):
             donation_time_left=donation_time_left,
             donation_time_left_not_much=donation_time_left_not_much,
             donation_time_expired=donation_time_expired,
+            donation_pay_amount=donation_pay_amount,
         )
 
 

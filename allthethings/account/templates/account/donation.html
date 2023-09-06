@@ -131,7 +131,7 @@
         </p>
       {% else %}
         <p class="mb-4">
-          Transfer {{ donation_dict.json.payment2_request.pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_dict.json.payment2_request.pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
+          Transfer {{ donation_pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
         </p>
 
         <p class="mb-4">
