@@ -407,7 +407,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     #     return False
 
     donation_json = orjson.loads(donation['json'])
-    if donation_json['method'] not in ['payment1', 'payment2', 'payment2paypal']:
+    if donation_json['method'] not in ['payment1', 'payment2', 'payment2paypal', 'payment2cc']:
         print(f"Warning: failed {data_key} request because method is not valid: {donation_id}")
         return False
 
@@ -437,8 +437,11 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
 def payment2_check(cursor, payment_id):
     payment2_status = httpx.get(f"{PAYMENT2_URL}{payment_id}", headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES).json()
     if payment2_status['payment_status'] in ['confirmed', 'sending', 'finished']:
-        confirm_membership(cursor, payment2_status['order_id'], 'payment2_status', payment2_status)
-    return payment2_status
+        if confirm_membership(cursor, payment2_status['order_id'], 'payment2_status', payment2_status):
+            return (payment2_status, True)
+        else:
+            return (payment2_status, False)
+    return (payment2_status, True)
 
 
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename, domain):

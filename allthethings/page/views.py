@@ -2108,9 +2108,9 @@ def format_filesize(num):
 
 def add_partner_servers(path, modifier, aarecord, additional):
     additional['has_aa_downloads'] = 1
-    targeted_seconds = 30
+    targeted_seconds = 90
     if modifier == 'aa_exclusive':
-        targeted_seconds = 100
+        targeted_seconds = 180
         additional['has_aa_exclusive_downloads'] = 1
     if modifier == 'scimag':
         targeted_seconds = 3
@@ -2511,12 +2511,12 @@ def md5_slow_download(md5_input, path_index, domain_index):
             warning = False
             if download_count_from_ip > 500:
                 targeted_seconds_multiplier = 3.0
-                minimum = 20
+                minimum = 10
                 maximum = 50
                 warning = True
             elif download_count_from_ip > 300:
                 targeted_seconds_multiplier = 2.0
-                minimum = 20
+                minimum = 15
                 maximum = 100
                 warning = True
             elif download_count_from_ip > 150:

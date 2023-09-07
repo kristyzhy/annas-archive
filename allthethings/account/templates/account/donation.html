@@ -64,7 +64,11 @@
     {% endif %}
 
     {% if donation_dict.json.method == 'crypto' %}
-      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.crypto.top_header') }}</h2>
+      <p class="mb-4">
+        This donation has expired. Please cancel and create a new one.
+      </p>
+
+      <!-- <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.crypto.top_header') }}</h2>
 
       <p class="mb-4 font-bold">{{ gettext('page.donation.payment.crypto.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
@@ -77,9 +81,13 @@
         <li>- Ethereum ETH: {{ CRYPTO_ADDRESSES.eth_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.eth_address_membership_donation) }}</li>
         <li>- Monero XMR: 445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t{{ copy_button('445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t') }}</li>
         <li>- Solana SOL: HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP{{ copy_button('HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP') }}</li>
-      </ul>
+      </ul> -->
     {% elif donation_dict.json.method == 'binance' %}
-      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin on Binance</p>
+      <p class="mb-4">
+        This donation has expired. Please cancel and create a new one.
+      </p>
+
+      <!-- <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin on Binance</p>
 
       <p class="mb-4">
         Create an account on <a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a> and buy Bitcoin (BTC). Use this <a href="https://www.binance.com/en/how-to-buy/bitcoin" rel="noopener noreferrer nofollow" target="_blank">extensive guide</a> if you get stuck.
@@ -97,9 +105,13 @@
 
       <p class="mb-4 font-mono font-bold text-sm">
         {{ CRYPTO_ADDRESSES.btc_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.btc_address_membership_donation) }}
-      </p>
+      </p> -->
     {% elif donation_dict.json.method == 'paypal' %}
-      <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+      <p class="mb-4">
+        This donation has expired. Please cancel and create a new one.
+      </p>
+
+      <!-- <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donate.one_time_payment.paypal.text2') }}
@@ -121,7 +133,7 @@
 
       <p class="mb-4 font-mono font-bold text-sm">
         {{ CRYPTO_ADDRESSES.btc_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.btc_address_membership_donation) }}
-      </p>
+      </p> -->
     {% elif donation_dict.json.method == 'payment2paypal' %}
       {% if donation_time_expired %}
         <p class="mb-4">
@@ -135,7 +147,7 @@
         </p>
 
         <p class="mb-4">
-          Follow the instructions to buy PYUSD coin (PayPal USD). Buy a bit more (at least $1) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees.
+          Follow the instructions to buy PYUSD coin (PayPal USD). Buy a bit more (we recommend $3) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
         </p>
 
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span> Transfer the PYUSD to our address</p>
@@ -180,7 +192,7 @@
 
         <p class="mb-4">
           Fill in the following details in the form:<br>
-          <strong>BTC / Bitcoin amount:</strong> {{ donation_pay_amount }} {{ copy_button(donation_pay_amount) }}<br>
+          <strong>BTC / Bitcoin amount:</strong> {{ donation_pay_amount }} {{ copy_button(donation_pay_amount) }}<br>Please use this <span class="underline">exact amount</span>. Your total cost might be higher because of credit card fees. For small amounts this may be more than our discount, unfortunately.<br>
           <strong>BTC / Bitcoin address (external wallet):</strong> {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
         </p>
 
@@ -355,5 +367,9 @@
         </p>
       {% endif %}
     {% endif %}
+
+    <p class="mb-4">
+      If you run into any issues, please contact us at {% if donation_dict.json.method == 'amazon' %}AnnaGifts{% else %}AnnaReceipts{% endif %}+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me
+    </p>
   </div>
 {% endblock %}

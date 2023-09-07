@@ -320,7 +320,9 @@ def donation_page(donation_id):
                 donation_pay_amount = f"{donation_json['payment2_request']['pay_amount']}"
 
             cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
-            payment2_status = allthethings.utils.payment2_check(cursor, donation_json['payment2_request']['payment_id'])
+            payment2_status, payment2_request_success = allthethings.utils.payment2_check(cursor, donation_json['payment2_request']['payment_id'])
+            if not payment2_request_success:
+                raise Exception("Not payment2_request_success in donation_page")
             if payment2_status['payment_status'] == 'confirming':
                 donation_confirming = True
 
