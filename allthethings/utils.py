@@ -176,6 +176,9 @@ def get_md5_report_type_mapping():
 def donation_id_to_receipt_id(donation_id):
     return shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation_id))
 
+def receipt_id_to_donation_id(receipt_id):
+    return shortuuid.encode(shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").decode(receipt_id))
+
 @cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=6*60*60))
 def usd_currency_rates_cached():
     # try:
@@ -407,7 +410,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     #     return False
 
     donation_json = orjson.loads(donation['json'])
-    if donation_json['method'] not in ['payment1', 'payment2', 'payment2paypal', 'payment2cc']:
+    if donation_json['method'] not in ['payment1', 'payment2', 'payment2paypal', 'payment2cc', 'amazon']:
         print(f"Warning: failed {data_key} request because method is not valid: {donation_id}")
         return False
 

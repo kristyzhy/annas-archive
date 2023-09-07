@@ -309,7 +309,7 @@
         </p>
 
         <p class="mb-4">
-          "To" recipient email in the form: <span class="font-mono font-bold text-sm">AnnaGifts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaGifts+' + donation_dict.receipt_id + '@proton.me') }}</span>
+          "To" recipient email in the form: <span class="font-mono font-bold text-sm">giftcards+&#8203;{{ donation_dict.receipt_id }}@&#8203;annas-mail.org{{ copy_button('giftcards+' + donation_dict.receipt_id + '@annas-mail.org') }}</span>
         </p>
 
         <p class="mb-4">
@@ -363,13 +363,13 @@
         <p class="mb-4">Example:</p>
 
         <p class="mb-4 bg-gray-100 rounded">
-          <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts2.png">
+          <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts3.png">
         </p>
       {% endif %}
     {% endif %}
 
     <p class="mb-4">
-      If you run into any issues, please contact us at {% if donation_dict.json.method == 'amazon' %}AnnaGifts{% else %}AnnaReceipts{% endif %}+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me
+      If you run into any issues, please contact us at {% if donation_dict.json.method == 'amazon' %}giftcards+&#8203;{{ donation_dict.receipt_id }}@&#8203;annas-mail.org{% else %}AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{% endif %}
     </p>
   </div>
 {% endblock %}
