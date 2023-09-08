@@ -401,8 +401,8 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     if donation['processing_status'] == 1:
         # Already confirmed
         return True
-    if donation['processing_status'] != 0:
-        print(f"Warning: failed {data_key} request because processing_status != 0: {donation_id}")
+    if donation['processing_status'] not in [0, 4]:
+        print(f"Warning: failed {data_key} request because processing_status != 0 or 4: {donation_id}")
         return False
     # # Allow for 10% margin
     # if float(data['money']) * 110 < donation['cost_cents_native_currency']:

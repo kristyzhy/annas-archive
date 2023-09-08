@@ -14,6 +14,10 @@
       These are all the torrents currently managed and released by Anna’s Archive. For more information, see “Our projects” on the <a href="/datasets">Datasets</a> page.
     </p>
 
+    <p class="mb-4">
+      These torrents are <span class="underline">not meant for downloading individual books</span>. They are meant for long-term preservation. If you don’t know what to do with these torrents, they are not for you. :)
+    </p>
+
     {% for group, small_files in small_file_dicts_grouped.items() %}
       <h3 class="mt-4 mb-1 text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }} <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [h3:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></h3>
 

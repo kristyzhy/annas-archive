@@ -490,7 +490,7 @@ def fast_download_not_member_page():
     return render_template("page/fast_download_not_member.html", header_active="")
 
 @page.get("/torrents")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def torrents_page():
     with mariapersist_engine.connect() as conn:
         small_files = conn.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
