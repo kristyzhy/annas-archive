@@ -1416,7 +1416,7 @@ def get_isbndb_dicts(session, canonical_isbn13s):
         # There seem to be a bunch of ISBNdb books with only a language, which is not very useful.
         isbn_dict['isbndb'] = [isbndb_book for isbndb_book in isbndb_books.values() if len(isbndb_book['json'].get('title') or '') > 0 or len(isbndb_book['json'].get('title_long') or '') > 0 or len(isbndb_book['json'].get('authors') or []) > 0 or len(isbndb_book['json'].get('synopsis') or '') > 0 or len(isbndb_book['json'].get('overview') or '') > 0]
 
-        for isbndb_dict in isbn_dict['isbndb']:
+        for index, isbndb_dict in enumerate(isbn_dict['isbndb']):
             isbndb_dict['language_codes'] = get_bcp47_lang_codes(isbndb_dict['json'].get('language') or '')
             isbndb_dict['edition_varia_normalized'] = ", ".join(list(set([item for item in [
                 str(isbndb_dict['json'].get('edition') or '').strip(),
@@ -1430,9 +1430,35 @@ def get_isbndb_dicts(session, canonical_isbn13s):
             # There is often also isbndb_dict['json']['image'], but sometimes images get added later, so we can make a guess ourselves.
             isbndb_dict['cover_url_guess'] = f"https://images.isbndb.com/covers/{isbndb_dict['isbn13'][-4:-2]}/{isbndb_dict['isbn13'][-2:]}/{isbndb_dict['isbn13']}.jpg"
 
-        isbn_dicts.append(isbn_dict)
+            isbndb_inner_comments = {
+                "edition_varia_normalized": ("after", ["Anna's Archive version of the 'edition', and 'date_published' fields; combining them into a single field for display and search."]),
+                "title_normalized": ("after", ["Anna's Archive version of the 'title', and 'title_long' fields; we take the longest of the two."]),
+                "json": ("before", ["Raw JSON straight from the ISBNdb API."]),
+                "cover_url_guess": ("after", ["Anna's Archive best guess of the cover URL, since sometimes the 'image' field is missing from the JSON."]),
+                "year_normalized": ("after", ["Anna's Archive version of the year of publication, by extracting it from the 'date_published' field."]),
+                "language_codes": ("before", ["Anna's Archive version of the 'language' field, where we attempted to parse them into BCP 47 tags."]),
+                "matchtype": ("after", ["Whether the canonical ISBN-13 matched the API's ISBN-13, ISBN-10, or both."]),
+            }
+            isbn_dict['isbndb'][index] = add_comments_to_dict(isbn_dict['isbndb'][index], isbndb_inner_comments)
+
+        isbndb_wrapper_comments = {
+            "ean13": ("before", ["Metadata from our ISBNdb collection, augmented by Anna's Archive.",
+                               "More details at https://annas-archive.org/datasets",
+                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "isbndb": ("before", ["All matching records from the ISBNdb database."]),
+        }
+        isbn_dicts.append(add_comments_to_dict(isbn_dict, isbndb_wrapper_comments))
 
     return isbn_dicts
+
+@page.get("/db/isbndb/<string:isbn>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def isbndb_json(isbn):
+    with Session(engine) as session:
+        isbndb_dicts = get_isbndb_dicts(session, [isbn])
+        if len(isbndb_dicts) == 0:
+            return "{}", 404
+        return nice_json(isbndb_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 
 @page.get("/doi/<path:doi_input>")
@@ -1834,7 +1860,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
-        stripped_description_multiple += [(isbndb['json'].get('synposis') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
+        stripped_description_multiple += [(isbndb['json'].get('synopsis') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
         stripped_description_multiple += [(isbndb['json'].get('overview') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
         if aarecord['file_unified_data']['stripped_description_best'] == '':
             aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
@@ -1993,6 +2019,11 @@ def get_aarecords_mysql(session, aarecord_ids):
                 'aa_ia_derived': {
                     'printdisabled_only': aarecord['ia_record']['aa_ia_derived']['printdisabled_only'],
                 }
+            }
+        aarecord['isbndb'] = aarecord.get('isbndb') or []
+        for key, item in enumerate(aarecord['isbndb']):
+            aarecord['isbndb'][key] = {
+                'isbn13': aarecord['isbndb'][key]['isbn13'],
             }
 
         # Even though `additional` is only for computing real-time stuff,
@@ -2420,6 +2451,7 @@ def md5_json(aarecord_id):
                 "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
                 "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
                 "ia_record": ("before", ["Source data at: https://annas-archive.org/db/ia/<ia_id>.json"]),
+                "isbndb": ("before", ["Source data at: https://annas-archive.org/db/isbndb/<isbn13>.json"]),
                 "aa_lgli_comics_2022_08_file": ("before", ["File from the Libgen.li comics backup by Anna's Archive",
                                                            "See https://annas-archive.org/datasets/libgen_li",
                                                            "No additional source data beyond what is shown here."]),
