@@ -785,6 +785,9 @@ def init_identifiers_and_classification_unified(output_dict):
         output_dict['classifications_unified'] = {}
 
 def add_identifier_unified(output_dict, name, value):
+    if value is None:
+        print(f"Warning: 'None' found for add_identifier_unified {name}")
+        return
     name = name.strip()
     value = value.strip()
     if name == 'lccn' and 'http://lccn.loc.gov/' in value:
@@ -802,6 +805,9 @@ def add_identifier_unified(output_dict, name, value):
         raise Exception(f"Unknown identifier in add_identifier_unified: {name}")
 
 def add_classification_unified(output_dict, name, value):
+    if value is None:
+        print(f"Warning: 'None' found for add_classification_unified {name}")
+        return
     name = name.strip()
     value = value.strip()
     if len(value) == 0:

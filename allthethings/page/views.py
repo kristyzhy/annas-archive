@@ -882,7 +882,9 @@ def get_ol_book_dicts(session, key, values):
                     for item in items:
                         allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
             for item in (ol_book_dict['edition']['json'].get('lccn') or []):
-                allthethings.utils.add_identifier_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['lccn'], item)
+                if item is not None:
+                    # For some reason there's a bunch of nulls in the raw data here.
+                    allthethings.utils.add_identifier_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['lccn'], item)
             for item in (ol_book_dict['edition']['json'].get('oclc_numbers') or []):
                 allthethings.utils.add_identifier_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['oclc_numbers'], item)
             if 'ocaid' in ol_book_dict['edition']['json']:
