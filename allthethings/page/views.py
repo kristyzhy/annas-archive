@@ -818,7 +818,7 @@ def get_ol_book_dicts(session, key, values):
             if 'authors' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['authors']) > 0:
                 unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_([author['key'] for author in ol_book_dict['edition']['json']['authors']])).limit(10)).all()
             elif ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json']:
-                author_keys = [author['author']['key'] for author in ol_book_dict['work']['json']['authors'] if 'author' in author]
+                author_keys = [(author['author'] if type(author['author']) == str else author['author']['key']) for author in ol_book_dict['work']['json']['authors'] if 'author' in author]
                 if len(author_keys) > 0:
                     unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys)).limit(10)).all()
             ol_authors = []
@@ -888,6 +888,9 @@ def get_ol_book_dicts(session, key, values):
             if 'ocaid' in ol_book_dict['edition']['json']:
                 allthethings.utils.add_identifier_unified(ol_book_dict['edition'], 'ocaid', ol_book_dict['edition']['json']['ocaid'])
             for identifier_type, items in (ol_book_dict['edition']['json'].get('identifiers') or {}).items():
+                if 'isbn' in identifier_type:
+                    allthethings.utils.add_isbns_unified(ol_book_dict['edition'], items)
+                    continue
                 if identifier_type in allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
                     # Sometimes classifications are incorrectly in the identifiers list
                     for item in items:
