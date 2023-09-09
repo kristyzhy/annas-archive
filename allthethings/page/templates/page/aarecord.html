@@ -114,8 +114,6 @@
 
             if (json.is_member) {
               document.querySelector('.js-fast-download-no-member-header').classList.add('hidden');
-              document.querySelector('.js-fast-download-links-disabled').classList.add('hidden');
-              document.querySelector('.js-fast-download-links-enabled').classList.remove('hidden');
               if (json.download_still_active) {
                 document.querySelector('.js-fast-download-member-header-valid-for').classList.remove('hidden');
               } else {
@@ -123,7 +121,7 @@
                   const elRemaining = document.querySelector('.js-fast-download-member-header-remaining');
                   elRemaining.classList.remove('hidden');
                   elRemaining.innerHTML = elRemaining.innerHTML.replace('XXXXXX', json.downloads_left);
-                  for (const el of document.querySelectorAll('.js-fast-download-links-enabled .js-download-link')) {
+                  for (const el of document.querySelectorAll('.js-download-link')) {
                     el.addEventListener("click", function() {
                       elRemaining.classList.add('hidden');
                       document.querySelector('.js-fast-download-member-header-valid-for').classList.remove('hidden');
@@ -171,12 +169,7 @@
         <div class="hidden js-fast-download-member-header-no-remaining">{{ gettext('page.md5.box.download.header_fast_member_no_remaining', a_membership=('href="/donate" target="_blank"' | safe)) }}</div>
         <div class="hidden js-fast-download-member-header-valid-for">{{ gettext('page.md5.box.download.header_fast_member_valid_for') }}</div>
 
-        <ul class="mb-4 js-fast-download-links-disabled">
-          {% for label, url, extra in aarecord.additional.fast_partner_urls %}
-            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=label, extra='') }}</li>
-          {% endfor %}
-        </ul>
-        <ul class="mb-4 hidden js-fast-download-links-enabled">
+        <ul class="mb-4">
           {% for label, url, extra in aarecord.additional.fast_partner_urls %}
             <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
           {% endfor %}
