@@ -12,8 +12,8 @@
     <p class="mb-4">
       This is a record of a file from the Internet Archive, not a directly downloadable file. You can try to borrow the book (link below), or use this URL when <a href="/account/request">requesting a file</a>.
     </p>
-  {% elif aarecord_id_split[0] == 'isbn' %}
-    <div class="text-xl mb-1 font-bold">ISBN {{ aarecord_id_split[1] }} metadata record</div>
+  {% elif aarecord_id_split[0] in ['isbn', 'ol'] %}
+    <div class="text-xl mb-1 font-bold">{% if aarecord_id_split[0] == 'isbn' %}ISBN{% else %}Open Library{% endif %} {{ aarecord_id_split[1] }} metadata record</div>
     <p class="mb-4">
       This is a metadata record, not a downloadable file. You can use this URL when <a href="/account/request">requesting a file</a>.
     </p>
@@ -69,7 +69,7 @@
   </div>
 
   <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
-    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] == 'md5' %}Downloads{% elif aarecord_id_split[0] == 'ia' %}Borrow{% elif aarecord_id_split[0] == 'isbn' %}Explore metadata{% endif %} ({{ (aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length) }})</button>
+    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] == 'md5' %}Downloads{% elif aarecord_id_split[0] == 'ia' %}Borrow{% elif aarecord_id_split[0] in ['isbn', 'ol'] %}Explore metadata{% endif %} ({{ (aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length) }})</button>
     {% if aarecord_id_split[0] == 'md5' %}
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">Lists (–)</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-stats" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats (–)</button>

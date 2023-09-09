@@ -62,19 +62,6 @@ search_filtered_bad_aarecord_ids = [
 
 ES_TIMEOUT = "5s"
 
-# Retrieved from https://openlibrary.org/config/edition.json on 2023-07-02
-ol_edition_json = json.load(open(os.path.dirname(os.path.realpath(__file__)) + '/ol_edition.json'))
-ol_classifications = {}
-for classification in ol_edition_json['classifications']:
-    if 'website' in classification:
-        classification['website'] = classification['website'].split(' ')[0] # sometimes there's a suffix in text..
-    ol_classifications[classification['name']] = classification
-ol_classifications['lc_classifications']['website'] = 'https://en.wikipedia.org/wiki/Library_of_Congress_Classification'
-ol_classifications['dewey_decimal_class']['website'] = 'https://en.wikipedia.org/wiki/List_of_Dewey_Decimal_classes'
-ol_identifiers = {}
-for identifier in ol_edition_json['identifiers']:
-    ol_identifiers[identifier['name']] = identifier
-
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
 # because https://openlibrary.org/languages.json doesn't seem to give a complete list? (And ?limit=.. doesn't seem to work.)
 ol_languages_json = json.load(open(os.path.dirname(os.path.realpath(__file__)) + '/ol_languages.json'))
@@ -712,10 +699,11 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict['aa_ia_derived']['all_dates'] = list(set(extract_list_from_ia_json_field(ia_record_dict, 'year') + extract_list_from_ia_json_field(ia_record_dict, 'date') + extract_list_from_ia_json_field(ia_record_dict, 'range')))
         ia_record_dict['aa_ia_derived']['longest_date_field'] = max([''] + ia_record_dict['aa_ia_derived']['all_dates'])
         ia_record_dict['aa_ia_derived']['year'] = ''
-        for date in ia_record_dict['aa_ia_derived']['all_dates']:
+        for date in ([ia_record_dict['aa_ia_derived']['longest_date_field']] + ia_record_dict['aa_ia_derived']['all_dates']):
             potential_year = re.search(r"(\d\d\d\d)", date)
             if potential_year is not None:
                 ia_record_dict['aa_ia_derived']['year'] = potential_year[0]
+                break
 
         ia_record_dict['aa_ia_derived']['content_type'] = 'book_unknown'
         if ia_record_dict['ia_id'].split('_', 1)[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_record_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
@@ -794,167 +782,226 @@ def ia_record_json(ia_id):
             return "{}", 404
         return nice_json(ia_record_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
+def extract_ol_str_field(field):
+    if field is None:
+        return ""
+    if type(field) in [str, float, int]:
+        return field
+    return str(field.get('value')) or ""
 
-@page.get("/ol/<string:ol_book_id>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def ol_book_page(ol_book_id):
-    ol_book_id = ol_book_id[0:20]
+
+def get_ol_book_dicts(session, key, values):
+    if key != 'ol_edition':
+        raise Exception(f"Unsupported get_ol_dicts key: {key}")
+    if not allthethings.utils.validate_ol_editions(values):
+        raise Exception(f"Unsupported get_ol_dicts ol_edition value: {values}")
 
     with engine.connect() as conn:
-        ol_book = conn.execute(select(OlBase).where(OlBase.ol_key == f"/books/{ol_book_id}").limit(1)).first()
+        ol_books = conn.execute(select(OlBase).where(OlBase.ol_key.in_([f"/books/{ol_edition}" for ol_edition in values]))).unique().all()
 
-        if ol_book is None:
-            return render_template("page/ol_book.html", header_active="search", ol_book_id=ol_book_id), 404
+        ol_book_dicts = []
+        for ol_book in ol_books:
+            ol_book_dict = {
+                'ol_edition': ol_book.ol_key.replace('/books/', ''),
+                'edition': dict(ol_book),
+            }
+            ol_book_dict['edition']['json'] = orjson.loads(ol_book_dict['edition']['json'])
 
-        ol_book_dict = dict(ol_book)
-        ol_book_dict['json'] = orjson.loads(ol_book_dict['json'])
+            ol_book_dict['work'] = None
+            if 'works' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['works']) > 0:
+                ol_work = conn.execute(select(OlBase).where(OlBase.ol_key == ol_book_dict['edition']['json']['works'][0]['key']).limit(1)).first()
+                if ol_work:
+                    ol_book_dict['work'] = dict(ol_work)
+                    ol_book_dict['work']['json'] = orjson.loads(ol_book_dict['work']['json'])
 
-        ol_book_dict['work'] = None
-        if 'works' in ol_book_dict['json'] and len(ol_book_dict['json']['works']) > 0:
-            ol_work = conn.execute(select(OlBase).where(OlBase.ol_key == ol_book_dict['json']['works'][0]['key']).limit(1)).first()
-            if ol_work:
-                ol_book_dict['work'] = dict(ol_work)
-                ol_book_dict['work']['json'] = orjson.loads(ol_book_dict['work']['json'])
+            unredirected_ol_authors = []
+            if 'authors' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['authors']) > 0:
+                unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_([author['key'] for author in ol_book_dict['edition']['json']['authors']])).limit(10)).all()
+            elif ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json']:
+                author_keys = [author['author']['key'] for author in ol_book_dict['work']['json']['authors'] if 'author' in author]
+                if len(author_keys) > 0:
+                    unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys)).limit(10)).all()
+            ol_authors = []
+            # TODO: Batch them up.
+            for unredirected_ol_author in unredirected_ol_authors:
+                if unredirected_ol_author.type == '/type/redirect':
+                    json = orjson.loads(unredirected_ol_author.json)
+                    if 'location' not in json:
+                        continue
+                    ol_author = conn.execute(select(OlBase).where(OlBase.ol_key == json['location']).limit(1)).first()
+                    ol_authors.append(ol_author)
+                else:
+                    ol_authors.append(unredirected_ol_author)
 
-        unredirected_ol_authors = []
-        if 'authors' in ol_book_dict['json'] and len(ol_book_dict['json']['authors']) > 0:
-            unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_([author['key'] for author in ol_book_dict['json']['authors']])).limit(10)).all()
-        elif ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json']:
-            author_keys = [author['author']['key'] for author in ol_book_dict['work']['json']['authors'] if 'author' in author]
-            if len(author_keys) > 0:
-                unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys)).limit(10)).all()
-        ol_authors = []
-        # TODO: Batch them up.
-        for unredirected_ol_author in unredirected_ol_authors:
-            if unredirected_ol_author.type == '/type/redirect':
-                json = orjson.loads(unredirected_ol_author.json)
-                if 'location' not in json:
+            ol_book_dict['authors'] = []
+            for author in ol_authors:
+                author_dict = dict(author)
+                author_dict['json'] = orjson.loads(author_dict['json'])
+                ol_book_dict['authors'].append(author_dict)
+
+            allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict['edition'])
+            allthethings.utils.add_identifier_unified(ol_book_dict['edition'], 'openlibrary', ol_book_dict['ol_edition'])
+            allthethings.utils.add_isbns_unified(ol_book_dict['edition'], (ol_book_dict['edition']['json'].get('isbn_10') or []) + (ol_book_dict['edition']['json'].get('isbn_13') or []))
+            for item in (ol_book_dict['edition']['json'].get('lc_classifications') or []):
+                allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
+            for item in (ol_book_dict['edition']['json'].get('dewey_decimal_class') or []):
+                allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_decimal_class'], item)
+            for item in (ol_book_dict['edition']['json'].get('dewey_number') or []):
+                allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
+            for classification_type, items in (ol_book_dict['edition']['json'].get('classifications') or {}).items():
+                if classification_type in allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING:
+                    # Sometimes identifiers are incorrectly in the classifications list
+                    for item in items:
+                        allthethings.utils.add_identifier_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[classification_type], item)
                     continue
-                ol_author = conn.execute(select(OlBase).where(OlBase.ol_key == json['location']).limit(1)).first()
-                ol_authors.append(ol_author)
-            else:
-                ol_authors.append(unredirected_ol_author)
-
-        ol_book_dict['authors'] = []
-        for author in ol_authors:
-            author_dict = dict(author)
-            author_dict['json'] = orjson.loads(author_dict['json'])
-            ol_book_dict['authors'].append(author_dict)
-
-        allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict)
-        allthethings.utils.add_isbns_unified(ol_book_dict, (ol_book_dict['json'].get('isbn_10') or []) + (ol_book_dict['json'].get('isbn_13') or []))
-        for item in (ol_book_dict['json'].get('lc_classifications') or []):
-            allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
-        for item in (ol_book_dict['json'].get('dewey_decimal_class') or []):
-            allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_decimal_class'], item)
-        for item in (ol_book_dict['json'].get('dewey_number') or []):
-            allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
-        for classification_type, items in (ol_book_dict['json'].get('classifications') or {}).items():
-            if classification_type not in allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
-                # TODO: Do a scrape / review of all classification types in OL.
-                print(f"Warning: missing classification_type: {classification_type}")
-                continue
-            for item in items:
-                allthethings.utils.add_classification_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
-        if ol_book_dict['work']:
-            allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict['work'])
-            for item in (ol_book_dict['work']['json'].get('lc_classifications') or []):
-                allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
-            for item in (ol_book_dict['work']['json'].get('dewey_decimal_class') or []):
-                allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_decimal_class'], item)
-            for item in (ol_book_dict['work']['json'].get('dewey_number') or []):
-                allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
-            for classification_type, items in (ol_book_dict['work']['json'].get('classifications') or {}).items():
                 if classification_type not in allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
                     # TODO: Do a scrape / review of all classification types in OL.
                     print(f"Warning: missing classification_type: {classification_type}")
                     continue
                 for item in items:
-                    allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
-        for item in (ol_book_dict['json'].get('lccn') or []):
-            allthethings.utils.add_identifier_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['lccn'], item)
-        for item in (ol_book_dict['json'].get('oclc_numbers') or []):
-            allthethings.utils.add_identifier_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['oclc_numbers'], item)
-        for identifier_type, items in (ol_book_dict['json'].get('identifiers') or {}).items():
-            if identifier_type not in allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING:
-                # TODO: Do a scrape / review of all identifier types in OL.
-                print(f"Warning: missing identifier_type: {identifier_type}")
-                continue
-            for item in items:
-                allthethings.utils.add_identifier_unified(ol_book_dict, allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[identifier_type], item)
+                    allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
+            if ol_book_dict['work']:
+                allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict['work'])
+                allthethings.utils.add_identifier_unified(ol_book_dict['work'], 'openlibrary', ol_book_dict['work']['ol_key'].replace('/works/', ''))
+                for item in (ol_book_dict['work']['json'].get('lc_classifications') or []):
+                    allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
+                for item in (ol_book_dict['work']['json'].get('dewey_decimal_class') or []):
+                    allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_decimal_class'], item)
+                for item in (ol_book_dict['work']['json'].get('dewey_number') or []):
+                    allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
+                for classification_type, items in (ol_book_dict['work']['json'].get('classifications') or {}).items():
+                    if classification_type in allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING:
+                        # Sometimes identifiers are incorrectly in the classifications list
+                        for item in items:
+                            allthethings.utils.add_identifier_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[classification_type], item)
+                        continue
+                    if classification_type not in allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
+                        # TODO: Do a scrape / review of all classification types in OL.
+                        print(f"Warning: missing classification_type: {classification_type}")
+                        continue
+                    for item in items:
+                        allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
+            for item in (ol_book_dict['edition']['json'].get('lccn') or []):
+                allthethings.utils.add_identifier_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['lccn'], item)
+            for item in (ol_book_dict['edition']['json'].get('oclc_numbers') or []):
+                allthethings.utils.add_identifier_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING['oclc_numbers'], item)
+            if 'ocaid' in ol_book_dict['edition']['json']:
+                allthethings.utils.add_identifier_unified(ol_book_dict['edition'], 'ocaid', ol_book_dict['edition']['json']['ocaid'])
+            for identifier_type, items in (ol_book_dict['edition']['json'].get('identifiers') or {}).items():
+                if identifier_type in allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:
+                    # Sometimes classifications are incorrectly in the identifiers list
+                    for item in items:
+                        allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[identifier_type], item)
+                    continue
+                if identifier_type not in allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING:
+                    # TODO: Do a scrape / review of all identifier types in OL.
+                    print(f"Warning: missing identifier_type: {identifier_type}")
+                    continue
+                for item in items:
+                    allthethings.utils.add_identifier_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING[identifier_type], item)
 
-        ol_book_dict['languages_normalized'] = [(ol_languages.get(language['key']) or {'name':language['key']})['name'] for language in (ol_book_dict['json'].get('languages') or [])]
-        ol_book_dict['translated_from_normalized'] = [(ol_languages.get(language['key']) or {'name':language['key']})['name'] for language in (ol_book_dict['json'].get('translated_from') or [])]
+            ol_book_dict['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes((ol_languages.get(lang['key']) or {'name':lang['key']})['name']) for lang in (ol_book_dict['edition']['json'].get('languages') or [])])
+            ol_book_dict['translated_from_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes((ol_languages.get(lang['key']) or {'name':lang['key']})['name']) for lang in (ol_book_dict['edition']['json'].get('translated_from') or [])])
 
-        ol_book_top = {
-            'title': '',
-            'subtitle': '',
-            'authors': '',
-            'description': '',
-            'cover': f"https://covers.openlibrary.org/b/olid/{ol_book_id}-M.jpg",
-        }
+            ol_book_dict['identifiers_unified'] = allthethings.utils.merge_unified_fields([ol_book_dict['edition']['identifiers_unified'], (ol_book_dict.get('work') or {'identifiers_unified': {}})['identifiers_unified']])
+            ol_book_dict['classifications_unified'] = allthethings.utils.merge_unified_fields([ol_book_dict['edition']['classifications_unified'], (ol_book_dict.get('work') or {'classifications_unified': {}})['classifications_unified']])
 
-        if len(ol_book_top['title'].strip()) == 0 and 'title' in ol_book_dict['json']:
-            if 'title_prefix' in ol_book_dict['json']:
-                ol_book_top['title'] = ol_book_dict['json']['title_prefix'] + " " + ol_book_dict['json']['title']
-            else:
-                ol_book_top['title'] = ol_book_dict['json']['title']
-        if len(ol_book_top['title'].strip()) == 0 and ol_book_dict['work'] and 'title' in ol_book_dict['work']['json']:
-            ol_book_top['title'] = ol_book_dict['work']['json']['title']
-        if len(ol_book_top['title'].strip()) == 0:
-            ol_book_top['title'] = '(no title)'
+            ol_book_dict['cover_url_normalized'] = ''
+            if len(ol_book_dict['edition']['json'].get('covers') or []) > 0:
+                ol_book_dict['cover_url_normalized'] = f"https://covers.openlibrary.org/b/id/{extract_ol_str_field(ol_book_dict['edition']['json']['covers'][0])}-L.jpg"
+            elif ol_book_dict['work'] and len(ol_book_dict['work']['json'].get('covers') or []) > 0:
+                ol_book_dict['cover_url_normalized'] = f"https://covers.openlibrary.org/b/id/{extract_ol_str_field(ol_book_dict['work']['json']['covers'][0])}-L.jpg"
 
-        if len(ol_book_top['subtitle'].strip()) == 0 and 'subtitle' in ol_book_dict['json']:
-            ol_book_top['subtitle'] = ol_book_dict['json']['subtitle']
-        if len(ol_book_top['subtitle'].strip()) == 0 and ol_book_dict['work'] and 'subtitle' in ol_book_dict['work']['json']:
-            ol_book_top['subtitle'] = ol_book_dict['work']['json']['subtitle']
+            ol_book_dict['title_normalized'] = ''
+            if len(ol_book_dict['title_normalized'].strip()) == 0 and 'title' in ol_book_dict['edition']['json']:
+                if 'title_prefix' in ol_book_dict['edition']['json']:
+                    ol_book_dict['title_normalized'] = extract_ol_str_field(ol_book_dict['edition']['json']['title_prefix']) + " " + extract_ol_str_field(ol_book_dict['edition']['json']['title'])
+                else:
+                    ol_book_dict['title_normalized'] = extract_ol_str_field(ol_book_dict['edition']['json']['title'])
+            if len(ol_book_dict['title_normalized'].strip()) == 0 and ol_book_dict['work'] and 'title' in ol_book_dict['work']['json']:
+                ol_book_dict['title_normalized'] = extract_ol_str_field(ol_book_dict['work']['json']['title'])
+            if len(ol_book_dict['title_normalized'].strip()) == 0 and len(ol_book_dict['edition']['json'].get('work_titles') or []) > 0:
+                ol_book_dict['title_normalized'] = extract_ol_str_field(ol_book_dict['edition']['json']['work_titles'][0])
+            if len(ol_book_dict['title_normalized'].strip()) == 0 and len(ol_book_dict['edition']['json'].get('work_titles') or []) > 0:
+                ol_book_dict['title_normalized'] = extract_ol_str_field(ol_book_dict['edition']['json']['work_titles'][0])
+            ol_book_dict['title_normalized'] = ol_book_dict['title_normalized'].replace(' : ', ': ')
 
-        if len(ol_book_top['authors'].strip()) == 0 and 'by_statement' in ol_book_dict['json']:
-            ol_book_top['authors'] = ol_book_dict['json']['by_statement'].replace(' ; ', '; ').strip()
-            if ol_book_top['authors'][-1] == '.':
-                ol_book_top['authors'] = ol_book_top['authors'][0:-1]
-        if len(ol_book_top['authors'].strip()) == 0:
-            ol_book_top['authors'] = ",".join([author['json']['name'] for author in ol_book_dict['authors'] if 'name' in author['json']])
-        if len(ol_book_top['authors'].strip()) == 0:
-            ol_book_top['authors'] = '(no authors)'
+            ol_book_dict['authors_normalized'] = ''
+            if len(ol_book_dict['authors_normalized'].strip()) == 0 and 'by_statement' in ol_book_dict['edition']['json']:
+                ol_book_dict['authors_normalized'] = extract_ol_str_field(ol_book_dict['edition']['json']['by_statement']).strip()
+            if len(ol_book_dict['authors_normalized'].strip()) == 0:
+                ol_book_dict['authors_normalized'] = ", ".join([extract_ol_str_field(author['json']['name']) for author in ol_book_dict['authors'] if 'name' in author['json']])
 
-        if len(ol_book_top['description'].strip()) == 0 and 'description' in ol_book_dict['json']:
-            if type(ol_book_dict['json']['description']) == str:
-                ol_book_top['description'] = ol_book_dict['json']['description']
-            else:
-                ol_book_top['description'] = ol_book_dict['json']['description']['value']
-        if len(ol_book_top['description'].strip()) == 0 and ol_book_dict['work'] and 'description' in ol_book_dict['work']['json']:
-            if type(ol_book_dict['work']['json']['description']) == str:
-                ol_book_top['description'] = ol_book_dict['work']['json']['description']
-            else:
-                ol_book_top['description'] = ol_book_dict['work']['json']['description']['value']
-        if len(ol_book_top['description'].strip()) == 0 and 'first_sentence' in ol_book_dict['json']:
-            if type(ol_book_dict['json']['first_sentence']) == str:
-                ol_book_top['description'] = ol_book_dict['json']['first_sentence']
-            else:
-                ol_book_top['description'] = ol_book_dict['json']['first_sentence']['value']
-        if len(ol_book_top['description'].strip()) == 0 and ol_book_dict['work'] and 'first_sentence' in ol_book_dict['work']['json']:
-            if type(ol_book_dict['work']['json']['first_sentence']) == str:
-                ol_book_top['description'] = ol_book_dict['work']['json']['first_sentence']
-            else:
-                ol_book_top['description'] = ol_book_dict['work']['json']['first_sentence']['value']
+            ol_book_dict['authors_normalized'] = ol_book_dict['authors_normalized'].replace(' ; ', '; ').replace(' , ', ', ')
+            if ol_book_dict['authors_normalized'].endswith('.'):
+                ol_book_dict['authors_normalized'] = ol_book_dict['authors_normalized'][0:-1]
 
-        if len(ol_book_dict['json'].get('covers') or []) > 0:
-            ol_book_top['cover'] = f"https://covers.openlibrary.org/b/id/{ol_book_dict['json']['covers'][0]}-M.jpg"
-        elif ol_book_dict['work'] and len(ol_book_dict['work']['json'].get('covers') or []) > 0:
-            ol_book_top['cover'] = f"https://covers.openlibrary.org/b/id/{ol_book_dict['work']['json']['covers'][0]}-M.jpg"
+            ol_book_dict['publishers_normalized'] = (", ".join([extract_ol_str_field(field) for field in ol_book_dict['edition']['json'].get('publishers') or []])).strip()
+            if len(ol_book_dict['publishers_normalized']) == 0:
+                ol_book_dict['publishers_normalized'] = (", ".join([extract_ol_str_field(field) for field in ol_book_dict['edition']['json'].get('distributors') or []])).strip()
 
-        return render_template(
-            "page/ol_book.html",
-            header_active="search",
-            ol_book_id=ol_book_id,
-            ol_book_dict=ol_book_dict,
-            ol_book_dict_json=nice_json(ol_book_dict),
-            ol_book_top=ol_book_top,
-            ol_classifications=ol_classifications,
-            ol_identifiers=ol_identifiers,
-            ol_languages=ol_languages,
-        )
+            ol_book_dict['all_dates'] = [item.strip() for item in [
+                extract_ol_str_field(ol_book_dict['edition']['json'].get('publish_date')),
+                extract_ol_str_field(ol_book_dict['edition']['json'].get('copyright_date')),
+                extract_ol_str_field(((ol_book_dict.get('work') or {}).get('json') or {}).get('first_publish_date')),
+            ] if item and item.strip() != '']
+            ol_book_dict['longest_date_field'] = max([''] + ol_book_dict['all_dates'])
+
+            ol_book_dict['edition_varia_normalized'] = ", ".join([item.strip() for item in [
+                *([extract_ol_str_field(field) for field in ol_book_dict['edition']['json'].get('series') or []]),
+                extract_ol_str_field(ol_book_dict['edition']['json'].get('edition_name') or ''),
+                *([extract_ol_str_field(field) for field in ol_book_dict['edition']['json'].get('publish_places') or []]),
+                allthethings.utils.marc_country_code_to_english(extract_ol_str_field(ol_book_dict['edition']['json'].get('publish_country') or '')),
+                ol_book_dict['longest_date_field'],
+            ] if item and item.strip() != ''])
+
+            for date in ([ol_book_dict['longest_date_field']] + ol_book_dict['all_dates']):
+                potential_year = re.search(r"(\d\d\d\d)", date)
+                if potential_year is not None:
+                    ol_book_dict['year_normalized'] = potential_year[0]
+                    break
+
+            ol_book_dict['stripped_description'] = ''
+            if len(ol_book_dict['stripped_description']) == 0 and 'description' in ol_book_dict['edition']['json']:
+                ol_book_dict['stripped_description'] = strip_description(extract_ol_str_field(ol_book_dict['edition']['json']['description']))
+            if len(ol_book_dict['stripped_description']) == 0 and ol_book_dict['work'] and 'description' in ol_book_dict['work']['json']:
+                ol_book_dict['stripped_description'] = strip_description(extract_ol_str_field(ol_book_dict['work']['json']['description']))
+            if len(ol_book_dict['stripped_description']) == 0 and 'first_sentence' in ol_book_dict['edition']['json']:
+                ol_book_dict['stripped_description'] = strip_description(extract_ol_str_field(ol_book_dict['edition']['json']['first_sentence']))
+            if len(ol_book_dict['stripped_description']) == 0 and ol_book_dict['work'] and 'first_sentence' in ol_book_dict['work']['json']:
+                ol_book_dict['stripped_description'] = strip_description(extract_ol_str_field(ol_book_dict['work']['json']['first_sentence']))
+
+            ol_book_dict['comments_normalized'] = [item.strip() for item in [
+                extract_ol_str_field(ol_book_dict['edition']['json'].get('notes') or ''),
+                extract_ol_str_field(((ol_book_dict.get('work') or {}).get('json') or {}).get('notes') or ''),
+            ] if item and item.strip() != '']
+
+            # {% for source_record in ol_book_dict.json.source_records %}
+            #   <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
+            #     <div class="flex-none w-[150] px-2 py-1">{{ 'Source records' if loop.index0 == 0 else ' ' }}&nbsp;</div>
+            #     <div class="px-2 py-1 grow break-words line-clamp-[8]">{{source_record}}</div>
+            #     <div class="px-2 py-1 whitespace-nowrap text-right">
+            #       <!-- Logic roughly based on https://github.com/internetarchive/openlibrary/blob/e7e8aa5b/openlibrary/templates/history/sources.html#L27 -->
+            #       {% if '/' not in source_record and '_meta.mrc:' in source_record %}
+            #         <a href="https://openlibrary.org/show-records/ia:{{source_record | split('_') | first}}">url</a></div>
+            #       {% else %}
+            #         <a href="https://openlibrary.org/show-records/{{source_record | replace('marc:','')}}">url</a></div>
+            #       {% endif %}
+            #   </div>
+            # {% endfor %}
+
+            ol_book_dicts.append(ol_book_dict)
+
+        return ol_book_dicts
+
+@page.get("/db/ol/<string:ol_edition>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def ol_book_json(ol_edition):
+    with Session(engine) as session:
+        ol_book_dicts = get_ol_book_dicts(session, "ol_edition", [ol_edition])
+        if len(ol_book_dicts) == 0:
+            return "{}", 404
+        return nice_json(ol_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
     aa_lgli_comics_2022_08_files = []
@@ -1430,6 +1477,9 @@ def get_isbndb_dicts(session, canonical_isbn13s):
             # There is often also isbndb_dict['json']['image'], but sometimes images get added later, so we can make a guess ourselves.
             isbndb_dict['cover_url_guess'] = f"https://images.isbndb.com/covers/{isbndb_dict['isbn13'][-4:-2]}/{isbndb_dict['isbn13'][-2:]}/{isbndb_dict['isbn13']}.jpg"
 
+            allthethings.utils.init_identifiers_and_classification_unified(isbndb_dict)
+            allthethings.utils.add_isbns_unified(isbndb_dict, [canonical_isbn13])
+
             isbndb_inner_comments = {
                 "edition_varia_normalized": ("after", ["Anna's Archive version of the 'edition', and 'date_published' fields; combining them into a single field for display and search."]),
                 "title_normalized": ("after", ["Anna's Archive version of the 'title', and 'title_long' fields; we take the longest of the two."]),
@@ -1603,7 +1653,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         raise Exception("Invalid aarecord_ids")
 
     # Filter out bad data
-    aarecord_ids = [val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]
+    aarecord_ids = list(set([val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]))
 
     split_ids = allthethings.utils.split_aarecord_ids(aarecord_ids)
     lgrsnf_book_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_lgrsnf_book_dicts(session, "MD5", split_ids['md5']))
@@ -1617,10 +1667,12 @@ def get_aarecords_mysql(session, aarecord_ids):
     ia_record_dicts = dict(('md5:' + item['aa_ia_file']['md5'].lower(), item) for item in get_ia_record_dicts(session, "md5", split_ids['md5']) if item.get('aa_ia_file') is not None)
     ia_record_dicts2 = dict(('ia:' + item['ia_id'].lower(), item) for item in get_ia_record_dicts(session, "ia_id", split_ids['ia']) if item.get('aa_ia_file') is None)
     isbndb_dicts = {('isbn:' + item['ean13']): item['isbndb'] for item in get_isbndb_dicts(session, split_ids['isbn'])}
+    ol_book_dicts = {('ol:' + item['ol_edition']): [item] for item in get_ol_book_dicts(session, 'ol_edition', split_ids['ol'])}
 
     # First pass, so we can fetch more dependencies.
     aarecords = []
     canonical_isbn13s = []
+    ol_editions = []
     for aarecord_id in aarecord_ids:
         aarecord = {}
         aarecord['id'] = aarecord_id
@@ -1634,11 +1686,13 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['aac_zlib3_book'] = aac_zlib3_book_dicts1.get(aarecord_id) or aac_zlib3_book_dicts2.get(aarecord_id)
         aarecord['aa_lgli_comics_2022_08_file'] = aa_lgli_comics_2022_08_file_dicts.get(aarecord_id)
         aarecord['ia_record'] = ia_record_dicts.get(aarecord_id) or ia_record_dicts2.get(aarecord_id)
-        aarecord['isbndb'] = isbndb_dicts.get(aarecord_id) or []
+        aarecord['isbndb'] = list(isbndb_dicts.get(aarecord_id) or [])
+        aarecord['ol'] = list(ol_book_dicts.get(aarecord_id) or [])
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
         aarecord['file_unified_data'] = {}
+        # Duplicated below, with more fields
         aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
@@ -1647,13 +1701,19 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
             *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
+            *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
+            *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
         ])
         for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
             canonical_isbn13s.append(canonical_isbn13)
+        for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('openlibrary') or []):
+            if allthethings.utils.validate_ol_editions([potential_ol_edition]):
+                ol_editions.append(potential_ol_edition)
 
         aarecords.append(aarecord)
 
-    isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, canonical_isbn13s)}
+    isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(set(canonical_isbn13s)))}
+    ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(set(ol_editions)))}
 
     # Second pass
     for aarecord in aarecords:
@@ -1662,12 +1722,23 @@ def get_aarecords_mysql(session, aarecord_ids):
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
         isbndb_all = []
+        existing_isbn13s = set([isbndb['isbn13'] for isbndb in aarecord['isbndb']])
         for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-            for isbndb in isbndb_dicts2[canonical_isbn13]['isbndb']:
-                isbndb_all.append(isbndb)
+            if canonical_isbn13 not in existing_isbn13s:
+                for isbndb in isbndb_dicts2[canonical_isbn13]['isbndb']:
+                    isbndb_all.append(isbndb)
         if len(isbndb_all) > 5:
             isbndb_all = []
-        aarecord['isbndb'] += isbndb_all
+        aarecord['isbndb'] = (aarecord['isbndb'] + isbndb_all)
+
+        ol_book_dicts_all = []
+        existing_ol_editions = set([ol_book_dict['ol_edition'] for ol_book_dict in aarecord['ol']])
+        for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('openlibrary') or []):
+            if (potential_ol_edition in ol_book_dicts2) and (potential_ol_edition not in existing_ol_editions):
+                ol_book_dicts_all.append(ol_book_dicts2[potential_ol_edition])
+        if len(ol_book_dicts_all) > 3:
+            ol_book_dicts_all = []
+        aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
 
         aarecord_id_split = aarecord_id.split(':', 1)
         if aarecord_id_split[0] in allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING:
@@ -1701,6 +1772,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('cover_url_normalized') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('cover_url_normalized') or '').strip(),
             ((aarecord['lgli_file'] or {}).get('cover_url_guess_normalized') or '').strip(),
+            *[ol_book_dict['cover_url_normalized'] for ol_book_dict in aarecord['ol']],
             *[(isbndb['json'].get('image') or '').strip() for isbndb in aarecord['isbndb']],
             *[isbndb['cover_url_guess'] for isbndb in aarecord['isbndb']],
         ]
@@ -1756,6 +1828,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage') or [])]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or [])]
+        title_multiple += [(ol_book_dict.get('title_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         title_multiple += [(isbndb.get('title_normalized') or '').strip() for isbndb in aarecord['isbndb']]
         if aarecord['file_unified_data']['title_best'] == '':
             aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
@@ -1771,6 +1844,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
+        author_multiple += [ol_book_dict['authors_normalized'] for ol_book_dict in aarecord['ol']]
         author_multiple += [", ".join(isbndb['json'].get('authors') or []) for isbndb in aarecord['isbndb']]
         if aarecord['file_unified_data']['author_best'] == '':
             aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
@@ -1786,6 +1860,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
+        publisher_multiple += [(ol_book_dict.get('publishers_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         publisher_multiple += [(isbndb['json'].get('publisher') or '').strip() for isbndb in aarecord['isbndb']]
         if aarecord['file_unified_data']['publisher_best'] == '':
             aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
@@ -1801,6 +1876,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
+        edition_varia_multiple += [(ol_book_dict.get('edition_varia_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         edition_varia_multiple += [(isbndb.get('edition_varia_normalized') or '').strip() for isbndb in aarecord['isbndb']]
         if aarecord['file_unified_data']['edition_varia_best'] == '':
             aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
@@ -1819,6 +1895,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple_raw]
         aarecord['file_unified_data']['year_best'] = max(year_multiple, key=len)
         year_multiple += [(edition.get('year_normalized') or '').strip() for edition in lgli_all_editions]
+        year_multiple += [(ol_book_dict.get('year_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         year_multiple += [(isbndb.get('year_normalized') or '').strip() for isbndb in aarecord['isbndb']]
         for year in year_multiple:
             # If a year appears in edition_varia_best, then use that, for consistency.
@@ -1847,6 +1924,9 @@ def get_aarecords_mysql(session, aarecord_ids):
             comments_multiple.append((edition.get('commentary') or '').strip())
             for note in (edition.get('descriptions_mapped') or {}).get('descriptions_mapped.notes', []):
                 comments_multiple.append(note.strip())
+        for ol_book_dict in aarecord['ol']:
+            for comment in ol_book_dict.get('comments_normalized') or []:
+                comments_multiple.append(comment.strip())
         if aarecord['file_unified_data']['comments_best'] == '':
             aarecord['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
         aarecord['file_unified_data']['comments_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(comments_multiple) if s != aarecord['file_unified_data']['comments_best']]
@@ -1860,6 +1940,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
+        stripped_description_multiple += [ol_book_dict['stripped_description'].strip()[0:5000] for ol_book_dict in aarecord['ol']]
         stripped_description_multiple += [(isbndb['json'].get('synopsis') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
         stripped_description_multiple += [(isbndb['json'].get('overview') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
         if aarecord['file_unified_data']['stripped_description_best'] == '':
@@ -1881,6 +1962,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
+            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(ol_book_dict.get('language_codes') or []) for ol_book_dict in aarecord['ol']])
+        if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(isbndb.get('language_codes') or []) for isbndb in aarecord['isbndb']])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
@@ -1888,16 +1971,6 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if potential_code != '':
                     aarecord['file_unified_data']['language_codes'] = [potential_code]
                     break
-
-        language_detection = ''
-        if len(aarecord['file_unified_data']['stripped_description_best']) > 20:
-            language_detect_string = " ".join(title_multiple) + " ".join(stripped_description_multiple)
-            try:
-                language_detection_data = ftlangdetect.detect(language_detect_string)
-                if language_detection_data['score'] > 0.5: # Somewhat arbitrary cutoff
-                    language_detection = language_detection_data['lang']
-            except:
-                pass
 
         # detected_language_codes_probs = []
         # for item in language_detection:
@@ -1908,9 +1981,28 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['most_likely_language_code'] = ''
         if len(aarecord['file_unified_data']['language_codes']) > 0:
             aarecord['file_unified_data']['most_likely_language_code'] = aarecord['file_unified_data']['language_codes'][0]
-        elif len(language_detection) > 0:
-            aarecord['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
+        elif len(aarecord['file_unified_data']['stripped_description_best']) > 20:
+            language_detect_string = " ".join(title_multiple) + " ".join(stripped_description_multiple)
+            try:
+                language_detection_data = ftlangdetect.detect(language_detect_string)
+                if language_detection_data['score'] > 0.5: # Somewhat arbitrary cutoff
+                    language_detection = language_detection_data['lang']
+                    aarecord['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
+            except:
+                pass
 
+        # Duplicated from above, but with more fields now.
+        aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
+            ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['aac_zlib3_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
+            *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
+            *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
+            *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
+        ])
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('classifications_unified') or {}),
@@ -1918,6 +2010,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['zlib_book'] or {}).get('classifications_unified') or {}),
             *[(edition.get('classifications_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('classifications_unified') or {}),
+            *[isbndb['classifications_unified'] for isbndb in aarecord['isbndb']],
+            *[ol_book_dict['classifications_unified'] for ol_book_dict in aarecord['ol']],
         ])
 
         aarecord['file_unified_data']['problems'] = []
@@ -2021,9 +2115,14 @@ def get_aarecords_mysql(session, aarecord_ids):
                 }
             }
         aarecord['isbndb'] = aarecord.get('isbndb') or []
-        for key, item in enumerate(aarecord['isbndb']):
-            aarecord['isbndb'][key] = {
-                'isbn13': aarecord['isbndb'][key]['isbn13'],
+        for index, item in enumerate(aarecord['isbndb']):
+            aarecord['isbndb'][index] = {
+                'isbn13': aarecord['isbndb'][index]['isbn13'],
+            }
+        aarecord['ol'] = aarecord.get('ol') or []
+        for index, item in enumerate(aarecord['ol']):
+            aarecord['ol'][index] = {
+                'ol_edition': aarecord['ol'][index]['ol_edition'],
             }
 
         # Even though `additional` is only for computing real-time stuff,
@@ -2064,7 +2163,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['external_borrow'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['external_borrow_printdisabled'] if (aarecord.get('ia_record') and (aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
-                *(['meta_explore'] if aarecord_id_split[0] == 'isbn' else []),
+                *(['meta_explore'] if aarecord_id_split[0] in ['isbn', 'ol'] else []),
             ],
             'search_record_sources': list(set([
                 *(['lgrs']      if aarecord['lgrsnf_book'] is not None else []),
@@ -2075,6 +2174,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['lgli']      if aarecord['aa_lgli_comics_2022_08_file'] is not None else []),
                 *(['ia']        if aarecord['ia_record'] is not None else []),
                 *(['isbndb']    if (aarecord_id_split[0] == 'isbn' and len(aarecord['isbndb'] or []) > 0) else []),
+                *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
             ])),
         }
 
@@ -2123,6 +2223,7 @@ def get_record_sources_mapping(display_lang):
             "zlib": "Z-Library",
             "ia": "Internet Archive",
             "isbndb": "ISBNdb",
+            "ol": "OpenLibrary",
         }
 
 def format_filesize(num):
@@ -2212,9 +2313,9 @@ def get_additional_for_aarecord(aarecord):
         'top_row': ", ".join([item for item in [
                 additional['most_likely_language_name'],
                 aarecord['file_unified_data'].get('extension_best', None) or '',
-                format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0),
+                format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0) if aarecord['file_unified_data'].get('filesize_best', None) else '',
                 aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
-                aarecord_id_split[1] if aarecord_id_split[0] == 'ia' else '',
+                aarecord_id_split[1] if aarecord_id_split[0] in ['ia', 'ol'] else '',
                 f"ISBN {aarecord_id_split[1]}" if aarecord_id_split[0] == 'isbn' else '',
             ] if item != '']),
         'title': aarecord['file_unified_data'].get('title_best', None) or '',
@@ -2347,6 +2448,10 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((f"Search various other databases for ISBN", f"https://en.wikipedia.org/wiki/Special:BookSources?isbn={aarecord_id_split[1]}", ""))
         if len(aarecord.get('isbndb') or []) > 0:
             additional['download_urls'].append((f"Find original record in ISBNdb", f"https://isbndb.com/book/{aarecord_id_split[1]}", ""))
+    if aarecord_id_split[0] == 'ol':
+        additional['download_urls'].append((f"Search Anna’s Archive for Open Library ID", f"/search?q={aarecord_id_split[1]}", ""))
+        if len(aarecord.get('ol') or []) > 0:
+            additional['download_urls'].append((f"Find original record in Open Library", f"https://openlibrary.org/books/{aarecord_id_split[1]}", ""))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
     return additional
 
@@ -2432,6 +2537,27 @@ def isbn_page(isbn_input):
         }
         return render_template("page/aarecord.html", **render_fields)
 
+@page.get("/ol/<string:ol_input>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def ol_page(ol_input):
+    with Session(engine) as session:
+        aarecords = get_aarecords_elasticsearch(session, [f"ol:{ol_input}"])
+
+        if len(aarecords) == 0:
+            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ol_input)
+
+        aarecord = aarecords[0]
+
+        render_fields = {
+            "header_active": "search",
+            "aarecord_id": aarecord['id'],
+            "aarecord_id_split": aarecord['id'].split(':', 1),
+            "aarecord": aarecord,
+            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
+            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
+        }
+        return render_template("page/aarecord.html", **render_fields)
+
 @page.get("/db/aarecord/<string:aarecord_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def md5_json(aarecord_id):
@@ -2452,6 +2578,7 @@ def md5_json(aarecord_id):
                 "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
                 "ia_record": ("before", ["Source data at: https://annas-archive.org/db/ia/<ia_id>.json"]),
                 "isbndb": ("before", ["Source data at: https://annas-archive.org/db/isbndb/<isbn13>.json"]),
+                "ol": ("before", ["Source data at: https://annas-archive.org/db/ol/<ol_edition>.json"]),
                 "aa_lgli_comics_2022_08_file": ("before", ["File from the Libgen.li comics backup by Anna's Archive",
                                                            "See https://annas-archive.org/datasets/libgen_li",
                                                            "No additional source data beyond what is shown here."]),

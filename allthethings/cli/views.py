@@ -28,6 +28,8 @@ import flask_mail
 import click
 import pymysql.cursors
 
+import allthethings.utils
+
 from flask import Blueprint, __version__, render_template, make_response, redirect, request
 from allthethings.extensions import engine, mariadb_url, mariadb_url_no_timeout, es, Reflected, mail, mariapersist_url
 from sqlalchemy import select, func, text, create_engine
@@ -323,6 +325,7 @@ def elastic_build_aarecords_internal():
                     print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata ( starting ia_id: {batch[0]['ia_id']} )...")
                     executor.map(elastic_build_aarecords_job, chunks([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
+
             print("Processing from isbndb_isbns")
             total = cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns')
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
@@ -331,8 +334,25 @@ def elastic_build_aarecords_internal():
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from isbndb_isbns ( starting isbn13: {batch[0]['isbn13']} )...")
-                    executor.map(elastic_build_aarecords_job, chunks([f"isbn:{item['isbn13']}" for item in batch if item['isbn10'] != "0000000000"], CHUNK_SIZE))
+                    isbn13s = set()
+                    for item in batch:
+                        if item['isbn10'] != "0000000000":
+                            isbn13s.add(f"isbn:{item['isbn13']}")
+                            isbn13s.add(f"isbn:{isbnlib.ean13(item['isbn10'])}")
+                    executor.map(elastic_build_aarecords_job, chunks(list(isbn13s), CHUNK_SIZE))
                     pbar.update(len(batch))
+
+            print("Processing from ol_base")
+            total = cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%"')
+            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                while True:
+                    batch = list(cursor.fetchmany(BATCH_SIZE))
+                    if len(batch) == 0:
+                        break
+                    print(f"Processing {len(batch)} aarecords from ol_base ( starting ol_key: {batch[0]['ol_key']} )...")
+                    executor.map(elastic_build_aarecords_job, chunks([f"ol:{item['ol_key'].replace('/books/','')}" for item in batch if allthethings.utils.validate_ol_editions([item['ol_key'].replace('/books/','')])], CHUNK_SIZE))
+                    pbar.update(len(batch))
+
             print("Processing from computed_all_md5s")
             total = cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 >= %(from)s', { "from": bytes.fromhex(first_md5) })
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
