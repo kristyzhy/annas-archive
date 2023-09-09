@@ -23,7 +23,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER
+from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG
 from allthethings.page.views import get_aarecords_elasticsearch
 
 import allthethings.utils
@@ -810,6 +810,15 @@ def gc_notify():
         claim_code = None
         if potential_claim_code is not None:
             claim_code = potential_claim_code[1]
+
+        sig = request.headers['X-GC-NOTIFY-SIG']
+        if sig != GC_NOTIFY_SIG:
+            error = f"Warning: gc_notify message '{message['X-Original-To']}' has incorrect signature: '{sig}'"
+            donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
+            cursor.execute('UPDATE mariapersist_donations SET json=%(json)s WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
+            cursor.execute('COMMIT')
+            print(error)
+            return "", 404
 
         data_value = { "link": link, "claim_code": claim_code }
         if not allthethings.utils.confirm_membership(cursor, donation_id, 'amazon_gc_done', data_value):

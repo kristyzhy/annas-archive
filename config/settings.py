@@ -13,6 +13,7 @@ PAYMENT2_API_KEY = os.getenv("PAYMENT2_API_KEY", None)
 PAYMENT2_HMAC = os.getenv("PAYMENT2_HMAC", None)
 PAYMENT2_PROXIES = os.getenv("PAYMENT2_PROXIES", None)
 PAYMENT2_SIG_HEADER = os.getenv("PAYMENT2_SIG_HEADER", None)
+GC_NOTIFY_SIG = os.getenv("GC_NOTIFY_SIG", None)
 
 # Redis.
 # REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
