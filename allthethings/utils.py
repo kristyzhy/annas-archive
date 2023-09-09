@@ -253,6 +253,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
 
 MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
     "payment1": 30000,
+    "amazon": 10000,
 }
 
 def get_account_fast_download_info(mariapersist_session, account_id):
