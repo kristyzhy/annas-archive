@@ -797,6 +797,8 @@ def extract_ol_author_field(field):
             return field['author']
         elif 'key' in field['author']:
             return field['author']['key']
+    elif 'key' in field:
+        return field['key']
     return ""
 
 def get_ol_book_dicts(session, key, values):
@@ -843,13 +845,13 @@ def get_ol_book_dicts(session, key, values):
             if 'authors' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['authors']) > 0:
                 for author in ol_book_dict['edition']['json']['authors']:
                     author_str = extract_ol_author_field(author)
-                    if author_str != '':
+                    if author_str != '' and author_str not in author_keys_by_ol_edition[ol_book_dict['ol_edition']]:
                         author_keys.append(author_str)
                         author_keys_by_ol_edition[ol_book_dict['ol_edition']].append(author_str)
-            elif ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json']:
+            if ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json']:
                 for author in ol_book_dict['work']['json']['authors']:
                     author_str = extract_ol_author_field(author)
-                    if author_str != '':
+                    if author_str != '' and author_str not in author_keys_by_ol_edition[ol_book_dict['ol_edition']]:
                         author_keys.append(author_str)
                         author_keys_by_ol_edition[ol_book_dict['ol_edition']].append(author_str)
             ol_book_dict['authors'] = []
@@ -879,6 +881,9 @@ def get_ol_book_dicts(session, key, values):
                     elif author_ol_key in unredirected_ol_authors:
                         ol_authors.append(unredirected_ol_authors[author_ol_key])
                 for author in ol_authors:
+                    if author.type == '/type/redirect':
+                        # Yet another redirect.. this is too much for now, skipping.
+                        continue
                     if author.type != '/type/author':
                         print(f"Warning: found author without /type/author: {author}")
                         continue
@@ -1665,9 +1670,13 @@ def aarecord_score_base(aarecord):
         return 0.01
 
     score = 10000.0
-    # Filesize of >0.5MB is overriding everything else.
-    if (aarecord['file_unified_data'].get('filesize_best') or 0) > 500000:
+    # Filesize of >0.2MB is overriding everything else.
+    if (aarecord['file_unified_data'].get('filesize_best') or 0) > 200000:
         score += 1000.0
+    if (aarecord['file_unified_data'].get('filesize_best') or 0) > 700000:
+        score += 5.0
+    if (aarecord['file_unified_data'].get('filesize_best') or 0) > 1200000:
+        score += 5.0
     # If we're not confident about the language, demote.
     if len(aarecord['file_unified_data'].get('language_codes') or []) == 0:
         score -= 2.0
@@ -1675,29 +1684,31 @@ def aarecord_score_base(aarecord):
     if (aarecord['search_only_fields']['search_most_likely_language_code'] == 'en'):
         score += 5.0
     if (aarecord['file_unified_data'].get('extension_best') or '') in ['epub', 'pdf']:
-        score += 10.0
+        score += 15.0
+    if (aarecord['file_unified_data'].get('extension_best') or '') in ['cbr', 'mobi', 'fb2', 'cbz', 'azw3', 'djvu', 'fb2.zip']:
+        score += 5.0
     if len(aarecord['file_unified_data'].get('cover_url_best') or '') > 0:
         score += 3.0
     if (aarecord['file_unified_data'].get('has_aa_downloads') or 0) > 0:
         score += 5.0
     # Don't bump IA too much.
-    if ((aarecord['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0) and (aarecord['search_only_fields']['search_record_sources'] != ['ia']):
+    if (aarecord['file_unified_data'].get('has_aa_exclusive_downloads') or 0) > 0:
         score += 3.0
     if len(aarecord['file_unified_data'].get('title_best') or '') > 0:
         score += 10.0
     if len(aarecord['file_unified_data'].get('author_best') or '') > 0:
-        score += 1.0
+        score += 2.0
     if len(aarecord['file_unified_data'].get('publisher_best') or '') > 0:
-        score += 1.0
+        score += 2.0
     if len(aarecord['file_unified_data'].get('edition_varia_best') or '') > 0:
-        score += 1.0
-    score += min(5.0, 1.0*len(aarecord['file_unified_data'].get('identifiers_unified') or []))
+        score += 2.0
+    score += min(8.0, 2.0*len(aarecord['file_unified_data'].get('identifiers_unified') or []))
     if len(aarecord['file_unified_data'].get('content_type') or '') in ['journal_article', 'standards_document', 'book_comic', 'magazine']:
         # For now demote non-books quite a bit, since they can drown out books.
         # People can filter for them directly.
         score -= 70.0
     if len(aarecord['file_unified_data'].get('stripped_description_best') or '') > 0:
-        score += 1.0
+        score += 3.0
     return score
 
 def get_aarecords_mysql(session, aarecord_ids):
@@ -2898,11 +2909,11 @@ def search_page():
                 {
                     "bool": {
                         "should": [
-                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 100.0 } },
+                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 10000.0 } },
                             { 
                                 "constant_score": {
                                     "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
-                                    "boost": 15*100.0,
+                                    "boost": 50000.0,
                                 },
                             },
                         ],
@@ -2916,11 +2927,11 @@ def search_page():
                 {
                     "bool": {
                         "should": [
-                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 100.0/100000.0 } },
+                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 10000.0/100000.0 } },
                             {
                                 "constant_score": {
                                     "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
-                                    "boost": 1500.0/100000.0,
+                                    "boost": 50000.0/100000.0,
                                 },
                             },
                         ],

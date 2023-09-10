@@ -715,7 +715,7 @@ def payment1_notify():
 def payment2_notify():
     sign_str = orjson.dumps(dict(sorted(request.json.items())))
     if request.headers.get(PAYMENT2_SIG_HEADER) != hmac.new(PAYMENT2_HMAC.encode(), sign_str, hashlib.sha512).hexdigest():
-        print(f"Warning: failed payment1_notify request because of incorrect signature {sign_str} /// {dict(sorted(request.json.items()))}.")
+        print(f"Warning: failed payment2_notify request because of incorrect signature {sign_str} /// {dict(sorted(request.json.items()))}.")
         return "Bad request", 404
     with mariapersist_engine.connect() as connection:
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
