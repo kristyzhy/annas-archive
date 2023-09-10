@@ -308,6 +308,8 @@ def elastic_build_aarecords_internal():
     first_md5 = ''
     # Uncomment to resume from a given md5, e.g. after a crash
     # first_md5 = '0337ca7b631f796fa2f465ef42cb815c'
+    first_ol_key = ''
+    # first_ol_key = '/books/OL5624024M'
 
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
@@ -343,7 +345,7 @@ def elastic_build_aarecords_internal():
                     pbar.update(len(batch))
 
             print("Processing from ol_base")
-            total = cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%"')
+            total = cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s', { "from": first_ol_key })
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))

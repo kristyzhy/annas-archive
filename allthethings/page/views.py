@@ -789,6 +789,15 @@ def extract_ol_str_field(field):
         return field
     return str(field.get('value')) or ""
 
+def extract_ol_author_field(field):
+    if type(field) == str:
+        return field
+    elif 'author' in field:
+        if type(field['author']) == str:
+            return field['author']
+        elif 'key' in field['author']:
+            return field['author']['key']
+    return ""
 
 def get_ol_book_dicts(session, key, values):
     if key != 'ol_edition':
@@ -816,14 +825,18 @@ def get_ol_book_dicts(session, key, values):
 
             unredirected_ol_authors = []
             if 'authors' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['authors']) > 0:
-                unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_([author['key'] for author in ol_book_dict['edition']['json']['authors']])).limit(10)).all()
+                author_keys = [extract_ol_author_field(author) for author in ol_book_dict['edition']['json']['authors']]
+                author_keys = list(filter(len, author_keys))
+                if len(author_keys) > 0:
+                    unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys)).limit(10)).all()
             elif ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json']:
-                author_keys = [(author['author'] if type(author['author']) == str else author['author']['key']) for author in ol_book_dict['work']['json']['authors'] if 'author' in author]
+                author_keys = [extract_ol_author_field(author) for author in ol_book_dict['work']['json']['authors']]
+                author_keys = list(filter(len, author_keys))
                 if len(author_keys) > 0:
                     unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys)).limit(10)).all()
             ol_authors = []
             # TODO: Batch them up.
-            for unredirected_ol_author in unredirected_ol_authors:
+            for unredirected_ol_author in list(set(unredirected_ol_authors)):
                 if unredirected_ol_author.type == '/type/redirect':
                     json = orjson.loads(unredirected_ol_author.json)
                     if 'location' not in json:
@@ -890,7 +903,7 @@ def get_ol_book_dicts(session, key, values):
             if 'ocaid' in ol_book_dict['edition']['json']:
                 allthethings.utils.add_identifier_unified(ol_book_dict['edition'], 'ocaid', ol_book_dict['edition']['json']['ocaid'])
             for identifier_type, items in (ol_book_dict['edition']['json'].get('identifiers') or {}).items():
-                if 'isbn' in identifier_type:
+                if 'isbn' in identifier_type or identifier_type == 'ean':
                     allthethings.utils.add_isbns_unified(ol_book_dict['edition'], items)
                     continue
                 if identifier_type in allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING:

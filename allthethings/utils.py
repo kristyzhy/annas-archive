@@ -641,6 +641,7 @@ OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
     'amazon.ca_asin': 'asin',
     'amazon.de_asin': 'asin',
     'amazon.it_asin': 'asin',
+    'amazon.co.jp_asin': 'asin',
     'british_library': 'bl',
     'british_national_bibliography': 'bnb',
     'google': 'googlebookid',
@@ -648,11 +649,16 @@ OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
     'isbn_13': 'isbn13',
     'national_diet_library,_japan': 'ndl',
     'oclc_numbers': 'oclcworldcat',
+    'oclc': 'oclcworldcat',
     'isfdb': 'isfdbpubideditions',
     'lccn_permalink': 'lccn',
+    'library_of_congress': 'lccn',
     'library_of_congress_catalogue_number': 'lccn',
+    'library_of_congress_catalog_no.': 'lccn',
     'abebooks,de': 'abebooks.de',
     'bibliothèque_nationale_de_france_(bnf)': 'bibliothèque_nationale_de_france',
+    'harvard_university_library': 'harvard',
+    'gallica_(bnf)': 'bibliothèque_nationale_de_france',
     # Plus more added below!
 }
 OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
