@@ -804,6 +804,8 @@ def get_ol_book_dicts(session, key, values):
         raise Exception(f"Unsupported get_ol_dicts key: {key}")
     if not allthethings.utils.validate_ol_editions(values):
         raise Exception(f"Unsupported get_ol_dicts ol_edition value: {values}")
+    if len(values) == 0:
+        return []
 
     with engine.connect() as conn:
         ol_books = conn.execute(select(OlBase).where(OlBase.ol_key.in_([f"/books/{ol_edition}" for ol_edition in values]))).unique().all()
@@ -815,43 +817,77 @@ def get_ol_book_dicts(session, key, values):
                 'edition': dict(ol_book),
             }
             ol_book_dict['edition']['json'] = orjson.loads(ol_book_dict['edition']['json'])
+            ol_book_dicts.append(ol_book_dict)
 
+        # Load works
+        works_ol_keys = []
+        for ol_book_dict in ol_book_dicts:
             ol_book_dict['work'] = None
             if 'works' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['works']) > 0:
-                ol_work = conn.execute(select(OlBase).where(OlBase.ol_key == ol_book_dict['edition']['json']['works'][0]['key']).limit(1)).first()
-                if ol_work:
-                    ol_book_dict['work'] = dict(ol_work)
-                    ol_book_dict['work']['json'] = orjson.loads(ol_book_dict['work']['json'])
+                key = ol_book_dict['edition']['json']['works'][0]['key']
+                works_ol_keys.append(key)
+        if len(works_ol_keys) > 0:
+            ol_works_by_key = {ol_work.ol_key: ol_work for ol_work in conn.execute(select(OlBase).where(OlBase.ol_key.in_(list(set(works_ol_keys))))).all()}
+            for ol_book_dict in ol_book_dicts:
+                ol_book_dict['work'] = None
+                if 'works' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['works']) > 0:
+                    key = ol_book_dict['edition']['json']['works'][0]['key']
+                    if key in ol_works_by_key:
+                        ol_book_dict['work'] = dict(ol_works_by_key[key])
+                        ol_book_dict['work']['json'] = orjson.loads(ol_book_dict['work']['json'])
 
-            unredirected_ol_authors = []
+        # Load authors
+        author_keys = []
+        author_keys_by_ol_edition = collections.defaultdict(list)
+        for ol_book_dict in ol_book_dicts:
             if 'authors' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['authors']) > 0:
-                author_keys = [extract_ol_author_field(author) for author in ol_book_dict['edition']['json']['authors']]
-                author_keys = list(filter(len, author_keys))
-                if len(author_keys) > 0:
-                    unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys)).limit(10)).all()
+                for author in ol_book_dict['edition']['json']['authors']:
+                    author_str = extract_ol_author_field(author)
+                    if author_str != '':
+                        author_keys.append(author_str)
+                        author_keys_by_ol_edition[ol_book_dict['ol_edition']].append(author_str)
             elif ol_book_dict['work'] and 'authors' in ol_book_dict['work']['json']:
-                author_keys = [extract_ol_author_field(author) for author in ol_book_dict['work']['json']['authors']]
-                author_keys = list(filter(len, author_keys))
-                if len(author_keys) > 0:
-                    unredirected_ol_authors = conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys)).limit(10)).all()
-            ol_authors = []
-            # TODO: Batch them up.
-            for unredirected_ol_author in list(set(unredirected_ol_authors)):
+                for author in ol_book_dict['work']['json']['authors']:
+                    author_str = extract_ol_author_field(author)
+                    if author_str != '':
+                        author_keys.append(author_str)
+                        author_keys_by_ol_edition[ol_book_dict['ol_edition']].append(author_str)
+            ol_book_dict['authors'] = []
+
+        if len(author_keys) > 0:
+            author_keys = list(set(author_keys))
+            unredirected_ol_authors = {ol_author.ol_key: ol_author for ol_author in conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys))).all()}
+            author_redirect_mapping = {}
+            for unredirected_ol_author in list(unredirected_ol_authors.values()):
                 if unredirected_ol_author.type == '/type/redirect':
                     json = orjson.loads(unredirected_ol_author.json)
                     if 'location' not in json:
                         continue
-                    ol_author = conn.execute(select(OlBase).where(OlBase.ol_key == json['location']).limit(1)).first()
-                    ol_authors.append(ol_author)
-                else:
-                    ol_authors.append(unredirected_ol_author)
+                    author_redirect_mapping[unredirected_ol_author.ol_key] = json['location']
+            redirected_ol_authors = []
+            if len(author_redirect_mapping) > 0:
+                redirected_ol_authors = {ol_author.ol_key: ol_author for ol_author in conn.execute(select(OlBase).where(OlBase.ol_key.in_([ol_key for ol_key in author_redirect_mapping.values() if ol_key not in author_keys]))).all()}
+            for ol_book_dict in ol_book_dicts:
+                ol_authors = []
+                for author_ol_key in author_keys_by_ol_edition[ol_book_dict['ol_edition']]:
+                    if author_ol_key in author_redirect_mapping:
+                        remapped_author_ol_key = author_redirect_mapping[author_ol_key]
+                        if remapped_author_ol_key in redirected_ol_authors:
+                            ol_authors.append(redirected_ol_authors[remapped_author_ol_key])
+                        elif remapped_author_ol_key in unredirected_ol_authors:
+                            ol_authors.append(unredirected_ol_authors[remapped_author_ol_key])
+                    elif author_ol_key in unredirected_ol_authors:
+                        ol_authors.append(unredirected_ol_authors[author_ol_key])
+                for author in ol_authors:
+                    if author.type != '/type/author':
+                        print(f"Warning: found author without /type/author: {author}")
+                        continue
+                    author_dict = dict(author)
+                    author_dict['json'] = orjson.loads(author_dict['json'])
+                    ol_book_dict['authors'].append(author_dict)
 
-            ol_book_dict['authors'] = []
-            for author in ol_authors:
-                author_dict = dict(author)
-                author_dict['json'] = orjson.loads(author_dict['json'])
-                ol_book_dict['authors'].append(author_dict)
-
+        # Everything else
+        for ol_book_dict in ol_book_dicts:
             allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict['edition'])
             allthethings.utils.add_identifier_unified(ol_book_dict['edition'], 'openlibrary', ol_book_dict['ol_edition'])
             allthethings.utils.add_isbns_unified(ol_book_dict['edition'], (ol_book_dict['edition']['json'].get('isbn_10') or []) + (ol_book_dict['edition']['json'].get('isbn_13') or []))
@@ -1007,8 +1043,6 @@ def get_ol_book_dicts(session, key, values):
             #       {% endif %}
             #   </div>
             # {% endfor %}
-
-            ol_book_dicts.append(ol_book_dict)
 
         return ol_book_dicts
 

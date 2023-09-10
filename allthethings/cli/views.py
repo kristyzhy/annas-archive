@@ -318,7 +318,7 @@ def elastic_build_aarecords_internal():
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         with multiprocessing.Pool(THREADS) as executor:
             print("Processing from aa_ia_2023_06_metadata")
-            total = cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL')
+            total = cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id')
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
@@ -329,7 +329,7 @@ def elastic_build_aarecords_internal():
                     pbar.update(len(batch))
 
             print("Processing from isbndb_isbns")
-            total = cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns')
+            total = cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns ORDER BY isbn13')
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
@@ -345,7 +345,7 @@ def elastic_build_aarecords_internal():
                     pbar.update(len(batch))
 
             print("Processing from ol_base")
-            total = cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s', { "from": first_ol_key })
+            total = cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s ORDER BY ol_key', { "from": first_ol_key })
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
@@ -356,7 +356,7 @@ def elastic_build_aarecords_internal():
                     pbar.update(len(batch))
 
             print("Processing from computed_all_md5s")
-            total = cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 >= %(from)s', { "from": bytes.fromhex(first_md5) })
+            total = cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 >= %(from)s ORDER BY md5', { "from": bytes.fromhex(first_md5) })
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
