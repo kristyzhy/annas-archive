@@ -68,6 +68,12 @@
     </script>
   </div>
 
+  {% if (range(0, 100) | random) == 0 %}
+    <!-- <a href="https://tegystore.sellpass.io/" class="custom-a block mb-4 text-sm bg-[#ffd] hover:bg-[#ffa] p-2">
+      <span class="font-bold">Ad:</span> Buy discounted Amazon gift cards for crypto!
+    </a> -->
+  {% endif %}
+
   <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
     <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] == 'md5' %}Downloads{% elif aarecord_id_split[0] == 'ia' %}Borrow{% elif aarecord_id_split[0] in ['isbn', 'ol'] %}Explore metadata{% endif %} ({{ (aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length) }})</button>
     {% if aarecord_id_split[0] == 'md5' %}

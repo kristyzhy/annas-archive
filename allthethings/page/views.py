@@ -2957,10 +2957,10 @@ def search_page():
             "size": 0, 
             "query": search_query,
             "track_total_hits": 100,
-            "timeout": ES_TIMEOUT,
+            "timeout": "1s",
         })
     total_all_indexes = es.msearch(
-        request_timeout=20,
+        request_timeout=5,
         max_concurrent_searches=10,
         max_concurrent_shard_requests=10,
         searches=multi_searches,
