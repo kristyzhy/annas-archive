@@ -23,7 +23,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG
+from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH, HOODPAY_MEMBERKEY
 from allthethings.page.views import get_aarecords_elasticsearch
 
 import allthethings.utils
@@ -560,6 +560,18 @@ def account_buy_membership():
         'monthly_cents': membership_costs['monthly_cents'],
         'discounts': membership_costs['discounts'],
     }
+
+    if method == 'hoodpay':
+        payload = {
+            "metadata": { "memberkey": HOODPAY_MEMBERKEY },
+            "name":"Anna",
+            "currency":"USD",
+            "amount": round(float(membership_costs['cost_cents_usd']) / 100.0, 2),
+            "redirectUrl":"annas-archive.org/account",
+        }
+        response = httpx.post(HOODPAY_URL, json=payload, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES)
+        response.raise_for_status()
+        donation_json['hoodpay_request'] = response.json()
 
     if method in ['payment2', 'payment2paypal', 'payment2cc']:
         if method == 'payment2':

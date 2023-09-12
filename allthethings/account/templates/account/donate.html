@@ -102,6 +102,7 @@
       <!-- <button class="js-membership-method js-membership-method-paypalreg relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('paypalreg')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal (regular)</button> -->
       <!-- <button class="js-membership-method js-membership-method-givebutter relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('givebutter')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Card / PayPal / Venmo</button> -->
       <button class="js-membership-method js-membership-method-amazon relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('amazon')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Amazon Gift Card</button>
+      <button class="js-membership-method js-membership-method-hoodpay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 mt-[14px]" aria-selected="false" onclick="window.membershipMethodToggle('hoodpay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card</button>
       <!-- <button class="js-membership-method js-membership-method-bmc    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('bmc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button> -->
       <!-- <button class="js-membership-method js-membership-method-alipay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('alipay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay') }}</button> -->
       <!-- <button class="js-membership-method js-membership-method-pix    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('pix')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.pix') }}</button> -->
@@ -181,6 +182,12 @@
 
       <p class="mb-4">
         <strong>IMPORTANT:</strong> We only support Amazon.com, not other Amazon websites. For example, .de, .co.uk, .ca, are NOT supported.
+      </p>
+    </div>
+
+    <div class="js-membership-descr js-membership-descr-hoodpay">
+      <p class="mb-4">
+        Donate with a credit or debit card.
       </p>
     </div>
 
@@ -292,6 +299,7 @@
       <!-- <button class="js-membership-method js-membership-method-paypalreg relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('paypalreg')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>PayPal (regular)</button> -->
       <!-- <button class="js-membership-method js-membership-method-givebutter relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('givebutter')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Card / Venmo / PayPal</button> -->
       <button class="js-membership-method js-membership-method-amazon relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('amazon')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Amazon Gift Card</button>
+      <button class="js-membership-method js-membership-method-hoodpay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('hoodpay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card</button>
       <!-- <button class="js-membership-method js-membership-method-bmc    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('bmc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit/Apple/Google (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>)</button> -->
       <!-- <button class="js-membership-method js-membership-method-alipay relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('alipay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay') }}</button> -->
       <!-- <button class="js-membership-method js-membership-method-pix    relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1"           aria-selected="false" onclick="window.membershipMethodToggle('pix')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.pix') }}</button> -->
@@ -400,6 +408,12 @@
     </div>
 
     <div class="js-membership-descr js-membership-descr-amazon">
+      <p class="mb-4">
+        We currently only support this payment option for getting a membership. If you wish to make a one-time donation, please use a different payment option.
+      </p>
+    </div>
+
+    <div class="js-membership-descr js-membership-descr-hoodpay">
       <p class="mb-4">
         We currently only support this payment option for getting a membership. If you wish to make a one-time donation, please use a different payment option.
       </p>

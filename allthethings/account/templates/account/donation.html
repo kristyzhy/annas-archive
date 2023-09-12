@@ -134,6 +134,14 @@
       <p class="mb-4 font-mono font-bold text-sm">
         {{ CRYPTO_ADDRESSES.btc_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.btc_address_membership_donation) }}
       </p> -->
+    {% elif donation_dict.json.method == 'hoodpay' %}
+      <h2 class="mt-4 mb-4 text-xl font-bold">Credit / debit card instructions</h2>
+
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our credit / debit card page</p>
+
+      <p class="mb-4">
+        Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="{{ donation_dict.json.hoodpay_request.data.url }}" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
+      </p>
     {% elif donation_dict.json.method == 'payment2paypal' %}
       {% if donation_time_expired %}
         <p class="mb-4">

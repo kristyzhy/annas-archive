@@ -223,6 +223,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # "pix":    0,
     "payment1": 0,
     "givebutter": 0,
+    "hoodpay": 0,
 }
 MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
@@ -249,6 +250,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     # "pix":    0,
     "payment1": 0,
     "givebutter": 500,
+    "hoodpay": 1000,
 }
 
 MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
