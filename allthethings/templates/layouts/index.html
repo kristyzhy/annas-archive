@@ -484,6 +484,9 @@
         const isInvalidDomain = !validDomains.includes(window.baseDomain);
         if (isInvalidDomain) {
           console.log("Invalid domain");
+          // If the domain is invalid, replace window.baseDomain first, in case the domain
+          // is something weird like 'weird.annas-archive.org'.
+          domainsToReplace.unshift(window.baseDomain);
         }
 
         // First, set the mirror links at the bottom of the page.
