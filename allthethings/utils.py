@@ -659,6 +659,7 @@ OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
     'bibliothèque_nationale_de_france_(bnf)': 'bibliothèque_nationale_de_france',
     'harvard_university_library': 'harvard',
     'gallica_(bnf)': 'bibliothèque_nationale_de_france',
+    'depósito_legal_n.a.': 'depósito_legal',
     # Plus more added below!
 }
 OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
@@ -669,7 +670,6 @@ OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
     'udc': 'udc',
     'library_of_congress_classification_(lcc)': 'libraryofcongressclassification',
     'dewey_decimal_classification_(ddc)': 'ddc',
-    'depósito_legal_n.a.': 'depósito_legal',
     # Plus more added below!
 }
 # Hardcoded labels for OL. The "label" fields in ol_edition.json become "description" instead.
@@ -808,7 +808,7 @@ def add_identifier_unified(output_dict, name, value):
         if value not in output_dict['identifiers_unified'][unified_name]:
             output_dict['identifiers_unified'][unified_name].append(value)
     else:
-        raise Exception(f"Unknown identifier in add_identifier_unified: {name}")
+        print(f"Warning: Unknown identifier in add_identifier_unified: {name}")
 
 def add_classification_unified(output_dict, name, value):
     if value is None:
@@ -825,7 +825,7 @@ def add_classification_unified(output_dict, name, value):
         if value not in output_dict['classifications_unified'][unified_name]:
             output_dict['classifications_unified'][unified_name].append(value)
     else:
-        raise Exception(f"Unknown classification in add_classification_unified: {name}")
+        print(f"Warning: Unknown classification in add_classification_unified: {name}")
 
 def normalize_isbn(string):
     canonical_isbn13 = isbnlib.get_canonical_isbn(string, output='isbn13')
