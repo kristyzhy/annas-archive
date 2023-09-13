@@ -216,6 +216,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     "paypal": 20,
     "payment2paypal": 20,
     "payment2cc": 20,
+    "payment2cashapp": 20,
     "paypalreg": 0,
     "amazon": 0,
     # "bmc":    0,
@@ -242,6 +243,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "binance": 0,
     "paypal": 3500,
     "payment2paypal": 2000,
+    "payment2cashapp": 0,
     "payment2cc": 0,
     "paypalreg": 0,
     "amazon": 1000,
@@ -416,7 +418,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     #     return False
 
     donation_json = orjson.loads(donation['json'])
-    if donation_json['method'] not in ['payment1', 'payment2', 'payment2paypal', 'payment2cc', 'amazon']:
+    if donation_json['method'] not in ['payment1', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon']:
         print(f"Warning: failed {data_key} request because method is not valid: {donation_id}")
         return False
 

@@ -155,7 +155,7 @@
         </p>
 
         <p class="mb-4">
-          Follow the instructions to buy PYUSD coin (PayPal USD). Buy a bit more (we recommend $3) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
+          Follow the instructions to buy PYUSD coin (PayPal USD). Buy a bit more (we recommend $4 more) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
         </p>
 
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span> Transfer the PYUSD to our address</p>
@@ -166,6 +166,49 @@
 
         <p class="mb-4">
           Transfer {{ donation_pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
+        </p>
+
+        <p class="mb-4">
+          <strong>Status:</strong> {% if donation_confirming %}Waiting for confirmation on the blockchain…{% else %}Waiting for transfer…{% endif %}<br>
+          <strong>Time left:</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}(you might want to cancel and create a new donation){% endif %}
+        </p>
+
+        <p class="mb-4">
+          To reset the timer, simply create a new donation.
+        </p>
+
+        <p class="mb-4">
+          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Update status</button>
+        </p>
+      {% endif %}
+    {% elif donation_dict.json.method == 'payment2cashapp' %}
+      {% if donation_time_expired %}
+        <p class="mb-4">
+          This transfer has expired. Please cancel and create a new donation.
+        </p>
+      {% else %}
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span> Buy Bitcoin (BTC) on Cash App</p>
+
+        <p class="mb-4">
+          Go to the “Bitcoin” (BTC) page in Cash App.
+        </p>
+
+        <p class="mb-4">
+          Buy a bit more (we recommend $4 more) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
+        </p>
+
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span> Transfer the Bitcoin to our address</p>
+
+        <p class="mb-4">
+          Click the “Send bitcoin” button to make a “withdrawal”. Switch from dollars to BTC by pressing the <span class="icon-[cil--transfer] align-middle"></span> icon. Enter the BTC amount below and click “Send”.
+        </p>
+
+        <p class="mb-4">
+          Transfer {{ donation_pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
+        </p>
+
+        <p class="mb-4">
+          For small donations (under $25) you might need to use Rush or Priority.
         </p>
 
         <p class="mb-4">
@@ -345,7 +388,7 @@
       </p>
     {% endif %}
 
-    {% if donation_dict.json.method not in ['payment1', 'payment2', 'payment2paypal', 'payment2cc', 'amazon'] %}
+    {% if donation_dict.json.method not in ['payment1', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon'] %}
       <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
 
       <p class="mb-4">

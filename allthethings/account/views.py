@@ -307,7 +307,7 @@ def donation_page(donation_id):
             sign = hashlib.md5((sign_str).encode()).hexdigest()
             return redirect(f'https://merchant.pacypay.net/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
-        if donation_json['method'] in ['payment2', 'payment2paypal', 'payment2cc'] and donation.processing_status == 0:
+        if donation_json['method'] in ['payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc'] and donation.processing_status == 0:
             donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(days=5)
             if donation_time_left < datetime.timedelta(hours=2):
                 donation_time_left_not_much = True

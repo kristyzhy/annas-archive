@@ -161,13 +161,6 @@
       <div class="mb-4">{{ gettext('page.md5.box.issues.text2') }}</div>
     {% endif %}
 
-    {% if aarecord_id_split[0] == 'md5' %}
-      <p class="mb-4">
-        Support authors: If you like this and can afford it, consider buying the original, or supporting the authors directly.<br>
-        Support libraries: If this is available at your local library, consider borrowing it for free there.
-      </p>
-    {% endif %}
-
     {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
       <div class="mb-4">
         <div class="js-fast-download-no-member-header">{{ gettext('page.md5.box.download.header_fast_no_member', a_membership=('href="/donate"' | safe)) }}</div>
@@ -197,6 +190,10 @@
           {% for label, url, extra in aarecord.additional.download_urls %}
             <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" {% if not url.startswith("/") }target="_blank"{% endif %} class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
           {% endfor %}
+          {% if aarecord_id_split[0] == 'md5' %}
+            <li>- Support authors: If you like this and can afford it, consider buying the original, or supporting the authors directly.</li>
+            <li>- Support libraries: If this is available at your local library, consider borrowing it for free there.</li>
+          {% endif %}
         </ul>
         {% if (aarecord.file_unified_data.problems | length) == 0 %}
           {% if aarecord_id_split[0] == 'md5' %}
