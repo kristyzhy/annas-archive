@@ -483,6 +483,7 @@ def torrents_page():
         small_files = conn.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
 
         small_file_dicts_grouped = collections.defaultdict(list)
+        aac_meta_file_paths_grouped = collections.defaultdict(list)
         for small_file in small_files:
             # if orjson.loads(small_file.metadata).get('by_script') == 1:
             #     continue
@@ -492,10 +493,22 @@ def torrents_page():
                 group = 'zlib'
             small_file_dicts_grouped[group].append(dict(small_file))
 
+            aac_meta_prefix = 'torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__'
+            if small_file.file_path.startswith(aac_meta_prefix):
+                aac_group = small_file.file_path[len(aac_meta_prefix):].split('__', 1)[0]
+                aac_meta_file_paths_grouped[aac_group].append(small_file.file_path)
+
+        obsolete_file_paths = [
+            'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent'
+        ]
+        for file_path_list in aac_meta_file_paths_grouped.values():
+            obsolete_file_paths += file_path_list[0:-1]
+
         return render_template(
             "page/torrents.html",
             header_active="home/torrents",
             small_file_dicts_grouped=small_file_dicts_grouped,
+            obsolete_file_paths=obsolete_file_paths,
         )
 
 @page.get("/torrents.json")

@@ -22,7 +22,7 @@
       <h3 class="mt-4 mb-1 text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }} <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [h3:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></h3>
 
       {% for small_file in small_files %}
-        <div>{{ small_file.created | datetimeformat('yyyy-MM-dd') }} <a href="/small_file/{{ small_file.file_path }}" class="break-all">{{ small_file.file_path }}</a></div>
+        <div {% if small_file.file_path in obsolete_file_paths %}class="line-through"{% endif %}>{{ small_file.created | datetimeformat('yyyy-MM-dd') }} <a href="/small_file/{{ small_file.file_path }}" class="break-all">{{ small_file.file_path }}</a></div>
       {% endfor %}
     {% endfor %}
   </div>
