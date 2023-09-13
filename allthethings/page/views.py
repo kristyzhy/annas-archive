@@ -60,7 +60,7 @@ search_filtered_bad_aarecord_ids = [
     "md5:351024f9b101ac7797c648ff43dcf76e",
 ]
 
-ES_TIMEOUT = "5s"
+ES_TIMEOUT = "3s"
 
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
 # because https://openlibrary.org/languages.json doesn't seem to give a complete list? (And ?limit=.. doesn't seem to work.)
@@ -2616,6 +2616,9 @@ def isbn_page(isbn_input):
 @page.get("/ol/<string:ol_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def ol_page(ol_input):
+    if not allthethings.utils.validate_ol_editions([ol_input]):
+        return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ol_input)
+
     with Session(engine) as session:
         aarecords = get_aarecords_elasticsearch(session, [f"ol:{ol_input}"])
 
