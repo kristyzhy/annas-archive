@@ -1,0 +1,58 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <h2 class="mt-4 mb-1 text-3xl font-bold">LLM data</h2>
+
+    <p class="mb-4">
+      It is well understood that LLMs thrive on high-quality data. We have the largest collection of books, papers, magazines, etc in the world, which are some of the highest quality text sources.
+    </p>
+
+    <h3 class="mt-4 mb-1 text-xl font-bold">Unique scale and range</h3>
+    
+    <p class="mb-4">
+      Our collection contains over a hundred million files, including academic journals, textbooks, magazines. We achieve this scale by combining large existing repositories.
+    </p>
+
+    <p class="mb-4">
+      Some of our source collections are already available in bulk (Sci-Hub, and parts of Libgen). Other sources we liberated ourselves. <a href="/datasets">Datasets</a> shows a full overview.
+    </p>
+
+    <p class="mb-4">
+      Our collection includes millions of books, papers, and magazines from before the e-book era. Large parts of this collection have already been OCR’ed, and already have little internal overlap.
+    </p>
+
+    <h3 class="mt-4 mb-1 text-xl font-bold">How we can help</h3>
+
+    <p class="mb-4">
+      We would love to help you train or finetune your LLMs. We can help with:
+    </p>
+
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc">High-speed access to our collection</li>
+      <li class="list-disc">OCR</li>
+      <li class="list-disc">Removing overlap (deduplication)</li>
+      <li class="list-disc">Text and metadata extraction</li>
+      <li class="list-disc">Advice from domain experts</li>
+    </ul>
+
+    <p class="mb-4">
+      <em>Support long-term archival of human knowledge, while getting better data for your model!</em>
+    </p>
+
+    <p class="mb-4">
+      Contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@&#8203;proton.&#8203;me</a> to discuss how we can work together.
+    </p>
+
+    <p class="mb-4">
+      We are particularly interested in helping build open-source models.
+    </p>
+  </div>
+{% endblock %}

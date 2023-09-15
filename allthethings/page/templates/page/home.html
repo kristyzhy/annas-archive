@@ -1,0 +1,41 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+<div class="max-w-[450px] mx-auto">
+  <h2 class="mt-4 text-xl font-bold">📚 Full database</h2>
+
+  <form action="/search" method="get" role="search">
+    <div class="mb-1 text-sm text-gray-500">Books, papers, magazines, comics, library records, metadata, …</div>
+    <div class="flex max-w-[600px]">
+      <input name="q" type="search" placeholder="" class="js-slash-focus grow bg-[#00000011] px-2 py-1 mr-2 rounded">
+      <button class="text-[#777] hover:text-[#333]" type="submit">Search</button>
+    </div>
+  </form>
+
+  <!-- <h2 class="mt-8 text-xl font-bold">🧬 SciDB</h2>
+
+  <form action="/search" method="get" role="search">
+    <div class="mb-1 text-sm text-gray-500">Direct access to academic papers</div>
+    <div class="flex max-w-[600px]">
+      <input type="search" placeholder="DOI" class="grow bg-[#00000011] px-2 py-1 mr-2 rounded">
+      <button class="text-[#777] hover:text-[#333]" type="submit">Open</button>
+    </div>
+  </form> -->
+
+  <h2 class="mt-8 text-xl font-bold">🏛️ Long-term archive</h2>
+
+  <p class="mb-4">
+    The datasets used in Anna’s Archive are completely open, and can be mirrored in bulk using torrents. <a href="/datasets">Learn more…</a>
+  </p>
+
+  <h2 class="mt-8 text-xl font-bold">🤖 LLM training data</h2>
+
+  <p class="mb-4">
+    We have the world’s largest collection of high-quality text data. <a href="/llm">Learn more…</a>
+  </p>
+</div>
+
+{% endblock %}

@@ -247,7 +247,7 @@ def add_comments_to_dict(before_dict, comments):
 @page.get("/")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def home_page():
-    return search_page()
+    return render_template("page/home.html", header_active="home/home")
 
 @page.get("/login")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -295,6 +295,11 @@ def mobile_page():
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def wechat_page():
     return render_template("page/wechat.html", header_active="")
+
+@page.get("/llm")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def llm_page():
+    return render_template("page/llm.html", header_active="home/llm")
 
 @page.get("/browser_verification")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -3132,7 +3137,7 @@ def search_page():
 
     return render_template(
         "page/search.html",
-        header_active="home",
+        header_active="home/search",
         search_input=search_input,
         search_dict=search_dict,
         redirect_pages={
