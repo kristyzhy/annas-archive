@@ -32,7 +32,7 @@ from flask_babel import format_timedelta
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
 from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, BIP39_MNEMONIC, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES
 
-FEATURE_FLAGS = { "isbn": True }
+FEATURE_FLAGS = {}
 
 def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])

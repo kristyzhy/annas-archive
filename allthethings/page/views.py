@@ -148,10 +148,10 @@ for language in ol_languages_json:
 # * http://localhost:8000/db/lgli/file/4029864.json
 # * http://localhost:8000/db/lgli/file/2834701.json
 # * http://localhost:8000/db/lgli/file/97562143.json
-# * http://localhost:8000/isbn/9789514596933
-# * http://localhost:8000/isbn/9780000000439
-# * http://localhost:8000/isbn/9780001055506
-# * http://localhost:8000/isbn/9780316769174
+# * http://localhost:8000/isbndb/9789514596933
+# * http://localhost:8000/isbndb/9780000000439
+# * http://localhost:8000/isbndb/9780001055506
+# * http://localhost:8000/isbndb/9780316769174
 # * http://localhost:8000/md5/8fcb740b8c13f202e89e05c4937c09ac
 
 def normalize_doi(string):
@@ -461,10 +461,10 @@ def datasets_libgen_li_page():
 def datasets_openlib_page():
     return render_template("page/datasets_openlib.html", header_active="home/datasets", stats_data=get_stats_data())
 
-@page.get("/datasets/isbn_ranges")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def datasets_isbn_ranges_page():
-    return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets", stats_data=get_stats_data())
+# @page.get("/datasets/isbn_ranges")
+# @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+# def datasets_isbn_ranges_page():
+#     return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets", stats_data=get_stats_data())
 
 @page.get("/copyright")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -1757,7 +1757,6 @@ def get_aarecords_mysql(session, aarecord_ids):
     for aarecord_id in aarecord_ids:
         aarecord = {}
         aarecord['id'] = aarecord_id
-        aarecord['path'] = '/' + aarecord_id.replace(':', '/')
         aarecord['lgrsnf_book'] = lgrsnf_book_dicts.get(aarecord_id)
         aarecord['lgrsfic_book'] = lgrsfic_book_dicts.get(aarecord_id)
         aarecord['lgli_file'] = lgli_file_dicts.get(aarecord_id)
@@ -1799,33 +1798,34 @@ def get_aarecords_mysql(session, aarecord_ids):
     # Second pass
     for aarecord in aarecords:
         aarecord_id = aarecord['id']
+        aarecord_id_split = aarecord_id.split(':', 1)
         lgli_single_edition = aarecord['lgli_file']['editions'][0] if len((aarecord.get('lgli_file') or {}).get('editions') or []) == 1 else None
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
-        isbndb_all = []
-        existing_isbn13s = set([isbndb['isbn13'] for isbndb in aarecord['isbndb']])
-        for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-            if canonical_isbn13 not in existing_isbn13s:
-                for isbndb in isbndb_dicts2[canonical_isbn13]['isbndb']:
-                    isbndb_all.append(isbndb)
-        if len(isbndb_all) > 5:
-            isbndb_all = []
-        aarecord['isbndb'] = (aarecord['isbndb'] + isbndb_all)
-
-        ol_book_dicts_all = []
-        existing_ol_editions = set([ol_book_dict['ol_edition'] for ol_book_dict in aarecord['ol']])
-        for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('openlibrary') or []):
-            if (potential_ol_edition in ol_book_dicts2) and (potential_ol_edition not in existing_ol_editions):
-                ol_book_dicts_all.append(ol_book_dicts2[potential_ol_edition])
-        if len(ol_book_dicts_all) > 3:
-            ol_book_dicts_all = []
-        aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
-
-        aarecord_id_split = aarecord_id.split(':', 1)
         if aarecord_id_split[0] in allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING:
             aarecord['indexes'] = [allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id_split[0]]]
         else:
             raise Exception(f"Unknown aarecord_id prefix: {aarecord_id}")
+
+        if AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id_split[0]] != 'aarecords_metadata':
+            isbndb_all = []
+            existing_isbn13s = set([isbndb['isbn13'] for isbndb in aarecord['isbndb']])
+            for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+                if canonical_isbn13 not in existing_isbn13s:
+                    for isbndb in isbndb_dicts2[canonical_isbn13]['isbndb']:
+                        isbndb_all.append(isbndb)
+            if len(isbndb_all) > 5:
+                isbndb_all = []
+            aarecord['isbndb'] = (aarecord['isbndb'] + isbndb_all)
+
+            ol_book_dicts_all = []
+            existing_ol_editions = set([ol_book_dict['ol_edition'] for ol_book_dict in aarecord['ol']])
+            for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('openlibrary') or []):
+                if (potential_ol_edition in ol_book_dicts2) and (potential_ol_edition not in existing_ol_editions):
+                    ol_book_dicts_all.append(ol_book_dicts2[potential_ol_edition])
+            if len(ol_book_dicts_all) > 3:
+                ol_book_dicts_all = []
+            aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
 
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
@@ -2353,6 +2353,7 @@ def max_length_with_word_boundary(sentence, max_len):
 
 def get_additional_for_aarecord(aarecord):
     additional = {}
+    additional['path'] = ('/' + aarecord['id'].replace(':', '/')).replace('/isbn/', '/isbndb/')
     additional['most_likely_language_name'] = (get_display_name_for_lang(aarecord['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if aarecord['file_unified_data'].get('most_likely_language_code', None) else '')
 
     additional['codes'] = []
@@ -2397,7 +2398,7 @@ def get_additional_for_aarecord(aarecord):
                 format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0) if aarecord['file_unified_data'].get('filesize_best', None) else '',
                 aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
                 aarecord_id_split[1] if aarecord_id_split[0] in ['ia', 'ol'] else '',
-                f"ISBN {aarecord_id_split[1]}" if aarecord_id_split[0] == 'isbn' else '',
+                f"ISBNdb {aarecord_id_split[1]}" if aarecord_id_split[0] == 'isbn' else '',
             ] if item != '']),
         'title': aarecord['file_unified_data'].get('title_best', None) or '',
         'publisher_and_edition': ", ".join([item for item in [
@@ -2525,12 +2526,12 @@ def get_additional_for_aarecord(aarecord):
     if aarecord_id_split[0] == 'md5':
         additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
     if aarecord_id_split[0] == 'isbn':
-        additional['download_urls'].append((f"Search Anna’s Archive for ISBN", f"/search?q={aarecord_id_split[1]}", ""))
+        additional['download_urls'].append((f"Search Anna’s Archive for ISBN", f"/search?q=isbn13:{aarecord_id_split[1]}", ""))
         additional['download_urls'].append((f"Search various other databases for ISBN", f"https://en.wikipedia.org/wiki/Special:BookSources?isbn={aarecord_id_split[1]}", ""))
         if len(aarecord.get('isbndb') or []) > 0:
             additional['download_urls'].append((f"Find original record in ISBNdb", f"https://isbndb.com/book/{aarecord_id_split[1]}", ""))
     if aarecord_id_split[0] == 'ol':
-        additional['download_urls'].append((f"Search Anna’s Archive for Open Library ID", f"/search?q={aarecord_id_split[1]}", ""))
+        additional['download_urls'].append((f"Search Anna’s Archive for Open Library ID", f"/search?q=openlibrary:{aarecord_id_split[1]}", ""))
         if len(aarecord.get('ol') or []) > 0:
             additional['download_urls'].append((f"Find original record in Open Library", f"https://openlibrary.org/books/{aarecord_id_split[1]}", ""))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
@@ -2561,7 +2562,7 @@ def md5_page(md5_input):
         aarecord = aarecords[0]
 
         render_fields = {
-            "header_active": "search",
+            "header_active": "home/search",
             "aarecord_id": aarecord['id'],
             "aarecord_id_split": aarecord['id'].split(':', 1),
             "aarecord": aarecord,
@@ -2588,7 +2589,7 @@ def ia_page(ia_input):
         aarecord = aarecords[0]
 
         render_fields = {
-            "header_active": "search",
+            "header_active": "home/search",
             "aarecord_id": aarecord['id'],
             "aarecord_id_split": aarecord['id'].split(':', 1),
             "aarecord": aarecord,
@@ -2600,6 +2601,11 @@ def ia_page(ia_input):
 @page.get("/isbn/<string:isbn_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def isbn_page(isbn_input):
+    return redirect(f"/isbndb/{isbn_input}", code=302)
+
+@page.get("/isbndb/<string:isbn_input>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def isbndb_page(isbn_input):
     with Session(engine) as session:
         aarecords = get_aarecords_elasticsearch(session, [f"isbn:{isbn_input}"])
 
@@ -2609,7 +2615,7 @@ def isbn_page(isbn_input):
         aarecord = aarecords[0]
 
         render_fields = {
-            "header_active": "search",
+            "header_active": "home/search",
             "aarecord_id": aarecord['id'],
             "aarecord_id_split": aarecord['id'].split(':', 1),
             "aarecord": aarecord,
@@ -2633,7 +2639,7 @@ def ol_page(ol_input):
         aarecord = aarecords[0]
 
         render_fields = {
-            "header_active": "search",
+            "header_active": "home/search",
             "aarecord_id": aarecord['id'],
             "aarecord_id_split": aarecord['id'].split(':', 1),
             "aarecord": aarecord,
@@ -2857,18 +2863,18 @@ def all_search_aggs(display_lang, search_index_long):
     return all_aggregations
 
 
-@page.get("/random_book")
-@allthethings.utils.no_cache()
-def random_book():
-    """
-    Gets a random record from the elastic search index and redirects to the page for that book.
-    If no record is found, redirects to the search page.
-    """
-    random_aarecord = get_random_aarecord_elasticsearch()
-    if random_aarecord is not None:
-        return redirect(random_aarecord['_source']['path'], code=301)
+# @page.get("/random_book")
+# @allthethings.utils.no_cache()
+# def random_book():
+#     """
+#     Gets a random record from the elastic search index and redirects to the page for that book.
+#     If no record is found, redirects to the search page.
+#     """
+#     random_aarecord = get_random_aarecord_elasticsearch()
+#     if random_aarecord is not None:
+#         return redirect(random_aarecord['_source']['path'], code=301)
 
-    return redirect("/search", code=302)
+#     return redirect("/search", code=302)
 
 
 @page.get("/search")
