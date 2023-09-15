@@ -38,9 +38,9 @@ LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
 
-RUN sed -i -e's/ main/ main contrib non-free/g' /etc/apt/sources.list
+RUN sed -i -e's/ main/ main contrib non-free archive/g' /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar curl python3 python3-pip ctorrent mariadb-client pv rclone gcc g++ make
+RUN apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar p7zip curl python3 python3-pip ctorrent mariadb-client pv rclone gcc g++ make
 # https://github.com/nodesource/distributions#using-debian-as-root
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs
 RUN npm install webtorrent-cli -g && webtorrent --version
