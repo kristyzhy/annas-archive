@@ -209,14 +209,24 @@ MEMBERSHIP_TIER_COSTS = {
 }
 MEMBERSHIP_METHOD_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
-    "crypto": 20,
-    "payment2": 20,
-    # "cc":     20,
-    "binance": 20,
-    "paypal": 20,
-    "payment2paypal": 20,
-    "payment2cc": 20,
-    "payment2cashapp": 20,
+    # "crypto": 20,
+    # "payment2": 20,
+    # # "cc":     20,
+    # "binance": 20,
+    # "paypal": 20,
+    # "payment2paypal": 20,
+    # "payment2cc": 20,
+    # "payment2cashapp": 20,
+
+    "crypto": 0,
+    "payment2": 0,
+    # "cc":     0,
+    "binance": 0,
+    "paypal": 0,
+    "payment2paypal": 0,
+    "payment2cc": 0,
+    "payment2cashapp": 0,
+
     "paypalreg": 0,
     "amazon": 0,
     # "bmc":    0,

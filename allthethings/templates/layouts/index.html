@@ -336,25 +336,25 @@
           <div class="header-links relative z-20">
             <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="header-link-first {{ 'header-link-active' if header_active.startswith('home') }}" style="margin-right: 24px;">
               <span class="header-link-normal">
-                {% if header_active == 'home/home' %}Home
+                {% if header_active == 'home/search' %}{{ gettext('layout.index.header.nav.search') }}
                 {% elif header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
                 {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% elif header_active == 'home/torrents' %}Torrents
                 {% elif header_active == 'home/llm' %}LLM data
                 {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
                 {% elif header_active == 'home/security' %}Security
-                {% else %}{{ gettext('layout.index.header.nav.search') }}{% endif %}
+                {% else %}Home{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
               <span class="header-link-bold">
-                {% if header_active == 'home/home' %}Home
+                {% if header_active == 'home/search' %}{{ gettext('layout.index.header.nav.search') }}
                 {% elif header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
                 {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                 {% elif header_active == 'home/torrents' %}Torrents
                 {% elif header_active == 'home/llm' %}LLM data
                 {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
                 {% elif header_active == 'home/security' %}Security
-                {% else %}{{ gettext('layout.index.header.nav.search') }}{% endif %}
+                {% else %}Home{% endif %}
                 <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
               </span>
             </a>
