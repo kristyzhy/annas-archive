@@ -252,7 +252,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     # "cc":     20,
     "binance": 0,
     "paypal": 3500,
-    "payment2paypal": 2000,
+    "payment2paypal": 1000,
     "payment2cashapp": 0,
     "payment2cc": 0,
     "paypalreg": 0,

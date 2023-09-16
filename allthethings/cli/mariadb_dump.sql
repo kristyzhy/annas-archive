@@ -2883,6 +2883,41 @@ CREATE TABLE `annas_archive_meta__aacid__zlib3_files` (
 INSERT INTO `annas_archive_meta__aacid__zlib3_files` VALUES
 ('aacid__zlib3_files__20230808T051503Z__22433983__NRgUGwTJYJpkQjTbz2jA3M','22433983','63332c8d6514aa6081d088de96ed1d4f','annas_archive_data__aacid__zlib3_files__20230808T051503Z--20230808T051504Z','{\"zlibrary_id\":\"22433983\",\"md5\":\"63332c8d6514aa6081d088de96ed1d4f\"}');
 
+DROP TABLE IF EXISTS `scihub_dois`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `scihub_dois` (
+  `doi` char(250) NOT NULL,
+  PRIMARY KEY (`doi`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `scihub_dois` WRITE;
+/*!40000 ALTER TABLE `scihub_dois` DISABLE KEYS */;
+INSERT INTO `scihub_dois` VALUES
+('10.0000/aaai.org/library/aaai/1987/aaai87-067'),
+('10.0000/aaai.org/ocs/aaai::aaai12/4818'),
+('10.0000/aaai.org/ocs/aaai::aaai12/5095'),
+('10.0000/aaai.org/ocs/aaai::aaai15/9740'),
+('10.0000/aaai.org/ocs/aaai::aaai16/12216'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14172'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14350'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14379'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14388'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14494'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14567'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14589'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14603'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14618'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14654'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14676'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14730'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14758'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14773'),
+('10.0000/aaai.org/ocs/aaai::aaai17/14806');
+/*!40000 ALTER TABLE `scihub_dois` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
