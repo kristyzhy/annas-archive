@@ -1463,7 +1463,8 @@ def get_lgli_file_dicts(session, key, values):
                 lgli_file_dict['scimag_url_guess'] = 'https://doi.org/' + lgli_file_dict['scimag_url_guess']
 
         allthethings.utils.init_identifiers_and_classification_unified(lgli_file_dict)
-        potential_doi_scimag_archive_path = lgli_file_dict['scimag_archive_path'].replace('\\', '/')
+        lgli_file_dict['scimag_archive_path_decoded'] = urllib.parse.unquote(lgli_file_dict['scimag_archive_path'].replace('\\', '/'))
+        potential_doi_scimag_archive_path = lgli_file_dict['scimag_archive_path_decoded']
         if potential_doi_scimag_archive_path.endswith('.pdf'):
             potential_doi_scimag_archive_path = potential_doi_scimag_archive_path[:-len('.pdf')]
         potential_doi_scimag_archive_path = normalize_doi(potential_doi_scimag_archive_path)
@@ -1481,6 +1482,7 @@ def get_lgli_file_dicts(session, key, values):
             "cover_url_guess": ("after", ["Anna's Archive best guess at the full URL to the cover image on libgen.li, for this specific file (not taking into account editions)."]),
             "cover_url_guess_normalized": ("after", ["Anna's Archive best guess at the full URL to the cover image on libgen.li, using the guess from the first edition that has a non-empty guess, if the file-specific guess is empty."]),
             "scimag_url_guess": ("after", ["Anna's Archive best guess at the canonical URL for journal articles."]),
+            "scimag_archive_path_decoded": ("after", ["scimag_archive_path but with URL decoded"]),
             "libgen_topic": ("after", ["The primary subcollection this file belongs to: l=Non-fiction ('libgen'), s=Standards document, m=Magazine, c=Comic, f=Fiction, r=Russian Fiction, a=Journal article (Sci-Hub/scimag)"]),
         }
         lgli_file_dicts.append(add_comments_to_dict(lgli_file_dict, lgli_file_dict_comments))
@@ -1584,6 +1586,47 @@ def isbndb_json(isbn):
         if len(isbndb_dicts) == 0:
             return "{}", 404
         return nice_json(isbndb_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+
+
+def get_scihub_doi_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+    if key != 'doi':
+        raise Exception(f"Unexpected 'key' in get_scihub_doi_dicts: '{key}'")
+
+    scihub_dois = []
+    try:
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(f'SELECT doi FROM scihub_dois WHERE doi IN %(values)s', { "values": [str(value) for value in values] })
+        scihub_dois = cursor.fetchall()
+    except Exception as err:
+        print(f"Error in get_aac_zlib3_book_dicts when querying {key}; {values}")
+        print(repr(err))
+        traceback.print_tb(err.__traceback__)
+
+    scihub_doi_dicts = []
+    for scihub_doi in scihub_dois:
+        scihub_doi_dict = { "doi": scihub_doi["doi"] }
+        allthethings.utils.init_identifiers_and_classification_unified(scihub_doi_dict)
+        allthethings.utils.add_identifier_unified(scihub_doi_dict, "doi", scihub_doi_dict["doi"])
+        scihub_doi_dict_comments = {
+            **allthethings.utils.COMMON_DICT_COMMENTS,
+            "doi": ("before", ["This is a file from Sci-Hub's dois-2022-02-12.7z dataset.",
+                              "More details at https://annas-archive.org/datasets/scihub",
+                              "The source URL is https://sci-hub.ru/datasets/dois-2022-02-12.7z",
+                              allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+        }
+        scihub_doi_dicts.append(add_comments_to_dict(scihub_doi_dict, scihub_doi_dict_comments))
+    return scihub_doi_dicts
+
+@page.get("/db/scihub_doi/<path:doi>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def scihub_doi_json(doi):
+    with Session(engine) as session:
+        scihub_doi_dicts = get_scihub_doi_dicts(session, 'doi', [doi])
+        if len(scihub_doi_dicts) == 0:
+            return "{}", 404
+        return nice_json(scihub_doi_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 
 @page.get("/doi/<path:doi_input>")
@@ -1754,6 +1797,7 @@ def get_aarecords_mysql(session, aarecord_ids):
     aarecords = []
     canonical_isbn13s = []
     ol_editions = []
+    dois = []
     for aarecord_id in aarecord_ids:
         aarecord = {}
         aarecord['id'] = aarecord_id
@@ -1768,6 +1812,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['ia_record'] = ia_record_dicts.get(aarecord_id) or ia_record_dicts2.get(aarecord_id)
         aarecord['isbndb'] = list(isbndb_dicts.get(aarecord_id) or [])
         aarecord['ol'] = list(ol_book_dicts.get(aarecord_id) or [])
+        aarecord['scihub_doi'] = []
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -1789,11 +1834,14 @@ def get_aarecords_mysql(session, aarecord_ids):
         for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('openlibrary') or []):
             if allthethings.utils.validate_ol_editions([potential_ol_edition]):
                 ol_editions.append(potential_ol_edition)
+        for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
+            dois.append(doi)
 
         aarecords.append(aarecord)
 
     isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(set(canonical_isbn13s)))}
     ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(set(ol_editions)))}
+    scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(set(dois)))}
 
     # Second pass
     for aarecord in aarecords:
@@ -1827,6 +1875,15 @@ def get_aarecords_mysql(session, aarecord_ids):
                 ol_book_dicts_all = []
             aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
 
+            scihub_doi_all = []
+            existing_dois = set([scihub_doi['doi'] for scihub_doi in aarecord['scihub_doi']])
+            for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
+                if (doi in scihub_doi_dicts2) and (doi not in existing_dois):
+                    scihub_doi_all.append(scihub_doi_dicts2[doi])
+            if len(scihub_doi_all) > 3:
+                scihub_doi_all = []
+            aarecord['scihub_doi'] = (aarecord['scihub_doi'] + scihub_doi_all)
+
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
             aarecord['ipfs_infos'].append({ 'ipfs_cid': aarecord['lgrsnf_book']['ipfs_cid'].lower(), 'from': 'lgrsnf' })
@@ -1838,13 +1895,13 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsfic_book'] or {}).get('locator') or '').strip(),
             ((aarecord['lgli_file'] or {}).get('locator') or '').strip(),
             *[filename.strip() for filename in (((aarecord['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename') or [])],
-            ((aarecord['lgli_file'] or {}).get('scimag_archive_path') or '').strip(),
+            ((aarecord['lgli_file'] or {}).get('scimag_archive_path_decoded') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('original_filename') or '').strip(),
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
         aarecord['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != aarecord['file_unified_data']['original_filename_best']]
-        aarecord['file_unified_data']['original_filename_best_name_only'] =  re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1]
+        aarecord['file_unified_data']['original_filename_best_name_only'] = re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1] if not aarecord['file_unified_data']['original_filename_best'].startswith('10.') else aarecord['file_unified_data']['original_filename_best']
 
         # Select the cover_url_normalized in order of what is likely to be the best one: ia, zlib, lgrsnf, lgrsfic, lgli.
         cover_url_multiple = [
@@ -2083,6 +2140,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
             *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
+            *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
         ])
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
@@ -2093,6 +2151,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('classifications_unified') or {}),
             *[isbndb['classifications_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['classifications_unified'] for ol_book_dict in aarecord['ol']],
+            *[scihub_doi['classifications_unified'] for scihub_doi in aarecord['scihub_doi']],
         ])
 
         aarecord['file_unified_data']['problems'] = []
@@ -2130,6 +2189,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         ia_content_type = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('content_type') or 'book_unknown')
         if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (ia_content_type != 'book_unknown'):
             aarecord['file_unified_data']['content_type'] = ia_content_type
+        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (len(aarecord['scihub_doi']) > 0):
+            aarecord['file_unified_data']['content_type'] = 'journal_article'
 
         if aarecord['lgrsnf_book'] is not None:
             aarecord['lgrsnf_book'] = {
@@ -2205,6 +2266,11 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['ol'][index] = {
                 'ol_edition': aarecord['ol'][index]['ol_edition'],
             }
+        aarecord['scihub_doi'] = aarecord.get('scihub_doi') or []
+        for index, item in enumerate(aarecord['scihub_doi']):
+            aarecord['scihub_doi'][index] = {
+                'doi': aarecord['scihub_doi'][index]['doi'],
+            }
 
         # Even though `additional` is only for computing real-time stuff,
         # we'd like to cache some fields for in the search results.
@@ -2240,7 +2306,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 aarecord_id,
             ]))),
             'search_access_types': [
-                *(['external_download'] if any([aarecord.get(field) is not None for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book']]) else []),
+                *(['external_download'] if any([((aarecord.get(field) is not None) and (type(aarecord[field] != list or len(aarecord[field]) > 0))) for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book', 'scihub_doi']]) else []),
                 *(['external_borrow'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['external_borrow_printdisabled'] if (aarecord.get('ia_record') and (aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
@@ -2254,6 +2320,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['zlib']      if aarecord['aac_zlib3_book'] is not None else []),
                 *(['lgli']      if aarecord['aa_lgli_comics_2022_08_file'] is not None else []),
                 *(['ia']        if aarecord['ia_record'] is not None else []),
+                *(['scihub']    if len(aarecord['scihub_doi']) > 0 else []),
                 *(['isbndb']    if (aarecord_id_split[0] == 'isbn' and len(aarecord['isbndb'] or []) > 0) else []),
                 *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
             ])),
@@ -2300,11 +2367,12 @@ def get_record_sources_mapping(display_lang):
     with force_locale(display_lang):
         return {
             "lgrs": "Libgen.rs",
-            "lgli": "Libgen.li (includes Sci-Hub)",
+            "lgli": "Libgen.li",
             "zlib": "Z-Library",
             "ia": "Internet Archive",
             "isbndb": "ISBNdb",
             "ol": "OpenLibrary",
+            "scihub": "Sci-Hub",
         }
 
 def format_filesize(num):
@@ -2433,6 +2501,11 @@ def get_additional_for_aarecord(aarecord):
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
+    linked_dois = set()
+    for scihub_doi in aarecord.get('scihub_doi') or []:
+        doi = scihub_doi['doi']
+        additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", ""))
+        linked_dois.add(doi)
     if (aarecord.get('ia_record') is not None) and (aarecord['ia_record'].get('aa_ia_file') is not None):
         ia_id = aarecord['ia_record']['aa_ia_file']['ia_id']
         extension = aarecord['ia_record']['aa_ia_file']['extension']
@@ -2511,8 +2584,6 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('aac_zlib3_book') is not None:
         zlib_path = make_temp_anon_aac_zlib3_path(aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
-    for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
-        additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord.get('zlib_book') is not None:
         # additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
         additional['download_urls'].append(("Z-Library", f"https://1lib.sk/md5/{aarecord['zlib_book']['md5_reported'].lower()}", ""))
@@ -2523,6 +2594,9 @@ def get_additional_for_aarecord(aarecord):
         ia_id = aarecord['ia_record']['ia_id']
         printdisabled_only = aarecord['ia_record']['aa_ia_derived']['printdisabled_only']
         additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", '(print disabled patrons only)' if printdisabled_only else ''))
+    for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
+        if doi not in linked_dois:
+            additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord_id_split[0] == 'md5':
         additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
     if aarecord_id_split[0] == 'isbn':
@@ -2669,6 +2743,7 @@ def md5_json(aarecord_id):
                 "ia_record": ("before", ["Source data at: https://annas-archive.org/db/ia/<ia_id>.json"]),
                 "isbndb": ("before", ["Source data at: https://annas-archive.org/db/isbndb/<isbn13>.json"]),
                 "ol": ("before", ["Source data at: https://annas-archive.org/db/ol/<ol_edition>.json"]),
+                "scihub_doi": ("before", ["Source data at: https://annas-archive.org/db/scihub_doi/<doi>.json"]),
                 "aa_lgli_comics_2022_08_file": ("before", ["File from the Libgen.li comics backup by Anna's Archive",
                                                            "See https://annas-archive.org/datasets/libgen_li",
                                                            "No additional source data beyond what is shown here."]),
