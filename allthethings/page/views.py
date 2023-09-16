@@ -1807,7 +1807,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         else:
             raise Exception(f"Unknown aarecord_id prefix: {aarecord_id}")
 
-        if AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id_split[0]] != 'aarecords_metadata':
+        if allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id_split[0]] != 'aarecords_metadata':
             isbndb_all = []
             existing_isbn13s = set([isbndb['isbn13'] for isbndb in aarecord['isbndb']])
             for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
