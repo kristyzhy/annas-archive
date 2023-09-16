@@ -121,11 +121,11 @@
         {% if (search_input | length) > 0 %}
           <!-- {% if redirect_pages.isbn_page %}
             <p class="my-4">That looks like it might be an ISBN. <a href="/isbn/{{ redirect_pages.isbn_page | urlencode }}">View our ISBN data page for “{{ redirect_pages.isbn_page }}”.</a></p>
-          {% endif %} -->
+          {% endif %}
           {% if redirect_pages.doi_page %}
             <p class="my-4">That looks like it might be a DOI. <a href="/doi/{{ redirect_pages.doi_page | urlencode }}">View our DOI data page for “{{ redirect_pages.doi_page }}”.</a></p>
           {% endif %}
-          <!-- {% if redirect_pages.ol_page %}
+          {% if redirect_pages.ol_page %}
             <p class="my-4">That looks like it might be an Open Library Edition ID. <a href="/ol/{{ redirect_pages.ol_page | urlencode }}">View our Open Library data page for “{{ redirect_pages.ol_page }}”.</a></p>
           {% endif %} -->
 

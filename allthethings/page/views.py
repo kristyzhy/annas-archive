@@ -1628,35 +1628,6 @@ def scihub_doi_json(doi):
             return "{}", 404
         return nice_json(scihub_doi_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
-
-@page.get("/doi/<path:doi_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
-def doi_page(doi_input):
-    doi_input = normalize_doi(doi_input[0:100])
-
-    if doi_input == '':
-        return render_template("page/doi.html", header_active="search", doi_input=doi_input), 404
-
-    search_results_raw = es.search(
-        index="aarecords",
-        size=100,
-        query={ "term": { "search_only_fields.search_doi": doi_input } },
-        sort={ "search_only_fields.search_score_base": "desc" },
-        timeout=ES_TIMEOUT,
-    )
-    search_aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
-
-    doi_dict = {}
-    doi_dict['search_aarecords'] = search_aarecords
-    
-    return render_template(
-        "page/doi.html",
-        header_active="search",
-        doi_input=doi_input,
-        doi_dict=doi_dict,
-        doi_dict_json=nice_json(doi_dict),
-    )
-
 def is_string_subsequence(needle, haystack):
     i_needle = 0
     i_haystack = 0
@@ -1690,7 +1661,7 @@ def get_aarecords_elasticsearch(session, aarecord_ids):
     # Uncomment the following line to use MySQL directly; useful for local development.
     # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
-    search_results_raw = es.mget(docs=[{'_id': aarecord_id, '_index': allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':')[0]] } for aarecord_id in aarecord_ids ])
+    search_results_raw = es.mget(docs=[{'_id': aarecord_id, '_index': allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':', 1)[0]] } for aarecord_id in aarecord_ids ])
     return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['docs'] if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
@@ -1792,6 +1763,7 @@ def get_aarecords_mysql(session, aarecord_ids):
     ia_record_dicts2 = dict(('ia:' + item['ia_id'].lower(), item) for item in get_ia_record_dicts(session, "ia_id", split_ids['ia']) if item.get('aa_ia_file') is None)
     isbndb_dicts = {('isbn:' + item['ean13']): item['isbndb'] for item in get_isbndb_dicts(session, split_ids['isbn'])}
     ol_book_dicts = {('ol:' + item['ol_edition']): [item] for item in get_ol_book_dicts(session, 'ol_edition', split_ids['ol'])}
+    scihub_doi_dicts = {('doi:' + item['doi']): [item] for item in get_scihub_doi_dicts(session, 'doi', split_ids['doi'])}
 
     # First pass, so we can fetch more dependencies.
     aarecords = []
@@ -1812,7 +1784,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['ia_record'] = ia_record_dicts.get(aarecord_id) or ia_record_dicts2.get(aarecord_id)
         aarecord['isbndb'] = list(isbndb_dicts.get(aarecord_id) or [])
         aarecord['ol'] = list(ol_book_dicts.get(aarecord_id) or [])
-        aarecord['scihub_doi'] = []
+        aarecord['scihub_doi'] = list(scihub_doi_dicts.get(aarecord_id) or [])
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -1900,6 +1872,10 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
+        original_filename_multiple += [(scihub_doi['doi'].strip() + '.pdf') for scihub_doi in aarecord['scihub_doi']]
+        if aarecord['file_unified_data']['original_filename_best'] == '':
+            original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
+            aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
         aarecord['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != aarecord['file_unified_data']['original_filename_best']]
         aarecord['file_unified_data']['original_filename_best_name_only'] = re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1] if not aarecord['file_unified_data']['original_filename_best'].startswith('10.') else aarecord['file_unified_data']['original_filename_best']
 
@@ -1925,6 +1901,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgrsfic_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgli_file'] or {}).get('extension') or '').strip().lower(),
+            ('pdf' if aarecord_id_split[0] == 'doi' else ''),
         ]
         if "epub" in extension_multiple:
             aarecord['file_unified_data']['extension_best'] = "epub"
@@ -2420,8 +2397,10 @@ def max_length_with_word_boundary(sentence, max_len):
         return ' '.join(str_split[0:output_index]).strip()
 
 def get_additional_for_aarecord(aarecord):
+    aarecord_id_split = aarecord['id'].split(':', 1)
+
     additional = {}
-    additional['path'] = ('/' + aarecord['id'].replace(':', '/')).replace('/isbn/', '/isbndb/')
+    additional['path'] = aarecord_id_split[0].replace('/isbn/', '/isbndb/') + '/' + aarecord_id_split[1]
     additional['most_likely_language_name'] = (get_display_name_for_lang(aarecord['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if aarecord['file_unified_data'].get('most_likely_language_code', None) else '')
 
     additional['codes'] = []
@@ -2449,7 +2428,6 @@ def get_additional_for_aarecord(aarecord):
     CODES_PRIORITY = ['isbn13', 'isbn10', 'doi', 'issn', 'udc', 'oclcworldcat', 'openlibrary', 'ocaid', 'asin']
     additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100))
 
-    aarecord_id_split = aarecord['id'].split(':', 1)
     additional['top_box'] = {
         'meta_information': [item for item in [
                 aarecord['file_unified_data'].get('title_best', None) or '',
@@ -2722,7 +2700,28 @@ def ol_page(ol_input):
         }
         return render_template("page/aarecord.html", **render_fields)
 
-@page.get("/db/aarecord/<string:aarecord_id>.json")
+@page.get("/doi/<path:doi_input>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def doi_page(doi_input):
+    with Session(engine) as session:
+        aarecords = get_aarecords_elasticsearch(session, [f"doi:{doi_input}"])
+
+        if len(aarecords) == 0:
+            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=doi_input)
+
+        aarecord = aarecords[0]
+
+        render_fields = {
+            "header_active": "home/search",
+            "aarecord_id": aarecord['id'],
+            "aarecord_id_split": aarecord['id'].split(':', 1),
+            "aarecord": aarecord,
+            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
+            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
+        }
+        return render_template("page/aarecord.html", **render_fields)
+
+@page.get("/db/aarecord/<path:aarecord_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def md5_json(aarecord_id):
     with Session(engine) as session:

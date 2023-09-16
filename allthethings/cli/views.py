@@ -263,10 +263,20 @@ def elastic_build_aarecords_job(aarecord_ids):
     try:
         with Session(engine) as session:
             operations = []
+            dois = []
             aarecords = get_aarecords_mysql(session, aarecord_ids)
             for aarecord in aarecords:
                 for index in aarecord['indexes']:
                     operations.append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
+                for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
+                    dois.append(doi)
+
+            if (not aarecord_ids[0].startswith('doi:')) and (len(dois) > 0):
+                dois = list(set(dois))
+                cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+                count = cursor.execute(f'DELETE FROM scihub_dois_without_matches WHERE doi IN %(dois)s', { "dois": dois })
+                cursor.execute('COMMIT')
+                # print(f'Deleted {count} DOIs')
                 
             try:
                 elasticsearch.helpers.bulk(es, operations, request_timeout=30)
@@ -310,6 +320,9 @@ def elastic_build_aarecords_internal():
     # first_md5 = '0337ca7b631f796fa2f465ef42cb815c'
     first_ol_key = ''
     # first_ol_key = '/books/OL5624024M'
+    first_doi = ''
+    # first_doi = ''
+
 
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
@@ -364,6 +377,17 @@ def elastic_build_aarecords_internal():
                         break
                     print(f"Processing {len(batch)} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} )...")
                     executor.map(elastic_build_aarecords_job, chunks([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
+                    pbar.update(len(batch))
+
+            print("Processing from scihub_dois_without_matches")
+            total = cursor.execute('SELECT doi FROM scihub_dois_without_matches WHERE doi >= %(from)s ORDER BY doi', { "from": first_doi })
+            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                while True:
+                    batch = list(cursor.fetchmany(BATCH_SIZE))
+                    if len(batch) == 0:
+                        break
+                    print(f"Processing {len(batch)} aarecords from scihub_dois_without_matches ( starting doi: {batch[0]['doi']} )...")
+                    executor.map(elastic_build_aarecords_job, chunks([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
         print(f"Done!")

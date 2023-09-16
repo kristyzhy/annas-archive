@@ -48,9 +48,15 @@ def validate_aarecord_ids(aarecord_ids):
     return validate_canonical_md5s(split_ids['md5']) and validate_ol_editions(split_ids['ol'])
 
 def split_aarecord_ids(aarecord_ids):
-    ret = {'md5': [], 'ia': [], 'isbn': [], 'ol': []}
+    ret = {
+        'md5': [],
+        'ia': [],
+        'isbn': [],
+        'ol': [],
+        'doi': [],
+    }
     for aarecord_id in aarecord_ids:
-        split_aarecord_id = aarecord_id.split(':')
+        split_aarecord_id = aarecord_id.split(':', 1)
         ret[split_aarecord_id[0]].append(split_aarecord_id[1])
     return ret
 
@@ -882,6 +888,7 @@ SEARCH_INDEX_SHORT_LONG_MAPPING = {
 }
 AARECORD_PREFIX_SEARCH_INDEX_MAPPING = {
     'md5': 'aarecords',
+    'doi': 'aarecords',
     'ia': 'aarecords_digital_lending',
     'isbn': 'aarecords_metadata',
     'ol': 'aarecords_metadata',
