@@ -628,11 +628,23 @@ LGLI_CLASSIFICATIONS = {
     "ddc": { "label": "DDC", "url": "https://libgen.li/biblioservice.php?value=%s&type=ddc", "description": "Dewey Decimal", "website": "https://en.wikipedia.org/wiki/List_of_Dewey_Decimal_classes" },
     "lbc": { "label": "LBC", "url": "https://libgen.li/biblioservice.php?value=%s&type=bbc", "description": "Library-Bibliographical Classification", "website": "https://www.isko.org/cyclo/lbc" },
 }
+LGLI_IDENTIFIERS_MAPPING = {
+    "oclcworldcat": "oclc",
+    "openlibrary": "ol",
+    "googlebookid": "gbook",
+}
+LGLI_CLASSIFICATIONS_MAPPING = {
+    "classification": "class",
+    "classificationokp": "okp",
+    "classificationgostgroup": "gost",
+    "classificationoks": "oks",
+    "libraryofcongressclassification": "lcc",
+}
 
 LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING = { 
     'asin': 'asin', 
-    'googlebookid': 'googlebookid', 
-    'openlibraryid': 'openlibrary', 
+    'googlebookid': 'gbook', 
+    'openlibraryid': 'ol',
     'doi': 'doi',
     'issn': 'issn',
 }
@@ -640,18 +652,18 @@ LGRS_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
     'udc': 'udc',
     'ddc': 'ddc',
     'lbc': 'lbc',
-    'lcc': 'libraryofcongressclassification', 
+    'lcc': 'lcc', 
 }
 
 UNIFIED_IDENTIFIERS = {
     "isbn10": { "label": "ISBN-10", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": ""},
     "isbn13": { "label": "ISBN-13", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": ""},
     "doi": { "label": "DOI", "url": "https://doi.org/%s", "description": "Digital Object Identifier"},
-    **LGLI_IDENTIFIERS,
+    **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }
 UNIFIED_CLASSIFICATIONS = {
-    **LGLI_CLASSIFICATIONS,
+    **{LGLI_CLASSIFICATIONS_MAPPING.get(key, key): value for key, value in LGLI_CLASSIFICATIONS.items()},
     # Plus more added below!
 }
 
@@ -664,12 +676,11 @@ OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
     'amazon.co.jp_asin': 'asin',
     'british_library': 'bl',
     'british_national_bibliography': 'bnb',
-    'google': 'googlebookid',
+    'google': 'gbook',
     'isbn_10': 'isbn10',
     'isbn_13': 'isbn13',
     'national_diet_library,_japan': 'ndl',
-    'oclc_numbers': 'oclcworldcat',
-    'oclc': 'oclcworldcat',
+    'oclc_numbers': 'oclc',
     'isfdb': 'isfdbpubideditions',
     'lccn_permalink': 'lccn',
     'library_of_congress': 'lccn',
@@ -685,10 +696,10 @@ OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
 OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
     'dewey_decimal_class': 'ddc',
     'dewey_number': 'ddc',
-    'lc_classifications': 'libraryofcongressclassification',
+    'lc_classifications': 'lcc',
     'library_bibliographical_classification': 'lbc',
     'udc': 'udc',
-    'library_of_congress_classification_(lcc)': 'libraryofcongressclassification',
+    'library_of_congress_classification_(lcc)': 'lcc',
     'dewey_decimal_classification_(ddc)': 'ddc',
     # Plus more added below!
 }

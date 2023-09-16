@@ -740,16 +740,16 @@ def get_ia_record_dicts(session, key, values):
         allthethings.utils.init_identifiers_and_classification_unified(ia_record_dict['aa_ia_derived'])
         allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ocaid', ia_record_dict['ia_id'])
         for item in (extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_work')):
-            allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'openlibrary', item)
+            allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ol', item)
         for item in extract_list_from_ia_json_field(ia_record_dict, 'item'):
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'lccn', item)
 
         isbns = extract_list_from_ia_json_field(ia_record_dict, 'isbn')
         for urn in extract_list_from_ia_json_field(ia_record_dict, 'external-identifier'):
             if urn.startswith('urn:oclc:record:'):
-                allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'oclcworldcat', urn[len('urn:oclc:record:'):])
+                allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'oclc', urn[len('urn:oclc:record:'):])
             elif urn.startswith('urn:oclc:'):
-                allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'oclcworldcat', urn[len('urn:oclc:'):])
+                allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'oclc', urn[len('urn:oclc:'):])
             elif urn.startswith('urn:isbn:'):
                 isbns.append(urn[len('urn:isbn:'):])
         allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], isbns)
@@ -912,7 +912,7 @@ def get_ol_book_dicts(session, key, values):
         # Everything else
         for ol_book_dict in ol_book_dicts:
             allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict['edition'])
-            allthethings.utils.add_identifier_unified(ol_book_dict['edition'], 'openlibrary', ol_book_dict['ol_edition'])
+            allthethings.utils.add_identifier_unified(ol_book_dict['edition'], 'ol', ol_book_dict['ol_edition'])
             allthethings.utils.add_isbns_unified(ol_book_dict['edition'], (ol_book_dict['edition']['json'].get('isbn_10') or []) + (ol_book_dict['edition']['json'].get('isbn_13') or []))
             for item in (ol_book_dict['edition']['json'].get('lc_classifications') or []):
                 allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
@@ -934,7 +934,7 @@ def get_ol_book_dicts(session, key, values):
                     allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING[classification_type], item)
             if ol_book_dict['work']:
                 allthethings.utils.init_identifiers_and_classification_unified(ol_book_dict['work'])
-                allthethings.utils.add_identifier_unified(ol_book_dict['work'], 'openlibrary', ol_book_dict['work']['ol_key'].replace('/works/', ''))
+                allthethings.utils.add_identifier_unified(ol_book_dict['work'], 'ol', ol_book_dict['work']['ol_key'].replace('/works/', ''))
                 for item in (ol_book_dict['work']['json'].get('lc_classifications') or []):
                     allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
                 for item in (ol_book_dict['work']['json'].get('dewey_decimal_class') or []):
@@ -1399,11 +1399,11 @@ def get_lgli_file_dicts(session, key, values):
             for key, values in edition_dict['descriptions_mapped'].items():
                 if key in allthethings.utils.LGLI_IDENTIFIERS:
                     for value in values:
-                        allthethings.utils.add_identifier_unified(edition_dict, key, value)
+                        allthethings.utils.add_identifier_unified(edition_dict, LGLI_IDENTIFIERS_MAPPING.get(key, key), value)
             for key, values in edition_dict['descriptions_mapped'].items():
                 if key in allthethings.utils.LGLI_CLASSIFICATIONS:
                     for value in values:
-                        allthethings.utils.add_classification_unified(edition_dict, key, value)
+                        allthethings.utils.add_classification_unified(edition_dict, LGLI_CLASSIFICATIONS_MAPPING.get(key, key), value)
             allthethings.utils.add_isbns_unified(edition_dict, edition_dict['descriptions_mapped'].get('isbn') or [])
 
             edition_dict['stripped_description'] = ''
@@ -1803,7 +1803,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ])
         for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
             canonical_isbn13s.append(canonical_isbn13)
-        for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('openlibrary') or []):
+        for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('ol') or []):
             if allthethings.utils.validate_ol_editions([potential_ol_edition]):
                 ol_editions.append(potential_ol_edition)
         for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
@@ -1840,7 +1840,7 @@ def get_aarecords_mysql(session, aarecord_ids):
 
             ol_book_dicts_all = []
             existing_ol_editions = set([ol_book_dict['ol_edition'] for ol_book_dict in aarecord['ol']])
-            for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('openlibrary') or []):
+            for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('ol') or []):
                 if (potential_ol_edition in ol_book_dicts2) and (potential_ol_edition not in existing_ol_editions):
                     ol_book_dicts_all.append(ol_book_dicts2[potential_ol_edition])
             if len(ol_book_dicts_all) > 3:
@@ -2425,7 +2425,7 @@ def get_additional_for_aarecord(aarecord):
                 'type': 'classification',
                 'info': allthethings.utils.UNIFIED_CLASSIFICATIONS.get(key) or {},
             })
-    CODES_PRIORITY = ['isbn13', 'isbn10', 'doi', 'issn', 'udc', 'oclcworldcat', 'openlibrary', 'ocaid', 'asin']
+    CODES_PRIORITY = ['isbn13', 'isbn10', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin']
     additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100))
 
     additional['top_box'] = {
@@ -2583,7 +2583,7 @@ def get_additional_for_aarecord(aarecord):
         if len(aarecord.get('isbndb') or []) > 0:
             additional['download_urls'].append((f"Find original record in ISBNdb", f"https://isbndb.com/book/{aarecord_id_split[1]}", ""))
     if aarecord_id_split[0] == 'ol':
-        additional['download_urls'].append((f"Search Anna’s Archive for Open Library ID", f"/search?q=openlibrary:{aarecord_id_split[1]}", ""))
+        additional['download_urls'].append((f"Search Anna’s Archive for Open Library ID", f"/search?q=ol:{aarecord_id_split[1]}", ""))
         if len(aarecord.get('ol') or []) > 0:
             additional['download_urls'].append((f"Find original record in Open Library", f"https://openlibrary.org/books/{aarecord_id_split[1]}", ""))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
