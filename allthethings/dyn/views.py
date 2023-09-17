@@ -679,7 +679,7 @@ def recent_downloads():
             for aarecord in aarecords:
                 title = aarecord['file_unified_data']['title_best']
                 if aarecord['id'] not in seen_ids and title not in seen_titles:
-                    output.append({ 'path': aarecord['path'], 'title': title })
+                    output.append({ 'path': aarecord['additional']['path'], 'title': title })
                 seen_ids.add(aarecord['id'])
                 seen_titles.add(title)
             return orjson.dumps(output)

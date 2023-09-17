@@ -656,9 +656,13 @@ LGRS_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
 }
 
 UNIFIED_IDENTIFIERS = {
-    "isbn10": { "label": "ISBN-10", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": ""},
-    "isbn13": { "label": "ISBN-13", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": ""},
-    "doi": { "label": "DOI", "url": "https://doi.org/%s", "description": "Digital Object Identifier"},
+    "isbn10": { "label": "ISBN-10", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": "" },
+    "isbn13": { "label": "ISBN-13", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": "" },
+    "doi": { "label": "DOI", "url": "https://doi.org/%s", "description": "Digital Object Identifier" },
+    "lgrsnf": { "label": "Libgen.rs Non-Fiction", "url": "https://libgen.rs/json.php?fields=*&ids=%s", "description": "" },
+    "lgrsfic": { "label": "Libgen.rs Fiction", "url": "https://libgen.rs/fiction/", "description": "" },
+    "lgli": { "label": "Libgen.li File", "url": "https://libgen.li/file.php?id=%s", "description": "" },
+    "zlib": { "label": "Z-Library", "url": "https://1lib.sk", "description": "" },
     **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }
@@ -757,7 +761,7 @@ OPENLIB_LABELS = {
     "nbuv": "NBUV",
     "nla": "NLA",
     "nur": "NUR",
-    "ocaid": "IA",
+    "ocaid": "Internet Archive",
     "openstax": "OpenStax",
     "overdrive": "OverDrive",
     "paperback_swap": "Paperback Swap",
@@ -826,7 +830,7 @@ def add_identifier_unified(output_dict, name, value):
         print(f"Warning: 'None' found for add_identifier_unified {name}")
         return
     name = name.strip()
-    value = value.strip()
+    value = str(value).strip()
     if name == 'lccn' and 'http://lccn.loc.gov/' in value:
         value = value.replace('http://lccn.loc.gov/', '') # for lccn_permalink
         value = value.split('/')[0]
@@ -846,7 +850,7 @@ def add_classification_unified(output_dict, name, value):
         print(f"Warning: 'None' found for add_classification_unified {name}")
         return
     name = name.strip()
-    value = value.strip()
+    value = str(value).strip()
     if len(value) == 0:
         return
     unified_name = OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING.get(name, name)

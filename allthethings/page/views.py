@@ -597,6 +597,7 @@ def get_zlib_book_dicts(session, key, values):
         zlib_add_edition_varia_normalized(zlib_book_dict)
 
         allthethings.utils.init_identifiers_and_classification_unified(zlib_book_dict)
+        allthethings.utils.add_identifier_unified(zlib_book_dict, 'zlib', zlib_book_dict['zlibrary_id'])
         allthethings.utils.add_isbns_unified(zlib_book_dict, [record.isbn for record in zlib_book.isbns])
 
         zlib_book_dicts.append(add_comments_to_dict(zlib_book_dict, zlib_book_dict_comments))
@@ -638,6 +639,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
         zlib_add_edition_varia_normalized(aac_zlib3_book_dict)
 
         allthethings.utils.init_identifiers_and_classification_unified(aac_zlib3_book_dict)
+        allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'zlib', aac_zlib3_book_dict['zlibrary_id'])
         allthethings.utils.add_isbns_unified(aac_zlib3_book_dict, aac_zlib3_book_dict['isbns'])
 
         aac_zlib3_book_dicts.append(add_comments_to_dict(aac_zlib3_book_dict, zlib_book_dict_comments))
@@ -1131,6 +1133,7 @@ def get_lgrsnf_book_dicts(session, key, values):
         lgrs_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
         allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
+        allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsnf', lgrs_book_dict['id'])
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsnf_book.Identifier.split(",") + lgrsnf_book.IdentifierWODash.split(","))
         for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
             if name in lgrs_book_dict:
@@ -1184,6 +1187,7 @@ def get_lgrsfic_book_dicts(session, key, values):
         lgrs_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
         allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
+        allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsfic', lgrs_book_dict['id'])
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsfic_book.Identifier.split(","))
         for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
             if name in lgrs_book_dict:
@@ -1463,6 +1467,7 @@ def get_lgli_file_dicts(session, key, values):
                 lgli_file_dict['scimag_url_guess'] = 'https://doi.org/' + lgli_file_dict['scimag_url_guess']
 
         allthethings.utils.init_identifiers_and_classification_unified(lgli_file_dict)
+        allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli', lgli_file_dict['f_id'])
         lgli_file_dict['scimag_archive_path_decoded'] = urllib.parse.unquote(lgli_file_dict['scimag_archive_path'].replace('\\', '/'))
         potential_doi_scimag_archive_path = lgli_file_dict['scimag_archive_path_decoded']
         if potential_doi_scimag_archive_path.endswith('.pdf'):
