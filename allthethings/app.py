@@ -132,7 +132,7 @@ def extensions(app):
             ReflectedMariapersist.prepare(mariapersist_engine)
         except:
             print("Error in loading 'mariapersist' db; continuing since it's optional")
-    es.init_app(app)
+    es.init_app(app, max_retries=2, retry_on_timeout=True)
     mail.init_app(app)
 
     def localeselector():
