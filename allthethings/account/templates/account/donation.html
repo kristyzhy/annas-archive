@@ -140,7 +140,7 @@
       <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our credit / debit card page</p>
 
       <p class="mb-4">
-        Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="{{ donation_dict.json.hoodpay_request.data.url }}" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
+        Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="{{ donation_dict.json.hoodpay_request.data.url }}" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>. See the step-by-step guide below.
       </p>
     {% elif donation_dict.json.method == 'payment2paypal' %}
       {% if donation_time_expired %}
@@ -426,6 +426,44 @@
         <div class="hidden js-success">{{ gettext('page.donation.footer.success') }}</div>
         <div class="hidden js-failure">{{ gettext('page.donation.footer.failure') }}</div>
       </form>
+    {% endif %}
+
+    {% if donation_dict.json.method == 'hoodpay' %}
+      <h2 class="mt-8 mb-4 text-xl font-bold">Step-by-step guide</h2>
+
+      <p class="mb-4">Some of the steps mention crypto wallets, but don’t worry, you don’t have to learn anything about crypto for this.</p>
+
+      <p class="mb-4">1. Enter your email.</p>
+
+      <p class="mb-4 bg-gray-100 rounded">
+        <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/1.png">
+      </p>
+
+      <p class="mb-4">2. Select your payment method.</p>
+
+      <p class="mb-4 bg-gray-100 rounded">
+        <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/2.png">
+      </p>
+
+      <p class="mb-4">3. Select your payment method again.</p>
+
+      <p class="mb-4 bg-gray-100 rounded">
+        <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/3.png">
+      </p>
+
+      <p class="mb-4">4. Select “Self-hosted” wallet.</p>
+
+      <p class="mb-4 bg-gray-100 rounded">
+        <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/4.png">
+      </p>
+
+      <p class="mb-4">5. Click “I confirm ownership”.</p>
+
+      <p class="mb-4 bg-gray-100 rounded">
+        <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/5.png">
+      </p>
+
+      <p class="mb-4">6. You should receive an email receipt. Please send that to us, and we’ll confirm your donation as soon as possible.</p>
     {% endif %}
 
     <p class="mb-4">
