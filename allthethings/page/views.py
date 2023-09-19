@@ -1403,11 +1403,11 @@ def get_lgli_file_dicts(session, key, values):
             for key, values in edition_dict['descriptions_mapped'].items():
                 if key in allthethings.utils.LGLI_IDENTIFIERS:
                     for value in values:
-                        allthethings.utils.add_identifier_unified(edition_dict, LGLI_IDENTIFIERS_MAPPING.get(key, key), value)
+                        allthethings.utils.add_identifier_unified(edition_dict, allthethings.utils.LGLI_IDENTIFIERS_MAPPING.get(key, key), value)
             for key, values in edition_dict['descriptions_mapped'].items():
                 if key in allthethings.utils.LGLI_CLASSIFICATIONS:
                     for value in values:
-                        allthethings.utils.add_classification_unified(edition_dict, LGLI_CLASSIFICATIONS_MAPPING.get(key, key), value)
+                        allthethings.utils.add_classification_unified(edition_dict, allthethings.utils.LGLI_CLASSIFICATIONS_MAPPING.get(key, key), value)
             allthethings.utils.add_isbns_unified(edition_dict, edition_dict['descriptions_mapped'].get('isbn') or [])
 
             edition_dict['stripped_description'] = ''
@@ -2405,7 +2405,7 @@ def get_additional_for_aarecord(aarecord):
     aarecord_id_split = aarecord['id'].split(':', 1)
 
     additional = {}
-    additional['path'] = aarecord_id_split[0].replace('/isbn/', '/isbndb/') + '/' + aarecord_id_split[1]
+    additional['path'] = '/' + aarecord_id_split[0].replace('/isbn/', '/isbndb/') + '/' + aarecord_id_split[1]
     additional['most_likely_language_name'] = (get_display_name_for_lang(aarecord['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if aarecord['file_unified_data'].get('most_likely_language_code', None) else '')
 
     additional['codes'] = []
@@ -2632,6 +2632,7 @@ def md5_page(md5_input):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def ia_page(ia_input):
     with Session(engine) as session:
+        session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         count = cursor.execute('SELECT md5 FROM aa_ia_2023_06_files WHERE ia_id = %(ia_input)s LIMIT 1', { "ia_input": ia_input })
         if count > 0:

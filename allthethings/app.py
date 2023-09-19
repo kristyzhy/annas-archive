@@ -30,7 +30,8 @@ class BlogMiddleware(object):
     def __init__(self, app):
         self.app = app
     def __call__(self, environ, start_response):
-        if environ['HTTP_HOST'].startswith('annas-blog.org'): # `startswith` so we can test using http://annas-blog.org.localtest.me:8000/
+        # Not just .startswith('annas-blog.org') bc then you get potential domains like www.annas-blog.org/md5/021bf980b32f1ec86758e06bf40a2b4c
+        if 'annas-blog.org' in environ['HTTP_HOST']: # so we can test using http://annas-blog.org.localtest.me:8000/
             environ['PATH_INFO'] = '/blog' + environ['PATH_INFO']
         elif environ['PATH_INFO'].startswith('/blog'): # Don't allow the /blog path directly to avoid duplication between annas-blog.org and /blog
             # Note that this HAS to be in an `elif`, because some blog paths actually start with `/blog`, e.g. `/blog-introducing.html`!

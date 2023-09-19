@@ -27,6 +27,7 @@ import traceback
 import flask_mail
 import click
 import pymysql.cursors
+import more_itertools
 
 import allthethings.utils
 
@@ -82,11 +83,6 @@ def nonpersistent_dbreset_internal():
     Reflected.prepare(engine_multi)
     elastic_reset_aarecords_internal()
     elastic_build_aarecords_internal()
-
-
-def chunks(l, n):
-    for i in range(0, len(l), n):
-        yield l[i:i + n]
 
 def query_yield_batches(conn, qry, pk_attr, maxrq):
     """specialized windowed query generator (using LIMIT/OFFSET)
@@ -261,6 +257,7 @@ def elastic_build_aarecords():
 
 def elastic_build_aarecords_job(aarecord_ids):
     try:
+        aarecord_ids = list(aarecord_ids)
         with Session(engine) as session:
             operations = []
             dois = []
@@ -300,7 +297,7 @@ def elastic_build_aarecords_job(aarecord_ids):
         raise err
 
 def elastic_build_aarecords_internal():
-    THREADS = 50
+    THREADS = 100
     CHUNK_SIZE = 50
     BATCH_SIZE = 100000
 
@@ -328,66 +325,86 @@ def elastic_build_aarecords_internal():
     ftlangdetect.detect('dummy')
 
     with engine.connect() as connection:
-        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
         with multiprocessing.Pool(THREADS) as executor:
             print("Processing from aa_ia_2023_06_metadata")
-            total = cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id')
+            cursor.execute('SELECT COUNT(ia_id) AS count FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id LIMIT 1')
+            total = list(cursor.fetchall())[0]['count']
+            cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id')
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                last_map = []
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
+                    list(last_map)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata ( starting ia_id: {batch[0]['ia_id']} )...")
-                    executor.map(elastic_build_aarecords_job, chunks([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
+                    last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
             print("Processing from isbndb_isbns")
-            total = cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns ORDER BY isbn13')
+            cursor.execute('SELECT COUNT(isbn13) AS count FROM isbndb_isbns ORDER BY isbn13 LIMIT 1')
+            total = list(cursor.fetchall())[0]['count']
+            cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns ORDER BY isbn13')
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                last_map = []
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
+                    list(last_map)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from isbndb_isbns ( starting isbn13: {batch[0]['isbn13']} )...")
-                    isbn13s = set()
+                    last_map = isbn13s = set()
                     for item in batch:
                         if item['isbn10'] != "0000000000":
                             isbn13s.add(f"isbn:{item['isbn13']}")
                             isbn13s.add(f"isbn:{isbnlib.ean13(item['isbn10'])}")
-                    executor.map(elastic_build_aarecords_job, chunks(list(isbn13s), CHUNK_SIZE))
+                    executor.map(elastic_build_aarecords_job, more_itertools.ichunked(list(isbn13s), CHUNK_SIZE))
                     pbar.update(len(batch))
 
             print("Processing from ol_base")
-            total = cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s ORDER BY ol_key', { "from": first_ol_key })
+            cursor.execute('SELECT COUNT(ol_key) AS count FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s ORDER BY ol_key LIMIT 1', { "from": first_ol_key })
+            total = list(cursor.fetchall())[0]['count']
+            cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s ORDER BY ol_key', { "from": first_ol_key })
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                last_map = []
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
+                    list(last_map)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from ol_base ( starting ol_key: {batch[0]['ol_key']} )...")
-                    executor.map(elastic_build_aarecords_job, chunks([f"ol:{item['ol_key'].replace('/books/','')}" for item in batch if allthethings.utils.validate_ol_editions([item['ol_key'].replace('/books/','')])], CHUNK_SIZE))
+                    last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ol:{item['ol_key'].replace('/books/','')}" for item in batch if allthethings.utils.validate_ol_editions([item['ol_key'].replace('/books/','')])], CHUNK_SIZE))
                     pbar.update(len(batch))
 
             print("Processing from computed_all_md5s")
-            total = cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 >= %(from)s ORDER BY md5', { "from": bytes.fromhex(first_md5) })
+            cursor.execute('SELECT COUNT(md5) AS count FROM computed_all_md5s WHERE md5 >= %(from)s ORDER BY md5 LIMIT 1', { "from": bytes.fromhex(first_md5) })
+            total = list(cursor.fetchall())[0]['count']
+            cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 >= %(from)s ORDER BY md5', { "from": bytes.fromhex(first_md5) })
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                last_map = []
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
+                    list(last_map)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} )...")
-                    executor.map(elastic_build_aarecords_job, chunks([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
+                    last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
             print("Processing from scihub_dois_without_matches")
-            total = cursor.execute('SELECT doi FROM scihub_dois_without_matches WHERE doi >= %(from)s ORDER BY doi', { "from": first_doi })
+            cursor.execute('SELECT COUNT(doi) AS count FROM scihub_dois_without_matches WHERE doi >= %(from)s ORDER BY doi LIMIT 1', { "from": first_doi })
+            total = list(cursor.fetchall())[0]['count']
+            cursor.execute('SELECT doi FROM scihub_dois_without_matches WHERE doi >= %(from)s ORDER BY doi', { "from": first_doi })
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+                last_map = []
                 while True:
                     batch = list(cursor.fetchmany(BATCH_SIZE))
+                    list(last_map)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from scihub_dois_without_matches ( starting doi: {batch[0]['doi']} )...")
-                    executor.map(elastic_build_aarecords_job, chunks([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
+                    last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
         print(f"Done!")
@@ -441,7 +458,7 @@ def elastic_build_aarecords_internal():
 #             for batch in query_yield_batches(conn, select(ComputedAllMd5s.md5).where(ComputedAllMd5s.md5 >= first_md5), ComputedAllMd5s.md5, BATCH_SIZE):
 #                 with multiprocessing.Pool(THREADS) as executor:
 #                     print(f"Processing {len(batch)} md5s from computed_all_md5s (starting md5: {batch[0][0]})...")
-#                     executor.map(elastic_migrate_from_aarecords_to_aarecords2_job, chunks([item[0] for item in batch], CHUNK_SIZE))
+#                     executor.map(elastic_migrate_from_aarecords_to_aarecords2_job, more_itertools.ichunked([item[0] for item in batch], CHUNK_SIZE))
 #                     pbar.update(len(batch))
 
 #             print(f"Done!")

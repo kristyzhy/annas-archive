@@ -15,6 +15,7 @@ services:
       - "../../aa-data-import--allthethings-mysql-data:/var/lib/mysql/"
       - "../../aa-data-import--temp-dir:/temp-dir"
     tmpfs: "/tmp"
+    command: "--init-file /etc/mysql/conf.d/init.sql"
 
   "aa-data-import--elasticsearch":
     container_name: "aa-data-import--elasticsearch"
@@ -61,3 +62,4 @@ services:
       - "../../aa-data-import--allthethings-elastic-data:/aa-data-import--allthethings-elastic-data"
       - "./mariadb-conf:/etc/mysql/conf.d"
       - "../public:/app/public"
+    tty: true
