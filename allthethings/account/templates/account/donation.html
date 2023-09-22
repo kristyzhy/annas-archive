@@ -299,7 +299,7 @@
         </p>
 
         <p class="mb-4">
-          "To" recipient email in the form: <span class="font-mono font-bold text-sm">giftcards+&#8203;{{ donation_dict.receipt_id }}@&#8203;annas-mail.org{{ copy_button('giftcards+' + donation_dict.receipt_id + '@annas-mail.org') }}</span>
+          "To" recipient email in the form: <span class="font-mono font-bold text-sm">giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{{ copy_button('giftcards+' + donation_dict.receipt_id + '@annas-mail.org') }}</span>
         </p>
 
         <p class="mb-4">
@@ -332,7 +332,7 @@
         Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on PayPal to the following email address:
       </p>
 
-      <p class="mb-4 font-mono font-bold text-sm">
+      <p class="mb-4 font-mono font-bold text-sm break-all">
         AnnaReceipts@proton.me{{ copy_button('AnnaReceipts@proton.me') }}
       </p>
     {% elif donation_dict.json.method == 'bmc' %}
@@ -399,8 +399,8 @@
         {% endif %}
       </p>
 
-      <p class="mb-4 font-mono font-bold text-sm">
-        AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
+      <p class="mb-4 font-mono font-bold text-sm break-all">
+        AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{{ copy_button('AnnaReceipts+' + donation_dict.receipt_id + '@proton.me') }}
       </p>
 
       {% if donation_dict.json.method in ['crypto', 'paypal'] %}
@@ -467,7 +467,7 @@
     {% endif %}
 
     <p class="mb-4">
-      If you run into any issues, please contact us at {% if donation_dict.json.method == 'amazon' %}giftcards+&#8203;{{ donation_dict.receipt_id }}@&#8203;annas-mail.org{% else %}AnnaReceipts+&#8203;{{ donation_dict.receipt_id }}@&#8203;proton.&#8203;me{% endif %}
+      If you run into any issues, please contact us at <a class="break-all" href="mailto:{% if donation_dict.json.method == 'amazon' %}giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{% else %}AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{% endif %}">{% if donation_dict.json.method == 'amazon' %}giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{% else %}AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{% endif %}</a>
     </p>
   </div>
 {% endblock %}

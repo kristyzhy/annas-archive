@@ -23,7 +23,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH, HOODPAY_MEMBERKEY
+from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
 from allthethings.page.views import get_aarecords_elasticsearch
 
 import allthethings.utils
@@ -563,7 +563,7 @@ def account_buy_membership():
 
     if method == 'hoodpay':
         payload = {
-            "metadata": { "memberkey": HOODPAY_MEMBERKEY },
+            "metadata": { "donation_id": donation_id },
             "name":"Anna",
             "currency":"USD",
             "amount": round(float(membership_costs['cost_cents_usd']) / 100.0, 2),

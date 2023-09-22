@@ -16,7 +16,6 @@ PAYMENT2_SIG_HEADER = os.getenv("PAYMENT2_SIG_HEADER", None)
 GC_NOTIFY_SIG = os.getenv("GC_NOTIFY_SIG", None)
 HOODPAY_URL = os.getenv("HOODPAY_URL", None)
 HOODPAY_AUTH = os.getenv("HOODPAY_AUTH", None)
-HOODPAY_MEMBERKEY = os.getenv("HOODPAY_MEMBERKEY", None)
 
 # Redis.
 # REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
