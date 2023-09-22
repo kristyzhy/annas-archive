@@ -12,10 +12,19 @@ cd /temp-dir
 
 rm -f libgen.sql fiction.sql
 
-unrar e libgen.rar
-unrar e fiction.rar
-pv libgen.sql  | PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/sanitize_unicode.py | mariadb -h aa-data-import--mariadb --default-character-set=utf8mb4 -u root -ppassword allthethings
-pv fiction.sql | PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/sanitize_unicode.py | mariadb -h aa-data-import--mariadb --default-character-set=utf8mb4 -u root -ppassword allthethings
+unrar e libgen.rar &
+job1pid=$!
+unrar e fiction.rar &
+job2pid=$!
+wait $job1pid
+wait $job2pid
+
+pv libgen.sql  | PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/sanitize_unicode.py | mariadb -h aa-data-import--mariadb --default-character-set=utf8mb4 -u root -ppassword allthethings &
+job1pid=$!
+pv fiction.sql | PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/sanitize_unicode.py | mariadb -h aa-data-import--mariadb --default-character-set=utf8mb4 -u root -ppassword allthethings &
+job2pid=$!
+wait $job1pid
+wait $job2pid
 
 mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv < /scripts/helpers/libgenrs_final.sql
 

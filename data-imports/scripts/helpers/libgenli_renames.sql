@@ -1,0 +1,19 @@
+DROP TABLE IF EXISTS libgen_new.libgenli_elem_descr;
+DROP TABLE IF EXISTS libgen_new.libgenli_files;
+DROP TABLE IF EXISTS libgen_new.libgenli_editions;
+DROP TABLE IF EXISTS libgen_new.libgenli_editions_to_files;
+DROP TABLE IF EXISTS libgen_new.libgenli_editions_add_descr;
+DROP TABLE IF EXISTS libgen_new.libgenli_files_add_descr;
+DROP TABLE IF EXISTS libgen_new.libgenli_series;
+DROP TABLE IF EXISTS libgen_new.libgenli_series_add_descr;
+DROP TABLE IF EXISTS libgen_new.libgenli_publishers;
+
+ALTER TABLE libgen_new.elem_descr RENAME libgen_new.libgenli_elem_descr;
+ALTER TABLE libgen_new.files RENAME libgen_new.libgenli_files;
+ALTER TABLE libgen_new.editions RENAME libgen_new.libgenli_editions;
+ALTER TABLE libgen_new.editions_to_files RENAME libgen_new.libgenli_editions_to_files;
+ALTER TABLE libgen_new.editions_add_descr RENAME libgen_new.libgenli_editions_add_descr;
+ALTER TABLE libgen_new.files_add_descr RENAME libgen_new.libgenli_files_add_descr;
+ALTER TABLE libgen_new.series RENAME libgen_new.libgenli_series;
+ALTER TABLE libgen_new.series_add_descr RENAME libgen_new.libgenli_series_add_descr;
+ALTER TABLE libgen_new.publishers RENAME libgen_new.libgenli_publishers;
