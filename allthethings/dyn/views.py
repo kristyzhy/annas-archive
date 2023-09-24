@@ -569,7 +569,7 @@ def account_buy_membership():
             "amount": round(float(membership_costs['cost_cents_usd']) / 100.0, 2),
             "redirectUrl":"annas-archive.org/account",
         }
-        response = httpx.post(HOODPAY_URL, json=payload, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES)
+        response = httpx.post(HOODPAY_URL, json=payload, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES, timeout=10.0)
         response.raise_for_status()
         donation_json['hoodpay_request'] = response.json()
 
@@ -587,7 +587,7 @@ def account_buy_membership():
         if pay_currency in ['busdbsc','dai','pyusd','tusd','usdc','usdterc20','usdttrc20']:
             price_currency = pay_currency
 
-        donation_json['payment2_request'] = httpx.post(PAYMENT2_URL, headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, json={
+        donation_json['payment2_request'] = httpx.post(PAYMENT2_URL, headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0, json={
             "price_amount": round(float(membership_costs['cost_cents_usd']) * (1.03 if price_currency == 'usd' else 1.0) / 100.0, 2),
             "price_currency": price_currency,
             "pay_currency": pay_currency,

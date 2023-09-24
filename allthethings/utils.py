@@ -462,7 +462,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
 
 
 def payment2_check(cursor, payment_id):
-    payment2_status = httpx.get(f"{PAYMENT2_URL}{payment_id}", headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES).json()
+    payment2_status = httpx.get(f"{PAYMENT2_URL}{payment_id}", headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0).json()
     if payment2_status['payment_status'] in ['confirmed', 'sending', 'finished']:
         if confirm_membership(cursor, payment2_status['order_id'], 'payment2_status', payment2_status):
             return (payment2_status, True)
