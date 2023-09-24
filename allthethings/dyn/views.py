@@ -742,7 +742,7 @@ def gc_notify():
     request_data = request.get_data()
     message = email.message_from_bytes(request_data, policy=email.policy.default)
     
-    if message['Subject'].strip().endswith('is waiting'):
+    if message['Subject'] is None or message['Subject'].strip().endswith('is waiting'):
         return ""
 
     to_split = message['X-Original-To'].replace('+', '@').split('@')
