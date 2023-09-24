@@ -8,26 +8,28 @@
   {% endif %}
 
   <div lang="en">
-    <div class="mb-4">Datasets ▶ Internet Archive Controlled Digital Lending</div>
+    <div class="mb-4"><a href="/datasets">Datasets</a> ▶ Internet Archive Controlled Digital Lending</div>
 
-    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
-      <p class="mb-4">
-        This dataset is closely related to the <a href="/datasets/openlib">Open Library dataset</a>. It contains a scrape of the metadata of the books in the Internet Archive’s Controlled Digital Lending Library, which concluded in June 2023. These records are being referred to directly from the Open Library dataset, but also contains records that are not in Open Library. We also have a number of data files scraped by community members over the years.
-      </p>
-
-      <p><strong>Resources</strong></p>
-      <ul class="list-inside mb-4 ml-1">
-        <li class="list-disc">Total files: {{ stats_data.stats_by_group.ia.count | numberformat }}</li>
-        <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.ia.filesize | filesizeformat }}</li>
-        <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.ia.aa_count | numberformat }} ({{ (stats_data.stats_by_group.ia.aa_count/stats_data.stats_by_group.ia.count*100.0) | decimalformat }}%)</li>
-        <li class="list-disc">Last updated: {{ stats_data.ia_date }}</li>
-        <li class="list-disc"><a href="/db/ia/100insightslesso0000maie.json">Example record on Anna’s Archive</a></li>
-        <li class="list-disc"><a href="/torrents#ia">Torrents by Anna’s Archive</a></li>
-        <li class="list-disc"><a href="https://archive.org/">Main website</a></li>
-        <li class="list-disc"><a href="https://archive.org/details/inlibrary">Digital Lending Library</a></li>
-        <li class="list-disc"><a href="https://archive.org/developers/metadata-schema/index.html">Metadata documentation (most fields)</a></li>
-        <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
-      </ul>
+    <div class="mb-4 p-2 overflow-hidden bg-[#0000000d] break-words">
+      If you are interested in mirroring this dataset for <a href="/about">archival</a> or <a href="/llm">LLM training</a> purposes, please contact us.
     </div>
+
+    <p class="mb-4">
+      This dataset is closely related to the <a href="/datasets/openlib">Open Library dataset</a>. It contains a scrape of the metadata of the books in the Internet Archive’s Controlled Digital Lending Library, which concluded in June 2023. These records are being referred to directly from the Open Library dataset, but also contains records that are not in Open Library. We also have a number of data files scraped by community members over the years.
+    </p>
+
+    <p><strong>Resources</strong></p>
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc">Total files: {{ stats_data.stats_by_group.ia.count | numberformat }}</li>
+      <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.ia.filesize | filesizeformat }}</li>
+      <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.ia.aa_count | numberformat }} ({{ (stats_data.stats_by_group.ia.aa_count/stats_data.stats_by_group.ia.count*100.0) | decimalformat }}%)</li>
+      <li class="list-disc">Last updated: {{ stats_data.ia_date }}</li>
+      <li class="list-disc"><a href="/db/ia/100insightslesso0000maie.json">Example record on Anna’s Archive</a></li>
+      <li class="list-disc"><a href="/torrents#ia">Torrents by Anna’s Archive</a></li>
+      <li class="list-disc"><a href="https://archive.org/">Main website</a></li>
+      <li class="list-disc"><a href="https://archive.org/details/inlibrary">Digital Lending Library</a></li>
+      <li class="list-disc"><a href="https://archive.org/developers/metadata-schema/index.html">Metadata documentation (most fields)</a></li>
+      <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
+    </ul>
   </div>
 {% endblock %}

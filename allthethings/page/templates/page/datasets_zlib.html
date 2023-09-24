@@ -8,41 +8,43 @@
   {% endif %}
 
   <div lang="en">
-    <div class="mb-4">Datasets ▶ Z-Library scrape</div>
+    <div class="mb-4"><a href="/datasets">Datasets</a> ▶ Z-Library scrape</div>
 
-    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
-      <p class="mb-4">
-        Z-Library has its roots in the <a href="/datasets/libgen_rs">Library Genesis</a> community, and originally bootstrapped with their data.
-        Since then, it has professionalized considerably, and has a much more modern interface.
-        They are therefore able to get many more donations, both monitarily to keep improving their website, as well as donations of new books.
-        They have amassed a large collection in addition to Library Genesis.
-      </p>
-
-      <p class="mb-4">
-        <strong>Update as of February 2023.</strong> In late 2022, the alleged founders of Z-Library were arrested, and domains were seized by United States authorities.
-        Since then the website has slowly been making its way online again.
-        It is unknown who currently runs it.
-      </p>
-
-      <p class="mb-4">
-        Anna’s Archive has been making backups of the Z-Library metadata and contents.
-        For technical details, see below.
-      </p>
-
-      <p><strong>Resources</strong></p>
-      <ul class="list-inside mb-4 ml-1">
-        <li class="list-disc">Total files: {{ stats_data.stats_by_group.zlib.count | numberformat }}</li>
-        <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.zlib.filesize | filesizeformat }}</li>
-        <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.zlib.aa_count | numberformat }} ({{ (stats_data.stats_by_group.zlib.aa_count/stats_data.stats_by_group.zlib.count*100.0) | decimalformat }}%)</li>
-        <li class="list-disc">Last updated: {{ stats_data.zlib_date }}</li>
-        <li class="list-disc"><a href="/zlib/1837947">Example record on Anna’s Archive</a></li>
-        <li class="list-disc"><a href="/torrents#zlib">Torrents by Anna’s Archive (metadata + content)</a></li>
-        <li class="list-disc"><a href="https://singlelogin.me/">Main website</a></li>
-        <li class="list-disc"><a href="http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/">Tor domain</a></li>
-        <li class="list-disc">Blogs: <a href="https://annas-blog.org/blog-introducing.html">Release 1</a> <a href="https://annas-blog.org/blog-3x-new-books.html">Release 2</a></li>
-        <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
-      </ul>
+    <div class="mb-4 p-2 overflow-hidden bg-[#0000000d] break-words">
+      If you are interested in mirroring this dataset for <a href="/about">archival</a> or <a href="/llm">LLM training</a> purposes, please contact us.
     </div>
+
+    <p class="mb-4">
+      Z-Library has its roots in the <a href="/datasets/libgen_rs">Library Genesis</a> community, and originally bootstrapped with their data.
+      Since then, it has professionalized considerably, and has a much more modern interface.
+      They are therefore able to get many more donations, both monitarily to keep improving their website, as well as donations of new books.
+      They have amassed a large collection in addition to Library Genesis.
+    </p>
+
+    <p class="mb-4">
+      <strong>Update as of February 2023.</strong> In late 2022, the alleged founders of Z-Library were arrested, and domains were seized by United States authorities.
+      Since then the website has slowly been making its way online again.
+      It is unknown who currently runs it.
+    </p>
+
+    <p class="mb-4">
+      Anna’s Archive has been making backups of the Z-Library metadata and contents.
+      For technical details, see below.
+    </p>
+
+    <p><strong>Resources</strong></p>
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc">Total files: {{ stats_data.stats_by_group.zlib.count | numberformat }}</li>
+      <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.zlib.filesize | filesizeformat }}</li>
+      <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.zlib.aa_count | numberformat }} ({{ (stats_data.stats_by_group.zlib.aa_count/stats_data.stats_by_group.zlib.count*100.0) | decimalformat }}%)</li>
+      <li class="list-disc">Last updated: {{ stats_data.zlib_date }}</li>
+      <li class="list-disc"><a href="/zlib/1837947">Example record on Anna’s Archive</a></li>
+      <li class="list-disc"><a href="/torrents#zlib">Torrents by Anna’s Archive (metadata + content)</a></li>
+      <li class="list-disc"><a href="https://singlelogin.me/">Main website</a></li>
+      <li class="list-disc"><a href="http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/">Tor domain</a></li>
+      <li class="list-disc">Blogs: <a href="https://annas-blog.org/blog-introducing.html">Release 1</a> <a href="https://annas-blog.org/blog-3x-new-books.html">Release 2</a></li>
+      <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
+    </ul>
 
     <h2 class="mt-4 mb-4 text-3xl font-bold">Z-Library scrape</h2>
 

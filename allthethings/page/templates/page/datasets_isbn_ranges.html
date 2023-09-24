@@ -8,23 +8,25 @@
   {% endif %}
 
   <div lang="en">
-    <div class="mb-4">Datasets ▶ ISBN country information </div>
+    <div class="mb-4"><a href="/datasets">Datasets</a> ▶ ISBN country information </div>
 
-    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
-      <p class="mb-4">
-        The International ISBN Agency regularly releases the ranges that it has allocated to national ISBN agencies.
-        From this we can derive what country, region, or language group this ISBN belongs.
-        We currently use this data indirectly, through the <a href="https://pypi.org/project/isbnlib/">isbnlib</a> Python library.
-      </p>
-
-      <p><strong>Resources</strong></p>
-      <ul class="list-inside mb-4 ml-1">
-        <li class="list-disc">Last updated: {{ stats_data.isbn_country_date }} (git <a href="https://github.com/xlcnd/isbnlib/commit/8d944ee456cb7b465aff67e2f8d200e8d7de7d0b">isbnlib#8d944ee</a>)</li>
-        <li class="list-disc"><a href="/isbndb/9780060512804">Example record on Anna’s Archive</a></li>
-        <li class="list-disc"><a href="https://www.isbn-international.org/range_file_generation">Main website</a></li>
-        <li class="list-disc"><a href="https://www.isbn-international.org/export_rangemessage.xml">Metadata</a></li>
-        <li class="list-disc"><a href="https://pypi.org/project/isbnlib/3.10.10/">isbnlib 3.10.10</a></li>
-      </ul>
+    <div class="mb-4 p-2 overflow-hidden bg-[#0000000d] break-words">
+      If you are interested in mirroring this dataset for <a href="/about">archival</a> or <a href="/llm">LLM training</a> purposes, please contact us.
     </div>
+
+    <p class="mb-4">
+      The International ISBN Agency regularly releases the ranges that it has allocated to national ISBN agencies.
+      From this we can derive what country, region, or language group this ISBN belongs.
+      We currently use this data indirectly, through the <a href="https://pypi.org/project/isbnlib/">isbnlib</a> Python library.
+    </p>
+
+    <p><strong>Resources</strong></p>
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc">Last updated: {{ stats_data.isbn_country_date }} (git <a href="https://github.com/xlcnd/isbnlib/commit/8d944ee456cb7b465aff67e2f8d200e8d7de7d0b">isbnlib#8d944ee</a>)</li>
+      <li class="list-disc"><a href="/isbndb/9780060512804">Example record on Anna’s Archive</a></li>
+      <li class="list-disc"><a href="https://www.isbn-international.org/range_file_generation">Main website</a></li>
+      <li class="list-disc"><a href="https://www.isbn-international.org/export_rangemessage.xml">Metadata</a></li>
+      <li class="list-disc"><a href="https://pypi.org/project/isbnlib/3.10.10/">isbnlib 3.10.10</a></li>
+    </ul>
   </div>
 {% endblock %}

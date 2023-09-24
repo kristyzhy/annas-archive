@@ -8,35 +8,37 @@
   {% endif %}
 
   <div lang="en">
-    <div class="mb-4">Datasets ▶ Sci-Hub</div>
+    <div class="mb-4"><a href="/datasets">Datasets</a> ▶ Sci-Hub</div>
 
-    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
-      <p class="mb-4">
-        For a background on Sci-Hub, please refer to its <a href="https://sci-hub.ru/">official website</a>, <a href="https://en.wikipedia.org/wiki/Sci-Hub">Wikipedia page</a>, and this <a href="https://radiolab.org/podcast/library-alexandra">podcast interview</a>.
-      </p>
-
-      <p class="mb-4">
-        Note that Sci-Hub has been <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/">frozen since 2021</a>. It was frozen before, but in 2021 a few million papers were added. Still, some limited number of papers get added to the Libgen “scimag” collections, though not enough to warrant new bulk torrents.
-      </p>
-
-      <p class="mb-4">
-        We use the Sci-Hub metadata as provided by <a href="/datasets/libgen_li">Libgen.li</a> in its “scimag” collection. We also use the <a href="https://sci-hub.ru/datasets/dois-2022-02-12.7z">dois-2022-02-12.7z</a> dataset.
-      </p>
-
-      <p><strong>Resources</strong></p>
-      <ul class="list-inside mb-4 ml-1">
-        <li class="list-disc">Total files: {{ stats_data.stats_by_group.journals.count | numberformat }}</li>
-        <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.journals.filesize | filesizeformat }}</li>
-        <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.journals.aa_count | numberformat }} ({{ (stats_data.stats_by_group.journals.aa_count/stats_data.stats_by_group.journals.count*100.0) | decimalformat }}%)</li>
-        <li class="list-disc"><a href="https://sci-hub.ru/">Website</a></li>
-        <li class="list-disc"><a href="https://sci-hub.ru/database">Metadata and torrents</a></li>
-        <li class="list-disc"><a href="https://libgen.rs/scimag/repository_torrent/">Torrents on Libgen.rs</a></li>
-        <li class="list-disc"><a href="https://libgen.li/torrents/scimag/">Torrents on Libgen.li</a></li>
-        <li class="list-disc"><a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/">Updates on Reddit</a></li>
-        <li class="list-disc"><a href="https://en.wikipedia.org/wiki/Sci-Hub">Wikipedia page</a></li>
-        <li class="list-disc"><a href="https://radiolab.org/podcast/library-alexandra">Podcast interview</a></li>
-        <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
-      </ul>
+    <div class="mb-4 p-2 overflow-hidden bg-[#0000000d] break-words">
+      If you are interested in mirroring this dataset for <a href="/about">archival</a> or <a href="/llm">LLM training</a> purposes, please contact us.
     </div>
+
+    <p class="mb-4">
+      For a background on Sci-Hub, please refer to its <a href="https://sci-hub.ru/">official website</a>, <a href="https://en.wikipedia.org/wiki/Sci-Hub">Wikipedia page</a>, and this <a href="https://radiolab.org/podcast/library-alexandra">podcast interview</a>.
+    </p>
+
+    <p class="mb-4">
+      Note that Sci-Hub has been <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/">frozen since 2021</a>. It was frozen before, but in 2021 a few million papers were added. Still, some limited number of papers get added to the Libgen “scimag” collections, though not enough to warrant new bulk torrents.
+    </p>
+
+    <p class="mb-4">
+      We use the Sci-Hub metadata as provided by <a href="/datasets/libgen_li">Libgen.li</a> in its “scimag” collection. We also use the <a href="https://sci-hub.ru/datasets/dois-2022-02-12.7z">dois-2022-02-12.7z</a> dataset.
+    </p>
+
+    <p><strong>Resources</strong></p>
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc">Total files: {{ stats_data.stats_by_group.journals.count | numberformat }}</li>
+      <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.journals.filesize | filesizeformat }}</li>
+      <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.journals.aa_count | numberformat }} ({{ (stats_data.stats_by_group.journals.aa_count/stats_data.stats_by_group.journals.count*100.0) | decimalformat }}%)</li>
+      <li class="list-disc"><a href="https://sci-hub.ru/">Website</a></li>
+      <li class="list-disc"><a href="https://sci-hub.ru/database">Metadata and torrents</a></li>
+      <li class="list-disc"><a href="https://libgen.rs/scimag/repository_torrent/">Torrents on Libgen.rs</a></li>
+      <li class="list-disc"><a href="https://libgen.li/torrents/scimag/">Torrents on Libgen.li</a></li>
+      <li class="list-disc"><a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/">Updates on Reddit</a></li>
+      <li class="list-disc"><a href="https://en.wikipedia.org/wiki/Sci-Hub">Wikipedia page</a></li>
+      <li class="list-disc"><a href="https://radiolab.org/podcast/library-alexandra">Podcast interview</a></li>
+      <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
+    </ul>
   </div>
 {% endblock %}

@@ -467,7 +467,7 @@
     {% endif %}
 
     <p class="mb-4">
-      If you run into any issues, please contact us at <a class="break-all" href="mailto:{% if donation_dict.json.method == 'amazon' %}giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{% else %}AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{% endif %}">{% if donation_dict.json.method == 'amazon' %}giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{% else %}AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{% endif %}</a>
+      If you run into any issues, please contact us at <a class="break-all" href="mailto:{% if donation_dict.json.method == 'amazon' %}giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{% else %}AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{% endif %}">{% if donation_dict.json.method == 'amazon' %}giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{% else %}AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{% endif %}</a> and include as much information as possible (such as screenshots)
     </p>
   </div>
 {% endblock %}
