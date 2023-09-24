@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-06 22:53+0000\n"
-"PO-Revision-Date: 2023-09-08 00:25+0000\n"
-"Last-Translator: Joel LeSanders <joellesanders@pretreer.com>\n"
+"PO-Revision-Date: 2023-09-25 04:35+0000\n"
+"Last-Translator: tshurdsfed <furtinaspi@gufum.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
@@ -305,15 +305,15 @@ msgstr ""
 
 #: allthethings/account/templates/account/donate.html:458
 msgid "page.donate.duration.summary.discount"
-msgstr ""
+msgstr "%(percentage)s%%"
 
 #: allthethings/account/templates/account/donate.html:459
 msgid "page.donate.duration.summary.monthly_cost"
-msgstr ""
+msgstr "%(monthly_cost)s / tháng"
 
 #: allthethings/account/templates/account/donate.html:462
 msgid "page.donate.duration.summary.duration.1_mo"
-msgstr ""
+msgstr "trong 1 tháng"
 
 #: allthethings/account/templates/account/donate.html:463
 msgid "page.donate.duration.summary.duration.3_mo"
@@ -370,11 +370,11 @@ msgstr ""
 
 #: allthethings/account/templates/account/donation.html:16
 msgid "page.donation.header.total_without_discount"
-msgstr ""
+msgstr "Tổng cộng: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / tháng cho %(duration)s tháng)</span>"
 
 #: allthethings/account/templates/account/donation.html:19
 msgid "page.donation.header.status"
-msgstr ""
+msgstr "Trạng thái: <span %(span_label)s>%(label)s</span>"
 
 #: allthethings/account/templates/account/donation.html:25
 msgid "page.donation.header.cancel.button"
@@ -635,9 +635,8 @@ msgid "page.account.logged_out.register.button"
 msgstr "Tạo tài khoản mới"
 
 #: allthethings/account/templates/account/index.html:76
-#, fuzzy
 msgid "page.account.logged_out.old_email.button"
-msgstr "Tài khoản cũ dùng email? Điền email vào đây."
+msgstr "Tài khoản cũ dùng email? Điền <a %(a_open)s>email vào đây</a>."
 
 #: allthethings/account/templates/account/list.html:3
 msgid "page.list.title"
@@ -912,7 +911,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:191
 msgid "page.md5.box.download.header_generic"
-msgstr ""
+msgstr "Tải xuống"
 
 #: allthethings/page/templates/page/aarecord.html:203
 msgid "page.md5.box.download.no_issues_notice"
@@ -920,7 +919,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:229
 msgid "page.md5.box.download.no_found"
-msgstr ""
+msgstr "Không tìm thấy nội dung tải xuống nào."
 
 #: allthethings/page/templates/page/aarecord.html:234
 #: allthethings/page/templates/page/aarecord.html:235
@@ -965,11 +964,11 @@ msgstr ""
 #: allthethings/page/templates/page/wechat.html:6
 #: allthethings/page/templates/page/wechat.html:7
 msgid "common.english_only"
-msgstr ""
+msgstr "Văn bản bên dưới tiếp tục bằng tiếng Anh."
 
 #: allthethings/page/templates/page/aarecord_not_found.html:4
 msgid "page.md5.invalid.header"
-msgstr ""
+msgstr "Không tìm thấy"
 
 #: allthethings/page/templates/page/aarecord_not_found.html:6
 msgid "page.md5.invalid.text"
@@ -1036,7 +1035,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/about.html:84
 msgid "page.home.random_book.header"
-msgstr ""
+msgstr "Sách ngẫu nhiên"
 
 #: allthethings/page/templates/page/about.html:87
 msgid "page.home.random_book.intro"
@@ -1044,7 +1043,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/about.html:91
 msgid "page.home.random_book.submit"
-msgstr ""
+msgstr "Sách ngẫu nhiên"
 
 #: allthethings/page/templates/page/about.html:96
 msgid "page.about.text1"
@@ -1214,7 +1213,7 @@ msgstr ""
 #: allthethings/page/templates/page/search.html:45
 #: allthethings/page/templates/page/search.html:81
 msgid "page.search.filters.filetype.header"
-msgstr ""
+msgstr "Loại tệp"
 
 #: allthethings/page/templates/page/search.html:55
 #: allthethings/page/templates/page/search.html:103
@@ -1243,7 +1242,7 @@ msgstr "Ngôn ngữ"
 
 #: allthethings/page/templates/page/search.html:102
 msgid "page.search.filters.sorting.most_relevant"
-msgstr ""
+msgstr "Liên quan nhất"
 
 #: allthethings/page/templates/page/search.html:117
 msgid "page.search.header.update_info"
@@ -1251,7 +1250,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/search.html:135
 msgid "page.search.results.error.header"
-msgstr ""
+msgstr "Lỗi trong quá trình tìm kiếm."
 
 #: allthethings/page/templates/page/search.html:137
 msgid "page.search.results.error.text"
@@ -1263,11 +1262,11 @@ msgstr ""
 
 #: allthethings/page/templates/page/search.html:148
 msgid "page.search.results.partial_more"
-msgstr ""
+msgstr "%(num)d+ trận đấu một phần"
 
 #: allthethings/page/templates/page/search.html:148
 msgid "page.search.results.partial"
-msgstr ""
+msgstr "%(num)d trận đấu một phần"
 
 #: allthethings/templates/layouts/index.html:4
 msgid "layout.index.title"
@@ -1299,13 +1298,13 @@ msgstr ""
 
 #: allthethings/templates/layouts/index.html:256
 msgid "layout.index.header.recent_downloads"
-msgstr ""
+msgstr "Tải xuống gần đây:"
 
 #: allthethings/templates/layouts/index.html:339
 #: allthethings/templates/layouts/index.html:348
 #: allthethings/templates/layouts/index.html:359
 msgid "layout.index.header.nav.about"
-msgstr ""
+msgstr "Về"
 
 #: allthethings/templates/layouts/index.html:340
 #: allthethings/templates/layouts/index.html:349
@@ -1445,7 +1444,7 @@ msgstr "Phiên dịch"
 
 #: allthethings/templates/layouts/index.html:455
 msgid "layout.index.footer.list2.dmca_copyright"
-msgstr ""
+msgstr "DMCA / khiếu nại bản quyền"
 
 #: allthethings/templates/layouts/index.html:460
 msgid "layout.index.footer.list3.header"
