@@ -2378,11 +2378,10 @@ def add_partner_servers(path, modifier, aarecord, additional):
     if modifier == 'scimag':
         targeted_seconds = 3
     # When changing the domains, don't forget to change md5_fast_download and md5_slow_download.
-    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/0', gettext("common.md5.servers.no_browser_verification") if len(additional['fast_partner_urls']) == 0 else ''))
-    additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/1', ''))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/0', gettext("common.md5.servers.browser_verification_unlimited", a_browser='href="/browser_verification"') if len(additional['slow_partner_urls']) == 0 else ''))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/1', ''))
-    additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/2', ''))
+    for _ in range(len(allthethings.utils.FAST_DOWNLOAD_DOMAINS)):
+        additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(len(additional['fast_partner_urls'])), gettext("common.md5.servers.no_browser_verification") if len(additional['fast_partner_urls']) == 0 else ''))
+    for _ in range(len(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)):
+        additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(len(additional['slow_partner_urls'])), gettext("common.md5.servers.browser_verification_unlimited", a_browser='href="/browser_verification"') if len(additional['slow_partner_urls']) == 0 else ''))
     additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
 
 def max_length_with_word_boundary(sentence, max_len):
@@ -2779,7 +2778,7 @@ def md5_fast_download(md5_input, path_index, domain_index):
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
         aarecord = aarecords[0]
         try:
-            domain = ['momot.in', 'momot.rs'][domain_index]
+            domain = allthethings.utils.FAST_DOWNLOAD_DOMAINS[domain_index]
             path_info = aarecord['additional']['partner_url_paths'][path_index]
         except:
             return redirect(f"/md5/{md5_input}", code=302)
@@ -2828,7 +2827,7 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
             aarecord = aarecords[0]
             try:
-                domain = ['momot.rs', 'ktxr.rs', 'nrzr.li'][domain_index]
+                domain = allthethings.utils.SLOW_DOWNLOAD_DOMAINS[domain_index]
                 path_info = aarecord['additional']['partner_url_paths'][path_index]
             except:
                 return redirect(f"/md5/{md5_input}", code=302)

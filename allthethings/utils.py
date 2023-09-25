@@ -30,9 +30,12 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, BIP39_MNEMONIC, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, BIP39_MNEMONIC, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1
 
 FEATURE_FLAGS = {}
+
+FAST_DOWNLOAD_DOMAINS = [x for x in [FAST_PARTNER_SERVER1, 'momot.in', 'momot.rs'] if x is not None]
+SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'ktxr.rs', 'nrzr.li']
 
 def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])
