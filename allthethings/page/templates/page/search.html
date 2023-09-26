@@ -118,7 +118,11 @@
       </div>
 
       <div class="min-w-[0] w-[100%]">
-        {% if (search_input | length) > 0 %}
+        {% if search_dict.had_es_timeout %}
+          <p class="mt-4 font-bold">{{ gettext('page.search.results.error.header') }}</p>
+
+          <p class="mt-4">{{ gettext('page.search.results.error.text') }}</p>
+        {% elif (search_input | length) > 0 %}
           <!-- {% if redirect_pages.isbn_page %}
             <p class="my-4">That looks like it might be an ISBN. <a href="/isbn/{{ redirect_pages.isbn_page | urlencode }}">View our ISBN data page for “{{ redirect_pages.isbn_page }}”.</a></p>
           {% endif %}
@@ -129,26 +133,20 @@
             <p class="my-4">That looks like it might be an Open Library Edition ID. <a href="/ol/{{ redirect_pages.ol_page | urlencode }}">View our Open Library data page for “{{ redirect_pages.ol_page }}”.</a></p>
           {% endif %} -->
 
-          {% if not search_dict %}
-            <p class="mt-4 font-bold">{{ gettext('page.search.results.error.header') }}</p>
-
-            <p class="mt-4">{{ gettext('page.search.results.error.text') }}</p>
-          {% else %}
-            {% if (search_dict.search_aarecords | length) == 0 %}
-              <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
-            {% endif %}
-
-            <div class="mb-4">
-              {% from 'macros/aarecord_list.html' import aarecord_list %}
-              {{ aarecord_list(search_dict.search_aarecords) }}
-
-              {% if search_dict.additional_search_aarecords | length > 0 %}
-                <div class="italic mt-8">{% if search_dict.max_additional_search_aarecords_reached %}{{ gettext('page.search.results.partial_more', num=(search_dict.additional_search_aarecords | length)) }}{% else %}{{ gettext('page.search.results.partial', num=(search_dict.additional_search_aarecords | length)) }}{% endif %}</div>
-
-                {{ aarecord_list(search_dict.additional_search_aarecords, max_show_immediately=0) }}
-              {% endif %}
-            </div>
+          {% if (search_dict.search_aarecords | length) == 0 %}
+            <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
           {% endif %}
+
+          <div class="mb-4">
+            {% from 'macros/aarecord_list.html' import aarecord_list %}
+            {{ aarecord_list(search_dict.search_aarecords) }}
+
+            {% if search_dict.additional_search_aarecords | length > 0 %}
+              <div class="italic mt-8">{% if search_dict.max_additional_search_aarecords_reached %}{{ gettext('page.search.results.partial_more', num=(search_dict.additional_search_aarecords | length)) }}{% else %}{{ gettext('page.search.results.partial', num=(search_dict.additional_search_aarecords | length)) }}{% endif %}</div>
+
+              {{ aarecord_list(search_dict.additional_search_aarecords, max_show_immediately=0) }}
+            {% endif %}
+          </div>
         {% else %}
           <div class="sm:mt-6 h-[50vh] sm:px-[20px] md:px-[60px]">
             {% if search_dict.search_index_short == '' %}

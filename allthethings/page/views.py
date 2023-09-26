@@ -18,6 +18,7 @@ import multiprocessing
 import gc
 import random
 import slugify
+import elasticsearch
 import elasticsearch.helpers
 import ftlangdetect
 import traceback
@@ -2959,6 +2960,8 @@ def all_search_aggs(display_lang, search_index_long):
 @page.get("/search")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def search_page():
+    had_es_timeout = False
+
     search_input = request.args.get("q", "").strip()
     filter_values = {
         'search_most_likely_language_code': [val.strip()[0:15] for val in request.args.getlist("lang")],
@@ -3065,32 +3068,40 @@ def search_page():
             "track_total_hits": 100,
             "timeout": "1s",
         })
-    total_all_indexes = es.msearch(
-        request_timeout=5,
-        max_concurrent_searches=10,
-        max_concurrent_shard_requests=10,
-        searches=multi_searches,
-    )
-    total_by_index_long = {}
-    for i, result in enumerate(total_all_indexes['responses']):
-        count = 0
-        if 'hits' in result:
-            count = result['hits']['total']
-        total_by_index_long[multi_searches[i*2]['index']] = count
+
+    total_by_index_long = {index: {'value': 0, 'relation': ''} for index in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values()}
+    try:
+        total_all_indexes = es.msearch(
+            request_timeout=5,
+            max_concurrent_searches=10,
+            max_concurrent_shard_requests=10,
+            searches=multi_searches,
+        )
+        for i, result in enumerate(total_all_indexes['responses']):
+            count = 0
+            if 'hits' in result:
+                count = result['hits']['total']
+            total_by_index_long[multi_searches[i*2]['index']] = count
+    except elasticsearch.ConnectionTimeout as err:
+        had_es_timeout = True
 
     max_display_results = 200
     max_additional_display_results = 50
 
-    search_results_raw = es.search(
-        index=search_index_long, 
-        size=max_display_results, 
-        query=search_query,
-        aggs=search_query_aggs,
-        post_filter={ "bool": { "filter": post_filter } },
-        sort=custom_search_sorting+['_score'],
-        track_total_hits=False,
-        timeout=ES_TIMEOUT,
-    )
+    search_results_raw = []
+    try:
+        search_results_raw = es.search(
+            index=search_index_long, 
+            size=max_display_results, 
+            query=search_query,
+            aggs=search_query_aggs,
+            post_filter={ "bool": { "filter": post_filter } },
+            sort=custom_search_sorting+['_score'],
+            track_total_hits=False,
+            timeout=ES_TIMEOUT,
+        )
+    except elasticsearch.ConnectionTimeout as err:
+        had_es_timeout = True
 
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
     all_aggregations = all_search_aggs(display_lang, search_index_long)
@@ -3160,55 +3171,66 @@ def search_page():
     max_additional_search_aarecords_reached = False
     additional_search_aarecords = []
 
-    if len(search_aarecords) < max_display_results:
+    if (len(search_aarecords) < max_display_results) and (not had_es_timeout):
         # For partial matches, first try our original query again but this time without filters.
         seen_ids = set([aarecord['id'] for aarecord in search_aarecords])
-        search_results_raw = es.search(
-            index=search_index_long, 
-            size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
-            query=search_query,
-            sort=custom_search_sorting+['_score'],
-            track_total_hits=False,
-            timeout=ES_TIMEOUT,
-        )
+        search_results_raw = []
+        try:
+            search_results_raw = es.search(
+                index=search_index_long, 
+                size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
+                query=search_query,
+                sort=custom_search_sorting+['_score'],
+                track_total_hits=False,
+                timeout=ES_TIMEOUT,
+            )
+        except elasticsearch.ConnectionTimeout as err:
+            had_es_timeout = True
         if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
         additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
         # Then do an "OR" query, but this time with the filters again.
-        if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
+        if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and (not had_es_timeout):
             seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
-            search_results_raw = es.search(
-                index=search_index_long,
-                size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
-                # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
-                sort=custom_search_sorting+['_score'],
-                track_total_hits=False,
-                timeout=ES_TIMEOUT,
-            )
+            search_results_raw = []
+            try:
+                search_results_raw = es.search(
+                    index=search_index_long,
+                    size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
+                    # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                    query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
+                    sort=custom_search_sorting+['_score'],
+                    track_total_hits=False,
+                    timeout=ES_TIMEOUT,
+                )
+            except elasticsearch.ConnectionTimeout as err:
+                had_es_timeout = True
             if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
             additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
             # If we still don't have enough, do another OR query but this time without filters.
-            if len(search_aarecords) + len(additional_search_aarecords) < max_display_results:
+            if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and not had_es_timeout:
                 seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
-                search_results_raw = es.search(
-                    index=search_index_long,
-                    size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
-                    # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                    query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
-                    sort=custom_search_sorting+['_score'],
-                    track_total_hits=False,
-                    timeout=ES_TIMEOUT,
-                )
-                if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
+                search_results_raw = []
+                try:
+                    search_results_raw = es.search(
+                        index=search_index_long,
+                        size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
+                        # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                        query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
+                        sort=custom_search_sorting+['_score'],
+                        track_total_hits=False,
+                        timeout=ES_TIMEOUT,
+                    )
+                except elasticsearch.ConnectionTimeout as err:
+                    had_es_timeout = True
+                if (len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results) and (not had_es_timeout):
                     max_additional_search_aarecords_reached = True
                 additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
     else:
         max_search_aarecords_reached = True
-
     
     search_dict = {}
     search_dict['search_aarecords'] = search_aarecords[0:max_display_results]
@@ -3219,6 +3241,9 @@ def search_page():
     search_dict['sort_value'] = sort_value
     search_dict['search_index_short'] = search_index_short
     search_dict['total_by_index_long'] = total_by_index_long
+    search_dict['had_es_timeout'] = had_es_timeout
+
+    status = 404 if had_es_timeout else 200 # So we don't cache
 
     return render_template(
         "page/search.html",
@@ -3230,4 +3255,4 @@ def search_page():
             'doi_page': doi_page,
             'isbn_page': isbn_page,
         }
-    )
+    ), status
