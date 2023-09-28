@@ -1,8 +1,10 @@
 // import emailMisspelled, { microsoft, all } from "email-misspelled";
 import AriaTablist from 'aria-tablist';
-import Plotly from 'plotly.js-basic-dist-min'
+import Plotly from 'plotly.js-basic-dist-min';
+import PDFObject from 'pdfobject';
 
 window.Plotly = Plotly;
+window.PDFObject = PDFObject;
 
 
 // const microsoftWithMsn = microsoft.concat(

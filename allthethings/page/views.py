@@ -2727,6 +2727,73 @@ def doi_page(doi_input):
         }
         return render_template("page/aarecord.html", **render_fields)
 
+@page.get("/scidb/")
+@page.post("/scidb/")
+@allthethings.utils.no_cache()
+def scidb_redirect_page():
+    doi_input = request.args.get("doi", "").strip()
+    return redirect(f"/scidb/{doi_input}", code=302)
+
+@page.get("/scidb/<path:doi_input>")
+@page.post("/scidb/<path:doi_input>")
+@allthethings.utils.no_cache()
+def scidb_page(doi_input):
+    doi_input = doi_input.strip()
+
+    if not doi_input.startswith('10.'):
+        if '10.' in doi_input:
+            return redirect(f"/scidb/{doi_input[doi_input.find('10.'):].strip()}", code=302)    
+        return redirect(f"/search?q={doi_input}", code=302)
+
+    if allthethings.utils.doi_is_isbn(doi_input):
+        return redirect(f"/search?q={doi_input}", code=302)
+
+    with Session(engine) as session:
+        search_results_raw = es.search(
+            index="aarecords",
+            size=10,
+            query={ "term": { "search_only_fields.search_doi": doi_input } },
+            timeout=ES_TIMEOUT,
+        )
+        aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
+        aarecords = [aarecord for aarecord in aarecords if len(aarecord['additional']['partner_url_paths']) > 0 or len(aarecord.get('scihub_doi') or []) > 0]
+        aarecords.sort(key=lambda aarecord: (0 if (len(aarecord['additional']['partner_url_paths']) > 0) else 1, 0 if (len(aarecord.get('scihub_doi') or []) > 0) else 1))
+
+        if len(aarecords) == 0:
+            return redirect(f"/search?q={doi_input}", code=302)
+
+        aarecord = aarecords[0]
+
+        pdf_url = None
+        download_url = None
+        if len(aarecord['additional']['partner_url_paths']) > 0:
+            domain = random.choice(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)
+            path_info = aarecord['additional']['partner_url_paths'][0]
+
+            targeted_seconds_multiplier = 1.0
+            minimum = 30
+            maximum = 150
+            speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
+            pdf_url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(False, speed, path_info['path'], aarecord['additional']['filename'], domain)
+            download_url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'], domain)
+
+        scihub_link = None
+        scihub_doi = aarecord.get('scihub_doi') or []
+        if len(scihub_doi) > 0:
+            scihub_link = f"https://sci-hub.ru/{scihub_doi[0]['doi']}"
+        
+        render_fields = {
+            "header_active": "home/search",
+            "aarecord_id": aarecord['id'],
+            "aarecord_id_split": aarecord['id'].split(':', 1),
+            "aarecord": aarecord,
+            "doi_input": doi_input,
+            "pdf_url": pdf_url,
+            "download_url": download_url,
+            "scihub_link": scihub_link,
+        }
+        return render_template("page/scidb.html", **render_fields)
+
 @page.get("/db/aarecord/<path:aarecord_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def md5_json(aarecord_id):

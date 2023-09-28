@@ -1,0 +1,48 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}{{aarecord.additional.top_box.meta_information[0]}}{% endblock %}
+
+{% block meta_tags %}
+  <meta name="description" content="{{aarecord.additional.top_box.meta_information[1:4] | join('\n\n')}}" />
+{% endblock %}
+
+{% block main %}
+  <div class="flex flex-row h-[100%]">
+    <div class="p-4 overflow-hidden bg-[#0000000d] break-words w-[40%] max-w-[300px] overflow-y-auto">
+      <div class="mb-4 flex justify-between items-center">
+        <a href="/" class="custom-a text-[#000] hover:text-[#444]"><h1 class="text-md sm:text-lg leading-none font-[900]">{{ gettext('layout.index.header.title') }}</h1></a>
+        <div class="text-sm">🧬&nbsp;SciDB</div>
+      </div>
+
+      <div class="mb-4">
+        <div class="text-sm">DOI: {{doi_input}} <a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href="/search?q={{ doi_input | urlencode }}">🔍</a></div>
+      </div>
+
+      <div class="mb-4 text-sm">
+        <div class="text-xs text-gray-500">{{aarecord.additional.top_box.top_row}}</div>
+        <div class="font-bold">{{aarecord.additional.top_box.title}} {% if aarecord.additional.top_box.title %}<a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.title | urlencode }}">🔍</a>{% endif %}</div>
+        <div class="">{{aarecord.additional.top_box.publisher_and_edition}}</div>
+        <div class="italic">{{aarecord.additional.top_box.author}} {% if aarecord.additional.top_box.author %}<a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.author | urlencode }}">🔍</a>{% endif %}</div>
+      </div>
+
+      <ul class="mb-4">
+        <li>- <a href="{{ aarecord.additional.path }}">Record in Anna’s Archive</a></li>
+        {% if download_url %}<li>- <a href="{{ download_url }}">Download</a></li>{% endif %}
+        {% if scihub_link %}<li>- <a href="{{ scihub_link }}" rel="noopener noreferrer nofollow" target="_blank">Sci-Hub</a></li>{% endif %}
+        <li>- <a href="https://doi.org/{{ doi_input }}" rel="noopener noreferrer nofollow" target="_blank">doi.org</a></li>
+      </ul>
+    </div>
+    {% if pdf_url %}
+      <div id="pdfembed" class="w-[100%]"></div>
+      <script>
+        (function() {
+          document.addEventListener("DOMContentLoaded", function() {
+            window.PDFObject.embed({{ pdf_url | tojson }}, "#pdfembed", {fallbackLink:true});
+          });
+        })();
+      </script>
+    {% elif scihub_link %}
+      <iframe class="w-[100%]" src="{{ scihub_link }}">
+    {% endif %}
+  </div>
+{% endblock %}

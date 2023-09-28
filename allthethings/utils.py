@@ -63,6 +63,9 @@ def split_aarecord_ids(aarecord_ids):
         ret[split_aarecord_id[0]].append(split_aarecord_id[1])
     return ret
 
+def doi_is_isbn(doi):
+    return doi.startswith('10.978.') or doi.startswith('10.979.')
+
 JWT_PREFIX = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
 
 ACCOUNT_COOKIE_NAME = "aa_account_id2"
