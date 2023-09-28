@@ -66,6 +66,37 @@ def split_aarecord_ids(aarecord_ids):
 def doi_is_isbn(doi):
     return doi.startswith('10.978.') or doi.startswith('10.979.')
 
+def scidb_info(aarecord, additional=None):
+    if additional is None:
+        additional = aarecord['additional']
+
+    valid_dois = [doi for doi in aarecord['file_unified_data']['identifiers_unified'].get('doi') or [] if not doi_is_isbn(doi)]
+    if len(valid_dois) == 0:
+        return None
+    if aarecord['file_unified_data']['extension_best'] != "pdf":
+        return None
+
+    scihub_link = None
+    scihub_doi = aarecord.get('scihub_doi') or []
+    if len(scihub_doi) > 0:
+        scihub_link = f"https://sci-hub.ru/{scihub_doi[0]['doi']}"
+
+    if (aarecord['file_unified_data']['content_type'] != "journal_article") and (scihub_link is None):
+        return None
+
+    path_info = None
+    if len(additional['partner_url_paths']) > 0:
+        path_info = additional['partner_url_paths'][0]
+
+    if path_info:
+        priority = 1
+    elif scihub_link:
+        priority = 2
+    else:
+        return None
+
+    return { "priority": priority, "doi": valid_dois[0], "path_info": path_info, "scihub_link": scihub_link }
+
 JWT_PREFIX = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
 
 ACCOUNT_COOKIE_NAME = "aa_account_id2"

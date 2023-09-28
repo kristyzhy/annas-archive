@@ -31,6 +31,8 @@
         {% if scihub_link %}<li>- <a href="{{ scihub_link }}" rel="noopener noreferrer nofollow" target="_blank">Sci-Hub</a></li>{% endif %}
         <li>- <a href="https://doi.org/{{ doi_input }}" rel="noopener noreferrer nofollow" target="_blank">doi.org</a></li>
       </ul>
+
+      <div class="text-xs text-gray-500">Not working? Try <a href="javascript:window.location.reload()">refreshing</a>.</div>
     </div>
     {% if pdf_url %}
       <div id="pdfembed" class="w-[100%]"></div>

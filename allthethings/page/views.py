@@ -2485,6 +2485,7 @@ def get_additional_for_aarecord(aarecord):
     additional['has_aa_exclusive_downloads'] = 0
     shown_click_get = False
     linked_dois = set()
+
     for scihub_doi in aarecord.get('scihub_doi') or []:
         doi = scihub_doi['doi']
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", ""))
@@ -2592,6 +2593,12 @@ def get_additional_for_aarecord(aarecord):
         if len(aarecord.get('ol') or []) > 0:
             additional['download_urls'].append((f"Find original record in Open Library", f"https://openlibrary.org/books/{aarecord_id_split[1]}", ""))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
+
+    scidb_info = allthethings.utils.scidb_info(aarecord, additional)
+    if scidb_info is not None:
+        additional['fast_partner_urls'] = [("Anna’s Archive 🧬 SciDB", f"/scidb/{scidb_info['doi']}", "(no browser verification required)")] + additional['fast_partner_urls']
+        additional['download_urls'] = [("Anna’s Archive 🧬 SciDB", f"/scidb/{scidb_info['doi']}", "")] + additional['download_urls']
+
     return additional
 
 def add_additional_to_aarecord(aarecord):
@@ -2746,41 +2753,52 @@ def scidb_page(doi_input):
         return redirect(f"/search?q={doi_input}", code=302)
 
     if allthethings.utils.doi_is_isbn(doi_input):
-        return redirect(f"/search?q={doi_input}", code=302)
+        return redirect(f"/search?q=doi:{doi_input}", code=302)
+
+    fast_scidb = False
+    verified = False
+    if str(request.args.get("scidb_verified") or "") == "1":
+        verified = True
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is not None:
+        with Session(mariapersist_engine) as mariapersist_session:
+            account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
+            if account_fast_download_info is not None:
+                fast_scidb = True
+                verified = True
+    if not verified:
+        return redirect(f"/scidb/{doi_input}?scidb_verified=1", code=302)
 
     with Session(engine) as session:
         search_results_raw = es.search(
             index="aarecords",
-            size=10,
+            size=50,
             query={ "term": { "search_only_fields.search_doi": doi_input } },
             timeout=ES_TIMEOUT,
         )
         aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
-        aarecords = [aarecord for aarecord in aarecords if len(aarecord['additional']['partner_url_paths']) > 0 or len(aarecord.get('scihub_doi') or []) > 0]
-        aarecords.sort(key=lambda aarecord: (0 if (len(aarecord['additional']['partner_url_paths']) > 0) else 1, 0 if (len(aarecord.get('scihub_doi') or []) > 0) else 1))
+        aarecords_and_infos = [(aarecord, allthethings.utils.scidb_info(aarecord)) for aarecord in aarecords if allthethings.utils.scidb_info(aarecord) is not None]
+        aarecords_and_infos.sort(key=lambda aarecord_and_info: aarecord_and_info[1]['priority'])
 
-        if len(aarecords) == 0:
-            return redirect(f"/search?q={doi_input}", code=302)
+        if len(aarecords_and_infos) == 0:
+            return redirect(f"/search?q=doi:{doi_input}", code=302)
 
-        aarecord = aarecords[0]
+        aarecord, scidb_info = aarecords_and_infos[0]
 
         pdf_url = None
         download_url = None
-        if len(aarecord['additional']['partner_url_paths']) > 0:
+        path_info = scidb_info['path_info']
+        if path_info:
             domain = random.choice(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)
-            path_info = aarecord['additional']['partner_url_paths'][0]
-
             targeted_seconds_multiplier = 1.0
             minimum = 30
-            maximum = 150
+            maximum = 200
+            if fast_scidb:
+                minimum = 400
+                maximum = 800
             speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
             pdf_url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(False, speed, path_info['path'], aarecord['additional']['filename'], domain)
             download_url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'], domain)
-
-        scihub_link = None
-        scihub_doi = aarecord.get('scihub_doi') or []
-        if len(scihub_doi) > 0:
-            scihub_link = f"https://sci-hub.ru/{scihub_doi[0]['doi']}"
         
         render_fields = {
             "header_active": "home/search",
@@ -2790,7 +2808,7 @@ def scidb_page(doi_input):
             "doi_input": doi_input,
             "pdf_url": pdf_url,
             "download_url": download_url,
-            "scihub_link": scihub_link,
+            "scihub_link": scidb_info['scihub_link'],
         }
         return render_template("page/scidb.html", **render_fields)
 
