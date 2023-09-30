@@ -143,15 +143,14 @@
         </p>
 
         <p class="mb-4">
-          Follow the instructions to buy PYUSD coin (PayPal USD).
-
-          Buy a bit more (we recommend $4 more) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
+          {{ gettext('page.donation.pyusd.instructions') }}
+          {{ gettext('page.donation.pyusd.more', more='$4', amount=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
         </p>
 
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Transfer the PYUSD to our address</p>
 
         <p class="mb-4">
-          Go to the “PYUSD” page in your PayPal app or website. Press the “Transfer” button <span class="icon-[cil--transfer] align-middle"></span>, and then “Send”.
+          {{ gettext('page.donation.pyusd.transfer', icon=('<span class="icon-[cil--transfer] align-middle"></span>' | safe)) }}
         </p>
 
         <p class="mb-4">
@@ -256,7 +255,7 @@
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'payment2' %}
-      <h2 class="mt-4 mb-4 text-xl font-bold">{{ donation_dict.json.payment2_request.pay_currency | upper }} instructions</h2>
+      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.crypto_instructions', coin_name=(donation_dict.json.payment2_request.pay_currency | upper)) }}</h2>
 
       {% if donation_time_expired %}
         <p class="mb-4">
@@ -281,22 +280,24 @@
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'amazon' %}
-      <p class="mb-4 font-bold">Amazon.com gift card</p>
+      <p class="mb-4 font-bold">{{ gettext('page.donation.amazon.header') }}</p>
 
         <p class="mb-4">
-          Please use the <a href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank">official Amazon.com form</a> to send us a gift card of <span class="font-bold">{{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}</span> to the email address below (which has been generated just for your account). We cannot except other methods of gift cards, <strong>only sent directly from the official form on Amazon.com</strong> (not on other Amazon domains, and no forwarded emails). We cannot return your gift card if you do not use this form.
+          {{ gettext('page.donation.amazon.form_instructions', a_form=(' href="https://www.amazon.com/gp/product/B0BRSDM1XK" rel="noopener noreferrer nofollow" target="_blank" ' | safe), amount=(('<strong>' + donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions + '</strong>') | safe)) }}
+          {{ gettext('page.donation.amazon.only_official') }}
         </p>
 
         <p class="mb-4">
-          "To" recipient email in the form: <span class="font-mono font-bold text-sm">giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{{ copy_button('giftcards+' + donation_dict.receipt_id + '@annas-mail.org') }}</span>
+          {{ gettext('page.donation.amazon.form_to') }} <span class="font-mono font-bold text-sm">giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{{ copy_button('giftcards+' + donation_dict.receipt_id + '@annas-mail.org') }}</span>
+          <br><span class="text-sm text-gray-500">{{ gettext('page.donation.amazon.unique') }}</span>
         </p>
 
-        <p class="mb-4">
-          <strong>IMPORTANT:</strong> We only support Amazon.com, not other Amazon websites. For example, .de, .co.uk, .ca, are NOT supported.
-        </p>
+        <!-- <p class="mb-4">
+          {{ gettext('page.donate.payment.desc.amazon_com') }}
+        </p> -->
 
         <p class="mb-4">
-          <strong>{{ gettext('page.donation.status_header') }}</strong> Waiting for gift card…<br>
+          <strong>{{ gettext('page.donation.status_header') }}</strong> {{ gettext('page.donation.amazon.waiting_gift_card') }}
         </p>
 
         <p class="mb-4">
@@ -304,10 +305,11 @@
         </p>
 
         <p class="mb-4">
-          After sending your gift card, our automated system will confirm it within a few minutes. If this doesn’t work, try resending your gift card (<a href="https://www.amazon.com/gp/help/customer/display.html?nodeId=GPC35Y68PEZYG3ED">instructions</a>). <span class="text-sm text-gray-500">If that still doesn’t work please email us and Anna will manually review it (this might take a few days), and be sure to mention if you’ve tried resending already.</span>
+          {{ gettext('page.donation.amazon.confirm_automated', a_instr=(' href="https://www.amazon.com/gp/help/customer/display.html?nodeId=GPC35Y68PEZYG3ED" ' |safe)) }}
+          <span class="text-sm text-gray-500">{{ gettext('page.donation.amazon.doesnt_work') }}</span>
         </p>
 
-        <p class="mb-4">Example:</p>
+        <p class="mb-4">{{ gettext('page.donation.amazon.example') }}</p>
 
         <p class="mb-4 bg-gray-100 rounded">
           <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts3.png">
