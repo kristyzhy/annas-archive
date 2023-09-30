@@ -128,7 +128,7 @@
       <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our credit / debit card page</p>
 
       <p class="mb-4">
-        Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="{{ donation_dict.json.hoodpay_request.data.url }}" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>. See the step-by-step guide below.
+        {{ gettext('page.donation.donate_on_this_page', amount=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_page=((' href="' + donation_dict.json.hoodpay_request.data.url + '" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank" ') | safe)) }} {{ gettext('page.donation.stepbystep_below') }}
       </p>
     {% elif donation_dict.json.method == 'payment2paypal' %}
       {% if donation_time_expired %}
@@ -136,7 +136,7 @@
           {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span> Buy PYUSD coin on PayPal</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy PYUSD coin on PayPal</p>
 
         <p class="mb-4">
           {{ gettext('page.donate.one_time_payment.paypal.text2') }}
@@ -146,7 +146,7 @@
           Follow the instructions to buy PYUSD coin (PayPal USD). Buy a bit more (we recommend $4 more) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
         </p>
 
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span> Transfer the PYUSD to our address</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Transfer the PYUSD to our address</p>
 
         <p class="mb-4">
           Go to the “PYUSD” page in your PayPal app or website. Press the “Transfer” button <span class="icon-[cil--transfer] align-middle"></span>, and then “Send”.
@@ -162,11 +162,11 @@
         </p>
 
         <p class="mb-4">
-          To reset the timer, simply create a new donation.
+          {{ gettext('page.donation.reset_timer') }}
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Update status</button>
+          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'payment2cashapp' %}
@@ -175,7 +175,7 @@
           {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span> Buy Bitcoin (BTC) on Cash App</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin (BTC) on Cash App</p>
 
         <p class="mb-4">
           Go to the “Bitcoin” (BTC) page in Cash App.
@@ -185,7 +185,7 @@
           Buy a bit more (we recommend $4 more) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
         </p>
 
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span> Transfer the Bitcoin to our address</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Transfer the Bitcoin to our address</p>
 
         <p class="mb-4">
           Click the “Send bitcoin” button to make a “withdrawal”. Switch from dollars to BTC by pressing the <span class="icon-[cil--transfer] align-middle"></span> icon. Enter the BTC amount below and click “Send”.
@@ -205,11 +205,11 @@
         </p>
 
         <p class="mb-4">
-          To reset the timer, simply create a new donation.
+          {{ gettext('page.donation.reset_timer') }}
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Update status</button>
+          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'payment2cc' %}
@@ -247,11 +247,11 @@
         </p>
 
         <p class="mb-4">
-          To reset the timer, simply create a new donation.
+          {{ gettext('page.donation.reset_timer') }}
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Update status</button>
+          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'payment2' %}
@@ -272,11 +272,11 @@
         </p>
 
         <p class="mb-4">
-          To reset the timer, simply create a new donation.
+          {{ gettext('page.donation.reset_timer') }}
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Update status</button>
+          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'amazon' %}
@@ -299,7 +299,7 @@
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">Update status</button>
+          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
 
         <p class="mb-4">
@@ -436,41 +436,41 @@
     {% endif %}
 
     {% if donation_dict.json.method == 'hoodpay' %}
-      <h2 class="mt-8 mb-4 text-xl font-bold">Step-by-step guide</h2>
+      <h2 class="mt-8 mb-4 text-xl font-bold">{{ gettext('page.donation.stepbystep') }}</h2>
 
-      <p class="mb-4">Some of the steps mention crypto wallets, but don’t worry, you don’t have to learn anything about crypto for this.</p>
+      <p class="mb-4">{{ gettext('page.donation.crypto_dont_worry') }}</p>
 
-      <p class="mb-4">1. Enter your email.</p>
+      <p class="mb-4">{{ gettext('page.donation.hoodpay.step1') }}</p>
 
       <p class="mb-4 bg-gray-100 rounded">
         <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/1.png">
       </p>
 
-      <p class="mb-4">2. Select your payment method.</p>
+      <p class="mb-4">{{ gettext('page.donation.hoodpay.step2') }}</p>
 
       <p class="mb-4 bg-gray-100 rounded">
         <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/2.png">
       </p>
 
-      <p class="mb-4">3. Select your payment method again.</p>
+      <p class="mb-4">{{ gettext('page.donation.hoodpay.step3') }}</p>
 
       <p class="mb-4 bg-gray-100 rounded">
         <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/3.png">
       </p>
 
-      <p class="mb-4">4. Select “Self-hosted” wallet.</p>
+      <p class="mb-4">{{ gettext('page.donation.hoodpay.step4') }}</p>
 
       <p class="mb-4 bg-gray-100 rounded">
         <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/4.png">
       </p>
 
-      <p class="mb-4">5. Click “I confirm ownership”.</p>
+      <p class="mb-4">{{ gettext('page.donation.hoodpay.step5') }}</p>
 
       <p class="mb-4 bg-gray-100 rounded">
         <img class="w-[100%] max-w-[650px] p-2" src="/images/hoodpay/5.png">
       </p>
 
-      <p class="mb-4">6. You should receive an email receipt. Please send that to us, and we’ll confirm your donation as soon as possible.</p>
+      <p class="mb-4">{{ gettext('page.donation.hoodpay.step6') }}</p>
     {% endif %}
 
     <p class="mb-4">
