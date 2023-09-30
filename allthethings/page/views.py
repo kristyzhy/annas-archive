@@ -2339,23 +2339,23 @@ def get_md5_content_type_mapping(display_lang):
 def get_access_types_mapping(display_lang):
     with force_locale(display_lang):
         return {
-            "aa_download": "Partner Server download",
-            "external_download": "External download",
-            "external_borrow": "External borrow",
-            "external_borrow_printdisabled": "External borrow (print disabled)",
-            "meta_explore": "Explore metadata",
+            "aa_download": gettext("common.access_types_mapping.aa_download"),
+            "external_download": gettext("common.access_types_mapping.external_download"),
+            "external_borrow": gettext("common.access_types_mapping.external_borrow"),
+            "external_borrow_printdisabled": gettext("common.access_types_mapping.external_borrow_printdisabled"),
+            "meta_explore": gettext("common.access_types_mapping.meta_explore"),
         }
 
 def get_record_sources_mapping(display_lang):
     with force_locale(display_lang):
         return {
-            "lgrs": "Libgen.rs",
-            "lgli": "Libgen.li",
-            "zlib": "Z-Library",
-            "ia": "Internet Archive",
-            "isbndb": "ISBNdb",
-            "ol": "OpenLibrary",
-            "scihub": "Sci-Hub",
+            "lgrs": gettext("common.record_sources_mapping.lgrs"),
+            "lgli": gettext("common.record_sources_mapping.lgli"),
+            "zlib": gettext("common.record_sources_mapping.zlib"),
+            "ia": gettext("common.record_sources_mapping.ia"),
+            "isbndb": gettext("common.record_sources_mapping.isbndb"),
+            "ol": gettext("common.record_sources_mapping.ol"),
+            "scihub": gettext("common.record_sources_mapping.scihub"),
         }
 
 def format_filesize(num):
