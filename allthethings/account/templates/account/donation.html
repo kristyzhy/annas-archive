@@ -65,7 +65,7 @@
 
     {% if donation_dict.json.method == 'crypto' %}
       <p class="mb-4">
-        This donation has expired. Please cancel and create a new one.
+        {{ gettext('page.donation.expired') }}
       </p>
 
       <!-- <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.crypto.top_header') }}</h2>
@@ -78,7 +78,7 @@
       -->
     {% elif donation_dict.json.method == 'binance' %}
       <p class="mb-4">
-        This donation has expired. Please cancel and create a new one.
+        {{ gettext('page.donation.expired') }}
       </p>
 
       <!-- <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy Bitcoin on Binance</p>
@@ -99,7 +99,7 @@
       -->
     {% elif donation_dict.json.method == 'paypal' %}
       <p class="mb-4">
-        This donation has expired. Please cancel and create a new one.
+        {{ gettext('page.donation.expired') }}
       </p>
 
       <!-- <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
@@ -133,7 +133,7 @@
     {% elif donation_dict.json.method == 'payment2paypal' %}
       {% if donation_time_expired %}
         <p class="mb-4">
-          This transfer has expired. Please cancel and create a new donation.
+          {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span> Buy PYUSD coin on PayPal</p>
@@ -172,7 +172,7 @@
     {% elif donation_dict.json.method == 'payment2cashapp' %}
       {% if donation_time_expired %}
         <p class="mb-4">
-          This transfer has expired. Please cancel and create a new donation.
+          {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span> Buy Bitcoin (BTC) on Cash App</p>
@@ -217,7 +217,7 @@
 
       {% if donation_time_expired %}
         <p class="mb-4">
-          This transfer has expired. Please cancel and create a new donation.
+          {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
         <p class="mb-4">
@@ -259,7 +259,7 @@
 
       {% if donation_time_expired %}
         <p class="mb-4">
-          This transfer has expired. Please cancel and create a new donation.
+          {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
         <p class="mb-4">
@@ -312,7 +312,11 @@
           <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts3.png">
         </p>
     {% elif donation_dict.json.method == 'paypalreg' %}
-      <h2 class="mt-4 mb-4 text-xl font-bold">PayPal (regular) instructions</h2>
+      <p class="mb-4">
+        {{ gettext('page.donation.expired') }}
+      </p>
+
+      <!-- <h2 class="mt-4 mb-4 text-xl font-bold">PayPal (regular) instructions</h2>
 
       <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate on PayPal</p>
 
@@ -322,8 +326,12 @@
 
       <p class="mb-4 font-mono font-bold text-sm break-all">
         AnnaReceipts@proton.me{{ copy_button('AnnaReceipts@proton.me') }}
-      </p>
+      </p> -->
     {% elif donation_dict.json.method == 'bmc' %}
+      <p class="mb-4">
+        {{ gettext('page.donation.expired') }}
+      </p>
+
       <!--
         <h2 class="mt-4 mb-4 text-xl font-bold">“Buy Me a Coffee” instructions</h2>
 
@@ -338,20 +346,27 @@
         </p>
       -->
     {% elif donation_dict.json.method == 'givebutter' %}
+      <p class="mb-4">
+        {{ gettext('page.donation.expired') }}
+      </p>
     
-      <h2 class="mt-4 mb-4 text-xl font-bold">“Card / PayPal / Venmo” instructions</h2>
+      <!-- <h2 class="mt-4 mb-4 text-xl font-bold">“Card / PayPal / Venmo” instructions</h2>
 
       <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our “Card / PayPal / Venmo” page</p>
 
       <p class="mb-4">
         Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://givebutter.com/donate-annas-archive" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
-      </p>
+      </p> -->
 
       <!-- <p class="mb-4">
         {{ gettext('page.donate.strange_account') }}
       </p> -->
     {% elif donation_dict.json.method == 'alipay' %}
-      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.alipay.top_header') }}</h2>
+      <p class="mb-4">
+        {{ gettext('page.donation.expired') }}
+      </p>
+
+      <!-- <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.alipay.top_header') }}</h2>
 
       <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
@@ -361,9 +376,13 @@
 
       <p class="mb-4">
         {{ gettext('page.donate.strange_account') }}
-      </p>
+      </p> -->
     {% elif donation_dict.json.method == 'pix' %}
-      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.pix.top_header') }}</h2>
+      <p class="mb-4">
+        {{ gettext('page.donation.expired') }}
+      </p>
+
+      <!-- <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.pix.top_header') }}</h2>
 
       <p class="mb-4 font-bold">{{ gettext('page.donation.payment.pix.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
@@ -373,7 +392,7 @@
 
       <p class="mb-4">
         {{ gettext('page.donate.strange_account') }}
-      </p>
+      </p> -->
     {% endif %}
 
     {% if donation_dict.json.method not in ['payment1', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon'] %}
@@ -455,7 +474,7 @@
     {% endif %}
 
     <p class="mb-4">
-      If you run into any issues, please contact us at <a class="break-all" href="mailto:{% if donation_dict.json.method == 'amazon' %}giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{% else %}AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{% endif %}">{% if donation_dict.json.method == 'amazon' %}giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{% else %}AnnaReceipts+{{ donation_dict.receipt_id }}@proton.me{% endif %}</a> and include as much information as possible (such as screenshots)
+      {{ gettext('page.donation.footer.issues_contact', email=(('<a class="break-all" href="mailto:' + donation_email + '">' + donation_email + '</a>') | safe)) }}
     </p>
   </div>
 {% endblock %}

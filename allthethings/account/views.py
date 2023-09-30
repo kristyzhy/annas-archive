@@ -325,16 +325,23 @@ def donation_page(donation_id):
             if payment2_status['payment_status'] == 'confirming':
                 donation_confirming = True
 
+        donation_dict = make_donation_dict(donation)
+
+        donation_email = f"AnnaReceipts+{donation_dict['receipt_id']}@proton.me"
+        if donation_json['method'] == 'amazon':
+            donation_email = f"giftcards+{donation_dict['receipt_id']}@annas-mail.org"
+
         return render_template(
             "account/donation.html", 
             header_active="account/donations",
-            donation_dict=make_donation_dict(donation),
+            donation_dict=donation_dict,
             order_processing_status_labels=get_order_processing_status_labels(get_locale()),
             donation_confirming=donation_confirming,
             donation_time_left=donation_time_left,
             donation_time_left_not_much=donation_time_left_not_much,
             donation_time_expired=donation_time_expired,
             donation_pay_amount=donation_pay_amount,
+            donation_email=donation_email,
         )
 
 
