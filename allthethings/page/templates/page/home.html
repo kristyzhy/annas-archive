@@ -20,7 +20,7 @@
   <form action="/scidb/" method="get" onsubmit='window.location="/scidb/" + new FormData(event.currentTarget).get("doi"); event.preventDefault(); return false'>
     <div class="mb-1 text-sm text-gray-500">Direct access to {{ g.header_stats.journal_article }} academic papers</div>
     <div class="flex max-w-[600px]">
-      <input required pattern=".+10\..+" name="doi" type="search" placeholder="DOI" class="grow bg-[#00000011] px-2 py-1 mr-2 rounded">
+      <input required pattern=".*10\..+" name="doi" type="search" placeholder="DOI" class="grow bg-[#00000011] px-2 py-1 mr-2 rounded">
       <button class="text-[#777] hover:text-[#333]" type="submit">Open</button>
     </div>
     <div class="mb-1 text-sm text-gray-500">If you’re a <a href="/donate">member</a>, browser verification is not required.</div>
