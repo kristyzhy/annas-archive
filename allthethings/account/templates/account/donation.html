@@ -143,7 +143,9 @@
         </p>
 
         <p class="mb-4">
-          Follow the instructions to buy PYUSD coin (PayPal USD). Buy a bit more (we recommend $4 more) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
+          Follow the instructions to buy PYUSD coin (PayPal USD).
+
+          Buy a bit more (we recommend $4 more) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
         </p>
 
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">2</span>Transfer the PYUSD to our address</p>
@@ -153,7 +155,7 @@
         </p>
 
         <p class="mb-4">
-          Transfer {{ donation_pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
+          {{ gettext('page.donation.transfer_amount_to', amount=((donation_pay_amount + (donation_dict.json.payment2_request.pay_currency | upper) + ' ' + copy_button(donation_pay_amount)) | safe), account=((donation_dict.json.payment2_request.pay_address + ' ' + copy_button(donation_dict.json.payment2_request.pay_address)) | safe)) }}
         </p>
 
         <p class="mb-4">
@@ -192,7 +194,7 @@
         </p>
 
         <p class="mb-4">
-          Transfer {{ donation_pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
+          {{ gettext('page.donation.transfer_amount_to', amount=((donation_pay_amount + (donation_dict.json.payment2_request.pay_currency | upper) + ' ' + copy_button(donation_pay_amount)) | safe), account=((donation_dict.json.payment2_request.pay_address + ' ' + copy_button(donation_dict.json.payment2_request.pay_address)) | safe)) }}
         </p>
 
         <p class="mb-4">
@@ -262,7 +264,7 @@
         </p>
       {% else %}
         <p class="mb-4">
-          Transfer {{ donation_pay_amount }} {{ donation_dict.json.payment2_request.pay_currency | upper }} {{ copy_button(donation_pay_amount) }} to {{ donation_dict.json.payment2_request.pay_address }} {{ copy_button(donation_dict.json.payment2_request.pay_address) }}
+          {{ gettext('page.donation.transfer_amount_to', amount=((donation_pay_amount + (donation_dict.json.payment2_request.pay_currency | upper) + ' ' + copy_button(donation_pay_amount)) | safe), account=((donation_dict.json.payment2_request.pay_address + ' ' + copy_button(donation_dict.json.payment2_request.pay_address)) | safe)) }}
         </p>
 
         <p class="mb-4">
