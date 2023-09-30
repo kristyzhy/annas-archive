@@ -75,7 +75,7 @@
         <ul class="pl-[20px]">
           <li class="text-sm relative mb-1">{{ gettext('page.donate.perks.previous_plus') }}</li>
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> 🚀 {{ gettext('page.donate.perks.fast_downloads', number=(('<strong>' + (MEMBERSHIP_DOWNLOADS_PER_DAY['5'] | string) + '</strong>') | safe)) }}</li>
-          <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> 🤗 {{ gettext('page.donate.perks.adopt') }}</li>
+          <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-[4px] left-[-20px]"></span> 🤗 {{ gettext('page.donate.perks.adopt', div_months=(' class="text-gray-500 text-sm" ' | safe)) }}</li>
         </ul>
       </div>
     </div>
