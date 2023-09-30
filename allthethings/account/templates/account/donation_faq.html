@@ -6,11 +6,11 @@
   <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.donate.faq.title') }}</h2>
 
   <div class="mb-4">
-    {{ gettext('page.donate.faq.renew') }}
+    {{ gettext('page.donate.faq.renew', div_question=(' class="font-bold" ' | safe)) }}
   </div>
 
   <div class="mb-4">
-    {{ gettext('page.donate.faq.text_other_payment1', email=('<a class="break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>' | safe)) }}
+    {{ gettext('page.donate.faq.text_other_payment1', div_question=(' class="font-bold" ' | safe), email=('<a class="break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>' | safe)) }}
   </div>
 
   <div class="mb-4">
@@ -18,18 +18,18 @@
   </div>
 
   <div class="mb-4">
-    {{ gettext('page.donate.faq.spend') }}
+    {{ gettext('page.donate.faq.spend', div_question=(' class="font-bold" ' | safe)) }}
   </div>
 
   <div class="mb-4">
-    {{ gettext('page.donate.faq.text_large_donation', email=('<a class="break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>' | safe)) }}
+    {{ gettext('page.donate.faq.text_large_donation', div_question=(' class="font-bold" ' | safe), email=('<a class="break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>' | safe)) }}
   </div>
 
   <div class="mb-4">
-    {{ gettext('page.donate.faq.text_other_contribs') }}
+    {{ gettext('page.donate.faq.text_other_contribs', div_question=(' class="font-bold" ' | safe)) }}
   </div>
 
   <div class="mb-4">
-    {{ gettext('page.donate.faq.monetizing') }}
+    {{ gettext('page.donate.faq.monetizing', div_question=(' class="font-bold" ' | safe)) }}
   </div>
 {% endblock %}
