@@ -20,7 +20,7 @@ from flask import Blueprint, request, g, make_response, render_template, redirec
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
-from flask_babel import format_timedelta
+from flask_babel import format_timedelta, gettext
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
 from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
@@ -117,22 +117,22 @@ def downloads_stats_md5(md5_input):
         return orjson.dumps({ "total": int(total), "timeseries_x": timeseries_x, "timeseries_y": timeseries_y })
 
 
-@dyn.put("/account/access/")
-@allthethings.utils.no_cache()
-def account_access():
-    with Session(mariapersist_engine) as mariapersist_session:
-        email = request.form['email']
-        account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.email_verified == email).limit(1)).first()
-        if account is None:
-            return "{}"
+# @dyn.put("/account/access/")
+# @allthethings.utils.no_cache()
+# def account_access():
+#     with Session(mariapersist_engine) as mariapersist_session:
+#         email = request.form['email']
+#         account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.email_verified == email).limit(1)).first()
+#         if account is None:
+#             return "{}"
 
-        url = g.full_domain + '/account/?key=' + allthethings.utils.secret_key_from_account_id(account.account_id)
-        subject = "Secret key for Anna’s Archive"
-        body = "Hi! Please use the following link to get your secret key for Anna’s Archive:\n\n" + url + "\n\nNote that we will discontinue email logins at some point, so make sure to save your secret key.\n-Anna"
+#         url = g.full_domain + '/account/?key=' + allthethings.utils.secret_key_from_account_id(account.account_id)
+#         subject = "Secret key for Anna’s Archive"
+#         body = "Hi! Please use the following link to get your secret key for Anna’s Archive:\n\n" + url + "\n\nNote that we will discontinue email logins at some point, so make sure to save your secret key.\n-Anna"
 
-        email_msg = flask_mail.Message(subject=subject, body=body, recipients=[email])
-        mail.send(email_msg)
-        return "{}"
+#         email_msg = flask_mail.Message(subject=subject, body=body, recipients=[email])
+#         mail.send(email_msg)
+#         return "{}"
 
 
 @dyn.put("/account/logout/")
@@ -596,10 +596,10 @@ def account_buy_membership():
 
         if 'code' in donation_json['payment2_request']:
             if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
-                return orjson.dumps({ 'error': 'This coin has a higher than usual minimum. Please select a different duration or a different coin.' })
+                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.minimum') })
             else:
                 print(f"Warning: unknown error in payment2: {donation_json['payment2_request']}")
-                return orjson.dumps({ 'error': 'An unknown error occurred. Please contact us at AnnaArchivist@proton.me with a screenshot.' })
+                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })
 
     with Session(mariapersist_engine) as mariapersist_session:
         # existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
