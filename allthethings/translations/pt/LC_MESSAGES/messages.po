@@ -1002,13 +1002,13 @@ msgid "page.home.search.intro"
 msgstr "Pesquise nosso acervo de shadow libraries."
 
 #: allthethings/page/templates/page/about.html:79
-#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:23
 #: allthethings/templates/layouts/index.html:376
 msgid "common.search.placeholder"
 msgstr "Pesquisar título, autor, idioma, tipo de arquivo, ISBN, MD5, …"
 
 #: allthethings/page/templates/page/about.html:80
-#: allthethings/page/templates/page/search.html:34
+#: allthethings/page/templates/page/search.html:24
 msgid "common.search.submit"
 msgstr "Pesquisar"
 
@@ -1154,82 +1154,66 @@ msgstr "%(search_input)s - Busca"
 msgid "page.search.title.new"
 msgstr "Nova busca"
 
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results_more"
-msgstr "Busca ▶ %(num)d+ resultados para <span class=\"italic\">%(search_input)s</span> (nos metadados de shadow library)"
-
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results"
-msgstr "Busca ▶ %(num)d+ resultados para <span class=\"italic\">%(search_input)s</span> (nos metadados de shadow library)"
-
-#: allthethings/page/templates/page/search.html:16
-msgid "page.search.breadcrumbs.error"
-msgstr "Busca ▶ Erro na busca por <span class=\"italic\">%(search_input)s</span>"
-
-#: allthethings/page/templates/page/search.html:19
-msgid "page.search.breadcrumbs.new"
-msgstr "Pesquisar ▶ Nova pesquisa"
-
-#: allthethings/page/templates/page/search.html:39
-#: allthethings/page/templates/page/search.html:72
+#: allthethings/page/templates/page/search.html:29
+#: allthethings/page/templates/page/search.html:62
 msgid "page.search.filters.content.header"
 msgstr "Conteúdo"
 
-#: allthethings/page/templates/page/search.html:43
-#: allthethings/page/templates/page/search.html:79
+#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:69
 msgid "page.search.filters.filetype.header"
 msgstr "Tipo de arquivo"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:101
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:91
 msgid "page.search.filters.sorting.newest"
 msgstr "Mais recente"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:102
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:92
 msgid "page.search.filters.sorting.oldest"
 msgstr "Mais antigo"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:103
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:93
 msgid "page.search.filters.sorting.largest"
 msgstr "Maior"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:104
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:94
 msgid "page.search.filters.sorting.smallest"
 msgstr "Menor"
 
-#: allthethings/page/templates/page/search.html:56
-#: allthethings/page/templates/page/search.html:106
+#: allthethings/page/templates/page/search.html:46
+#: allthethings/page/templates/page/search.html:96
 msgid "page.search.filters.language.header"
 msgstr "Idioma"
 
-#: allthethings/page/templates/page/search.html:100
+#: allthethings/page/templates/page/search.html:90
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Mais relevante"
 
-#: allthethings/page/templates/page/search.html:118
+#: allthethings/page/templates/page/search.html:108
 msgid "page.search.header.update_info"
 msgstr "O índice de busca é atualizado mensalmente. Atualmente, ele possui arquivos até %(last_data_refresh_date)s. Para informações mais técnicas, veja a página do %(link_open_tag)sdatasets</a>."
 
-#: allthethings/page/templates/page/search.html:125
+#: allthethings/page/templates/page/search.html:115
 msgid "page.search.results.error.header"
 msgstr "Erro durante a pesquisa."
 
-#: allthethings/page/templates/page/search.html:127
+#: allthethings/page/templates/page/search.html:117
 msgid "page.search.results.error.text"
 msgstr "Tente <a href=\"javascript:location.reload()\">atualizar a página</a>. Se o problema continuar, nos avise através do <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a> , <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>, ou <a href=\"https://t.me/annasarchiveorg\">|Telegram</a>."
 
-#: allthethings/page/templates/page/search.html:140
+#: allthethings/page/templates/page/search.html:130
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Nenhum arquivo encontrado.</span> Tente usar menos termos ou termos diferentes na busca e nos filtros."
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ correspondências parciais"
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial"
 msgstr "%(num)d correspondências parciais"
 
@@ -1577,4 +1561,16 @@ msgstr "copiado!"
 
 #~ msgid "page.isbn.results.none"
 #~ msgstr "Nenhum arquivo correspondente em nosso banco de dados."
+
+#~ msgid "page.search.breadcrumbs.results_more"
+#~ msgstr "Busca ▶ %(num)d+ resultados para <span class=\"italic\">%(search_input)s</span> (nos metadados de shadow library)"
+
+#~ msgid "page.search.breadcrumbs.results"
+#~ msgstr "Busca ▶ %(num)d+ resultados para <span class=\"italic\">%(search_input)s</span> (nos metadados de shadow library)"
+
+#~ msgid "page.search.breadcrumbs.error"
+#~ msgstr "Busca ▶ Erro na busca por <span class=\"italic\">%(search_input)s</span>"
+
+#~ msgid "page.search.breadcrumbs.new"
+#~ msgstr "Pesquisar ▶ Nova pesquisa"
 

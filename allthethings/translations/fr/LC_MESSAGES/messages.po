@@ -1002,13 +1002,13 @@ msgid "page.home.search.intro"
 msgstr "Faites une recherche dans notre catalogue de bibliothèques clandestines."
 
 #: allthethings/page/templates/page/about.html:79
-#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:23
 #: allthethings/templates/layouts/index.html:376
 msgid "common.search.placeholder"
 msgstr "Recherche par titre, auteur, langue, type de fichier, ISBN, MD5, …"
 
 #: allthethings/page/templates/page/about.html:80
-#: allthethings/page/templates/page/search.html:34
+#: allthethings/page/templates/page/search.html:24
 msgid "common.search.submit"
 msgstr "Rechercher"
 
@@ -1154,82 +1154,66 @@ msgstr "%(search_input)s - Rechercher"
 msgid "page.search.title.new"
 msgstr "Nouvelle recherche"
 
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results_more"
-msgstr "Recherche ▶ %(num)d+ résultats pour <span class=\"italic\">%(search_input)s</span> (dans les métadonnées de la bibliothèque clandestine)"
-
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results"
-msgstr "Recherche ▶ %(num)d résultats pour <span class=\"italic\">%(search_input)s</span> (dans les métadonnées de la bibliothèque clandestine)"
-
-#: allthethings/page/templates/page/search.html:16
-msgid "page.search.breadcrumbs.error"
-msgstr "Recherche ▶ Erreur de recherche pour <span class=\"italic\">%(search_input)s</span>"
-
-#: allthethings/page/templates/page/search.html:19
-msgid "page.search.breadcrumbs.new"
-msgstr "Rechercher ▶ Nouvelle recherche"
-
-#: allthethings/page/templates/page/search.html:39
-#: allthethings/page/templates/page/search.html:72
+#: allthethings/page/templates/page/search.html:29
+#: allthethings/page/templates/page/search.html:62
 msgid "page.search.filters.content.header"
 msgstr "Contenu"
 
-#: allthethings/page/templates/page/search.html:43
-#: allthethings/page/templates/page/search.html:79
+#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:69
 msgid "page.search.filters.filetype.header"
 msgstr "Type de fichier"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:101
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:91
 msgid "page.search.filters.sorting.newest"
 msgstr "Le plus récent"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:102
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:92
 msgid "page.search.filters.sorting.oldest"
 msgstr "Le plus ancien"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:103
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:93
 msgid "page.search.filters.sorting.largest"
 msgstr "Le plus volumineux"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:104
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:94
 msgid "page.search.filters.sorting.smallest"
 msgstr "Le moins volumineux"
 
-#: allthethings/page/templates/page/search.html:56
-#: allthethings/page/templates/page/search.html:106
+#: allthethings/page/templates/page/search.html:46
+#: allthethings/page/templates/page/search.html:96
 msgid "page.search.filters.language.header"
 msgstr "Langue"
 
-#: allthethings/page/templates/page/search.html:100
+#: allthethings/page/templates/page/search.html:90
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Le plus pertinent"
 
-#: allthethings/page/templates/page/search.html:118
+#: allthethings/page/templates/page/search.html:108
 msgid "page.search.header.update_info"
 msgstr "L'index de recherche est mis à jour mensuellement. Il comprend actuellement les entrées jusqu'au %(last_data_refresh_date)s. Pour plus d'informations techniques, voir %(link_open_tag)sdatasets page</a>."
 
-#: allthethings/page/templates/page/search.html:125
+#: allthethings/page/templates/page/search.html:115
 msgid "page.search.results.error.header"
 msgstr "Erreur lors de la recherche."
 
-#: allthethings/page/templates/page/search.html:127
+#: allthethings/page/templates/page/search.html:117
 msgid "page.search.results.error.text"
 msgstr "Essayez de <a href=\"javascript:location.reload()\">rafraîchir la page</a>. Si le problème persiste, merci de nous le faire savoir sur <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>, or <a href=\"https://t.me/annasarchiveorg\">Telegram</a>."
 
-#: allthethings/page/templates/page/search.html:140
+#: allthethings/page/templates/page/search.html:130
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Aucuns fichiers trouvés.</span> Essayez de réduire le nombre de \"mots-clés\", de filtres ou d'en changer."
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ correspondances partielles"
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial"
 msgstr "%(num)d correspondances partielles"
 
@@ -1577,4 +1561,16 @@ msgstr "copié !"
 
 #~ msgid "page.isbn.results.none"
 #~ msgstr "Aucuns fichiers correspondants dans notre base de données."
+
+#~ msgid "page.search.breadcrumbs.results_more"
+#~ msgstr "Recherche ▶ %(num)d+ résultats pour <span class=\"italic\">%(search_input)s</span> (dans les métadonnées de la bibliothèque clandestine)"
+
+#~ msgid "page.search.breadcrumbs.results"
+#~ msgstr "Recherche ▶ %(num)d résultats pour <span class=\"italic\">%(search_input)s</span> (dans les métadonnées de la bibliothèque clandestine)"
+
+#~ msgid "page.search.breadcrumbs.error"
+#~ msgstr "Recherche ▶ Erreur de recherche pour <span class=\"italic\">%(search_input)s</span>"
+
+#~ msgid "page.search.breadcrumbs.new"
+#~ msgstr "Rechercher ▶ Nouvelle recherche"
 

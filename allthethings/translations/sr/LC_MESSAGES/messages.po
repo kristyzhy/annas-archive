@@ -1,18 +1,3 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-30 03:30+0000\n"
-"PO-Revision-Date: 2023-09-30 03:35+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sr\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15\n"
-
 #: allthethings/utils.py:244
 msgid "common.membership.tier_name.2"
 msgstr "Бриљантни књишки мољац"
@@ -1017,13 +1002,13 @@ msgid "page.home.search.intro"
 msgstr "Претражите наш каталог библиотека из сенке."
 
 #: allthethings/page/templates/page/about.html:79
-#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:23
 #: allthethings/templates/layouts/index.html:376
 msgid "common.search.placeholder"
 msgstr "Наслов, аутор, DOI, ISBN, MD5, …"
 
 #: allthethings/page/templates/page/about.html:80
-#: allthethings/page/templates/page/search.html:34
+#: allthethings/page/templates/page/search.html:24
 msgid "common.search.submit"
 msgstr "Претрага"
 
@@ -1169,82 +1154,66 @@ msgstr "%(search_input)s - Претрага"
 msgid "page.search.title.new"
 msgstr "Нова претрага"
 
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results_more"
-msgstr "Претрага ▶ %(num)d+ резултате за <span class=\"italic\">%(search_input)s</span> (у бази података библиотеке сенки)"
-
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results"
-msgstr "Претрага ▶ %(num)d резултати за <span class=\"italic\">%(search_input)s</span> (у бази података библиотеке сенки)"
-
-#: allthethings/page/templates/page/search.html:16
-msgid "page.search.breadcrumbs.error"
-msgstr "Претрага ▶ Грешка претраге за <span class=\"italic\">%(search_input)s</span>"
-
-#: allthethings/page/templates/page/search.html:19
-msgid "page.search.breadcrumbs.new"
-msgstr "Претрага ▶ Нова претрага"
-
-#: allthethings/page/templates/page/search.html:39
-#: allthethings/page/templates/page/search.html:72
+#: allthethings/page/templates/page/search.html:29
+#: allthethings/page/templates/page/search.html:62
 msgid "page.search.filters.content.header"
 msgstr "Садржај"
 
-#: allthethings/page/templates/page/search.html:43
-#: allthethings/page/templates/page/search.html:79
+#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:69
 msgid "page.search.filters.filetype.header"
 msgstr "Врста датотеке"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:101
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:91
 msgid "page.search.filters.sorting.newest"
 msgstr "Најновије"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:102
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:92
 msgid "page.search.filters.sorting.oldest"
 msgstr "Најстарије"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:103
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:93
 msgid "page.search.filters.sorting.largest"
 msgstr "Највеће"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:104
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:94
 msgid "page.search.filters.sorting.smallest"
 msgstr "Најмање"
 
-#: allthethings/page/templates/page/search.html:56
-#: allthethings/page/templates/page/search.html:106
+#: allthethings/page/templates/page/search.html:46
+#: allthethings/page/templates/page/search.html:96
 msgid "page.search.filters.language.header"
 msgstr "Језик"
 
-#: allthethings/page/templates/page/search.html:100
+#: allthethings/page/templates/page/search.html:90
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Најважније"
 
-#: allthethings/page/templates/page/search.html:118
+#: allthethings/page/templates/page/search.html:108
 msgid "page.search.header.update_info"
 msgstr "Индекс претраге се ажурира месечно. Тренутно укључује уносе до%(last_data_refresh_date)s. За више техничких информација, погледајте %(link_open_tag)sстрану са скуповима података</a>."
 
-#: allthethings/page/templates/page/search.html:125
+#: allthethings/page/templates/page/search.html:115
 msgid "page.search.results.error.header"
 msgstr "Грешка током претраге."
 
-#: allthethings/page/templates/page/search.html:127
+#: allthethings/page/templates/page/search.html:117
 msgid "page.search.results.error.text"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:140
+#: allthethings/page/templates/page/search.html:130
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Датотеке нису пронађене.</span> Пробајте са другим упитима или филтерима."
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ делимичних поклапања"
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial"
 msgstr "%(num)d делимичних поклапања"
 
@@ -1571,3 +1540,16 @@ msgstr ""
 
 #~ msgid "page.isbn.results.none"
 #~ msgstr "Нема одговарајућих датотека у нашој бази података."
+
+#~ msgid "page.search.breadcrumbs.results_more"
+#~ msgstr "Претрага ▶ %(num)d+ резултате за <span class=\"italic\">%(search_input)s</span> (у бази података библиотеке сенки)"
+
+#~ msgid "page.search.breadcrumbs.results"
+#~ msgstr "Претрага ▶ %(num)d резултати за <span class=\"italic\">%(search_input)s</span> (у бази података библиотеке сенки)"
+
+#~ msgid "page.search.breadcrumbs.error"
+#~ msgstr "Претрага ▶ Грешка претраге за <span class=\"italic\">%(search_input)s</span>"
+
+#~ msgid "page.search.breadcrumbs.new"
+#~ msgstr "Претрага ▶ Нова претрага"
+

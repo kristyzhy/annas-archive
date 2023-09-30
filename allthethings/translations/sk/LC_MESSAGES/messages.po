@@ -1,18 +1,3 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-30 03:30+0000\n"
-"PO-Revision-Date: 2023-09-30 03:30+0000\n"
-"Last-Translator: AnnaArchivist <AnnaArchivist@proton.me>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sk\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15\n"
-
 #: allthethings/utils.py:244
 msgid "common.membership.tier_name.2"
 msgstr "Dokonalý knihomoľ"
@@ -1021,13 +1006,13 @@ msgid "page.home.search.intro"
 msgstr "Vyhľadajte v našom katalógu tieňových knižníc."
 
 #: allthethings/page/templates/page/about.html:79
-#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:23
 #: allthethings/templates/layouts/index.html:376
 msgid "common.search.placeholder"
 msgstr "Vyhľadajte podľa názvu, autora, jazyka, typu súboru, ISBN, MD5, …"
 
 #: allthethings/page/templates/page/about.html:80
-#: allthethings/page/templates/page/search.html:34
+#: allthethings/page/templates/page/search.html:24
 msgid "common.search.submit"
 msgstr "Vyhľadať"
 
@@ -1173,82 +1158,66 @@ msgstr "%(search_input)s - Vyhľadávanie"
 msgid "page.search.title.new"
 msgstr "Nové vyhľadávanie"
 
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results_more"
-msgstr "Vyhľadávanie ▶ %(num)d+ výsledkov pre <span class=\"italic\">%(search_input)s</span> (v metadátach tieňovej knižnice)"
-
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results"
-msgstr "Vyhľadávanie ▶ %(num)d výsledkov pre <span class=\"italic\">%(search_input)s</span> (v metadátach tieňovej knižnice)"
-
-#: allthethings/page/templates/page/search.html:16
-msgid "page.search.breadcrumbs.error"
-msgstr ""
-
-#: allthethings/page/templates/page/search.html:19
-msgid "page.search.breadcrumbs.new"
-msgstr "Vyhľadávanie ▶ Nové vyhľadávanie"
-
-#: allthethings/page/templates/page/search.html:39
-#: allthethings/page/templates/page/search.html:72
+#: allthethings/page/templates/page/search.html:29
+#: allthethings/page/templates/page/search.html:62
 msgid "page.search.filters.content.header"
 msgstr "Obsah"
 
-#: allthethings/page/templates/page/search.html:43
-#: allthethings/page/templates/page/search.html:79
+#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:69
 msgid "page.search.filters.filetype.header"
 msgstr "Typ súboru"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:101
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:91
 msgid "page.search.filters.sorting.newest"
 msgstr "Najnovšie"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:102
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:92
 msgid "page.search.filters.sorting.oldest"
 msgstr "Najstaršie"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:103
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:93
 msgid "page.search.filters.sorting.largest"
 msgstr "Najväčší"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:104
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:94
 msgid "page.search.filters.sorting.smallest"
 msgstr "Najmenší"
 
-#: allthethings/page/templates/page/search.html:56
-#: allthethings/page/templates/page/search.html:106
+#: allthethings/page/templates/page/search.html:46
+#: allthethings/page/templates/page/search.html:96
 msgid "page.search.filters.language.header"
 msgstr "Jazyk"
 
-#: allthethings/page/templates/page/search.html:100
+#: allthethings/page/templates/page/search.html:90
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Najviac relevantné"
 
-#: allthethings/page/templates/page/search.html:118
+#: allthethings/page/templates/page/search.html:108
 msgid "page.search.header.update_info"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:125
+#: allthethings/page/templates/page/search.html:115
 msgid "page.search.results.error.header"
 msgstr "Vyskytla sa chyba počas vyhľadávania."
 
-#: allthethings/page/templates/page/search.html:127
+#: allthethings/page/templates/page/search.html:117
 msgid "page.search.results.error.text"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:140
+#: allthethings/page/templates/page/search.html:130
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Žiadne súbory nájdené.</span> Skúste obmedziť alebo zmeniť hľadané výrazy a filtre."
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ čiastočné matches"
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial"
 msgstr ""
 
@@ -1596,3 +1565,16 @@ msgstr ""
 
 #~ msgid "page.isbn.results.none"
 #~ msgstr "Žiadne súbory nájdenú v našej databáze."
+
+#~ msgid "page.search.breadcrumbs.results_more"
+#~ msgstr "Vyhľadávanie ▶ %(num)d+ výsledkov pre <span class=\"italic\">%(search_input)s</span> (v metadátach tieňovej knižnice)"
+
+#~ msgid "page.search.breadcrumbs.results"
+#~ msgstr "Vyhľadávanie ▶ %(num)d výsledkov pre <span class=\"italic\">%(search_input)s</span> (v metadátach tieňovej knižnice)"
+
+#~ msgid "page.search.breadcrumbs.error"
+#~ msgstr ""
+
+#~ msgid "page.search.breadcrumbs.new"
+#~ msgstr "Vyhľadávanie ▶ Nové vyhľadávanie"
+

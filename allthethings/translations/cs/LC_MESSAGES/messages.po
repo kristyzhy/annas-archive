@@ -1002,13 +1002,13 @@ msgid "page.home.search.intro"
 msgstr "Prohledjte náš katalog."
 
 #: allthethings/page/templates/page/about.html:79
-#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:23
 #: allthethings/templates/layouts/index.html:376
 msgid "common.search.placeholder"
 msgstr "Název, autor, DOI, ISBN, MD5, …"
 
 #: allthethings/page/templates/page/about.html:80
-#: allthethings/page/templates/page/search.html:34
+#: allthethings/page/templates/page/search.html:24
 msgid "common.search.submit"
 msgstr "Vyhledat"
 
@@ -1154,82 +1154,66 @@ msgstr "%(search_input)s - Vyhledávání"
 msgid "page.search.title.new"
 msgstr "Nové vyhledávání"
 
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results_more"
-msgstr "Vyhledávání ▶ %(num)d+ výsledky pro <span class=\"italic\">%(search_input)s</span> (v metadatech stínových knihoven)"
-
-#: allthethings/page/templates/page/search.html:14
-msgid "page.search.breadcrumbs.results"
-msgstr "Vyhledávání ▶ %(num)d výsledky pro <span class=\"italic\">%(search_input)s</span> (v metadatech stínových knihoven)"
-
-#: allthethings/page/templates/page/search.html:16
-msgid "page.search.breadcrumbs.error"
-msgstr "Vyhledávání ▶ Chyba ve vyhledávání pro <span class=\"italic\">%(search_input)s</span>"
-
-#: allthethings/page/templates/page/search.html:19
-msgid "page.search.breadcrumbs.new"
-msgstr "Vyhledávání ▶ Nové vyhledávání"
-
-#: allthethings/page/templates/page/search.html:39
-#: allthethings/page/templates/page/search.html:72
+#: allthethings/page/templates/page/search.html:29
+#: allthethings/page/templates/page/search.html:62
 msgid "page.search.filters.content.header"
 msgstr "Obsah"
 
-#: allthethings/page/templates/page/search.html:43
-#: allthethings/page/templates/page/search.html:79
+#: allthethings/page/templates/page/search.html:33
+#: allthethings/page/templates/page/search.html:69
 msgid "page.search.filters.filetype.header"
 msgstr "Typ souboru"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:101
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:91
 msgid "page.search.filters.sorting.newest"
 msgstr "Nejnovější"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:102
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:92
 msgid "page.search.filters.sorting.oldest"
 msgstr "Nejstarší"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:103
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:93
 msgid "page.search.filters.sorting.largest"
 msgstr "Největší"
 
-#: allthethings/page/templates/page/search.html:53
-#: allthethings/page/templates/page/search.html:104
+#: allthethings/page/templates/page/search.html:43
+#: allthethings/page/templates/page/search.html:94
 msgid "page.search.filters.sorting.smallest"
 msgstr "Nejmenší"
 
-#: allthethings/page/templates/page/search.html:56
-#: allthethings/page/templates/page/search.html:106
+#: allthethings/page/templates/page/search.html:46
+#: allthethings/page/templates/page/search.html:96
 msgid "page.search.filters.language.header"
 msgstr "Jazyk"
 
-#: allthethings/page/templates/page/search.html:100
+#: allthethings/page/templates/page/search.html:90
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Nejrelevantnější"
 
-#: allthethings/page/templates/page/search.html:118
+#: allthethings/page/templates/page/search.html:108
 msgid "page.search.header.update_info"
 msgstr "Index vyhledávání je aktualizován jednou měsíčně. Poslední vstup byl zapsán %(last_data_refresh_date)s. Více technických informací najdete na stránce %(link_open_tag)sDatasety</a>."
 
-#: allthethings/page/templates/page/search.html:125
+#: allthethings/page/templates/page/search.html:115
 msgid "page.search.results.error.header"
 msgstr "Chyba při vyhledávání."
 
-#: allthethings/page/templates/page/search.html:127
+#: allthethings/page/templates/page/search.html:117
 msgid "page.search.results.error.text"
 msgstr "Zkuste <a href=\"javascript:location.reload()\">znovu načíst stránku</a>. Pokud problémy přetrvají, napište nám na <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>, nebo <a href=\"https://t.me/annasarchiveorg\">Telegram</a>."
 
-#: allthethings/page/templates/page/search.html:140
+#: allthethings/page/templates/page/search.html:130
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Nenalezeny žádné soubory.</span> Zkuste použít méně nebo jiné vyhledávací výrazy a filtry."
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ částečných shod"
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:138
 msgid "page.search.results.partial"
 msgstr "%(num)d částečných shod"
 
@@ -1457,4 +1441,16 @@ msgstr "zkopírováno!"
 
 #~ msgid "page.isbn.results.none"
 #~ msgstr "V naší databázi nebyly nalezeny žádné odpovídající soubory."
+
+#~ msgid "page.search.breadcrumbs.results_more"
+#~ msgstr "Vyhledávání ▶ %(num)d+ výsledky pro <span class=\"italic\">%(search_input)s</span> (v metadatech stínových knihoven)"
+
+#~ msgid "page.search.breadcrumbs.results"
+#~ msgstr "Vyhledávání ▶ %(num)d výsledky pro <span class=\"italic\">%(search_input)s</span> (v metadatech stínových knihoven)"
+
+#~ msgid "page.search.breadcrumbs.error"
+#~ msgstr "Vyhledávání ▶ Chyba ve vyhledávání pro <span class=\"italic\">%(search_input)s</span>"
+
+#~ msgid "page.search.breadcrumbs.new"
+#~ msgstr "Vyhledávání ▶ Nové vyhledávání"
 
