@@ -2382,7 +2382,7 @@ def add_partner_servers(path, modifier, aarecord, additional):
     for _ in range(len(allthethings.utils.FAST_DOWNLOAD_DOMAINS)):
         additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(len(additional['fast_partner_urls'])), gettext("common.md5.servers.no_browser_verification") if len(additional['fast_partner_urls']) == 0 else ''))
     for _ in range(len(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)):
-        additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(len(additional['slow_partner_urls'])), gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification"') if len(additional['slow_partner_urls']) == 0 else ''))
+        additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(len(additional['slow_partner_urls'])), gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification" ') if len(additional['slow_partner_urls']) == 0 else ''))
     additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
 
 def max_length_with_word_boundary(sentence, max_len):
@@ -2461,12 +2461,12 @@ def get_additional_for_aarecord(aarecord):
     }
 
     filename_info = [item for item in [
-            max_length_with_word_boundary(aarecord['file_unified_data'].get('title_best', None) or aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '', 100),
-            max_length_with_word_boundary(aarecord['file_unified_data'].get('author_best', None) or '', 100),
-            max_length_with_word_boundary(aarecord['file_unified_data'].get('edition_varia_best', None) or '', 100),
-            max_length_with_word_boundary(aarecord['file_unified_data'].get('publisher_best', None) or '', 100),
+            max_length_with_word_boundary(aarecord['file_unified_data'].get('title_best', None) or aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '', 60),
+            max_length_with_word_boundary(aarecord['file_unified_data'].get('author_best', None) or '', 60),
+            max_length_with_word_boundary(aarecord['file_unified_data'].get('edition_varia_best', None) or '', 60),
+            max_length_with_word_boundary(aarecord['file_unified_data'].get('publisher_best', None) or '', 60),
         ] if item != '']
-    filename_slug = max_length_with_word_boundary(" -- ".join(filename_info), 200)
+    filename_slug = max_length_with_word_boundary(" -- ".join(filename_info), 150)
     if filename_slug.endswith(' --'):
         filename_slug = filename_slug[0:-len(' --')]
     filename_extension = aarecord['file_unified_data'].get('extension_best', None) or ''    
