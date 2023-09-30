@@ -124,35 +124,36 @@
 
     <div class="js-membership-descr js-membership-descr-payment2">
       <p class="mb-4">
-        With crypto you can donate using BTC, ETH, XMR, and more.
+        {{ gettext('page.donate.payment.desc.crypto2') }}
       </p>
 
       <p class="mb-4">
-        If you’re using crypto for the first time, we suggest using <a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a>, <a href="https://www.coinbase.com" rel="noopener noreferrer nofollow" target="_blank">Coinbase</a>, or <a href="https://www.kraken.com" rel="noopener noreferrer nofollow" target="_blank">Kraken</a> to buy and donate Bitcoin (the original and most used cryptocurrency).
+        {{ gettext('page.donate.payment.desc.crypto_suggestion', option1=('<a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a>' | safe), option2=('<a href="https://www.coinbase.com" rel="noopener noreferrer nofollow" target="_blank">Coinbase</a>' | safe), option3=('<a href="https://www.kraken.com" rel="noopener noreferrer nofollow" target="_blank">Kraken</a>' | safe)) }}
       </p>
     </div>
 
     <div class="js-membership-descr js-membership-descr-paypal js-membership-descr-payment2paypal">
       <p class="mb-4">
         <!-- {{ gettext('page.donate.payment.desc.paypal') }} -->
-        Donate using PayPal.
+        {{ gettext('page.donate.payment.desc.paypal_short') }}
       </p>
     </div>
 
     <div class="js-membership-descr js-membership-descr-paypal js-membership-descr-payment2cashapp">
       <p class="mb-4">
-        Donate using Cash App. If you have Cash App, this the easiest way to donate!
+        {{ gettext('page.donate.payment.desc.cashapp') }} {{ gettext('page.donate.payment.desc.cashapp_easy') }}
       </p>
       <p class="mb-4">
-        Note that for transactions under $25, Cash App may charge a $2-4 fee. For $25 or above, it’s free!
+        {{ gettext('page.donate.payment.desc.cashapp_fee', amount='$25', fee='$2-4') }}
       </p>
     </div>
 
     <div class="js-membership-descr js-membership-descr-payment2cc">
       <p class="mb-4">
-        Donate using credit/debit card. Google Pay and Apple Pay might also work.
-        <!-- Note that for small donations the credit card fees may eliminate our 20% discount, so we recommend longer subscriptions. -->
-        Note that for small donations the fees are high, so we recommend longer subscriptions.
+        {{ gettext('page.donate.payment.desc.credit_debit') }}
+        {{ gettext('page.donate.payment.desc.google_apple') }}
+        <!-- {{ gettext('page.donate.payment.desc.elimate_discount', discount='20') }} -->
+        {{ gettext('page.donate.payment.desc.longer_subs') }}
       </p>
     </div>
 
@@ -174,7 +175,7 @@
 
     <div class="js-membership-descr js-membership-descr-payment1">
       <p class="mb-4">
-        Donate using Alipay or WeChat. You can choose between these on the next page.
+        {{ gettext('page.donate.payment.desc.alipay_wechat') }}
       </p>
     </div>
 
@@ -186,17 +187,18 @@
 
     <div class="js-membership-descr js-membership-descr-amazon">
       <p class="mb-4">
-        Donate using an Amazon gift card. Note that we need to round to amounts accepted by our resellers (minimum $10).
+        {{ gettext('page.donate.payment.desc.amazon') }}
+        {{ gettext('page.donate.payment.desc.amazon_round', minimum='$10') }}
       </p>
 
       <p class="mb-4">
-        <strong>IMPORTANT:</strong> We only support Amazon.com, not other Amazon websites. For example, .de, .co.uk, .ca, are NOT supported.
+        {{ gettext('page.donate.payment.desc.amazon_com') }}
       </p>
     </div>
 
     <div class="js-membership-descr js-membership-descr-hoodpay">
       <p class="mb-4">
-        Donate with a credit or debit card.
+        {{ gettext('page.donate.payment.desc.credit_debit') }}
       </p>
     </div>
 
