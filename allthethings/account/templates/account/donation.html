@@ -157,8 +157,8 @@
         </p>
 
         <p class="mb-4">
-          <strong>Status:</strong> {% if donation_confirming %}Waiting for confirmation (refresh the page to check)…{% else %}Waiting for transfer (refresh the page to check)…{% endif %}<br>
-          <strong>Time left:</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}(you might want to cancel and create a new donation){% endif %}
+          <strong>{{ gettext('page.donation.status_header') }}</strong> {% if donation_confirming %}{{ gettext('page.donation.waiting_for_confirmation_refresh') }}{% else %}{{ gettext('page.donation.waiting_for_transfer_refresh') }}{% endif %}<br>
+          <strong>{{ gettext('page.donation.time_left_header') }}</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}{{ gettext('page.donation.might_want_to_cancel') }}{% endif %}
         </p>
 
         <p class="mb-4">
@@ -200,8 +200,8 @@
         </p>
 
         <p class="mb-4">
-          <strong>Status:</strong> {% if donation_confirming %}Waiting for confirmation (refresh the page to check)…{% else %}Waiting for transfer (refresh the page to check)…{% endif %}<br>
-          <strong>Time left:</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}(you might want to cancel and create a new donation){% endif %}
+          <strong>{{ gettext('page.donation.status_header') }}</strong> {% if donation_confirming %}{{ gettext('page.donation.waiting_for_confirmation_refresh') }}{% else %}{{ gettext('page.donation.waiting_for_transfer_refresh') }}{% endif %}<br>
+          <strong>{{ gettext('page.donation.time_left_header') }}</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}{{ gettext('page.donation.might_want_to_cancel') }}{% endif %}
         </p>
 
         <p class="mb-4">
@@ -241,9 +241,8 @@
         </p>
 
         <p class="mb-4">
-          Once your transfer is complete, we will show it here:<br>
-          <strong>Status:</strong> {% if donation_confirming %}Waiting for confirmation (refresh the page to check)…{% else %}Waiting for transfer (refresh the page to check)…{% endif %}<br>
-          <strong>Time left:</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}(you might want to cancel and create a new donation){% endif %}
+          <strong>{{ gettext('page.donation.status_header') }}</strong> {% if donation_confirming %}{{ gettext('page.donation.waiting_for_confirmation_refresh') }}{% else %}{{ gettext('page.donation.waiting_for_transfer_refresh') }}{% endif %}<br>
+          <strong>{{ gettext('page.donation.time_left_header') }}</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}{{ gettext('page.donation.might_want_to_cancel') }}{% endif %}
         </p>
 
         <p class="mb-4">
@@ -267,8 +266,8 @@
         </p>
 
         <p class="mb-4">
-          <strong>Status:</strong> {% if donation_confirming %}Waiting for confirmation (refresh the page to check)…{% else %}Waiting for transfer (refresh the page to check)…{% endif %}<br>
-          <strong>Time left:</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}(you might want to cancel and create a new donation){% endif %}
+          <strong>{{ gettext('page.donation.status_header') }}</strong> {% if donation_confirming %}{{ gettext('page.donation.waiting_for_confirmation_refresh') }}{% else %}{{ gettext('page.donation.waiting_for_transfer_refresh') }}{% endif %}<br>
+          <strong>{{ gettext('page.donation.time_left_header') }}</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}{{ gettext('page.donation.might_want_to_cancel') }}{% endif %}
         </p>
 
         <p class="mb-4">
@@ -295,7 +294,7 @@
         </p>
 
         <p class="mb-4">
-          <strong>Status:</strong> Waiting for gift card…<br>
+          <strong>{{ gettext('page.donation.status_header') }}</strong> Waiting for gift card…<br>
         </p>
 
         <p class="mb-4">
