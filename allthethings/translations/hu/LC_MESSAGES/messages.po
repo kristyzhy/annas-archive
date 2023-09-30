@@ -123,6 +123,10 @@ msgstr "akár %(percentage)s%%-os kedvezmények"
 msgid "page.donate.perks.fast_downloads"
 msgstr "%(number)s gyors letöltés naponta"
 
+#: allthethings/account/templates/account/donate.html:35
+msgid "page.donate.perks.scidb"
+msgstr ""
+
 #: allthethings/account/templates/account/donate.html:36
 msgid "page.donate.perks.credits"
 msgstr "A felhasználóneved vagy névtelen említés a kreditekben"
@@ -171,16 +175,24 @@ msgstr "Kripto %(bitcoin_icon)s"
 #: allthethings/account/templates/account/donate.html:110
 #: allthethings/account/templates/account/donate.html:111
 #: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:216
-#: allthethings/account/templates/account/donate.html:217
 #: allthethings/account/templates/account/donate.html:218
 #: allthethings/account/templates/account/donate.html:219
+#: allthethings/account/templates/account/donate.html:220
+#: allthethings/account/templates/account/donate.html:221
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
 #: allthethings/account/templates/account/donate.html:99
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal (USA) %(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:102
+msgid "page.donate.payment.buttons.amazon"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:103
+msgid "page.donate.payment.buttons.credit_debit"
+msgstr ""
 
 #: allthethings/account/templates/account/donate.html:105
 msgid "page.donate.payment.buttons.alipay"
@@ -190,111 +202,201 @@ msgstr "Alipay"
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix (Brazília)"
 
+#: allthethings/account/templates/account/donate.html:109
+msgid "page.donate.payment.buttons.paypal_plain"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:110
+msgid "page.donate.payment.buttons.cashapp"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:111
+msgid "page.donate.payment.buttons.credit_debit2"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:114
+msgid "page.donate.payment.buttons.alipay_wechat"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:114
+msgid "page.donate.payment.buttons.temporarily_unavailable"
+msgstr ""
+
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.desc.crypto"
 msgstr "A kriptovaluták segítségével BTC, ETH, XMR és SOL segítségével adományozhatsz. Akkor használd ezt a lehetőséget, ha már jártas vagy a kriptovalutában."
+
+#: allthethings/account/templates/account/donate.html:127
+msgid "page.donate.payment.desc.crypto2"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:131
+msgid "page.donate.payment.desc.crypto_suggestion"
+msgstr ""
 
 #: allthethings/account/templates/account/donate.html:137
 msgid "page.donate.payment.desc.paypal"
 msgstr "A PayPal US segítségével történő adományozáshoz a PayPal Crypto-t fogjuk használni, amely lehetővé teszi számunkra, hogy anonimak maradjunk. Köszönjük, hogy időt szánsz arra, hogy megtanulod, hogyan adományozhatsz ezzel a módszerrel, mivel ez sokat segít nekünk."
 
-#: allthethings/account/templates/account/donate.html:210
+#: allthethings/account/templates/account/donate.html:138
+msgid "page.donate.payment.desc.paypal_short"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:144
+msgid "page.donate.payment.desc.cashapp"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:144
+msgid "page.donate.payment.desc.cashapp_easy"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:147
+msgid "page.donate.payment.desc.cashapp_fee"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:153
+#: allthethings/account/templates/account/donate.html:201
+msgid "page.donate.payment.desc.credit_debit"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:154
+msgid "page.donate.payment.desc.google_apple"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:155
+msgid "page.donate.payment.desc.elimate_discount"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:156
+msgid "page.donate.payment.desc.longer_subs"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:178
+msgid "page.donate.payment.desc.alipay_wechat"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:190
+msgid "page.donate.payment.desc.amazon"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:191
+msgid "page.donate.payment.desc.amazon_round"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:195
+#: allthethings/account/templates/account/donation.html:296
+msgid "page.donate.payment.desc.amazon_com"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:212
 msgid "page.donate.duration.intro"
 msgstr "Válaszd ki, hogy mennyi időre szeretnél feliratkozni."
 
-#: allthethings/account/templates/account/donate.html:215
+#: allthethings/account/templates/account/donate.html:217
 msgid "page.donate.duration.1_mo"
 msgstr "1 hónap"
 
-#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:218
 msgid "page.donate.duration.3_mo"
 msgstr "3 hónap"
 
-#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:219
 msgid "page.donate.duration.6_mo"
 msgstr "6 hónap"
 
-#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:220
 msgid "page.donate.duration.12_mo"
 msgstr "12 hónap"
 
-#: allthethings/account/templates/account/donate.html:219
+#: allthethings/account/templates/account/donate.html:221
 msgid "page.donate.duration.24_mo"
 msgstr "24 hónap"
 
-#: allthethings/account/templates/account/donate.html:222
+#: allthethings/account/templates/account/donate.html:224
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>után<span %(span_discount)s></span> kedvezmények</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:234
+#: allthethings/account/templates/account/donate.html:230
+msgid "page.donate.payment.minimum_method"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:231
+msgid "page.donate.payment.maximum_method"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:236
 msgid "page.donate.login2"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:273
+#: allthethings/account/templates/account/donate.html:243
+msgid "page.donate.payment.crypto_select"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:275
 msgid "page.donate.submit.confirm"
 msgstr "Kattints az adományozás gombra az adományozás megerősítéséhez."
 
-#: allthethings/account/templates/account/donate.html:281
+#: allthethings/account/templates/account/donate.html:283
 msgid "page.donate.submit.button"
 msgstr "Adományozás <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:286
+#: allthethings/account/templates/account/donate.html:288
 msgid "page.donate.submit.cancel_note"
 msgstr "Az adományozást még lemondhatod a kifizetés során."
 
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:292
 msgid "page.donate.submit.success"
 msgstr "✅ Átirányítás az adományozási oldalra…"
 
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:293
 msgid "page.donate.submit.failure"
 msgstr "❌Valami rosszul sikerült. Töltsd újra az oldalt és próbáld meg újra."
 
-#: allthethings/account/templates/account/donate.html:348
+#: allthethings/account/templates/account/donate.html:350
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:349
+#: allthethings/account/templates/account/donate.html:351
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / hó"
 
-#: allthethings/account/templates/account/donate.html:352
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 hónapra"
 
-#: allthethings/account/templates/account/donate.html:353
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 hónapra"
 
-#: allthethings/account/templates/account/donate.html:354
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 hónapra"
 
-#: allthethings/account/templates/account/donate.html:355
+#: allthethings/account/templates/account/donate.html:357
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 hónapra"
 
-#: allthethings/account/templates/account/donate.html:356
+#: allthethings/account/templates/account/donate.html:358
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 hónapra"
 
-#: allthethings/account/templates/account/donate.html:360
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 hónapra “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:361
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 hónapra “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:362
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 hónapra “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:363
+#: allthethings/account/templates/account/donate.html:365
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 hónapra “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:364
+#: allthethings/account/templates/account/donate.html:366
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 hónapra “%(tier_name)s”"
 
@@ -360,6 +462,10 @@ msgstr "Már fizettél. Ha mégis át szeretnéd nézni a fizetési utasítások
 msgid "page.donation.old_instructions.show_button"
 msgstr "Régi fizetési utasítások megjelenítése"
 
+#: allthethings/account/templates/account/donation.html:48
+msgid "page.donation.thank_you_donation"
+msgstr ""
+
 #: allthethings/account/templates/account/donation.html:52
 msgid "page.donation.old_instructions.intro_outdated"
 msgstr "A fizetési utasítások már elavultak. Ha újabb adományt szeretnél tenni, használd a fenti \"Újrarendelés\" gombot."
@@ -367,6 +473,21 @@ msgstr "A fizetési utasítások már elavultak. Ha újabb adományt szeretnél 
 #: allthethings/account/templates/account/donation.html:62
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>Fontos megjegyzés:</strong> A kriptodevizák árai erősen ingadozhatnak, akár 20%%-ot is változhatnak néhány perc alatt. Ez még mindig kevesebb, mint a díjak, amelyeket számos fizetési szolgáltatóval kell fizetnünk, akik gyakran 50-60%%-ot számítanak fel a hozzánk hasonló “árnyék jótékonysági szervezetekkel” való együttműködésért. <u>Ha a nyugtát az eredeti árral együtt küldöd el nekünk, akkor is jóváírjuk a fiókodon a választott tagságodat.</u> (amennyiben a nyugta nem régebb néhány óránál). Nagyra értékeljük, hogy hajlandó vagy eltűrni az ilyen dolgokat, hogy támogass minket! ❤️"
+
+#: allthethings/account/templates/account/donation.html:68
+#: allthethings/account/templates/account/donation.html:81
+#: allthethings/account/templates/account/donation.html:102
+#: allthethings/account/templates/account/donation.html:136
+#: allthethings/account/templates/account/donation.html:176
+#: allthethings/account/templates/account/donation.html:221
+#: allthethings/account/templates/account/donation.html:262
+#: allthethings/account/templates/account/donation.html:319
+#: allthethings/account/templates/account/donation.html:335
+#: allthethings/account/templates/account/donation.html:353
+#: allthethings/account/templates/account/donation.html:369
+#: allthethings/account/templates/account/donation.html:385
+msgid "page.donation.expired"
+msgstr ""
 
 #: allthethings/account/templates/account/donation.html:71
 msgid "page.donation.payment.crypto.top_header"
@@ -405,64 +526,230 @@ msgstr "Menj a “Bitcoin” lapra a PayPal alkalmazásban vagy a weboldalon. Ny
 msgid "page.donation.payment.paypal.text5"
 msgstr "Add meg a Bitcoin (BTC) címünket címzettként, és kövesd az utasításokat a(z) %(total)s értékű adomány elküldéséhez:"
 
-#: allthethings/account/templates/account/donation.html:337
-#: allthethings/account/templates/account/donation.html:351
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
+#: allthethings/account/templates/account/donation.html:126
+#: allthethings/account/templates/account/donation.html:217
+msgid "page.donation.credit_debit_card_instructions"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:128
+msgid "page.donation.credit_debit_card_our_page"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:131
+msgid "page.donation.donate_on_this_page"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:131
+msgid "page.donation.stepbystep_below"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:139
+msgid "page.donation.buy_pyusd"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:146
+msgid "page.donation.pyusd.instructions"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:147
+msgid "page.donation.pyusd.more"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:153
+msgid "page.donation.pyusd.transfer"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:157
+#: allthethings/account/templates/account/donation.html:196
+#: allthethings/account/templates/account/donation.html:266
+msgid "page.donation.transfer_amount_to"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:204
+#: allthethings/account/templates/account/donation.html:245
+#: allthethings/account/templates/account/donation.html:270
+#: allthethings/account/templates/account/donation.html:300
+msgid "page.donation.status_header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:204
+#: allthethings/account/templates/account/donation.html:245
+#: allthethings/account/templates/account/donation.html:270
+msgid "page.donation.waiting_for_confirmation_refresh"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:204
+#: allthethings/account/templates/account/donation.html:245
+#: allthethings/account/templates/account/donation.html:270
+msgid "page.donation.waiting_for_transfer_refresh"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:162
+#: allthethings/account/templates/account/donation.html:205
+#: allthethings/account/templates/account/donation.html:246
+#: allthethings/account/templates/account/donation.html:271
+msgid "page.donation.time_left_header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:162
+#: allthethings/account/templates/account/donation.html:205
+#: allthethings/account/templates/account/donation.html:246
+#: allthethings/account/templates/account/donation.html:271
+msgid "page.donation.might_want_to_cancel"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:166
+#: allthethings/account/templates/account/donation.html:209
+#: allthethings/account/templates/account/donation.html:250
+#: allthethings/account/templates/account/donation.html:275
+msgid "page.donation.reset_timer"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:170
+#: allthethings/account/templates/account/donation.html:213
+#: allthethings/account/templates/account/donation.html:254
+#: allthethings/account/templates/account/donation.html:279
+#: allthethings/account/templates/account/donation.html:304
+msgid "page.donation.refresh_status"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:258
+msgid "page.donation.crypto_instructions"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:283
+msgid "page.donation.amazon.header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:286
+msgid "page.donation.amazon.form_instructions"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:287
+msgid "page.donation.amazon.only_official"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:291
+msgid "page.donation.amazon.form_to"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:292
+msgid "page.donation.amazon.unique"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:300
+msgid "page.donation.amazon.waiting_gift_card"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:308
+msgid "page.donation.amazon.confirm_automated"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:309
+msgid "page.donation.amazon.doesnt_work"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:312
+msgid "page.donation.amazon.example"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:348
+#: allthethings/account/templates/account/donation.html:365
+#: allthethings/account/templates/account/donation.html:381
+#: allthethings/account/templates/account/donation.html:397
 msgid "page.donate.strange_account"
 msgstr "Lehet hogy az account neve vagy a kép az oldalon furán néz majd ki. Ne aggódj! Ezeket az accountokat az adományozási partnereink kezelik. Az accountjainkat nem törték fel."
 
-#: allthethings/account/templates/account/donation.html:354
+#: allthethings/account/templates/account/donation.html:372
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Alipay utasítások"
 
-#: allthethings/account/templates/account/donation.html:356
+#: allthethings/account/templates/account/donation.html:374
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Adományozz Alipayen"
 
-#: allthethings/account/templates/account/donation.html:359
+#: allthethings/account/templates/account/donation.html:377
 msgid "page.donation.payment.alipay.text1"
 msgstr "Adományozd a teljes %(total)s értékű összeget <a %(a_account)s> ezt az Alipay fiókot használva"
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:388
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix utasítások"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:390
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Adományozz Pixen"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:393
 msgid "page.donation.payment.pix.text1"
 msgstr "Adományozd a teljes %(total)s értékű összeget <a %(a_account)s> ezt a Pix fiókot használva"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:402
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Küldd el nekünk e-mailben a nyugtát"
 
-#: allthethings/account/templates/account/donation.html:386
+#: allthethings/account/templates/account/donation.html:408
 msgid "page.donation.footer.text1"
 msgstr "Küldd el a nyugtát vagy képernyőképet a személyes ellenőrző címedre:"
 
-#: allthethings/account/templates/account/donation.html:396
+#: allthethings/account/templates/account/donation.html:418
 msgid "page.donation.footer.crypto_note"
 msgstr "Ha a kriptovaluta árfolyama a tranzakció során ingadozott, mindenképpen mellékeld a nyugtát, amelyen az eredeti árfolyam szerepel. Nagyra értékeljük, hogy veszed a fáradtságot a kripto használatára, ez sokat segít nekünk!"
 
-#: allthethings/account/templates/account/donation.html:401
+#: allthethings/account/templates/account/donation.html:423
 msgid "page.donation.footer.text2"
 msgstr "Ha elküldted e-mailben a nyugtát, kattints erre a gombra, hogy Anna manuálisan átnézhesse azt (ez eltarthat néhány napig):"
 
-#: allthethings/account/templates/account/donation.html:411
+#: allthethings/account/templates/account/donation.html:433
 msgid "page.donation.footer.button"
 msgstr "Igen, elküldtem a nyugtát e-mailben"
 
-#: allthethings/account/templates/account/donation.html:414
+#: allthethings/account/templates/account/donation.html:436
 msgid "page.donation.footer.success"
 msgstr "✅ Köszönjük az adományt! Anna néhány napon belül manuálisan aktiválja a tagságodat."
 
-#: allthethings/account/templates/account/donation.html:415
+#: allthethings/account/templates/account/donation.html:437
 msgid "page.donation.footer.failure"
 msgstr "❌ Valami rosszul sikerült. Töltsd újra az oldalt, és próbáld meg újra."
+
+#: allthethings/account/templates/account/donation.html:442
+msgid "page.donation.stepbystep"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:444
+msgid "page.donation.crypto_dont_worry"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:446
+msgid "page.donation.hoodpay.step1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:452
+msgid "page.donation.hoodpay.step2"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:458
+msgid "page.donation.hoodpay.step3"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:464
+msgid "page.donation.hoodpay.step4"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:470
+msgid "page.donation.hoodpay.step5"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:476
+msgid "page.donation.hoodpay.step6"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:480
+msgid "page.donation.footer.issues_contact"
+msgstr ""
 
 #: allthethings/account/templates/account/donation_faq.html:3
 #: allthethings/account/templates/account/donation_faq.html:6
@@ -1019,8 +1306,8 @@ msgstr "Nem található letöltés."
 #: allthethings/page/templates/page/aarecord.html:350
 #: allthethings/page/templates/page/aarecord.html:369
 #: allthethings/page/templates/page/aarecord.html:370
-#: allthethings/page/templates/page/about.html:122
 #: allthethings/page/templates/page/about.html:123
+#: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6
 #: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:13
@@ -1051,8 +1338,6 @@ msgstr "Nem található letöltés."
 #: allthethings/page/templates/page/security.html:7
 #: allthethings/page/templates/page/torrents.html:6
 #: allthethings/page/templates/page/torrents.html:7
-#: allthethings/page/templates/page/wechat.html:6
-#: allthethings/page/templates/page/wechat.html:7
 msgid "common.english_only"
 msgstr "A szöveg lent folytatódik angolul."
 
@@ -1114,7 +1399,7 @@ msgstr "Keress az árnyékkönyvtár katalógusunkban."
 
 #: allthethings/page/templates/page/about.html:79
 #: allthethings/page/templates/page/search.html:23
-#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:381
 msgid "common.search.placeholder"
 msgstr "Keresés cím, szerző, nyelv, fájltípus, ISBN, MD5,…"
 
@@ -1159,11 +1444,11 @@ msgstr "Hogy segíthetsz"
 msgid "page.about.help.text"
 msgstr "<li>1. Kövess minket <a href=\"https://twitter.com/AnnaArchivist\">Twitteren</a>, <a href=\"https://www.reddit.com/r/Annas_Archive/\">Redditen</a>, vagy <a href=\"https://t.me/annasarchiveorg\">Telegramon</a>.</li><li>2. Terjeszd a hírt az Anna Archívumáról Twitteren, Redditen, Tiktokon, Instagramon, a helyi kávézódban, vagy ahol csak jársz! Mi nem hiszünk abban hogy a tudás kiváltság - ha a weboldalunkat letörlik, csak felbukkanunk máshol, hisz az összes kódunk és adatunk teljesen nyílt forráskódú.</li><li>3. Ha teheted <a href=\"/donate\">adakozz</a>.</li><li>4. Segíts <a href=\"https://translate.annas-software.org/\">lefordítani</a> a weboldalunkat különböző nyelvekre.</li><li>5. Ha programozó vagy, járulj hozzá a <a href=\"https://annas-software.org/\">nyílt forráskódunkhoz</a>, vagy seedeld a <a href=\"https://en.wikipedia.org/wiki/Pirate_Library_Mirror\">torrentjeinket és IPFS-ünket</a>.</li>"
 
-#: allthethings/page/templates/page/about.html:168
+#: allthethings/page/templates/page/about.html:169
 msgid "page.home.explore.header"
 msgstr "Könyvajánló"
 
-#: allthethings/page/templates/page/about.html:171
+#: allthethings/page/templates/page/about.html:172
 msgid "page.home.explore.intro"
 msgstr "Ezek népszerű könyvek és kiadványok amiknek jelentős szerepe van az árnyékkönyvtárak és a digitális megőrzés számára."
 
@@ -1244,7 +1529,7 @@ msgid "page.home.scidb.header"
 msgstr ""
 
 #: allthethings/page/templates/page/home.html:18
-#: allthethings/templates/layouts/index.html:379
+#: allthethings/templates/layouts/index.html:384
 msgid "layout.index.header.nav.beta"
 msgstr "béta"
 
@@ -1304,6 +1589,30 @@ msgstr "📡 A gyűjteményünk tömeges tükrözéséhez tekintsd meg az <a %(a
 #: allthethings/templates/layouts/index.html:241
 msgid "layout.index.header.title"
 msgstr "Anna archívuma"
+
+#: allthethings/page/templates/page/scidb.html:14
+msgid "page.scidb.header"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:18
+msgid "page.scidb.doi"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:29
+msgid "page.scidb.aa_record"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:30
+msgid "page.scidb.download"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:31
+msgid "page.scidb.scihub"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:35
+msgid "page.scidb.refresh"
+msgstr ""
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
@@ -1376,6 +1685,14 @@ msgstr "%(num)d+ részleges találatok"
 msgid "page.search.results.partial"
 msgstr "%(num)d részleges találatok"
 
+#: allthethings/page/templates/page/wechat.html:7
+msgid "page.wechat.header"
+msgstr ""
+
+#: allthethings/page/templates/page/wechat.html:10
+msgid "page.wechat.body"
+msgstr ""
+
 #: allthethings/templates/layouts/index.html:4
 msgid "layout.index.title"
 msgstr "Anna archívuma"
@@ -1414,148 +1731,159 @@ msgid "layout.index.header.recent_downloads"
 msgstr "Legutóbbi letöltések:"
 
 #: allthethings/templates/layouts/index.html:339
-#: allthethings/templates/layouts/index.html:350
-#: allthethings/templates/layouts/index.html:363
+#: allthethings/templates/layouts/index.html:351
+#: allthethings/templates/layouts/index.html:365
+#: allthethings/templates/layouts/index.html:442
 msgid "layout.index.header.nav.search"
 msgstr "Keresés"
 
 #: allthethings/templates/layouts/index.html:340
-#: allthethings/templates/layouts/index.html:351
-#: allthethings/templates/layouts/index.html:364
+#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:366
+#: allthethings/templates/layouts/index.html:443
 msgid "layout.index.header.nav.about"
 msgstr "Rólunk"
 
 #: allthethings/templates/layouts/index.html:341
-#: allthethings/templates/layouts/index.html:352
-#: allthethings/templates/layouts/index.html:365
+#: allthethings/templates/layouts/index.html:353
+#: allthethings/templates/layouts/index.html:367
+#: allthethings/templates/layouts/index.html:445
 msgid "layout.index.header.nav.datasets"
 msgstr "Adatbázisok"
 
-#: allthethings/templates/layouts/index.html:344
-#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:342
+#: allthethings/templates/layouts/index.html:354
 #: allthethings/templates/layouts/index.html:368
+#: allthethings/templates/layouts/index.html:446
+msgid "layout.index.header.nav.torrents"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:343
+#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:447
+msgid "layout.index.header.nav.llm_data"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:344
+#: allthethings/templates/layouts/index.html:356
+#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:448
 msgid "layout.index.header.nav.mobile"
 msgstr "Mobil alkalmazás"
 
-#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:345
+#: allthethings/templates/layouts/index.html:357
+#: allthethings/templates/layouts/index.html:449
+msgid "layout.index.header.nav.security"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:346
+#: allthethings/templates/layouts/index.html:358
+#: allthethings/templates/layouts/index.html:372
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:477
+msgid "layout.index.header.nav.wechat"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:347
+#: allthethings/templates/layouts/index.html:359
+#: allthethings/templates/layouts/index.html:364
+#: allthethings/templates/layouts/index.html:441
+msgid "layout.index.header.nav.home"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:464
 msgid "layout.index.header.nav.annasblog"
 msgstr "Anna Blogja ↗"
 
-#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Anna Szoftvere ↗"
 
-#: allthethings/templates/layouts/index.html:371
+#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:466
 msgid "layout.index.header.nav.translate"
 msgstr "Fordítás ↗"
 
-#: allthethings/templates/layouts/index.html:373
+#: allthethings/templates/layouts/index.html:378
+#: allthethings/templates/layouts/index.html:444
 msgid "layout.index.header.nav.donate"
 msgstr "Adományoz"
 
-#: allthethings/templates/layouts/index.html:382
-#: allthethings/templates/layouts/index.html:388
-#: allthethings/templates/layouts/index.html:396
-#: allthethings/templates/layouts/index.html:404
-#: allthethings/templates/layouts/index.html:413
-#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:387
+#: allthethings/templates/layouts/index.html:393
+#: allthethings/templates/layouts/index.html:401
+#: allthethings/templates/layouts/index.html:409
+#: allthethings/templates/layouts/index.html:418
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.header.nav.request"
 msgstr "Könyvek kérése"
 
-#: allthethings/templates/layouts/index.html:383
-#: allthethings/templates/layouts/index.html:389
-#: allthethings/templates/layouts/index.html:397
-#: allthethings/templates/layouts/index.html:405
-#: allthethings/templates/layouts/index.html:414
-#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:388
+#: allthethings/templates/layouts/index.html:394
+#: allthethings/templates/layouts/index.html:402
+#: allthethings/templates/layouts/index.html:410
+#: allthethings/templates/layouts/index.html:419
+#: allthethings/templates/layouts/index.html:430
 msgid "layout.index.header.nav.upload"
 msgstr "Feltöltés"
 
-#: allthethings/templates/layouts/index.html:384
-#: allthethings/templates/layouts/index.html:390
+#: allthethings/templates/layouts/index.html:389
 #: allthethings/templates/layouts/index.html:395
+#: allthethings/templates/layouts/index.html:400
 msgid "layout.index.header.nav.login_register"
 msgstr "Bejelentkezés / Regisztráció"
 
-#: allthethings/templates/layouts/index.html:401
-#: allthethings/templates/layouts/index.html:410
-#: allthethings/templates/layouts/index.html:421
+#: allthethings/templates/layouts/index.html:406
+#: allthethings/templates/layouts/index.html:415
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.header.nav.public_profile"
 msgstr "Nyilvános profil"
 
-#: allthethings/templates/layouts/index.html:402
-#: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:422
+#: allthethings/templates/layouts/index.html:407
+#: allthethings/templates/layouts/index.html:416
+#: allthethings/templates/layouts/index.html:427
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "Letöltött fájlok"
 
-#: allthethings/templates/layouts/index.html:403
-#: allthethings/templates/layouts/index.html:412
-#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:408
+#: allthethings/templates/layouts/index.html:417
+#: allthethings/templates/layouts/index.html:428
 msgid "layout.index.header.nav.my_donations"
 msgstr "Adományaim"
 
-#: allthethings/templates/layouts/index.html:420
+#: allthethings/templates/layouts/index.html:425
 msgid "layout.index.header.nav.account"
 msgstr "Fiók"
 
-#: allthethings/templates/layouts/index.html:435
+#: allthethings/templates/layouts/index.html:440
 msgid "layout.index.footer.list1.header"
 msgstr "Anna archívuma"
 
-#: allthethings/templates/layouts/index.html:436
-msgid "layout.index.footer.list1.home"
-msgstr "Főoldal"
-
-#: allthethings/templates/layouts/index.html:438
-msgid "layout.index.footer.list1.about"
-msgstr "Rólunk"
-
-#: allthethings/templates/layouts/index.html:439
-msgid "layout.index.footer.list1.donate"
-msgstr "Adományozás"
-
-#: allthethings/templates/layouts/index.html:440
-msgid "layout.index.footer.list1.datasets"
-msgstr "Adatbázisok"
-
-#: allthethings/templates/layouts/index.html:443
-msgid "layout.index.footer.list1.mobile"
-msgstr "Mobil alkalmazás"
-
-#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:462
 msgid "layout.index.footer.list2.header"
 msgstr "Tartsd a kapcsolatot"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.twitter"
 msgstr "Twitter"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:459
-msgid "layout.index.footer.list2.blog"
-msgstr "Anna Blogja"
-
-#: allthethings/templates/layouts/index.html:460
-msgid "layout.index.footer.list2.software"
-msgstr "Anna Szoftvere"
-
-#: allthethings/templates/layouts/index.html:461
-msgid "layout.index.footer.list2.translate"
-msgstr "Fordítás"
-
-#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:468
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA / jogvédelmi kérelmek"
 
-#: allthethings/templates/layouts/index.html:468
+#: allthethings/templates/layouts/index.html:473
 msgid "layout.index.footer.list3.header"
 msgstr "Alternatívák"
 
@@ -1783,4 +2111,28 @@ msgstr "másolva!"
 
 #~ msgid "page.donate.login"
 #~ msgstr "Ha tag szeretnél lenni, kérjük, <a href=\"/login\">Jelentkezz be vagy Regisztrálj.</a> Ha nem szeretnél fiókot létrehozni, válaszd a fenti “Egyszeri névtelen adományozás” lehetőséget. Köszönjük támogatást!"
+
+#~ msgid "layout.index.footer.list1.home"
+#~ msgstr "Főoldal"
+
+#~ msgid "layout.index.footer.list1.about"
+#~ msgstr "Rólunk"
+
+#~ msgid "layout.index.footer.list1.donate"
+#~ msgstr "Adományozás"
+
+#~ msgid "layout.index.footer.list1.datasets"
+#~ msgstr "Adatbázisok"
+
+#~ msgid "layout.index.footer.list1.mobile"
+#~ msgstr "Mobil alkalmazás"
+
+#~ msgid "layout.index.footer.list2.blog"
+#~ msgstr "Anna Blogja"
+
+#~ msgid "layout.index.footer.list2.software"
+#~ msgstr "Anna Szoftvere"
+
+#~ msgid "layout.index.footer.list2.translate"
+#~ msgstr "Fordítás"
 

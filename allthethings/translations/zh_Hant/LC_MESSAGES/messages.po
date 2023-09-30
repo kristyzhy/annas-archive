@@ -123,6 +123,10 @@ msgstr "高達%(percentage)s%%的折扣"
 msgid "page.donate.perks.fast_downloads"
 msgstr "每天可享受 %(number)s 次高速下載"
 
+#: allthethings/account/templates/account/donate.html:35
+msgid "page.donate.perks.scidb"
+msgstr ""
+
 #: allthethings/account/templates/account/donate.html:36
 msgid "page.donate.perks.credits"
 msgstr "將您的用戶名或匿名捐贈寫入貢獻者名單"
@@ -171,16 +175,24 @@ msgstr "加密貨幣 %(bitcoin_icon)s"
 #: allthethings/account/templates/account/donate.html:110
 #: allthethings/account/templates/account/donate.html:111
 #: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:216
-#: allthethings/account/templates/account/donate.html:217
 #: allthethings/account/templates/account/donate.html:218
 #: allthethings/account/templates/account/donate.html:219
+#: allthethings/account/templates/account/donate.html:220
+#: allthethings/account/templates/account/donate.html:221
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
 #: allthethings/account/templates/account/donate.html:99
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal（美國）%(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:102
+msgid "page.donate.payment.buttons.amazon"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:103
+msgid "page.donate.payment.buttons.credit_debit"
+msgstr ""
 
 #: allthethings/account/templates/account/donate.html:105
 msgid "page.donate.payment.buttons.alipay"
@@ -190,111 +202,201 @@ msgstr "支付寶"
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix（巴西）"
 
+#: allthethings/account/templates/account/donate.html:109
+msgid "page.donate.payment.buttons.paypal_plain"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:110
+msgid "page.donate.payment.buttons.cashapp"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:111
+msgid "page.donate.payment.buttons.credit_debit2"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:114
+msgid "page.donate.payment.buttons.alipay_wechat"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:114
+msgid "page.donate.payment.buttons.temporarily_unavailable"
+msgstr ""
+
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.desc.crypto"
 msgstr "您可以使用加密貨幣比特幣（BTC）、以太幣（ETH）、門羅幣（XMR）和索爾幣（SOL）等進行捐贈。如果您對加密貨幣已有一定了解，可以選擇此選項。"
+
+#: allthethings/account/templates/account/donate.html:127
+msgid "page.donate.payment.desc.crypto2"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:131
+msgid "page.donate.payment.desc.crypto_suggestion"
+msgstr ""
 
 #: allthethings/account/templates/account/donate.html:137
 msgid "page.donate.payment.desc.paypal"
 msgstr "如使用PayPal（美國）進行捐贈，我們將使用PayPal Crypto，這使我們能夠保持匿名。非常感謝您花時間學習如何使用這種方法進行捐贈，因為這對我們非常有幫助。"
 
-#: allthethings/account/templates/account/donate.html:210
+#: allthethings/account/templates/account/donate.html:138
+msgid "page.donate.payment.desc.paypal_short"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:144
+msgid "page.donate.payment.desc.cashapp"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:144
+msgid "page.donate.payment.desc.cashapp_easy"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:147
+msgid "page.donate.payment.desc.cashapp_fee"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:153
+#: allthethings/account/templates/account/donate.html:201
+msgid "page.donate.payment.desc.credit_debit"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:154
+msgid "page.donate.payment.desc.google_apple"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:155
+msgid "page.donate.payment.desc.elimate_discount"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:156
+msgid "page.donate.payment.desc.longer_subs"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:178
+msgid "page.donate.payment.desc.alipay_wechat"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:190
+msgid "page.donate.payment.desc.amazon"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:191
+msgid "page.donate.payment.desc.amazon_round"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:195
+#: allthethings/account/templates/account/donation.html:296
+msgid "page.donate.payment.desc.amazon_com"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:212
 msgid "page.donate.duration.intro"
 msgstr "請選擇您希望訂閱的時長。"
 
-#: allthethings/account/templates/account/donate.html:215
+#: allthethings/account/templates/account/donate.html:217
 msgid "page.donate.duration.1_mo"
 msgstr "1 個月"
 
-#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:218
 msgid "page.donate.duration.3_mo"
 msgstr "3 個月"
 
-#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:219
 msgid "page.donate.duration.6_mo"
 msgstr "6 個月"
 
-#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:220
 msgid "page.donate.duration.12_mo"
 msgstr "12 個月"
 
-#: allthethings/account/templates/account/donate.html:219
+#: allthethings/account/templates/account/donate.html:221
 msgid "page.donate.duration.24_mo"
 msgstr "24 個月"
 
-#: allthethings/account/templates/account/donate.html:222
+#: allthethings/account/templates/account/donate.html:224
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s><span %(span_discount)s></span>折扣後</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:234
+#: allthethings/account/templates/account/donate.html:230
+msgid "page.donate.payment.minimum_method"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:231
+msgid "page.donate.payment.maximum_method"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:236
 msgid "page.donate.login2"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:273
+#: allthethings/account/templates/account/donate.html:243
+msgid "page.donate.payment.crypto_select"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:275
 msgid "page.donate.submit.confirm"
 msgstr "請點擊「捐贈」按鈕以確認此次捐贈。"
 
-#: allthethings/account/templates/account/donate.html:281
+#: allthethings/account/templates/account/donate.html:283
 msgid "page.donate.submit.button"
 msgstr "捐贈 <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:286
+#: allthethings/account/templates/account/donate.html:288
 msgid "page.donate.submit.cancel_note"
 msgstr "您仍可在結帳時取消捐贈。"
 
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:292
 msgid "page.donate.submit.success"
 msgstr "✅ 轉至捐款頁面…"
 
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:293
 msgid "page.donate.submit.failure"
 msgstr "❌ 出錯了。請重載頁面再試一次。"
 
-#: allthethings/account/templates/account/donate.html:348
+#: allthethings/account/templates/account/donate.html:350
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:349
+#: allthethings/account/templates/account/donate.html:351
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / 1個月"
 
-#: allthethings/account/templates/account/donate.html:352
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 個月"
 
-#: allthethings/account/templates/account/donate.html:353
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 個月"
 
-#: allthethings/account/templates/account/donate.html:354
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 個月"
 
-#: allthethings/account/templates/account/donate.html:355
+#: allthethings/account/templates/account/donate.html:357
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 個月"
 
-#: allthethings/account/templates/account/donate.html:356
+#: allthethings/account/templates/account/donate.html:358
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 個月"
 
-#: allthethings/account/templates/account/donate.html:360
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 個月的「%(tier_name)s」"
 
-#: allthethings/account/templates/account/donate.html:361
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 個月的「%(tier_name)s」"
 
-#: allthethings/account/templates/account/donate.html:362
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 個月的「%(tier_name)s」"
 
-#: allthethings/account/templates/account/donate.html:363
+#: allthethings/account/templates/account/donate.html:365
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 個月的「%(tier_name)s」"
 
-#: allthethings/account/templates/account/donate.html:364
+#: allthethings/account/templates/account/donate.html:366
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 個月的「%(tier_name)s」"
 
@@ -360,6 +462,10 @@ msgstr "您已經完成支付。如果您仍然想查看付款指示，請點擊
 msgid "page.donation.old_instructions.show_button"
 msgstr "顯示舊的付款指示"
 
+#: allthethings/account/templates/account/donation.html:48
+msgid "page.donation.thank_you_donation"
+msgstr ""
+
 #: allthethings/account/templates/account/donation.html:52
 msgid "page.donation.old_instructions.intro_outdated"
 msgstr "付款指示已過時。如果您想進行另一筆捐款，請使用上方的「重新捐赠」按鈕。"
@@ -367,6 +473,21 @@ msgstr "付款指示已過時。如果您想進行另一筆捐款，請使用上
 #: allthethings/account/templates/account/donation.html:62
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>重要提示：</strong>加密貨幣價格可能會劇烈波動，有時甚至在幾分鐘內波動幅度可達20%%。這仍然比我們使用許多支付提供商時所支付的費用要少，這些提供商通常對像我們這樣的「影子慈善機構」收取50-60%%的費用。<u>如果您將收據以您支付的原始價格發送給我們，我們仍將為您選擇的會籍充值</u>（前提是收據不超過數小時）。我們真的很感激您願意忍受這樣的事情來支持我們！❤️"
+
+#: allthethings/account/templates/account/donation.html:68
+#: allthethings/account/templates/account/donation.html:81
+#: allthethings/account/templates/account/donation.html:102
+#: allthethings/account/templates/account/donation.html:136
+#: allthethings/account/templates/account/donation.html:176
+#: allthethings/account/templates/account/donation.html:221
+#: allthethings/account/templates/account/donation.html:262
+#: allthethings/account/templates/account/donation.html:319
+#: allthethings/account/templates/account/donation.html:335
+#: allthethings/account/templates/account/donation.html:353
+#: allthethings/account/templates/account/donation.html:369
+#: allthethings/account/templates/account/donation.html:385
+msgid "page.donation.expired"
+msgstr ""
 
 #: allthethings/account/templates/account/donation.html:71
 msgid "page.donation.payment.crypto.top_header"
@@ -405,64 +526,230 @@ msgstr "請前往 PayPal 應用程式或網站的「比特幣」頁面。按下�
 msgid "page.donation.payment.paypal.text5"
 msgstr "輸入我們的比特幣（BTC）地址作爲收款人，並按照指示發送金額為 %(total)s 的捐款："
 
-#: allthethings/account/templates/account/donation.html:337
-#: allthethings/account/templates/account/donation.html:351
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
+#: allthethings/account/templates/account/donation.html:126
+#: allthethings/account/templates/account/donation.html:217
+msgid "page.donation.credit_debit_card_instructions"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:128
+msgid "page.donation.credit_debit_card_our_page"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:131
+msgid "page.donation.donate_on_this_page"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:131
+msgid "page.donation.stepbystep_below"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:139
+msgid "page.donation.buy_pyusd"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:146
+msgid "page.donation.pyusd.instructions"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:147
+msgid "page.donation.pyusd.more"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:153
+msgid "page.donation.pyusd.transfer"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:157
+#: allthethings/account/templates/account/donation.html:196
+#: allthethings/account/templates/account/donation.html:266
+msgid "page.donation.transfer_amount_to"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:204
+#: allthethings/account/templates/account/donation.html:245
+#: allthethings/account/templates/account/donation.html:270
+#: allthethings/account/templates/account/donation.html:300
+msgid "page.donation.status_header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:204
+#: allthethings/account/templates/account/donation.html:245
+#: allthethings/account/templates/account/donation.html:270
+msgid "page.donation.waiting_for_confirmation_refresh"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:204
+#: allthethings/account/templates/account/donation.html:245
+#: allthethings/account/templates/account/donation.html:270
+msgid "page.donation.waiting_for_transfer_refresh"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:162
+#: allthethings/account/templates/account/donation.html:205
+#: allthethings/account/templates/account/donation.html:246
+#: allthethings/account/templates/account/donation.html:271
+msgid "page.donation.time_left_header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:162
+#: allthethings/account/templates/account/donation.html:205
+#: allthethings/account/templates/account/donation.html:246
+#: allthethings/account/templates/account/donation.html:271
+msgid "page.donation.might_want_to_cancel"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:166
+#: allthethings/account/templates/account/donation.html:209
+#: allthethings/account/templates/account/donation.html:250
+#: allthethings/account/templates/account/donation.html:275
+msgid "page.donation.reset_timer"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:170
+#: allthethings/account/templates/account/donation.html:213
+#: allthethings/account/templates/account/donation.html:254
+#: allthethings/account/templates/account/donation.html:279
+#: allthethings/account/templates/account/donation.html:304
+msgid "page.donation.refresh_status"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:258
+msgid "page.donation.crypto_instructions"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:283
+msgid "page.donation.amazon.header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:286
+msgid "page.donation.amazon.form_instructions"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:287
+msgid "page.donation.amazon.only_official"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:291
+msgid "page.donation.amazon.form_to"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:292
+msgid "page.donation.amazon.unique"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:300
+msgid "page.donation.amazon.waiting_gift_card"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:308
+msgid "page.donation.amazon.confirm_automated"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:309
+msgid "page.donation.amazon.doesnt_work"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:312
+msgid "page.donation.amazon.example"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:348
+#: allthethings/account/templates/account/donation.html:365
+#: allthethings/account/templates/account/donation.html:381
+#: allthethings/account/templates/account/donation.html:397
 msgid "page.donate.strange_account"
 msgstr "賬戶名或圖像可能會有點奇怪不必擔心！這個賬戶由我們的捐贈夥伴管理，我們的賬戶沒有被骇入。"
 
-#: allthethings/account/templates/account/donation.html:354
+#: allthethings/account/templates/account/donation.html:372
 msgid "page.donation.payment.alipay.top_header"
 msgstr "支付寶操作指引"
 
-#: allthethings/account/templates/account/donation.html:356
+#: allthethings/account/templates/account/donation.html:374
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>透過支付寶進行捐贈"
 
-#: allthethings/account/templates/account/donation.html:359
+#: allthethings/account/templates/account/donation.html:377
 msgid "page.donation.payment.alipay.text1"
 msgstr "請使用<a %(a_account)s>此支付寶帳戶，捐贈總金額 %(total)s"
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:388
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix 操作指引"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:390
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>透過 Pix 進行捐贈"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:393
 msgid "page.donation.payment.pix.text1"
 msgstr "請使用<a %(a_account)s>此Pix帳戶，捐贈總金額 %(total)s"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:402
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>請將收據以電郵方式發送給我們"
 
-#: allthethings/account/templates/account/donation.html:386
+#: allthethings/account/templates/account/donation.html:408
 msgid "page.donation.footer.text1"
 msgstr "將收據或截圖發送至您的個人驗證地址："
 
-#: allthethings/account/templates/account/donation.html:396
+#: allthethings/account/templates/account/donation.html:418
 msgid "page.donation.footer.crypto_note"
 msgstr "如交易期間加密貨幣匯率有波動，請務必附上顯示原始匯率的收據。我們非常感謝您不厭其煩地使用加密貨幣，這對我們來說非常有幫助！"
 
-#: allthethings/account/templates/account/donation.html:401
+#: allthethings/account/templates/account/donation.html:423
 msgid "page.donation.footer.text2"
 msgstr "當您已將收據以電郵方式發送後，請點擊此按鈕，以便安娜進行手動審核（這可能需要幾天時間）："
 
-#: allthethings/account/templates/account/donation.html:411
+#: allthethings/account/templates/account/donation.html:433
 msgid "page.donation.footer.button"
 msgstr "是的，我已透過電郵寄出我的收據"
 
-#: allthethings/account/templates/account/donation.html:414
+#: allthethings/account/templates/account/donation.html:436
 msgid "page.donation.footer.success"
 msgstr "✅ 感謝您的捐贈！Anna 將在數天內手動啟用您的會員資格。"
 
-#: allthethings/account/templates/account/donation.html:415
+#: allthethings/account/templates/account/donation.html:437
 msgid "page.donation.footer.failure"
 msgstr "❌ 出錯了。請重載頁面再試一次。"
+
+#: allthethings/account/templates/account/donation.html:442
+msgid "page.donation.stepbystep"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:444
+msgid "page.donation.crypto_dont_worry"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:446
+msgid "page.donation.hoodpay.step1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:452
+msgid "page.donation.hoodpay.step2"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:458
+msgid "page.donation.hoodpay.step3"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:464
+msgid "page.donation.hoodpay.step4"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:470
+msgid "page.donation.hoodpay.step5"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:476
+msgid "page.donation.hoodpay.step6"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:480
+msgid "page.donation.footer.issues_contact"
+msgstr ""
 
 #: allthethings/account/templates/account/donation_faq.html:3
 #: allthethings/account/templates/account/donation_faq.html:6
@@ -1019,8 +1306,8 @@ msgstr "未找到下載檔案。"
 #: allthethings/page/templates/page/aarecord.html:350
 #: allthethings/page/templates/page/aarecord.html:369
 #: allthethings/page/templates/page/aarecord.html:370
-#: allthethings/page/templates/page/about.html:122
 #: allthethings/page/templates/page/about.html:123
+#: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6
 #: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:13
@@ -1051,8 +1338,6 @@ msgstr "未找到下載檔案。"
 #: allthethings/page/templates/page/security.html:7
 #: allthethings/page/templates/page/torrents.html:6
 #: allthethings/page/templates/page/torrents.html:7
-#: allthethings/page/templates/page/wechat.html:6
-#: allthethings/page/templates/page/wechat.html:7
 msgid "common.english_only"
 msgstr "下面的文字僅以英文繼續。"
 
@@ -1114,7 +1399,7 @@ msgstr "搜索我們的影子圖書館目錄。"
 
 #: allthethings/page/templates/page/about.html:79
 #: allthethings/page/templates/page/search.html:23
-#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:381
 msgid "common.search.placeholder"
 msgstr "搜索標題、作者、語言、文件類型、ISBN、MD5、……"
 
@@ -1159,11 +1444,11 @@ msgstr "如何提供幫助"
 msgid "page.about.help.text"
 msgstr "<li>1. 在 <a href=\"https://twitter.com/AnnaArchivist\">Twitter</a>、<a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>或<a href=\"https://t.me/annasarchiveorg\">Telegram</a>上關注我們。</li><li>2. 在 Twitter、Reddit、Tiktok、Instagram、您當地的咖啡館或圖書館，或任何您去的地方，傳播有關安娜檔案的信息！我們反對閉門造車——如果我們被打倒了，我們會立即出現在其他地方，因為我們所有的代碼和數據都是完全開源的。</li><li>3. 如果可以，請考慮<a href=\"/donate\">捐贈</a>。</li><li>4. 幫助我們將網站<a href=\"https://translate.annas-software.org/\">翻譯</a>成不同的語言。</li><li>5. 如果您是軟件工程師，請考慮為我們的<a href=\"https://annas-software.org/\">開源</a>做貢獻，或爲我們的<a href=\"/datasets\">種子</a>做種 。</li>"
 
-#: allthethings/page/templates/page/about.html:168
+#: allthethings/page/templates/page/about.html:169
 msgid "page.home.explore.header"
 msgstr "瀏覽書籍"
 
-#: allthethings/page/templates/page/about.html:171
+#: allthethings/page/templates/page/about.html:172
 msgid "page.home.explore.intro"
 msgstr "這裡有比較受歡迎的書籍，以及對影子圖書館和數字保存世界具有特殊意義的書籍。"
 
@@ -1244,7 +1529,7 @@ msgid "page.home.scidb.header"
 msgstr ""
 
 #: allthethings/page/templates/page/home.html:18
-#: allthethings/templates/layouts/index.html:379
+#: allthethings/templates/layouts/index.html:384
 msgid "layout.index.header.nav.beta"
 msgstr "測試版"
 
@@ -1304,6 +1589,30 @@ msgstr "📡 如需批量鏡像我們的收藏，請查看<a %(a_datasets)s>數�
 #: allthethings/templates/layouts/index.html:241
 msgid "layout.index.header.title"
 msgstr "安娜的檔案"
+
+#: allthethings/page/templates/page/scidb.html:14
+msgid "page.scidb.header"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:18
+msgid "page.scidb.doi"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:29
+msgid "page.scidb.aa_record"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:30
+msgid "page.scidb.download"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:31
+msgid "page.scidb.scihub"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:35
+msgid "page.scidb.refresh"
+msgstr ""
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
@@ -1376,6 +1685,14 @@ msgstr "%(num)d+ 部分匹配"
 msgid "page.search.results.partial"
 msgstr "%(num)d 部分匹配"
 
+#: allthethings/page/templates/page/wechat.html:7
+msgid "page.wechat.header"
+msgstr ""
+
+#: allthethings/page/templates/page/wechat.html:10
+msgid "page.wechat.body"
+msgstr ""
+
 #: allthethings/templates/layouts/index.html:4
 msgid "layout.index.title"
 msgstr "安娜的檔案"
@@ -1414,148 +1731,159 @@ msgid "layout.index.header.recent_downloads"
 msgstr "最近下載記錄："
 
 #: allthethings/templates/layouts/index.html:339
-#: allthethings/templates/layouts/index.html:350
-#: allthethings/templates/layouts/index.html:363
+#: allthethings/templates/layouts/index.html:351
+#: allthethings/templates/layouts/index.html:365
+#: allthethings/templates/layouts/index.html:442
 msgid "layout.index.header.nav.search"
 msgstr "搜索"
 
 #: allthethings/templates/layouts/index.html:340
-#: allthethings/templates/layouts/index.html:351
-#: allthethings/templates/layouts/index.html:364
+#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:366
+#: allthethings/templates/layouts/index.html:443
 msgid "layout.index.header.nav.about"
 msgstr "關於"
 
 #: allthethings/templates/layouts/index.html:341
-#: allthethings/templates/layouts/index.html:352
-#: allthethings/templates/layouts/index.html:365
+#: allthethings/templates/layouts/index.html:353
+#: allthethings/templates/layouts/index.html:367
+#: allthethings/templates/layouts/index.html:445
 msgid "layout.index.header.nav.datasets"
 msgstr "數據集"
 
-#: allthethings/templates/layouts/index.html:344
-#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:342
+#: allthethings/templates/layouts/index.html:354
 #: allthethings/templates/layouts/index.html:368
+#: allthethings/templates/layouts/index.html:446
+msgid "layout.index.header.nav.torrents"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:343
+#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:447
+msgid "layout.index.header.nav.llm_data"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:344
+#: allthethings/templates/layouts/index.html:356
+#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:448
 msgid "layout.index.header.nav.mobile"
 msgstr "手機APP"
 
-#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:345
+#: allthethings/templates/layouts/index.html:357
+#: allthethings/templates/layouts/index.html:449
+msgid "layout.index.header.nav.security"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:346
+#: allthethings/templates/layouts/index.html:358
+#: allthethings/templates/layouts/index.html:372
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:477
+msgid "layout.index.header.nav.wechat"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:347
+#: allthethings/templates/layouts/index.html:359
+#: allthethings/templates/layouts/index.html:364
+#: allthethings/templates/layouts/index.html:441
+msgid "layout.index.header.nav.home"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:464
 msgid "layout.index.header.nav.annasblog"
 msgstr "安娜的博客 ↗"
 
-#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.annassoftware"
 msgstr "安娜的軟件 ↗"
 
-#: allthethings/templates/layouts/index.html:371
+#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:466
 msgid "layout.index.header.nav.translate"
 msgstr "翻譯 ↗"
 
-#: allthethings/templates/layouts/index.html:373
+#: allthethings/templates/layouts/index.html:378
+#: allthethings/templates/layouts/index.html:444
 msgid "layout.index.header.nav.donate"
 msgstr "捐贈"
 
-#: allthethings/templates/layouts/index.html:382
-#: allthethings/templates/layouts/index.html:388
-#: allthethings/templates/layouts/index.html:396
-#: allthethings/templates/layouts/index.html:404
-#: allthethings/templates/layouts/index.html:413
-#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:387
+#: allthethings/templates/layouts/index.html:393
+#: allthethings/templates/layouts/index.html:401
+#: allthethings/templates/layouts/index.html:409
+#: allthethings/templates/layouts/index.html:418
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.header.nav.request"
 msgstr "請求書籍"
 
-#: allthethings/templates/layouts/index.html:383
-#: allthethings/templates/layouts/index.html:389
-#: allthethings/templates/layouts/index.html:397
-#: allthethings/templates/layouts/index.html:405
-#: allthethings/templates/layouts/index.html:414
-#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:388
+#: allthethings/templates/layouts/index.html:394
+#: allthethings/templates/layouts/index.html:402
+#: allthethings/templates/layouts/index.html:410
+#: allthethings/templates/layouts/index.html:419
+#: allthethings/templates/layouts/index.html:430
 msgid "layout.index.header.nav.upload"
 msgstr "上載"
 
-#: allthethings/templates/layouts/index.html:384
-#: allthethings/templates/layouts/index.html:390
+#: allthethings/templates/layouts/index.html:389
 #: allthethings/templates/layouts/index.html:395
+#: allthethings/templates/layouts/index.html:400
 msgid "layout.index.header.nav.login_register"
 msgstr "登入 / 註冊"
 
-#: allthethings/templates/layouts/index.html:401
-#: allthethings/templates/layouts/index.html:410
-#: allthethings/templates/layouts/index.html:421
+#: allthethings/templates/layouts/index.html:406
+#: allthethings/templates/layouts/index.html:415
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.header.nav.public_profile"
 msgstr "公開個人資料"
 
-#: allthethings/templates/layouts/index.html:402
-#: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:422
+#: allthethings/templates/layouts/index.html:407
+#: allthethings/templates/layouts/index.html:416
+#: allthethings/templates/layouts/index.html:427
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "已下載的檔案"
 
-#: allthethings/templates/layouts/index.html:403
-#: allthethings/templates/layouts/index.html:412
-#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:408
+#: allthethings/templates/layouts/index.html:417
+#: allthethings/templates/layouts/index.html:428
 msgid "layout.index.header.nav.my_donations"
 msgstr "我的捐贈記錄"
 
-#: allthethings/templates/layouts/index.html:420
+#: allthethings/templates/layouts/index.html:425
 msgid "layout.index.header.nav.account"
 msgstr "帳戶"
 
-#: allthethings/templates/layouts/index.html:435
+#: allthethings/templates/layouts/index.html:440
 msgid "layout.index.footer.list1.header"
 msgstr "安娜的檔案"
 
-#: allthethings/templates/layouts/index.html:436
-msgid "layout.index.footer.list1.home"
-msgstr "首頁"
-
-#: allthethings/templates/layouts/index.html:438
-msgid "layout.index.footer.list1.about"
-msgstr "關於"
-
-#: allthethings/templates/layouts/index.html:439
-msgid "layout.index.footer.list1.donate"
-msgstr "捐贈"
-
-#: allthethings/templates/layouts/index.html:440
-msgid "layout.index.footer.list1.datasets"
-msgstr "數據集"
-
-#: allthethings/templates/layouts/index.html:443
-msgid "layout.index.footer.list1.mobile"
-msgstr "手機APP"
-
-#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:462
 msgid "layout.index.footer.list2.header"
 msgstr "保持聯繫"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.twitter"
 msgstr "Twitter"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:459
-msgid "layout.index.footer.list2.blog"
-msgstr "安娜的博客"
-
-#: allthethings/templates/layouts/index.html:460
-msgid "layout.index.footer.list2.software"
-msgstr "安娜的軟件"
-
-#: allthethings/templates/layouts/index.html:461
-msgid "layout.index.footer.list2.translate"
-msgstr "翻譯"
-
-#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:468
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "數碼千禧年版權法案（DCMA） / 版權申索"
 
-#: allthethings/templates/layouts/index.html:468
+#: allthethings/templates/layouts/index.html:473
 msgid "layout.index.footer.list3.header"
 msgstr "備擇方案"
 
@@ -1780,4 +2108,28 @@ msgstr "已複製！"
 
 #~ msgid "page.donate.login"
 #~ msgstr "請<a href=\"/login\">登入或註冊</a>成為會員。如果您不想建立帳戶，請選擇上方的「以匿名方式進行一次性捐款」。感謝您的支持！"
+
+#~ msgid "layout.index.footer.list1.home"
+#~ msgstr "首頁"
+
+#~ msgid "layout.index.footer.list1.about"
+#~ msgstr "關於"
+
+#~ msgid "layout.index.footer.list1.donate"
+#~ msgstr "捐贈"
+
+#~ msgid "layout.index.footer.list1.datasets"
+#~ msgstr "數據集"
+
+#~ msgid "layout.index.footer.list1.mobile"
+#~ msgstr "手機APP"
+
+#~ msgid "layout.index.footer.list2.blog"
+#~ msgstr "安娜的博客"
+
+#~ msgid "layout.index.footer.list2.software"
+#~ msgstr "安娜的軟件"
+
+#~ msgid "layout.index.footer.list2.translate"
+#~ msgstr "翻譯"
 
