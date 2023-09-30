@@ -45,7 +45,7 @@
   {% elif donation_dict.processing_status != 0 %}
     <div class='js-donation-instructions-hidden'>
       <p class="mb-4 font-bold">
-        Thank you for your donation!
+        {{ gettext('page.donation.thank_you_donation') }}
       </p>
 
       <p class="mb-4">
@@ -123,9 +123,9 @@
       </p>
       -->
     {% elif donation_dict.json.method == 'hoodpay' %}
-      <h2 class="mt-4 mb-4 text-xl font-bold">Credit / debit card instructions</h2>
+      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.credit_debit_card_instructions') }}</h2>
 
-      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Donate through our credit / debit card page</p>
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>{{ gettext('page.donation.credit_debit_card_our_page') }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donation.donate_on_this_page', amount=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_page=((' href="' + donation_dict.json.hoodpay_request.data.url + '" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank" ') | safe)) }} {{ gettext('page.donation.stepbystep_below') }}
@@ -136,7 +136,7 @@
           {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>Buy PYUSD coin on PayPal</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]">1</span>{{ gettext('page.donation.buy_pyusd') }}</p>
 
         <p class="mb-4">
           {{ gettext('page.donate.one_time_payment.paypal.text2') }}
@@ -213,7 +213,7 @@
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'payment2cc' %}
-      <h2 class="mt-4 mb-4 text-xl font-bold">Credit/debit card instructions</h2>
+      <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.credit_debit_card_instructions') }}</h2>
 
       {% if donation_time_expired %}
         <p class="mb-4">
