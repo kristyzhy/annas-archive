@@ -227,8 +227,8 @@
 
     <form onsubmit="window.submitForm(event, '/dyn/account/buy_membership/', (data) => { if (data.error) { alert(data.error); location.reload() } else { window.location = data.redirect_url } })" class="js-membership-form mt-4 mb-4">
       <fieldset class="mb-2">
-        <div class="js-membership-donate-minimum mb-4 hidden"></div>
-        <div class="js-membership-donate-maximum mb-4 hidden"></div>
+        <div class="js-membership-donate-minimum mb-4 hidden">{{ gettext('page.donate.payment.minimum_method', amount=('<span class="js-membership-donate-minimum-amount"></span>' | safe)) }}</div>
+        <div class="js-membership-donate-maximum mb-4 hidden">{{ gettext('page.donate.payment.maximum_method', amount=('<span class="js-membership-donate-maximum-amount"></span>' | safe)) }}</div>
 
         <div class="js-membership-donate-submit-confirmation">
           <div class="[html.aa-logged-in_&]:hidden">
@@ -240,7 +240,7 @@
           <div class="[html:not(.aa-logged-in)_&]:hidden">
             <div class="js-membership-descr js-membership-descr-payment2">
               <p class="mb-4">
-                Select your preferred crypto coin:
+                {{ gettext('page.donate.payment.crypto_select') }}
               </p>
 
               <!-- Be sure to update the validation list in `def buy_membership`! -->
@@ -372,9 +372,10 @@
 
           const minimumCents = MEMBERSHIP_METHOD_MINIMUM_CENTS_USD[membershipParams.method];
           const minimumEl = document.querySelector('.js-membership-donate-minimum');
+          const minimumAmountEl = document.querySelector('.js-membership-donate-minimum-amount');
           if (costsData.cost_cents_usd < minimumCents) {
             minimumEl.classList.remove('hidden')
-            minimumEl.innerText = "This payment method requires a minimum of $" + Math.floor(minimumCents/100) + " USD. Please select a different duration or payment method."
+            minimumAmountEl.innerText = "$" + Math.floor(minimumCents/100) + " USD";
             document.querySelector(".js-membership-donate-submit-confirmation").classList.add("hidden");
           } else {
             minimumEl.classList.add('hidden')
@@ -382,9 +383,10 @@
 
           const maximumCentsNative = MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE[membershipParams.method];
           const maximumEl = document.querySelector('.js-membership-donate-maximum');
+          const maximumAmountEl = document.querySelector('.js-membership-donate-maximum-amount');
           if (maximumCentsNative && costsData.cost_cents_native_currency > maximumCentsNative) {
             maximumEl.classList.remove('hidden')
-            maximumEl.innerText = "This payment method only allows for a maximum of " + Math.floor(maximumCentsNative/100) + " " + costsData.native_currency_code + ". Please select a different duration or payment method."
+            maximumAmountEl.innerText = Math.floor(maximumCentsNative/100) + " " + costsData.native_currency_code;
             document.querySelector(".js-membership-donate-submit-confirmation").classList.add("hidden");
           } else {
             maximumEl.classList.add('hidden')
