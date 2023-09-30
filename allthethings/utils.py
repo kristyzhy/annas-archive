@@ -210,13 +210,13 @@ def no_cache():
 
 def get_md5_report_type_mapping():
     return {
-        'metadata': 'Incorrect metadata (e.g. title, description, cover image)',
-        'download': 'Downloading problems (e.g. can’t connect, error message, very slow)',
-        'broken': 'File can’t be opened (e.g. corrupted file, DRM)',
-        'pages': 'Poor quality (e.g. formatting issues, poor scan quality, missing pages)',
-        'spam': 'Spam / file should be removed (e.g. advertising, abusive content)',
-        'copyright': 'Copyright claim',
-        'other': 'Other',
+        'metadata': gettext('common.md5_report_type_mapping.metadata'),
+        'download': gettext('common.md5_report_type_mapping.download'),
+        'broken': gettext('common.md5_report_type_mapping.broken'),
+        'pages': gettext('common.md5_report_type_mapping.pages'),
+        'spam': gettext('common.md5_report_type_mapping.spam'),
+        'copyright': gettext('common.md5_report_type_mapping.copyright'),
+        'other': gettext('common.md5_report_type_mapping.other'),
     }
 
 def donation_id_to_receipt_id(donation_id):
@@ -332,27 +332,28 @@ def format_currency(cost_cents_native_currency, native_currency_code, locale):
     return output
 
 def membership_format_native_currency(locale, native_currency_code, cost_cents_native_currency, cost_cents_usd):
-    if native_currency_code != 'USD':
-        return {
-            'cost_cents_native_currency_str_calculator': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)} ({format_currency(cost_cents_usd, 'USD', locale)}) total",
-            'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)}",
-            'cost_cents_native_currency_str_donation_page_formal': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)} ({format_currency(cost_cents_usd, 'USD', locale)})",
-            'cost_cents_native_currency_str_donation_page_instructions': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)} ({format_currency(cost_cents_usd, 'USD', locale)})",
-        }
-    # elif native_currency_code == 'COFFEE':
-    #     return {
-    #         'cost_cents_native_currency_str_calculator': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)} ({cost_cents_native_currency} ☕️) total",
-    #         'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)}",
-    #         'cost_cents_native_currency_str_donation_page_formal': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)} ({cost_cents_native_currency} ☕️)",
-    #         'cost_cents_native_currency_str_donation_page_instructions': f"{cost_cents_native_currency} “coffee” ({format_currency(cost_cents_native_currency * 5, 'USD', locale)})",
-    #     }
-    else:
-        return {
-            'cost_cents_native_currency_str_calculator': f"{format_currency(cost_cents_native_currency, 'USD', locale)} total",
-            'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
-            'cost_cents_native_currency_str_donation_page_formal': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
-            'cost_cents_native_currency_str_donation_page_instructions': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
-        }
+    with force_locale(locale):
+        if native_currency_code != 'USD':
+            return {
+                'cost_cents_native_currency_str_calculator': gettext('common.membership.format_currency.total_with_usd', amount=format_currency(cost_cents_native_currency, native_currency_code, locale), amount_usd=format_currency(cost_cents_usd, 'USD', locale)),
+                'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency, native_currency_code, locale)}",
+                'cost_cents_native_currency_str_donation_page_formal': gettext('common.membership.format_currency.amount_with_usd', amount=format_currency(cost_cents_native_currency, native_currency_code, locale), amount_usd=format_currency(cost_cents_usd, 'USD', locale)),
+                'cost_cents_native_currency_str_donation_page_instructions': gettext('common.membership.format_currency.amount_with_usd', amount=format_currency(cost_cents_native_currency, native_currency_code, locale), amount_usd=format_currency(cost_cents_usd, 'USD', locale)),
+            }
+        # elif native_currency_code == 'COFFEE':
+        #     return {
+        #         'cost_cents_native_currency_str_calculator': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)} ({cost_cents_native_currency} ☕️) total",
+        #         'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)}",
+        #         'cost_cents_native_currency_str_donation_page_formal': f"{format_currency(cost_cents_native_currency * 5, 'USD', locale)} ({cost_cents_native_currency} ☕️)",
+        #         'cost_cents_native_currency_str_donation_page_instructions': f"{cost_cents_native_currency} “coffee” ({format_currency(cost_cents_native_currency * 5, 'USD', locale)})",
+        #     }
+        else:
+            return {
+                'cost_cents_native_currency_str_calculator': gettext('common.membership.format_currency.total', amount=format_currency(cost_cents_usd, 'USD', locale)),
+                'cost_cents_native_currency_str_button': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
+                'cost_cents_native_currency_str_donation_page_formal': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
+                'cost_cents_native_currency_str_donation_page_instructions': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
+            }
 
 @cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=60*60))
 def membership_costs_data(locale):
@@ -925,6 +926,7 @@ AARECORD_PREFIX_SEARCH_INDEX_MAPPING = {
     'ol': 'aarecords_metadata',
 }
 
+# TODO: translate?
 def marc_country_code_to_english(marc_country_code):
     marc_country_code = marc_country_code.strip()
     return MARC_COUNTRY_CODES.get(marc_country_code) or MARC_DEPRECATED_COUNTRY_CODES.get(marc_country_code) or marc_country_code

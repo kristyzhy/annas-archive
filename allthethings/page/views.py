@@ -1031,6 +1031,7 @@ def get_ol_book_dicts(session, key, values):
                 *([extract_ol_str_field(field) for field in ol_book_dict['edition']['json'].get('series') or []]),
                 extract_ol_str_field(ol_book_dict['edition']['json'].get('edition_name') or ''),
                 *([extract_ol_str_field(field) for field in ol_book_dict['edition']['json'].get('publish_places') or []]),
+                # TODO: translate?
                 allthethings.utils.marc_country_code_to_english(extract_ol_str_field(ol_book_dict['edition']['json'].get('publish_country') or '')),
                 ol_book_dict['longest_date_field'],
             ] if item and item.strip() != ''])
