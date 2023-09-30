@@ -911,62 +911,90 @@ msgstr "Find original record in Open Library"
 msgid "page.md5.box.download.scidb"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:85
+#: allthethings/page/templates/page/aarecord.html:12
+msgid "page.md5.header.scihub"
+msgstr "Sci-Hub file “%(id)s”"
+
+#: allthethings/page/templates/page/aarecord.html:16
+msgid "page.md5.header.ia"
+msgstr "Internet Archive Controlled Digital Lending file “%(id)s”"
+
+#: allthethings/page/templates/page/aarecord.html:19
+msgid "page.md5.header.ia_desc"
+msgstr "This is a record of a file from the Internet Archive, not a directly downloadable file. You can try to borrow the book (link below), or use this URL when <a %(a_request)s>requesting a file</a>."
+
+#: allthethings/page/templates/page/aarecord.html:24
+msgid "page.md5.header.meta_isbn"
+msgstr "ISBNdb %(id)s metadata record"
+
+#: allthethings/page/templates/page/aarecord.html:26
+msgid "page.md5.header.meta_openlib"
+msgstr "Open Library %(id)s metadata record"
+
+#: allthethings/page/templates/page/aarecord.html:30
+msgid "page.md5.header.meta_desc"
+msgstr "This is a metadata record, not a downloadable file. You can use this URL when <a %(a_request)s>requesting a file</a>."
+
+#: allthethings/page/templates/page/aarecord.html:41
+msgid "page.md5.box.descr_read_more"
+msgstr "Read more…"
+
+#: allthethings/page/templates/page/aarecord.html:98
 #: allthethings/page/templates/page/doi.html:37
 msgid "common.tech_details"
 msgstr "Technical details"
 
-#: allthethings/page/templates/page/aarecord.html:153
+#: allthethings/page/templates/page/aarecord.html:166
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ This file might have issues, and has been hidden from a source library.</span> Sometimes this is by request of a copyright holder, sometimes it is because a better alternative is available, but sometimes it is because of an issue with the file itself. It might still be fine to download, but we recommend first searching for an alternative file. More details:"
 
-#: allthethings/page/templates/page/aarecord.html:163
+#: allthethings/page/templates/page/aarecord.html:176
 msgid "page.md5.box.issues.text2"
 msgstr "If you still want to download this file, be sure to only use trusted, updated software to open it."
 
-#: allthethings/page/templates/page/aarecord.html:168
+#: allthethings/page/templates/page/aarecord.html:181
 msgid "page.md5.box.download.header_fast_no_member"
 msgstr "<strong>🚀 Fast downloads</strong> Become a <a %(a_membership)s>member</a> to support the long-term preservation of books, papers, and more. To show our gratitude for your support, you get fast downloads. ❤️"
 
-#: allthethings/page/templates/page/aarecord.html:169
+#: allthethings/page/templates/page/aarecord.html:182
 msgid "page.md5.box.download.header_fast_member"
 msgstr "<strong>🚀 Fast downloads</strong> You have %(remaining)s left today. Thanks for being a member! ❤️"
 
-#: allthethings/page/templates/page/aarecord.html:170
+#: allthethings/page/templates/page/aarecord.html:183
 msgid "page.md5.box.download.header_fast_member_no_remaining"
 msgstr "<strong>🚀 Fast downloads</strong> You’ve run out of fast downloads for today. Please contact Anna at AnnaArchivist@proton.me if you’re interested in upgrading your membership."
 
-#: allthethings/page/templates/page/aarecord.html:171
+#: allthethings/page/templates/page/aarecord.html:184
 msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 Fast downloads</strong> You downloaded this file recently. Links remain valid for a while."
 
-#: allthethings/page/templates/page/aarecord.html:175
-#: allthethings/page/templates/page/aarecord.html:193
+#: allthethings/page/templates/page/aarecord.html:188
+#: allthethings/page/templates/page/aarecord.html:206
 msgid "page.md5.box.download.option"
 msgstr "Option #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:184
+#: allthethings/page/templates/page/aarecord.html:197
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 Slow & external downloads"
 
-#: allthethings/page/templates/page/aarecord.html:186
+#: allthethings/page/templates/page/aarecord.html:199
 msgid "page.md5.box.download.header_generic"
 msgstr "Downloads"
 
-#: allthethings/page/templates/page/aarecord.html:202
+#: allthethings/page/templates/page/aarecord.html:215
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "All download options have the same file, and should be safe to use. That said, always be cautious when downloading files from the internet, especially from sites external to Anna’s Archive. For example, be sure to keep your devices updated."
 
-#: allthethings/page/templates/page/aarecord.html:228
+#: allthethings/page/templates/page/aarecord.html:241
 msgid "page.md5.box.download.no_found"
 msgstr "No downloads found."
 
-#: allthethings/page/templates/page/aarecord.html:233
-#: allthethings/page/templates/page/aarecord.html:234
-#: allthethings/page/templates/page/aarecord.html:335
-#: allthethings/page/templates/page/aarecord.html:336
-#: allthethings/page/templates/page/aarecord.html:355
-#: allthethings/page/templates/page/aarecord.html:356
+#: allthethings/page/templates/page/aarecord.html:246
+#: allthethings/page/templates/page/aarecord.html:247
+#: allthethings/page/templates/page/aarecord.html:348
+#: allthethings/page/templates/page/aarecord.html:349
+#: allthethings/page/templates/page/aarecord.html:368
+#: allthethings/page/templates/page/aarecord.html:369
 #: allthethings/page/templates/page/about.html:122
 #: allthethings/page/templates/page/about.html:123
 #: allthethings/page/templates/page/copyright.html:6
