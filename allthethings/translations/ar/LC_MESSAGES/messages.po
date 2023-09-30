@@ -14,23 +14,23 @@ msgstr "جامع البيانات المٌبهر"
 msgid "common.membership.tier_name.5"
 msgstr "مؤرشف رائع"
 
-#: allthethings/account/views.py:254
+#: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "غير مدفوع"
 
-#: allthethings/account/views.py:255
+#: allthethings/account/views.py:254
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "مدفوع"
 
-#: allthethings/account/views.py:256
+#: allthethings/account/views.py:255
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "مٌلغى"
 
-#: allthethings/account/views.py:257
+#: allthethings/account/views.py:256
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "منتهي الصلاحية"
 
-#: allthethings/account/views.py:258
+#: allthethings/account/views.py:257
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "بانتظار التاكيد من آنا"
 
@@ -106,240 +106,155 @@ msgid "page.donate.perks.adopt"
 msgstr "\"تبنى تورنت\": اسم المستخدم الخاص بك او رسالة في اسم ملف تورنت <div %(div_months)s>مرة واحدة كل 12 شهر من العضوية</div>"
 
 #: allthethings/account/templates/account/donate.html:84
-msgid "page.donate.header.text3"
-msgstr "يمكنك ايضا التبرع دون الحاجة لانشاء حساب (نفس طرق الدفع مدعومة للتبرعات الفردية وكذلك للعضويات):"
-
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donate.html:88
-msgid "page.donate.buttons.one_time"
-msgstr "تبرع لمرة واحدة بشكل مجهول (لا مزايا)"
-
-#: allthethings/account/templates/account/donate.html:95
-msgid "page.donate.payment.intro"
-msgstr "اختر طريقة دفع. نقدم تخفيضات لطرائق الدفع عن طريق العملات الرقمية المشفرة %(bitcoin_icon)s، لاننا نتحمل رسوم اقل."
-
-#: allthethings/account/templates/account/donate.html:96
-msgid "page.donate.payment.intro2"
-msgstr "حدد خيار الدفع. لدينا حاليا فقط قائم على عملة التشفير %(bitcoin_icon)s منذ الدفع معالجات التقليدية رفض العمل معنا."
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:311
-#: allthethings/account/templates/account/donate.html:321
-msgid "page.donate.payment.buttons.crypto"
-msgstr "عملات رقمية %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/donate.html:116
-#: allthethings/account/templates/account/donate.html:117
-#: allthethings/account/templates/account/donate.html:221
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:223
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.discount"
-msgstr "-%(percentage)s%%"
-
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:313
-msgid "page.donate.payment.buttons.paypal"
-msgstr "بايبال %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:110
-#: allthethings/account/templates/account/donate.html:319
-msgid "page.donate.payment.buttons.alipay"
-msgstr "Alipay"
-
-#: allthethings/account/templates/account/donate.html:111
-#: allthethings/account/templates/account/donate.html:320
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (البرازيل)"
-
-#: allthethings/account/templates/account/donate.html:126
-msgid "page.donate.payment.desc.crypto"
-msgstr "باستخدام العملات الرقمية المشفرة يمكنك التبرع من خلال BTC, ETH, XMR و SOL. استخدم طريقة التبرع هذه اذا كنت معتاد على استخدام العملات الرقمية المشفرة."
-
-#: allthethings/account/templates/account/donate.html:142
-msgid "page.donate.payment.desc.paypal"
-msgstr "للتبرع عن طريق بايبال، سنستخدم PayPal Crypto، والذي يسمح لنا بالبقاء مجهولين. نحن نقدر الوقت الذي تقضيه لتعلم هذه الطريقة، كونها تساعدنا كثيرا."
-
-#: allthethings/account/templates/account/donate.html:215
-msgid "page.donate.duration.intro"
-msgstr "اختر المدة التي ترغب بالاشتراك فيها."
-
-#: allthethings/account/templates/account/donate.html:220
-msgid "page.donate.duration.1_mo"
-msgstr "شهر واحد"
-
-#: allthethings/account/templates/account/donate.html:221
-msgid "page.donate.duration.3_mo"
-msgstr "ثلاثة اشهر"
-
-#: allthethings/account/templates/account/donate.html:222
-msgid "page.donate.duration.6_mo"
-msgstr "ستة اشهر"
-
-#: allthethings/account/templates/account/donate.html:223
-msgid "page.donate.duration.12_mo"
-msgstr "سنة كاملة"
-
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.duration.24_mo"
-msgstr "٢٤ أشهر"
-
-#: allthethings/account/templates/account/donate.html:227
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>بعد <span %(span_discount)s></span> خصومات</div><div %(div_total)s></div><div %(div_duration)s></div>"
-
-#: allthethings/account/templates/account/donate.html:239
-msgid "page.donate.login"
-msgstr "لكي تصبح عضوًا، يرجى <a href=\"/login\">ادخل او سجل حساب جديد</a>. ان لم ترغب في انشاء حساب، اختر \"تبرع لمرة واحدة بشكل مجهول\" في الاعلى. شكرا على دعمك!"
-
-#: allthethings/account/templates/account/donate.html:278
-msgid "page.donate.submit.confirm"
-msgstr "اضغط على زر التبرع لتاكيد عملية التبرع."
-
-#: allthethings/account/templates/account/donate.html:286
-msgid "page.donate.submit.button"
-msgstr "تبرع <span %(span_cost)s></span> <span %(span_label)s></span>"
-
-#: allthethings/account/templates/account/donate.html:291
-msgid "page.donate.submit.cancel_note"
-msgstr "لا يزال بإمكانك إلغاء التبرع أثناء الخروج."
-
-#: allthethings/account/templates/account/donate.html:295
-msgid "page.donate.submit.success"
-msgstr "✅ إعادة التوجيه إلى صفحة التبرع …"
-
-#: allthethings/account/templates/account/donate.html:296
-msgid "page.donate.submit.failure"
-msgstr "❌ حدث خطأ ما. يرجى إعادة تحميل الصفحة وحاول مرة أخرى."
-
-#: allthethings/account/templates/account/donate.html:303
-msgid "page.donate.one_time_payment.intro"
-msgstr "حدد خيار الدفع. يرجى التفكير في استخدام الدفع المستند إلى التشفير %(bitcoin_icon)s ، لأننا نتحمل (طريقة) رسوم أقل."
-
-#: allthethings/account/templates/account/donate.html:307
 msgid "page.donate.header.large_donations"
 msgstr "للتبرعات بمبالغ اكثر من 5000$، يرجى التواصل معنا مباشرة عن طريق <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
 
-#: allthethings/account/templates/account/donate.html:333
-msgid "page.donate.crypto.intro"
-msgstr "إذا كان لديك بالفعل أموال مشفرة ، فهذه هي عناويننا."
+#: allthethings/account/templates/account/donate.html:90
+msgid "page.donate.payment.intro"
+msgstr "اختر طريقة دفع. نقدم تخفيضات لطرائق الدفع عن طريق العملات الرقمية المشفرة %(bitcoin_icon)s، لاننا نتحمل رسوم اقل."
 
-#: allthethings/account/templates/account/donate.html:344
-#: allthethings/account/templates/account/donate.html:378
-#: allthethings/account/templates/account/donate.html:416
-#: allthethings/account/templates/account/donate.html:479
-#: allthethings/account/templates/account/donate.html:493
-#: allthethings/account/templates/account/donate.html:503
-msgid "page.donate.text_thank_you"
-msgstr "شكرا جزيلا للمساعدة! لن يكون هذا المشروع ممكنًا بدونكم."
+#: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.payment.intro2"
+msgstr "حدد خيار الدفع. لدينا حاليا فقط قائم على عملة التشفير %(bitcoin_icon)s منذ الدفع معالجات التقليدية رفض العمل معنا."
 
-#: allthethings/account/templates/account/donate.html:384
-msgid "page.donate.one_time_payment.paypal.text1"
-msgstr "للتبرع باستخدام PayPal US ، سنستخدم PayPal Crypto ، والذي يتيح لنا عدم الكشف عن هويتنا. نحن نقدر لك الوقت الذي تقضيه في تعلم كيفية التبرع باستخدام هذه الطريقة ، لأنها تساعدنا كثيرًا."
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:107
+msgid "page.donate.payment.buttons.crypto"
+msgstr "عملات رقمية %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:387
-#: allthethings/account/templates/account/donation.html:114
-msgid "page.donate.submit.header1"
-msgstr "<span %(span_circle)s> 1 </span> اشترِ Bitcoin على Paypal"
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:390
-#: allthethings/account/templates/account/donation.html:117
-#: allthethings/account/templates/account/donation.html:154
-msgid "page.donate.one_time_payment.paypal.text2"
-msgstr "ابحث عن صفحة \"Crypto\" في تطبيق PayPal أو موقع الويب الخاص بك. هذا عادة ما يكون تحت \"الشؤون المالية\"."
+#: allthethings/account/templates/account/donate.html:99
+msgid "page.donate.payment.buttons.paypal"
+msgstr "بايبال %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:394
-msgid "page.donate.one_time_payment.paypal.text3"
-msgstr "اتبع التعليمات لشراء Bitcoin (BTC). ما عليك سوى شراء المبلغ الذي تريد التبرع به."
+#: allthethings/account/templates/account/donate.html:105
+msgid "page.donate.payment.buttons.alipay"
+msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:398
-msgid "page.donate.one_time_payment.paypal.text3b"
-msgstr "إذا فقدت بعض عملات البيتكوين بسبب التقلبات أو الرسوم ، <em> من فضلك لا تقلق </em>. هذا أمر طبيعي مع العملات المشفرة ، لكنه يسمح لنا بالعمل دون الكشف عن هويتنا."
+#: allthethings/account/templates/account/donate.html:106
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (البرازيل)"
 
-#: allthethings/account/templates/account/donate.html:401
-#: allthethings/account/templates/account/donation.html:124
-msgid "page.donate.submit.header2"
-msgstr "<span%(span_circle)s> 2 </span> انقل البيتكوين إلى عنواننا"
+#: allthethings/account/templates/account/donate.html:121
+msgid "page.donate.payment.desc.crypto"
+msgstr "باستخدام العملات الرقمية المشفرة يمكنك التبرع من خلال BTC, ETH, XMR و SOL. استخدم طريقة التبرع هذه اذا كنت معتاد على استخدام العملات الرقمية المشفرة."
 
-#: allthethings/account/templates/account/donate.html:404
-#: allthethings/account/templates/account/donation.html:127
-msgid "page.donate.one_time_payment.paypal.text4"
-msgstr "انتقل إلى صفحة \"Bitcoin\" في تطبيق PayPal أو موقع الويب الخاص بك. اضغط على الزر \"تحويل\"%(transfer_icon)s ، ثم \"إرسال\"."
+#: allthethings/account/templates/account/donate.html:137
+msgid "page.donate.payment.desc.paypal"
+msgstr "للتبرع عن طريق بايبال، سنستخدم PayPal Crypto، والذي يسمح لنا بالبقاء مجهولين. نحن نقدر الوقت الذي تقضيه لتعلم هذه الطريقة، كونها تساعدنا كثيرا."
 
-#: allthethings/account/templates/account/donate.html:408
-msgid "page.donate.one_time_payment.paypal.text5"
-msgstr "أدخل عنوان Bitcoin (BTC) الخاص بنا كمستلم ، واتبع التعليمات لإرسال تبرعك:"
+#: allthethings/account/templates/account/donate.html:210
+msgid "page.donate.duration.intro"
+msgstr "اختر المدة التي ترغب بالاشتراك فيها."
 
-#: allthethings/account/templates/account/donate.html:475
-#: allthethings/account/templates/account/donate.html:489
-#: allthethings/account/templates/account/donation.html:349
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:387
-msgid "page.donate.strange_account"
-msgstr "لاحظ أن الاسم الحساب أو الصورة قد تبدو غريبة. لا داعي للقلق! هذه الحسابات تتم إدارتها من قبل شركاء التبرع. حساباتنا لم يتم اختراقها."
+#: allthethings/account/templates/account/donate.html:215
+msgid "page.donate.duration.1_mo"
+msgstr "شهر واحد"
 
-#: allthethings/account/templates/account/donate.html:485
-msgid "page.donate.one_time_payment.alipay.text"
-msgstr "الرجاء استخدام <a %(a_account)s> حساب Alipay هذا </a> لإرسال تبرعك."
+#: allthethings/account/templates/account/donate.html:216
+msgid "page.donate.duration.3_mo"
+msgstr "ثلاثة اشهر"
 
-#: allthethings/account/templates/account/donate.html:499
-msgid "page.donate.one_time_payment.pix.text"
-msgstr "الرجاء استخدام <a %(a_account)s> حساب Pix هذا </a> لإرسال تبرعك."
+#: allthethings/account/templates/account/donate.html:217
+msgid "page.donate.duration.6_mo"
+msgstr "ستة اشهر"
 
-#: allthethings/account/templates/account/donate.html:563
+#: allthethings/account/templates/account/donate.html:218
+msgid "page.donate.duration.12_mo"
+msgstr "سنة كاملة"
+
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.duration.24_mo"
+msgstr "٢٤ أشهر"
+
+#: allthethings/account/templates/account/donate.html:222
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>بعد <span %(span_discount)s></span> خصومات</div><div %(div_total)s></div><div %(div_duration)s></div>"
+
+#: allthethings/account/templates/account/donate.html:234
+msgid "page.donate.login"
+msgstr "لكي تصبح عضوًا، يرجى <a href=\"/login\">ادخل او سجل حساب جديد</a>. ان لم ترغب في انشاء حساب، اختر \"تبرع لمرة واحدة بشكل مجهول\" في الاعلى. شكرا على دعمك!"
+
+#: allthethings/account/templates/account/donate.html:273
+msgid "page.donate.submit.confirm"
+msgstr "اضغط على زر التبرع لتاكيد عملية التبرع."
+
+#: allthethings/account/templates/account/donate.html:281
+msgid "page.donate.submit.button"
+msgstr "تبرع <span %(span_cost)s></span> <span %(span_label)s></span>"
+
+#: allthethings/account/templates/account/donate.html:286
+msgid "page.donate.submit.cancel_note"
+msgstr "لا يزال بإمكانك إلغاء التبرع أثناء الخروج."
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.submit.success"
+msgstr "✅ إعادة التوجيه إلى صفحة التبرع …"
+
+#: allthethings/account/templates/account/donate.html:291
+msgid "page.donate.submit.failure"
+msgstr "❌ حدث خطأ ما. يرجى إعادة تحميل الصفحة وحاول مرة أخرى."
+
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:564
+#: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / شهر"
 
-#: allthethings/account/templates/account/donate.html:567
+#: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "لمدة ١ شهر"
 
-#: allthethings/account/templates/account/donate.html:568
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "لمدة ٣ شهر"
 
-#: allthethings/account/templates/account/donate.html:569
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "لمدة ٦ شهر"
 
-#: allthethings/account/templates/account/donate.html:570
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "لمدة ١٢ شهر"
 
-#: allthethings/account/templates/account/donate.html:571
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "لمدة ٢٤ شهر"
 
-#: allthethings/account/templates/account/donate.html:575
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "لمدة شهر واحد \"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:576
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "لمدة 3 أشهر “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:577
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "لمدة 6 اشهر “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:578
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "لمدة 12 شهرًا “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:579
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "لمدة 24 شهرًا %(tier_name)s"
 
@@ -425,63 +340,87 @@ msgstr "<span%(span_circle)s> 1 </span> التحويل إلى أحد حسابا�
 msgid "page.donation.payment.crypto.text1"
 msgstr "تبرع بالمبلغ الإجمالي لـ%(total)s لأحد هذه العناوين:"
 
-#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:105
+msgid "page.donate.submit.header1"
+msgstr "<span %(span_circle)s> 1 </span> اشترِ Bitcoin على Paypal"
+
+#: allthethings/account/templates/account/donation.html:108
+#: allthethings/account/templates/account/donation.html:142
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr "ابحث عن صفحة \"Crypto\" في تطبيق PayPal أو موقع الويب الخاص بك. هذا عادة ما يكون تحت \"الشؤون المالية\"."
+
+#: allthethings/account/templates/account/donation.html:112
 msgid "page.donation.payment.paypal.text3"
 msgstr "اتبع التعليمات لشراء Bitcoin (BTC). ما عليك سوى شراء المبلغ الذي تريد التبرع به ،%(total)s."
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:115
+msgid "page.donate.submit.header2"
+msgstr "<span%(span_circle)s> 2 </span> انقل البيتكوين إلى عنواننا"
+
+#: allthethings/account/templates/account/donation.html:118
+msgid "page.donate.one_time_payment.paypal.text4"
+msgstr "انتقل إلى صفحة \"Bitcoin\" في تطبيق PayPal أو موقع الويب الخاص بك. اضغط على الزر \"تحويل\"%(transfer_icon)s ، ثم \"إرسال\"."
+
+#: allthethings/account/templates/account/donation.html:122
 msgid "page.donation.payment.paypal.text5"
 msgstr "أدخل عنوان Bitcoin (BTC) الخاص بنا كمستلم ، واتبع التعليمات لإرسال تبرعك %(total)s:"
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:337
+#: allthethings/account/templates/account/donation.html:351
+#: allthethings/account/templates/account/donation.html:363
+#: allthethings/account/templates/account/donation.html:375
+msgid "page.donate.strange_account"
+msgstr "لاحظ أن الاسم الحساب أو الصورة قد تبدو غريبة. لا داعي للقلق! هذه الحسابات تتم إدارتها من قبل شركاء التبرع. حساباتنا لم يتم اختراقها."
+
+#: allthethings/account/templates/account/donation.html:354
 msgid "page.donation.payment.alipay.top_header"
 msgstr "تعليمات Alipay"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:356
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span%(span_circle)s> 1 </span> تبرع على Alipay"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:359
 msgid "page.donation.payment.alipay.text1"
 msgstr "تبرع بالمبلغ الإجمالي لـ%(total)s باستخدام <a%(a_account)s> حساب Alipay هذا"
 
-#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:366
 msgid "page.donation.payment.pix.top_header"
 msgstr "تعليمات Pix"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:368
 msgid "page.donation.payment.pix.header1"
 msgstr "<span%(span_circle)s> 1 </span> تبرع على Pix"
 
-#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:371
 msgid "page.donation.payment.pix.text1"
 msgstr "تبرع بالمبلغ الإجمالي لـ%(total)s باستخدام <a%(a_account)s> حساب Pix هذا"
 
-#: allthethings/account/templates/account/donation.html:392
+#: allthethings/account/templates/account/donation.html:380
 msgid "page.donation.footer.header"
 msgstr "<span%(span_circle)s>%(circle_number)s </span> أرسل لنا الإيصال بالبريد الإلكتروني"
 
-#: allthethings/account/templates/account/donation.html:398
+#: allthethings/account/templates/account/donation.html:386
 msgid "page.donation.footer.text1"
 msgstr "أرسل إيصالًا أو لقطة شاشة إلى عنوان التحقق الشخصي الخاص بك:"
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:396
 msgid "page.donation.footer.crypto_note"
 msgstr "إذا تذبذب سعر صرف العملة المشفرة أثناء المعاملة ، فتأكد من تضمين الإيصال الذي يوضح سعر الصرف الأصلي. نحن نقدر حقًا أنك تتحمل عناء استخدام العملات المشفرة ، فهي تساعدنا كثيرًا!"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:401
 msgid "page.donation.footer.text2"
 msgstr "عندما ترسل الإيصال بالبريد الإلكتروني ، انقر فوق هذا الزر ، حتى تتمكن آنا من مراجعته يدويًا (قد يستغرق ذلك بضعة أيام):"
 
-#: allthethings/account/templates/account/donation.html:423
+#: allthethings/account/templates/account/donation.html:411
 msgid "page.donation.footer.button"
 msgstr "نعم ، لقد قمت بإرسال إيصال بالبريد الإلكتروني"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:414
 msgid "page.donation.footer.success"
 msgstr "✅ شكرا لتبرعك! ستقوم آنا بتنشيط عضويتك يدويًا في غضون أيام قليلة."
 
-#: allthethings/account/templates/account/donation.html:427
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.footer.failure"
 msgstr "❌ حدث خطأ ما. يرجى إعادة تحميل الصفحة وحاول مرة أخرى."
 
@@ -499,22 +438,18 @@ msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s> هل لديك أساليب آخر للدفع؟ </div> حاليا لا. الكثير من الناس لا يريدون أرشيفات مثل هذا أن تكون موجود لذلك يجيب نكون حذرين. إذا استطعت ساعدنا اقامة أساليب آخر للدفع (أكثر ملائمة) بأمان الرجاء اتواصل علي %(email)s."
 
 #: allthethings/account/templates/account/donation_faq.html:17
-msgid "page.donate.faq.text_other_payment2"
-msgstr "إذا كانت طريقة دفعتك ليس في القائمة, أسهل شيء تفعله سيكون لتحميل<a href=\"https://paypal.com/\">PayPal</a> أو <a href=\"https://coinbase.com/\">Coinbase</a> على هاتفك, وشراء قليلا من \"Bitcoin (BTC)\" هناك. يمكنك بعد ذلك إرسالها إلى عنواننا: %(address)s. في معظم البلدان, هذا يجب أن يستغرق بضع دقائق فقط للإعداد."
-
-#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
 msgstr "<div class = \"font-bold\"> على ماذا تنفق التبرعات؟ </div> 100 %%ستعمل على الحفاظ على المعرفة والثقافة العالمية وجعلها في متناول الجميع. حاليًا ننفقه في الغالب على الخوادم والتخزين وعرض النطاق الترددي. لن يذهب أي أموال إلى أي من أعضاء الفريق شخصيًا."
 
-#: allthethings/account/templates/account/donation_faq.html:25
+#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>هل يمكنني أن أتبرع كمية كبيرة؟</div> سيكون ذلك مذهلا! من أجل التبرعات أكثر من بضعة آلاف الدولارات, يرجى الاتصال بنا مباشرة في%(email)s."
 
-#: allthethings/account/templates/account/donation_faq.html:29
+#: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div %(div_question)s>هل يمكنني المساهمة بطرق أخرى؟</div> نعم! انظر في <a href=\"/about\">صفحة حول</a> تحت \"كيفية المساعدة\"."
 
-#: allthethings/account/templates/account/donation_faq.html:33
+#: allthethings/account/templates/account/donation_faq.html:29
 msgid "page.donate.faq.monetizing"
 msgstr "<div class = \"font-bold\"> لا أحب أنك \"تحقق الدخل\" من أرشيف Anna! </div> إذا لم تعجبك الطريقة التي ندير بها مشروعنا ، فقم بتشغيل مكتبة الظل الخاصة بك! جميع التعليمات البرمجية والبيانات لدينا مفتوحة المصدر ، لذلك لا شيء يمنعك. ؛)"
 
@@ -1573,4 +1508,40 @@ msgstr "منسوخ!"
 
 #~ msgid "page.search.breadcrumbs.new"
 #~ msgstr "بحث ◀ بحث جديد"
+
+#~ msgid "page.donate.header.text3"
+#~ msgstr "يمكنك ايضا التبرع دون الحاجة لانشاء حساب (نفس طرق الدفع مدعومة للتبرعات الفردية وكذلك للعضويات):"
+
+#~ msgid "page.donate.buttons.one_time"
+#~ msgstr "تبرع لمرة واحدة بشكل مجهول (لا مزايا)"
+
+#~ msgid "page.donate.one_time_payment.intro"
+#~ msgstr "حدد خيار الدفع. يرجى التفكير في استخدام الدفع المستند إلى التشفير %(bitcoin_icon)s ، لأننا نتحمل (طريقة) رسوم أقل."
+
+#~ msgid "page.donate.crypto.intro"
+#~ msgstr "إذا كان لديك بالفعل أموال مشفرة ، فهذه هي عناويننا."
+
+#~ msgid "page.donate.text_thank_you"
+#~ msgstr "شكرا جزيلا للمساعدة! لن يكون هذا المشروع ممكنًا بدونكم."
+
+#~ msgid "page.donate.one_time_payment.paypal.text1"
+#~ msgstr "للتبرع باستخدام PayPal US ، سنستخدم PayPal Crypto ، والذي يتيح لنا عدم الكشف عن هويتنا. نحن نقدر لك الوقت الذي تقضيه في تعلم كيفية التبرع باستخدام هذه الطريقة ، لأنها تساعدنا كثيرًا."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3"
+#~ msgstr "اتبع التعليمات لشراء Bitcoin (BTC). ما عليك سوى شراء المبلغ الذي تريد التبرع به."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3b"
+#~ msgstr "إذا فقدت بعض عملات البيتكوين بسبب التقلبات أو الرسوم ، <em> من فضلك لا تقلق </em>. هذا أمر طبيعي مع العملات المشفرة ، لكنه يسمح لنا بالعمل دون الكشف عن هويتنا."
+
+#~ msgid "page.donate.one_time_payment.paypal.text5"
+#~ msgstr "أدخل عنوان Bitcoin (BTC) الخاص بنا كمستلم ، واتبع التعليمات لإرسال تبرعك:"
+
+#~ msgid "page.donate.one_time_payment.alipay.text"
+#~ msgstr "الرجاء استخدام <a %(a_account)s> حساب Alipay هذا </a> لإرسال تبرعك."
+
+#~ msgid "page.donate.one_time_payment.pix.text"
+#~ msgstr "الرجاء استخدام <a %(a_account)s> حساب Pix هذا </a> لإرسال تبرعك."
+
+#~ msgid "page.donate.faq.text_other_payment2"
+#~ msgstr "إذا كانت طريقة دفعتك ليس في القائمة, أسهل شيء تفعله سيكون لتحميل<a href=\"https://paypal.com/\">PayPal</a> أو <a href=\"https://coinbase.com/\">Coinbase</a> على هاتفك, وشراء قليلا من \"Bitcoin (BTC)\" هناك. يمكنك بعد ذلك إرسالها إلى عنواننا: %(address)s. في معظم البلدان, هذا يجب أن يستغرق بضع دقائق فقط للإعداد."
 

@@ -14,23 +14,23 @@ msgstr "Bleščeči hranilec podatkov"
 msgid "common.membership.tier_name.5"
 msgstr "Čudovit arhivar"
 
-#: allthethings/account/views.py:254
+#: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "neplačljivo"
 
-#: allthethings/account/views.py:255
+#: allthethings/account/views.py:254
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "plačljivo"
 
-#: allthethings/account/views.py:256
+#: allthethings/account/views.py:255
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "preklicano"
 
-#: allthethings/account/views.py:257
+#: allthethings/account/views.py:256
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "potečeno"
 
-#: allthethings/account/views.py:258
+#: allthethings/account/views.py:257
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "čakam na Annino potrditev"
 
@@ -106,240 +106,155 @@ msgid "page.donate.perks.adopt"
 msgstr "»Posvojite torrent«: vaše uporabniško ime ali sporočilo v imenu datoteke torrent <div %(div_months)s>enkrat na vsakih 12 mesecev članstva</div>"
 
 #: allthethings/account/templates/account/donate.html:84
-msgid "page.donate.header.text3"
-msgstr "Donirate lahko tudi brez ustvarjanja računa:"
-
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donate.html:88
-msgid "page.donate.buttons.one_time"
-msgstr "Enkratna donacija (brez ugodnosti)"
-
-#: allthethings/account/templates/account/donate.html:95
-msgid "page.donate.payment.intro"
-msgstr "Izberite možnost plačila. Dajemo popuste za kripto plačila %(bitcoin_icon)s, ker imamo (veliko) manj stroškov."
-
-#: allthethings/account/templates/account/donate.html:96
-msgid "page.donate.payment.intro2"
-msgstr "Izberite možnost plačila. Trenutno so na voljo le kripto-osnovana plačila %(bitcoin_icon)s, ker tradicionalni plačilni procesorji nočejo sodelovati z nami."
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:311
-#: allthethings/account/templates/account/donate.html:321
-msgid "page.donate.payment.buttons.crypto"
-msgstr "Kripto %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/donate.html:116
-#: allthethings/account/templates/account/donate.html:117
-#: allthethings/account/templates/account/donate.html:221
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:223
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.discount"
-msgstr "-%(percentage)s%%"
-
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:313
-msgid "page.donate.payment.buttons.paypal"
-msgstr "PayPal (ZDA) %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:110
-#: allthethings/account/templates/account/donate.html:319
-msgid "page.donate.payment.buttons.alipay"
-msgstr "Alipay"
-
-#: allthethings/account/templates/account/donate.html:111
-#: allthethings/account/templates/account/donate.html:320
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (Brazilija)"
-
-#: allthethings/account/templates/account/donate.html:126
-msgid "page.donate.payment.desc.crypto"
-msgstr "S kriptovalutami lahko donirate z uporabo BTC, ETH, XMR in SOL. Uporabite to možnost, če ste že seznanjeni s kriptovalutami."
-
-#: allthethings/account/templates/account/donate.html:142
-msgid "page.donate.payment.desc.paypal"
-msgstr "Za doniranje s PayPal US bomo uporabili PayPal Crypto, ki nam omogoča, da ostanemo anonimni. Cenimo, da ste si vzeli čas in se naučili darovati s to metodo, saj nam zelo pomaga."
-
-#: allthethings/account/templates/account/donate.html:215
-msgid "page.donate.duration.intro"
-msgstr "Izberite, za koliko časa se želite naročiti."
-
-#: allthethings/account/templates/account/donate.html:220
-msgid "page.donate.duration.1_mo"
-msgstr "1 mesec"
-
-#: allthethings/account/templates/account/donate.html:221
-msgid "page.donate.duration.3_mo"
-msgstr "3 mesece"
-
-#: allthethings/account/templates/account/donate.html:222
-msgid "page.donate.duration.6_mo"
-msgstr "6 mesecev"
-
-#: allthethings/account/templates/account/donate.html:223
-msgid "page.donate.duration.12_mo"
-msgstr "12 mesecev"
-
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.duration.24_mo"
-msgstr "24 mesecev"
-
-#: allthethings/account/templates/account/donate.html:227
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>po <span %(span_discount)s></span> popustih</div><div %(div_total)s></div> <div %(div_duration)s></div>"
-
-#: allthethings/account/templates/account/donate.html:239
-msgid "page.donate.login"
-msgstr "Če želite postati član, se <a href=\"/login\">prijavite ali registrirajte</a>. Če ne želite ustvariti računa, izberite zgoraj »Izvedi enkratno anonimno donacijo«. Hvala za tvojo podporo!"
-
-#: allthethings/account/templates/account/donate.html:278
-msgid "page.donate.submit.confirm"
-msgstr "Kliknite gumb doniraj, da potrdite to donacijo."
-
-#: allthethings/account/templates/account/donate.html:286
-msgid "page.donate.submit.button"
-msgstr "Donirajte <span %(span_cost)s></span> <span %(span_label)s></span>"
-
-#: allthethings/account/templates/account/donate.html:291
-msgid "page.donate.submit.cancel_note"
-msgstr "Donacijo lahko še vedno prekličete postopkom."
-
-#: allthethings/account/templates/account/donate.html:295
-msgid "page.donate.submit.success"
-msgstr "✅ Preusmeritev na stran za donacije…"
-
-#: allthethings/account/templates/account/donate.html:296
-msgid "page.donate.submit.failure"
-msgstr "❌ Nekaj je šlo narobe. Prosimo ponovno naložite stran in poskusite znova."
-
-#: allthethings/account/templates/account/donate.html:303
-msgid "page.donate.one_time_payment.intro"
-msgstr "Izberite možnost plačila. Prosimo, razmislite o uporabi kripto plačila %(bitcoin_icon)s, ker imamo (veliko) manj stroškov."
-
-#: allthethings/account/templates/account/donate.html:307
 msgid "page.donate.header.large_donations"
 msgstr "Za donacije nad 5000 USD nas kontaktirajte neposredno na <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@proton.me</a>."
 
-#: allthethings/account/templates/account/donate.html:333
-msgid "page.donate.crypto.intro"
-msgstr "Če že imate kripto valute, so to naši naslovi."
+#: allthethings/account/templates/account/donate.html:90
+msgid "page.donate.payment.intro"
+msgstr "Izberite možnost plačila. Dajemo popuste za kripto plačila %(bitcoin_icon)s, ker imamo (veliko) manj stroškov."
 
-#: allthethings/account/templates/account/donate.html:344
-#: allthethings/account/templates/account/donate.html:378
-#: allthethings/account/templates/account/donate.html:416
-#: allthethings/account/templates/account/donate.html:479
-#: allthethings/account/templates/account/donate.html:493
-#: allthethings/account/templates/account/donate.html:503
-msgid "page.donate.text_thank_you"
-msgstr "Najlepša hvala za pomoč! Brez vas tega projekta ne bi bilo."
+#: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.payment.intro2"
+msgstr "Izberite možnost plačila. Trenutno so na voljo le kripto-osnovana plačila %(bitcoin_icon)s, ker tradicionalni plačilni procesorji nočejo sodelovati z nami."
 
-#: allthethings/account/templates/account/donate.html:384
-msgid "page.donate.one_time_payment.paypal.text1"
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:107
+msgid "page.donate.payment.buttons.crypto"
+msgstr "Kripto %(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
+
+#: allthethings/account/templates/account/donate.html:99
+msgid "page.donate.payment.buttons.paypal"
+msgstr "PayPal (ZDA) %(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:105
+msgid "page.donate.payment.buttons.alipay"
+msgstr "Alipay"
+
+#: allthethings/account/templates/account/donate.html:106
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (Brazilija)"
+
+#: allthethings/account/templates/account/donate.html:121
+msgid "page.donate.payment.desc.crypto"
+msgstr "S kriptovalutami lahko donirate z uporabo BTC, ETH, XMR in SOL. Uporabite to možnost, če ste že seznanjeni s kriptovalutami."
+
+#: allthethings/account/templates/account/donate.html:137
+msgid "page.donate.payment.desc.paypal"
 msgstr "Za doniranje s PayPal US bomo uporabili PayPal Crypto, ki nam omogoča, da ostanemo anonimni. Cenimo, da ste si vzeli čas in se naučili darovati s to metodo, saj nam zelo pomaga."
 
-#: allthethings/account/templates/account/donate.html:387
-#: allthethings/account/templates/account/donation.html:114
-msgid "page.donate.submit.header1"
-msgstr "<span %(span_circle)s>1</span>Kupite Bitcoin na Paypalu"
+#: allthethings/account/templates/account/donate.html:210
+msgid "page.donate.duration.intro"
+msgstr "Izberite, za koliko časa se želite naročiti."
 
-#: allthethings/account/templates/account/donate.html:390
-#: allthethings/account/templates/account/donation.html:117
-#: allthethings/account/templates/account/donation.html:154
-msgid "page.donate.one_time_payment.paypal.text2"
-msgstr "Poiščite stran »Kripto« v svoji aplikaciji ali spletnem mestu PayPal. To se običajno nahaja pod opcijo »Finance«."
+#: allthethings/account/templates/account/donate.html:215
+msgid "page.donate.duration.1_mo"
+msgstr "1 mesec"
 
-#: allthethings/account/templates/account/donate.html:394
-msgid "page.donate.one_time_payment.paypal.text3"
-msgstr "Sledite navodilom za nakup Bitcoin (BTC). Kupiti morate le znesek, ki ga želite donirati."
+#: allthethings/account/templates/account/donate.html:216
+msgid "page.donate.duration.3_mo"
+msgstr "3 mesece"
 
-#: allthethings/account/templates/account/donate.html:398
-msgid "page.donate.one_time_payment.paypal.text3b"
-msgstr "Če izgubite nekaj bitcoinov zaradi nihanj ali provizij, <em>ne skrbite</em>. To je normalno pri kriptovaluti, vendar nam omogoča, da delujemo anonimno."
+#: allthethings/account/templates/account/donate.html:217
+msgid "page.donate.duration.6_mo"
+msgstr "6 mesecev"
 
-#: allthethings/account/templates/account/donate.html:401
-#: allthethings/account/templates/account/donation.html:124
-msgid "page.donate.submit.header2"
-msgstr "<span %(span_circle)s>2</span>Prenesite Bitcoin na naš naslov"
+#: allthethings/account/templates/account/donate.html:218
+msgid "page.donate.duration.12_mo"
+msgstr "12 mesecev"
 
-#: allthethings/account/templates/account/donate.html:404
-#: allthethings/account/templates/account/donation.html:127
-msgid "page.donate.one_time_payment.paypal.text4"
-msgstr "Pojdite na stran »Bitcoin« v aplikaciji ali spletnem mestu PayPal. Pritisnite gumb »Prenos« %(transfer_icon)s in nato »Pošlji«."
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.duration.24_mo"
+msgstr "24 mesecev"
 
-#: allthethings/account/templates/account/donate.html:408
-msgid "page.donate.one_time_payment.paypal.text5"
-msgstr "Vnesite naš Bitcoin (BTC) naslov kot prejemnika in sledite navodilom za pošiljanje donacije:"
+#: allthethings/account/templates/account/donate.html:222
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>po <span %(span_discount)s></span> popustih</div><div %(div_total)s></div> <div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:475
-#: allthethings/account/templates/account/donate.html:489
-#: allthethings/account/templates/account/donation.html:349
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:387
-msgid "page.donate.strange_account"
-msgstr "Ime računa ali slika sta lahko videti nenavadna. Brez skrbi! Te račune upravljajo naši donatorski partnerji. Naši računi niso bili vdrti."
+#: allthethings/account/templates/account/donate.html:234
+msgid "page.donate.login"
+msgstr "Če želite postati član, se <a href=\"/login\">prijavite ali registrirajte</a>. Če ne želite ustvariti računa, izberite zgoraj »Izvedi enkratno anonimno donacijo«. Hvala za tvojo podporo!"
 
-#: allthethings/account/templates/account/donate.html:485
-msgid "page.donate.one_time_payment.alipay.text"
-msgstr "Za pošiljanje donacije uporabite <a %(a_account)s>ta račun Alipay</a>."
+#: allthethings/account/templates/account/donate.html:273
+msgid "page.donate.submit.confirm"
+msgstr "Kliknite gumb doniraj, da potrdite to donacijo."
 
-#: allthethings/account/templates/account/donate.html:499
-msgid "page.donate.one_time_payment.pix.text"
-msgstr "Za pošiljanje donacije uporabite <a %(a_account)s>ta račun Pix</a>."
+#: allthethings/account/templates/account/donate.html:281
+msgid "page.donate.submit.button"
+msgstr "Donirajte <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:563
+#: allthethings/account/templates/account/donate.html:286
+msgid "page.donate.submit.cancel_note"
+msgstr "Donacijo lahko še vedno prekličete postopkom."
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.submit.success"
+msgstr "✅ Preusmeritev na stran za donacije…"
+
+#: allthethings/account/templates/account/donate.html:291
+msgid "page.donate.submit.failure"
+msgstr "❌ Nekaj je šlo narobe. Prosimo ponovno naložite stran in poskusite znova."
+
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:564
+#: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s/mesec"
 
-#: allthethings/account/templates/account/donate.html:567
+#: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "za 1 mesec"
 
-#: allthethings/account/templates/account/donate.html:568
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "za 3 mesece"
 
-#: allthethings/account/templates/account/donate.html:569
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "za 6 mesecev"
 
-#: allthethings/account/templates/account/donate.html:570
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "za 12 mesecev"
 
-#: allthethings/account/templates/account/donate.html:571
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "za 24 mesecev"
 
-#: allthethings/account/templates/account/donate.html:575
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "za 1 mesec »%(tier_name)s«"
 
-#: allthethings/account/templates/account/donate.html:576
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "za 3 mesece »%(tier_name)s«"
 
-#: allthethings/account/templates/account/donate.html:577
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "za 6 mesecev »%(tier_name)s«"
 
-#: allthethings/account/templates/account/donate.html:578
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "za 12 mesecev »%(tier_name)s«"
 
-#: allthethings/account/templates/account/donate.html:579
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "za 24 mesecev »%(tier_name)s«"
 
@@ -425,63 +340,87 @@ msgstr "<span %(span_circle)s>1</span>Prenos na enega od naših kripto računov"
 msgid "page.donation.payment.crypto.text1"
 msgstr "Donirajte skupni znesek %(total)s na enega od teh naslovov:"
 
-#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:105
+msgid "page.donate.submit.header1"
+msgstr "<span %(span_circle)s>1</span>Kupite Bitcoin na Paypalu"
+
+#: allthethings/account/templates/account/donation.html:108
+#: allthethings/account/templates/account/donation.html:142
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr "Poiščite stran »Kripto« v svoji aplikaciji ali spletnem mestu PayPal. To se običajno nahaja pod opcijo »Finance«."
+
+#: allthethings/account/templates/account/donation.html:112
 msgid "page.donation.payment.paypal.text3"
 msgstr "Sledite navodilom za nakup Bitcoin (BTC). Kupiti morate samo znesek, ki ga želite donirati, %(total)s."
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:115
+msgid "page.donate.submit.header2"
+msgstr "<span %(span_circle)s>2</span>Prenesite Bitcoin na naš naslov"
+
+#: allthethings/account/templates/account/donation.html:118
+msgid "page.donate.one_time_payment.paypal.text4"
+msgstr "Pojdite na stran »Bitcoin« v aplikaciji ali spletnem mestu PayPal. Pritisnite gumb »Prenos« %(transfer_icon)s in nato »Pošlji«."
+
+#: allthethings/account/templates/account/donation.html:122
 msgid "page.donation.payment.paypal.text5"
 msgstr "Vnesite naš naslov Bitcoin (BTC) kot prejemnika in sledite navodilom za pošiljanje donacije %(total)s:"
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:337
+#: allthethings/account/templates/account/donation.html:351
+#: allthethings/account/templates/account/donation.html:363
+#: allthethings/account/templates/account/donation.html:375
+msgid "page.donate.strange_account"
+msgstr "Ime računa ali slika sta lahko videti nenavadna. Brez skrbi! Te račune upravljajo naši donatorski partnerji. Naši računi niso bili vdrti."
+
+#: allthethings/account/templates/account/donation.html:354
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Alipay navodila"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:356
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Donirajte na Alipay"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:359
 msgid "page.donation.payment.alipay.text1"
 msgstr "Donirajte skupni znesek %(total)s z uporabo <a %(a_account)s>tega računa Alipay"
 
-#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:366
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix navodila"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:368
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Donirajte za Pix"
 
-#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:371
 msgid "page.donation.payment.pix.text1"
 msgstr "Donirajte skupni znesek %(total)s z <a %(a_account)s>tem računom Pix"
 
-#: allthethings/account/templates/account/donation.html:392
+#: allthethings/account/templates/account/donation.html:380
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Pošljite nam potrdilo po e-pošti"
 
-#: allthethings/account/templates/account/donation.html:398
+#: allthethings/account/templates/account/donation.html:386
 msgid "page.donation.footer.text1"
 msgstr "Pošljite potrdilo ali posnetek zaslona na svoj osebni naslov za preverjanje:"
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:396
 msgid "page.donation.footer.crypto_note"
 msgstr "Če je tečaj kriptovalute med transakcijo nihal, obvezno priložite potrdilo, ki prikazuje prvotni menjalni tečaj. Resnično cenimo, da ste se potrudili pri uporabi kriptovalute, zelo nam pomaga!"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:401
 msgid "page.donation.footer.text2"
 msgstr "Ko pošljete potrdilo po e-pošti, kliknite ta gumb, da ga bo Anna lahko ročno pregledala (to lahko traja nekaj dni):"
 
-#: allthethings/account/templates/account/donation.html:423
+#: allthethings/account/templates/account/donation.html:411
 msgid "page.donation.footer.button"
 msgstr "Da, potrdilo sem poslal po e-pošti"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:414
 msgid "page.donation.footer.success"
 msgstr "✅ Hvala za vašo donacijo! Anna bo v nekaj dneh ročno aktivirala vaše članstvo."
 
-#: allthethings/account/templates/account/donation.html:427
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.footer.failure"
 msgstr "❌ Nekaj je šlo narobe. Ponovno naložite stran in poskusite znova."
 
@@ -499,22 +438,18 @@ msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>Ali imate druge načine plačila?</div> Trenutno ne. Veliko ljudi si ne želi, da bi takšni arhivi obstajali, zato moramo biti previdni. Če nam lahko pomagate vzpostaviti druge (priročnejše) načine varnega plačila, se obrnite na %(email)s."
 
 #: allthethings/account/templates/account/donation_faq.html:17
-msgid "page.donate.faq.text_other_payment2"
-msgstr "Če vašega plačilnega sredstva ni na seznamu, bi bilo najlažje prenesti <a href=\"https://paypal.com/\">PayPal</a> ali <a href=\"https://coinbase .com/\">Coinbase</a> v telefonu in tam kupite delček Bitcoina (BTC). Nato ga lahko pošljete na naš naslov: %(address)s. V večini držav bi ta nastavitev trajala le nekaj minut."
-
-#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>Za kaj porabite donacije?</div> 100%% gre za ohranjanje in omogočanje dostopa do svetovnega znanja in kulture. Trenutno ga večinoma porabimo za strežnike, diskovni prostor in pasovno širino. Noben denar ne gre nobenemu članu ekipe osebno."
 
-#: allthethings/account/templates/account/donation_faq.html:25
+#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Ali lahko prispevam veliko?</div> To bi bilo neverjetno! Za donacije nad nekaj tisoč dolarjev nas kontaktirajte neposredno na %(email)s."
 
-#: allthethings/account/templates/account/donation_faq.html:29
+#: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div %(div_question)s>Ali lahko prispevam na druge načine?</div> Da! Oglejte si <a href=\"/about\">stran o tem</a> pod “Kako pomagati”."
 
-#: allthethings/account/templates/account/donation_faq.html:33
+#: allthethings/account/templates/account/donation_faq.html:29
 msgid "page.donate.faq.monetizing"
 msgstr "<div %(div_question)s>Ni mi všeč, da »monetizirate« Annin arhiv!</div> Če vam ni všeč, kako upravljamo naš projekt, zaženite svojo knjižnico v senci! Vsa naša koda in podatki so odprtokodni, zato za to ovir. ;)"
 
@@ -1444,4 +1379,40 @@ msgstr "kopirano!"
 
 #~ msgid "page.search.breadcrumbs.new"
 #~ msgstr "Iskanje ▶ Novo iskanje"
+
+#~ msgid "page.donate.header.text3"
+#~ msgstr "Donirate lahko tudi brez ustvarjanja računa:"
+
+#~ msgid "page.donate.buttons.one_time"
+#~ msgstr "Enkratna donacija (brez ugodnosti)"
+
+#~ msgid "page.donate.one_time_payment.intro"
+#~ msgstr "Izberite možnost plačila. Prosimo, razmislite o uporabi kripto plačila %(bitcoin_icon)s, ker imamo (veliko) manj stroškov."
+
+#~ msgid "page.donate.crypto.intro"
+#~ msgstr "Če že imate kripto valute, so to naši naslovi."
+
+#~ msgid "page.donate.text_thank_you"
+#~ msgstr "Najlepša hvala za pomoč! Brez vas tega projekta ne bi bilo."
+
+#~ msgid "page.donate.one_time_payment.paypal.text1"
+#~ msgstr "Za doniranje s PayPal US bomo uporabili PayPal Crypto, ki nam omogoča, da ostanemo anonimni. Cenimo, da ste si vzeli čas in se naučili darovati s to metodo, saj nam zelo pomaga."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3"
+#~ msgstr "Sledite navodilom za nakup Bitcoin (BTC). Kupiti morate le znesek, ki ga želite donirati."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3b"
+#~ msgstr "Če izgubite nekaj bitcoinov zaradi nihanj ali provizij, <em>ne skrbite</em>. To je normalno pri kriptovaluti, vendar nam omogoča, da delujemo anonimno."
+
+#~ msgid "page.donate.one_time_payment.paypal.text5"
+#~ msgstr "Vnesite naš Bitcoin (BTC) naslov kot prejemnika in sledite navodilom za pošiljanje donacije:"
+
+#~ msgid "page.donate.one_time_payment.alipay.text"
+#~ msgstr "Za pošiljanje donacije uporabite <a %(a_account)s>ta račun Alipay</a>."
+
+#~ msgid "page.donate.one_time_payment.pix.text"
+#~ msgstr "Za pošiljanje donacije uporabite <a %(a_account)s>ta račun Pix</a>."
+
+#~ msgid "page.donate.faq.text_other_payment2"
+#~ msgstr "Če vašega plačilnega sredstva ni na seznamu, bi bilo najlažje prenesti <a href=\"https://paypal.com/\">PayPal</a> ali <a href=\"https://coinbase .com/\">Coinbase</a> v telefonu in tam kupite delček Bitcoina (BTC). Nato ga lahko pošljete na naš naslov: %(address)s. V večini držav bi ta nastavitev trajala le nekaj minut."
 

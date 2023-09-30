@@ -14,23 +14,23 @@ msgstr "Állhatatos Adathalmozó"
 msgid "common.membership.tier_name.5"
 msgstr "Lélekvarázsló Levéltáros"
 
-#: allthethings/account/views.py:254
+#: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "nem fizetett"
 
-#: allthethings/account/views.py:255
+#: allthethings/account/views.py:254
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "fizetett"
 
-#: allthethings/account/views.py:256
+#: allthethings/account/views.py:255
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "visszamondott"
 
-#: allthethings/account/views.py:257
+#: allthethings/account/views.py:256
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "lejárt"
 
-#: allthethings/account/views.py:258
+#: allthethings/account/views.py:257
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "várakozás Anna jóváhagyására"
 
@@ -106,240 +106,155 @@ msgid "page.donate.perks.adopt"
 msgstr "“Torrent örökbefogadása”: a felhasználóneved vagy üzeneted egy torrent fájlnévben <div %(div_months)s>12 havonta egyszer a tagság ideje alatt</div>"
 
 #: allthethings/account/templates/account/donate.html:84
-msgid "page.donate.header.text3"
-msgstr "Fiók létrehozása nélkül is adományozhatsz:"
-
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donate.html:88
-msgid "page.donate.buttons.one_time"
-msgstr "Egyszeri adományozás (előnyök nélkül)"
-
-#: allthethings/account/templates/account/donate.html:95
-msgid "page.donate.payment.intro"
-msgstr "Válaszd ki a fizetési módot. Kedvezményeket adunk a kripto alapú fizetésekhez %(bitcoin_icon)s, mert így (sokkal) kevesebb díjjal kell számolnunk."
-
-#: allthethings/account/templates/account/donate.html:96
-msgid "page.donate.payment.intro2"
-msgstr "Válassz ki egy fizetési módot. Jelenleg csak kripto alapú fizetések vannak %(bitcoin_icon)s, mivel a hagyományos fizetési szolgáltatók nem hajlandóak velünk működni."
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:311
-#: allthethings/account/templates/account/donate.html:321
-msgid "page.donate.payment.buttons.crypto"
-msgstr "Kripto %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/donate.html:116
-#: allthethings/account/templates/account/donate.html:117
-#: allthethings/account/templates/account/donate.html:221
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:223
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.discount"
-msgstr "-%(percentage)s%%"
-
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:313
-msgid "page.donate.payment.buttons.paypal"
-msgstr "PayPal (USA) %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:110
-#: allthethings/account/templates/account/donate.html:319
-msgid "page.donate.payment.buttons.alipay"
-msgstr "Alipay"
-
-#: allthethings/account/templates/account/donate.html:111
-#: allthethings/account/templates/account/donate.html:320
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (Brazília)"
-
-#: allthethings/account/templates/account/donate.html:126
-msgid "page.donate.payment.desc.crypto"
-msgstr "A kriptovaluták segítségével BTC, ETH, XMR és SOL segítségével adományozhatsz. Akkor használd ezt a lehetőséget, ha már jártas vagy a kriptovalutában."
-
-#: allthethings/account/templates/account/donate.html:142
-msgid "page.donate.payment.desc.paypal"
-msgstr "A PayPal US segítségével történő adományozáshoz a PayPal Crypto-t fogjuk használni, amely lehetővé teszi számunkra, hogy anonimak maradjunk. Köszönjük, hogy időt szánsz arra, hogy megtanulod, hogyan adományozhatsz ezzel a módszerrel, mivel ez sokat segít nekünk."
-
-#: allthethings/account/templates/account/donate.html:215
-msgid "page.donate.duration.intro"
-msgstr "Válaszd ki, hogy mennyi időre szeretnél feliratkozni."
-
-#: allthethings/account/templates/account/donate.html:220
-msgid "page.donate.duration.1_mo"
-msgstr "1 hónap"
-
-#: allthethings/account/templates/account/donate.html:221
-msgid "page.donate.duration.3_mo"
-msgstr "3 hónap"
-
-#: allthethings/account/templates/account/donate.html:222
-msgid "page.donate.duration.6_mo"
-msgstr "6 hónap"
-
-#: allthethings/account/templates/account/donate.html:223
-msgid "page.donate.duration.12_mo"
-msgstr "12 hónap"
-
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.duration.24_mo"
-msgstr "24 hónap"
-
-#: allthethings/account/templates/account/donate.html:227
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>után<span %(span_discount)s></span> kedvezmények</div><div %(div_total)s></div><div %(div_duration)s></div>"
-
-#: allthethings/account/templates/account/donate.html:239
-msgid "page.donate.login"
-msgstr "Ha tag szeretnél lenni, kérjük, <a href=\"/login\">Jelentkezz be vagy Regisztrálj.</a> Ha nem szeretnél fiókot létrehozni, válaszd a fenti “Egyszeri névtelen adományozás” lehetőséget. Köszönjük támogatást!"
-
-#: allthethings/account/templates/account/donate.html:278
-msgid "page.donate.submit.confirm"
-msgstr "Kattints az adományozás gombra az adományozás megerősítéséhez."
-
-#: allthethings/account/templates/account/donate.html:286
-msgid "page.donate.submit.button"
-msgstr "Adományozás <span %(span_cost)s></span> <span %(span_label)s></span>"
-
-#: allthethings/account/templates/account/donate.html:291
-msgid "page.donate.submit.cancel_note"
-msgstr "Az adományozást még lemondhatod a kifizetés során."
-
-#: allthethings/account/templates/account/donate.html:295
-msgid "page.donate.submit.success"
-msgstr "✅ Átirányítás az adományozási oldalra…"
-
-#: allthethings/account/templates/account/donate.html:296
-msgid "page.donate.submit.failure"
-msgstr "❌Valami rosszul sikerült. Töltsd újra az oldalt és próbáld meg újra."
-
-#: allthethings/account/templates/account/donate.html:303
-msgid "page.donate.one_time_payment.intro"
-msgstr "Válaszd ki a fizetési módot. Kérjük, fontold meg a kripto alapú fizetés %(bitcoin_icon)s használatát, mert így (sokkal) kevesebb díjjal kell számolnunk."
-
-#: allthethings/account/templates/account/donate.html:307
 msgid "page.donate.header.large_donations"
 msgstr "$5000 feletti adományok esetén lépj velünk közvetlenül kapcsolatba a következő címen: <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
 
-#: allthethings/account/templates/account/donate.html:333
-msgid "page.donate.crypto.intro"
-msgstr "Ha már van kriptovalutád, az alábbiak a címeink."
+#: allthethings/account/templates/account/donate.html:90
+msgid "page.donate.payment.intro"
+msgstr "Válaszd ki a fizetési módot. Kedvezményeket adunk a kripto alapú fizetésekhez %(bitcoin_icon)s, mert így (sokkal) kevesebb díjjal kell számolnunk."
 
-#: allthethings/account/templates/account/donate.html:344
-#: allthethings/account/templates/account/donate.html:378
-#: allthethings/account/templates/account/donate.html:416
-#: allthethings/account/templates/account/donate.html:479
-#: allthethings/account/templates/account/donate.html:493
-#: allthethings/account/templates/account/donate.html:503
-msgid "page.donate.text_thank_you"
-msgstr "Köszönjük hogy segítesz! Ez a projekt nem lenne lehetséges nélküled."
+#: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.payment.intro2"
+msgstr "Válassz ki egy fizetési módot. Jelenleg csak kripto alapú fizetések vannak %(bitcoin_icon)s, mivel a hagyományos fizetési szolgáltatók nem hajlandóak velünk működni."
 
-#: allthethings/account/templates/account/donate.html:384
-msgid "page.donate.one_time_payment.paypal.text1"
-msgstr "A PayPal US segítségével történő adományozáshoz a PayPal Crypto-t fogjuk használni, amely lehetővé teszi számunkra, hogy anonimak maradjunk. Nagyra értékeljük, hogy időt szánsz arra, hogy megtanuld, hogyan adományozhatsz ezzel a módszerrel, mivel ez sokat segít nekünk."
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:107
+msgid "page.donate.payment.buttons.crypto"
+msgstr "Kripto %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:387
-#: allthethings/account/templates/account/donation.html:114
-msgid "page.donate.submit.header1"
-msgstr "<span %(span_circle)s>1</span>Bitcoin vásárlása Paypalon"
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:390
-#: allthethings/account/templates/account/donation.html:117
-#: allthethings/account/templates/account/donation.html:154
-msgid "page.donate.one_time_payment.paypal.text2"
-msgstr "Találd meg a “Crypto” oldalt a PayPal alkalmazásban vagy a PayPal weboldalon. Ez általában a “Pénzügyek” alatt található."
+#: allthethings/account/templates/account/donate.html:99
+msgid "page.donate.payment.buttons.paypal"
+msgstr "PayPal (USA) %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:394
-msgid "page.donate.one_time_payment.paypal.text3"
-msgstr "Kövesd az utasításokat a Bitcoin (BTC) vásárlásához. Csak annyi összeget kell vásárolnod, amennyit adományozni szeretnél."
+#: allthethings/account/templates/account/donate.html:105
+msgid "page.donate.payment.buttons.alipay"
+msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:398
-msgid "page.donate.one_time_payment.paypal.text3b"
-msgstr "Ha az ingadozások vagy díjak miatt néhány Bitcoint elveszítenél, <em>ne aggódj</em>. Ez normális a kriptovalutáknál, de lehetővé teszi számunkra, hogy névtelenül működjünk."
+#: allthethings/account/templates/account/donate.html:106
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (Brazília)"
 
-#: allthethings/account/templates/account/donate.html:401
-#: allthethings/account/templates/account/donation.html:124
-msgid "page.donate.submit.header2"
-msgstr "<span %(span_circle)s>2</span>A Bitcoin átutalása a címünkre"
+#: allthethings/account/templates/account/donate.html:121
+msgid "page.donate.payment.desc.crypto"
+msgstr "A kriptovaluták segítségével BTC, ETH, XMR és SOL segítségével adományozhatsz. Akkor használd ezt a lehetőséget, ha már jártas vagy a kriptovalutában."
 
-#: allthethings/account/templates/account/donate.html:404
-#: allthethings/account/templates/account/donation.html:127
-msgid "page.donate.one_time_payment.paypal.text4"
-msgstr "Menj a “Bitcoin” lapra a PayPal alkalmazásban vagy a weboldalon. Nyomd meg az “Átutalás” gombot %(transfer_icon)s, majd “Küldés” gombot."
+#: allthethings/account/templates/account/donate.html:137
+msgid "page.donate.payment.desc.paypal"
+msgstr "A PayPal US segítségével történő adományozáshoz a PayPal Crypto-t fogjuk használni, amely lehetővé teszi számunkra, hogy anonimak maradjunk. Köszönjük, hogy időt szánsz arra, hogy megtanulod, hogyan adományozhatsz ezzel a módszerrel, mivel ez sokat segít nekünk."
 
-#: allthethings/account/templates/account/donate.html:408
-msgid "page.donate.one_time_payment.paypal.text5"
-msgstr "Add meg a Bitcoin (BTC) címünket a címzettként, és kövesd az utasításokat az adomány elküldéséhez:"
+#: allthethings/account/templates/account/donate.html:210
+msgid "page.donate.duration.intro"
+msgstr "Válaszd ki, hogy mennyi időre szeretnél feliratkozni."
 
-#: allthethings/account/templates/account/donate.html:475
-#: allthethings/account/templates/account/donate.html:489
-#: allthethings/account/templates/account/donation.html:349
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:387
-msgid "page.donate.strange_account"
-msgstr "Lehet hogy az account neve vagy a kép az oldalon furán néz majd ki. Ne aggódj! Ezeket az accountokat az adományozási partnereink kezelik. Az accountjainkat nem törték fel."
+#: allthethings/account/templates/account/donate.html:215
+msgid "page.donate.duration.1_mo"
+msgstr "1 hónap"
 
-#: allthethings/account/templates/account/donate.html:485
-msgid "page.donate.one_time_payment.alipay.text"
-msgstr "Kérlek használd <a %(a_account)s>ezt az Alipay fiókot</a> az adományod küldésére."
+#: allthethings/account/templates/account/donate.html:216
+msgid "page.donate.duration.3_mo"
+msgstr "3 hónap"
 
-#: allthethings/account/templates/account/donate.html:499
-msgid "page.donate.one_time_payment.pix.text"
-msgstr "Kérlek használd <a %(a_account)s>ezt a Pix fiókot</a> az adományod küldésére."
+#: allthethings/account/templates/account/donate.html:217
+msgid "page.donate.duration.6_mo"
+msgstr "6 hónap"
 
-#: allthethings/account/templates/account/donate.html:563
+#: allthethings/account/templates/account/donate.html:218
+msgid "page.donate.duration.12_mo"
+msgstr "12 hónap"
+
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.duration.24_mo"
+msgstr "24 hónap"
+
+#: allthethings/account/templates/account/donate.html:222
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>után<span %(span_discount)s></span> kedvezmények</div><div %(div_total)s></div><div %(div_duration)s></div>"
+
+#: allthethings/account/templates/account/donate.html:234
+msgid "page.donate.login"
+msgstr "Ha tag szeretnél lenni, kérjük, <a href=\"/login\">Jelentkezz be vagy Regisztrálj.</a> Ha nem szeretnél fiókot létrehozni, válaszd a fenti “Egyszeri névtelen adományozás” lehetőséget. Köszönjük támogatást!"
+
+#: allthethings/account/templates/account/donate.html:273
+msgid "page.donate.submit.confirm"
+msgstr "Kattints az adományozás gombra az adományozás megerősítéséhez."
+
+#: allthethings/account/templates/account/donate.html:281
+msgid "page.donate.submit.button"
+msgstr "Adományozás <span %(span_cost)s></span> <span %(span_label)s></span>"
+
+#: allthethings/account/templates/account/donate.html:286
+msgid "page.donate.submit.cancel_note"
+msgstr "Az adományozást még lemondhatod a kifizetés során."
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.submit.success"
+msgstr "✅ Átirányítás az adományozási oldalra…"
+
+#: allthethings/account/templates/account/donate.html:291
+msgid "page.donate.submit.failure"
+msgstr "❌Valami rosszul sikerült. Töltsd újra az oldalt és próbáld meg újra."
+
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:564
+#: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / hó"
 
-#: allthethings/account/templates/account/donate.html:567
+#: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 hónapra"
 
-#: allthethings/account/templates/account/donate.html:568
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 hónapra"
 
-#: allthethings/account/templates/account/donate.html:569
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 hónapra"
 
-#: allthethings/account/templates/account/donate.html:570
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 hónapra"
 
-#: allthethings/account/templates/account/donate.html:571
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 hónapra"
 
-#: allthethings/account/templates/account/donate.html:575
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 hónapra “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:576
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 hónapra “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:577
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 hónapra “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:578
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 hónapra “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:579
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 hónapra “%(tier_name)s”"
 
@@ -425,63 +340,87 @@ msgstr "<span %(span_circle)s>1</span>Átutalás kriptószámláink egyikére"
 msgid "page.donation.payment.crypto.text1"
 msgstr "Adományozd a teljes %(total)s értékű összeget ezen címek egyikére:"
 
-#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:105
+msgid "page.donate.submit.header1"
+msgstr "<span %(span_circle)s>1</span>Bitcoin vásárlása Paypalon"
+
+#: allthethings/account/templates/account/donation.html:108
+#: allthethings/account/templates/account/donation.html:142
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr "Találd meg a “Crypto” oldalt a PayPal alkalmazásban vagy a PayPal weboldalon. Ez általában a “Pénzügyek” alatt található."
+
+#: allthethings/account/templates/account/donation.html:112
 msgid "page.donation.payment.paypal.text3"
 msgstr "Kövesd az utasításokat a Bitcoin (BTC) vásárlásához. Csak annyit kell vásárolnod, amennyit adományozni szeretnél, %(total)s."
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:115
+msgid "page.donate.submit.header2"
+msgstr "<span %(span_circle)s>2</span>A Bitcoin átutalása a címünkre"
+
+#: allthethings/account/templates/account/donation.html:118
+msgid "page.donate.one_time_payment.paypal.text4"
+msgstr "Menj a “Bitcoin” lapra a PayPal alkalmazásban vagy a weboldalon. Nyomd meg az “Átutalás” gombot %(transfer_icon)s, majd “Küldés” gombot."
+
+#: allthethings/account/templates/account/donation.html:122
 msgid "page.donation.payment.paypal.text5"
 msgstr "Add meg a Bitcoin (BTC) címünket címzettként, és kövesd az utasításokat a(z) %(total)s értékű adomány elküldéséhez:"
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:337
+#: allthethings/account/templates/account/donation.html:351
+#: allthethings/account/templates/account/donation.html:363
+#: allthethings/account/templates/account/donation.html:375
+msgid "page.donate.strange_account"
+msgstr "Lehet hogy az account neve vagy a kép az oldalon furán néz majd ki. Ne aggódj! Ezeket az accountokat az adományozási partnereink kezelik. Az accountjainkat nem törték fel."
+
+#: allthethings/account/templates/account/donation.html:354
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Alipay utasítások"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:356
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Adományozz Alipayen"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:359
 msgid "page.donation.payment.alipay.text1"
 msgstr "Adományozd a teljes %(total)s értékű összeget <a %(a_account)s> ezt az Alipay fiókot használva"
 
-#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:366
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix utasítások"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:368
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Adományozz Pixen"
 
-#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:371
 msgid "page.donation.payment.pix.text1"
 msgstr "Adományozd a teljes %(total)s értékű összeget <a %(a_account)s> ezt a Pix fiókot használva"
 
-#: allthethings/account/templates/account/donation.html:392
+#: allthethings/account/templates/account/donation.html:380
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Küldd el nekünk e-mailben a nyugtát"
 
-#: allthethings/account/templates/account/donation.html:398
+#: allthethings/account/templates/account/donation.html:386
 msgid "page.donation.footer.text1"
 msgstr "Küldd el a nyugtát vagy képernyőképet a személyes ellenőrző címedre:"
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:396
 msgid "page.donation.footer.crypto_note"
 msgstr "Ha a kriptovaluta árfolyama a tranzakció során ingadozott, mindenképpen mellékeld a nyugtát, amelyen az eredeti árfolyam szerepel. Nagyra értékeljük, hogy veszed a fáradtságot a kripto használatára, ez sokat segít nekünk!"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:401
 msgid "page.donation.footer.text2"
 msgstr "Ha elküldted e-mailben a nyugtát, kattints erre a gombra, hogy Anna manuálisan átnézhesse azt (ez eltarthat néhány napig):"
 
-#: allthethings/account/templates/account/donation.html:423
+#: allthethings/account/templates/account/donation.html:411
 msgid "page.donation.footer.button"
 msgstr "Igen, elküldtem a nyugtát e-mailben"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:414
 msgid "page.donation.footer.success"
 msgstr "✅ Köszönjük az adományt! Anna néhány napon belül manuálisan aktiválja a tagságodat."
 
-#: allthethings/account/templates/account/donation.html:427
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.footer.failure"
 msgstr "❌ Valami rosszul sikerült. Töltsd újra az oldalt, és próbáld meg újra."
 
@@ -499,22 +438,18 @@ msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>Van más fizetési lehetőségetek?</div> Jelenleg nincs. Sokan szeretnék ha ilyen archívumok mint ez az oldal nem léteznének, úgyhogy óvatosnak kell lennünk. Ha tudsz segíteni (könnyebben használható) fizetési módszerek felállításában, lépj velünk kapcsolatba e-mailben %(email)s."
 
 #: allthethings/account/templates/account/donation_faq.html:17
-msgid "page.donate.faq.text_other_payment2"
-msgstr "Ha a te fizetési módszered nem szerepel a listán, a legegyszerűbb megoldás letölteni a <a href=\"https://paypal.com/\">Paypal</a> vagy <a href=\"https://www.coinbase.com/\">Coinbas</a> alkalmazást a telefonodra, és azon keresztül venni egy kis Bitcoint (BTC). Ezt elküldheted a címünkre: %(address)s. A legtöbb országban ezt a pár perc alatt meg tudod tenni."
-
-#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>Mire költitek az adományokat?</div> Az adományok 100%%-át a világ tudásának és kultúrájának megőrzésére és hozzáférhetővé tételére fordítjuk. Jelenleg főleg szerverekre, tárhelyre és sávszélességre költjük. A csapat egyetlen tagja sem kap pénzt személyesen."
 
-#: allthethings/account/templates/account/donation_faq.html:25
+#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Tudok nagyobb összeget is adományozni?</div> An nagyszerű lenne! Ha több mint több ezer dollár értékben adományoznál, vedd fel velünk a kapcsolatot közvetlenül: %(email)s."
 
-#: allthethings/account/templates/account/donation_faq.html:29
+#: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div %(div_question)s>Segíthetek valahogy máshogy?</div> Igen! Nézd meg a <a href=\"/about\">rólunk</a> oldalon a \"Hogy segíthetsz\" részt."
 
-#: allthethings/account/templates/account/donation_faq.html:33
+#: allthethings/account/templates/account/donation_faq.html:29
 msgid "page.donate.faq.monetizing"
 msgstr "<div %(div_question)s>Nem tetszik, hogy “monetizáljátok” Anna Archívumát!</div> Ha nem tetszik, ahogyan mi működtetjük a projektünket, menj és működtesd a saját árnyékkönyvtáradat! Minden kódunk és adatunk nyílt forráskódú, így semmi sem állíthat meg ;)"
 
@@ -1573,4 +1508,40 @@ msgstr "másolva!"
 
 #~ msgid "page.search.breadcrumbs.new"
 #~ msgstr "Keresés ▶ Új keresés"
+
+#~ msgid "page.donate.header.text3"
+#~ msgstr "Fiók létrehozása nélkül is adományozhatsz:"
+
+#~ msgid "page.donate.buttons.one_time"
+#~ msgstr "Egyszeri adományozás (előnyök nélkül)"
+
+#~ msgid "page.donate.one_time_payment.intro"
+#~ msgstr "Válaszd ki a fizetési módot. Kérjük, fontold meg a kripto alapú fizetés %(bitcoin_icon)s használatát, mert így (sokkal) kevesebb díjjal kell számolnunk."
+
+#~ msgid "page.donate.crypto.intro"
+#~ msgstr "Ha már van kriptovalutád, az alábbiak a címeink."
+
+#~ msgid "page.donate.text_thank_you"
+#~ msgstr "Köszönjük hogy segítesz! Ez a projekt nem lenne lehetséges nélküled."
+
+#~ msgid "page.donate.one_time_payment.paypal.text1"
+#~ msgstr "A PayPal US segítségével történő adományozáshoz a PayPal Crypto-t fogjuk használni, amely lehetővé teszi számunkra, hogy anonimak maradjunk. Nagyra értékeljük, hogy időt szánsz arra, hogy megtanuld, hogyan adományozhatsz ezzel a módszerrel, mivel ez sokat segít nekünk."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3"
+#~ msgstr "Kövesd az utasításokat a Bitcoin (BTC) vásárlásához. Csak annyi összeget kell vásárolnod, amennyit adományozni szeretnél."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3b"
+#~ msgstr "Ha az ingadozások vagy díjak miatt néhány Bitcoint elveszítenél, <em>ne aggódj</em>. Ez normális a kriptovalutáknál, de lehetővé teszi számunkra, hogy névtelenül működjünk."
+
+#~ msgid "page.donate.one_time_payment.paypal.text5"
+#~ msgstr "Add meg a Bitcoin (BTC) címünket a címzettként, és kövesd az utasításokat az adomány elküldéséhez:"
+
+#~ msgid "page.donate.one_time_payment.alipay.text"
+#~ msgstr "Kérlek használd <a %(a_account)s>ezt az Alipay fiókot</a> az adományod küldésére."
+
+#~ msgid "page.donate.one_time_payment.pix.text"
+#~ msgstr "Kérlek használd <a %(a_account)s>ezt a Pix fiókot</a> az adományod küldésére."
+
+#~ msgid "page.donate.faq.text_other_payment2"
+#~ msgstr "Ha a te fizetési módszered nem szerepel a listán, a legegyszerűbb megoldás letölteni a <a href=\"https://paypal.com/\">Paypal</a> vagy <a href=\"https://www.coinbase.com/\">Coinbas</a> alkalmazást a telefonodra, és azon keresztül venni egy kis Bitcoint (BTC). Ezt elküldheted a címünkre: %(address)s. A legtöbb országban ezt a pár perc alatt meg tudod tenni."
 

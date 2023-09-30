@@ -30,7 +30,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, BIP39_MNEMONIC, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1
 
 FEATURE_FLAGS = {}
 
@@ -431,27 +431,6 @@ def membership_costs_data(locale):
                 data[f"{tier},{method},{duration}"] = calculate_membership_costs(inputs)
     return data
 
-@cachetools.cached(cache=cachetools.LRUCache(maxsize=1024))
-def crypto_addresses(year, month, day):
-    days_elapsed = max(0, (datetime.date(year, month, day) - datetime.date(2023, 9, 1)).days)
-
-    # BTC
-    base_account_number = days_elapsed // 7
-    btc_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.BITCOIN).Purpose().Coin().Account(base_account_number).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
-    btc_address_membership_donation = btc_address_one_time_donation
-    eth_address_one_time_donation = bip_utils.Bip44.FromSeed(bip_utils.Bip39SeedGenerator(BIP39_MNEMONIC).Generate(), bip_utils.Bip44Coins.ETHEREUM).Purpose().Coin().Account(base_account_number).Change(bip_utils.Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress()
-    eth_address_membership_donation = eth_address_one_time_donation
-
-    return {
-        "btc_address_one_time_donation": btc_address_one_time_donation,
-        "btc_address_membership_donation": btc_address_membership_donation,
-        "eth_address_one_time_donation": eth_address_one_time_donation,
-        "eth_address_membership_donation": eth_address_membership_donation,
-    }
-
-def crypto_addresses_today():
-    utc_now = datetime.datetime.utcnow() 
-    return crypto_addresses(utc_now.year, utc_now.month, utc_now.day)
 
 def confirm_membership(cursor, donation_id, data_key, data_value):
     cursor.execute('SELECT * FROM mariapersist_donations WHERE donation_id=%(donation_id)s LIMIT 1', { 'donation_id': donation_id })

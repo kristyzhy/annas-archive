@@ -14,23 +14,23 @@ msgstr "まばゆき情報保持者"
 msgid "common.membership.tier_name.5"
 msgstr "驚異のアーカイビスト"
 
-#: allthethings/account/views.py:254
+#: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "未払い"
 
-#: allthethings/account/views.py:255
+#: allthethings/account/views.py:254
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "支払い済み"
 
-#: allthethings/account/views.py:256
+#: allthethings/account/views.py:255
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "キャンセル済み"
 
-#: allthethings/account/views.py:257
+#: allthethings/account/views.py:256
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "期限切れ"
 
-#: allthethings/account/views.py:258
+#: allthethings/account/views.py:257
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "アンナの承認待ち"
 
@@ -106,240 +106,155 @@ msgid "page.donate.perks.adopt"
 msgstr "“トレントを採用”：あなたのユーザー名またはメッセージをトレントのファイル名に挿入できます<div %(div_months)s>メンバーシップ12ヶ月ごと</div>"
 
 #: allthethings/account/templates/account/donate.html:84
-msgid "page.donate.header.text3"
-msgstr "アカウントの作成なしで寄付ができます："
-
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donate.html:88
-msgid "page.donate.buttons.one_time"
-msgstr "一度きりの寄付(特典なし)"
-
-#: allthethings/account/templates/account/donate.html:95
-msgid "page.donate.payment.intro"
-msgstr "支払い方法を選択してください。暗号通貨%(bitcoin_icon)sでのお支払いには手数料が(かなり)少ないため割引を適用しております。"
-
-#: allthethings/account/templates/account/donate.html:96
-msgid "page.donate.payment.intro2"
-msgstr "支払いオプションを選択してください。現在、暗号ベースの支払い%(bitcoin_icon)sのみ取り扱っております。"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:311
-#: allthethings/account/templates/account/donate.html:321
-msgid "page.donate.payment.buttons.crypto"
-msgstr "暗号通貨%(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/donate.html:116
-#: allthethings/account/templates/account/donate.html:117
-#: allthethings/account/templates/account/donate.html:221
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:223
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.discount"
-msgstr "-%(percentage)s%%"
-
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:313
-msgid "page.donate.payment.buttons.paypal"
-msgstr "PayPal %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:110
-#: allthethings/account/templates/account/donate.html:319
-msgid "page.donate.payment.buttons.alipay"
-msgstr "Alipay"
-
-#: allthethings/account/templates/account/donate.html:111
-#: allthethings/account/templates/account/donate.html:320
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix(ブラジルのみ)"
-
-#: allthethings/account/templates/account/donate.html:126
-msgid "page.donate.payment.desc.crypto"
-msgstr "暗号通貨での寄付にはBTC、ETH、XMR、SOLがご利用いただけます。このオプションは暗号通貨に精通している場合のみ使用してください。"
-
-#: allthethings/account/templates/account/donate.html:142
-msgid "page.donate.payment.desc.paypal"
-msgstr "PayPalでの寄付には匿名性を保てるPayPalクリプトをご利用ください。この寄付の方法に時間を割いていただき、ありがとうございました。"
-
-#: allthethings/account/templates/account/donate.html:215
-msgid "page.donate.duration.intro"
-msgstr "購読(サブスクライブ)期間を選択してください。"
-
-#: allthethings/account/templates/account/donate.html:220
-msgid "page.donate.duration.1_mo"
-msgstr "1か月間"
-
-#: allthethings/account/templates/account/donate.html:221
-msgid "page.donate.duration.3_mo"
-msgstr "3か月間"
-
-#: allthethings/account/templates/account/donate.html:222
-msgid "page.donate.duration.6_mo"
-msgstr "6か月間"
-
-#: allthethings/account/templates/account/donate.html:223
-msgid "page.donate.duration.12_mo"
-msgstr "12か月間"
-
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.duration.24_mo"
-msgstr "24か月間"
-
-#: allthethings/account/templates/account/donate.html:227
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>以降<span %(span_discount)s></span>割引</div><div %(div_total)s></div><div %(div_duration)s></div>"
-
-#: allthethings/account/templates/account/donate.html:239
-msgid "page.donate.login"
-msgstr "メンバーになるには<a href=\"/login\">ログインまたは登録</a>が必要です。アカウントを作成したくなければ上記の\"一度限りの匿名の寄付\"をクリックしてください。支援に感謝しております！"
-
-#: allthethings/account/templates/account/donate.html:278
-msgid "page.donate.submit.confirm"
-msgstr "寄付ボタンをクリックして寄付を承認。"
-
-#: allthethings/account/templates/account/donate.html:286
-msgid "page.donate.submit.button"
-msgstr "<span %(span_cost)s></span> <span %(span_label)s></span>を寄付"
-
-#: allthethings/account/templates/account/donate.html:291
-msgid "page.donate.submit.cancel_note"
-msgstr "チェックアウト時に寄付をキャンセルできます。"
-
-#: allthethings/account/templates/account/donate.html:295
-msgid "page.donate.submit.success"
-msgstr "✅寄付ページへリダイレクト中…"
-
-#: allthethings/account/templates/account/donate.html:296
-msgid "page.donate.submit.failure"
-msgstr "❌エラーが発生しました。ページを再読込みしてもう一度試してみてください。"
-
-#: allthethings/account/templates/account/donate.html:303
-msgid "page.donate.one_time_payment.intro"
-msgstr "支払いオプションを選択してください。手数料が(かなり)少ない暗号通貨%(bitcoin_icon)sでの支払いも考えていただけると幸いです。"
-
-#: allthethings/account/templates/account/donate.html:307
 msgid "page.donate.header.large_donations"
 msgstr "$5000以上の寄付は私達に直接ご連絡ください。<a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
 
-#: allthethings/account/templates/account/donate.html:333
-msgid "page.donate.crypto.intro"
-msgstr "すでに暗号通貨をお持ちの方は、こちらが私たちのアドレスになります."
+#: allthethings/account/templates/account/donate.html:90
+msgid "page.donate.payment.intro"
+msgstr "支払い方法を選択してください。暗号通貨%(bitcoin_icon)sでのお支払いには手数料が(かなり)少ないため割引を適用しております。"
 
-#: allthethings/account/templates/account/donate.html:344
-#: allthethings/account/templates/account/donate.html:378
-#: allthethings/account/templates/account/donate.html:416
-#: allthethings/account/templates/account/donate.html:479
-#: allthethings/account/templates/account/donate.html:493
-#: allthethings/account/templates/account/donate.html:503
-msgid "page.donate.text_thank_you"
-msgstr "助けてくれてありがとう！ このプロジェクトは、あなたなしでは成り立ちません。"
+#: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.payment.intro2"
+msgstr "支払いオプションを選択してください。現在、暗号ベースの支払い%(bitcoin_icon)sのみ取り扱っております。"
 
-#: allthethings/account/templates/account/donate.html:384
-msgid "page.donate.one_time_payment.paypal.text1"
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:107
+msgid "page.donate.payment.buttons.crypto"
+msgstr "暗号通貨%(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
+
+#: allthethings/account/templates/account/donate.html:99
+msgid "page.donate.payment.buttons.paypal"
+msgstr "PayPal %(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:105
+msgid "page.donate.payment.buttons.alipay"
+msgstr "Alipay"
+
+#: allthethings/account/templates/account/donate.html:106
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix(ブラジルのみ)"
+
+#: allthethings/account/templates/account/donate.html:121
+msgid "page.donate.payment.desc.crypto"
+msgstr "暗号通貨での寄付にはBTC、ETH、XMR、SOLがご利用いただけます。このオプションは暗号通貨に精通している場合のみ使用してください。"
+
+#: allthethings/account/templates/account/donate.html:137
+msgid "page.donate.payment.desc.paypal"
 msgstr "PayPalでの寄付には匿名性を保てるPayPalクリプトをご利用ください。この寄付の方法に時間を割いていただき、ありがとうございました。"
 
-#: allthethings/account/templates/account/donate.html:387
-#: allthethings/account/templates/account/donation.html:114
-msgid "page.donate.submit.header1"
-msgstr "<span %(span_circle)s>1</span>Paypalでビットコインを購入"
+#: allthethings/account/templates/account/donate.html:210
+msgid "page.donate.duration.intro"
+msgstr "購読(サブスクライブ)期間を選択してください。"
 
-#: allthethings/account/templates/account/donate.html:390
-#: allthethings/account/templates/account/donation.html:117
-#: allthethings/account/templates/account/donation.html:154
-msgid "page.donate.one_time_payment.paypal.text2"
-msgstr "PayPalのアプリまたはウェブサイトで「Crypt」ページを探してください。これは通常「Finances」の下にあります。"
+#: allthethings/account/templates/account/donate.html:215
+msgid "page.donate.duration.1_mo"
+msgstr "1か月間"
 
-#: allthethings/account/templates/account/donate.html:394
-msgid "page.donate.one_time_payment.paypal.text3"
-msgstr "指示に従ってビットコイン（BTC）を購入してください。寄付したい金額だけ購入してください。"
+#: allthethings/account/templates/account/donate.html:216
+msgid "page.donate.duration.3_mo"
+msgstr "3か月間"
 
-#: allthethings/account/templates/account/donate.html:398
-msgid "page.donate.one_time_payment.paypal.text3b"
-msgstr "変動や手数料のためにビットコインを失っても<em>ご心配なく</em>。暗号通貨では普通のことです、暗号通貨のおかげで私達は匿名で活動できます。"
+#: allthethings/account/templates/account/donate.html:217
+msgid "page.donate.duration.6_mo"
+msgstr "6か月間"
 
-#: allthethings/account/templates/account/donate.html:401
-#: allthethings/account/templates/account/donation.html:124
-msgid "page.donate.submit.header2"
-msgstr "<span %(span_circle)s>2</span>ビットコインを私達のアドレスに送金する"
+#: allthethings/account/templates/account/donate.html:218
+msgid "page.donate.duration.12_mo"
+msgstr "12か月間"
 
-#: allthethings/account/templates/account/donate.html:404
-#: allthethings/account/templates/account/donation.html:127
-msgid "page.donate.one_time_payment.paypal.text4"
-msgstr "PayPalアプリまたはウェブサイトで「ビットコイン」ページに行き、「譲渡」ボタン%(transfer_icon)sを押して「送金」してください。"
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.duration.24_mo"
+msgstr "24か月間"
 
-#: allthethings/account/templates/account/donate.html:408
-msgid "page.donate.one_time_payment.paypal.text5"
-msgstr "私達のビットコイン(BTC)アドレスを受取人として指定し、指示に従って寄付を行ってください:"
+#: allthethings/account/templates/account/donate.html:222
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>以降<span %(span_discount)s></span>割引</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:475
-#: allthethings/account/templates/account/donate.html:489
-#: allthethings/account/templates/account/donation.html:349
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:387
-msgid "page.donate.strange_account"
-msgstr "なお、アカウント名や画像が変になる場合があります。ご安心ください！これらのアカウントは、私たちの寄付先によって管理されています。ハッキングされたことはありません。"
+#: allthethings/account/templates/account/donate.html:234
+msgid "page.donate.login"
+msgstr "メンバーになるには<a href=\"/login\">ログインまたは登録</a>が必要です。アカウントを作成したくなければ上記の\"一度限りの匿名の寄付\"をクリックしてください。支援に感謝しております！"
 
-#: allthethings/account/templates/account/donate.html:485
-msgid "page.donate.one_time_payment.alipay.text"
-msgstr "寄付には<a %(a_account)s>こちらのAlipayアカウント</a>をお使いください。"
+#: allthethings/account/templates/account/donate.html:273
+msgid "page.donate.submit.confirm"
+msgstr "寄付ボタンをクリックして寄付を承認。"
 
-#: allthethings/account/templates/account/donate.html:499
-msgid "page.donate.one_time_payment.pix.text"
-msgstr "寄付には<a %(a_account)s>こちらのPixアカウント</a>をお使いください。"
+#: allthethings/account/templates/account/donate.html:281
+msgid "page.donate.submit.button"
+msgstr "<span %(span_cost)s></span> <span %(span_label)s></span>を寄付"
 
-#: allthethings/account/templates/account/donate.html:563
+#: allthethings/account/templates/account/donate.html:286
+msgid "page.donate.submit.cancel_note"
+msgstr "チェックアウト時に寄付をキャンセルできます。"
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.submit.success"
+msgstr "✅寄付ページへリダイレクト中…"
+
+#: allthethings/account/templates/account/donate.html:291
+msgid "page.donate.submit.failure"
+msgstr "❌エラーが発生しました。ページを再読込みしてもう一度試してみてください。"
+
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:564
+#: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s/1か月"
 
-#: allthethings/account/templates/account/donate.html:567
+#: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1か月間"
 
-#: allthethings/account/templates/account/donate.html:568
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3か月間"
 
-#: allthethings/account/templates/account/donate.html:569
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6か月間"
 
-#: allthethings/account/templates/account/donate.html:570
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12か月間"
 
-#: allthethings/account/templates/account/donate.html:571
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24か月間"
 
-#: allthethings/account/templates/account/donate.html:575
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "１か月の\"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:576
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "３か月の\"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:577
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6か月の\"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:578
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12か月の\"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:579
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24か月の\"%(tier_name)s\""
 
@@ -425,63 +340,87 @@ msgstr "<span %(span_circle)s>1</span>私達の暗号資産口座へ送金"
 msgid "page.donation.payment.crypto.text1"
 msgstr "%(total)sの額をこれらのアドレスのいずれかに寄付する:"
 
-#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:105
+msgid "page.donate.submit.header1"
+msgstr "<span %(span_circle)s>1</span>Paypalでビットコインを購入"
+
+#: allthethings/account/templates/account/donation.html:108
+#: allthethings/account/templates/account/donation.html:142
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr "PayPalのアプリまたはウェブサイトで「Crypt」ページを探してください。これは通常「Finances」の下にあります。"
+
+#: allthethings/account/templates/account/donation.html:112
 msgid "page.donation.payment.paypal.text3"
 msgstr "Bitcoin (BTC)の購入方法を参照してください。寄付分( %(total)s)のみでの購入で結構です。"
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:115
+msgid "page.donate.submit.header2"
+msgstr "<span %(span_circle)s>2</span>ビットコインを私達のアドレスに送金する"
+
+#: allthethings/account/templates/account/donation.html:118
+msgid "page.donate.one_time_payment.paypal.text4"
+msgstr "PayPalアプリまたはウェブサイトで「ビットコイン」ページに行き、「譲渡」ボタン%(transfer_icon)sを押して「送金」してください。"
+
+#: allthethings/account/templates/account/donation.html:122
 msgid "page.donation.payment.paypal.text5"
 msgstr "私達のビットコイン(BTC)アドレスを受取人として指定し、%(total)sの寄付を行うためのインストラクションを参照してください。"
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:337
+#: allthethings/account/templates/account/donation.html:351
+#: allthethings/account/templates/account/donation.html:363
+#: allthethings/account/templates/account/donation.html:375
+msgid "page.donate.strange_account"
+msgstr "なお、アカウント名や画像が変になる場合があります。ご安心ください！これらのアカウントは、私たちの寄付先によって管理されています。ハッキングされたことはありません。"
+
+#: allthethings/account/templates/account/donation.html:354
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Aripayのインストラクション"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:356
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Aripayで寄付"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:359
 msgid "page.donation.payment.alipay.text1"
 msgstr "<a %(a_account)s>このAripayアカウントを使用して%(total)sを寄付"
 
-#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:366
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pixのインストラクション"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:368
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Pixで寄付"
 
-#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:371
 msgid "page.donation.payment.pix.text1"
 msgstr "<a %(a_account)s>このPixアカウントを使用して%(total)sを寄付"
 
-#: allthethings/account/templates/account/donation.html:392
+#: allthethings/account/templates/account/donation.html:380
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>領収書をEメールで我々に送信してください"
 
-#: allthethings/account/templates/account/donation.html:398
+#: allthethings/account/templates/account/donation.html:386
 msgid "page.donation.footer.text1"
 msgstr "領収書もしくはあなたの認証番号のスクリーンショットを送信してください。"
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:396
 msgid "page.donation.footer.crypto_note"
 msgstr "寄付中に暗号通貨のレートが変動した場合は元のレートを示す領収書を必ず添付してください。暗号通貨をご利用いただいたことにとても感謝しており、とても助かっています!!"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:401
 msgid "page.donation.footer.text2"
 msgstr "領収書を我々にEメールで送信したらこのボタンを押してください。アンナが手動でレビューを行います(この処理には数日かかることがあります)："
 
-#: allthethings/account/templates/account/donation.html:423
+#: allthethings/account/templates/account/donation.html:411
 msgid "page.donation.footer.button"
 msgstr "はい。私は領収書を送信しました"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:414
 msgid "page.donation.footer.success"
 msgstr "✅寄付ありがとうございます。アンナが手動であなたのメンバーシップを有効化するまで数日ほどお待ち下さい。"
 
-#: allthethings/account/templates/account/donation.html:427
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.footer.failure"
 msgstr "❌エラーが発生しました。ページを再読込みしてもう一度試してみてください。"
 
@@ -499,22 +438,18 @@ msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>他の支払い方法はありますか？</div>現在はありません。多くの人がこのようなアーカイブの存在を望んでいませんので、慎重にならざるを得ません。もしあなたが他の（より便利な）支払い方法を安全に設定するのを手伝ってくれるなら、%(email)sに連絡してください。"
 
 #: allthethings/account/templates/account/donation_faq.html:17
-msgid "page.donate.faq.text_other_payment2"
-msgstr ""
-
-#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>寄付されたお金は何に使用されますか？</div>その100%%が世界の知識と文化を保存し、アクセスできるようにするために使われています。現在、私たちはそのほとんどをサーバーやストレージ、帯域幅に費やしております。どのチームメンバーにも個人的にお金が行くことは決してありません。"
 
-#: allthethings/account/templates/account/donation_faq.html:25
+#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>多額の寄付をすることはできますか？</div> それは素晴らしいことだと思います！数千ドル以上の寄付は、%(email)sに直接ご連絡ください。"
 
-#: allthethings/account/templates/account/donation_faq.html:29
+#: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div %(div_question)s>他の方法で貢献することはできますか？</div>はい！<a href=\"/about\">アバウトページ</a>の\"支援方法\"をご覧ください。"
 
-#: allthethings/account/templates/account/donation_faq.html:33
+#: allthethings/account/templates/account/donation_faq.html:29
 msgid "page.donate.faq.monetizing"
 msgstr "<div %(div_question)s>「収益化」をしているアンナのアーカイブが気に入らない！</div>私たちのプロジェクトの運営方法が気に入らないなら、自分の影の図書館を運営すればいい！私たちのコードとデータはすべてオープンソースなのだから、あなたを止めるものは何もない。(^_-)"
 
@@ -1573,4 +1508,40 @@ msgstr "コピーされました!"
 
 #~ msgid "page.search.breadcrumbs.new"
 #~ msgstr "検索 ▶ 新規検索"
+
+#~ msgid "page.donate.header.text3"
+#~ msgstr "アカウントの作成なしで寄付ができます："
+
+#~ msgid "page.donate.buttons.one_time"
+#~ msgstr "一度きりの寄付(特典なし)"
+
+#~ msgid "page.donate.one_time_payment.intro"
+#~ msgstr "支払いオプションを選択してください。手数料が(かなり)少ない暗号通貨%(bitcoin_icon)sでの支払いも考えていただけると幸いです。"
+
+#~ msgid "page.donate.crypto.intro"
+#~ msgstr "すでに暗号通貨をお持ちの方は、こちらが私たちのアドレスになります."
+
+#~ msgid "page.donate.text_thank_you"
+#~ msgstr "助けてくれてありがとう！ このプロジェクトは、あなたなしでは成り立ちません。"
+
+#~ msgid "page.donate.one_time_payment.paypal.text1"
+#~ msgstr "PayPalでの寄付には匿名性を保てるPayPalクリプトをご利用ください。この寄付の方法に時間を割いていただき、ありがとうございました。"
+
+#~ msgid "page.donate.one_time_payment.paypal.text3"
+#~ msgstr "指示に従ってビットコイン（BTC）を購入してください。寄付したい金額だけ購入してください。"
+
+#~ msgid "page.donate.one_time_payment.paypal.text3b"
+#~ msgstr "変動や手数料のためにビットコインを失っても<em>ご心配なく</em>。暗号通貨では普通のことです、暗号通貨のおかげで私達は匿名で活動できます。"
+
+#~ msgid "page.donate.one_time_payment.paypal.text5"
+#~ msgstr "私達のビットコイン(BTC)アドレスを受取人として指定し、指示に従って寄付を行ってください:"
+
+#~ msgid "page.donate.one_time_payment.alipay.text"
+#~ msgstr "寄付には<a %(a_account)s>こちらのAlipayアカウント</a>をお使いください。"
+
+#~ msgid "page.donate.one_time_payment.pix.text"
+#~ msgstr "寄付には<a %(a_account)s>こちらのPixアカウント</a>をお使いください。"
+
+#~ msgid "page.donate.faq.text_other_payment2"
+#~ msgstr ""
 

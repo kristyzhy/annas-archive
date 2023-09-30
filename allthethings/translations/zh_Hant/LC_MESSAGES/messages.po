@@ -14,23 +14,23 @@ msgstr "閃耀的數字收藏家"
 msgid "common.membership.tier_name.5"
 msgstr "驚人的檔案保管員"
 
-#: allthethings/account/views.py:254
+#: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "未支付"
 
-#: allthethings/account/views.py:255
+#: allthethings/account/views.py:254
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "已支付"
 
-#: allthethings/account/views.py:256
+#: allthethings/account/views.py:255
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "已取消"
 
-#: allthethings/account/views.py:257
+#: allthethings/account/views.py:256
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "已過期"
 
-#: allthethings/account/views.py:258
+#: allthethings/account/views.py:257
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "等待Anna確認中"
 
@@ -106,240 +106,155 @@ msgid "page.donate.perks.adopt"
 msgstr "「認領一個種子」：將你的使用者名稱或訊息添加於一個種子檔案名稱中 <div %(div_months)s>每 12 個月的會籍期限內一次</div>"
 
 #: allthethings/account/templates/account/donate.html:84
-msgid "page.donate.header.text3"
-msgstr "您亦可在不需建立帳戶的情況下進行捐款："
-
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donate.html:88
-msgid "page.donate.buttons.one_time"
-msgstr "單次捐款（無額外福利）"
-
-#: allthethings/account/templates/account/donate.html:95
-msgid "page.donate.payment.intro"
-msgstr "請選擇一種付款方式。我們為基於加密貨幣 %(bitcoin_icon)s 的支付方式提供折扣，因爲這樣可以（大幅）降低我們的成本費用。"
-
-#: allthethings/account/templates/account/donate.html:96
-msgid "page.donate.payment.intro2"
-msgstr "請選擇付款方式。我們目前只接受基於加密貨幣的付款%(bitcoin_icon)s，因為傳統的支付處理服務提供商拒絕與我們合作。"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:311
-#: allthethings/account/templates/account/donate.html:321
-msgid "page.donate.payment.buttons.crypto"
-msgstr "加密貨幣 %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/donate.html:116
-#: allthethings/account/templates/account/donate.html:117
-#: allthethings/account/templates/account/donate.html:221
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:223
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.discount"
-msgstr "-%(percentage)s%%"
-
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:313
-msgid "page.donate.payment.buttons.paypal"
-msgstr "PayPal（美國）%(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:110
-#: allthethings/account/templates/account/donate.html:319
-msgid "page.donate.payment.buttons.alipay"
-msgstr "支付寶"
-
-#: allthethings/account/templates/account/donate.html:111
-#: allthethings/account/templates/account/donate.html:320
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix（巴西）"
-
-#: allthethings/account/templates/account/donate.html:126
-msgid "page.donate.payment.desc.crypto"
-msgstr "您可以使用加密貨幣比特幣（BTC）、以太幣（ETH）、門羅幣（XMR）和索爾幣（SOL）等進行捐贈。如果您對加密貨幣已有一定了解，可以選擇此選項。"
-
-#: allthethings/account/templates/account/donate.html:142
-msgid "page.donate.payment.desc.paypal"
-msgstr "如使用PayPal（美國）進行捐贈，我們將使用PayPal Crypto，這使我們能夠保持匿名。非常感謝您花時間學習如何使用這種方法進行捐贈，因為這對我們非常有幫助。"
-
-#: allthethings/account/templates/account/donate.html:215
-msgid "page.donate.duration.intro"
-msgstr "請選擇您希望訂閱的時長。"
-
-#: allthethings/account/templates/account/donate.html:220
-msgid "page.donate.duration.1_mo"
-msgstr "1 個月"
-
-#: allthethings/account/templates/account/donate.html:221
-msgid "page.donate.duration.3_mo"
-msgstr "3 個月"
-
-#: allthethings/account/templates/account/donate.html:222
-msgid "page.donate.duration.6_mo"
-msgstr "6 個月"
-
-#: allthethings/account/templates/account/donate.html:223
-msgid "page.donate.duration.12_mo"
-msgstr "12 個月"
-
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.duration.24_mo"
-msgstr "24 個月"
-
-#: allthethings/account/templates/account/donate.html:227
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s><span %(span_discount)s></span>折扣後</div><div %(div_total)s></div><div %(div_duration)s></div>"
-
-#: allthethings/account/templates/account/donate.html:239
-msgid "page.donate.login"
-msgstr "請<a href=\"/login\">登入或註冊</a>成為會員。如果您不想建立帳戶，請選擇上方的「以匿名方式進行一次性捐款」。感謝您的支持！"
-
-#: allthethings/account/templates/account/donate.html:278
-msgid "page.donate.submit.confirm"
-msgstr "請點擊「捐贈」按鈕以確認此次捐贈。"
-
-#: allthethings/account/templates/account/donate.html:286
-msgid "page.donate.submit.button"
-msgstr "捐贈 <span %(span_cost)s></span> <span %(span_label)s></span>"
-
-#: allthethings/account/templates/account/donate.html:291
-msgid "page.donate.submit.cancel_note"
-msgstr "您仍可在結帳時取消捐贈。"
-
-#: allthethings/account/templates/account/donate.html:295
-msgid "page.donate.submit.success"
-msgstr "✅ 轉至捐款頁面…"
-
-#: allthethings/account/templates/account/donate.html:296
-msgid "page.donate.submit.failure"
-msgstr "❌ 出錯了。請重載頁面再試一次。"
-
-#: allthethings/account/templates/account/donate.html:303
-msgid "page.donate.one_time_payment.intro"
-msgstr "請選擇一種付款方式。建議您考慮使用基於加密貨幣%(bitcoin_icon)s的支付方式，因為這樣可以（大幅）降低我們的成本費用。"
-
-#: allthethings/account/templates/account/donate.html:307
 msgid "page.donate.header.large_donations"
 msgstr "如欲捐赠超過5000美元，請直接聯繫我們，電郵至<a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>。"
 
-#: allthethings/account/templates/account/donate.html:333
-msgid "page.donate.crypto.intro"
-msgstr "如果您已經擁有加密貨幣，這些是我們的地址。"
+#: allthethings/account/templates/account/donate.html:90
+msgid "page.donate.payment.intro"
+msgstr "請選擇一種付款方式。我們為基於加密貨幣 %(bitcoin_icon)s 的支付方式提供折扣，因爲這樣可以（大幅）降低我們的成本費用。"
 
-#: allthethings/account/templates/account/donate.html:344
-#: allthethings/account/templates/account/donate.html:378
-#: allthethings/account/templates/account/donate.html:416
-#: allthethings/account/templates/account/donate.html:479
-#: allthethings/account/templates/account/donate.html:493
-#: allthethings/account/templates/account/donate.html:503
-msgid "page.donate.text_thank_you"
-msgstr "非常感謝您的幫助！沒有像您這樣的人，這個項目就不可能成為現實。"
+#: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.payment.intro2"
+msgstr "請選擇付款方式。我們目前只接受基於加密貨幣的付款%(bitcoin_icon)s，因為傳統的支付處理服務提供商拒絕與我們合作。"
 
-#: allthethings/account/templates/account/donate.html:384
-msgid "page.donate.one_time_payment.paypal.text1"
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:107
+msgid "page.donate.payment.buttons.crypto"
+msgstr "加密貨幣 %(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
+
+#: allthethings/account/templates/account/donate.html:99
+msgid "page.donate.payment.buttons.paypal"
+msgstr "PayPal（美國）%(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:105
+msgid "page.donate.payment.buttons.alipay"
+msgstr "支付寶"
+
+#: allthethings/account/templates/account/donate.html:106
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix（巴西）"
+
+#: allthethings/account/templates/account/donate.html:121
+msgid "page.donate.payment.desc.crypto"
+msgstr "您可以使用加密貨幣比特幣（BTC）、以太幣（ETH）、門羅幣（XMR）和索爾幣（SOL）等進行捐贈。如果您對加密貨幣已有一定了解，可以選擇此選項。"
+
+#: allthethings/account/templates/account/donate.html:137
+msgid "page.donate.payment.desc.paypal"
 msgstr "如使用PayPal（美國）進行捐贈，我們將使用PayPal Crypto，這使我們能夠保持匿名。非常感謝您花時間學習如何使用這種方法進行捐贈，因為這對我們非常有幫助。"
 
-#: allthethings/account/templates/account/donate.html:387
-#: allthethings/account/templates/account/donation.html:114
-msgid "page.donate.submit.header1"
-msgstr "<span %(span_circle)s>1</span>在Paypal上購買比特幣"
+#: allthethings/account/templates/account/donate.html:210
+msgid "page.donate.duration.intro"
+msgstr "請選擇您希望訂閱的時長。"
 
-#: allthethings/account/templates/account/donate.html:390
-#: allthethings/account/templates/account/donation.html:117
-#: allthethings/account/templates/account/donation.html:154
-msgid "page.donate.one_time_payment.paypal.text2"
-msgstr "請在您的 PayPal 應用程式或網站中尋找「加密貨幣（Crypto）」頁面，通常位於「財務（Finances）」下方。"
+#: allthethings/account/templates/account/donate.html:215
+msgid "page.donate.duration.1_mo"
+msgstr "1 個月"
 
-#: allthethings/account/templates/account/donate.html:394
-msgid "page.donate.one_time_payment.paypal.text3"
-msgstr "按照指示購買比特幣（BTC）。您只需要購買您想要捐贈的數量即可。"
+#: allthethings/account/templates/account/donate.html:216
+msgid "page.donate.duration.3_mo"
+msgstr "3 個月"
 
-#: allthethings/account/templates/account/donate.html:398
-msgid "page.donate.one_time_payment.paypal.text3b"
-msgstr "如果由於價格波動或手續費而損失了一些比特幣，<em>請不要擔心</em>。這對於加密貨幣來説是正常的，但這使我們能夠匿名運作。"
+#: allthethings/account/templates/account/donate.html:217
+msgid "page.donate.duration.6_mo"
+msgstr "6 個月"
 
-#: allthethings/account/templates/account/donate.html:401
-#: allthethings/account/templates/account/donation.html:124
-msgid "page.donate.submit.header2"
-msgstr "<span %(span_circle)s>2</span>請將比特幣轉至我們的地址"
+#: allthethings/account/templates/account/donate.html:218
+msgid "page.donate.duration.12_mo"
+msgstr "12 個月"
 
-#: allthethings/account/templates/account/donate.html:404
-#: allthethings/account/templates/account/donation.html:127
-msgid "page.donate.one_time_payment.paypal.text4"
-msgstr "請前往 PayPal 應用程式或網站的「比特幣」頁面。按下「轉帳」按鈕 %(transfer_icon)s，然後選擇「發送」。"
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.duration.24_mo"
+msgstr "24 個月"
 
-#: allthethings/account/templates/account/donate.html:408
-msgid "page.donate.one_time_payment.paypal.text5"
-msgstr "輸入我們的比特幣（BTC）地址作爲收款人，並按照指示發送您的捐款："
+#: allthethings/account/templates/account/donate.html:222
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s><span %(span_discount)s></span>折扣後</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:475
-#: allthethings/account/templates/account/donate.html:489
-#: allthethings/account/templates/account/donation.html:349
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:387
-msgid "page.donate.strange_account"
-msgstr "賬戶名或圖像可能會有點奇怪不必擔心！這個賬戶由我們的捐贈夥伴管理，我們的賬戶沒有被骇入。"
+#: allthethings/account/templates/account/donate.html:234
+msgid "page.donate.login"
+msgstr "請<a href=\"/login\">登入或註冊</a>成為會員。如果您不想建立帳戶，請選擇上方的「以匿名方式進行一次性捐款」。感謝您的支持！"
 
-#: allthethings/account/templates/account/donate.html:485
-msgid "page.donate.one_time_payment.alipay.text"
-msgstr "請使用<a %(a_account)s>此支付寶帳戶</a>來進行捐款。"
+#: allthethings/account/templates/account/donate.html:273
+msgid "page.donate.submit.confirm"
+msgstr "請點擊「捐贈」按鈕以確認此次捐贈。"
 
-#: allthethings/account/templates/account/donate.html:499
-msgid "page.donate.one_time_payment.pix.text"
-msgstr "請使用<a %(a_account)s>此 Pix 帳戶</a>進行捐款。"
+#: allthethings/account/templates/account/donate.html:281
+msgid "page.donate.submit.button"
+msgstr "捐贈 <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:563
+#: allthethings/account/templates/account/donate.html:286
+msgid "page.donate.submit.cancel_note"
+msgstr "您仍可在結帳時取消捐贈。"
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.submit.success"
+msgstr "✅ 轉至捐款頁面…"
+
+#: allthethings/account/templates/account/donate.html:291
+msgid "page.donate.submit.failure"
+msgstr "❌ 出錯了。請重載頁面再試一次。"
+
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:564
+#: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / 1個月"
 
-#: allthethings/account/templates/account/donate.html:567
+#: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 個月"
 
-#: allthethings/account/templates/account/donate.html:568
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 個月"
 
-#: allthethings/account/templates/account/donate.html:569
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 個月"
 
-#: allthethings/account/templates/account/donate.html:570
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 個月"
 
-#: allthethings/account/templates/account/donate.html:571
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 個月"
 
-#: allthethings/account/templates/account/donate.html:575
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 個月的「%(tier_name)s」"
 
-#: allthethings/account/templates/account/donate.html:576
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 個月的「%(tier_name)s」"
 
-#: allthethings/account/templates/account/donate.html:577
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 個月的「%(tier_name)s」"
 
-#: allthethings/account/templates/account/donate.html:578
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 個月的「%(tier_name)s」"
 
-#: allthethings/account/templates/account/donate.html:579
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 個月的「%(tier_name)s」"
 
@@ -425,63 +340,87 @@ msgstr "<span %(span_circle)s>1</span>將款項轉至我們的加密貨幣帳戶
 msgid "page.donation.payment.crypto.text1"
 msgstr "請將總金額 %(total)s 捐贈至以下其中一個地址："
 
-#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:105
+msgid "page.donate.submit.header1"
+msgstr "<span %(span_circle)s>1</span>在Paypal上購買比特幣"
+
+#: allthethings/account/templates/account/donation.html:108
+#: allthethings/account/templates/account/donation.html:142
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr "請在您的 PayPal 應用程式或網站中尋找「加密貨幣（Crypto）」頁面，通常位於「財務（Finances）」下方。"
+
+#: allthethings/account/templates/account/donation.html:112
 msgid "page.donation.payment.paypal.text3"
 msgstr "請按照以下指示購買比特幣（BTC）。您只需購買您想要捐贈的金額，%(total)s。"
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:115
+msgid "page.donate.submit.header2"
+msgstr "<span %(span_circle)s>2</span>請將比特幣轉至我們的地址"
+
+#: allthethings/account/templates/account/donation.html:118
+msgid "page.donate.one_time_payment.paypal.text4"
+msgstr "請前往 PayPal 應用程式或網站的「比特幣」頁面。按下「轉帳」按鈕 %(transfer_icon)s，然後選擇「發送」。"
+
+#: allthethings/account/templates/account/donation.html:122
 msgid "page.donation.payment.paypal.text5"
 msgstr "輸入我們的比特幣（BTC）地址作爲收款人，並按照指示發送金額為 %(total)s 的捐款："
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:337
+#: allthethings/account/templates/account/donation.html:351
+#: allthethings/account/templates/account/donation.html:363
+#: allthethings/account/templates/account/donation.html:375
+msgid "page.donate.strange_account"
+msgstr "賬戶名或圖像可能會有點奇怪不必擔心！這個賬戶由我們的捐贈夥伴管理，我們的賬戶沒有被骇入。"
+
+#: allthethings/account/templates/account/donation.html:354
 msgid "page.donation.payment.alipay.top_header"
 msgstr "支付寶操作指引"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:356
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>透過支付寶進行捐贈"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:359
 msgid "page.donation.payment.alipay.text1"
 msgstr "請使用<a %(a_account)s>此支付寶帳戶，捐贈總金額 %(total)s"
 
-#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:366
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix 操作指引"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:368
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>透過 Pix 進行捐贈"
 
-#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:371
 msgid "page.donation.payment.pix.text1"
 msgstr "請使用<a %(a_account)s>此Pix帳戶，捐贈總金額 %(total)s"
 
-#: allthethings/account/templates/account/donation.html:392
+#: allthethings/account/templates/account/donation.html:380
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>請將收據以電郵方式發送給我們"
 
-#: allthethings/account/templates/account/donation.html:398
+#: allthethings/account/templates/account/donation.html:386
 msgid "page.donation.footer.text1"
 msgstr "將收據或截圖發送至您的個人驗證地址："
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:396
 msgid "page.donation.footer.crypto_note"
 msgstr "如交易期間加密貨幣匯率有波動，請務必附上顯示原始匯率的收據。我們非常感謝您不厭其煩地使用加密貨幣，這對我們來說非常有幫助！"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:401
 msgid "page.donation.footer.text2"
 msgstr "當您已將收據以電郵方式發送後，請點擊此按鈕，以便安娜進行手動審核（這可能需要幾天時間）："
 
-#: allthethings/account/templates/account/donation.html:423
+#: allthethings/account/templates/account/donation.html:411
 msgid "page.donation.footer.button"
 msgstr "是的，我已透過電郵寄出我的收據"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:414
 msgid "page.donation.footer.success"
 msgstr "✅ 感謝您的捐贈！Anna 將在數天內手動啟用您的會員資格。"
 
-#: allthethings/account/templates/account/donation.html:427
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.footer.failure"
 msgstr "❌ 出錯了。請重載頁面再試一次。"
 
@@ -499,22 +438,18 @@ msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>你們有其它支付方式嗎？</div>目前還沒有。許多人不希望這樣的檔案能夠存在，所以我們必須保持謹慎。如果您可以幫助我們安全地建立別的（更便利的）支付方式，請通過%(email)s聯繫我們。"
 
 #: allthethings/account/templates/account/donation_faq.html:17
-msgid "page.donate.faq.text_other_payment2"
-msgstr "如果您的付款方式不在列表中，最簡單的方法是在您的手機上下載<a href=\"https://paypal.com/\">PayPal</a>或者<a href=\"https://coinbase.com/\">Coinbase</a>，然後購買一些比特幣。 隨後您可以將其發送到我們的地址：%(address)s。 在大多數國家/地區，應該只需要幾分鐘即可完成設置。"
-
-#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>我們的捐款用於什麼方面？</div>100%%的捐款都用於保存世界的知識和文化，使之觸手可及。目前，我們主要用於伺服器、儲存空間和頻寬等方面。沒有任何款項用於個人收入。"
 
-#: allthethings/account/templates/account/donation_faq.html:25
+#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>我可以進行大額的捐款嗎？</div>這太酷了！對於數千美元及以上的捐款，請直接通過%(email)s聯繫我們。"
 
-#: allthethings/account/templates/account/donation_faq.html:29
+#: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div %(div_question)s>我可以通過其它方式做出貢獻嗎？</div>當然可以！請參見<a href=\"/about\">關於頁面</a>「如何幫助」下面的內容。"
 
-#: allthethings/account/templates/account/donation_faq.html:33
+#: allthethings/account/templates/account/donation_faq.html:29
 msgid "page.donate.faq.monetizing"
 msgstr "<div %(div_question)s>我不喜歡你們使用安娜的檔案「盈利」！</div>如果你不滿意我們的運作方式，你可以自己運營一個影子圖書館！我們的所有程式碼和資料都是開源的，所以沒有任何阻礙。(ゝ∀･)"
 
@@ -1570,4 +1505,40 @@ msgstr "已複製！"
 
 #~ msgid "page.search.breadcrumbs.new"
 #~ msgstr "搜索 ▶ 新搜索"
+
+#~ msgid "page.donate.header.text3"
+#~ msgstr "您亦可在不需建立帳戶的情況下進行捐款："
+
+#~ msgid "page.donate.buttons.one_time"
+#~ msgstr "單次捐款（無額外福利）"
+
+#~ msgid "page.donate.one_time_payment.intro"
+#~ msgstr "請選擇一種付款方式。建議您考慮使用基於加密貨幣%(bitcoin_icon)s的支付方式，因為這樣可以（大幅）降低我們的成本費用。"
+
+#~ msgid "page.donate.crypto.intro"
+#~ msgstr "如果您已經擁有加密貨幣，這些是我們的地址。"
+
+#~ msgid "page.donate.text_thank_you"
+#~ msgstr "非常感謝您的幫助！沒有像您這樣的人，這個項目就不可能成為現實。"
+
+#~ msgid "page.donate.one_time_payment.paypal.text1"
+#~ msgstr "如使用PayPal（美國）進行捐贈，我們將使用PayPal Crypto，這使我們能夠保持匿名。非常感謝您花時間學習如何使用這種方法進行捐贈，因為這對我們非常有幫助。"
+
+#~ msgid "page.donate.one_time_payment.paypal.text3"
+#~ msgstr "按照指示購買比特幣（BTC）。您只需要購買您想要捐贈的數量即可。"
+
+#~ msgid "page.donate.one_time_payment.paypal.text3b"
+#~ msgstr "如果由於價格波動或手續費而損失了一些比特幣，<em>請不要擔心</em>。這對於加密貨幣來説是正常的，但這使我們能夠匿名運作。"
+
+#~ msgid "page.donate.one_time_payment.paypal.text5"
+#~ msgstr "輸入我們的比特幣（BTC）地址作爲收款人，並按照指示發送您的捐款："
+
+#~ msgid "page.donate.one_time_payment.alipay.text"
+#~ msgstr "請使用<a %(a_account)s>此支付寶帳戶</a>來進行捐款。"
+
+#~ msgid "page.donate.one_time_payment.pix.text"
+#~ msgstr "請使用<a %(a_account)s>此 Pix 帳戶</a>進行捐款。"
+
+#~ msgid "page.donate.faq.text_other_payment2"
+#~ msgstr "如果您的付款方式不在列表中，最簡單的方法是在您的手機上下載<a href=\"https://paypal.com/\">PayPal</a>或者<a href=\"https://coinbase.com/\">Coinbase</a>，然後購買一些比特幣。 隨後您可以將其發送到我們的地址：%(address)s。 在大多數國家/地區，應該只需要幾分鐘即可完成設置。"
 

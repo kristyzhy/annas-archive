@@ -14,23 +14,23 @@ msgstr "Muhteşem Veri İstifçisi"
 msgid "common.membership.tier_name.5"
 msgstr "Harika Arşivci"
 
-#: allthethings/account/views.py:254
+#: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "ödenmedi"
 
-#: allthethings/account/views.py:255
+#: allthethings/account/views.py:254
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "ödendi"
 
-#: allthethings/account/views.py:256
+#: allthethings/account/views.py:255
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "iptal edildi"
 
-#: allthethings/account/views.py:257
+#: allthethings/account/views.py:256
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "bitti"
 
-#: allthethings/account/views.py:258
+#: allthethings/account/views.py:257
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "Anna'nın onaylamasını bekle"
 
@@ -106,240 +106,155 @@ msgid "page.donate.perks.adopt"
 msgstr "“Bir torrent sahiplen”: <div %(div_months)s>her 12 aylık üyelikte bir defa</div> bir torrent dosyasında kullanıcı adınız veya mesajınız"
 
 #: allthethings/account/templates/account/donate.html:84
-msgid "page.donate.header.text3"
-msgstr "Ayrıca bir hesap oluşturmadan da bağış yapabilirsin:"
-
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donate.html:88
-msgid "page.donate.buttons.one_time"
-msgstr "Tek seferlik bağışlar (avantajlar yok)"
-
-#: allthethings/account/templates/account/donate.html:95
-msgid "page.donate.payment.intro"
-msgstr "Bir ödeme yöntemi seçin. Kripto-bazlı ödemelerde %(bitcoin_icon)s indirim yapıyoruz çünkü daha az komisyona maruz kalıyoruz."
-
-#: allthethings/account/templates/account/donate.html:96
-msgid "page.donate.payment.intro2"
-msgstr "Bir ödeme seçeneği seçin. Şu anda sadece kripto bazlı ödeme yöntemlerimiz var %(bitcoin_icon)s, geleneksel ödeme işleyicileri bizle çalışmayı reddetmekte."
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:311
-#: allthethings/account/templates/account/donate.html:321
-msgid "page.donate.payment.buttons.crypto"
-msgstr "Kripto %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/donate.html:116
-#: allthethings/account/templates/account/donate.html:117
-#: allthethings/account/templates/account/donate.html:221
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:223
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.discount"
-msgstr "-%(percentage)s%%"
-
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:313
-msgid "page.donate.payment.buttons.paypal"
-msgstr "PayPal %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:110
-#: allthethings/account/templates/account/donate.html:319
-msgid "page.donate.payment.buttons.alipay"
-msgstr "Alipay"
-
-#: allthethings/account/templates/account/donate.html:111
-#: allthethings/account/templates/account/donate.html:320
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (Brezilya)"
-
-#: allthethings/account/templates/account/donate.html:126
-msgid "page.donate.payment.desc.crypto"
-msgstr "Kripto kullanarak BTC, ETH, XMR ve SOL ile bağış yapabilirsin. Bu seçeneği halihazırda kripto para birimlerine alışkınsan kullan."
-
-#: allthethings/account/templates/account/donate.html:142
-msgid "page.donate.payment.desc.paypal"
-msgstr "PayPal ABD ile bağışta bulunmak için, anonim olmamıza izin veren PayPal Kripto kullanacağı. Bu metotla nasıl bağış yapılacağını öğrenmeye vakit ayırdığınız için müteşekkiriz, bu bize çok yardımcı olur."
-
-#: allthethings/account/templates/account/donate.html:215
-msgid "page.donate.duration.intro"
-msgstr "Ne kadar süre için abone olacağını seç."
-
-#: allthethings/account/templates/account/donate.html:220
-msgid "page.donate.duration.1_mo"
-msgstr "1 ay"
-
-#: allthethings/account/templates/account/donate.html:221
-msgid "page.donate.duration.3_mo"
-msgstr "3 ay"
-
-#: allthethings/account/templates/account/donate.html:222
-msgid "page.donate.duration.6_mo"
-msgstr "6 ay"
-
-#: allthethings/account/templates/account/donate.html:223
-msgid "page.donate.duration.12_mo"
-msgstr "12 ay"
-
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.duration.24_mo"
-msgstr "24 ay"
-
-#: allthethings/account/templates/account/donate.html:227
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><span %(span_discount)s></span> <div %(div_after)s>indirimden sonra</div><div %(div_total)s></div><div %(div_duration)s></div>"
-
-#: allthethings/account/templates/account/donate.html:239
-msgid "page.donate.login"
-msgstr "Üye olmak için lütfen <a href=\"/login\">Giriş Hap ya da Hesap Oluştur</a>. Eğer hesap açmamayı tercih editorsan, üstten \"Tek seferlik anonim bağış yap\" seçeneğini seç. Desteğin için teşekkürler!"
-
-#: allthethings/account/templates/account/donate.html:278
-msgid "page.donate.submit.confirm"
-msgstr "Bağışı onaylama için bağış tuşuna tıkla."
-
-#: allthethings/account/templates/account/donate.html:286
-msgid "page.donate.submit.button"
-msgstr "Bağışla <span %(span_cost)s></span> <span %(span_label)s></span>"
-
-#: allthethings/account/templates/account/donate.html:291
-msgid "page.donate.submit.cancel_note"
-msgstr "Ödeme sırasında bağışı hâlâ iptal edebilirsiniz."
-
-#: allthethings/account/templates/account/donate.html:295
-msgid "page.donate.submit.success"
-msgstr "✅ Bağış sayfasına yönlendiriliyor…"
-
-#: allthethings/account/templates/account/donate.html:296
-msgid "page.donate.submit.failure"
-msgstr "❌ Bir şeyler ters gitti. Lütfen sayfayı yenileyin ve tekrar deneyin."
-
-#: allthethings/account/templates/account/donate.html:303
-msgid "page.donate.one_time_payment.intro"
-msgstr "Bir ödeme seçeneği seçin. Lütfen kripto-bazlı bir ödeme kullanmayı dikkate alın %(bitcoin_icon)s, çünkü (çok daha) az ücret kaybına uğrarız."
-
-#: allthethings/account/templates/account/donate.html:307
 msgid "page.donate.header.large_donations"
 msgstr "5000$'ın üstündeki bağışlar için lütfen bizimle direkt olarak <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a> üzerinden iletişime geçin."
 
-#: allthethings/account/templates/account/donate.html:333
-msgid "page.donate.crypto.intro"
-msgstr "Zaten kripto paranız varsa adreslerimiz şunlardır."
+#: allthethings/account/templates/account/donate.html:90
+msgid "page.donate.payment.intro"
+msgstr "Bir ödeme yöntemi seçin. Kripto-bazlı ödemelerde %(bitcoin_icon)s indirim yapıyoruz çünkü daha az komisyona maruz kalıyoruz."
 
-#: allthethings/account/templates/account/donate.html:344
-#: allthethings/account/templates/account/donate.html:378
-#: allthethings/account/templates/account/donate.html:416
-#: allthethings/account/templates/account/donate.html:479
-#: allthethings/account/templates/account/donate.html:493
-#: allthethings/account/templates/account/donate.html:503
-msgid "page.donate.text_thank_you"
-msgstr "Yardımlarınız için çok teşekkür ederiz! Bu proje, sizler olmadan mümkün olmazdı."
+#: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.payment.intro2"
+msgstr "Bir ödeme seçeneği seçin. Şu anda sadece kripto bazlı ödeme yöntemlerimiz var %(bitcoin_icon)s, geleneksel ödeme işleyicileri bizle çalışmayı reddetmekte."
 
-#: allthethings/account/templates/account/donate.html:384
-msgid "page.donate.one_time_payment.paypal.text1"
-msgstr "Paypal ABD kullanarak bağış yapmak için, Paypal Crypto kullanacağız, bu bizim anonim kalmamızı sağlıyor. Bu bağış metodu bize çok yardımcı olduğundan, öğrenmeye zaman ayırmanıza minnettarız."
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:107
+msgid "page.donate.payment.buttons.crypto"
+msgstr "Kripto %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:387
-#: allthethings/account/templates/account/donation.html:114
-msgid "page.donate.submit.header1"
-msgstr "<span %(span_circle)s>1</span>PayPal'da Bitcoin al"
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:390
-#: allthethings/account/templates/account/donation.html:117
-#: allthethings/account/templates/account/donation.html:154
-msgid "page.donate.one_time_payment.paypal.text2"
-msgstr "Paypal uygulamanızda ya da websitesinde \"Crypto\" sayfasını bulun. Bu genelde \"Finans\" bölümünün altında bulunur."
+#: allthethings/account/templates/account/donate.html:99
+msgid "page.donate.payment.buttons.paypal"
+msgstr "PayPal %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:394
-msgid "page.donate.one_time_payment.paypal.text3"
-msgstr "Bitcoin (BTC) almak için talimatları takip edin. Yalnızca bağış yapmak istediğiniz miktarı satın almanız lazım."
+#: allthethings/account/templates/account/donate.html:105
+msgid "page.donate.payment.buttons.alipay"
+msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:398
-msgid "page.donate.one_time_payment.paypal.text3b"
-msgstr "Eğer dalgalanmalardan ya da harçlardan dolayı biraz Bitcoin kaybederseniz, <em>lütfen endişelenmeyin</em>. Bu kripto para için normal, ancak bizim anonim şekilde işlememize izin veriyor."
+#: allthethings/account/templates/account/donate.html:106
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (Brezilya)"
 
-#: allthethings/account/templates/account/donate.html:401
-#: allthethings/account/templates/account/donation.html:124
-msgid "page.donate.submit.header2"
-msgstr "<span %(span_circle)s>2</span>Bitcoini adresimize transfer edin"
+#: allthethings/account/templates/account/donate.html:121
+msgid "page.donate.payment.desc.crypto"
+msgstr "Kripto kullanarak BTC, ETH, XMR ve SOL ile bağış yapabilirsin. Bu seçeneği halihazırda kripto para birimlerine alışkınsan kullan."
 
-#: allthethings/account/templates/account/donate.html:404
-#: allthethings/account/templates/account/donation.html:127
-msgid "page.donate.one_time_payment.paypal.text4"
-msgstr "Paypal uygulamanızda ya da websitesinde “Bitcoin” sayfasına gidin. “Para gönder” butonuna %(transfer_icon)s, basın ve ardından “Gönder”."
+#: allthethings/account/templates/account/donate.html:137
+msgid "page.donate.payment.desc.paypal"
+msgstr "PayPal ABD ile bağışta bulunmak için, anonim olmamıza izin veren PayPal Kripto kullanacağı. Bu metotla nasıl bağış yapılacağını öğrenmeye vakit ayırdığınız için müteşekkiriz, bu bize çok yardımcı olur."
 
-#: allthethings/account/templates/account/donate.html:408
-msgid "page.donate.one_time_payment.paypal.text5"
-msgstr "Alıcı olarak Bitcoin (BTC) adresimizi girin ve bağışınızı göndermek için adımları takip edin:"
+#: allthethings/account/templates/account/donate.html:210
+msgid "page.donate.duration.intro"
+msgstr "Ne kadar süre için abone olacağını seç."
 
-#: allthethings/account/templates/account/donate.html:475
-#: allthethings/account/templates/account/donate.html:489
-#: allthethings/account/templates/account/donation.html:349
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:387
-msgid "page.donate.strange_account"
-msgstr "Hesap adının veya resminin garip görünebileceğini aklınızda bulundurun. Endişelenmenize gerek yok! Bu hesaplar bağış ortaklarımız tarafından yönetilmektedir. Hesaplarımız hacklenmemiştir."
+#: allthethings/account/templates/account/donate.html:215
+msgid "page.donate.duration.1_mo"
+msgstr "1 ay"
 
-#: allthethings/account/templates/account/donate.html:485
-msgid "page.donate.one_time_payment.alipay.text"
-msgstr "Bağışınızı göndermek için lütfen <a %(a_account)s>bu Alipay hesabını</a> kullanın."
+#: allthethings/account/templates/account/donate.html:216
+msgid "page.donate.duration.3_mo"
+msgstr "3 ay"
 
-#: allthethings/account/templates/account/donate.html:499
-msgid "page.donate.one_time_payment.pix.text"
-msgstr "Bağışınızı göndermek için lütfen <a %(a_account)s>bu Pix hesabını</a> kullanın."
+#: allthethings/account/templates/account/donate.html:217
+msgid "page.donate.duration.6_mo"
+msgstr "6 ay"
 
-#: allthethings/account/templates/account/donate.html:563
+#: allthethings/account/templates/account/donate.html:218
+msgid "page.donate.duration.12_mo"
+msgstr "12 ay"
+
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.duration.24_mo"
+msgstr "24 ay"
+
+#: allthethings/account/templates/account/donate.html:222
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><span %(span_discount)s></span> <div %(div_after)s>indirimden sonra</div><div %(div_total)s></div><div %(div_duration)s></div>"
+
+#: allthethings/account/templates/account/donate.html:234
+msgid "page.donate.login"
+msgstr "Üye olmak için lütfen <a href=\"/login\">Giriş Hap ya da Hesap Oluştur</a>. Eğer hesap açmamayı tercih editorsan, üstten \"Tek seferlik anonim bağış yap\" seçeneğini seç. Desteğin için teşekkürler!"
+
+#: allthethings/account/templates/account/donate.html:273
+msgid "page.donate.submit.confirm"
+msgstr "Bağışı onaylama için bağış tuşuna tıkla."
+
+#: allthethings/account/templates/account/donate.html:281
+msgid "page.donate.submit.button"
+msgstr "Bağışla <span %(span_cost)s></span> <span %(span_label)s></span>"
+
+#: allthethings/account/templates/account/donate.html:286
+msgid "page.donate.submit.cancel_note"
+msgstr "Ödeme sırasında bağışı hâlâ iptal edebilirsiniz."
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.submit.success"
+msgstr "✅ Bağış sayfasına yönlendiriliyor…"
+
+#: allthethings/account/templates/account/donate.html:291
+msgid "page.donate.submit.failure"
+msgstr "❌ Bir şeyler ters gitti. Lütfen sayfayı yenileyin ve tekrar deneyin."
+
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:564
+#: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / ay"
 
-#: allthethings/account/templates/account/donate.html:567
+#: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 ay için"
 
-#: allthethings/account/templates/account/donate.html:568
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 ay için"
 
-#: allthethings/account/templates/account/donate.html:569
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 ay için"
 
-#: allthethings/account/templates/account/donate.html:570
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 ay için"
 
-#: allthethings/account/templates/account/donate.html:571
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 ay için"
 
-#: allthethings/account/templates/account/donate.html:575
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 ay için “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:576
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 ay için “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:577
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 ay için “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:578
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 ay için “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:579
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 ay için “%(tier_name)s”"
 
@@ -425,63 +340,87 @@ msgstr "<span %(span_circle)s>1</span>Kripto hesaplarımızdan birine transfer e
 msgid "page.donation.payment.crypto.text1"
 msgstr "Bu adreslerden birine toplam %(total)s miktarını bağışlayın:"
 
-#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:105
+msgid "page.donate.submit.header1"
+msgstr "<span %(span_circle)s>1</span>PayPal'da Bitcoin al"
+
+#: allthethings/account/templates/account/donation.html:108
+#: allthethings/account/templates/account/donation.html:142
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr "Paypal uygulamanızda ya da websitesinde \"Crypto\" sayfasını bulun. Bu genelde \"Finans\" bölümünün altında bulunur."
+
+#: allthethings/account/templates/account/donation.html:112
 msgid "page.donation.payment.paypal.text3"
 msgstr "Bitcoin (BTC) almak için talimatları takip edin. Yalnızca bağış yapmak istediğiniz miktarı satın almanız gerekli, %(total)s."
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:115
+msgid "page.donate.submit.header2"
+msgstr "<span %(span_circle)s>2</span>Bitcoini adresimize transfer edin"
+
+#: allthethings/account/templates/account/donation.html:118
+msgid "page.donate.one_time_payment.paypal.text4"
+msgstr "Paypal uygulamanızda ya da websitesinde “Bitcoin” sayfasına gidin. “Para gönder” butonuna %(transfer_icon)s, basın ve ardından “Gönder”."
+
+#: allthethings/account/templates/account/donation.html:122
 msgid "page.donation.payment.paypal.text5"
 msgstr "Bitcoin (BTC) adresimizi alıcı olarak girin ve %(total)s tutarındaki bağışınızı göndermek için talimatları takip edin:"
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:337
+#: allthethings/account/templates/account/donation.html:351
+#: allthethings/account/templates/account/donation.html:363
+#: allthethings/account/templates/account/donation.html:375
+msgid "page.donate.strange_account"
+msgstr "Hesap adının veya resminin garip görünebileceğini aklınızda bulundurun. Endişelenmenize gerek yok! Bu hesaplar bağış ortaklarımız tarafından yönetilmektedir. Hesaplarımız hacklenmemiştir."
+
+#: allthethings/account/templates/account/donation.html:354
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Alipay talimatları"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:356
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Alipay'de bağış yap"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:359
 msgid "page.donation.payment.alipay.text1"
 msgstr "Toplam %(total)s tutarını <a %(a_account)s>bu Alipay hesabını kullanarak bağışlayın"
 
-#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:366
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix talimatları"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:368
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Pix'te bağış yap"
 
-#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:371
 msgid "page.donation.payment.pix.text1"
 msgstr "Toplam %(total)s tutarını <a %(a_account)s>bu Pix hesabını kullanarak bağışlayın"
 
-#: allthethings/account/templates/account/donation.html:392
+#: allthethings/account/templates/account/donation.html:380
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Makbuzu bize e-posta yoluyla gönderin"
 
-#: allthethings/account/templates/account/donation.html:398
+#: allthethings/account/templates/account/donation.html:386
 msgid "page.donation.footer.text1"
 msgstr "Şahsi doğrulama adresinize bir makbuz veya ekran görüntüsünü gönderin:"
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:396
 msgid "page.donation.footer.crypto_note"
 msgstr "Eğer kripto kuru işlem sırasında dalgalandıysa, makbuzun orijinal kuru gösterdiğinden emin olun. Kriptoyu kullanma zahmetine katlanmanızı gerçekten takdir ediyoruz, bize çok yardımcı oluyor!"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:401
 msgid "page.donation.footer.text2"
 msgstr "Makbuzu e-posta olarak gönderdikten sonra, bu butona tıklayın, bu sayede Anna bizzat inceleyebilir (bu birkaç gün sürebilir):"
 
-#: allthethings/account/templates/account/donation.html:423
+#: allthethings/account/templates/account/donation.html:411
 msgid "page.donation.footer.button"
 msgstr "Evet, makbuzumu e-posta olarak gönderdim"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:414
 msgid "page.donation.footer.success"
 msgstr "✅ Bağışınız için teşekkürler! Anna şahsen üyeliğinizi birkaç gün içinde etkinleştirecek."
 
-#: allthethings/account/templates/account/donation.html:427
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.footer.failure"
 msgstr "❌ Bir şey yanlış gitti. Lütfen sayfayı yenileyin ve tekrar deneyin."
 
@@ -499,22 +438,18 @@ msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>Başka ödeme yöntemleri mevcut mu?</div> Şimdilik hayır. Arşivlerimizin var olmasını istemeyen bir çok kişi olduğu için dikkatli davranmamız gerekiyor. Eğer daha iyi bir yöntemi biliyorsanız bizimle iletişime geçin: %(email)s."
 
 #: allthethings/account/templates/account/donation_faq.html:17
-msgid "page.donate.faq.text_other_payment2"
-msgstr "Eğer ödeme metodunuz listede değil ise, yapabileceğiniz en basit aktarım şekli telefonunuza <a href=\"https://paypal.com/\">PayPal</a> veya <a href=\"https://coinbase.com/\">Coinbase</a> 'i indirip bir miktar Bitcoin(BTC) satın almanız. Daha sonra %(address)s hesabımıza gönderebilirsiniz. Ülkelerin çoğunda bu şekilde para aktarımı dakikalar içerisinde gerçekleşir."
-
-#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>Bağışları neye harcıyorsunuz?</div> Bağışların %%100'ü dünyanın bilgisi ve kültürünü korumaya ve erişilebilir hale getirmeye gidiyor. An itibariyle çoğunlukla sunucular, depolama ve bant genişliği. Hiçbir ekip üyesine bizzat para gitmiyor."
 
-#: allthethings/account/templates/account/donation_faq.html:25
+#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Büyük miktarda bağış yapabilir miyim?</div> Harika olur! Bin doların üstündeki bağışlarınız için lütfen bize, %(email)s adresinden direkt iletişim kurunuz."
 
-#: allthethings/account/templates/account/donation_faq.html:29
+#: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div %(div_question)s>Başka yollardan yardımcı olabilir miyim?</div> Evet! Lütfen <a href=\"/about\">hakkımızda sayfasında</a> \"Nasıl yardım edebilirim?\" kısmına bakınız."
 
-#: allthethings/account/templates/account/donation_faq.html:33
+#: allthethings/account/templates/account/donation_faq.html:29
 msgid "page.donate.faq.monetizing"
 msgstr "<div %(div_question)s>Anna'nın Arşivini “paralandırmanızdan” hoşlanmıyorum!</div> Eğer projemizi nasıl işlettiğimiz hoşunuza gitmiyorsa, kendi gölge kütüphanenizi işletin! Kodumuzun ve verimizintamamı açık kaynaklı, yani sizi durduran bir şey yok. ;)"
 
@@ -1573,4 +1508,40 @@ msgstr "kopyalandı!"
 
 #~ msgid "page.search.breadcrumbs.new"
 #~ msgstr "Arama ▶ Yeni arama"
+
+#~ msgid "page.donate.header.text3"
+#~ msgstr "Ayrıca bir hesap oluşturmadan da bağış yapabilirsin:"
+
+#~ msgid "page.donate.buttons.one_time"
+#~ msgstr "Tek seferlik bağışlar (avantajlar yok)"
+
+#~ msgid "page.donate.one_time_payment.intro"
+#~ msgstr "Bir ödeme seçeneği seçin. Lütfen kripto-bazlı bir ödeme kullanmayı dikkate alın %(bitcoin_icon)s, çünkü (çok daha) az ücret kaybına uğrarız."
+
+#~ msgid "page.donate.crypto.intro"
+#~ msgstr "Zaten kripto paranız varsa adreslerimiz şunlardır."
+
+#~ msgid "page.donate.text_thank_you"
+#~ msgstr "Yardımlarınız için çok teşekkür ederiz! Bu proje, sizler olmadan mümkün olmazdı."
+
+#~ msgid "page.donate.one_time_payment.paypal.text1"
+#~ msgstr "Paypal ABD kullanarak bağış yapmak için, Paypal Crypto kullanacağız, bu bizim anonim kalmamızı sağlıyor. Bu bağış metodu bize çok yardımcı olduğundan, öğrenmeye zaman ayırmanıza minnettarız."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3"
+#~ msgstr "Bitcoin (BTC) almak için talimatları takip edin. Yalnızca bağış yapmak istediğiniz miktarı satın almanız lazım."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3b"
+#~ msgstr "Eğer dalgalanmalardan ya da harçlardan dolayı biraz Bitcoin kaybederseniz, <em>lütfen endişelenmeyin</em>. Bu kripto para için normal, ancak bizim anonim şekilde işlememize izin veriyor."
+
+#~ msgid "page.donate.one_time_payment.paypal.text5"
+#~ msgstr "Alıcı olarak Bitcoin (BTC) adresimizi girin ve bağışınızı göndermek için adımları takip edin:"
+
+#~ msgid "page.donate.one_time_payment.alipay.text"
+#~ msgstr "Bağışınızı göndermek için lütfen <a %(a_account)s>bu Alipay hesabını</a> kullanın."
+
+#~ msgid "page.donate.one_time_payment.pix.text"
+#~ msgstr "Bağışınızı göndermek için lütfen <a %(a_account)s>bu Pix hesabını</a> kullanın."
+
+#~ msgid "page.donate.faq.text_other_payment2"
+#~ msgstr "Eğer ödeme metodunuz listede değil ise, yapabileceğiniz en basit aktarım şekli telefonunuza <a href=\"https://paypal.com/\">PayPal</a> veya <a href=\"https://coinbase.com/\">Coinbase</a> 'i indirip bir miktar Bitcoin(BTC) satın almanız. Daha sonra %(address)s hesabımıza gönderebilirsiniz. Ülkelerin çoğunda bu şekilde para aktarımı dakikalar içerisinde gerçekleşir."
 

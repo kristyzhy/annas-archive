@@ -14,23 +14,23 @@ msgstr "കണ്ണഞ്ചിപ്പിക്കുന്ന വിവര�
 msgid "common.membership.tier_name.5"
 msgstr "വിസ്മയിപ്പിക്കുന്ന ഗ്രന്ഥശാലാധികാരി"
 
-#: allthethings/account/views.py:254
+#: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "പ്രതിഫലം ഇല്ലാത്ത"
 
-#: allthethings/account/views.py:255
+#: allthethings/account/views.py:254
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "പ്രതിഫലം ഉള്ളത്"
 
-#: allthethings/account/views.py:256
+#: allthethings/account/views.py:255
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "റദ്ദാക്കപ്പെട്ടത്"
 
-#: allthethings/account/views.py:257
+#: allthethings/account/views.py:256
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "കാലഹരണപ്പെട്ടത്"
 
-#: allthethings/account/views.py:258
+#: allthethings/account/views.py:257
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "അന്ന സ്ഥിരീകരിക്കുന്നതിനായി കാത്തിരിക്കുന്നു"
 
@@ -106,240 +106,155 @@ msgid "page.donate.perks.adopt"
 msgstr "“ഒരു ടോറന്റ് സ്വീകരിക്കുക”: നിങ്ങളുടെ ഉപയോക്തൃനാമം അല്ലെങ്കിൽ സന്ദേശം ഒരു ടോറന്റ് ഫയൽ നാമത്തിൽ <div %(div_months)s>അംഗത്വത്തിന്റെ ഓരോ 12 മാസത്തിലും ഒരിക്കൽ</div>"
 
 #: allthethings/account/templates/account/donate.html:84
-msgid "page.donate.header.text3"
-msgstr "അക്കൗണ്ട് സൃഷ്ടിക്കാതെയും നിങ്ങൾക്ക് സംഭാവന നൽകാം:"
-
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donate.html:88
-msgid "page.donate.buttons.one_time"
-msgstr "ഒറ്റത്തവണ സംഭാവന (ആനുകൂല്യങ്ങളൊന്നുമില്ല)"
-
-#: allthethings/account/templates/account/donate.html:95
-msgid "page.donate.payment.intro"
-msgstr "പണം നിക്ഷേപണ ഹിതമാർഗം തിരഞ്ഞെടുക്കുക. ക്രിപ്‌റ്റോ അധിഷ്‌ഠിത പണ നിക്ഷേപണ മാർഗങ്ങൾ %(bitcoin_icon)s-ന് ഞങ്ങൾ കിഴിവുകൾ നൽകുന്നു, കാരണം ഞങ്ങൾക്ക് കുറച്ച് കൂലി മാത്രമേ ഈടാക്കൂ."
-
-#: allthethings/account/templates/account/donate.html:96
-msgid "page.donate.payment.intro2"
-msgstr "പണം നിക്ഷേപണ ഹിതമാർഗം തിരഞ്ഞെടുക്കുക. പരമ്പരാഗത പണനിക്ഷേപണ മാർഗങ്ങൾ ഞങ്ങളോടൊപ്പം പ്രവർത്തിക്കാൻ വിസമ്മതിക്കുന്നതിനാൽ, ഞങ്ങൾക്ക് നിലവിൽ ക്രിപ്‌റ്റോ അടിസ്ഥാനമാക്കിയുള്ള പണം നിക്ഷേപണ മാർഗങ്ങൾ %(bitcoin_icon)s മാത്രമേയുള്ളൂ."
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:311
-#: allthethings/account/templates/account/donate.html:321
-msgid "page.donate.payment.buttons.crypto"
-msgstr "ക്രിപ്‌റ്റോ %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donate.html:103
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/donate.html:116
-#: allthethings/account/templates/account/donate.html:117
-#: allthethings/account/templates/account/donate.html:221
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:223
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.discount"
-msgstr "-%(percentage)s%%"
-
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donate.html:313
-msgid "page.donate.payment.buttons.paypal"
-msgstr "പേയ്പാൽ (യു.എസ്) %(bitcoin_icon)s"
-
-#: allthethings/account/templates/account/donate.html:110
-#: allthethings/account/templates/account/donate.html:319
-msgid "page.donate.payment.buttons.alipay"
-msgstr "അലിപേ"
-
-#: allthethings/account/templates/account/donate.html:111
-#: allthethings/account/templates/account/donate.html:320
-msgid "page.donate.payment.buttons.pix"
-msgstr "പിക്സ് (ബ്രസീൽ)"
-
-#: allthethings/account/templates/account/donate.html:126
-msgid "page.donate.payment.desc.crypto"
-msgstr "ക്രിപ്‌റ്റോ ഉപയോഗിച്ച് നിങ്ങൾക്ക് BTC, ETH, XMR, SOL എന്നിവ ഉപയോഗിച്ച് സംഭാവന നൽകാം. നിങ്ങൾക്ക് ഇതിനകം ക്രിപ്‌റ്റോകറൻസി പരിചിതമാണെങ്കിൽ ഈ മാർഗം സ്വീകരിക്കുക."
-
-#: allthethings/account/templates/account/donate.html:142
-msgid "page.donate.payment.desc.paypal"
-msgstr "പേയ്പാൽ (യു.എസ്) ഉപയോഗിച്ച് സംഭാവന നൽകാൻ, ഞങ്ങൾ പേയ്പാൽ ക്രിപ്‌റ്റോ ഉപയോഗിക്കാൻ പോകുന്നു, അത് ഞങ്ങളെ അജ്ഞാതരായി തുടരാൻ അനുവദിക്കുന്നു. ഈ രീതി ഉപയോഗിച്ച് എങ്ങനെ സംഭാവന നൽകാമെന്ന് മനസിലാക്കാൻ നിങ്ങൾ സമയം ചെലവഴിക്കുന്നത് ഞങ്ങൾ അഭിനന്ദിക്കുന്നു, കാരണം ഇത് ഞങ്ങളെ വളരെയധികം സഹായിക്കുന്നു."
-
-#: allthethings/account/templates/account/donate.html:215
-msgid "page.donate.duration.intro"
-msgstr "നിങ്ങൾ എത്ര കാലത്തേക്ക് വരിക്കാരൻ ആകുന്നു എന്ന് തിരഞ്ഞെടുക്കുക."
-
-#: allthethings/account/templates/account/donate.html:220
-msgid "page.donate.duration.1_mo"
-msgstr "1 മാസം"
-
-#: allthethings/account/templates/account/donate.html:221
-msgid "page.donate.duration.3_mo"
-msgstr "3 മാസങ്ങൾ"
-
-#: allthethings/account/templates/account/donate.html:222
-msgid "page.donate.duration.6_mo"
-msgstr "6 മാസങ്ങൾ"
-
-#: allthethings/account/templates/account/donate.html:223
-msgid "page.donate.duration.12_mo"
-msgstr "12 മാസങ്ങൾ"
-
-#: allthethings/account/templates/account/donate.html:224
-msgid "page.donate.duration.24_mo"
-msgstr "24 മാസങ്ങൾ"
-
-#: allthethings/account/templates/account/donate.html:227
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div> <div %(div_after)s> <span %(span_discount)s></span> കിഴിവുകൾക്ക് ശേഷം</div><div %(div_total)s></div> <div %(div_duration)s></div>"
-
-#: allthethings/account/templates/account/donate.html:239
-msgid "page.donate.login"
-msgstr "അംഗമാകാൻ, ദയവായി <a href=\"/login\">അകത്തു പ്രവേശിക്കുക അല്ലെങ്കിൽ രജിസ്റ്റർ ചെയ്യുക</a>. ഒരു അക്കൗണ്ട് സൃഷ്‌ടിക്കാതിരിക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവെങ്കിൽ, മുകളിലുള്ള \"ഒറ്റത്തവണ അജ്ഞാത സംഭാവന\" തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!"
-
-#: allthethings/account/templates/account/donate.html:278
-msgid "page.donate.submit.confirm"
-msgstr "ഈ സംഭാവന സ്ഥിരീകരിക്കാൻ സംഭാവന ബട്ടൺ അമര്‍ത്തുക."
-
-#: allthethings/account/templates/account/donate.html:286
-msgid "page.donate.submit.button"
-msgstr "സംഭാവന ചെയ്യുക <span %(span_cost)s></span> <span %(span_label)s></span>"
-
-#: allthethings/account/templates/account/donate.html:291
-msgid "page.donate.submit.cancel_note"
-msgstr "ചെക്ക്ഔട്ട് സമയത്തും നിങ്ങൾക്ക് സംഭാവന റദ്ദാക്കാം."
-
-#: allthethings/account/templates/account/donate.html:295
-msgid "page.donate.submit.success"
-msgstr "✅ സംഭാവന താളിലേക്ക് പുനഃപ്രേഷണം ചെയ്യുന്നു…"
-
-#: allthethings/account/templates/account/donate.html:296
-msgid "page.donate.submit.failure"
-msgstr "❌ എന്തോ കുഴപ്പം സംഭവിച്ചു. താൾ വീണ്ടും നിറച്ചതിനു ശേഷം വീണ്ടും ശ്രമിക്കുക."
-
-#: allthethings/account/templates/account/donate.html:303
-msgid "page.donate.one_time_payment.intro"
-msgstr ""
-
-#: allthethings/account/templates/account/donate.html:307
 msgid "page.donate.header.large_donations"
 msgstr "സുമാര് ഡോളർ 5000-ൽ കൂടുതലുള്ള സംഭാവനകൾക്ക് <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a> എന്നതിൽ ഞങ്ങളെ നേരിട്ട് ബന്ധപ്പെടുക."
 
-#: allthethings/account/templates/account/donate.html:333
-msgid "page.donate.crypto.intro"
-msgstr "നിങ്ങൾക്ക് ഇതിനകം ക്രിപ്‌റ്റോ പണം ഉണ്ടെങ്കിൽ, ഇവയാണ് ഞങ്ങളുടെ വിലാസങ്ങൾ."
+#: allthethings/account/templates/account/donate.html:90
+msgid "page.donate.payment.intro"
+msgstr "പണം നിക്ഷേപണ ഹിതമാർഗം തിരഞ്ഞെടുക്കുക. ക്രിപ്‌റ്റോ അധിഷ്‌ഠിത പണ നിക്ഷേപണ മാർഗങ്ങൾ %(bitcoin_icon)s-ന് ഞങ്ങൾ കിഴിവുകൾ നൽകുന്നു, കാരണം ഞങ്ങൾക്ക് കുറച്ച് കൂലി മാത്രമേ ഈടാക്കൂ."
 
-#: allthethings/account/templates/account/donate.html:344
-#: allthethings/account/templates/account/donate.html:378
-#: allthethings/account/templates/account/donate.html:416
-#: allthethings/account/templates/account/donate.html:479
-#: allthethings/account/templates/account/donate.html:493
-#: allthethings/account/templates/account/donate.html:503
-msgid "page.donate.text_thank_you"
-msgstr "സഹായിച്ചതിന് വളരെ നന്ദി! നിങ്ങളില്ലാതെ ഈ പദ്ധതി സാധ്യമല്ല."
+#: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.payment.intro2"
+msgstr "പണം നിക്ഷേപണ ഹിതമാർഗം തിരഞ്ഞെടുക്കുക. പരമ്പരാഗത പണനിക്ഷേപണ മാർഗങ്ങൾ ഞങ്ങളോടൊപ്പം പ്രവർത്തിക്കാൻ വിസമ്മതിക്കുന്നതിനാൽ, ഞങ്ങൾക്ക് നിലവിൽ ക്രിപ്‌റ്റോ അടിസ്ഥാനമാക്കിയുള്ള പണം നിക്ഷേപണ മാർഗങ്ങൾ %(bitcoin_icon)s മാത്രമേയുള്ളൂ."
 
-#: allthethings/account/templates/account/donate.html:384
-msgid "page.donate.one_time_payment.paypal.text1"
-msgstr ""
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:107
+msgid "page.donate.payment.buttons.crypto"
+msgstr "ക്രിപ്‌റ്റോ %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:387
-#: allthethings/account/templates/account/donation.html:114
-msgid "page.donate.submit.header1"
-msgstr "<span %(span_circle)s>1</span>പേയ്പാൽ-ൽ ബിറ്റ്‌കോയിൻ വാങ്ങുക"
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:217
+#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:390
-#: allthethings/account/templates/account/donation.html:117
-#: allthethings/account/templates/account/donation.html:154
-msgid "page.donate.one_time_payment.paypal.text2"
-msgstr "നിങ്ങളുടെ പേയ്പാൽ ആപ്പിലോ വെബ്‌സൈറ്റിലോ \"ക്രിപ്റ്റോ\" പേജ് കണ്ടെത്തുക. ഇത് സാധാരണയായി \"സാമ്പത്തികം/ആദായം\" എന്നതിന് കീഴിലാണ്."
+#: allthethings/account/templates/account/donate.html:99
+msgid "page.donate.payment.buttons.paypal"
+msgstr "പേയ്പാൽ (യു.എസ്) %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:394
-msgid "page.donate.one_time_payment.paypal.text3"
-msgstr "ബിറ്റ്കോയിൻ (ബിടിസി) വാങ്ങുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ പാലിക്കുക. നിങ്ങൾ സംഭാവന ചെയ്യാൻ ആഗ്രഹിക്കുന്ന തുക മാത്രം വാങ്ങിയാൽ മതി."
+#: allthethings/account/templates/account/donate.html:105
+msgid "page.donate.payment.buttons.alipay"
+msgstr "അലിപേ"
 
-#: allthethings/account/templates/account/donate.html:398
-msgid "page.donate.one_time_payment.paypal.text3b"
-msgstr "ഏറ്റക്കുറച്ചിലുകൾ അല്ലെങ്കിൽ സേവന കൂലി കാരണം നിങ്ങൾക്ക് കുറച്ച് ബിറ്റ്കോയിൻ നഷ്ടപ്പെടുകയാണെങ്കിൽ, <em>ദയവായി വിഷമിക്കേണ്ട</em>. ക്രിപ്‌റ്റോകറൻസിയിൽ ഇത് സാധാരണമാണ്, പക്ഷേ അജ്ഞാതമായി പ്രവർത്തിക്കാൻ ഇത് ഞങ്ങളെ അനുവദിക്കുന്നു."
+#: allthethings/account/templates/account/donate.html:106
+msgid "page.donate.payment.buttons.pix"
+msgstr "പിക്സ് (ബ്രസീൽ)"
 
-#: allthethings/account/templates/account/donate.html:401
-#: allthethings/account/templates/account/donation.html:124
-msgid "page.donate.submit.header2"
-msgstr "<span %(span_circle)s>2</span> ഞങ്ങളുടെ വിലാസത്തിലേക്ക് ബിറ്റ്‌കോയിൻ കൈമാറുക"
+#: allthethings/account/templates/account/donate.html:121
+msgid "page.donate.payment.desc.crypto"
+msgstr "ക്രിപ്‌റ്റോ ഉപയോഗിച്ച് നിങ്ങൾക്ക് BTC, ETH, XMR, SOL എന്നിവ ഉപയോഗിച്ച് സംഭാവന നൽകാം. നിങ്ങൾക്ക് ഇതിനകം ക്രിപ്‌റ്റോകറൻസി പരിചിതമാണെങ്കിൽ ഈ മാർഗം സ്വീകരിക്കുക."
 
-#: allthethings/account/templates/account/donate.html:404
-#: allthethings/account/templates/account/donation.html:127
-msgid "page.donate.one_time_payment.paypal.text4"
-msgstr "നിങ്ങളുടെ പേപാൽ ആപ്പിലെയോ വെബ്‌സൈറ്റിലെയോ \"ബിറ്റ്‌കോയിൻ\" പേജിലേക്ക് പോകുക. \"ട്രാൻസ്ഫർ\" ബട്ടൺ %(transfer_icon)s അമർത്തുക, തുടർന്ന് \"അയയ്ക്കുക\"."
+#: allthethings/account/templates/account/donate.html:137
+msgid "page.donate.payment.desc.paypal"
+msgstr "പേയ്പാൽ (യു.എസ്) ഉപയോഗിച്ച് സംഭാവന നൽകാൻ, ഞങ്ങൾ പേയ്പാൽ ക്രിപ്‌റ്റോ ഉപയോഗിക്കാൻ പോകുന്നു, അത് ഞങ്ങളെ അജ്ഞാതരായി തുടരാൻ അനുവദിക്കുന്നു. ഈ രീതി ഉപയോഗിച്ച് എങ്ങനെ സംഭാവന നൽകാമെന്ന് മനസിലാക്കാൻ നിങ്ങൾ സമയം ചെലവഴിക്കുന്നത് ഞങ്ങൾ അഭിനന്ദിക്കുന്നു, കാരണം ഇത് ഞങ്ങളെ വളരെയധികം സഹായിക്കുന്നു."
 
-#: allthethings/account/templates/account/donate.html:408
-msgid "page.donate.one_time_payment.paypal.text5"
-msgstr "സ്വീകർത്താവായി ഞങ്ങളുടെ ബിറ്റ്കോയിൻ (ബിടിസി) വിലാസം നൽകുക, നിങ്ങളുടെ സംഭാവന അയയ്ക്കുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ പാലിക്കുക:"
+#: allthethings/account/templates/account/donate.html:210
+msgid "page.donate.duration.intro"
+msgstr "നിങ്ങൾ എത്ര കാലത്തേക്ക് വരിക്കാരൻ ആകുന്നു എന്ന് തിരഞ്ഞെടുക്കുക."
 
-#: allthethings/account/templates/account/donate.html:475
-#: allthethings/account/templates/account/donate.html:489
-#: allthethings/account/templates/account/donation.html:349
-#: allthethings/account/templates/account/donation.html:363
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:387
-msgid "page.donate.strange_account"
-msgstr "ശ്രദ്ധിക്കുക: അക്കൗണ്ടിന്റെ പേരോ ചിത്രമോ വിചിത്രമായി തോന്നിയേക്കാവുന്നത് ആണ് . വിഷമിക്കേണ്ടതില്ല! ഈ അക്കൗണ്ടുകൾ നിയന്ത്രിക്കുന്നത് ഞങ്ങളുടെ സംഭാവന പങ്കാളികളാണ്. ഞങ്ങളുടെ അക്കൗണ്ടുകൾ ഹാക്ക് ചെയ്യപ്പെട്ടിട്ടില്ല."
+#: allthethings/account/templates/account/donate.html:215
+msgid "page.donate.duration.1_mo"
+msgstr "1 മാസം"
 
-#: allthethings/account/templates/account/donate.html:485
-msgid "page.donate.one_time_payment.alipay.text"
-msgstr "നിങ്ങളുടെ സംഭാവന അയക്കാൻ ദയവായി <a %(a_account)s>ഈ അലിപേ അക്കൗണ്ട്</a> ഉപയോഗിക്കുക."
+#: allthethings/account/templates/account/donate.html:216
+msgid "page.donate.duration.3_mo"
+msgstr "3 മാസങ്ങൾ"
 
-#: allthethings/account/templates/account/donate.html:499
-msgid "page.donate.one_time_payment.pix.text"
-msgstr "നിങ്ങളുടെ സംഭാവന അയയ്ക്കാൻ ദയവായി <a %(a_account)s>ഈ പിക്‌സ് അക്കൗണ്ട്</a> ഉപയോഗിക്കുക."
+#: allthethings/account/templates/account/donate.html:217
+msgid "page.donate.duration.6_mo"
+msgstr "6 മാസങ്ങൾ"
 
-#: allthethings/account/templates/account/donate.html:563
+#: allthethings/account/templates/account/donate.html:218
+msgid "page.donate.duration.12_mo"
+msgstr "12 മാസങ്ങൾ"
+
+#: allthethings/account/templates/account/donate.html:219
+msgid "page.donate.duration.24_mo"
+msgstr "24 മാസങ്ങൾ"
+
+#: allthethings/account/templates/account/donate.html:222
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div> <div %(div_after)s> <span %(span_discount)s></span> കിഴിവുകൾക്ക് ശേഷം</div><div %(div_total)s></div> <div %(div_duration)s></div>"
+
+#: allthethings/account/templates/account/donate.html:234
+msgid "page.donate.login"
+msgstr "അംഗമാകാൻ, ദയവായി <a href=\"/login\">അകത്തു പ്രവേശിക്കുക അല്ലെങ്കിൽ രജിസ്റ്റർ ചെയ്യുക</a>. ഒരു അക്കൗണ്ട് സൃഷ്‌ടിക്കാതിരിക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവെങ്കിൽ, മുകളിലുള്ള \"ഒറ്റത്തവണ അജ്ഞാത സംഭാവന\" തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!"
+
+#: allthethings/account/templates/account/donate.html:273
+msgid "page.donate.submit.confirm"
+msgstr "ഈ സംഭാവന സ്ഥിരീകരിക്കാൻ സംഭാവന ബട്ടൺ അമര്‍ത്തുക."
+
+#: allthethings/account/templates/account/donate.html:281
+msgid "page.donate.submit.button"
+msgstr "സംഭാവന ചെയ്യുക <span %(span_cost)s></span> <span %(span_label)s></span>"
+
+#: allthethings/account/templates/account/donate.html:286
+msgid "page.donate.submit.cancel_note"
+msgstr "ചെക്ക്ഔട്ട് സമയത്തും നിങ്ങൾക്ക് സംഭാവന റദ്ദാക്കാം."
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.submit.success"
+msgstr "✅ സംഭാവന താളിലേക്ക് പുനഃപ്രേഷണം ചെയ്യുന്നു…"
+
+#: allthethings/account/templates/account/donate.html:291
+msgid "page.donate.submit.failure"
+msgstr "❌ എന്തോ കുഴപ്പം സംഭവിച്ചു. താൾ വീണ്ടും നിറച്ചതിനു ശേഷം വീണ്ടും ശ്രമിക്കുക."
+
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:564
+#: allthethings/account/templates/account/donate.html:349
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s പ്രതി മാസം"
 
-#: allthethings/account/templates/account/donate.html:567
+#: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 മാസത്തേക്ക്"
 
-#: allthethings/account/templates/account/donate.html:568
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 മാസത്തേക്ക്"
 
-#: allthethings/account/templates/account/donate.html:569
+#: allthethings/account/templates/account/donate.html:354
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 മാസത്തേക്ക്"
 
-#: allthethings/account/templates/account/donate.html:570
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 മാസത്തേക്ക്"
 
-#: allthethings/account/templates/account/donate.html:571
+#: allthethings/account/templates/account/donate.html:356
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 മാസത്തേക്ക്"
 
-#: allthethings/account/templates/account/donate.html:575
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 മാസത്തേക്ക് “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:576
+#: allthethings/account/templates/account/donate.html:361
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 മാസത്തേക്ക് “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:577
+#: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 മാസത്തേക്ക് “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:578
+#: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 മാസത്തേക്ക് “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:579
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 മാസത്തേക്ക് “%(tier_name)s”"
 
@@ -425,63 +340,87 @@ msgstr "<span %(span_circle)s>1</span>നിങ്ങളുടെ ക്രി�
 msgid "page.donation.payment.crypto.text1"
 msgstr "ഈ വിലാസങ്ങളിലൊന്നിലേക്ക് മൊത്തം %(total)s തുക സംഭാവന ചെയ്യുക:"
 
-#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:105
+msgid "page.donate.submit.header1"
+msgstr "<span %(span_circle)s>1</span>പേയ്പാൽ-ൽ ബിറ്റ്‌കോയിൻ വാങ്ങുക"
+
+#: allthethings/account/templates/account/donation.html:108
+#: allthethings/account/templates/account/donation.html:142
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr "നിങ്ങളുടെ പേയ്പാൽ ആപ്പിലോ വെബ്‌സൈറ്റിലോ \"ക്രിപ്റ്റോ\" പേജ് കണ്ടെത്തുക. ഇത് സാധാരണയായി \"സാമ്പത്തികം/ആദായം\" എന്നതിന് കീഴിലാണ്."
+
+#: allthethings/account/templates/account/donation.html:112
 msgid "page.donation.payment.paypal.text3"
 msgstr "ബിറ്റ്കോയിൻ (ബിടിസി) വാങ്ങുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ പാലിക്കുക. നിങ്ങൾ സംഭാവന ചെയ്യാൻ ആഗ്രഹിക്കുന്ന തുക മാത്രം വാങ്ങിയാൽ മതി, %(total)s."
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:115
+msgid "page.donate.submit.header2"
+msgstr "<span %(span_circle)s>2</span> ഞങ്ങളുടെ വിലാസത്തിലേക്ക് ബിറ്റ്‌കോയിൻ കൈമാറുക"
+
+#: allthethings/account/templates/account/donation.html:118
+msgid "page.donate.one_time_payment.paypal.text4"
+msgstr "നിങ്ങളുടെ പേപാൽ ആപ്പിലെയോ വെബ്‌സൈറ്റിലെയോ \"ബിറ്റ്‌കോയിൻ\" പേജിലേക്ക് പോകുക. \"ട്രാൻസ്ഫർ\" ബട്ടൺ %(transfer_icon)s അമർത്തുക, തുടർന്ന് \"അയയ്ക്കുക\"."
+
+#: allthethings/account/templates/account/donation.html:122
 msgid "page.donation.payment.paypal.text5"
 msgstr "സ്വീകർത്താവായി ഞങ്ങളുടെ ബിറ്റ്കോയിൻ (ബിടിസി) വിലാസം നൽകുക, നിങ്ങളുടെ സംഭാവന %(total)s അയയ്‌ക്കുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ പാലിക്കുക:"
 
-#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:337
+#: allthethings/account/templates/account/donation.html:351
+#: allthethings/account/templates/account/donation.html:363
+#: allthethings/account/templates/account/donation.html:375
+msgid "page.donate.strange_account"
+msgstr "ശ്രദ്ധിക്കുക: അക്കൗണ്ടിന്റെ പേരോ ചിത്രമോ വിചിത്രമായി തോന്നിയേക്കാവുന്നത് ആണ് . വിഷമിക്കേണ്ടതില്ല! ഈ അക്കൗണ്ടുകൾ നിയന്ത്രിക്കുന്നത് ഞങ്ങളുടെ സംഭാവന പങ്കാളികളാണ്. ഞങ്ങളുടെ അക്കൗണ്ടുകൾ ഹാക്ക് ചെയ്യപ്പെട്ടിട്ടില്ല."
+
+#: allthethings/account/templates/account/donation.html:354
 msgid "page.donation.payment.alipay.top_header"
 msgstr "അലിപേ നിർദ്ദേശങ്ങൾ"
 
-#: allthethings/account/templates/account/donation.html:368
+#: allthethings/account/templates/account/donation.html:356
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</spam>അലിപേ-യിൽ സംഭാവന ചെയ്യുക"
 
-#: allthethings/account/templates/account/donation.html:371
+#: allthethings/account/templates/account/donation.html:359
 msgid "page.donation.payment.alipay.text1"
 msgstr "<a %(a_account)s>ഈ അലിപേ അക്കൗണ്ട് ഉപയോഗിച്ച് %(total)s ആകെ തുക സംഭാവന ചെയ്യുക"
 
-#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:366
 msgid "page.donation.payment.pix.top_header"
 msgstr "പിക്ക്സ് നിർദ്ദേശങ്ങൾ"
 
-#: allthethings/account/templates/account/donation.html:380
+#: allthethings/account/templates/account/donation.html:368
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</spam>പിക്ക്സ്-ൽ സംഭാവന ചെയ്യുക"
 
-#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:371
 msgid "page.donation.payment.pix.text1"
 msgstr "<a %(a_account)s>ഈ പിക്ക്സ് അക്കൗണ്ട് ഉപയോഗിച്ച് %(total)s ആകെ തുക സംഭാവന ചെയ്യുക"
 
-#: allthethings/account/templates/account/donation.html:392
+#: allthethings/account/templates/account/donation.html:380
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</spam> രസീത് ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക"
 
-#: allthethings/account/templates/account/donation.html:398
+#: allthethings/account/templates/account/donation.html:386
 msgid "page.donation.footer.text1"
 msgstr "നിങ്ങളുടെ സ്വകാര്യ സ്ഥിരീകരണ വിലാസത്തിലേക്ക് ഒരു രസീത് അല്ലെങ്കിൽ സ്ക്രീൻഷോട്ട് അയയ്ക്കുക:"
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:396
 msgid "page.donation.footer.crypto_note"
 msgstr "ഇടപാട് സമയത്ത് ക്രിപ്‌റ്റോ എക്‌സ്‌ചേഞ്ച് നിരക്കിൽ ഏറ്റക്കുറച്ചിലുണ്ടെങ്കിൽ, യഥാർത്ഥ വിനിമയ നിരക്ക് കാണിക്കുന്ന രസീത് ഉൾപ്പെടുത്തുന്നത് ഉറപ്പാക്കുക. ക്രിപ്‌റ്റോ ഉപയോഗിക്കുന്നതിന് നിങ്ങൾ ബുദ്ധിമുട്ടുന്നതിനെ ഞങ്ങൾ ശരിക്കും അഭിനന്ദിക്കുന്നു, ഇത് ഞങ്ങളെ വളരെയധികം സഹായിക്കുന്നു!"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:401
 msgid "page.donation.footer.text2"
 msgstr "നിങ്ങൾ രസീത് ഇമെയിൽ ചെയ്തുകഴിഞ്ഞാൽ, ഈ ബട്ടൺ അമർത്തുക, അതുവഴി അന്നയ്ക്ക് അത് നേരിട്ട് അവലോകനം ചെയ്യാൻ കഴിയും (ഇതിന് കുറച്ച് ദിവസമെടുത്തേക്കാം):"
 
-#: allthethings/account/templates/account/donation.html:423
+#: allthethings/account/templates/account/donation.html:411
 msgid "page.donation.footer.button"
 msgstr "അതെ, ഞാൻ എന്റെ രസീത് ഇമെയിൽ ചെയ്തു"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:414
 msgid "page.donation.footer.success"
 msgstr "✅ നിങ്ങളുടെ സംഭാവനയ്ക്ക് നന്ദി! ഏതാനും ദിവസങ്ങൾക്കുള്ളിൽ അന്ന നിങ്ങളുടെ അംഗത്വം നേരിട്ട് സജീവമാക്കും."
 
-#: allthethings/account/templates/account/donation.html:427
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.footer.failure"
 msgstr "❌ എന്തോ കുഴപ്പം സംഭവിച്ചു. പേജ് വീണ്ടും ലോഡുചെയ്‌ത് വീണ്ടും ശ്രമിക്കുക."
 
@@ -499,22 +438,18 @@ msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>നിങ്ങൾക്ക് മറ്റ് പണനികേഷേപന രീതികളുണ്ടോ?</div> നിലവിൽ ഇല്ല. ഇതുപോലുള്ള ഗ്രന്ഥപ്പുരകൾ നിലനിൽക്കണമെന്ന് പലരും ആഗ്രഹിക്കുന്നില്ല, അതിനാൽ നമ്മൾ ശ്രദ്ധിക്കേണ്ടതുണ്ട്. സുരക്ഷിതമായി മറ്റ് (കൂടുതൽ സൗകര്യപ്രദമായ) പണനികേഷേപന രീതികൾ സജ്ജീകരിക്കാൻ ഞങ്ങളെ സഹായിക്കാൻ നിങ്ങൾക്ക് കഴിയുമെങ്കിൽ, ദയവായി %(email)s-ൽ ബന്ധപ്പെടുക."
 
 #: allthethings/account/templates/account/donation_faq.html:17
-msgid "page.donate.faq.text_other_payment2"
-msgstr "നിങ്ങളുടെ പണനികേഷേപന രീതി ലിസ്റ്റിൽ ഇല്ലെങ്കിൽ, <a href=\"https://paypal.com/\">പേയ്പാൽ</a> അല്ലെങ്കിൽ <a href=\"https://coinbase.com\">കോയിൻബേസ്</a> നിങ്ങളുടെ ഫോണിൽ ഡൗൺലോഡ് ചെയ്യുക എന്നതാണ് ഏറ്റവും എളുപ്പമുള്ള കാര്യം, അവിടെ ബിറ്റ്കോയിൻ (BTC) വാങ്ങുക. നിങ്ങൾക്ക് അത് ഞങ്ങളുടെ വിലാസത്തിലേക്ക് അയയ്ക്കാം: %(address)s. മിക്ക രാജ്യങ്ങളിലും, ഇത് സജ്ജീകരിക്കാൻ കുറച്ച് മിനിറ്റുകൾ മാത്രമേ എടുക്കൂ."
-
-#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>നിങ്ങൾ എന്തിനുവേണ്ടിയാണ് സംഭാവനകൾ ചെലവഴിക്കുന്നത്?</div> 100%% ലോകത്തിന്റെ അറിവും സംസ്കാരവും സംരക്ഷിക്കാനും, എല്ലാരിലും എത്തിക്കാനും പോകുന്നു. നിലവിൽ ഞങ്ങൾ അത് സെർവറുകൾ, സംഭരണം, ബാൻഡ്‌വിഡ്ത്ത് എന്നിവയിൽ ചെലവഴിക്കുന്നു. ടീം അംഗങ്ങൾക്ക് വ്യക്തിപരമായി പണമൊന്നും പോകുന്നില്ല."
 
-#: allthethings/account/templates/account/donation_faq.html:25
+#: allthethings/account/templates/account/donation_faq.html:21
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>എനിക്ക് ഒരു വലിയ സംഭാവന നൽകാൻ കഴിയുമോ?</div> അത് അതിശയകരമായിരിക്കും! ആയിരക്കണക്കിന് ഡോളറിൽ കൂടുതലുള്ള സംഭാവനകൾക്ക്, ദയവായി ഞങ്ങളെ നേരിട്ട് %(email)s-ൽ ബന്ധപ്പെടുക."
 
-#: allthethings/account/templates/account/donation_faq.html:29
+#: allthethings/account/templates/account/donation_faq.html:25
 msgid "page.donate.faq.text_other_contribs"
 msgstr "<div %(div_question)s>എനിക്ക് മറ്റ് വഴികളിൽ സംഭാവന ചെയ്യാനാകുമോ?</div> അതെ! “എങ്ങനെ സഹായിക്കാം” എന്നതിന് താഴെയുള്ള <a href=\"/about\">വിവര പേജ്</a> നോക്കുക."
 
-#: allthethings/account/templates/account/donation_faq.html:33
+#: allthethings/account/templates/account/donation_faq.html:29
 msgid "page.donate.faq.monetizing"
 msgstr "<div %(div_question)s>നിങ്ങൾ അന്നയുടെ ആർക്കൈവ് \"ധനസമ്പാദനം\" ചെയ്യുന്നത് എനിക്ക് ഇഷ്ടമല്ല!</div> ഞങ്ങളുടെ പ്രോജക്റ്റ് ഞങ്ങൾ എങ്ങനെ പ്രവർത്തിപ്പിക്കുന്നുവെന്ന് നിങ്ങൾക്ക് ഇഷ്‌ടപ്പെടുന്നില്ലെങ്കിൽ, നിങ്ങളുടെ സ്വന്തം ഷാഡോ ഗ്രന്ഥശാല പ്രവർത്തിപ്പിക്കുക! ഞങ്ങളുടെ എല്ലാ കോഡും ഡേറ്റയും ഓപ്പൺ സോഴ്‌സ് ആയതിനാൽ ഒന്നും നിങ്ങളെ തടയുന്നില്ല. ;)"
 
@@ -1453,4 +1388,40 @@ msgstr ""
 
 #~ msgid "page.search.breadcrumbs.new"
 #~ msgstr ""
+
+#~ msgid "page.donate.header.text3"
+#~ msgstr "അക്കൗണ്ട് സൃഷ്ടിക്കാതെയും നിങ്ങൾക്ക് സംഭാവന നൽകാം:"
+
+#~ msgid "page.donate.buttons.one_time"
+#~ msgstr "ഒറ്റത്തവണ സംഭാവന (ആനുകൂല്യങ്ങളൊന്നുമില്ല)"
+
+#~ msgid "page.donate.one_time_payment.intro"
+#~ msgstr ""
+
+#~ msgid "page.donate.crypto.intro"
+#~ msgstr "നിങ്ങൾക്ക് ഇതിനകം ക്രിപ്‌റ്റോ പണം ഉണ്ടെങ്കിൽ, ഇവയാണ് ഞങ്ങളുടെ വിലാസങ്ങൾ."
+
+#~ msgid "page.donate.text_thank_you"
+#~ msgstr "സഹായിച്ചതിന് വളരെ നന്ദി! നിങ്ങളില്ലാതെ ഈ പദ്ധതി സാധ്യമല്ല."
+
+#~ msgid "page.donate.one_time_payment.paypal.text1"
+#~ msgstr ""
+
+#~ msgid "page.donate.one_time_payment.paypal.text3"
+#~ msgstr "ബിറ്റ്കോയിൻ (ബിടിസി) വാങ്ങുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ പാലിക്കുക. നിങ്ങൾ സംഭാവന ചെയ്യാൻ ആഗ്രഹിക്കുന്ന തുക മാത്രം വാങ്ങിയാൽ മതി."
+
+#~ msgid "page.donate.one_time_payment.paypal.text3b"
+#~ msgstr "ഏറ്റക്കുറച്ചിലുകൾ അല്ലെങ്കിൽ സേവന കൂലി കാരണം നിങ്ങൾക്ക് കുറച്ച് ബിറ്റ്കോയിൻ നഷ്ടപ്പെടുകയാണെങ്കിൽ, <em>ദയവായി വിഷമിക്കേണ്ട</em>. ക്രിപ്‌റ്റോകറൻസിയിൽ ഇത് സാധാരണമാണ്, പക്ഷേ അജ്ഞാതമായി പ്രവർത്തിക്കാൻ ഇത് ഞങ്ങളെ അനുവദിക്കുന്നു."
+
+#~ msgid "page.donate.one_time_payment.paypal.text5"
+#~ msgstr "സ്വീകർത്താവായി ഞങ്ങളുടെ ബിറ്റ്കോയിൻ (ബിടിസി) വിലാസം നൽകുക, നിങ്ങളുടെ സംഭാവന അയയ്ക്കുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ പാലിക്കുക:"
+
+#~ msgid "page.donate.one_time_payment.alipay.text"
+#~ msgstr "നിങ്ങളുടെ സംഭാവന അയക്കാൻ ദയവായി <a %(a_account)s>ഈ അലിപേ അക്കൗണ്ട്</a> ഉപയോഗിക്കുക."
+
+#~ msgid "page.donate.one_time_payment.pix.text"
+#~ msgstr "നിങ്ങളുടെ സംഭാവന അയയ്ക്കാൻ ദയവായി <a %(a_account)s>ഈ പിക്‌സ് അക്കൗണ്ട്</a> ഉപയോഗിക്കുക."
+
+#~ msgid "page.donate.faq.text_other_payment2"
+#~ msgstr "നിങ്ങളുടെ പണനികേഷേപന രീതി ലിസ്റ്റിൽ ഇല്ലെങ്കിൽ, <a href=\"https://paypal.com/\">പേയ്പാൽ</a> അല്ലെങ്കിൽ <a href=\"https://coinbase.com\">കോയിൻബേസ്</a> നിങ്ങളുടെ ഫോണിൽ ഡൗൺലോഡ് ചെയ്യുക എന്നതാണ് ഏറ്റവും എളുപ്പമുള്ള കാര്യം, അവിടെ ബിറ്റ്കോയിൻ (BTC) വാങ്ങുക. നിങ്ങൾക്ക് അത് ഞങ്ങളുടെ വിലാസത്തിലേക്ക് അയയ്ക്കാം: %(address)s. മിക്ക രാജ്യങ്ങളിലും, ഇത് സജ്ജീകരിക്കാൻ കുറച്ച് മിനിറ്റുകൾ മാത്രമേ എടുക്കൂ."
 

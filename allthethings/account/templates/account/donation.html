@@ -75,13 +75,7 @@
       <p class="">
         {{ gettext('page.donation.payment.crypto.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
       </p>
-
-      <ul class="list-inside mb-4 break-all">
-        <li>- Bitcoin BTC: {{ CRYPTO_ADDRESSES.btc_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.btc_address_membership_donation) }}</li>
-        <li>- Ethereum ETH: {{ CRYPTO_ADDRESSES.eth_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.eth_address_membership_donation) }}</li>
-        <li>- Monero XMR: 445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t{{ copy_button('445v3zW24nBbdJDAUeRG4aWmGBwqL3ctHE9DuV42d2K7KbaWeUjn13N3f9MNnfSKpFUCkiQ9RoJ1U66CG7HPhBSDQdSdi7t') }}</li>
-        <li>- Solana SOL: HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP{{ copy_button('HDMUSnfFYiKNc9r2ktJ1rsmQhS8kJitKjRZtVGMVy1DP') }}</li>
-      </ul> -->
+      -->
     {% elif donation_dict.json.method == 'binance' %}
       <p class="mb-4">
         This donation has expired. Please cancel and create a new one.
@@ -102,10 +96,7 @@
       <p class="mb-4">
         Enter our Bitcoin (BTC) address as the recipient, and follow the instructions to send your donation:
       </p>
-
-      <p class="mb-4 font-mono font-bold text-sm">
-        {{ CRYPTO_ADDRESSES.btc_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.btc_address_membership_donation) }}
-      </p> -->
+      -->
     {% elif donation_dict.json.method == 'paypal' %}
       <p class="mb-4">
         This donation has expired. Please cancel and create a new one.
@@ -130,10 +121,7 @@
       <p class="mb-4">
         {{ gettext('page.donation.payment.paypal.text5', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
       </p>
-
-      <p class="mb-4 font-mono font-bold text-sm">
-        {{ CRYPTO_ADDRESSES.btc_address_membership_donation }}{{ copy_button(CRYPTO_ADDRESSES.btc_address_membership_donation) }}
-      </p> -->
+      -->
     {% elif donation_dict.json.method == 'hoodpay' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">Credit / debit card instructions</h2>
 
