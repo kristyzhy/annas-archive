@@ -92,16 +92,13 @@
   <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
     <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] in ['md5','doi'] %}{{ gettext('page.md5.tabs.downloads', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] == 'ia' %}{{ gettext('page.md5.tabs.borrow', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] in ['isbn', 'ol'] %}{{ gettext('page.md5.tabs.explore_metadata', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% endif %}</button>
     {% if aarecord_id_split[0] == 'md5' %}
-      <!-- TODO:TRANSLATE -->
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-lists" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">Lists (–)</button>
-      <!-- TODO:TRANSLATE -->
-      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-stats" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">Stats (–)</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">{{ gettext('page.md5.tabs.lists', count=('<span class="js-md5-tab-lists">–</span>' | safe)) }}</button>
+      <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">{{ gettext('page.md5.tabs.stats', count=('<span class="js-md5-tab-stats">–</span>' | safe)) }}</button>
     {% endif %}
     <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-details" aria-controls="md5-panel-details" tabindex="0">{{ gettext('common.tech_details') }}</button>
   </div>
 
   {% if aarecord_id_split[0] == 'md5' %}
-    <!-- TODO:TRANSLATE -->
     <script>
       (function() {
         const md5 = {{ aarecord_id_split[1] | tojson }};
@@ -117,8 +114,8 @@
         window.md5ReloadSummary = function() {
           fetch("/dyn/md5/summary/" + md5).then((response) => response.json()).then((json) => {
             // document.querySelector(".js-md5-tab-discussion").innerText = 'Discussion (' + (json.comments_count + json.reports_count + json.great_quality_count) + ')';
-            document.querySelector(".js-md5-tab-lists").innerText = 'Lists (' + json.lists_count + ')';
-            document.querySelector(".js-md5-tab-stats").innerText = 'Stats (' + json.downloads_total + ')';
+            document.querySelector(".js-md5-tab-lists").innerText = json.lists_count;
+            document.querySelector(".js-md5-tab-stats").innerText = json.downloads_total;
             document.querySelector(".js-md5-button-new-issue-label").innerText = 'Report file issue (' + json.reports_count + ')';
             document.querySelector(".js-md5-button-great-quality-label").innerText = 'Great file quality (' + json.great_quality_count + ')';
             document.querySelector(".js-md5-button-new-comment").innerText = 'Add comment (' + json.comments_count + ')';
