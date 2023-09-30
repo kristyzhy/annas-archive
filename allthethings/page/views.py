@@ -2577,27 +2577,27 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('ia_record') is not None:
         ia_id = aarecord['ia_record']['ia_id']
         printdisabled_only = aarecord['ia_record']['aa_ia_derived']['printdisabled_only']
-        additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", '(print disabled patrons only)' if printdisabled_only else ''))
+        additional['download_urls'].append((gettext('page.md5.box.download.ia_borrow'), f"https://archive.org/details/{ia_id}", gettext('page.md5.box.download.print_disabled_only') if printdisabled_only else ''))
     for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
         if doi not in linked_dois:
             additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord_id_split[0] == 'md5':
         additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
     if aarecord_id_split[0] == 'isbn':
-        additional['download_urls'].append((f"Search Anna’s Archive for ISBN", f"/search?q=isbn13:{aarecord_id_split[1]}", ""))
-        additional['download_urls'].append((f"Search various other databases for ISBN", f"https://en.wikipedia.org/wiki/Special:BookSources?isbn={aarecord_id_split[1]}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.aa_isbn'), f"/search?q=isbn13:{aarecord_id_split[1]}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.other_isbn'), f"https://en.wikipedia.org/wiki/Special:BookSources?isbn={aarecord_id_split[1]}", ""))
         if len(aarecord.get('isbndb') or []) > 0:
-            additional['download_urls'].append((f"Find original record in ISBNdb", f"https://isbndb.com/book/{aarecord_id_split[1]}", ""))
+            additional['download_urls'].append((gettext('page.md5.box.download.original_isbndb'), f"https://isbndb.com/book/{aarecord_id_split[1]}", ""))
     if aarecord_id_split[0] == 'ol':
-        additional['download_urls'].append((f"Search Anna’s Archive for Open Library ID", f"/search?q=ol:{aarecord_id_split[1]}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.aa_openlib'), f"/search?q=ol:{aarecord_id_split[1]}", ""))
         if len(aarecord.get('ol') or []) > 0:
-            additional['download_urls'].append((f"Find original record in Open Library", f"https://openlibrary.org/books/{aarecord_id_split[1]}", ""))
+            additional['download_urls'].append((gettext('page.md5.box.download.original_openlib'), f"https://openlibrary.org/books/{aarecord_id_split[1]}", ""))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
 
     scidb_info = allthethings.utils.scidb_info(aarecord, additional)
     if scidb_info is not None:
-        additional['fast_partner_urls'] = [("Anna’s Archive 🧬 SciDB", f"/scidb/{scidb_info['doi']}", "(no browser verification required)")] + additional['fast_partner_urls']
-        additional['download_urls'] = [("Anna’s Archive 🧬 SciDB", f"/scidb/{scidb_info['doi']}", "")] + additional['download_urls']
+        additional['fast_partner_urls'] = [(gettext('page.md5.box.download.scidb'), f"/scidb/{scidb_info['doi']}", gettext('common.md5.servers.no_browser_verification'))] + additional['fast_partner_urls']
+        additional['download_urls'] = [(gettext('page.md5.box.download.scidb'), f"/scidb/{scidb_info['doi']}", "")] + additional['download_urls']
 
     return additional
 
