@@ -114,7 +114,7 @@
         {% if search_dict.had_es_timeout %}
           <p class="mt-4 font-bold">{{ gettext('page.search.results.error.header') }}</p>
 
-          <p class="mt-4">{{ gettext('page.search.results.error.text') }}</p>
+          <p class="mt-4">{{ gettext('page.search.results.error.unknown', a_reload=(' href="javascript:location.reload()" ' | safe), email=('<a class="break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>' | safe)) }}</p>
         {% elif (search_input | length) > 0 %}
           <!-- {% if redirect_pages.isbn_page %}
             <p class="my-4">That looks like it might be an ISBN. <a href="/isbn/{{ redirect_pages.isbn_page | urlencode }}">View our ISBN data page for “{{ redirect_pages.isbn_page }}”.</a></p>
