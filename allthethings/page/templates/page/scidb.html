@@ -11,11 +11,11 @@
     <div class="p-4 overflow-hidden bg-[#0000000d] break-words w-[40%] max-w-[300px] overflow-y-auto">
       <div class="mb-4 flex justify-between items-center">
         <a href="/" class="custom-a text-[#000] hover:text-[#444]"><h1 class="text-md sm:text-lg leading-none font-[900]">{{ gettext('layout.index.header.title') }}</h1></a>
-        <div class="text-sm">🧬&nbsp;SciDB</div>
+        <div class="text-sm">🧬&nbsp;{{ gettext('page.scidb.header') }}</div>
       </div>
 
       <div class="mb-4">
-        <div class="text-sm">DOI: {{doi_input}} <a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href="/search?q={{ doi_input | urlencode }}">🔍</a></div>
+        <div class="text-sm">{{ gettext('page.scidb.doi', doi=doi_input) }} <a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href="/search?q={{ doi_input | urlencode }}">🔍</a></div>
       </div>
 
       <div class="mb-4 text-sm">
@@ -26,13 +26,13 @@
       </div>
 
       <ul class="mb-4">
-        <li>- <a href="{{ aarecord.additional.path }}">Record in Anna’s Archive</a></li>
-        {% if download_url %}<li>- <a href="{{ download_url }}">Download</a></li>{% endif %}
-        {% if scihub_link %}<li>- <a href="{{ scihub_link }}" rel="noopener noreferrer nofollow" target="_blank">Sci-Hub</a></li>{% endif %}
+        <li>- <a href="{{ aarecord.additional.path }}">{{ gettext('page.scidb.aa_record') }}</a></li>
+        {% if download_url %}<li>- <a href="{{ download_url }}">{{ gettext('page.scidb.download') }}</a></li>{% endif %}
+        {% if scihub_link %}<li>- <a href="{{ scihub_link }}" rel="noopener noreferrer nofollow" target="_blank">{{ gettext('page.scidb.scihub') }}</a></li>{% endif %}
         <li>- <a href="https://doi.org/{{ doi_input }}" rel="noopener noreferrer nofollow" target="_blank">doi.org</a></li>
       </ul>
 
-      <div class="text-xs text-gray-500">Not working? Try <a href="javascript:window.location.reload()">refreshing</a>.</div>
+      <div class="text-xs text-gray-500">{{ gettext('page.scidb.refresh', a_refresh=(' href="javascript:window.location.reload()" ' | safe)) }}</div>
     </div>
     {% if pdf_url %}
       <div id="pdfembed" class="w-[100%]"></div>
