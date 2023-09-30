@@ -19,9 +19,9 @@
     <div class="mb-4">{{ gettext('page.account.logged_in.public_profile', profile_link=profile_link(account_dict, account_dict.account_id)) }}</div>
     
     {% if not account_fast_download_info %}
-      <div class="mb-4">{{ gettext('page.account.logged_in.membership_none', a_become=('href="/donate"' | safe)) }}</div>
+      <div class="mb-4">{{ gettext('page.account.logged_in.membership_none', a_become=(' href="/donate"' | safe)) }}</div>
     {% else %}
-      <div class="">{{ gettext('page.account.logged_in.membership_has_some', a_extend=(('href="/donate?tier=' + account_dict.membership_tier + '"') | safe), tier_name=membership_tier_names[account_dict.membership_tier], until_date=(account_dict.membership_expiration | dateformat(format='long'))) }}</div>
+      <div class="">{{ gettext('page.account.logged_in.membership_has_some', a_extend=((' href="/donate?tier=' + account_dict.membership_tier + '"') | safe), tier_name=membership_tier_names[account_dict.membership_tier], until_date=(account_dict.membership_expiration | dateformat(format='long'))) }}</div>
       <div class="">{{ gettext('page.account.logged_in.membership_fast_downloads_used', used=(account_fast_download_info.downloads_per_day-account_fast_download_info.downloads_left), total=account_fast_download_info.downloads_per_day ) }}</div>
       {% if account_fast_download_info.telegram_url %}
         <div class="mb-4">Exclusive Telegram group: <a href="{{ account_fast_download_info.telegram_url }}">Join us here!</a></div>
@@ -50,7 +50,7 @@
       </p>
 
       <ul class="list-inside mb-4">
-        {{ gettext('page.account.logged_out.registered.text3', li_item=('class="list-disc"' | safe), a_download=(('href="data:application/octet-stream;charset=utf-8,' + request.args.get('key') + '" download="annas-archive-secret-key.txt"') | safe)) }}
+        {{ gettext('page.account.logged_out.registered.text3', li_item=(' class="list-disc"' | safe), a_download=((' href="data:application/octet-stream;charset=utf-8,' + request.args.get('key') + '" download="annas-archive-secret-key.txt"') | safe)) }}
       </ul>
     {% endif %}
 
@@ -73,7 +73,7 @@
         <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">{{ gettext('page.account.logged_out.register.button') }}</button>
       </form>
 
-<!--       <p class="mb-1">{{ gettext('page.account.logged_out.old_email.button', a_open=('href="#" onclick="document.querySelector(\'.js-account-email-form\').classList.remove(\'hidden\'); event.preventDefault(); return false"' | safe)) }}</p>
+<!--       <p class="mb-1">{{ gettext('page.account.logged_out.old_email.button', a_open=(' href="#" onclick="document.querySelector(\'.js-account-email-form\').classList.remove(\'hidden\'); event.preventDefault(); return false"' | safe)) }}</p>
 
       <script>
         let accountEmailUsedForError;

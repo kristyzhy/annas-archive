@@ -11,12 +11,12 @@
     <div>{{ gettext('page.donation.header.date', date=(donation_dict.created | dateformat(format='long'))) }}</div>
     <div>
       {% if donation_dict.json.discounts > 0 %}
-        {{ gettext('page.donation.header.total_including_discount', span_details=('class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration, discounts=donation_dict.json.discounts) }}
+        {{ gettext('page.donation.header.total_including_discount', span_details=(' class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration, discounts=donation_dict.json.discounts) }}
       {% else %}
-        {{ gettext('page.donation.header.total_without_discount', span_details=('class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration) }}
+        {{ gettext('page.donation.header.total_without_discount', span_details=(' class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration) }}
       {% endif %}
     </div>
-    <div>{{ gettext('page.donation.header.status', label=order_processing_status_labels[donation_dict.processing_status], span_label=('class="italic"' | safe)) }}</div>
+    <div>{{ gettext('page.donation.header.status', label=order_processing_status_labels[donation_dict.processing_status], span_label=(' class="italic"' | safe)) }}</div>
 
     {% if donation_dict.processing_status in [0, 4] %}
       <div class="mt-2">
@@ -70,7 +70,7 @@
 
       <!-- <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.crypto.top_header') }}</h2>
 
-      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.crypto.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.crypto.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="">
         {{ gettext('page.donation.payment.crypto.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
@@ -111,7 +111,7 @@
         This donation has expired. Please cancel and create a new one.
       </p>
 
-      <!-- <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+      <!-- <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donate.one_time_payment.paypal.text2') }}
@@ -121,7 +121,7 @@
         {{ gettext('page.donation.payment.paypal.text3', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
       </p>
 
-      <p class="mb-4 mt-8 font-bold">{{ gettext('page.donate.submit.header2', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+      <p class="mb-4 mt-8 font-bold">{{ gettext('page.donate.submit.header2', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donate.one_time_payment.paypal.text4', transfer_icon=('<span class="icon-[cil--transfer] align-middle"></span>' | safe)) }}
@@ -365,10 +365,10 @@
     {% elif donation_dict.json.method == 'alipay' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.alipay.top_header') }}</h2>
 
-      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
-        {{ gettext('page.donation.payment.alipay.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=('href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
+        {{ gettext('page.donation.payment.alipay.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=(' href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
       </p>
 
       <p class="mb-4">
@@ -377,10 +377,10 @@
     {% elif donation_dict.json.method == 'pix' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.pix.top_header') }}</h2>
 
-      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.pix.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.pix.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
-        {{ gettext('page.donation.payment.pix.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=('href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
+        {{ gettext('page.donation.payment.pix.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=(' href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
       </p>
 
       <p class="mb-4">
@@ -389,7 +389,7 @@
     {% endif %}
 
     {% if donation_dict.json.method not in ['payment1', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon'] %}
-      <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
+      <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
 
       <p class="mb-4">
         {% if donation_dict.json.method == 'paypalreg' %}

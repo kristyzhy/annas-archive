@@ -8,9 +8,9 @@
   {% if has_made_donations %}
     <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
       {% if existing_unpaid_donation_id %}
-        <div class="mb-4">{{ gettext('page.donate.header.existing_unpaid_donation', a_donation=(('href="/account/donations/' + existing_unpaid_donation_id + '"') | safe)) }}</div>
+        <div class="mb-4">{{ gettext('page.donate.header.existing_unpaid_donation', a_donation=((' href="/account/donations/' + existing_unpaid_donation_id + '"') | safe)) }}</div>
       {% endif %}
-      <div>{{ gettext('page.donate.header.existing_unpaid_donation_view_all', a_all_donations=('href="/account/donations/"' | safe)) }}</div>
+      <div>{{ gettext('page.donate.header.existing_unpaid_donation_view_all', a_all_donations=(' href="/account/donations/"' | safe)) }}</div>
     </div>
   {% endif %}
 
@@ -224,7 +224,7 @@
         <button class="js-membership-duration js-membership-duration-24 relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white pl-3 mr-[32px]" aria-selected="false" onclick="window.membershipDurationToggle('24')"><span class="[[aria-selected=false]_&]:invisible"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.duration.24_mo') }}<span class="invisible"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span></span> <span class="absolute right-[16px] top-[50%] translate-x-[100%] translate-y-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=25) }}</span></button>
       </div>
       <div class="flex flex-col justify-center w-[100%] max-w-[350px] text-center">
-        {{ gettext('page.donate.duration.summary', div_monthly_cost=('class="text-2xl font-bold js-membership-monthly-cost"' | safe), div_after=('class="text-sm text-gray-500 font-[300] mb-4"' | safe), span_discount=('class="font-[800] js-membership-discount-percentage"' | safe), div_total=('class="text-2xl font-bold js-membership-total-cost"' | safe), div_duration=('class="text-sm text-gray-500 font-[300] js-membership-total-duration"' | safe)) }}
+        {{ gettext('page.donate.duration.summary', div_monthly_cost=(' class="text-2xl font-bold js-membership-monthly-cost"' | safe), div_after=(' class="text-sm text-gray-500 font-[300] mb-4"' | safe), span_discount=(' class="font-[800] js-membership-discount-percentage"' | safe), div_total=(' class="text-2xl font-bold js-membership-total-cost"' | safe), div_duration=(' class="text-sm text-gray-500 font-[300] js-membership-total-duration"' | safe)) }}
       </div>
     </div>
 
@@ -283,7 +283,7 @@
             <input type="hidden" name="duration" value="">
             <input type="hidden" name="costCentsUsdVerification" value="">
             <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">
-              {{ gettext('page.donate.submit.button', span_cost=('class="font-bold js-membership-donate-button-cost"' | safe), span_label=('class="text-xs js-membership-donate-button-label"' | safe)) }}
+              {{ gettext('page.donate.submit.button', span_cost=(' class="font-bold js-membership-donate-button-cost"' | safe), span_label=(' class="text-xs js-membership-donate-button-label"' | safe)) }}
             </button>
             <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
 
@@ -384,7 +384,7 @@
         {{ gettext('page.donate.one_time_payment.paypal.text1') }}
       </p>
 
-      <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+      <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donate.one_time_payment.paypal.text2') }}
@@ -398,7 +398,7 @@
         {{ gettext('page.donate.one_time_payment.paypal.text3b') }}
       </p>
 
-      <p class="mb-4 mt-8 font-bold">{{ gettext('page.donate.submit.header2', span_circle=('class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
+      <p class="mb-4 mt-8 font-bold">{{ gettext('page.donate.submit.header2', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-[6px]"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donate.one_time_payment.paypal.text4', transfer_icon=('<span class="icon-[cil--transfer] align-middle"></span>' | safe)) }}
@@ -482,7 +482,7 @@
 
     <!-- <div class="js-membership-descr js-membership-descr-alipay">
       <p class="mb-4">
-        {{ gettext('page.donate.one_time_payment.alipay.text', a_account=('href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
+        {{ gettext('page.donate.one_time_payment.alipay.text', a_account=(' href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
       </p>
 
       <p class="mb-4">
@@ -496,7 +496,7 @@
 
     <!-- <div class="js-membership-descr js-membership-descr-pix">
       <p class="mb-4">
-        {{ gettext('page.donate.one_time_payment.pix.text', a_account=('href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
+        {{ gettext('page.donate.one_time_payment.pix.text', a_account=(' href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
       </p>
 
       <p class="mb-4 mt-4">

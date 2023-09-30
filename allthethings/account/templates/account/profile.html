@@ -19,7 +19,7 @@
       <div class="hidden js-failure">{{ gettext('page.profile.change_display_name.failure') }}</div>
     </form>
 
-    <div class="mb-4 text-sm text-gray-500">{{ gettext('page.profile.created_time', span_time=(('class="text-[#000000a3] text-sm" title="' + (account_dict.created | datetimeformat(format='long')) + '"') | safe), time=(account_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
+    <div class="mb-4 text-sm text-gray-500">{{ gettext('page.profile.created_time', span_time=((' class="text-[#000000a3] text-sm" title="' + (account_dict.created | datetimeformat(format='long')) + '"') | safe), time=(account_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
 
     <h2 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.profile.lists.header') }}</h2>
 

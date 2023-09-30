@@ -16,7 +16,7 @@
   </form>
 
   {% from 'macros/profile_link.html' import profile_link %}
-  <div class="mb-4 text-sm text-gray-500">{{ gettext('page.list.by_and_date', by=profile_link(account_dict, current_account_id), span_time=(('class="text-[#000000a3] text-sm" title="' + (list_record_dict.created | datetimeformat(format='long')) + '"') | safe), time=(list_record_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
+  <div class="mb-4 text-sm text-gray-500">{{ gettext('page.list.by_and_date', by=profile_link(account_dict, current_account_id), span_time=((' class="text-[#000000a3] text-sm" title="' + (list_record_dict.created | datetimeformat(format='long')) + '"') | safe), time=(list_record_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
 
   <div class="mb-4">
     {% if aarecords | length == 0 %}

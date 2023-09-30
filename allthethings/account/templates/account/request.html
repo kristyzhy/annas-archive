@@ -6,11 +6,11 @@
   <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.request.title') }}</h2>
 
   <p class="">
-    {{ gettext('page.request.text1', a_forum=('href="https://forum.mhut.org"' | safe)) }}
+    {{ gettext('page.request.text1', a_forum=(' href="https://forum.mhut.org"' | safe)) }}
   </p>
 
   <ul class="list-inside">
-    {{ gettext('page.request.text2', li_item=('class="list-disc"' | safe), a_ebook=('href="https://forum.mhut.org/viewtopic.php?f=17&t=6399"' | safe), a_regular=('href="https://forum.mhut.org/viewtopic.php?f=10&t=7588"' | safe)) }}
+    {{ gettext('page.request.text2', li_item=(' class="list-disc"' | safe), a_ebook=(' href="https://forum.mhut.org/viewtopic.php?f=17&t=6399"' | safe), a_regular=(' href="https://forum.mhut.org/viewtopic.php?f=10&t=7588"' | safe)) }}
   </ul>
 
   <p class="mb-4">
@@ -18,6 +18,6 @@
   </p>
 
   <p class="mb-4">
-    {{ gettext('common.libgen.email', a_mail=('href="https://proton.me/" rel="noopener noreferrer" target="_blank"' | safe), a_manual=('href="https://forum.mhut.org/viewtopic.php?f=6&t=29" rel="noopener noreferrer" target="_blank"' | safe)) }}
+    {{ gettext('common.libgen.email', a_mail=(' href="https://proton.me/" rel="noopener noreferrer" target="_blank"' | safe), a_manual=(' href="https://forum.mhut.org/viewtopic.php?f=6&t=29" rel="noopener noreferrer" target="_blank"' | safe)) }}
   </p>
 {% endblock %}
