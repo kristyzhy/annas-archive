@@ -59,6 +59,9 @@ pybabel compile -f -d allthethings/translations
 # All of the above:
 ./update-translations.sh
 
+# Only for english:
+./update-translations-en.sh
+
 # To add a new translation file:
 pybabel init -i messages.pot -d allthethings/translations -l es
 ```
