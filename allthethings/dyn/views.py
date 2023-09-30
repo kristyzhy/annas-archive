@@ -759,6 +759,10 @@ def gc_notify():
             print(f"Warning: gc_notify message '{message['X-Original-To']}' donation_id not found {donation_id}")
             return "", 404
 
+        if int(donation['processing_status']) == 1:
+            # Already confirmed.
+            return "", 404
+
         donation_json = orjson.loads(donation['json'])
         donation_json['gc_notify_debug'] = (donation_json.get('gc_notify_debug') or [])
 
@@ -773,7 +777,7 @@ def gc_notify():
             print(error)
             return "", 404
 
-        if not message['From'].strip().endswith('<gc-orders@gc.email.amazon.com>'):
+        if re.search(r'<gc-orders@gc\.email\.amazon\.com>$', message['From'].strip()) is None:
             error = f"Warning: gc_notify message '{message['X-Original-To']}' with wrong From: {message['From']}"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
             cursor.execute('UPDATE mariapersist_donations SET json=%(json)s WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
@@ -808,15 +812,14 @@ def gc_notify():
             print(error)
             return "", 404
 
-        potential_link = re.search(r'(https://www.amazon.com/gp/r.html?[^\n)>"]+)', message_body)
-        if potential_link is None:
-            error = f"Warning: gc_notify message '{message['X-Original-To']}' with no matches for potential_link"
+        links = [str(link) for link in re.findall(r'(https://www.amazon.com/gp/r.html?[^\n)>"]+)', message_body)]
+        if len(links) == 0:
+            error = f"Warning: gc_notify message '{message['X-Original-To']}' with no matches for links"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
             cursor.execute('UPDATE mariapersist_donations SET json=%(json)s WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
             cursor.execute('COMMIT')
             print(error)
             return "", 404
-        link = potential_link[1]
 
         potential_claim_code = re.search(r'Claim Code:[ ]+([^> \n]+)[<\n]', message_body)
         claim_code = None
@@ -832,7 +835,7 @@ def gc_notify():
             print(error)
             return "", 404
 
-        data_value = { "link": link, "claim_code": claim_code }
+        data_value = { "links": links, "claim_code": claim_code }
         if not allthethings.utils.confirm_membership(cursor, donation_id, 'amazon_gc_done', data_value):
             error = f"Warning: gc_notify message '{message['X-Original-To']}' confirm_membership failed"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
