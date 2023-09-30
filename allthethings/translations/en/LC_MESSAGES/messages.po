@@ -1051,8 +1051,6 @@ msgstr "No downloads found."
 #: allthethings/page/templates/page/security.html:7
 #: allthethings/page/templates/page/torrents.html:6
 #: allthethings/page/templates/page/torrents.html:7
-#: allthethings/page/templates/page/wechat.html:6
-#: allthethings/page/templates/page/wechat.html:7
 msgid "common.english_only"
 msgstr "Text below continues in English."
 
@@ -1114,7 +1112,7 @@ msgstr "Search our catalog."
 
 #: allthethings/page/templates/page/about.html:79
 #: allthethings/page/templates/page/search.html:23
-#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:381
 msgid "common.search.placeholder"
 msgstr "Title, author, DOI, ISBN, MD5, …"
 
@@ -1244,7 +1242,7 @@ msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:18
-#: allthethings/templates/layouts/index.html:379
+#: allthethings/templates/layouts/index.html:384
 msgid "layout.index.header.nav.beta"
 msgstr "beta"
 
@@ -1376,6 +1374,14 @@ msgstr "%(num)d+ partial matches"
 msgid "page.search.results.partial"
 msgstr "%(num)d partial matches"
 
+#: allthethings/page/templates/page/wechat.html:7
+msgid "page.wechat.header"
+msgstr "Unofficial WeChat"
+
+#: allthethings/page/templates/page/wechat.html:10
+msgid "page.wechat.body"
+msgstr "We have an unofficial WeChat page, maintained by a community member. Use the code below to access."
+
 #: allthethings/templates/layouts/index.html:4
 msgid "layout.index.title"
 msgstr "Anna’s Archive"
@@ -1414,148 +1420,159 @@ msgid "layout.index.header.recent_downloads"
 msgstr "Recent downloads:"
 
 #: allthethings/templates/layouts/index.html:339
-#: allthethings/templates/layouts/index.html:350
-#: allthethings/templates/layouts/index.html:363
+#: allthethings/templates/layouts/index.html:351
+#: allthethings/templates/layouts/index.html:365
+#: allthethings/templates/layouts/index.html:442
 msgid "layout.index.header.nav.search"
 msgstr "Search"
 
 #: allthethings/templates/layouts/index.html:340
-#: allthethings/templates/layouts/index.html:351
-#: allthethings/templates/layouts/index.html:364
+#: allthethings/templates/layouts/index.html:352
+#: allthethings/templates/layouts/index.html:366
+#: allthethings/templates/layouts/index.html:443
 msgid "layout.index.header.nav.about"
 msgstr "About"
 
 #: allthethings/templates/layouts/index.html:341
-#: allthethings/templates/layouts/index.html:352
-#: allthethings/templates/layouts/index.html:365
+#: allthethings/templates/layouts/index.html:353
+#: allthethings/templates/layouts/index.html:367
+#: allthethings/templates/layouts/index.html:445
 msgid "layout.index.header.nav.datasets"
 msgstr "Datasets"
 
-#: allthethings/templates/layouts/index.html:344
-#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:342
+#: allthethings/templates/layouts/index.html:354
 #: allthethings/templates/layouts/index.html:368
+#: allthethings/templates/layouts/index.html:446
+msgid "layout.index.header.nav.torrents"
+msgstr "Torrents"
+
+#: allthethings/templates/layouts/index.html:343
+#: allthethings/templates/layouts/index.html:355
+#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:447
+msgid "layout.index.header.nav.llm_data"
+msgstr "LLM data"
+
+#: allthethings/templates/layouts/index.html:344
+#: allthethings/templates/layouts/index.html:356
+#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:448
 msgid "layout.index.header.nav.mobile"
 msgstr "Mobile app"
 
-#: allthethings/templates/layouts/index.html:369
+#: allthethings/templates/layouts/index.html:345
+#: allthethings/templates/layouts/index.html:357
+#: allthethings/templates/layouts/index.html:449
+msgid "layout.index.header.nav.security"
+msgstr "Security"
+
+#: allthethings/templates/layouts/index.html:346
+#: allthethings/templates/layouts/index.html:358
+#: allthethings/templates/layouts/index.html:372
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:477
+msgid "layout.index.header.nav.wechat"
+msgstr "Unofficial WeChat"
+
+#: allthethings/templates/layouts/index.html:347
+#: allthethings/templates/layouts/index.html:359
+#: allthethings/templates/layouts/index.html:364
+#: allthethings/templates/layouts/index.html:441
+msgid "layout.index.header.nav.home"
+msgstr "Home"
+
+#: allthethings/templates/layouts/index.html:374
+#: allthethings/templates/layouts/index.html:464
 msgid "layout.index.header.nav.annasblog"
 msgstr "Anna’s Blog ↗"
 
-#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Anna’s Software ↗"
 
-#: allthethings/templates/layouts/index.html:371
+#: allthethings/templates/layouts/index.html:376
+#: allthethings/templates/layouts/index.html:466
 msgid "layout.index.header.nav.translate"
 msgstr "Translate ↗"
 
-#: allthethings/templates/layouts/index.html:373
+#: allthethings/templates/layouts/index.html:378
+#: allthethings/templates/layouts/index.html:444
 msgid "layout.index.header.nav.donate"
 msgstr "Donate"
 
-#: allthethings/templates/layouts/index.html:382
-#: allthethings/templates/layouts/index.html:388
-#: allthethings/templates/layouts/index.html:396
-#: allthethings/templates/layouts/index.html:404
-#: allthethings/templates/layouts/index.html:413
-#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:387
+#: allthethings/templates/layouts/index.html:393
+#: allthethings/templates/layouts/index.html:401
+#: allthethings/templates/layouts/index.html:409
+#: allthethings/templates/layouts/index.html:418
+#: allthethings/templates/layouts/index.html:429
 msgid "layout.index.header.nav.request"
 msgstr "Request books"
 
-#: allthethings/templates/layouts/index.html:383
-#: allthethings/templates/layouts/index.html:389
-#: allthethings/templates/layouts/index.html:397
-#: allthethings/templates/layouts/index.html:405
-#: allthethings/templates/layouts/index.html:414
-#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:388
+#: allthethings/templates/layouts/index.html:394
+#: allthethings/templates/layouts/index.html:402
+#: allthethings/templates/layouts/index.html:410
+#: allthethings/templates/layouts/index.html:419
+#: allthethings/templates/layouts/index.html:430
 msgid "layout.index.header.nav.upload"
 msgstr "Upload"
 
-#: allthethings/templates/layouts/index.html:384
-#: allthethings/templates/layouts/index.html:390
+#: allthethings/templates/layouts/index.html:389
 #: allthethings/templates/layouts/index.html:395
+#: allthethings/templates/layouts/index.html:400
 msgid "layout.index.header.nav.login_register"
 msgstr "Log in / Register"
 
-#: allthethings/templates/layouts/index.html:401
-#: allthethings/templates/layouts/index.html:410
-#: allthethings/templates/layouts/index.html:421
+#: allthethings/templates/layouts/index.html:406
+#: allthethings/templates/layouts/index.html:415
+#: allthethings/templates/layouts/index.html:426
 msgid "layout.index.header.nav.public_profile"
 msgstr "Public profile"
 
-#: allthethings/templates/layouts/index.html:402
-#: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:422
+#: allthethings/templates/layouts/index.html:407
+#: allthethings/templates/layouts/index.html:416
+#: allthethings/templates/layouts/index.html:427
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "Downloaded files"
 
-#: allthethings/templates/layouts/index.html:403
-#: allthethings/templates/layouts/index.html:412
-#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:408
+#: allthethings/templates/layouts/index.html:417
+#: allthethings/templates/layouts/index.html:428
 msgid "layout.index.header.nav.my_donations"
 msgstr "My donations"
 
-#: allthethings/templates/layouts/index.html:420
+#: allthethings/templates/layouts/index.html:425
 msgid "layout.index.header.nav.account"
 msgstr "Account"
 
-#: allthethings/templates/layouts/index.html:435
+#: allthethings/templates/layouts/index.html:440
 msgid "layout.index.footer.list1.header"
 msgstr "Anna’s Archive"
 
-#: allthethings/templates/layouts/index.html:436
-msgid "layout.index.footer.list1.home"
-msgstr "Home"
-
-#: allthethings/templates/layouts/index.html:438
-msgid "layout.index.footer.list1.about"
-msgstr "About"
-
-#: allthethings/templates/layouts/index.html:439
-msgid "layout.index.footer.list1.donate"
-msgstr "Donate"
-
-#: allthethings/templates/layouts/index.html:440
-msgid "layout.index.footer.list1.datasets"
-msgstr "Datasets"
-
-#: allthethings/templates/layouts/index.html:443
-msgid "layout.index.footer.list1.mobile"
-msgstr "Mobile app"
-
-#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:462
 msgid "layout.index.footer.list2.header"
 msgstr "Stay in touch"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.twitter"
 msgstr "Twitter"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:463
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:459
-msgid "layout.index.footer.list2.blog"
-msgstr "Anna’s Blog"
-
-#: allthethings/templates/layouts/index.html:460
-msgid "layout.index.footer.list2.software"
-msgstr "Anna’s Software"
-
-#: allthethings/templates/layouts/index.html:461
-msgid "layout.index.footer.list2.translate"
-msgstr "Translate"
-
-#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:468
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA / copyright claims"
 
-#: allthethings/templates/layouts/index.html:468
+#: allthethings/templates/layouts/index.html:473
 msgid "layout.index.footer.list3.header"
 msgstr "Alternatives"
 
@@ -1657,4 +1674,28 @@ msgstr "copied!"
 
 #~ msgid "page.donate.login"
 #~ msgstr "To become a member, please <a href=\"/login\">Log in or Register</a>. If you prefer not to create an account, select “Make a one-time anonymous donation” above. Thanks for your support!"
+
+#~ msgid "layout.index.footer.list1.home"
+#~ msgstr "Home"
+
+#~ msgid "layout.index.footer.list1.about"
+#~ msgstr "About"
+
+#~ msgid "layout.index.footer.list1.donate"
+#~ msgstr "Donate"
+
+#~ msgid "layout.index.footer.list1.datasets"
+#~ msgstr "Datasets"
+
+#~ msgid "layout.index.footer.list1.mobile"
+#~ msgstr "Mobile app"
+
+#~ msgid "layout.index.footer.list2.blog"
+#~ msgstr "Anna’s Blog"
+
+#~ msgid "layout.index.footer.list2.software"
+#~ msgstr "Anna’s Software"
+
+#~ msgid "layout.index.footer.list2.translate"
+#~ msgstr "Translate"
 

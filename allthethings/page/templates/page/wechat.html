@@ -3,15 +3,11 @@
 {% block title %}Unofficial WeChat{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
-
   <div lang="en">
-    <h2 class="mt-4 mb-1 text-3xl font-bold">Unofficial WeChat</h2>
+    <h2 class="mt-4 mb-1 text-3xl font-bold">{{ gettext('page.wechat.header') }}</h2>
 
     <p class="mb-4">
-      We have an unofficial WeChat page, maintained by a community member. Use the code below to access.
+      {{ gettext('page.wechat.body') }}
     </p>
 
     <img class="w-[100%] max-w-[250px]" src="/images/wechat.jpg">

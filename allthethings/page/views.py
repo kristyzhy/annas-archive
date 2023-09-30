@@ -295,7 +295,7 @@ def mobile_page():
 @page.get("/wechat")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def wechat_page():
-    return render_template("page/wechat.html", header_active="")
+    return render_template("page/wechat.html", header_active="home/wechat")
 
 @page.get("/llm")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
