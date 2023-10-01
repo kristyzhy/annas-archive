@@ -1,0 +1,1333 @@
+{% extends "layouts/blog.html" %}
+
+{% block title %}1.3B Worldcat scrape & data science mini-competition{% endblock %}
+
+{% block meta_tags %}
+<meta name="description" content="Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition." />
+<meta name="twitter:card" value="summary">
+<meta name="twitter:creator" content="@AnnaArchivist"/>
+<meta property="og:title" content="1.3B Worldcat scrape & data science mini-competition" />
+<meta property="og:image" content="https://annas-blog.org/worldcat_redesign.png" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://annas-blog.org/annas-archive-containers.html" />
+<meta property="og:description" content="Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition." />
+<style>
+  code { word-break: break-all; font-size: 89%; letter-spacing: -0.3px; }
+
+  code ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 5px;
+    height: 5px;
+  }
+
+  code ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .3);
+    box-shadow: 0 0 1px rgba(255, 255, 255, .3);
+  }
+
+  .code-block {
+    background: #fffe9250;
+    display: block;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+  <h1 style="margin-bottom: 0">1.3B Worldcat scrape & data science mini-competition</h1>
+  <p style="margin-top: 0; font-style: italic">
+    annas-blog.org, 2023-10-02
+  </p>
+
+  <p style="background: #f4f4f4; padding: 1em; margin: 1.5em 0; border-radius: 4px">
+    <em><strong>TL;DR:</strong> Anna’s Archive scraped all of Worldcat (the world’s largest library metadata collection) to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.</em>
+  </p>
+
+  <p>
+    A year ago, we <a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">set out</a> to answer this question: <strong>What percentage of books have been permanently preserved by shadow libraries?</strong>
+  </p>
+
+  <p>
+     Once a book makes it into an open-data shadow library like <a href="https://en.wikipedia.org/wiki/Library_Genesis">Library Genesis</a>, and now <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a>, it gets mirrored all over the world (through torrents), thereby practically preserving it forever.
+  </p>
+
+  <p>
+     To answer the question of which percentage of books has been preserved, we need to know the denominator: how many books exist in total? And ideally we don’t just have a number, but actual metadata. Then we can not only match them against shadow libraries, but also <strong>create a TODO list of remaining books to preserve!</strong> We could even start dreaming of a crowdsourced effort to go down this TODO list.
+  </p>
+
+  <p>
+    We scraped <a href="https://en.wikipedia.org/wiki/ISBNdb.com">ISBNdb</a>, and downloaded the <a href="https://openlibrary.org/developers/dumps">Open Library dataset</a>, but the results were unsatisfactory. The main problem was that there was not a ton of overlap of ISBNs. See this Venn diagram from <a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">our blog post</a>:
+  </p>
+
+  <img src="venn.svg" style="max-height: 300px;">
+
+  <p>
+    We were very surprised by how little overlap there was between ISBNdb and Open Library, both of which liberally include data from various sources, such as web scrapes and library records. If they both do a good job at finding most ISBNs in out there, their circles surely would have substantial overlap, or one would be a subset of the other. It made us wonder, how many books fall <em>completely outside of these circles</em>? We need a bigger database.
+  </p>
+
+  <h2>Worldcat</h2>
+
+  <p>
+    That is when we set our sights on the largest book database in the world: <a href="https://en.wikipedia.org/wiki/WorldCat">Worldcat</a>. This is a proprietary database by the non-profit <a href="https://en.wikipedia.org/wiki/OCLC">OCLC</a>, which aggregates metadata records from libraries all over the world, in exchange for giving those libraries access to the full dataset, and having them show up in end-users’ search results.
+  </p>
+
+  <p>
+    Even though OCLC is a non-profit, their business model requires protecting their database. Well, we’re sorry to say, friends at OCLC, we’re giving it all away. :-)
+  </p>
+
+  <p>
+    Over the past year, we’ve meticulously scraped all Worldcat records. At first, we hit a lucky break. Worldcat was just rolling out their complete website redesign (in Aug 2022). This included a substantial overhaul of their backend systems, introducing many security flaws. We immediately seized the opportunity, and were able scrape hundreds of millions (!) of records in mere days.
+  </p>
+
+  <img src="worldcat_redesign.png" style="max-width: 100%;">
+  <div style="font-size: 90%"><em>Worldcat redesign</em></div>
+
+  <p>
+    After that, security flaws were slowly fixed one by one, until the final one we found was patched about a month ago. By that time we had pretty much all records, and were only going for slightly higher quality records. So we felt it is time to release!
+  </p>
+
+  <p>
+    Let’s look at some basic information on the data:
+  </p>
+
+  <ul>
+    <li><strong>Format?</strong> <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers (AAC)</a>, which is essentially <a href="https://jsonlines.org/">JSON Lines</a> compressed with <a href="http://www.zstd.net/">Zstandard</a>, plus some standardized semantics. These containers wrap various types of records, based on the different scrapes we deployed.</li>
+    <li><strong>Where?</strong> On the torrents page of <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a>. We can’t link to it directly from here. Filename: <code>annas_archive_meta__aacid__worldcat__20230929T172938Z--20230930T135348Z.jsonl.zst.torrent</code>.</li>
+    <li><strong>Size?</strong> 221GB compressed, 2.42TB uncompressed. 1.3 billion unique IDs (1,348,336,870), covered by 1.8 billion records (1,888,381,236), so 540 million duplicates (29%). 600 million are redirects or 404s, so <strong>700 million unique actual records</strong>.</li>
+    <li><strong>Is that a lot?</strong> Yes. For comparison, Open Library has 47 million records, and ISBNdb has 34 million. Anna’s Archive has 125 million files, but with many duplicates, and most are papers from Sci-Hub (98 million).</li>
+    <li><strong>What?</strong> Worldcat library records, merged from ~30,000 OCLC member libraries. Mostly books, but also magazines, journals, dissertations, physical artifacts, and so on. We only captured the records themselves, not holding information (e.g. which library has which items).</li>
+    <li><strong>Scraping quality?</strong> This varies between our different collection methods. The vast majority of records are “Title JSON”, which contains a good amount of information. There are some records we only managed to scrape through bulk HTML searches, containing only basic information like title, author, and ISBN.</li>
+    <li><strong>Primary key?</strong> The IDs of Worldcat records are known as “OCLC IDs”, and appear to be incrementing numbers, ranging from 1 to (when we started our scrape) about 1,350,000,000, which is the range we scraped for. However, due to how some of our scraping methods work, we also found other ranges, that seem different from the main set starting at 1.</li>
+    <li><strong>Examples?</strong> Canoncial URLs of these records are of the form <code>worldcat.org/oclc/:id</code>, which currently redirects to <code>worldcat.org/title/:id</code>. For example, <a href="https://worldcat.org/oclc/528432361">https://worldcat.org/oclc/528432361</a>.</li>
+  </ul>
+
+  <h2>Competition</h2>
+
+  <p>
+    Before we dive into the data, we have to acknowledge that we haven’t had a chance yet to dive very deep into this massive dataset. That’s why we’re inviting the world to have a go at it, in a mini-competition. We’re curious what you will discover!
+  </p>
+
+  <p>
+    <strong>The 3 best submissions by 2023-12-01 will win a year-long membership of Anna’s Archive</strong> at the highest tier (“Amazing Archivist”), which includes the ability to include your own name or message in one of our torrent filenames. We will also feature your work in a blog post.
+  </p>
+
+  <p>
+    For this mini-competition, anything goes, as long as you share your analysis publicly, e.g. in an open source repository or notebook. Send your submissions to <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>. We will pick the three submissions we think are most interesing, inspiring, and insightful.
+  </p>
+
+  <p>
+    Join us in the <a href="https://t.me/+GNQxkFPt1xkzY2Zk">devs & translators Telegram group</a> to discuss what you’re working on! And check out our <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">data imports</a> scripts, for comparing against various other metadata datasets.
+  </p>
+
+  <p>
+    If instead of data science, you’re more interested in helping us do more scrapes like this, then definitely contact us right away. We’re always looking for programmers, offensive security researchers (hackers), and so on.
+  </p>
+
+  <h2>Data</h2>
+
+  <p>
+    We haven’t looked too deeply into the different fields yet, and documentation is sparse. We’ll have to fill in a lot of gaps ourselves.
+  </p>
+
+  <h3>Official API</h3>
+
+  <p>
+    Let’s first look at an official API response. To use their API, you have to be a member library, but luckily the docs are public and <a href="https://developer.api.oclc.org/wcv2#/Bibliographic%20Resources/retrieve-bib">include an example</a>, which is for <a href="https://worldcat.org/oclc/311684437">this book</a>:
+  </p>
+
+  <code><pre class="code-block" style="margin-top: 0; overflow: auto; max-height: 40vh">
+{
+  "identifier": {
+    "oclcNumber": "311684437",
+    "lccn": "2008937609",
+    "isbns": ["9781594743344","1594743347","9781594743351","1594743355","9781594744518","1594744513"],
+    "externalIdentifiers": [
+      {"oclcSymbol": "AU@","systemControlNumber": 43839587},
+      {"oclcSymbol": "AU@","systemControlNumber": "000044205433"},
+      {"oclcSymbol": "AU@","systemControlNumber": 44218081},
+      {"oclcSymbol": "AU@","systemControlNumber": 54552395},
+      {"oclcSymbol": "CBK","systemControlNumber": "120281791"},
+      {"oclcSymbol": "COVCL","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "DEBBG","systemControlNumber": "BV035970551"},
+      {"oclcSymbol": "LBRUT","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "NLGGC","systemControlNumber": "321202333"},
+      {"oclcSymbol": "NOK","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "NOK","systemControlNumber": "1594744513"},
+      {"oclcSymbol": "NZ1","systemControlNumber": "12866253"},
+      {"oclcSymbol": "NZ1","systemControlNumber": "14508856"},
+      {"oclcSymbol": "OXFCL","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "REABC","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKBCI","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UKBCI","systemControlNumber": "12033044X"},
+      {"oclcSymbol": "UKBED","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKBFB","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKBNS","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UKBNS","systemControlNumber": "12033044X"},
+      {"oclcSymbol": "UKBNT","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKBOR","systemControlNumber": "12033044X"},
+      {"oclcSymbol": "UKBUR","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKCHS","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKDEL","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UKDLI","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKDON","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKDOR","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UKGTH","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKJSY","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKKCC","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKKUT","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKLBB","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKLCL","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKLLS","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKNLL","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKNWH","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKNWP","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKPMH","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UKSCO","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UKSCO","systemControlNumber": "12033044X"},
+      {"oclcSymbol": "UKSCO","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKSFD","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKSGC","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UKSGC","systemControlNumber": "12033044X"},
+      {"oclcSymbol": "UKSGC","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKSOM","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UKSOM","systemControlNumber": "12033044X"},
+      {"oclcSymbol": "UKSUS","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "UKTLS","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UNITY","systemControlNumber": "120281791"},
+      {"oclcSymbol": "UNITY","systemControlNumber": "12033044X"},
+      {"oclcSymbol": "WARCC","systemControlNumber": "1594743347"},
+      {"oclcSymbol": "NZ1","systemControlNumber": "1338416"}
+    ],
+    "mergedOclcNumbers": ["261176486","330361568","377707240","426228842","701739996","716923895","731216527","887752101","945738851"]
+  },
+  "title": {
+    "mainTitles": [{"text": "Pride and prejudice and zombies : the classic regency romance--now with ultraviolent zombie mayhem / by Jane Austen and Seth Grahame-Smith."}],
+    "seriesTitles": [{"seriesTitle": "Quirk classics"},{"seriesTitle": "Quirk classics."}]
+  },
+  "contributor": {
+    "creators": [
+      {
+        "firstName": {"text": "Seth."},
+        "secondName": {"text": "Grahame-Smith"},
+        "type": "person"
+      },
+      {
+        "firstName": {"text": "Jane"},
+        "secondName": {"text": "Austen"},
+        "type": "person",
+        "creatorNotes": ["1775-1817."]
+      }
+    ]
+  },
+  "subjects": [
+    {
+      "subjectName": {"text": "Austen, Jane, 1775-1817 Parodies, imitations, etc."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "personalName"
+    },
+    {
+      "subjectName": {"text": "Bennet, Elizabeth (Fictitious character) Fiction."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "personalName"
+    },
+    {
+      "subjectName": {"text": "Darcy, Fitzwilliam (Fictitious character) Fiction."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "personalName"
+    },
+    {
+      "subjectName": {"text": "Austen, Jane, 1775-1817 Parodies, imitations, etc."},
+      "vocabulary": "sears",
+      "subjectType": "personalName"
+    },
+    {
+      "subjectName": {"text": "Austen, Jane, 1775-1817."},
+      "vocabulary": "fast",
+      "subjectType": "personalName"
+    },
+    {
+      "subjectName": {"text": "Bennet, Elizabeth (Fictitious character)"},
+      "vocabulary": "fast",
+      "subjectType": "personalName"
+    },
+    {
+      "subjectName": {"text": "Darcy, Fitzwilliam (Fictitious character)"},
+      "vocabulary": "fast",
+      "subjectType": "personalName"
+    },
+    {
+      "subjectName": {"text": "Zombies Fiction."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Young women England Fiction."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Social classes England Fiction."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Sisters Fiction."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Darcy, Fitzwilliam (Fictional character) Fiction."},
+      "vocabulary": "sears",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Bennet, Elizabeth (Fictional character) Fiction."},
+      "vocabulary": "sears",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Zombies Fiction."},
+      "vocabulary": "sears",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Sisters."},
+      "vocabulary": "fast",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Social classes."},
+      "vocabulary": "fast",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Young women."},
+      "vocabulary": "fast",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "Zombies."},
+      "vocabulary": "fast",
+      "subjectType": "topic"
+    },
+    {
+      "subjectName": {"text": "England Fiction."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "geographicalTerm"
+    },
+    {
+      "subjectName": {"text": "England."},
+      "vocabulary": "fast",
+      "subjectType": "geographicalTerm"
+    },
+    {
+      "subjectName": {"text": "Horror tales."},
+      "vocabulary": "Library of Congress Subject Headings",
+      "subjectType": "genreFormTerm"
+    },
+    {
+      "subjectName": {"text": "Regency fiction."},
+      "vocabulary": "gsafd",
+      "subjectType": "genreFormTerm"
+    },
+    {
+      "subjectName": {"text": "Regency novels."},
+      "vocabulary": "sears",
+      "subjectType": "genreFormTerm"
+    },
+    {
+      "subjectName": {"text": "Fiction."},
+      "vocabulary": "fast",
+      "subjectType": "genreFormTerm"
+    },
+    {
+      "subjectName": {"text": "Horror tales."},
+      "vocabulary": "fast",
+      "subjectType": "genreFormTerm"
+    },
+    {
+      "subjectName": {"text": "Parodies, imitations, etc."},
+      "vocabulary": "fast",
+      "subjectType": "genreFormTerm"
+    }
+  ],
+  "classification": {"dewey": "813/.6","lc": "PS3607.R348 P75 2009"},
+  "publishers": [
+    {
+      "publisherName": {"text": "Quirk Books ; Distributed in North America by Chronicle Books"},
+      "publicationPlace": "Philadelphia :, San Francisco :"
+    }
+  ],
+  "date": {
+    "publicationDate": "©2009.",
+    "createDate": "20080916",
+    "replaceDate": "20160418"
+  },
+  "language": {"catalogingLanguage": "eng"},
+  "edition": {},
+  "note": {},
+  "format": {
+    "generalFormat": "Book",
+    "specificFormat": "PrintBook",
+    "materialTypes": ["fic"]
+  },
+  "musicInfo": {},
+  "description": {
+    "physicalDescription": "335 pages : illustrations ; 21 cm.",
+    "genres": ["Horror tales.","Regency fiction.","Regency novels.","Fiction.","Parodies, imitations, etc."],
+    "summaries": [{"text": "As a mysterious plague falls upon the village of Meryton and zombies start rising from the dead, Elizabeth Bennet is determined to destroy the evil menace, but becomes distracted by the arrival of the dashing and arrogant Mr. Darcy."}],
+    "peerReviewed": "N"
+  },
+  "related": {},
+  "work": {"id": "2289778060","count": 54},
+  "editionCluster": {"id": "d1627d1ae0c1cfa1446621aa64d1313a","count": 11},
+  "totalEditions": 9,
+  "database": {"source": "xwc","collection": "xwc"}
+}
+  </pre></code>
+
+  <p>
+    From the <code>title.mainTitles.0.text</code> field we can see that they chose the example of <em>“Pride and prejudice and zombies : the classic regency romance--now with ultraviolent zombie mayhem / by Jane Austen and Seth Grahame-Smith.”</em> I will say, this makes me immediately like the OCLC people some more. :-)
+  </p>
+
+  <p>
+    There is a lot of incredible information here, a lot of which we unfortunately do not have access to in our various scraping methods. For example, there are references to other numbering systems, such as LCCN, Dewey Decimal, and a long list of <code>externalIdentifiers</code>.
+  </p>
+
+  <p>
+    Some information in this API is only available in a subset of our scraping methods. For example, the "work ID", which is useful to cluster similar works, is available in our “providerSearchRequest” records.
+  </p>
+
+  <h3>Redirects</h3>
+
+  <p>
+    One of our simplest scraping types is “redirect_title_json”. This occurs when we make a request for a certain OCLC ID, but receive data for another OCLC ID. When this happens we can infer that these records have been merged, e.g. by a deduplication process. Indeed, for the <code>mergedOclcNumbers</code> in the official API, we can find the first of those redirects in our scrape:
+  </p>
+
+  <code class="code-block">{"aacid":"aacid__worldcat__20230929T222220Z__261176486__kPkdUa7GVRadsU2hitoHNb","metadata":{"oclc_number":261176486,"type":"redirect_title_json","from_filenames":["w2/v7/1062/1062959057"],"record":{"redirected_oclc_number":311684437}}}</code>
+
+  <p>
+    In this record you can also see the container JSON (per the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Container format</a>), as well as the metadata of which scrape file this record originates from (which we included in case it is somehow useful).
+  </p>
+
+  <h3>Title JSON</h3>
+
+  <p>
+    The main type of record we have is “title_json”. This is the JSON that is loaded when going to a <code>worldcat.org/title/:id</code> page. It can either be embedded in the page itself, or made with a separate request. We have not observed a difference in these two origins.
+  </p>
+
+  <p>
+    For <em>“Pride and prejudice and zombies”</em> this looks like this:
+  </p>
+
+  <code><pre class="code-block" style="margin-top: 0; overflow: auto; max-height: 40vh">
+{
+  "aacid": "aacid__worldcat__20230929T225438Z__311684437__7dTeLjis9M5zTPpsw7i3pX",
+  "metadata": {
+    "oclc_number": 311684437,
+    "type": "title_json",
+    "record": {
+      "oclcNumber": "311684437",
+      "title": "Pride and prejudice and zombies : the classic regency romance--now with ultraviolent zombie mayhem",
+      "titleInfo": {"text": "Pride and prejudice and zombies : the classic regency romance--now with ultraviolent zombie mayhem"},
+      "creator": "Seth Grahame-Smith",
+      "generalFormat": "Book",
+      "specificFormat": "PrintBook",
+      "edition": null,
+      "totalEditions": 10,
+      "publisher": "Quirk Books",
+      "publisherName": {"text": "Quirk Books"},
+      "publicationPlace": "Philadelphia",
+      "publicationDate": "2009",
+      "machineReadableDate": "2009",
+      "catalogingLanguage": "eng",
+      "summary": "As a mysterious plague falls upon the village of Meryton and zombies start rising from the dead, Elizabeth Bennet is determined to destroy the evil menace, but becomes distracted by the arrival of the dashing and arrogant Mr. Darcy",
+      "physicalDescription": "335 pages : illustrations ; 21 cm.",
+      "series": "Quirk classics",
+      "seriesVolumes": null,
+      "castNotes": null,
+      "languageNotes": null,
+      "subjectsText": [
+        "Austen, Jane, 1775-1817 Parodies, imitations, etc",
+        "Bennet, Elizabeth (Fictitious character) Fiction",
+        "Darcy, Fitzwilliam (Fictitious character) Fiction",
+        "Austen, Jane, 1775-1817",
+        "Bennet, Elizabeth (Fictitious character)",
+        "Darcy, Fitzwilliam (Fictitious character)",
+        "Zombies England Fiction",
+        "Young women England Fiction",
+        "Social classes England Fiction",
+        "Sisters England Fiction",
+        "Sisters Fiction",
+        "Zombies Angleterre Romans, nouvelles, etc",
+        "Jeunes femmes Angleterre Romans, nouvelles, etc",
+        "Classes sociales Angleterre Romans, nouvelles, etc",
+        "Sœurs Angleterre Romans, nouvelles, etc",
+        "Sisters",
+        "Social classes",
+        "Young women",
+        "Zombies",
+        "Darcy, Fitzwilliam (Fictional character) Fiction",
+        "Bennet, Elizabeth (Fictional character) Fiction",
+        "Zombies Fiction",
+        "England Fiction",
+        "Angleterre Romans, nouvelles, etc",
+        "England",
+        "Horror tales",
+        "Fictional Work",
+        "parody",
+        "Zombie fiction",
+        "Romance fiction",
+        "Parodies (Literature)",
+        "Novels",
+        "Humorous fiction",
+        "Horror fiction",
+        "Historical fiction",
+        "Fiction",
+        "Parodies, imitations, etc",
+        "Regency fiction",
+        "Romans",
+        "Parodies",
+        "Regency novels"
+      ],
+      "cartographicData": null,
+      "dissertationInfo": null,
+      "performerNotes": null,
+      "genre": "Horror tales",
+      "numericDesignation": null,
+      "audience": null,
+      "generalNotes": null,
+      "creditNotes": null,
+      "contentNotes": null,
+      "reproductionNotes": null,
+      "eventNotes": null,
+      "doi": null,
+      "peerReviewed": false,
+      "mediumOfPerformance": null,
+      "issns": null,
+      "additionalPhysicalFormEntries": null,
+      "digitalAccessAndLocations": null,
+      "digitalObjectInfo": null,
+      "abstract": null,
+      "evaluativeContent": "<TABLE CELLSPACING=0 CELLPADDING=0><TR><TD>Preface to the Deluxe Heirloom Edition</TD><TD WIDTH=40></TD><TD VALIGN=TOP>9</TD><TD VALIGN=TOP>(4)</TD></TR><TR><TD><TABLE CELLSPACING=0 CELLPADDING=0><TR><TD WIDTH=40></TD><TD>Pride and Prejudice and Zombies</TD></TR></TABLE></TD><TD WIDTH=40></TD><TD VALIGN=TOP>13</TD><TD VALIGN=TOP>(341)</TD></TR><TR><TD>Afterword</TD><TD WIDTH=40></TD><TD VALIGN=TOP>354</TD><TD VALIGN=TOP>(4)</TD></TR><TR><TD>A Reader's Discussion Guide</TD><TD WIDTH=40></TD><TD VALIGN=TOP>358</TD><TD VALIGN=TOP>(2)</TD></TR><TR><TD>About the Authors and Illustrator</TD><TD WIDTH=40></TD><TD VALIGN=TOP>360</TD><TD></TD></TR></TABLE>",
+      "otherFormats": [{"oclcNumber": "668228203","generalFormat": "Book","specificFormat": "Digital"}],
+      "isbns": ["9781594743344","9781594743351","9781594744518","1594743347","1594743355","1594744513"],
+      "isbn13": "9781594743344",
+      "openAccessLinks": [],
+      "publication": null,
+      "sourceIssn": null,
+      "sourceIsbns": null,
+      "contributors": [
+        {
+          "firstName": {"text": "Seth"},
+          "secondName": {"text": "Grahame-Smith"},
+          "isPrimary": true,
+          "relatorCodes": ["aut"]
+        },
+        {
+          "firstName": {"text": "Roberto"},
+          "secondName": {"text": "Parada"},
+          "isPrimary": false,
+          "relatorCodes": ["ill"]
+        },
+        {
+          "firstName": {"text": "Jane"},
+          "secondName": {"text": "Austen"},
+          "isPrimary": false,
+          "includes": [{"title": "Pride and prejudice","relationship": "Parody of (work):"}],
+          "relatorCodes": ["http://rdaregistry.info/Elements/w/P10197"]
+        }
+      ]
+    }
+  }
+}
+  </pre></code>
+
+  <p>
+    This is mostly a subset of the official API, though this does contain some metadata indicating that this Jane Austen is not an actual author, but a "parody of" relationship (the <code>http://rdaregistry.info/Elements/w/P10197</code>) at the very end. It is unclear if the official API example is simply outdated and nowadays also includes this, or if this is actual unique information to this scraping method.
+  </p>
+
+  <p>
+    Let’s look at one more example, <a href="https://worldcat.org/title/1157">“Little Women”</a>, since for this book we have records using all our scraping methods. This is its “title_json”:
+  </p>
+
+  <code><pre class="code-block" style="margin-top: 0; overflow: auto; max-height: 40vh">
+{
+  "aacid": "aacid__worldcat__20231001T025039Z__1157__2JLkN9R9S8sqVNEKLEwYqD",
+  "metadata": {
+    "oclc_number": 1157,
+    "type": "title_json",
+    "record": {
+      "oclcNumber": "1157",
+      "title": "Little women, or, Meg, Jo, Beth, and Amy",
+      "titleInfo": {"text": "Little women, or, Meg, Jo, Beth, and Amy"},
+      "creator": "Louisa May Alcott",
+      "generalFormat": "Book",
+      "specificFormat": "PrintBook",
+      "edition": "Centennial edition",
+      "totalEditions": 1686,
+      "publisher": "Little, Brown and Company",
+      "publisherName": {"text": "Little, Brown and Company"},
+      "publicationPlace": "Boston",
+      "publicationDate": "1968",
+      "catalogingLanguage": "eng",
+      "summary": "The adventures of Meg, Jo, Beth, and Amy as they grow into young women in mid-nineteenth-century New England",
+      "physicalDescription": "xvii, 444 pages, 8 unnumbered leaves of plates : color illustrations ; 24 cm",
+      "series": null,
+      "castNotes": null,
+      "languageNotes": null,
+      "subjectsText": [
+        "March family (Fictitious characters) Juvenile fiction",
+        "Families New England Juvenile fiction",
+        "Sisters New England Juvenile fiction",
+        "March family (Fictitious characters) Fiction",
+        "Family life New England Fiction",
+        "Sisters Fiction",
+        "Famille March (Personnages fictifs) Romans, nouvelles, etc. pour la jeunesse",
+        "Familles Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+        "Sœurs Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+        "Families",
+        "March family (Fictitious characters)",
+        "Sisters",
+        "AR 8.6",
+        "New England Juvenile fiction",
+        "New England Fiction",
+        "Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+        "New England",
+        "novels",
+        "Novels",
+        "Bildungsromans",
+        "Autobiographical fiction",
+        "Domestic fiction",
+        "Fiction",
+        "Juvenile works",
+        "Romans"
+      ],
+      "cartographicData": null,
+      "dissertationInfo": null,
+      "performerNotes": null,
+      "genre": "novels",
+      "numericDesignation": null,
+      "audience": null,
+      "generalNotes": null,
+      "creditNotes": null,
+      "contentNotes": {
+        "text": [
+          "Part one. Playing Pilgrims ; A merry Christmas ; The Laurence boy ; Burdens ; Being neighborly ; Beth finds the palace beautiful ; Amy's valley of humiliation ; Jo meets Apollyon ; Meg goes to Vanity Fair ; The P.C. and P.O. ; Experiments ; Camp Laurence ; Castles in the air ; Secrets ; A telegram ; Letters ; Little faithful ; Dark days ; Amy's will ; Confidential ; Laurie makes mischief and Jo makes peace ; Pleasant meadows ; Aunt March settles the question",
+          "Part two. Gossip ; The first wedding ; Artistic atempts ; Literary lessons ; Domestic experiences ; Calls ; Consequences ; Our foreign correspondent ; Tender troubles ; Jo's journal ; A friend ; Heartache ; Beth's secret ; New impressions ; On the shelf ; Lazy Laurence ; The valley of the shadow ; Learning to forget ; All alone ; Surprises ; My lord and lady ; Daisy and Demi ; Under the umbrella ; Harvest time"
+        ]
+      },
+      "reproductionNotes": null,
+      "eventNotes": null,
+      "doi": null,
+      "peerReviewed": false,
+      "mediumOfPerformance": null,
+      "issns": null,
+      "additionalPhysicalFormEntries": [
+        {
+          "displayConstant": "Online version:",
+          "titles": ["Little women, or, Meg, Jo, Beth, and Amy."],
+          "recordControlOclcNumbers": ["572939759"],
+          "mainEntryHeadings": ["Alcott, Louisa May, 1832-1888."],
+          "uniformTitle": "Little women."
+        }
+      ],
+      "digitalAccessAndLocations": null,
+      "digitalObjectInfo": null,
+      "abstract": null,
+      "evaluativeContent": null,
+      "otherFormats": [
+        {"oclcNumber": "47010599","generalFormat": "Book","specificFormat": "Digital"},
+        {"oclcNumber": "701013254","generalFormat": "Book","specificFormat": "LargePrint"},
+        {"oclcNumber": "53644605","generalFormat": "Book","specificFormat": "Mic"},
+        {"oclcNumber": "28718231","generalFormat": "Book","specificFormat": "Braille"}
+      ],
+      "isbns": ["9780316030908","9780762405657","0316030902","0762405651"],
+      "isbn13": "9780316030908",
+      "openAccessLinks": [],
+      "publication": null,
+      "sourceIssn": null,
+      "sourceIsbns": null,
+      "contributors": [
+        {
+          "firstName": {"text": "Louisa May"},
+          "secondName": {"text": "Alcott"},
+          "isPrimary": true,
+          "relatorCodes": ["aut"]
+        },
+        {
+          "firstName": {"text": "Cornelia"},
+          "secondName": {"text": "Meigs"},
+          "isPrimary": false,
+          "relatorCodes": ["win"]
+        },
+        {
+          "firstName": {"text": "Jessie Willcox"},
+          "secondName": {"text": "Smith"},
+          "isPrimary": false,
+          "relatorCodes": ["ill"]
+        },
+        {
+          "nonPersonName": {"text": "Cairns Collection of American Women Writers"},
+          "isPrimary": false
+        }
+      ]
+    }
+  }
+}
+  </pre></code>
+
+  <h3>Brief JSON</h3>
+
+  <p>
+    Some scrapes used search endpoints that returned a little bit less JSON, so we dubbed it “briefrecords_json”. However for <em>“Pride and prejudice and zombies”</em> it’s very similar to “title_json”:
+  </p>
+
+  <code><pre class="code-block" style="margin-top: 0; overflow: auto; max-height: 40vh">
+{
+  "aacid": "aacid__worldcat__20230929T225438Z__311684437__iG78TkrsnYyKu4SY3peU5A",
+  "metadata": {
+    "oclc_number": 311684437,
+    "type": "briefrecords_json",
+    "record": {
+      "oclcNumber": "311684437",
+      "isbns": ["9781594743344","1594743347","9781594743351","1594743355","9781594744518","1594744513"],
+      "isbn13": "9781594743344",
+      "title": "Pride and prejudice and zombies : the classic regency romance--now with ultraviolent zombie mayhem",
+      "creator": "Seth Grahame-Smith",
+      "contributors": [
+        {
+          "firstName": {"text": "Seth"},
+          "secondName": {"text": "Grahame-Smith"},
+          "isPrimary": true,
+          "relatorCodes": ["aut"]
+        },
+        {
+          "firstName": {"text": "Roberto"},
+          "secondName": {"text": "Parada"},
+          "isPrimary": false,
+          "relatorCodes": ["ill"]
+        },
+        {
+          "firstName": {"text": "Jane"},
+          "secondName": {"text": "Austen"},
+          "isPrimary": false,
+          "includes": [{"title": "Pride and prejudice","relationship": "Parody of (work):"}],
+          "relatorCodes": ["http://rdaregistry.info/Elements/w/P10197"]
+        }
+      ],
+      "publicationDate": "2009",
+      "catalogingLanguage": "eng",
+      "generalFormat": "Book",
+      "specificFormat": "PrintBook",
+      "edition": null,
+      "totalEditions": 9,
+      "publisher": "Quirk Books",
+      "publicationPlace": "Philadelphia",
+      "digitalObjectInfo": null,
+      "subjects": [
+        "Austen, Jane, 1775-1817 Parodies, imitations, etc",
+        "Bennet, Elizabeth (Fictitious character) Fiction",
+        "Darcy, Fitzwilliam (Fictitious character) Fiction",
+        "Austen, Jane, 1775-1817",
+        "Bennet, Elizabeth (Fictitious character)",
+        "Darcy, Fitzwilliam (Fictitious character)",
+        "Zombies England Fiction",
+        "Young women England Fiction",
+        "Social classes England Fiction",
+        "Sisters England Fiction",
+        "Sisters Fiction",
+        "Zombies Angleterre Romans, nouvelles, etc",
+        "Jeunes femmes Angleterre Romans, nouvelles, etc",
+        "Classes sociales Angleterre Romans, nouvelles, etc",
+        "Sœurs Angleterre Romans, nouvelles, etc",
+        "Sisters",
+        "Social classes",
+        "Young women",
+        "Zombies",
+        "Darcy, Fitzwilliam (Fictional character) Fiction",
+        "Bennet, Elizabeth (Fictional character) Fiction",
+        "Zombies Fiction",
+        "England Fiction",
+        "Angleterre Romans, nouvelles, etc",
+        "England",
+        "Horror tales",
+        "Fictional Work",
+        "parody",
+        "Zombie fiction",
+        "Romance fiction",
+        "Parodies (Literature)",
+        "Novels",
+        "Humorous fiction",
+        "Horror fiction",
+        "Historical fiction",
+        "Fiction",
+        "Parodies, imitations, etc",
+        "Regency fiction",
+        "Romans",
+        "Parodies",
+        "Regency novels"
+      ],
+      "publication": null,
+      "summaries": ["As a mysterious plague falls upon the village of Meryton and zombies start rising from the dead, Elizabeth Bennet is determined to destroy the evil menace, but becomes distracted by the arrival of the dashing and arrogant Mr. Darcy"],
+      "summary": "As a mysterious plague falls upon the village of Meryton and zombies start rising from the dead, Elizabeth Bennet is determined to destroy the evil menace, but becomes distracted by the arrival of the dashing and arrogant Mr. Darcy",
+      "abstract": null,
+      "otherFormats": [{"oclcNumber": "668228203","generalFormat": "Book","specificFormat": "Digital"}],
+      "peerReviewed": false,
+      "openAccessLink": null
+    }
+  }
+}
+  </pre></code>
+
+  <p>
+    Here is an example of “briefrecords_json” for <em>“Little Women”</em>:
+  </p>
+
+  <code><pre class="code-block" style="margin-top: 0; overflow: auto; max-height: 40vh">
+{
+  "aacid": "aacid__worldcat__20231001T025039Z__1157__9PLLPouzwAe5JGfueB7KDi",
+  "metadata": {
+    "oclc_number": 1157,
+    "type": "briefrecords_json",
+    "from_filenames": ["worldcat_2022_09_titles_1_backup_2022_10_12/v3/0704/70477783"],
+    "record": {
+      "oclcNumber": "1157",
+      "isbns": ["9780316030908","0316030902","9780762405657","0762405651"],
+      "isbn13": "9780316030908",
+      "title": "Little women, or, Meg, Jo, Beth, and Amy",
+      "creator": "Louisa May Alcott",
+      "contributors": [
+        {
+          "firstName": {"text": "Louisa May"},
+          "secondName": {"text": "Alcott"},
+          "isPrimary": true,
+          "relatorCodes": ["aut"]
+        },
+        {
+          "firstName": {"text": "Cornelia"},
+          "secondName": {"text": "Meigs"},
+          "isPrimary": false,
+          "relatorCodes": ["win"]
+        },
+        {
+          "firstName": {"text": "Jessie Willcox"},
+          "secondName": {"text": "Smith"},
+          "isPrimary": false,
+          "relatorCodes": ["ill"]
+        },
+        {
+          "nonPersonName": {"text": "Cairns Collection of American Women Writers"},
+          "isPrimary": false
+        }
+      ],
+      "publicationDate": "1968",
+      "catalogingLanguage": "eng",
+      "generalFormat": "Book",
+      "specificFormat": "PrintBook",
+      "edition": "Centennial edition",
+      "totalEditions": 1665,
+      "publisher": "Little, Brown and Company",
+      "publicationPlace": "Boston",
+      "digitalObjectInfo": null,
+      "subjects": [
+        "March family (Fictitious characters) Juvenile fiction",
+        "Families New England Juvenile fiction",
+        "Sisters New England Juvenile fiction",
+        "March family (Fictitious characters) Fiction",
+        "Family life New England Fiction",
+        "Sisters Fiction",
+        "Famille March (Personnages fictifs) Romans, nouvelles, etc. pour la jeunesse",
+        "Familles Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+        "Sœurs Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+        "Families",
+        "March family (Fictitious characters)",
+        "Sisters",
+        "AR 8.6",
+        "New England Juvenile fiction",
+        "New England Fiction",
+        "Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+        "New England",
+        "novels",
+        "Novels",
+        "Bildungsromans",
+        "Autobiographical fiction",
+        "Domestic fiction",
+        "Fiction",
+        "Juvenile works",
+        "Romans"
+      ],
+      "publication": null,
+      "summaries": ["The adventures of Meg, Jo, Beth, and Amy as they grow into young women in mid-nineteenth-century New England"],
+      "summary": "The adventures of Meg, Jo, Beth, and Amy as they grow into young women in mid-nineteenth-century New England",
+      "abstract": null,
+      "otherFormats": [
+        {"oclcNumber": "47010599","generalFormat": "Book","specificFormat": "Digital"},
+        {"oclcNumber": "701013254","generalFormat": "Book","specificFormat": "LargePrint"},
+        {"oclcNumber": "53644605","generalFormat": "Book","specificFormat": "Mic"},
+        {"oclcNumber": "28718231","generalFormat": "Book","specificFormat": "Braille"}
+      ],
+      "peerReviewed": false,
+      "openAccessLink": null
+    }
+  }
+}
+  </pre></code>
+
+  <p>
+    Here we see some more differences: “briefrecords_json” is missing <code>contentNotes</code> and <code>additionalPhysicalFormEntries</code>.
+  </p>
+
+  <h3>ProviderSearchRequest JSON</h3>
+
+  <p>
+    Another search API leaked the raw internal search request in a <code>providerSearchRequest</code> field, so we dubbed its type “providersearchrequest_json”. It has the most information of all our scrapes, but unfortunately we only have a very small number of records using this method. Nevertheless, here is <em>“Little Women”</em>:
+  </p>
+
+  <code><pre class="code-block" style="margin-top: 0; overflow: auto; max-height: 40vh">
+{
+  "aacid": "aacid__worldcat__20231001T025039Z__1157__N3MEKxTkbMtogjxugQ7RLd",
+  "metadata": {
+    "oclc_number": 1157,
+    "type": "providersearchrequest_json",
+    "from_filenames": [
+      "worldcat_2022_09_titles_1_backup_2022_10_12/v4/1296/129614873"
+    ],
+    "providerSearchRequest": "http://firefly.prod.oclc.org/firefly-service/rs/sru/worldcat-plus?version=1.1&operation=searchRetrieve&resultSetTTL=300&query=no%3A1296148730+OR+no%3A1296148731+OR+no%3A1296148732+OR+no%3A1296148733+OR+no%3A1296148734+OR+no%3A1296148735+OR+no%3A1296148736+OR+no%3A1296148737+OR+no%3A1296148738+OR+no%3A1296148739&recordSchema=info%3Asrw%2Fschema%2F1%2FCDFXML&maximumRecords=10&startRecord=1&x-info-5-retainAttributes=1&sortKeys=relevance,,1&x-info-5-translationLocale=en&x-info-5-altsort-newRR=1&x-info-5-queryType=3&x-info-5-dblist=638&x-info-5-stemTerms=on&x-info-5-holdingsIndications=true&x-info-5-affiliation=132&x-info-5-rankingGroup=999999&x-info-5-rankingInstitution=16060&x-info-5-askForOwnership=on&x-info-5-differentialGroupRank=true&x-info-5-relevancyType=LIBRARY&x-info-5-serviceName=DiscoveryRelevancyPilot",
+    "record": {
+      "additionalPhysicalFormEntries": [
+        {
+          "displayConstant": "Online version:",
+          "mainEntryHeadings": ["Alcott, Louisa May, 1832-1888."],
+          "recordControlOclcNumbers": ["572939759"],
+          "titles": ["Little women, or, Meg, Jo, Beth, and Amy."],
+          "uniformTitle": "Little women."
+        }
+      ],
+      "additionalTitle": "by Louisa May Alcott ; with a new introduction by Cornelia Meigs ; illustrations in color by Jessie Willcox Smith.",
+      "authors": [
+        {
+          "firstNameObject": {"data": "Louisa May"},
+          "flipNameOrder": false,
+          "lastNameObject": {"data": "Alcott"},
+          "notes": "1832-1888,",
+          "primary": true,
+          "relatorList": {"relators": [{"code": "aut", "term": "Author"}]},
+          "subFieldsQueryString": " AND au=\"1832-1888\"",
+          "type": "person"
+        },
+        {
+          "firstNameObject": {"data": "Cornelia"},
+          "flipNameOrder": false,
+          "lastNameObject": {"data": "Meigs"},
+          "notes": "1884-1973,",
+          "primary": false,
+          "relatorList": {"relators": [{"code": "win", "term": "Writer of introduction"}]},
+          "subFieldsQueryString": " AND au=\"1884-1973\"",
+          "type": "person"
+        },
+        {
+          "firstNameObject": {"data": "Jessie Willcox"},
+          "flipNameOrder": false,
+          "lastNameObject": {"data": "Smith"},
+          "notes": "1863-1935,",
+          "primary": false,
+          "relatorList": {"relators": [{"code": "ill", "term": "Illustrator"}]},
+          "subFieldsQueryString": " AND au=\"1863-1935\"",
+          "type": "person"
+        },
+        {
+          "firstNameObject": {"data": "Cairns Collection of American Women Writers."},
+          "flipNameOrder": false,
+          "lastNameObject": {},
+          "primary": false,
+          "type": "corporation"
+        }
+      ],
+      "contentsObjects": [
+        {
+          "note": "Part one. Playing Pilgrims ; A merry Christmas ; The Laurence boy ; Burdens ; Being neighborly ; Beth finds the palace beautiful ; Amy's valley of humiliation ; Jo meets Apollyon ; Meg goes to Vanity Fair ; The P.C. and P.O. ; Experiments ; Camp Laurence ; Castles in the air ; Secrets ; A telegram ; Letters ; Little faithful ; Dark days ; Amy's will ; Confidential ; Laurie makes mischief and Jo makes peace ; Pleasant meadows ; Aunt March settles the question -- Part two. Gossip ; The first wedding ; Artistic atempts ; Literary lessons ; Domestic experiences ; Calls ; Consequences ; Our foreign correspondent ; Tender troubles ; Jo's journal ; A friend ; Heartache ; Beth's secret ; New impressions ; On the shelf ; Lazy Laurence ; The valley of the shadow ; Learning to forget ; All alone ; Surprises ; My lord and lady ; Daisy and Demi ; Under the umbrella ; Harvest time.",
+          "noteObject": {
+            "data": "Part one. Playing Pilgrims ; A merry Christmas ; The Laurence boy ; Burdens ; Being neighborly ; Beth finds the palace beautiful ; Amy's valley of humiliation ; Jo meets Apollyon ; Meg goes to Vanity Fair ; The P.C. and P.O. ; Experiments ; Camp Laurence ; Castles in the air ; Secrets ; A telegram ; Letters ; Little faithful ; Dark days ; Amy's will ; Confidential ; Laurie makes mischief and Jo makes peace ; Pleasant meadows ; Aunt March settles the question -- Part two. Gossip ; The first wedding ; Artistic atempts ; Literary lessons ; Domestic experiences ; Calls ; Consequences ; Our foreign correspondent ; Tender troubles ; Jo's journal ; A friend ; Heartache ; Beth's secret ; New impressions ; On the shelf ; Lazy Laurence ; The valley of the shadow ; Learning to forget ; All alone ; Surprises ; My lord and lady ; Daisy and Demi ; Under the umbrella ; Harvest time.",
+            "private": false
+          }
+        }
+      ],
+      "date": "1968",
+      "defaultCoverArtUrl": "//coverart.oclc.org/ImageWebSvc/oclc/+-+2066_70.jpg?SearchOrder=+-+IG,OT,OS,AV,FA,GO&DefaultImage=N&client&allowDefault=true",
+      "digitalGraphicRepresentation": "",
+      "disableAuthorLinks": false,
+      "displayCopyAndPasteCitations": true,
+      "displayDeepOpacLinks": true,
+      "displayOpacLink": false,
+      "edition": "Centennial edition.",
+      "editionId": "1a3e22031b5a145a34f8d45247d4d1b3",
+      "editionSingletonEdition": false,
+      "enhancedCollectionName": "WorldCat",
+      "genreObjects": [
+        {"data": "novels.", "local": false},
+        {"data": "Novels.", "local": false},
+        {"data": "Bildungsromans.", "local": false},
+        {"data": "Autobiographical fiction.", "local": false},
+        {"data": "Domestic fiction.", "local": false},
+        {"data": "Fiction.", "local": false},
+        {"data": "Juvenile works.", "local": false},
+        {"data": "Romans.", "local": false},
+        {"data": "Juvenile fiction.", "local": false},
+        {"data": "Fiction", "local": false},
+        {"data": "Romans, nouvelles, etc. pour la jeunesse.", "local": false}
+      ],
+      "genres": ["novels.","Novels.","Bildungsromans.","Autobiographical fiction.","Domestic fiction.","Fiction.","Juvenile works.","Romans.","Juvenile fiction.","Fiction","Romans, nouvelles, etc. pour la jeunesse."],
+      "heldByLevel": 4,
+      "highlightedRecord": {
+        "disableAuthorLinks": false,
+        "displayCopyAndPasteCitations": false,
+        "displayDeepOpacLinks": true,
+        "displayOpacLink": false,
+        "enhancedCollectionName": "",
+        "heldByLevel": 4,
+        "itemTypeDisplay": "",
+        "labelAsUniqueIdentifier": false,
+        "numberOfEditionIds": 0,
+        "numberOfOtherEditions": 0,
+        "staffILLRequestUrl": "https://132.share.worldcat.org/wms/cmnd/nd/discover/items/null/holdings/ALL?dbid=",
+        "titleObject": {}
+      },
+      "isbns": ["9780316030908","0316030902","9780762405657","0762405651"],
+      "itemType": "book_printbook",
+      "itemTypeDisplay": "Print Book",
+      "labelAsUniqueIdentifier": false,
+      "language": "eng",
+      "lcNumber": "68021171",
+      "masterCallNumber": "PZ7.A335 Li68",
+      "mediumCoverArtUrl": "//coverart.oclc.org/ImageWebSvc/oclc/+-+2066_140.jpg?SearchOrder=+-+IG,OT,OS,AV,FA,GO&DefaultImage=N&client&allowDefault=true",
+      "musicalPresentationStatement": "",
+      "numberOfEditionIds": 1664,
+      "numberOfOtherEditions": 3935,
+      "oclcNumber": "1157",
+      "openUrlContextObject": "rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&ctx_enc=info%3Aofi%2Fenc%3AUTF-8&rft.pub=Little%2C+Brown+and+Company%2C&ctx_tim=2022-09-24T09%3A32%3A51EDT&rft.dat=1157&rft.place=Boston+%3B&rft_id=info%3Aoclcnum%2F1157&rfr_id=info%3Asid%2F.on.worldcat.org%3Axwc&ctx_ver=Z39.88-2004&rft.isbn=9780316030908&rft.aucorp=Cairns+Collection+of+American+Women+Writers.&rft.btitle=Little+women%2C+or%2C+Meg%2C+Jo%2C+Beth%2C+and+Amy&rft.genre=book&rft.aufirst=Louisa+May&rft.pages=xvii%2C+444+pages%2C+8+unnumbered+leaves+of+plates+%3A&url_ctx_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx&rft.aulast=Alcott&rfr.id=1157&rft.id=1157&url_ver=Z39.88-2004&rft.date=1968&ctx_id=1157&rft_dat=%7B%22stdrt1%22%3A%22Book%22%2C%22stdrt2%22%3A%22PrintBook%22%7D",
+      "peerReviewed": false,
+      "physicalDescription": "xvii, 444 pages, 8 unnumbered leaves of plates : color illustrations ; 24 cm",
+      "publishers": [{"data": "Boston ; Toronto : Little, Brown and Company, [1968]"}],
+      "remoteDatabase": false,
+      "source": "",
+      "sourceCollection": "xwc",
+      "staffILLRequestUrl": "https://132.share.worldcat.org/wms/cmnd/nd/discover/items/1157/holdings/ALL?dbid=638",
+      "subjectGroups": [
+        {
+          "bibSubjects": [
+            {
+              "data": "novels",
+              "local": false,
+              "otherSource": "aat",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GENRE_FORM_TERM",
+              "unifiedData": {"data": "novels", "private": false}
+            }
+          ],
+          "id": "aat",
+          "isPromoted": true,
+          "label": "Art & Architecture Thesaurus",
+          "thesaurusType": "OTHER_SOURCES"
+        },
+        {
+          "bibSubjects": [
+            {
+              "data": "Families",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Families", "private": false}
+            },
+            {
+              "data": "March family (Fictitious characters)",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "TOPIC",
+              "unifiedData": {"data": "March family (Fictitious characters)", "private": false}
+            },
+            {
+              "data": "Sisters",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Sisters", "private": false}
+            },
+            {
+              "data": "New England",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GEOGRAPHICAL_TERM",
+              "unifiedData": {"data": "New England", "private": false}
+            },
+            {
+              "data": "Novels",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GENRE_FORM_TERM",
+              "unifiedData": {"data": "Novels", "private": false}
+            },
+            {
+              "data": "Bildungsromans",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GENRE_FORM_TERM",
+              "unifiedData": {"data": "Bildungsromans", "private": false}
+            },
+            {
+              "data": "Autobiographical fiction",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GENRE_FORM_TERM",
+              "unifiedData": {"data": "Autobiographical fiction", "private": false}
+            },
+            {
+              "data": "Domestic fiction",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GENRE_FORM_TERM",
+              "unifiedData": {"data": "Domestic fiction", "private": false}
+            },
+            {
+              "data": "Fiction",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GENRE_FORM_TERM",
+              "unifiedData": {"data": "Fiction", "private": false}
+            },
+            {
+              "data": "Juvenile works",
+              "local": false,
+              "otherSource": "fast",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GENRE_FORM_TERM",
+              "unifiedData": {"data": "Juvenile works", "private": false}
+            }
+          ],
+          "id": "fast",
+          "isPromoted": true,
+          "label": "Faceted Application of Subject Terminology",
+          "thesaurusType": "OTHER_SOURCES"
+        },
+        {
+          "bibSubjects": [
+            {
+              "data": "March family (Fictitious characters) Fiction",
+              "local": false,
+              "thesaurusType": "LC_SUBJECT_HEADINGS_FOR_CHILDRENS_LITERATURE",
+              "type": "TOPIC",
+              "unifiedData": {"data": "March family (Fictitious characters) Fiction", "private": false}
+            },
+            {
+              "data": "Family life New England Fiction",
+              "local": false,
+              "thesaurusType": "LC_SUBJECT_HEADINGS_FOR_CHILDRENS_LITERATURE",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Family life New England Fiction", "private": false}
+            },
+            {
+              "data": "Sisters Fiction",
+              "local": false,
+              "thesaurusType": "LC_SUBJECT_HEADINGS_FOR_CHILDRENS_LITERATURE",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Sisters Fiction", "private": false}
+            },
+            {
+              "data": "New England Fiction",
+              "local": false,
+              "thesaurusType": "LC_SUBJECT_HEADINGS_FOR_CHILDRENS_LITERATURE",
+              "type": "GEOGRAPHICAL_TERM",
+              "unifiedData": {"data": "New England Fiction", "private": false}
+            }
+          ],
+          "id": "lcshac",
+          "isPromoted": true,
+          "label": "Library of Congress Subject Headings for Children's Literature",
+          "thesaurusType": "LC_SUBJECT_HEADINGS_FOR_CHILDRENS_LITERATURE"
+        },
+        {
+          "bibSubjects": [
+            {
+              "data": "March family (Fictitious characters) Juvenile fiction",
+              "local": false,
+              "thesaurusType": "LIBRARY_OF_CONGRESS_SUBJECT_HEADINGS",
+              "type": "TOPIC",
+              "unifiedData": {"data": "March family (Fictitious characters) Juvenile fiction", "private": false}
+            },
+            {
+              "data": "Families New England Juvenile fiction",
+              "local": false,
+              "thesaurusType": "LIBRARY_OF_CONGRESS_SUBJECT_HEADINGS",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Families New England Juvenile fiction", "private": false}
+            },
+            {
+              "data": "Sisters New England Juvenile fiction",
+              "local": false,
+              "thesaurusType": "LIBRARY_OF_CONGRESS_SUBJECT_HEADINGS",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Sisters New England Juvenile fiction", "private": false}
+            },
+            {
+              "data": "New England Juvenile fiction",
+              "local": false,
+              "thesaurusType": "LIBRARY_OF_CONGRESS_SUBJECT_HEADINGS",
+              "type": "GEOGRAPHICAL_TERM",
+              "unifiedData": {"data": "New England Juvenile fiction", "private": false}
+            }
+          ],
+          "id": "lcsh",
+          "isPromoted": true,
+          "label": "Library of Congress Subject Headings",
+          "thesaurusType": "LIBRARY_OF_CONGRESS_SUBJECT_HEADINGS"
+        },
+        {
+          "bibSubjects": [
+            {
+              "data": "Famille March (Personnages fictifs) Romans, nouvelles, etc. pour la jeunesse",
+              "local": false,
+              "thesaurusType": "REPERTOIRE_DE_VEDETTES_MATIERE",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Famille March (Personnages fictifs) Romans, nouvelles, etc. pour la jeunesse", "private": false}
+            },
+            {
+              "data": "Familles Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+              "local": false,
+              "thesaurusType": "REPERTOIRE_DE_VEDETTES_MATIERE",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Familles Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse", "private": false}
+            },
+            {
+              "data": "Sœurs Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+              "local": false,
+              "thesaurusType": "REPERTOIRE_DE_VEDETTES_MATIERE",
+              "type": "TOPIC",
+              "unifiedData": {"data": "Sœurs Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse", "private": false}
+            },
+            {
+              "data": "Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse",
+              "local": false,
+              "thesaurusType": "REPERTOIRE_DE_VEDETTES_MATIERE",
+              "type": "GEOGRAPHICAL_TERM",
+              "unifiedData": {"data": "Nouvelle-Angleterre Romans, nouvelles, etc. pour la jeunesse", "private": false}
+            }
+          ],
+          "id": "rvm",
+          "isPromoted": true,
+          "label": "Répertoire de Vedettes-Matière",
+          "thesaurusType": "REPERTOIRE_DE_VEDETTES_MATIERE"
+        },
+        {
+          "bibSubjects": [
+            {
+              "data": "Romans",
+              "local": false,
+              "otherSource": "rvmgf",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "GENRE_FORM_TERM",
+              "unifiedData": {"data": "Romans", "private": false}
+            }
+          ],
+          "id": "rvmgf",
+          "isPromoted": true,
+          "label": "Répertoire de Vedettes-Matière Genre Form",
+          "thesaurusType": "OTHER_SOURCES"
+        },
+        {
+          "bibSubjects": [
+            {
+              "data": "AR 8.6",
+              "local": false,
+              "otherSource": "sears",
+              "thesaurusType": "OTHER_SOURCES",
+              "type": "TOPIC",
+              "unifiedData": {"data": "AR 8.6", "private": false}
+            }
+          ],
+          "id": "sears",
+          "isPromoted": true,
+          "label": "Sears list of subject headings",
+          "thesaurusType": "OTHER_SOURCES"
+        }
+      ],
+      "summariesObjectList": [
+        {
+          "data": "The adventures of Meg, Jo, Beth, and Amy as they grow into young women in mid-nineteenth-century New England.",
+          "private": false
+        }
+      ],
+      "titleObject": { "data": "Little women, or, Meg, Jo, Beth, and Amy" },
+      "uniformTitleObjects": [{ "data": "Little women", "local": false }],
+      "uniformTitles": ["Little women"],
+      "workCount": 3936,
+      "workId": "1862339708",
+      "workSingletonIndicator": false,
+      "workSingletonWork": false
+    }
+  }
+}
+  </pre></code>
+
+  <h3>Legacy search HTML</h3>
+
+  <p>
+    We discovered a bunch of websites whitelabeled for libraries, that still used the old search UI. We scraped a bunch of records using these pages. There is very little information in here, but the basics such as title, author, and even ISBN are present. Here is <em>“Little Women”</em>:
+  </p>
+
+  <code><pre class="code-block" style="margin-top: 0; overflow: auto; max-height: 40vh; white-space: normal;">
+{
+    &quot;aacid&quot;: &quot;aacid__worldcat__20231001T025039Z__1157__8y3EMa4Afua9YWXVYkSryk&quot;,
+    &quot;metadata&quot;: {
+        &quot;oclc_number&quot;: 1157,
+        &quot;type&quot;: &quot;legacysearch_html&quot;,
+        &quot;from_filenames&quot;: [
+            &quot;worldcat_2022_09_titles_1_backup_2022_10_12/v6/1270/1270339452&quot;
+        ],
+        &quot;html&quot;: &quot;&lt;td class=\&quot;num\&quot;&gt;&lt;input type=\&quot;checkbox\&quot; name=\&quot;itemid\&quot; id=\&quot;itemid_1157\&quot; value=\&quot;1157\&quot;&gt;&lt;label for=\&quot;itemid_1157\&quot; style=\&quot;display:none\&quot;&gt;6. Little women, or, Meg, Jo, Beth, and Amy&lt;/label&gt;&lt;/td&gt; &lt;td class=\&quot;num\&quot;&gt;6.&lt;/td&gt; &lt;td class=\&quot;coverart\&quot;&gt; &lt;a href=\&quot;/title/little-women-or-meg-jo-beth-and-amy/oclc/1157&amp;referer=brief_results\&quot;&gt; &lt;img width=\&quot;70\&quot; src=\&quot;//coverart.oclc.org/ImageWebSvc/oclc/+-+2066_70.jpg?SearchOrder=+-+OT,OS,TN,GO,FA\&quot; title='Little women, or, Meg, Jo, Beth, and Amy by Louisa May Alcott' alt='Little women, or, Meg, Jo, Beth, and Amy by Louisa May Alcott' /&gt;&lt;/a&gt; &lt;/td&gt; &lt;td class=\&quot;result details\&quot;&gt; &lt;div class=\&quot;oclc_number\&quot; data-source-collection=\&quot;/XWC/\&quot;&gt;1157&lt;/div&gt; &lt;div class=\&quot;item_number\&quot;&gt;6&lt;/div&gt; &lt;div class=\&quot;name\&quot;&gt; &lt;a id=\&quot;result-6\&quot; href=\&quot;/title/little-women-or-meg-jo-beth-and-amy/oclc/1157&amp;referer=brief_results\&quot;&gt;&lt;strong&gt;Little women, or, Meg, Jo, Beth, and Amy&lt;/strong&gt;&lt;/a&gt; &lt;/div&gt; &lt;div class=\&quot;author\&quot;&gt;by Louisa May Alcott; Cornelia Meigs; Jessie Willcox Smith; Cairns Collection of American Women Writers.&lt;/div&gt;&lt;div class=\&quot;type\&quot;&gt; &lt;img class='icn' src='/wcpa/rel20220804/images/icon-bks.gif' alt=' ' height='16' width='16' &gt;&amp;nbsp;&lt;span class='itemType'&gt;Print book&lt;/span&gt; : Fiction : Juvenile audience&lt;a href=\&quot;/title/little-women-or-meg-jo-beth-and-amy/oclc/1157/editions?editionsView=true&amp;referer=br&amp;se=loc\&quot; title=\&quot;View all held editions and formats for this item\&quot;&gt; View all formats and languages &amp;raquo;&lt;/a&gt; &lt;/div&gt; &lt;div class=\&quot;type language\&quot;&gt;Language: &lt;span class=\&quot;itemLanguage\&quot;&gt;English&lt;/span&gt; &amp;nbsp;&lt;/div&gt;&lt;div class=\&quot;publisher\&quot;&gt;Publisher: &lt;span class=\&quot;itemPublisher\&quot;&gt;Boston ; Toronto : Little, Brown and Company, [1968] &copy;1968&lt;/span&gt;&lt;/div&gt;&lt;!-- collection: /z-wcorg/ --&gt; &lt;div class=\&quot;heldby\&quot;&gt;Libraries that own this item: &lt;span class=\&quot;heldbyName\&quot;&gt; WorldCat Libraries&lt;/span&gt;&lt;/div&gt; &lt;ul class=\&quot;options\&quot;&gt; &lt;li&gt; &lt;a href=\&quot;/title/little-women-or-meg-jo-beth-and-amy/oclc/1157/editions?editionsView=true&amp;referer=br&amp;se=loc\&quot; title=\&quot;View all held editions and formats for this item\&quot;&gt; View all editions &amp;raquo;&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;div class=\&quot;panel hidepanel\&quot; id=\&quot;elpanel6\&quot;&gt;&lt;p class=\&quot;closepanel\&quot;&gt;&lt;a href=\&quot;javascript:void(0);\&quot; title=\&quot;Close\&quot;&gt;Close&lt;/a&gt;&lt;/p&gt;&lt;/div&gt; &lt;div class=\&quot;panel hidepanel\&quot; id=\&quot;avpanel6\&quot;&gt;&lt;p class=\&quot;closepanel\&quot;&gt;&lt;a href=\&quot;javascript:void(0);\&quot; title=\&quot;Close\&quot;&gt;Close&lt;/a&gt;&lt;/p&gt;&lt;/div&gt; &lt;div id=\&quot;slice\&quot;&gt; &lt;span class=\&quot;Z3988\&quot; title=\&quot;url_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;req_dat=%3Csessionid%3E&amp;rfe_dat=%3Caccessionnumber%3E1157%3C%2Faccessionnumber%3E&amp;rft_id=info%3Aoclcnum%2F1157&amp;rft_id=urn%3AISBN%3A9780316030908&amp;rft.aulast=Alcott&amp;rft.aufirst=Louisa&amp;rft.title=Little+women%2C+or%2C+Meg%2C+Jo%2C+Beth%2C+and+Amy&amp;rft.date=1968&amp;rft.isbn=9780316030908&amp;rft.aucorp=Cairns+Collection+of+American+Women+Writers.&amp;rft.place=Boston+%3B+Toronto&amp;rft.pub=Little++Brown+and+Company&amp;rft.edition=Centennial+edition.&amp;rft.genre=book&amp;rft.identifier=PZ7.A335+Li68&amp;rft_dat=%7B%22stdrt1%22%3A%22Book%22%2C%22stdrt2%22%3A%22PrintBook%22%7D\&quot;&gt;&lt;/span&gt; &lt;/div&gt; &lt;!-- Add&quot;
+    }
+}
+  </pre></code>
+
+  <h3>Not found</h3>
+
+  <p>
+    The final record type is trivial: records that for which we got a 404 during a “title_json” request, so “not_found_title_json”:
+  </p>
+
+  <code class="code-block">{"aacid":"aacid__worldcat__20231001T025039Z__0__Phmst4gRh8fKhKgSRpJYMm","metadata":{"oclc_number":0,"type":"not_found_title_json","from_filenames":["2023_04_v3/3861/386169934"],"record":{"not_found":1}}}</code>
+
+  <h2>Conclusion</h2>
+
+  <p>
+    We think this release marks a major milestone in mapping out all the books in the world. We can now work on making a TODO list of all the books that still need to be preserved.
+  </p>
+
+  <p>
+    Join us: enter in our mini-competition to analyze these data, help seed our torrents, scan and upload some books, help build Anna’s Archive, help scrape more collections, or simply become a member. We’ve already met dozens of incredible volunteers, and <em>you too</em> can help preserve humanity’s legacy.
+  </p>
+
+  <p>
+    <strong>Special call for LLM companies and groups:</strong> we recently launched a special program on Anna’s Archive to help out teams building LLMs with high-speed access to our collections.
+  </p>
+
+  <p>
+    Thanks everyone.
+  </p>
+
+  <p>
+    - Anna and the team (<a href="https://twitter.com/AnnaArchivist">Twitter</a>, <a href="https://www.reddit.com/r/Annas_Archive/">Reddit</a>, <a href="https://t.me/annasarchiveorg">Telegram</a>)
+  </p>
+
+  <p>
+    PS: We do want to give a genuine shout-out to the Worldcat team. Even though it was a small tragedy that your data was locked up, you did an amazing job at getting 30,000 libraries on board to share their metadata with you. As with many of our releases, we could not have done it without the decades of hard work you put into building the collections that we now liberate. Truly: thank you.
+  </p>
+{% endblock %}

@@ -13,6 +13,10 @@ blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blo
 def index():
     return render_template("blog/index.html")
 
+@blog.get("/worldcat-scrape.html")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def worldcat_scrape():
+    return render_template("blog/worldcat-scrape.html")
 @blog.get("/annas-archive-containers.html")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def aac():
@@ -132,6 +136,13 @@ def rss_xml():
             author = "Anna and the team",
             pubDate = datetime.datetime(2023,8,15),
         ),
+        # Item(
+        #     title = "1.3B Worldcat scrape & data science mini-competition",
+        #     link = "https://annas-blog.org/worldcat-scrape.html",
+        #     description = "Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.",
+        #     author = "Anna and the team",
+        #     pubDate = datetime.datetime(2023,10,2),
+        # ),
     ]
 
     feed = Feed(
