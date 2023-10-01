@@ -2771,12 +2771,15 @@ def scidb_page(doi_input):
         return redirect(f"/scidb/{doi_input}?scidb_verified=1", code=302)
 
     with Session(engine) as session:
-        search_results_raw = es.search(
-            index="aarecords",
-            size=50,
-            query={ "term": { "search_only_fields.search_doi": doi_input } },
-            timeout=ES_TIMEOUT,
-        )
+        try:
+            search_results_raw = es.search(
+                index="aarecords",
+                size=50,
+                query={ "term": { "search_only_fields.search_doi": doi_input } },
+                timeout=ES_TIMEOUT,
+            )
+        except Exception as err:
+            return redirect(f"/search?q=doi:{doi_input}", code=302)
         aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
         aarecords_and_infos = [(aarecord, allthethings.utils.scidb_info(aarecord)) for aarecord in aarecords if allthethings.utils.scidb_info(aarecord) is not None]
         aarecords_and_infos.sort(key=lambda aarecord_and_info: aarecord_and_info[1]['priority'])
@@ -3168,7 +3171,7 @@ def search_page():
             if 'hits' in result:
                 count = result['hits']['total']
             total_by_index_long[multi_searches[i*2]['index']] = count
-    except elasticsearch.ConnectionTimeout as err:
+    except Exception as err:
         had_es_timeout = True
 
     max_display_results = 200
@@ -3186,7 +3189,7 @@ def search_page():
             track_total_hits=False,
             timeout=ES_TIMEOUT,
         )
-    except elasticsearch.ConnectionTimeout as err:
+    except Exception as err:
         had_es_timeout = True
 
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
@@ -3270,7 +3273,7 @@ def search_page():
                 track_total_hits=False,
                 timeout=ES_TIMEOUT,
             )
-        except elasticsearch.ConnectionTimeout as err:
+        except Exception as err:
             had_es_timeout = True
         if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
@@ -3290,7 +3293,7 @@ def search_page():
                     track_total_hits=False,
                     timeout=ES_TIMEOUT,
                 )
-            except elasticsearch.ConnectionTimeout as err:
+            except Exception as err:
                 had_es_timeout = True
             if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
@@ -3310,7 +3313,7 @@ def search_page():
                         track_total_hits=False,
                         timeout=ES_TIMEOUT,
                     )
-                except elasticsearch.ConnectionTimeout as err:
+                except Exception as err:
                     had_es_timeout = True
                 if (len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results) and (not had_es_timeout):
                     max_additional_search_aarecords_reached = True
