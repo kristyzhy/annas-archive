@@ -715,6 +715,7 @@ def payment1_notify():
     if data['trade_status'] == 'TRADE_SUCCESS':
         with mariapersist_engine.connect() as connection:
             donation_id = data['out_trade_no']
+            connection.connection.ping(reconnect=True)
             cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
             if allthethings.utils.confirm_membership(cursor, donation_id, 'payment1_notify', data):
                 return "success"
@@ -730,6 +731,7 @@ def payment2_notify():
         print(f"Warning: failed payment2_notify request because of incorrect signature {sign_str} /// {dict(sorted(request.json.items()))}.")
         return "Bad request", 404
     with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         payment2_status, payment2_request_success = allthethings.utils.payment2_check(cursor, request.json['payment_id'])
         if not payment2_request_success:
@@ -752,6 +754,7 @@ def gc_notify():
     donation_id = allthethings.utils.receipt_id_to_donation_id(to_split[1])
 
     with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT * FROM mariapersist_donations WHERE donation_id=%(donation_id)s LIMIT 1', { 'donation_id': donation_id })
         donation = cursor.fetchone()

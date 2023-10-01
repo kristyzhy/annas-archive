@@ -318,6 +318,7 @@ def donation_page(donation_id):
             else:
                 donation_pay_amount = f"{donation_json['payment2_request']['pay_amount']}"
 
+            mariapersist_session.connection().connection.ping(reconnect=True)
             cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
             payment2_status, payment2_request_success = allthethings.utils.payment2_check(cursor, donation_json['payment2_request']['payment_id'])
             if not payment2_request_success:

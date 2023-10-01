@@ -318,6 +318,7 @@ def get_stats_data():
         openlib_time = connection.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL111%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
         openlib_date = str(openlib_time.date()) if openlib_time is not None else ''
 
+        connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT metadata FROM annas_archive_meta__aacid__zlib3_records ORDER BY aacid DESC LIMIT 1')
         zlib3_record = cursor.fetchone()
@@ -534,6 +535,7 @@ def torrents_json_page():
 @allthethings.utils.no_cache()
 def torrents_latest_aac_page(collection):
     with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT data FROM mariapersist_small_files WHERE file_path LIKE CONCAT("torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__", %(collection)s, "%%") ORDER BY created DESC LIMIT 1', { "collection": collection })
         file = cursor.fetchone()
@@ -617,6 +619,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
         raise Exception(f"Unexpected 'key' in get_aac_zlib3_book_dicts: '{key}'")
     aac_zlib3_books = []
     try:
+        session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s', { "values": [str(value) for value in values] })
         aac_zlib3_books = cursor.fetchall()
@@ -1603,6 +1606,7 @@ def get_scihub_doi_dicts(session, key, values):
 
     scihub_dois = []
     try:
+        session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute(f'SELECT doi FROM scihub_dois WHERE doi IN %(values)s', { "values": [str(value) for value in values] })
         scihub_dois = cursor.fetchall()

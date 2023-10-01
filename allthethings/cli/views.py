@@ -270,6 +270,7 @@ def elastic_build_aarecords_job(aarecord_ids):
 
             if (not aarecord_ids[0].startswith('doi:')) and (len(dois) > 0):
                 dois = list(set(dois))
+                session.connection().connection.ping(reconnect=True)
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
                 count = cursor.execute(f'DELETE FROM scihub_dois_without_matches WHERE doi IN %(dois)s', { "dois": dois })
                 cursor.execute('COMMIT')
@@ -325,6 +326,7 @@ def elastic_build_aarecords_internal():
     ftlangdetect.detect('dummy')
 
     with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
         with multiprocessing.Pool(THREADS) as executor:
             print("Processing from aa_ia_2023_06_metadata")
