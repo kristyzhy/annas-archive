@@ -32,7 +32,7 @@ import more_itertools
 import allthethings.utils
 
 from flask import Blueprint, __version__, render_template, make_response, redirect, request
-from allthethings.extensions import engine, mariadb_url, mariadb_url_no_timeout, es, Reflected, mail, mariapersist_url
+from allthethings.extensions import engine, mariadb_url, mariadb_url_no_timeout, es, es_aux, Reflected, mail, mariapersist_url
 from sqlalchemy import select, func, text, create_engine
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session

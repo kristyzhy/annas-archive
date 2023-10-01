@@ -28,6 +28,7 @@ FAST_PARTNER_SERVER1 = os.getenv("FAST_PARTNER_SERVER1", None)
 # }
 
 ELASTICSEARCH_HOST = os.getenv("ELASTICSEARCH_HOST", "http://elasticsearch:9200")
+ELASTICSEARCHAUX_HOST = os.getenv("ELASTICSEARCHAUX_HOST", "http://elasticsearchaux:9201")
 
 MAIL_USERNAME = 'anna@annas-mail.org'
 MAIL_DEFAULT_SENDER = ('Anna’s Archive', 'anna@annas-mail.org')

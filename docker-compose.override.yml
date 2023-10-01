@@ -35,6 +35,14 @@ services:
     networks:
       - "mynetwork"
 
+  elasticsearchaux:
+    # ports:
+    #   - "${ELASTICSEARCHAUX_PORT_FORWARD:-127.0.0.1:9201}:9201"
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    networks:
+      - "mynetwork"
+
   kibana:
     ports:
       - "${KIBANA_PORT_FORWARD:-127.0.0.1:5601}:5601"

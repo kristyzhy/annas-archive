@@ -22,7 +22,7 @@ When everything is settled, in another terminal window, run:
 Now restart the `docker compose up` from above, and things should work.
 
 Common issues:
-* Funky permissions on ElasticSearch data: `sudo chmod 0777 -R ../allthethings-elastic-data/`
+* Funky permissions on ElasticSearch data: `sudo chmod 0777 -R ../allthethings-elastic-data/ ../allthethings-elasticsearchaux-data/`
 * MariaDB wants too much RAM: comment out `key_buffer_size` in `mariadb-conf/my.cnf`
 * Note that the example data is pretty funky / weird because of some joined tables not lining up nicely when only exporting a small number of records.
 * You might need to adjust the size of ElasticSearch's heap size, by changing `ES_JAVA_OPTS` in `docker-compose.yml`.

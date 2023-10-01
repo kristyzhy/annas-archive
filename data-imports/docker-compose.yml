@@ -23,10 +23,12 @@ services:
       context: '..'
       dockerfile: Dockerfile-elasticsearch
     environment:
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
+      - "ES_PORT=9200"
+      - "ES_SETTING_TRANSPORT_PORT=9300"
+      - "ES_SETTING_DISCOVERY_TYPE=single-node"
+      - "ES_SETTING_BOOTSTRAP_MEMORY__LOCK=true"
       - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
-      - xpack.security.enabled=false
+      - "ES_SETTING_XPACK_SECURITY_ENABLED=false"
     cap_add:
       - IPC_LOCK
     ulimits:
@@ -39,6 +41,32 @@ services:
         hard: 65535
     volumes:
       - "../../aa-data-import--allthethings-elastic-data:/usr/share/elasticsearch/data"
+
+  "aa-data-import--elasticsearchaux":
+    container_name: "aa-data-import--elasticsearchaux"
+    build:
+      context: '..'
+      dockerfile: Dockerfile-elasticsearch
+    environment:
+      - "ES_PORT=9201"
+      - "ES_SETTING_HTTP_PORT=9201"
+      - "ES_SETTING_TRANSPORT_PORT=9301"
+      - "ES_SETTING_DISCOVERY_TYPE=single-node"
+      - "ES_SETTING_BOOTSTRAP_MEMORY__LOCK=true"
+      - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
+      - "ES_SETTING_XPACK_SECURITY_ENABLED=false"
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+    volumes:
+      - "../../aa-data-import--allthethings-elasticsearchaux-data:/usr/share/elasticsearch/data"
 
   "aa-data-import--web":
     container_name: "aa-data-import--web"

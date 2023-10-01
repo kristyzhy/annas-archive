@@ -21,7 +21,7 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import gettext, ngettext, force_locale, get_locale
 
-from allthethings.extensions import es, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations
+from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations
 from allthethings.page.views import get_aarecords_elasticsearch
 from config.settings import SECRET_KEY, PAYMENT1_ID, PAYMENT1_KEY
 

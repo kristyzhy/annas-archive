@@ -10,11 +10,14 @@ Roughly the steps are:
 ```bash
 [ -e ../../aa-data-import--allthethings-mysql-data ] && (echo '../../aa-data-import--allthethings-mysql-data already exists; aborting'; exit 1)
 [ -e ../../aa-data-import--allthethings-elastic-data ] && (echo '../../aa-data-import--allthethings-elastic-data already exists; aborting'; exit 1)
+[ -e ../../aa-data-import--allthethings-elasticsearchaux-data ] && (echo '../../aa-data-import--allthethings-elasticsearchaux-data already exists; aborting'; exit 1)
 # If you wish to download everything from scratch, you should make sure the aa-data-import--temp-dir dir is deleted.
 # [ -e ../../aa-data-import--temp-dir ] && (echo '../../aa-data-import--temp-dir already exists; aborting'; exit 1)
 
 mkdir ../../aa-data-import--allthethings-elastic-data
 chown 1000 ../../aa-data-import--allthethings-elastic-data
+mkdir ../../aa-data-import--allthethings-elasticsearchaux-data
+chown 1000 ../../aa-data-import--allthethings-elasticsearchaux-data
 
 # Uncomment if you want to start off with the existing MySQL data, e.g. if you only want to run a subset of the scripts.
 # sudo rsync -av --append ../../allthethings-mysql-data/ ../../aa-data-import--allthethings-mysql-data/
@@ -64,22 +67,26 @@ docker compose down
 
 # Quickly swap out the new MySQL+ES folders in a production setting.
 # cd ..
-# docker compose stop mariadb elasticsearch kibana web
+# docker compose stop mariadb elasticsearch elasticsearchaux kibana web
 # export NOW=$(date +"%Y_%m_%d_%H_%M")
 # mv ../allthethings-mysql-data ../allthethings-mysql-data--backup-$NOW
 # mv ../allthethings-elastic-data ../allthethings-elastic-data--backup-$NOW
+# mv ../allthethings-elasticsearchaux-data ../allthethings-elasticsearchaux-data--backup-$NOW
 # rsync -a --progress ../aa-data-import--allthethings-mysql-data/ ../allthethings-mysql-data
 # rsync -a --progress ../aa-data-import--allthethings-elastic-data/ ../allthethings-elastic-data
+# rsync -a --progress ../aa-data-import--allthethings-elasticsearchaux-data/ ../allthethings-elasticsearchaux-data
 # docker compose up -d --no-deps --build; docker compose stop web
 # docker compose logs --tail 20 --follow
 # docker compose start web
 
 # To restore the backup:
-# docker compose stop mariadb elasticsearch kibana
+# docker compose stop mariadb elasticsearch elasticsearchaux kibana
 # mv ../allthethings-mysql-data ../allthethings-mysql-data--didnt-work
 # mv ../allthethings-elastic-data ../allthethings-elastic-data--didnt-work
+# mv ../allthethings-elasticsearchaux-data ../allthethings-elasticsearchaux-data--didnt-work
 # mv ../allthethings-mysql-data--backup-$NOW ../allthethings-mysql-data
 # mv ../allthethings-elastic-data--backup-$NOW ../allthethings-elastic-data
+# mv ../allthethings-elasticsearchaux-data--backup-$NOW ../allthethings-elasticsearchaux-data
 # docker compose up -d --no-deps --build
 # docker compose logs --tail 20 --follow
 ```

@@ -6,13 +6,15 @@ from flask_static_digest import FlaskStaticDigest
 from sqlalchemy import Column, Integer, ForeignKey, inspect, create_engine, Text
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.ext.declarative import DeferredReflection
-from flask_elasticsearch import FlaskElasticsearch
+from elasticsearch import Elasticsearch
 from flask_mail import Mail
+from config.settings import ELASTICSEARCH_HOST, ELASTICSEARCHAUX_HOST
 
 debug_toolbar = DebugToolbarExtension()
 flask_static_digest = FlaskStaticDigest()
 Base = declarative_base()
-es = FlaskElasticsearch()
+es = Elasticsearch(hosts=[ELASTICSEARCH_HOST], max_retries=2, retry_on_timeout=True)
+es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=2, retry_on_timeout=True)
 babel = Babel()
 mail = Mail()
 
