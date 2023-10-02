@@ -211,6 +211,12 @@ def elastic_reset_aarecords():
     elastic_reset_aarecords_internal()
 
 def elastic_reset_aarecords_internal():
+    # Old indexes
+    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
+    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
+    es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords')
+
+    # Actual indexes
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
@@ -245,8 +251,8 @@ def elastic_reset_aarecords_internal():
         },
     }
     es.indices.create(index='aarecords', body=body)
-    es.indices.create(index='aarecords_digital_lending', body=body)
-    es.indices.create(index='aarecords_metadata', body=body)
+    es_aux.indices.create(index='aarecords_digital_lending', body=body)
+    es_aux.indices.create(index='aarecords_metadata', body=body)
 
 #################################################################################################
 # Regenerate "aarecords" index in ElasticSearch.
@@ -259,12 +265,12 @@ def elastic_build_aarecords_job(aarecord_ids):
     try:
         aarecord_ids = list(aarecord_ids)
         with Session(engine) as session:
-            operations = []
+            operations_by_es_handle = collections.defaultdict(list)
             dois = []
             aarecords = get_aarecords_mysql(session, aarecord_ids)
             for aarecord in aarecords:
                 for index in aarecord['indexes']:
-                    operations.append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
+                    operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
                 for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
                     dois.append(doi)
 
@@ -277,20 +283,23 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # print(f'Deleted {count} DOIs')
                 
             try:
-                elasticsearch.helpers.bulk(es, operations, request_timeout=30)
+                for es_handle, operations in operations_by_es_handle.items():
+                    elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
             except Exception as err:
                 if hasattr(err, 'errors'):
                     print(err.errors)
                 print(repr(err))
                 print("Got the above error; retrying..")
                 try:
-                    elasticsearch.helpers.bulk(es, operations, request_timeout=30)
+                    for es_handle, operations in operations_by_es_handle.items():
+                        elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
                 except Exception as err:
                     if hasattr(err, 'errors'):
                         print(err.errors)
                     print(repr(err))
                     print("Got the above error; retrying one more time..")
-                    elasticsearch.helpers.bulk(es, operations, request_timeout=30)
+                    for es_handle, operations in operations_by_es_handle.items():
+                        elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
             # print(f"Processed {len(aarecords)} md5s")
     except Exception as err:
         print(repr(err))
