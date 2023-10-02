@@ -27,7 +27,7 @@ services:
       - "ES_SETTING_TRANSPORT_PORT=9300"
       - "ES_SETTING_DISCOVERY_TYPE=single-node"
       - "ES_SETTING_BOOTSTRAP_MEMORY__LOCK=true"
-      - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
+      - "ES_JAVA_OPTS=-Xms26g -Xmx26g"
       - "ES_SETTING_XPACK_SECURITY_ENABLED=false"
     cap_add:
       - IPC_LOCK
@@ -88,6 +88,7 @@ services:
       - "../../aa-data-import--temp-dir:/temp-dir"
       - "../../aa-data-import--allthethings-mysql-data:/aa-data-import--allthethings-mysql-data"
       - "../../aa-data-import--allthethings-elastic-data:/aa-data-import--allthethings-elastic-data"
+      - "../../aa-data-import--allthethings-elasticsearchaux-data:/aa-data-import--allthethings-elasticsearchaux-data"
       - "./mariadb-conf:/etc/mysql/conf.d"
       - "../public:/app/public"
     tty: true
