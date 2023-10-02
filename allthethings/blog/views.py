@@ -141,7 +141,7 @@ def rss_xml():
         #     link = "https://annas-blog.org/worldcat-scrape.html",
         #     description = "Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.",
         #     author = "Anna and the team",
-        #     pubDate = datetime.datetime(2023,10,2),
+        #     pubDate = datetime.datetime(2023,10,3),
         # ),
     ]
 
@@ -153,8 +153,6 @@ def rss_xml():
         lastBuildDate = datetime.datetime.now(),
         items = items,
     )
-
-    print(feed.rss())
      
     response = make_response(feed.rss())
     response.headers['Content-Type'] = 'application/rss+xml; charset=utf-8'

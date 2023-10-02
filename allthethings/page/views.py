@@ -495,15 +495,14 @@ def torrents_page():
             # if orjson.loads(small_file.metadata).get('by_script') == 1:
             #     continue
             group = small_file.file_path.split('/')[2]
-            filename = small_file.file_path.split('/')[3]
-            if 'zlib3' in filename:
-                group = 'zlib'
-            small_file_dicts_grouped[group].append(dict(small_file))
-
             aac_meta_prefix = 'torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__'
             if small_file.file_path.startswith(aac_meta_prefix):
                 aac_group = small_file.file_path[len(aac_meta_prefix):].split('__', 1)[0]
                 aac_meta_file_paths_grouped[aac_group].append(small_file.file_path)
+                group = aac_group
+            if 'zlib3' in small_file.file_path:
+                group = 'zlib'
+            small_file_dicts_grouped[group].append(dict(small_file))
 
         obsolete_file_paths = [
             'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent'
