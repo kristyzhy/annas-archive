@@ -61,7 +61,8 @@ search_filtered_bad_aarecord_ids = [
     "md5:351024f9b101ac7797c648ff43dcf76e",
 ]
 
-ES_TIMEOUT = "3s"
+ES_TIMEOUT_PRIMARY = "3s"
+ES_TIMEOUT = "500ms"
 
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
 # because https://openlibrary.org/languages.json doesn't seem to give a complete list? (And ?limit=.. doesn't seem to work.)
@@ -1672,7 +1673,9 @@ def get_aarecords_elasticsearch(session, aarecord_ids):
     # Uncomment the following line to use MySQL directly; useful for local development.
     # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
-    search_results_raw = es.mget(docs=[{'_id': aarecord_id, '_index': allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':', 1)[0]] } for aarecord_id in aarecord_ids ])
+    index = allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':', 1)[0]]
+    es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]
+    search_results_raw = es_handle.mget(docs=[{'_id': aarecord_id, '_index': index } for aarecord_id in aarecord_ids ])
     return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['docs'] if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
@@ -2748,7 +2751,7 @@ def scidb_page(doi_input):
                 index="aarecords",
                 size=50,
                 query={ "term": { "search_only_fields.search_doi": doi_input } },
-                timeout=ES_TIMEOUT,
+                timeout=ES_TIMEOUT_PRIMARY,
             )
         except Exception as err:
             return redirect(f"/search?q=doi:{doi_input}", code=302)
@@ -2953,7 +2956,7 @@ search_query_aggs = {
 
 @functools.cache
 def all_search_aggs(display_lang, search_index_long):
-    search_results_raw = es.search(index=search_index_long, size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT)
+    search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=search_index_long, size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT_PRIMARY)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
@@ -3106,29 +3109,32 @@ def search_page():
         },
     }
 
-    multi_searches = []
+    multi_searches_by_es_handle = collections.defaultdict(list)
     for search_index in list(set(allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING.values())):
+        multi_searches = multi_searches_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index]]
         multi_searches.append({ "index": search_index })
         multi_searches.append({
             "size": 0, 
             "query": search_query,
             "track_total_hits": 100,
-            "timeout": "1s",
+            "timeout": "500ms",
         })
 
-    total_by_index_long = {index: {'value': 0, 'relation': ''} for index in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values()}
+    total_by_index_long = {index: {'value': -1, 'relation': ''} for index in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values()}
     try:
-        total_all_indexes = es.msearch(
-            request_timeout=5,
-            max_concurrent_searches=10,
-            max_concurrent_shard_requests=10,
-            searches=multi_searches,
-        )
-        for i, result in enumerate(total_all_indexes['responses']):
-            count = 0
-            if 'hits' in result:
-                count = result['hits']['total']
-            total_by_index_long[multi_searches[i*2]['index']] = count
+        # TODO: do these in parallel (with each other, but also with the main search), e.g. using a separate request?
+        for es_handle, multi_searches in multi_searches_by_es_handle.items():
+            total_all_indexes = es_handle.msearch(
+                request_timeout=5,
+                max_concurrent_searches=10,
+                max_concurrent_shard_requests=10,
+                searches=multi_searches,
+            )
+            for i, result in enumerate(total_all_indexes['responses']):
+                count = 0
+                if 'hits' in result:
+                    count = result['hits']['total']
+                total_by_index_long[multi_searches[i*2]['index']] = count
     except Exception as err:
         had_es_timeout = True
 
@@ -3137,7 +3143,7 @@ def search_page():
 
     search_results_raw = []
     try:
-        search_results_raw = es.search(
+        search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(
             index=search_index_long, 
             size=max_display_results, 
             query=search_query,
@@ -3145,13 +3151,14 @@ def search_page():
             post_filter={ "bool": { "filter": post_filter } },
             sort=custom_search_sorting+['_score'],
             track_total_hits=False,
-            timeout=ES_TIMEOUT,
+            timeout=ES_TIMEOUT_PRIMARY,
         )
     except Exception as err:
         had_es_timeout = True
 
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
     all_aggregations = all_search_aggs(display_lang, search_index_long)
+    es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
 
     doc_counts = {}
     doc_counts['search_most_likely_language_code'] = {}
@@ -3223,7 +3230,7 @@ def search_page():
         seen_ids = set([aarecord['id'] for aarecord in search_aarecords])
         search_results_raw = []
         try:
-            search_results_raw = es.search(
+            search_results_raw = es_handle.search(
                 index=search_index_long, 
                 size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
                 query=search_query,
@@ -3242,7 +3249,7 @@ def search_page():
             seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
             search_results_raw = []
             try:
-                search_results_raw = es.search(
+                search_results_raw = es_handle.search(
                     index=search_index_long,
                     size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                     # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
@@ -3262,7 +3269,7 @@ def search_page():
                 seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
                 search_results_raw = []
                 try:
-                    search_results_raw = es.search(
+                    search_results_raw = es_handle.search(
                         index=search_index_long,
                         size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                         # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.

@@ -925,6 +925,11 @@ AARECORD_PREFIX_SEARCH_INDEX_MAPPING = {
     'isbn': 'aarecords_metadata',
     'ol': 'aarecords_metadata',
 }
+SEARCH_INDEX_TO_ES_MAPPING = {
+    'aarecords': es,
+    'aarecords_digital_lending': es_aux,
+    'aarecords_metadata': es_aux,
+}
 
 # TODO: translate?
 def marc_country_code_to_english(marc_country_code):
