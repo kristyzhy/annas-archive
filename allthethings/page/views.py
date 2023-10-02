@@ -1676,38 +1676,6 @@ def get_aarecords_elasticsearch(session, aarecord_ids):
     return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['docs'] if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
-def get_random_aarecord_elasticsearch():
-    """
-    Returns a random aarecord from Elasticsearch.
-    Uses `random_score`. See: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-function-score-query.html#function-random
-    """
-    search_results_raw = es.search(
-        index="aarecords",
-        size=1,
-        query={
-            "function_score": {
-                "query": {
-                    "bool": {
-                        "must": {
-                            "match_all": {}
-                        },
-                        "must_not": [
-                            {
-                                "ids": { "values": search_filtered_bad_aarecord_ids }
-                            }
-                        ]
-                    }
-                },
-                "random_score": {},
-            },
-        },
-        timeout=ES_TIMEOUT,
-    )
-
-    first_hit = search_results_raw['hits']['hits'][0]
-    return first_hit
-
-
 def aarecord_score_base(aarecord):
     if len(aarecord['file_unified_data'].get('problems') or []) > 0:
         return 0.01
@@ -3034,20 +3002,6 @@ def all_search_aggs(display_lang, search_index_long):
     #         all_aggregations['search_record_sources'].append({ 'key': key, 'label': label, 'doc_count': 0 })
 
     return all_aggregations
-
-
-# @page.get("/random_book")
-# @allthethings.utils.no_cache()
-# def random_book():
-#     """
-#     Gets a random record from the elastic search index and redirects to the page for that book.
-#     If no record is found, redirects to the search page.
-#     """
-#     random_aarecord = get_random_aarecord_elasticsearch()
-#     if random_aarecord is not None:
-#         return redirect(random_aarecord['_source']['path'], code=301)
-
-#     return redirect("/search", code=302)
 
 
 @page.get("/search")
