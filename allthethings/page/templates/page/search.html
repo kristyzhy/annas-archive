@@ -56,16 +56,16 @@
     </div>
 
     <div class="flex w-[100%]">
-      <div aria-labelledby="{{ gettext('page.search.search_settings') }}" class="max-sm:hidden sm:text-sm max-sm:cursor-pointer js-search-filter-settings max-sm:fixed max-sm:top-0 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:z-[999999999] max-sm:bg-[rgba(230,230,230,0.7)] max-sm:p-4 sm:w-[25%] sm:max-w-[240px] sm:shrink-0 md:pr-6 sm:pr-3" onclick="if(event.target === event.currentTarget) { event.preventDefault(); event.stopPropagation(); document.querySelector('.js-search-form').submit() }">
+      <div aria-labelledby="{{ gettext('page.search.search_settings') }}" class="max-sm:hidden sm:text-sm max-sm:cursor-pointer js-search-filter-settings max-sm:fixed max-sm:top-0 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:z-[999999999] max-sm:bg-[rgba(230,230,230,0.7)] max-sm:p-4 sm:w-[25%] sm:max-w-[240px] sm:shrink-0 md:pr-6 sm:pr-3" onclick="if(event.target === event.currentTarget) { event.preventDefault(); event.stopPropagation(); document.querySelector('.js-search-filter-settings').classList.add('max-sm:hidden'); document.body.style.overflow = 'unset' }">
         <div class="max-sm:cursor-auto max-sm:shadow-2xl max-sm:rounded-xl max-sm:absolute max-sm:top-4 max-sm:bottom-4 max-sm:left-4 max-sm:right-4 max-sm:bg-white max-sm:p-4 max-sm:overflow-y-auto max-sm:mx-auto max-sm:max-w-[700px]">
-          <button class="hidden sm:block bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4" type="submit">{{ gettext('page.search.submit') }}</button>
-
           <div class="flex justify-between items-center mb-4 sm:hidden">
             <div class="font-bold text-lg">{{ gettext('page.search.search_settings') }}</div>
             <div class="">
-              <button class="opacity-50 focus:opacity-80 hover:opacity-100" type="submit">✕</button>
+              <button class="opacity-50 focus:opacity-80 hover:opacity-100" type="submit" onclick="event.preventDefault(); event.stopPropagation(); document.querySelector('.js-search-filter-settings').classList.add('max-sm:hidden'); document.body.style.overflow = 'unset'">✕</button>
             </div>
           </div>
+
+          <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4" type="submit">{{ gettext('page.search.submit') }}</button>
 
           <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
           <div class="mb-4">
@@ -81,19 +81,19 @@
               {% endfor %}
             </div>
           {% endif %}
-          <div class="font-bold mb-1">Access</div>
+          <div class="font-bold mb-1">{{ gettext('page.search.filters.access.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_access_types %}
               <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="acc" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;')}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
             {% endfor %}
           </div>
-          <div class="font-bold mb-1">Source</div>
+          <div class="font-bold mb-1">{{ gettext('page.search.filters.source.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_record_sources %}
               <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="src" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
             {% endfor %}
           </div>
-          <div class="font-bold mb-1">Order by</div>
+          <div class="font-bold mb-1">{{ gettext('page.search.filters.order_by.header') }}</div>
           <select class="pr-8 mb-4 bg-[#00000011] px-2 py-1 rounded" name="sort">
             <option value="">{{ gettext('page.search.filters.sorting.most_relevant') }}</option>
             <option value="newest" {% if search_dict.sort_value == 'newest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.newest') }}</option>
