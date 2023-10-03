@@ -3121,33 +3121,6 @@ def search_page():
         },
     }
 
-    multi_searches_by_es_handle = collections.defaultdict(list)
-    for search_index in list(set(allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING.values())):
-        multi_searches = multi_searches_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index]]
-        multi_searches.append({ "index": search_index })
-        multi_searches.append({
-            "size": 0, 
-            "query": search_query,
-            "track_total_hits": 100,
-            "timeout": "500ms",
-        })
-
-    total_by_index_long = {index: {'value': -1, 'relation': ''} for index in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values()}
-    try:
-        # TODO: do these in parallel (with each other, but also with the main search), e.g. using a separate request?
-        for es_handle, multi_searches in multi_searches_by_es_handle.items():
-            total_all_indexes = es_handle.msearch(
-                request_timeout=5,
-                max_concurrent_searches=10,
-                max_concurrent_shard_requests=10,
-                searches=multi_searches,
-            )
-            for i, result in enumerate(total_all_indexes['responses']):
-                if 'hits' in result:
-                    total_by_index_long[multi_searches[i*2]['index']] = result['hits']['total']
-    except Exception as err:
-        had_es_timeout = True
-
     max_display_results = 200
     max_additional_display_results = 50
 
@@ -3160,9 +3133,39 @@ def search_page():
             aggs=search_query_aggs,
             post_filter={ "bool": { "filter": post_filter } },
             sort=custom_search_sorting+['_score'],
-            track_total_hits=False,
+            track_total_hits=100,
             timeout=ES_TIMEOUT_PRIMARY,
         )
+    except Exception as err:
+        had_es_timeout = True
+
+    total_by_index_long = {index: {'value': -1, 'relation': ''} for index in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values()}
+    total_by_index_long[search_index_long] = search_results_raw['hits']['total']
+
+    multi_searches_by_es_handle = collections.defaultdict(list)
+    for search_index in list(set(allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING.values())):
+        if search_index == search_index_long:
+            continue
+        multi_searches = multi_searches_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index]]
+        multi_searches.append({ "index": search_index })
+        multi_searches.append({
+            "size": 0, 
+            "query": search_query,
+            "track_total_hits": 100,
+            "timeout": "500ms",
+        })
+    try:
+        # TODO: do these in parallel (with each other, but also with the main search), e.g. using a separate request?
+        for es_handle, multi_searches in multi_searches_by_es_handle.items():
+            total_all_indexes = es_handle.msearch(
+                request_timeout=5,
+                max_concurrent_searches=10,
+                max_concurrent_shard_requests=10,
+                searches=multi_searches,
+            )
+            for i, result in enumerate(total_all_indexes['responses']):
+                if 'hits' in result:
+                    total_by_index_long[multi_searches[i*2]['index']] = result['hits']['total']
     except Exception as err:
         had_es_timeout = True
 
