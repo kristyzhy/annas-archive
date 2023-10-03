@@ -534,7 +534,45 @@ def lists(resource):
             resource=resource,
         )
 
-        
+@dyn.get("/search_counts")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def search_counts_page():
+    search_input = request.args.get("q", "").strip()
+
+    search_query = {
+        "bool": {
+            "should": [
+                { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
+                { "simple_query_string": {"query": search_input, "fields": ["search_only_fields.search_text"], "default_operator": "and"} },
+            ],
+        },
+    }
+
+    multi_searches_by_es_handle = collections.defaultdict(list)
+    for search_index in list(set(allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING.values())):
+        multi_searches = multi_searches_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index]]
+        multi_searches.append({ "index": search_index })
+        multi_searches.append({ "size": 0, "query": search_query, "track_total_hits": 100, "timeout": "250ms" })
+
+    total_by_index_long = {index: {'value': -1, 'relation': ''} for index in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values()}
+    try:
+        # TODO: do these in parallel?
+        for es_handle, multi_searches in multi_searches_by_es_handle.items():
+            total_all_indexes = es_handle.msearch(
+                request_timeout=1,
+                max_concurrent_searches=10,
+                max_concurrent_shard_requests=10,
+                searches=multi_searches,
+            )
+            for i, result in enumerate(total_all_indexes['responses']):
+                if 'hits' in result:
+                    total_by_index_long[multi_searches[i*2]['index']] = result['hits']['total']
+    except Exception as err:
+        pass
+
+    return orjson.dumps(total_by_index_long)
+
+
 @dyn.put("/account/buy_membership/")
 @allthethings.utils.no_cache()
 def account_buy_membership():
