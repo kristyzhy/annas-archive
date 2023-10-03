@@ -61,8 +61,8 @@ search_filtered_bad_aarecord_ids = [
     "md5:351024f9b101ac7797c648ff43dcf76e",
 ]
 
-ES_TIMEOUT_PRIMARY = "2s"
-ES_TIMEOUT = "500ms"
+ES_TIMEOUT_PRIMARY = "3s"
+ES_TIMEOUT = "300ms"
 
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
 # because https://openlibrary.org/languages.json doesn't seem to give a complete list? (And ?limit=.. doesn't seem to work.)
@@ -274,7 +274,7 @@ def about_page():
         "md5:6ed2d768ec1668c73e4fa742e3df78d6", # Physics
     ]
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, popular_ids)
+        aarecords = get_aarecords_elasticsearch(popular_ids)
         aarecords.sort(key=lambda aarecord: popular_ids.index(aarecord['id']))
 
         return render_template(
@@ -1666,7 +1666,7 @@ def sort_by_length_and_filter_subsequences_with_longest_string(strings):
             strings_filtered.append(string)
     return strings_filtered
 
-def get_aarecords_elasticsearch(session, aarecord_ids):
+def get_aarecords_elasticsearch(aarecord_ids):
     if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
         raise Exception("Invalid aarecord_ids")
 
@@ -2605,23 +2605,22 @@ def md5_page(md5_input):
     if canonical_md5 != md5_input:
         return redirect(f"/md5/{canonical_md5}", code=301)
 
-    with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
+    aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
 
-        if len(aarecords) == 0:
-            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
+    if len(aarecords) == 0:
+        return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
 
-        aarecord = aarecords[0]
+    aarecord = aarecords[0]
 
-        render_fields = {
-            "header_active": "home/search",
-            "aarecord_id": aarecord['id'],
-            "aarecord_id_split": aarecord['id'].split(':', 1),
-            "aarecord": aarecord,
-            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
-            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
-        }
-        return render_template("page/aarecord.html", **render_fields)
+    render_fields = {
+        "header_active": "home/search",
+        "aarecord_id": aarecord['id'],
+        "aarecord_id_split": aarecord['id'].split(':', 1),
+        "aarecord": aarecord,
+        "md5_problem_type_mapping": get_md5_problem_type_mapping(),
+        "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
+    }
+    return render_template("page/aarecord.html", **render_fields)
 
 @page.get("/ia/<string:ia_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -2634,7 +2633,7 @@ def ia_page(ia_input):
             md5 = cursor.fetchone()['md5']
             return redirect(f"/md5/{md5}", code=301)
 
-        aarecords = get_aarecords_elasticsearch(session, [f"ia:{ia_input}"])
+        aarecords = get_aarecords_elasticsearch([f"ia:{ia_input}"])
 
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ia_input)
@@ -2660,7 +2659,7 @@ def isbn_page(isbn_input):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def isbndb_page(isbn_input):
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, [f"isbn:{isbn_input}"])
+        aarecords = get_aarecords_elasticsearch([f"isbn:{isbn_input}"])
 
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=isbn_input)
@@ -2684,7 +2683,7 @@ def ol_page(ol_input):
         return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ol_input)
 
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, [f"ol:{ol_input}"])
+        aarecords = get_aarecords_elasticsearch([f"ol:{ol_input}"])
 
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ol_input)
@@ -2705,7 +2704,7 @@ def ol_page(ol_input):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def doi_page(doi_input):
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, [f"doi:{doi_input}"])
+        aarecords = get_aarecords_elasticsearch([f"doi:{doi_input}"])
 
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=doi_input)
@@ -2808,7 +2807,7 @@ def scidb_page(doi_input):
 def md5_json(aarecord_id):
     with Session(engine) as session:
         with Session(engine) as session:
-            aarecords = get_aarecords_elasticsearch(session, [aarecord_id])
+            aarecords = get_aarecords_elasticsearch([aarecord_id])
             if len(aarecords) == 0:
                 return "{}", 404
             
@@ -2850,7 +2849,7 @@ def md5_fast_download(md5_input, path_index, domain_index):
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
         return redirect(f"/md5/{md5_input}", code=302)
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
+        aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
         aarecord = aarecords[0]
@@ -2899,7 +2898,7 @@ def md5_slow_download(md5_input, path_index, domain_index):
         return redirect(f"/md5/{md5_input}", code=302)
     with Session(engine) as session:
         with Session(mariapersist_engine) as mariapersist_session:
-            aarecords = get_aarecords_elasticsearch(session, [f"md5:{canonical_md5}"])
+            aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
             if len(aarecords) == 0:
                 return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
             aarecord = aarecords[0]
@@ -2909,28 +2908,28 @@ def md5_slow_download(md5_input, path_index, domain_index):
             except:
                 return redirect(f"/md5/{md5_input}", code=302)
 
-            cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
-            cursor.execute('SELECT COUNT(DISTINCT md5) AS count FROM mariapersist_slow_download_access WHERE timestamp > (NOW() - INTERVAL 24 HOUR) AND SUBSTRING(ip, 1, 8) = %(data_ip)s LIMIT 1', { "data_ip": data_ip })
-            download_count_from_ip = cursor.fetchone()['count']
+            # cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
+            # cursor.execute('SELECT COUNT(DISTINCT md5) AS count FROM mariapersist_slow_download_access WHERE timestamp > (NOW() - INTERVAL 24 HOUR) AND SUBSTRING(ip, 1, 8) = %(data_ip)s LIMIT 1', { "data_ip": data_ip })
+            # download_count_from_ip = cursor.fetchone()['count']
             minimum = 20
             maximum = 300
             targeted_seconds_multiplier = 1.0
             warning = False
-            if download_count_from_ip > 500:
-                targeted_seconds_multiplier = 3.0
-                minimum = 10
-                maximum = 50
-                warning = True
-            elif download_count_from_ip > 300:
-                targeted_seconds_multiplier = 2.0
-                minimum = 15
-                maximum = 100
-                warning = True
-            elif download_count_from_ip > 150:
-                targeted_seconds_multiplier = 1.5
-                minimum = 20
-                maximum = 150
-                warning = False
+            # if download_count_from_ip > 500:
+            #     targeted_seconds_multiplier = 3.0
+            #     minimum = 10
+            #     maximum = 50
+            #     warning = True
+            # elif download_count_from_ip > 300:
+            #     targeted_seconds_multiplier = 2.0
+            #     minimum = 15
+            #     maximum = 100
+            #     warning = True
+            # elif download_count_from_ip > 150:
+            #     targeted_seconds_multiplier = 1.5
+            #     minimum = 20
+            #     maximum = 150
+            #     warning = False
 
             speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
 
@@ -3138,6 +3137,8 @@ def search_page():
         )
     except Exception as err:
         had_es_timeout = True
+    if search_results_raw.get('timed_out'):
+        had_es_timeout = True
 
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
     all_aggregations = all_search_aggs(display_lang, search_index_long)
@@ -3223,6 +3224,8 @@ def search_page():
             )
         except Exception as err:
             had_es_timeout = True
+        if search_results_raw.get('timed_out'):
+            had_es_timeout = True
         if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
         additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
@@ -3242,6 +3245,8 @@ def search_page():
                     timeout=ES_TIMEOUT,
                 )
             except Exception as err:
+                had_es_timeout = True
+            if search_results_raw.get('timed_out'):
                 had_es_timeout = True
             if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
@@ -3263,11 +3268,15 @@ def search_page():
                     )
                 except Exception as err:
                     had_es_timeout = True
+                if search_results_raw.get('timed_out'):
+                    had_es_timeout = True
                 if (len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results) and (not had_es_timeout):
                     max_additional_search_aarecords_reached = True
                 additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
     else:
         max_search_aarecords_reached = True
+
+    had_fatal_es_timeout = had_es_timeout and len(search_aarecords) == 0
     
     search_dict = {}
     search_dict['search_aarecords'] = search_aarecords[0:max_display_results]
@@ -3277,9 +3286,9 @@ def search_page():
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
     search_dict['search_index_short'] = search_index_short
-    search_dict['had_es_timeout'] = had_es_timeout
+    search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
 
-    status = 404 if had_es_timeout else 200 # So we don't cache
+    status = 404 if had_fatal_es_timeout else 200 # So we don't cache
 
     return render_template(
         "page/search.html",

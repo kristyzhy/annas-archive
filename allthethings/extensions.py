@@ -25,7 +25,7 @@ mariadb_port = os.getenv("MARIADB_PORT", "3306")
 mariadb_db = os.getenv("MARIADB_DATABASE", mariadb_user)
 mariadb_url = f"mysql+pymysql://{mariadb_user}:{mariadb_password}@{mariadb_host}:{mariadb_port}/{mariadb_db}?read_timeout=120&write_timeout=120"
 mariadb_url_no_timeout = f"mysql+pymysql://root:{mariadb_password}@{mariadb_host}:{mariadb_port}/{mariadb_db}"
-engine = create_engine(mariadb_url, future=True, isolation_level="AUTOCOMMIT")
+engine = create_engine(mariadb_url, future=True, isolation_level="AUTOCOMMIT", pool_size=25, max_overflow=0)
 
 mariapersist_user = os.getenv("MARIAPERSIST_USER", "allthethings")
 mariapersist_password = os.getenv("MARIAPERSIST_PASSWORD", "password")
@@ -33,7 +33,7 @@ mariapersist_host = os.getenv("MARIAPERSIST_HOST", "mariapersist")
 mariapersist_port = os.getenv("MARIAPERSIST_PORT", "3333")
 mariapersist_db = os.getenv("MARIAPERSIST_DATABASE", mariapersist_user)
 mariapersist_url = f"mysql+pymysql://{mariapersist_user}:{mariapersist_password}@{mariapersist_host}:{mariapersist_port}/{mariapersist_db}?read_timeout=120&write_timeout=120"
-mariapersist_engine = create_engine(mariapersist_url, future=True, isolation_level="READ COMMITTED")
+mariapersist_engine = create_engine(mariapersist_url, future=True, isolation_level="READ COMMITTED", pool_size=25, max_overflow=0)
 
 class Reflected(DeferredReflection, Base):
     __abstract__ = True

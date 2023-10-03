@@ -136,13 +136,13 @@ def rss_xml():
             author = "Anna and the team",
             pubDate = datetime.datetime(2023,8,15),
         ),
-        # Item(
-        #     title = "1.3B Worldcat scrape & data science mini-competition",
-        #     link = "https://annas-blog.org/worldcat-scrape.html",
-        #     description = "Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.",
-        #     author = "Anna and the team",
-        #     pubDate = datetime.datetime(2023,10,3),
-        # ),
+        Item(
+            title = "1.3B Worldcat scrape & data science mini-competition",
+            link = "https://annas-blog.org/worldcat-scrape.html",
+            description = "Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.",
+            author = "Anna and the team",
+            pubDate = datetime.datetime(2023,10,3),
+        ),
     ]
 
     feed = Feed(

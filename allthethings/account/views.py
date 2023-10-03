@@ -70,7 +70,7 @@ def account_downloaded_page():
         downloads = mariapersist_session.connection().execute(select(MariapersistDownloads).where(MariapersistDownloads.account_id == account_id).order_by(MariapersistDownloads.timestamp.desc()).limit(100)).all()
         aarecords_downloaded = []
         if len(downloads) > 0:
-            aarecords_downloaded = get_aarecords_elasticsearch(mariapersist_session, [f"md5:{download.md5.hex()}" for download in downloads])
+            aarecords_downloaded = get_aarecords_elasticsearch([f"md5:{download.md5.hex()}" for download in downloads])
         return render_template("account/downloaded.html", header_active="account/downloaded", aarecords_downloaded=aarecords_downloaded)
 
 
@@ -164,7 +164,7 @@ def list_page(list_id):
 
         aarecords = []
         if len(list_entries) > 0:
-            aarecords = get_aarecords_elasticsearch(mariapersist_session, [entry.resource for entry in list_entries if entry.resource.startswith("md5:")])
+            aarecords = get_aarecords_elasticsearch([entry.resource for entry in list_entries if entry.resource.startswith("md5:")])
 
         return render_template(
             "account/list.html", 

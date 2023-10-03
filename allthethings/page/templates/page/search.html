@@ -20,9 +20,9 @@
 
     <script>
       fetch('/dyn/search_counts?q=' + {{ search_input | tojson }}).then(function(response) { return response.json() }).then(function(json) {
-        document.querySelector('.js-search-tab-count-aarecords').innerText = json.aarecords.value != -1 ? `(${json.aarecords.value}${json.aarecords == 'gte' ? '+' : ''})` : '';
-        document.querySelector('.js-search-tab-count-aarecords_digital_lending').innerText = json.aarecords_digital_lending.value != -1 ? `(${json.aarecords_digital_lending.value}${json.aarecords_digital_lending == 'gte' ? '+' : ''})` : '';
-        document.querySelector('.js-search-tab-count-aarecords_metadata').innerText = json.aarecords_metadata.value != -1 ? `(${json.aarecords_metadata.value}${json.aarecords_metadata == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords').innerText = json.aarecords.value != -1 ? `(${json.aarecords.value}${json.aarecords.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords_digital_lending').innerText = json.aarecords_digital_lending.value != -1 ? `(${json.aarecords_digital_lending.value}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords_metadata').innerText = json.aarecords_metadata.value != -1 ? `(${json.aarecords_metadata.value}${json.aarecords_metadata.relation == 'gte' ? '+' : ''})` : '';
       })
     </script>
 
@@ -119,7 +119,7 @@
       </div>
 
       <div class="min-w-[0] w-[100%]">
-        {% if search_dict.had_es_timeout %}
+        {% if search_dict.had_fatal_es_timeout %}
           <p class="mt-4 font-bold">{{ gettext('page.search.results.error.header') }}</p>
 
           <p class="mt-4">{{ gettext('page.search.results.error.unknown', a_reload=(' href="javascript:location.reload()" ' | safe), email=('<a class="break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>' | safe)) }}</p>

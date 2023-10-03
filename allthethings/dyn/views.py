@@ -48,7 +48,6 @@ def index():
 @dyn.get("/up/databases/")
 @allthethings.utils.no_cache()
 def databases():
-    # redis.ping()
     with engine.connect() as conn:
         conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))
     with mariapersist_engine.connect() as mariapersist_conn:
@@ -714,7 +713,7 @@ def recent_downloads():
 
             aarecords = []
             if len(downloads) > 0:
-                aarecords = get_aarecords_elasticsearch(session, ['md5:' + download['md5'].hex() for download in downloads])
+                aarecords = get_aarecords_elasticsearch(['md5:' + download['md5'].hex() for download in downloads])
             seen_ids = set()
             seen_titles = set()
             output = []
