@@ -218,8 +218,8 @@ def elastic_reset_aarecords_internal():
 
     # Actual indexes
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
-    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
-    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
+    es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
+    es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
     body = {
         "mappings": {
             "dynamic": False,

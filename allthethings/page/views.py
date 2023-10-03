@@ -61,7 +61,7 @@ search_filtered_bad_aarecord_ids = [
     "md5:351024f9b101ac7797c648ff43dcf76e",
 ]
 
-ES_TIMEOUT_PRIMARY = "3s"
+ES_TIMEOUT_PRIMARY = "2s"
 ES_TIMEOUT = "500ms"
 
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
@@ -376,6 +376,13 @@ def get_stats_data():
                     "size": 0,
                     "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
                 },
+            ],
+        ))
+        stats_data_es_aux = dict(es_aux.msearch(
+            request_timeout=20,
+            max_concurrent_searches=10,
+            max_concurrent_shard_requests=10,
+            searches=[
                 # { "index": "aarecords_digital_lending", "request_cache": False },
                 { "index": "aarecords_digital_lending" },
                 { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
@@ -401,10 +408,10 @@ def get_stats_data():
             'filesize': stats_data_es['responses'][0]['aggregations']['total_filesize']['value'],
             'aa_count': stats_data_es['responses'][4]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
         }
-        stats_by_group['ia']['count'] += stats_data_es['responses'][5]['hits']['total']['value']
-        stats_by_group['total']['count'] += stats_data_es['responses'][5]['hits']['total']['value']
-        stats_by_group['ia']['filesize'] += stats_data_es['responses'][5]['aggregations']['total_filesize']['value']
-        stats_by_group['total']['filesize'] += stats_data_es['responses'][5]['aggregations']['total_filesize']['value']
+        stats_by_group['ia']['count'] += stats_data_es_aux['responses'][0]['hits']['total']['value']
+        stats_by_group['total']['count'] += stats_data_es_aux['responses'][0]['hits']['total']['value']
+        stats_by_group['ia']['filesize'] += stats_data_es_aux['responses'][0]['aggregations']['total_filesize']['value']
+        stats_by_group['total']['filesize'] += stats_data_es_aux['responses'][0]['aggregations']['total_filesize']['value']
 
     return {
         'stats_by_group': stats_by_group,
@@ -1672,10 +1679,16 @@ def get_aarecords_elasticsearch(session, aarecord_ids):
     # Uncomment the following line to use MySQL directly; useful for local development.
     # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
-    index = allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':', 1)[0]]
-    es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]
-    search_results_raw = es_handle.mget(docs=[{'_id': aarecord_id, '_index': index } for aarecord_id in aarecord_ids ])
-    return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['docs'] if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
+    docs_by_es_handle = collections.defaultdict(list)
+    for aarecord_id in aarecord_ids:
+        index = allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':', 1)[0]]
+        es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]
+        docs_by_es_handle[es_handle].append({'_id': aarecord_id, '_index': index })
+
+    search_results_raw = []
+    for es_handle, docs in docs_by_es_handle.items():
+        search_results_raw += es_handle.mget(docs=docs)['docs']
+    return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
 def aarecord_score_base(aarecord):
@@ -3130,10 +3143,8 @@ def search_page():
                 searches=multi_searches,
             )
             for i, result in enumerate(total_all_indexes['responses']):
-                count = 0
                 if 'hits' in result:
-                    count = result['hits']['total']
-                total_by_index_long[multi_searches[i*2]['index']] = count
+                    total_by_index_long[multi_searches[i*2]['index']] = result['hits']['total']
     except Exception as err:
         had_es_timeout = True
 
