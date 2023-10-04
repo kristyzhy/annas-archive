@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-30 20:11+0000\n"
-"PO-Revision-Date: 2023-10-03 15:23+0000\n"
-"Last-Translator: tshurdsfed <furtinaspi@gufum.com>\n"
+"PO-Revision-Date: 2023-10-05 17:29+0000\n"
+"Last-Translator: gumblex <abcdoyle888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "杰出的档案专家"
 
 #: allthethings/utils.py:338
 msgid "common.membership.format_currency.total_with_usd"
-msgstr ""
+msgstr "总共 %(amount)s (%(amount_usd)s)"
 
 #: allthethings/utils.py:340 allthethings/utils.py:341
 msgid "common.membership.format_currency.amount_with_usd"
@@ -67,7 +67,7 @@ msgstr "%(amount)s (%(amount_usd)s)"
 
 #: allthethings/utils.py:352
 msgid "common.membership.format_currency.total"
-msgstr ""
+msgstr "总共 %(amount)s"
 
 #: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
@@ -140,7 +140,7 @@ msgstr "每天 %(number)s 次快速下载"
 
 #: allthethings/account/templates/account/donate.html:35
 msgid "page.donate.perks.scidb"
-msgstr ""
+msgstr "<strong>不限量</strong>、无需验证的 SciDB 论文"
 
 #: allthethings/account/templates/account/donate.html:36
 msgid "page.donate.perks.credits"
@@ -203,11 +203,11 @@ msgstr "PayPal（美国） %(bitcoin_icon)s"
 
 #: allthethings/account/templates/account/donate.html:102
 msgid "page.donate.payment.buttons.amazon"
-msgstr ""
+msgstr "亚马逊礼品卡"
 
 #: allthethings/account/templates/account/donate.html:103
 msgid "page.donate.payment.buttons.credit_debit"
-msgstr ""
+msgstr "信用卡/借记卡"
 
 #: allthethings/account/templates/account/donate.html:105
 msgid "page.donate.payment.buttons.alipay"
@@ -219,23 +219,23 @@ msgstr "Pix（巴西）"
 
 #: allthethings/account/templates/account/donate.html:109
 msgid "page.donate.payment.buttons.paypal_plain"
-msgstr ""
+msgstr "PayPal"
 
 #: allthethings/account/templates/account/donate.html:110
 msgid "page.donate.payment.buttons.cashapp"
-msgstr ""
+msgstr "Cash App"
 
 #: allthethings/account/templates/account/donate.html:111
 msgid "page.donate.payment.buttons.credit_debit2"
-msgstr ""
+msgstr "信用卡/借记卡 2"
 
 #: allthethings/account/templates/account/donate.html:114
 msgid "page.donate.payment.buttons.alipay_wechat"
-msgstr ""
+msgstr "支付宝 / 微信"
 
 #: allthethings/account/templates/account/donate.html:114
 msgid "page.donate.payment.buttons.temporarily_unavailable"
-msgstr ""
+msgstr "（暂不可用）"
 
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.desc.crypto"
@@ -243,11 +243,11 @@ msgstr "您可以使用加密货币 BTC, ETH, XMR 和 SOL 进行捐赠。如果�
 
 #: allthethings/account/templates/account/donate.html:127
 msgid "page.donate.payment.desc.crypto2"
-msgstr ""
+msgstr "你可以捐赠 BTC、ETH、XMR 等加密货币。"
 
 #: allthethings/account/templates/account/donate.html:131
 msgid "page.donate.payment.desc.crypto_suggestion"
-msgstr ""
+msgstr "如果你第一次使用加密货币，我们推荐使用 %(option1)s、%(option2)s 或 %(option3)s 购买并捐赠比特币（最开始且为最常用的加密货币）。"
 
 #: allthethings/account/templates/account/donate.html:137
 msgid "page.donate.payment.desc.paypal"
@@ -255,7 +255,7 @@ msgstr "在 PayPal（美国）的捐赠方式中，我们将使用 PayPal Crypto
 
 #: allthethings/account/templates/account/donate.html:138
 msgid "page.donate.payment.desc.paypal_short"
-msgstr ""
+msgstr "使用 PayPal 捐赠。"
 
 #: allthethings/account/templates/account/donate.html:144
 msgid "page.donate.payment.desc.cashapp"
