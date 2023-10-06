@@ -48,10 +48,10 @@ def index():
 @dyn.get("/up/databases/")
 @allthethings.utils.no_cache()
 def databases():
-    with engine.connect() as conn:
-        conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))
-    with mariapersist_engine.connect() as mariapersist_conn:
-        mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))
+    # with engine.connect() as conn:
+    #     conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))
+    # with mariapersist_engine.connect() as mariapersist_conn:
+    #     mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))
     if not es.ping():
         raise Exception("es.ping failed!")
     if not es_aux.ping():

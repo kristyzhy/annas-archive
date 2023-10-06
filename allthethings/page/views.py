@@ -3276,7 +3276,7 @@ def search_page():
     else:
         max_search_aarecords_reached = True
 
-    had_fatal_es_timeout = had_es_timeout and len(search_aarecords) == 0
+    # had_fatal_es_timeout = had_es_timeout and len(search_aarecords) == 0
     
     search_dict = {}
     search_dict['search_aarecords'] = search_aarecords[0:max_display_results]
@@ -3286,9 +3286,10 @@ def search_page():
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
     search_dict['search_index_short'] = search_index_short
-    search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
+    # search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
 
-    status = 404 if had_fatal_es_timeout else 200 # So we don't cache
+    # status = 404 if had_fatal_es_timeout else 200 # So we don't cache
+    status = 200
 
     return render_template(
         "page/search.html",
