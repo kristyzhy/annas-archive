@@ -712,6 +712,7 @@ OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
     'harvard_university_library': 'harvard',
     'gallica_(bnf)': 'bibliothèque_nationale_de_france',
     'depósito_legal_n.a.': 'depósito_legal',
+    **{key: key for key in UNIFIED_IDENTIFIERS.keys()},
     # Plus more added below!
 }
 OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
@@ -722,6 +723,7 @@ OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
     'udc': 'udc',
     'library_of_congress_classification_(lcc)': 'lcc',
     'dewey_decimal_classification_(ddc)': 'ddc',
+    **{key: key for key in UNIFIED_CLASSIFICATIONS.keys()},
     # Plus more added below!
 }
 # Hardcoded labels for OL. The "label" fields in ol_edition.json become "description" instead.

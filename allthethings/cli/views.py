@@ -82,7 +82,7 @@ def nonpersistent_dbreset_internal():
     time.sleep(1)
     Reflected.prepare(engine_multi)
     elastic_reset_aarecords_internal()
-    elastic_build_aarecords_internal()
+    elastic_build_aarecords_all_internal()
 
 def query_yield_batches(conn, qry, pk_attr, maxrq):
     """specialized windowed query generator (using LIMIT/OFFSET)
@@ -106,7 +106,7 @@ def query_yield_batches(conn, qry, pk_attr, maxrq):
 
 #################################################################################################
 # Rebuild "computed_all_md5s" table in MySQL. At the time of writing, this isn't
-# used in the app, but it is used for `./run flask cli elastic_build_aarecords`.
+# used in the app, but it is used for `./run flask cli elastic_build_aarecords_main`.
 # ./run flask cli mysql_build_computed_all_md5s
 @cli.cli.command('mysql_build_computed_all_md5s')
 def mysql_build_computed_all_md5s():
@@ -199,7 +199,7 @@ def mysql_build_computed_all_md5s_internal():
 
 #################################################################################################
 # Recreate "aarecords" index in ElasticSearch, without filling it with data yet.
-# (That is done with `./run flask cli elastic_build_aarecords`)
+# (That is done with `./run flask cli elastic_build_aarecords_*`)
 # ./run flask cli elastic_reset_aarecords
 @cli.cli.command('elastic_reset_aarecords')
 def elastic_reset_aarecords():
@@ -211,13 +211,7 @@ def elastic_reset_aarecords():
     elastic_reset_aarecords_internal()
 
 def elastic_reset_aarecords_internal():
-    # Old indexes
-    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
-    es.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
-    es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords')
-
-    # Actual indexes
-    es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
+    es.indices.delete(index='aarecords')
     es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
     es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
     body = {
@@ -254,13 +248,6 @@ def elastic_reset_aarecords_internal():
     es_aux.indices.create(index='aarecords_digital_lending', body=body)
     es_aux.indices.create(index='aarecords_metadata', body=body)
 
-#################################################################################################
-# Regenerate "aarecords" index in ElasticSearch.
-# ./run flask cli elastic_build_aarecords
-@cli.cli.command('elastic_build_aarecords')
-def elastic_build_aarecords():
-    elastic_build_aarecords_internal()
-
 def elastic_build_aarecords_job(aarecord_ids):
     try:
         aarecord_ids = list(aarecord_ids)
@@ -274,7 +261,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
                     dois.append(doi)
 
-            if (not aarecord_ids[0].startswith('doi:')) and (len(dois) > 0):
+            if (aarecord_ids[0].startswith('md5:')) and (len(dois) > 0):
                 dois = list(set(dois))
                 session.connection().connection.ping(reconnect=True)
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
@@ -306,31 +293,41 @@ def elastic_build_aarecords_job(aarecord_ids):
         traceback.print_tb(err.__traceback__)
         raise err
 
-def elastic_build_aarecords_internal():
-    THREADS = 100
-    CHUNK_SIZE = 50
-    BATCH_SIZE = 100000
+THREADS = 100
+CHUNK_SIZE = 50
+BATCH_SIZE = 100000
 
-    # Locally
-    if SLOW_DATA_IMPORTS:
-        THREADS = 1
-        CHUNK_SIZE = 10
-        BATCH_SIZE = 1000
+# Locally
+if SLOW_DATA_IMPORTS:
+    THREADS = 1
+    CHUNK_SIZE = 10
+    BATCH_SIZE = 1000
 
-    # Uncomment to do them one by one
-    # THREADS = 1
-    # CHUNK_SIZE = 1
-    # BATCH_SIZE = 1
+# Uncomment to do them one by one
+# THREADS = 1
+# CHUNK_SIZE = 1
+# BATCH_SIZE = 1
 
-    first_md5 = ''
-    # Uncomment to resume from a given md5, e.g. after a crash
-    # first_md5 = '0337ca7b631f796fa2f465ef42cb815c'
-    first_ol_key = ''
-    # first_ol_key = '/books/OL5624024M'
-    first_doi = ''
-    # first_doi = ''
+#################################################################################################
+# ./run flask cli elastic_build_aarecords_all
+@cli.cli.command('elastic_build_aarecords_all')
+def elastic_build_aarecords_all():
+    elastic_build_aarecords_all_internal()
+
+def elastic_build_aarecords_all_internal():
+    elastic_build_aarecords_ia_internal()
+    elastic_build_aarecords_isbndb_internal()
+    elastic_build_aarecords_ol_internal()
+    elastic_build_aarecords_main_internal()
 
 
+#################################################################################################
+# ./run flask cli elastic_build_aarecords_ia
+@cli.cli.command('elastic_build_aarecords_ia')
+def elastic_build_aarecords_ia():
+    elastic_build_aarecords_ia_internal()
+
+def elastic_build_aarecords_ia_internal():
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
 
@@ -353,6 +350,23 @@ def elastic_build_aarecords_internal():
                     last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
+        print(f"Done with IA!")
+
+
+#################################################################################################
+# ./run flask cli elastic_build_aarecords_isbndb
+@cli.cli.command('elastic_build_aarecords_isbndb')
+def elastic_build_aarecords_isbndb():
+    elastic_build_aarecords_isbndb_internal()
+
+def elastic_build_aarecords_isbndb_internal():
+    print("Do a dummy detect of language so that we're sure the model is downloaded")
+    ftlangdetect.detect('dummy')
+
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        with multiprocessing.Pool(THREADS) as executor:
             print("Processing from isbndb_isbns")
             cursor.execute('SELECT COUNT(isbn13) AS count FROM isbndb_isbns ORDER BY isbn13 LIMIT 1')
             total = list(cursor.fetchall())[0]['count']
@@ -372,7 +386,24 @@ def elastic_build_aarecords_internal():
                             isbn13s.add(f"isbn:{isbnlib.ean13(item['isbn10'])}")
                     executor.map(elastic_build_aarecords_job, more_itertools.ichunked(list(isbn13s), CHUNK_SIZE))
                     pbar.update(len(batch))
+        print(f"Done with ISBNdb!")
 
+#################################################################################################
+# ./run flask cli elastic_build_aarecords_ol
+@cli.cli.command('elastic_build_aarecords_ol')
+def elastic_build_aarecords_ol():
+    elastic_build_aarecords_ol_internal()
+
+def elastic_build_aarecords_ol_internal():
+    first_ol_key = ''
+    # first_ol_key = '/books/OL5624024M'
+    print("Do a dummy detect of language so that we're sure the model is downloaded")
+    ftlangdetect.detect('dummy')
+
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        with multiprocessing.Pool(THREADS) as executor:
             print("Processing from ol_base")
             cursor.execute('SELECT COUNT(ol_key) AS count FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s ORDER BY ol_key LIMIT 1', { "from": first_ol_key })
             total = list(cursor.fetchall())[0]['count']
@@ -387,7 +418,27 @@ def elastic_build_aarecords_internal():
                     print(f"Processing {len(batch)} aarecords from ol_base ( starting ol_key: {batch[0]['ol_key']} )...")
                     last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ol:{item['ol_key'].replace('/books/','')}" for item in batch if allthethings.utils.validate_ol_editions([item['ol_key'].replace('/books/','')])], CHUNK_SIZE))
                     pbar.update(len(batch))
+        print(f"Done with OpenLib!")
 
+#################################################################################################
+# ./run flask cli elastic_build_aarecords_main
+@cli.cli.command('elastic_build_aarecords_main')
+def elastic_build_aarecords_main():
+    elastic_build_aarecords_main_internal()
+
+def elastic_build_aarecords_main_internal():
+    first_md5 = ''
+    # first_md5 = '0337ca7b631f796fa2f465ef42cb815c'
+    first_doi = ''
+    # first_doi = ''
+
+    print("Do a dummy detect of language so that we're sure the model is downloaded")
+    ftlangdetect.detect('dummy')
+
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        with multiprocessing.Pool(THREADS) as executor:
             print("Processing from computed_all_md5s")
             cursor.execute('SELECT COUNT(md5) AS count FROM computed_all_md5s WHERE md5 >= %(from)s ORDER BY md5 LIMIT 1', { "from": bytes.fromhex(first_md5) })
             total = list(cursor.fetchall())[0]['count']
@@ -418,7 +469,7 @@ def elastic_build_aarecords_internal():
                     last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
 
-        print(f"Done!")
+        print(f"Done with main!")
 
 
 # Kept for future reference, for future migrations
