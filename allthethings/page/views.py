@@ -3123,7 +3123,7 @@ def search_page():
     max_display_results = 200
     max_additional_display_results = 50
 
-    search_results_raw = []
+    search_results_raw = {}
     try:
         search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(
             index=search_index_long, 
@@ -3212,7 +3212,7 @@ def search_page():
     if (len(search_aarecords) < max_display_results) and (not had_es_timeout):
         # For partial matches, first try our original query again but this time without filters.
         seen_ids = set([aarecord['id'] for aarecord in search_aarecords])
-        search_results_raw = []
+        search_results_raw = {}
         try:
             search_results_raw = es_handle.search(
                 index=search_index_long, 
@@ -3233,7 +3233,7 @@ def search_page():
         # Then do an "OR" query, but this time with the filters again.
         if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and (not had_es_timeout):
             seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
-            search_results_raw = []
+            search_results_raw = {}
             try:
                 search_results_raw = es_handle.search(
                     index=search_index_long,
@@ -3255,7 +3255,7 @@ def search_page():
             # If we still don't have enough, do another OR query but this time without filters.
             if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and not had_es_timeout:
                 seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
-                search_results_raw = []
+                search_results_raw = {}
                 try:
                     search_results_raw = es_handle.search(
                         index=search_index_long,
