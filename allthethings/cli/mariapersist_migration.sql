@@ -141,6 +141,7 @@ CREATE TABLE mariapersist_donations (
     INDEX (`native_currency_code`, `created`),
     INDEX (`ip`, `created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+ALTER TABLE mariapersist_donations ADD COLUMN `paid_timestamp` TIMESTAMP NULL;
 
 ALTER TABLE mariapersist_accounts ADD COLUMN `membership_tier` CHAR(7) NOT NULL DEFAULT 0;
 ALTER TABLE mariapersist_accounts ADD COLUMN `membership_expiration` TIMESTAMP NULL;

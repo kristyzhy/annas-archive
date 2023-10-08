@@ -473,7 +473,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
 
     donation_json[data_key] = data_value
     cursor.execute('UPDATE mariapersist_accounts SET membership_tier=%(membership_tier)s, membership_expiration=%(membership_expiration)s WHERE account_id=%(account_id)s LIMIT 1', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'] })
-    cursor.execute('UPDATE mariapersist_donations SET json=%(json)s, processing_status=1 WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
+    cursor.execute('UPDATE mariapersist_donations SET json=%(json)s, processing_status=1, paid_timestamp=NOW() WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
     cursor.execute('COMMIT')
     return True
 
