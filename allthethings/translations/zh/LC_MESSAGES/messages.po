@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-30 20:11+0000\n"
-"PO-Revision-Date: 2023-10-08 03:14+0000\n"
-"Last-Translator: with1874 <axixixi1874@gmail.com>\n"
+"PO-Revision-Date: 2023-10-11 13:47+0000\n"
+"Last-Translator: gumblex <abcdoyle888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -15,11 +15,11 @@ msgstr ""
 
 #: allthethings/utils.py:213
 msgid "common.md5_report_type_mapping.metadata"
-msgstr "错误的元信息（如标题、描述或封面图片）"
+msgstr "错误的元数据（如标题、描述或封面图片）"
 
 #: allthethings/utils.py:214
 msgid "common.md5_report_type_mapping.download"
-msgstr "下载问题(例如无法连接、错误信息、非常慢)"
+msgstr "下载问题（例如无法连接、报错、非常慢）"
 
 #: allthethings/utils.py:215
 msgid "common.md5_report_type_mapping.broken"
@@ -27,11 +27,11 @@ msgstr "无法打开文件（如文件损坏或DRM限制）"
 
 #: allthethings/utils.py:216
 msgid "common.md5_report_type_mapping.pages"
-msgstr "质量差(例如格式问题、扫描质量差、缺页)"
+msgstr "质量差（例如格式问题、扫描质量差、缺页）"
 
 #: allthethings/utils.py:217
 msgid "common.md5_report_type_mapping.spam"
-msgstr "垃圾邮件/文件应被删除(例如广告、滥用内容)"
+msgstr "垃圾内容/文件应被删除（例如广告、侮辱性内容）"
 
 #: allthethings/utils.py:218
 msgid "common.md5_report_type_mapping.copyright"
@@ -136,7 +136,7 @@ msgstr "最高折扣 %(percentage)s%%"
 #: allthethings/account/templates/account/donate.html:63
 #: allthethings/account/templates/account/donate.html:77
 msgid "page.donate.perks.fast_downloads"
-msgstr "每天 %(number)s 次快速下载"
+msgstr "每天 %(number)s 次高速下载"
 
 #: allthethings/account/templates/account/donate.html:35
 msgid "page.donate.perks.scidb"
@@ -259,15 +259,15 @@ msgstr "使用 PayPal 捐赠。"
 
 #: allthethings/account/templates/account/donate.html:144
 msgid "page.donate.payment.desc.cashapp"
-msgstr ""
+msgstr "使用 Cash App 捐赠。"
 
 #: allthethings/account/templates/account/donate.html:144
 msgid "page.donate.payment.desc.cashapp_easy"
-msgstr ""
+msgstr "如果你有 Cash App 账号，这是最方便的捐赠方式了！"
 
 #: allthethings/account/templates/account/donate.html:147
 msgid "page.donate.payment.desc.cashapp_fee"
-msgstr ""
+msgstr "注意，对金额少于 %(amount)s 的交易，Cash App 会收取 %(fee)s 的手续费。若金额不少于 %(amount)s，就是免费的！"
 
 #: allthethings/account/templates/account/donate.html:153
 #: allthethings/account/templates/account/donate.html:201
@@ -280,7 +280,7 @@ msgstr "谷歌支付和苹果支付也是可行的。"
 
 #: allthethings/account/templates/account/donate.html:155
 msgid "page.donate.payment.desc.elimate_discount"
-msgstr ""
+msgstr "注意，小额捐赠时，信用卡手续费会抵消我们 %(discount)s%% 的折扣，所以我们推荐更长期的订阅。"
 
 #: allthethings/account/templates/account/donate.html:156
 msgid "page.donate.payment.desc.longer_subs"
@@ -296,12 +296,12 @@ msgstr "使用亚马逊礼品卡捐赠。"
 
 #: allthethings/account/templates/account/donate.html:191
 msgid "page.donate.payment.desc.amazon_round"
-msgstr ""
+msgstr "注意，我们需要将金额取整至经销商可接受的数字（最小 %(minimum)s）。"
 
 #: allthethings/account/templates/account/donate.html:195
 #: allthethings/account/templates/account/donation.html:296
 msgid "page.donate.payment.desc.amazon_com"
-msgstr ""
+msgstr "<strong>重要提示：</strong> 我们仅支持 Amazon.com，其他亚马逊网站均不支持。例如，.de、.co.uk、.ca（德国、英国、加拿大分站）均不支持。"
 
 #: allthethings/account/templates/account/donate.html:212
 msgid "page.donate.duration.intro"
@@ -333,15 +333,15 @@ msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>折扣 <span %(span_d
 
 #: allthethings/account/templates/account/donate.html:230
 msgid "page.donate.payment.minimum_method"
-msgstr ""
+msgstr "这种支付方式最低需要 %(amount)s。请选择其他订阅时长或换一种支付方式。"
 
 #: allthethings/account/templates/account/donate.html:231
 msgid "page.donate.payment.maximum_method"
-msgstr ""
+msgstr "这种支付方式最高限额 %(amount)s。请选择其他订阅时长或换一种支付方式。"
 
 #: allthethings/account/templates/account/donate.html:236
 msgid "page.donate.login2"
-msgstr ""
+msgstr "加入会员，请<a %(a_login)s>登录或注册</a>。感谢您的支持！"
 
 #: allthethings/account/templates/account/donate.html:243
 msgid "page.donate.payment.crypto_select"
@@ -397,23 +397,23 @@ msgstr "24个月"
 
 #: allthethings/account/templates/account/donate.html:362
 msgid "page.donate.submit.button.label.1_mo"
-msgstr "一个月 “%(tier_name)s”"
+msgstr "1 个月 “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:363
 msgid "page.donate.submit.button.label.3_mo"
-msgstr "3个月 “%(tier_name)s”"
+msgstr "3 个月 “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.button.label.6_mo"
-msgstr "六个月“%(tier_name)s”"
+msgstr "6 个月“%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:365
 msgid "page.donate.submit.button.label.12_mo"
-msgstr "12个月 “%(tier_name)s”"
+msgstr "12 个月 “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:366
 msgid "page.donate.submit.button.label.24_mo"
-msgstr "二十四个月“%(tier_name)s”"
+msgstr "24 个月“%(tier_name)s”"
 
 #: allthethings/account/templates/account/donation.html:3
 #: allthethings/account/templates/account/donation.html:9
@@ -450,7 +450,7 @@ msgstr "您确定要取消吗？如果您已经付款，请不要取消。"
 
 #: allthethings/account/templates/account/donation.html:26
 msgid "page.donation.header.cancel.confirm.button"
-msgstr "取消捐赠"
+msgstr "是的，请取消"
 
 #: allthethings/account/templates/account/donation.html:28
 msgid "page.donation.header.cancel.success"
@@ -458,7 +458,7 @@ msgstr "✅ 您的捐赠已被取消。"
 
 #: allthethings/account/templates/account/donation.html:28
 msgid "page.donation.header.cancel.new_donation"
-msgstr "再次捐款"
+msgstr "进行新的捐赠"
 
 #: allthethings/account/templates/account/donation.html:29
 msgid "page.donation.header.cancel.failure"
@@ -502,7 +502,7 @@ msgstr "<strong>重要提示</strong>：加密货币价格可能会大幅波动�
 #: allthethings/account/templates/account/donation.html:369
 #: allthethings/account/templates/account/donation.html:385
 msgid "page.donation.expired"
-msgstr ""
+msgstr "这笔捐赠已经超时。请取消并重新创建一笔。"
 
 #: allthethings/account/templates/account/donation.html:71
 msgid "page.donation.payment.crypto.top_header"
@@ -548,37 +548,37 @@ msgstr "信用卡/借记卡说明"
 
 #: allthethings/account/templates/account/donation.html:128
 msgid "page.donation.credit_debit_card_our_page"
-msgstr ""
+msgstr "通过我们的信用卡/借记卡页面捐赠"
 
 #: allthethings/account/templates/account/donation.html:131
 msgid "page.donation.donate_on_this_page"
-msgstr ""
+msgstr "在<a %(a_page)s>这个页面</a>捐赠 %(amount)s。"
 
 #: allthethings/account/templates/account/donation.html:131
 msgid "page.donation.stepbystep_below"
-msgstr ""
+msgstr "请参阅下面的分步指南。"
 
 #: allthethings/account/templates/account/donation.html:139
 msgid "page.donation.buy_pyusd"
-msgstr ""
+msgstr "在 PayPal 上购买 PYUSD 币"
 
 #: allthethings/account/templates/account/donation.html:146
 msgid "page.donation.pyusd.instructions"
-msgstr ""
+msgstr "按照下列说明购买 PYUSD 币（PayPal USD）。"
 
 #: allthethings/account/templates/account/donation.html:147
 msgid "page.donation.pyusd.more"
-msgstr ""
+msgstr "购买比你想捐赠的数量（%(amount)s）稍微多一点的币（我们推荐 %(more)s）以支付交易手续费，剩下的币你可以存着。"
 
 #: allthethings/account/templates/account/donation.html:153
 msgid "page.donation.pyusd.transfer"
-msgstr ""
+msgstr "在 PayPal 应用或网站上找到“PYUSD”页面。点击“转账”按钮 %(icon)s，然后点“发送”。"
 
 #: allthethings/account/templates/account/donation.html:157
 #: allthethings/account/templates/account/donation.html:196
 #: allthethings/account/templates/account/donation.html:266
 msgid "page.donation.transfer_amount_to"
-msgstr ""
+msgstr "给 %(account)s 转账 %(amount)s"
 
 #: allthethings/account/templates/account/donation.html:161
 #: allthethings/account/templates/account/donation.html:204
@@ -586,35 +586,35 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:270
 #: allthethings/account/templates/account/donation.html:300
 msgid "page.donation.status_header"
-msgstr ""
+msgstr "状态："
 
 #: allthethings/account/templates/account/donation.html:161
 #: allthethings/account/templates/account/donation.html:204
 #: allthethings/account/templates/account/donation.html:245
 #: allthethings/account/templates/account/donation.html:270
 msgid "page.donation.waiting_for_confirmation_refresh"
-msgstr ""
+msgstr "等待确认（刷新页面查看）……"
 
 #: allthethings/account/templates/account/donation.html:161
 #: allthethings/account/templates/account/donation.html:204
 #: allthethings/account/templates/account/donation.html:245
 #: allthethings/account/templates/account/donation.html:270
 msgid "page.donation.waiting_for_transfer_refresh"
-msgstr ""
+msgstr "等待转账（刷新页面查看）……"
 
 #: allthethings/account/templates/account/donation.html:162
 #: allthethings/account/templates/account/donation.html:205
 #: allthethings/account/templates/account/donation.html:246
 #: allthethings/account/templates/account/donation.html:271
 msgid "page.donation.time_left_header"
-msgstr ""
+msgstr "剩余时间："
 
 #: allthethings/account/templates/account/donation.html:162
 #: allthethings/account/templates/account/donation.html:205
 #: allthethings/account/templates/account/donation.html:246
 #: allthethings/account/templates/account/donation.html:271
 msgid "page.donation.might_want_to_cancel"
-msgstr ""
+msgstr "（你可能想取消，然后重新创建一笔捐赠）"
 
 #: allthethings/account/templates/account/donation.html:166
 #: allthethings/account/templates/account/donation.html:209
@@ -629,15 +629,15 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:279
 #: allthethings/account/templates/account/donation.html:304
 msgid "page.donation.refresh_status"
-msgstr ""
+msgstr "更新状态"
 
 #: allthethings/account/templates/account/donation.html:258
 msgid "page.donation.crypto_instructions"
-msgstr ""
+msgstr "%(coin_name)s 说明"
 
 #: allthethings/account/templates/account/donation.html:283
 msgid "page.donation.amazon.header"
-msgstr ""
+msgstr "亚马逊礼品卡"
 
 #: allthethings/account/templates/account/donation.html:286
 msgid "page.donation.amazon.form_instructions"
@@ -669,7 +669,7 @@ msgstr ""
 
 #: allthethings/account/templates/account/donation.html:312
 msgid "page.donation.amazon.example"
-msgstr ""
+msgstr "例如："
 
 #: allthethings/account/templates/account/donation.html:348
 #: allthethings/account/templates/account/donation.html:365
@@ -732,35 +732,35 @@ msgstr "❌ 出错了，请刷新页面重试。"
 
 #: allthethings/account/templates/account/donation.html:442
 msgid "page.donation.stepbystep"
-msgstr ""
+msgstr "分步骤指南"
 
 #: allthethings/account/templates/account/donation.html:444
 msgid "page.donation.crypto_dont_worry"
-msgstr ""
+msgstr "有些步骤提到了加密货币钱包。不用担心，此处你无需深入了解加密货币。"
 
 #: allthethings/account/templates/account/donation.html:446
 msgid "page.donation.hoodpay.step1"
-msgstr ""
+msgstr "1. 输入你的电子邮箱。"
 
 #: allthethings/account/templates/account/donation.html:452
 msgid "page.donation.hoodpay.step2"
-msgstr ""
+msgstr "2. 选择支付方式。"
 
 #: allthethings/account/templates/account/donation.html:458
 msgid "page.donation.hoodpay.step3"
-msgstr ""
+msgstr "3. 再次选择支付方式。"
 
 #: allthethings/account/templates/account/donation.html:464
 msgid "page.donation.hoodpay.step4"
-msgstr ""
+msgstr "4. 选择自行托管的（Self-hosted）钱包。"
 
 #: allthethings/account/templates/account/donation.html:470
 msgid "page.donation.hoodpay.step5"
-msgstr ""
+msgstr "5. 点击“我确认所有权”。"
 
 #: allthethings/account/templates/account/donation.html:476
 msgid "page.donation.hoodpay.step6"
-msgstr ""
+msgstr "6. 你会收到一封邮件回复。请将这封邮件转发给我们，我们会尽快确认你的捐赠。"
 
 #: allthethings/account/templates/account/donation.html:480
 msgid "page.donation.footer.issues_contact"
@@ -1016,11 +1016,11 @@ msgstr "目前，我们建议你先在 Library Genesis 的分支网站上传新�
 
 #: allthethings/dyn/views.py:599
 msgid "dyn.buy_membership.error.minimum"
-msgstr ""
+msgstr "这种币的最低金额比其他的要高。请选择其他订阅时长或换一种支付方式。"
 
 #: allthethings/dyn/views.py:602
 msgid "dyn.buy_membership.error.unknown"
-msgstr ""
+msgstr "发生了未知错误。请通过 AnnaArchivist@proton.me 联系我们，并附上截图。"
 
 #: allthethings/page/views.py:2321
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1052,7 +1052,7 @@ msgstr "非小说类图书"
 
 #: allthethings/page/views.py:2333
 msgid "common.md5_content_type_mapping.book_fiction"
-msgstr "小说类"
+msgstr "小说类图书"
 
 #: allthethings/page/views.py:2334
 msgid "common.md5_content_type_mapping.journal_article"
@@ -1072,35 +1072,35 @@ msgstr "漫画"
 
 #: allthethings/page/views.py:2343
 msgid "common.access_types_mapping.aa_download"
-msgstr ""
+msgstr "合作服务器下载"
 
 #: allthethings/page/views.py:2344
 msgid "common.access_types_mapping.external_download"
-msgstr ""
+msgstr "外部下载"
 
 #: allthethings/page/views.py:2345
 msgid "common.access_types_mapping.external_borrow"
-msgstr ""
+msgstr "外部借阅"
 
 #: allthethings/page/views.py:2346
 msgid "common.access_types_mapping.external_borrow_printdisabled"
-msgstr ""
+msgstr "外部借阅（无法打印）"
 
 #: allthethings/page/views.py:2347
 msgid "common.access_types_mapping.meta_explore"
-msgstr ""
+msgstr "查阅元数据"
 
 #: allthethings/page/views.py:2353
 msgid "common.record_sources_mapping.lgrs"
-msgstr ""
+msgstr "Libgen.rs"
 
 #: allthethings/page/views.py:2354
 msgid "common.record_sources_mapping.lgli"
-msgstr ""
+msgstr "Libgen.li"
 
 #: allthethings/page/views.py:2355
 msgid "common.record_sources_mapping.zlib"
-msgstr ""
+msgstr "Z-Library"
 
 #: allthethings/page/views.py:2356
 msgid "common.record_sources_mapping.ia"
@@ -1140,7 +1140,7 @@ msgstr "Sci-Hub: %(doi)s"
 
 #: allthethings/page/views.py:2536
 msgid "page.md5.box.download.lgrsnf"
-msgstr "Library Genesis中的 \".rs-fork\"类型的非虚构文学"
+msgstr "Libgen.rs 非虚构文学板块"
 
 #: allthethings/page/views.py:2536 allthethings/page/views.py:2544
 #: allthethings/page/views.py:2560
@@ -1154,11 +1154,11 @@ msgstr "（点击顶部的“GET”）"
 
 #: allthethings/page/views.py:2544
 msgid "page.md5.box.download.lgrsfic"
-msgstr "Library Genesis “.rs-fork” 的小说板块"
+msgstr "Libgen.rs 的小说板块"
 
 #: allthethings/page/views.py:2560
 msgid "page.md5.box.download.lgli"
-msgstr "Library Genesis “.li-fork”"
+msgstr "Libgen.li"
 
 #: allthethings/page/views.py:2563 allthethings/page/views.py:2564
 #: allthethings/page/views.py:2565
@@ -1167,7 +1167,7 @@ msgstr "IPFS 网关 #%(num)d"
 
 #: allthethings/page/views.py:2563
 msgid "page.md5.box.download.ipfs_gateway_extra"
-msgstr "（您可能需要使用 IPFS 多次尝试）"
+msgstr "（使用 IPFS 时您可能需要多次尝试）"
 
 #: allthethings/page/views.py:2581
 msgid "page.md5.box.download.ia_borrow"
@@ -1191,23 +1191,23 @@ msgstr "（仅限专家）"
 
 #: allthethings/page/views.py:2588
 msgid "page.md5.box.download.aa_isbn"
-msgstr ""
+msgstr "在安娜的档案中检索 ISBN 书号"
 
 #: allthethings/page/views.py:2589
 msgid "page.md5.box.download.other_isbn"
-msgstr ""
+msgstr "在各种其他数据库中检索 ISBN 书号"
 
 #: allthethings/page/views.py:2591
 msgid "page.md5.box.download.original_isbndb"
-msgstr ""
+msgstr "在 ISBNdb 中查找原始记录"
 
 #: allthethings/page/views.py:2593
 msgid "page.md5.box.download.aa_openlib"
-msgstr ""
+msgstr "在安娜的档案中检索 Open Library ID"
 
 #: allthethings/page/views.py:2595
 msgid "page.md5.box.download.original_openlib"
-msgstr ""
+msgstr "在 Open Library 中查找原始记录"
 
 #: allthethings/page/views.py:2600 allthethings/page/views.py:2601
 msgid "page.md5.box.download.scidb"
@@ -1215,23 +1215,23 @@ msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:12
 msgid "page.md5.header.scihub"
-msgstr ""
+msgstr "Sci-Hub 文件 “%(id)s”"
 
 #: allthethings/page/templates/page/aarecord.html:16
 msgid "page.md5.header.ia"
-msgstr ""
+msgstr "互联网档案馆控制的数字借阅文件 “%(id)s”"
 
 #: allthethings/page/templates/page/aarecord.html:19
 msgid "page.md5.header.ia_desc"
-msgstr ""
+msgstr "这是一条互联网档案馆文件的记录，不是直接可以下载的文件。你可以尝试借阅此书（链接如下），或用该网址<a %(a_request)s>请求一份文件</a>。"
 
 #: allthethings/page/templates/page/aarecord.html:24
 msgid "page.md5.header.meta_isbn"
-msgstr ""
+msgstr "ISBNdb %(id)s 元数据记录"
 
 #: allthethings/page/templates/page/aarecord.html:26
 msgid "page.md5.header.meta_openlib"
-msgstr ""
+msgstr "Open Library %(id)s 元数据记录"
 
 #: allthethings/page/templates/page/aarecord.html:30
 msgid "page.md5.header.meta_desc"
@@ -1239,19 +1239,19 @@ msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:41
 msgid "page.md5.box.descr_read_more"
-msgstr ""
+msgstr "更多信息……"
 
 #: allthethings/page/templates/page/aarecord.html:93
 msgid "page.md5.tabs.downloads"
-msgstr ""
+msgstr "下载（%(count)s）"
 
 #: allthethings/page/templates/page/aarecord.html:93
 msgid "page.md5.tabs.borrow"
-msgstr ""
+msgstr "借阅（%(count)s）"
 
 #: allthethings/page/templates/page/aarecord.html:93
 msgid "page.md5.tabs.explore_metadata"
-msgstr ""
+msgstr "查阅元数据（%(count)s）"
 
 #: allthethings/page/templates/page/aarecord.html:95
 msgid "page.md5.tabs.lists"
@@ -1259,7 +1259,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:96
 msgid "page.md5.tabs.stats"
-msgstr ""
+msgstr "统计（%(count)s）"
 
 #: allthethings/page/templates/page/aarecord.html:98
 #: allthethings/page/templates/page/doi.html:37
@@ -1272,7 +1272,7 @@ msgstr "<span class=\"font-bold\">❌ 此文件可能有问题，已从源库中
 
 #: allthethings/page/templates/page/aarecord.html:171
 msgid "page.md5.box.download.better_file"
-msgstr ""
+msgstr "此文件可能有更好的版本，位于 %(link)s"
 
 #: allthethings/page/templates/page/aarecord.html:176
 msgid "page.md5.box.issues.text2"
@@ -1402,7 +1402,7 @@ msgstr "我们与合作伙伴共同努力，让任何人都能轻松、自由地
 
 #: allthethings/page/templates/page/about.html:44
 msgid "page.home.access.label"
-msgstr "过去30日内每小时下载量。平均每小时：%(hourly)s。平均每天%(daily)s。"
+msgstr "过去30日内每小时下载量。平均每小时：%(hourly)s。平均每天：%(daily)s。"
 
 #: allthethings/page/templates/page/about.html:71
 msgid "page.home.search.header"
@@ -1521,27 +1521,27 @@ msgstr "没有在数据库中找到匹配的文件。"
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more"
-msgstr "您今天的快速下载次数已经用完了。如果你有兴趣升级会员，请联系 Anna，邮箱地址为 AnnaArchivist@proton.me。"
+msgstr "您今天的高速下载次数已经用完了。如果你有兴趣升级会员，请联系安娜，邮箱地址为 AnnaArchivist@proton.me。"
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
-msgstr "成为会员以使用快速下载。"
+msgstr "成为会员以享受高速下载。"
 
 #: allthethings/page/templates/page/home.html:8
 msgid "page.home.full_database.header"
-msgstr ""
+msgstr "完整数据库"
 
 #: allthethings/page/templates/page/home.html:11
 msgid "page.home.full_database.subtitle"
-msgstr ""
+msgstr "图书、论文、杂志、漫画、图书馆记录、元数据……"
 
 #: allthethings/page/templates/page/home.html:14
 msgid "page.home.full_database.search"
-msgstr ""
+msgstr "搜索"
 
 #: allthethings/page/templates/page/home.html:18
 msgid "page.home.scidb.header"
-msgstr ""
+msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:18
 #: allthethings/templates/layouts/index.html:384
@@ -1550,35 +1550,35 @@ msgstr "测试版"
 
 #: allthethings/page/templates/page/home.html:21
 msgid "page.home.scidb.subtitle"
-msgstr ""
+msgstr "直接访问 %(count)s 篇学术论文"
 
 #: allthethings/page/templates/page/home.html:23
 msgid "page.home.scidb.placeholder_doi"
-msgstr ""
+msgstr "DOI"
 
 #: allthethings/page/templates/page/home.html:24
 msgid "page.home.scidb.open"
-msgstr ""
+msgstr "打开"
 
 #: allthethings/page/templates/page/home.html:26
 msgid "page.home.scidb.browser_verification"
-msgstr ""
+msgstr "如果你是<a %(a_member)s>会员</a>，无需浏览器验证。"
 
 #: allthethings/page/templates/page/home.html:29
 msgid "page.home.archive.header"
-msgstr ""
+msgstr "长期存档"
 
 #: allthethings/page/templates/page/home.html:32
 msgid "page.home.archive.body"
-msgstr ""
+msgstr "安娜的档案使用的数据集完全开放，可以使用种子批量镜像。<a %(a_datasets)s>了解更多……</a>"
 
 #: allthethings/page/templates/page/home.html:35
 msgid "page.home.llm.header"
-msgstr ""
+msgstr "大语言模型（LLM）训练数据"
 
 #: allthethings/page/templates/page/home.html:38
 msgid "page.home.llm.body"
-msgstr ""
+msgstr "我们有全世界最大的高质量文本数据集。<a %(a_llm)s>了解更多……</a>"
 
 #: allthethings/page/templates/page/login.html:18
 msgid "page.login.continue"
@@ -1607,27 +1607,27 @@ msgstr "安娜的档案"
 
 #: allthethings/page/templates/page/scidb.html:14
 msgid "page.scidb.header"
-msgstr ""
+msgstr "SciDB"
 
 #: allthethings/page/templates/page/scidb.html:18
 msgid "page.scidb.doi"
-msgstr ""
+msgstr "DOI: %(doi)s"
 
 #: allthethings/page/templates/page/scidb.html:29
 msgid "page.scidb.aa_record"
-msgstr ""
+msgstr "安娜的档案中的记录"
 
 #: allthethings/page/templates/page/scidb.html:30
 msgid "page.scidb.download"
-msgstr ""
+msgstr "下载"
 
 #: allthethings/page/templates/page/scidb.html:31
 msgid "page.scidb.scihub"
-msgstr ""
+msgstr "Sci-Hub"
 
 #: allthethings/page/templates/page/scidb.html:35
 msgid "page.scidb.refresh"
-msgstr ""
+msgstr "有问题？请尝试<a %(a_refresh)s>刷新</a>。"
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
@@ -1639,15 +1639,15 @@ msgstr "新的搜索"
 
 #: allthethings/page/templates/page/search.html:16
 msgid "page.search.tabs.download"
-msgstr ""
+msgstr "下载"
 
 #: allthethings/page/templates/page/search.html:17
 msgid "page.search.tabs.digital_lending"
-msgstr ""
+msgstr "数字借阅"
 
 #: allthethings/page/templates/page/search.html:18
 msgid "page.search.tabs.metadata"
-msgstr ""
+msgstr "元数据"
 
 #: allthethings/page/templates/page/search.html:29
 #: allthethings/page/templates/page/search.html:62
@@ -1661,15 +1661,15 @@ msgstr "文件类型"
 
 #: allthethings/page/templates/page/search.html:37
 msgid "page.search.filters.access.header"
-msgstr ""
+msgstr "访问方式"
 
 #: allthethings/page/templates/page/search.html:40
 msgid "page.search.filters.source.header"
-msgstr ""
+msgstr "来源"
 
 #: allthethings/page/templates/page/search.html:43
 msgid "page.search.filters.order_by.header"
-msgstr ""
+msgstr "排序"
 
 #: allthethings/page/templates/page/search.html:43
 #: allthethings/page/templates/page/search.html:91
@@ -1699,12 +1699,12 @@ msgstr "语言"
 #: allthethings/page/templates/page/search.html:51
 #: allthethings/page/templates/page/search.html:56
 msgid "page.search.search_settings"
-msgstr ""
+msgstr "搜索设置"
 
 #: allthethings/page/templates/page/search.html:53
 #: allthethings/page/templates/page/search.html:105
 msgid "page.search.submit"
-msgstr ""
+msgstr "搜索"
 
 #: allthethings/page/templates/page/search.html:90
 msgid "page.search.filters.sorting.most_relevant"
@@ -1712,7 +1712,7 @@ msgstr "最相关"
 
 #: allthethings/page/templates/page/search.html:102
 msgid "page.search.more"
-msgstr ""
+msgstr "更多……"
 
 #: allthethings/page/templates/page/search.html:108
 msgid "page.search.header.update_info"
@@ -1724,7 +1724,7 @@ msgstr "搜索时发生了错误。"
 
 #: allthethings/page/templates/page/search.html:117
 msgid "page.search.results.error.unknown"
-msgstr ""
+msgstr "请尝试<a %(a_reload)s>刷新页面</a>。如果一直有问题，请联系我们：%(email)s。"
 
 #: allthethings/page/templates/page/search.html:130
 msgid "page.search.results.none"
@@ -1744,19 +1744,19 @@ msgstr ""
 
 #: allthethings/page/templates/page/search.html:150
 msgid "page.search.results.most_comprehensive"
-msgstr ""
+msgstr "我们有目前世界上最完整的图书、论文和其他书面文献的开放编目。我们镜像了 Sci-Hub、Library Genesis、Z-Library <a %(a_datasets)s>等数据源</a>。"
 
 #: allthethings/page/templates/page/search.html:153
 msgid "page.search.results.other_shadow_libs"
-msgstr ""
+msgstr "如果你还知道其他我们应该镜像的“影子图书馆”，或者你有任何问题，请联系我们：<a %(a_email)s>AnnaArchivist@proton.me</a>。"
 
 #: allthethings/page/templates/page/search.html:154
 msgid "page.search.results.dmca"
-msgstr ""
+msgstr "DMCA/版权问题，请<a %(a_copyright)s>点击此处</a>。"
 
 #: allthethings/page/templates/page/search.html:158
 msgid "page.search.results.shortcuts"
-msgstr ""
+msgstr "提示：使用快捷键 “/”（搜索框）, “enter”（搜索）, “j”（上）, “k”（下）可快速导航。"
 
 #: allthethings/page/templates/page/search.html:162
 msgid "page.search.results.search_digital_lending"
@@ -1768,7 +1768,7 @@ msgstr ""
 
 #: allthethings/page/templates/page/search.html:168
 msgid "page.search.results.digital_lending_info_more"
-msgstr ""
+msgstr "更多数字借阅图书馆，请参阅<a %(a_wikipedia)s>维基百科</a>和 <a %(a_mobileread)s>MobileRead Wiki</a>。"
 
 #: allthethings/page/templates/page/search.html:172
 msgid "page.search.results.search_metadata"
@@ -1776,19 +1776,19 @@ msgstr ""
 
 #: allthethings/page/templates/page/search.html:175
 msgid "page.search.results.metadata_info"
-msgstr ""
+msgstr "此处索引目前包含 ISBNdb 和 Open Library 的元数据。<a %(a_datasets)s>了解我们的数据集</a>。"
 
 #: allthethings/page/templates/page/search.html:178
 msgid "page.search.results.metadata_info_more"
-msgstr ""
+msgstr "世界上有非常多的书面作品元数据的来源，可以先从<a %(a_wikipedia)s>这篇维基百科文章</a>看起。如果你知道其他不错的列表，请告诉我们。"
 
 #: allthethings/page/templates/page/search.html:182
 msgid "page.search.results.search_generic"
-msgstr ""
+msgstr "在框中键入要搜索的内容。"
 
 #: allthethings/page/templates/page/wechat.html:7
 msgid "page.wechat.header"
-msgstr ""
+msgstr "非官方微信号"
 
 #: allthethings/page/templates/page/wechat.html:10
 msgid "page.wechat.body"
@@ -1821,11 +1821,11 @@ msgstr "📚&nbsp;世界最大开源及开放数据图书馆。 ⭐️&nbsp;包�
 #: allthethings/templates/layouts/index.html:251
 #: allthethings/templates/layouts/index.html:252
 msgid "layout.index.header.learn_more"
-msgstr ""
+msgstr "了解更多……"
 
 #: allthethings/templates/layouts/index.html:252
 msgid "layout.index.header.tagline_short"
-msgstr ""
+msgstr "📚 世界上最大的开源、开放数据图书馆。<br>⭐️ 不仅是 Scihub、Libgen、Zlib 等站的镜像。"
 
 #: allthethings/templates/layouts/index.html:256
 msgid "layout.index.header.recent_downloads"
@@ -1857,14 +1857,14 @@ msgstr "数据集"
 #: allthethings/templates/layouts/index.html:368
 #: allthethings/templates/layouts/index.html:446
 msgid "layout.index.header.nav.torrents"
-msgstr ""
+msgstr "种子"
 
 #: allthethings/templates/layouts/index.html:343
 #: allthethings/templates/layouts/index.html:355
 #: allthethings/templates/layouts/index.html:369
 #: allthethings/templates/layouts/index.html:447
 msgid "layout.index.header.nav.llm_data"
-msgstr ""
+msgstr "大语言模型数据"
 
 #: allthethings/templates/layouts/index.html:344
 #: allthethings/templates/layouts/index.html:356
@@ -1877,7 +1877,7 @@ msgstr "移动端"
 #: allthethings/templates/layouts/index.html:357
 #: allthethings/templates/layouts/index.html:449
 msgid "layout.index.header.nav.security"
-msgstr ""
+msgstr "安全性"
 
 #: allthethings/templates/layouts/index.html:346
 #: allthethings/templates/layouts/index.html:358
@@ -1885,14 +1885,14 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:463
 #: allthethings/templates/layouts/index.html:477
 msgid "layout.index.header.nav.wechat"
-msgstr ""
+msgstr "非官方微信号"
 
 #: allthethings/templates/layouts/index.html:347
 #: allthethings/templates/layouts/index.html:359
 #: allthethings/templates/layouts/index.html:364
 #: allthethings/templates/layouts/index.html:441
 msgid "layout.index.header.nav.home"
-msgstr ""
+msgstr "主页"
 
 #: allthethings/templates/layouts/index.html:374
 #: allthethings/templates/layouts/index.html:464
