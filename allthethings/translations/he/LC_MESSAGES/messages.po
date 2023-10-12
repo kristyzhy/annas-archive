@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-10-11 13:47+0000\n"
+"PO-Revision-Date: 2023-10-12 13:13+0000\n"
 "Last-Translator: dov <da9@dr.com>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -343,3 +343,190 @@ msgstr "3. בחר שיטת תרומה שנית."
 #: allthethings/account/templates/account/donation.html:470
 msgid "page.donation.hoodpay.step5"
 msgstr "5. לחץ \"אני מאשר בעלות\"."
+
+#: allthethings/utils.py:338
+msgid "common.membership.format_currency.total_with_usd"
+msgstr "%(amount)s (%(amount_usd)s) סך הכל"
+
+#: allthethings/utils.py:340 allthethings/utils.py:341
+msgid "common.membership.format_currency.amount_with_usd"
+msgstr "%(amount)s (%(amount_usd)s)"
+
+#: allthethings/utils.py:352
+msgid "common.membership.format_currency.total"
+msgstr "%(amount)s סך הכל"
+
+#: allthethings/account/templates/account/donate.html:11
+msgid "page.donate.header.existing_unpaid_donation"
+msgstr "ישנה תרומה על שמך בסך <a %(a_donation)s> </a> בתהליך. אנא סיים או בטל את תהליך התרומה לפני שתתרום שוב."
+
+#: allthethings/account/templates/account/donate.html:13
+msgid "page.donate.header.existing_unpaid_donation_view_all"
+msgstr "<a %(a_all_donations)s>הצג את התרומות שלי</a>"
+
+#: allthethings/account/templates/account/donate.html:32
+#: allthethings/account/templates/account/donate.html:46
+#: allthethings/account/templates/account/donate.html:60
+#: allthethings/account/templates/account/donate.html:74
+msgid "page.donate.buttons.up_to_discounts"
+msgstr "עד %(percentage)s%% הנחה"
+
+#: allthethings/account/templates/account/donate.html:34
+#: allthethings/account/templates/account/donate.html:49
+#: allthethings/account/templates/account/donate.html:63
+#: allthethings/account/templates/account/donate.html:77
+msgid "page.donate.perks.fast_downloads"
+msgstr "%(number)s הורדות מהירות ליום"
+
+#: allthethings/account/templates/account/donate.html:35
+msgid "page.donate.perks.scidb"
+msgstr "המאמרים של SciDB <strong>לא מוגבלים </strong> גם ללא אימות"
+
+#: allthethings/account/templates/account/donate.html:78
+msgid "page.donate.perks.adopt"
+msgstr "“אמץ טורנט”: שם המשתמש שלך או הודעה בקובץ הטורנט <div %(div_months)s>פעם בכל שנים עשר חודשים של חברות</div>"
+
+#: allthethings/account/templates/account/donate.html:84
+msgid "page.donate.header.large_donations"
+msgstr "לתרומה מעל $5000 אנא צור קשר בכתובת: <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
+
+#: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.payment.intro2"
+msgstr "בחר אמצעי תשלום. אנו מקבלים כרגע תשלומים רק באמצעות קריפטו %(bitcoin_icon)s, מכיון ששירותי התשלומים הרגילים הפסיקו לעבוד עמנו."
+
+#: allthethings/account/templates/account/donate.html:97
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:109
+#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:112
+#: allthethings/account/templates/account/donate.html:218
+#: allthethings/account/templates/account/donate.html:219
+#: allthethings/account/templates/account/donate.html:220
+#: allthethings/account/templates/account/donate.html:221
+#, fuzzy
+msgid "page.donate.discount"
+msgstr "-%(percentage)s%%"
+
+#: allthethings/account/templates/account/donate.html:99
+msgid "page.donate.payment.buttons.paypal"
+msgstr "פייפאל (ארה\"ב) %(bitcoin_icon)s"
+
+#: allthethings/account/templates/account/donate.html:110
+#, fuzzy
+msgid "page.donate.payment.buttons.cashapp"
+msgstr "Cash App"
+
+#: allthethings/account/templates/account/donate.html:114
+#, fuzzy
+msgid "page.donate.payment.buttons.alipay_wechat"
+msgstr "Alipay 支付宝 / WeChat 微信"
+
+#: allthethings/account/templates/account/donate.html:131
+msgid "page.donate.payment.desc.crypto_suggestion"
+msgstr "אם זהו השימוש הראשון שלך בקריפטו, אנו מציעים לבחור ב %(option1)s, %(option2)s, או %(option3)s כדי לרכוש ולתרום ביטקוין (מטבע הקריפטו המקורי והנפוץ ביותר)."
+
+#: allthethings/account/templates/account/donate.html:155
+msgid "page.donate.payment.desc.elimate_discount"
+msgstr "לתשומת ליבך, יתכן שעבור תרומות קטנות עמלות כרטיס האשראי ינטרלו את %(discount)s%% ההנחה, כך שאנו ממליצים על הרשמה למשך זמן ארוך."
+
+#: allthethings/account/templates/account/donate.html:195
+#: allthethings/account/templates/account/donation.html:296
+msgid "page.donate.payment.desc.amazon_com"
+msgstr "<strong>חשוב:</strong> אנו תומכים רק ב- Amazon.com, ולא באתרי Amazom אחרים. לדוגמא, de, .co.uk, .il .ca, אינם נתמכים."
+
+#: allthethings/account/templates/account/donate.html:224
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>אחרי <span %(span_discount)s></span> הנחה</div><div %(div_total)s></div><div %(div_duration)s></div>"
+
+#: allthethings/account/templates/account/donate.html:230
+msgid "page.donate.payment.minimum_method"
+msgstr "שיטת התשלום מצריכה מינימום של %(amount)s. אנא בחר שיטת תשלום שונה."
+
+#: allthethings/account/templates/account/donate.html:231
+msgid "page.donate.payment.maximum_method"
+msgstr "שיטת התשלום הזו מאפשרת תשלום מקסימום של%(amount)s. אנא בחר שיטת תשלום שונה."
+
+#: allthethings/account/templates/account/donate.html:236
+msgid "page.donate.login2"
+msgstr "כדי להפוך לחבר, אנא <a %(a_login)s>הכנס או התחבר</a>. תודה על תמיכתך!"
+
+#: allthethings/account/templates/account/donate.html:283
+msgid "page.donate.submit.button"
+msgstr "תרום <span %(span_cost)s></span> <span %(span_label)s></span>"
+
+#: allthethings/account/templates/account/donate.html:350
+#, fuzzy
+msgid "page.donate.duration.summary.discount"
+msgstr "%(percentage)s%%"
+
+#: allthethings/account/templates/account/donate.html:351
+msgid "page.donate.duration.summary.monthly_cost"
+msgstr "%(monthly_cost)s / חודש"
+
+#: allthethings/account/templates/account/donate.html:362
+msgid "page.donate.submit.button.label.1_mo"
+msgstr "עבור חודש “%(tier_name)s”"
+
+#: allthethings/account/templates/account/donate.html:363
+msgid "page.donate.submit.button.label.3_mo"
+msgstr "עבור שלשה חדשים “%(tier_name)s”"
+
+#: allthethings/account/templates/account/donate.html:364
+msgid "page.donate.submit.button.label.6_mo"
+msgstr "עבור ששה חודשים “%(tier_name)s”"
+
+#: allthethings/account/templates/account/donate.html:365
+msgid "page.donate.submit.button.label.12_mo"
+msgstr "עבור שנים עשר חודשים “%(tier_name)s”"
+
+#: allthethings/account/templates/account/donation.html:11
+msgid "page.donation.header.date"
+msgstr "תאריך: %(date)s"
+
+#: allthethings/account/templates/account/donation.html:14
+msgid "page.donation.header.total_including_discount"
+msgstr "סך הכל: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / חדש עבור: %(duration)s חדשים, כולל %(discounts)s%% הנחה)</span>"
+
+#: allthethings/account/templates/account/donation.html:16
+msgid "page.donation.header.total_without_discount"
+msgstr "סך הכל: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / חדש עבור %(duration)s חדשים)</span>"
+
+#: allthethings/account/templates/account/donation.html:19
+msgid "page.donation.header.status"
+msgstr "סטטוס: <span %(span_label)s>%(label)s</span>"
+
+#: allthethings/account/templates/account/donation.html:52
+msgid "page.donation.old_instructions.intro_outdated"
+msgstr "ההסברים על דרכי התשלום אינם בתוקף. אם תרצה לתרום שנית, אנא השתמש בכפתור \"הזמן שנית\"."
+
+#: allthethings/account/templates/account/donation.html:73
+msgid "page.donation.payment.crypto.header1"
+msgstr "<span %(span_circle)s>1</span>העבר לאחד מחשבונות הקריפטו שלנו"
+
+#: allthethings/account/templates/account/donation.html:76
+msgid "page.donation.payment.crypto.text1"
+msgstr "תרום סכום של %(total)s לאחת מהכתובות הבאות:"
+
+#: allthethings/account/templates/account/donate.html:90
+msgid "page.donate.payment.intro"
+msgstr "בחר אמצעי תשלום. אנו נותנים הנחה בתרומה באמצעות קריפטו %(bitcoin_icon)s, בשל העמלות הנמוכות באופן משמעותי."
+
+#: allthethings/account/templates/account/donate.html:147
+msgid "page.donate.payment.desc.cashapp_fee"
+msgstr "לתשומת ליבך, על העברה באמצעות %(amount)s, Cash App עשויה להיגבות %(fee)s עמלה. בסכום של %(amount)s או יותר, ההעברה בחינם!"
+
+#: allthethings/account/templates/account/donate.html:366
+msgid "page.donate.submit.button.label.24_mo"
+msgstr "עבור עשרים וארבעה חדשים “%(tier_name)s”"
+
+#: allthethings/account/templates/account/donation.html:62
+msgid "page.donate.submit.crypto_note"
+msgstr "<strong>לתשומת לבך:</strong> מחירי הקריפטו נעים בטווח רחב, לעתים אף בכ- 20%% בכמה דקות. זה עדיין פחות מהעמלות שאנו גובים באמצעי התשלום האחרים, שגובים בדרך כלל 50-60%% כדי לעבוד עם \"תרומת צללים\" כמו ארגוננו. <u>אם תשלח לנו את הקבלה עם הסכום המדויק ששילמת נזכה אותך בעבור מסלול החברות הנבחרר</u> (כל עוד הקבלה אינה ישנה מדי - יותר מכמה שעות). אנו מעריכים מאד את הסכמתך להסתבך עם אמצעי התשלום כל כך עבורנו!❤️"
+
+#: allthethings/account/templates/account/donation.html:105
+msgid "page.donate.submit.header1"
+msgstr "<span %(span_circle)s>1</span>רכוש ביטקוין ב-Paypal"
