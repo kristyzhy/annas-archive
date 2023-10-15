@@ -288,13 +288,13 @@
         </p>
 
         <p class="mb-4">
+          {{ gettext('page.donate.payment.desc.amazon_com') }}
+        </p>
+
+        <p class="mb-4">
           {{ gettext('page.donation.amazon.form_to') }} <span class="font-mono font-bold text-sm">giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{{ copy_button('giftcards+' + donation_dict.receipt_id + '@annas-mail.org') }}</span>
           <br><span class="text-sm text-gray-500">{{ gettext('page.donation.amazon.unique') }}</span>
         </p>
-
-        <!-- <p class="mb-4">
-          {{ gettext('page.donate.payment.desc.amazon_com') }}
-        </p> -->
 
         <p class="mb-4">
           <strong>{{ gettext('page.donation.status_header') }}</strong> {{ gettext('page.donation.amazon.waiting_gift_card') }}
