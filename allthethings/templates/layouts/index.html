@@ -473,6 +473,7 @@
             <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list3.header') }}</strong><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-org" href="https://annas-archive.org">annas-archive.org</a></a><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-gs" href="https://annas-archive.gs">annas-archive.gs</a><br>
+            <a class="custom-a hover:text-[#333] js-annas-archive-se" href="https://annas-archive.se">annas-archive.se</a><br>
             {% if g.show_wechat_in_layout %}
               <!-- <a class="custom-a hover:text-[#333]" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a><br>
               <div class="bg-white p-2 max-w-[130px]"><img class="w-[100%]" src="/images/wechat.jpg"></div> -->
@@ -484,12 +485,12 @@
     <script>
       (function() {
         // Possible domains we can encounter:
-        const domainsToReplace = ["annas-" + "archive.org", "annas-" + "archive.gs", "localtest.me:8000", "localtest.me", window.baseDomain];
-        const validDomains = ["annas-" + "archive.org", "annas-" + "archive.gs", "localtest.me:8000", "localtest.me"];
+        const domainsToReplace = ["annas-" + "archive.org", "annas-" + "archive.gs", "annas-" + "archive.se", "localtest.me:8000", "localtest.me", window.baseDomain];
+        const validDomains = ["annas-" + "archive.org", "annas-" + "archive.gs", "annas-" + "archive.se", "localtest.me:8000", "localtest.me"];
         // For checking and redirecting if our current host is down (but if Cloudflare still responds).
         const initialCheckMs = 0;
         const intervalCheckOtherDomains = 10000;
-        const domainsToNavigateTo = ["annas-" + "archive.org", "annas-" + "archive.gs"];
+        const domainsToNavigateTo = ["annas-" + "archive.org", "annas-" + "archive.gs", "annas-" + "archive.se"];
         // For testing:
         // const domainsToNavigateTo = ["localtest.me:8000", "testing_redirects.localtest.me:8000"];
 
@@ -517,6 +518,9 @@
         }
         for (const el of document.querySelectorAll(".js-annas-archive-gs")) {
           el.href = loc.replace(currentDomainToReplace, "annas-" + "archive.gs");
+        }
+        for (const el of document.querySelectorAll(".js-annas-archive-se")) {
+          el.href = loc.replace(currentDomainToReplace, "annas-" + "archive.se");
         }
 
         // Use the new domain in all links and forms.

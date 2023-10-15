@@ -205,7 +205,7 @@ def extensions(app):
 
         g.app_debug = app.debug
         g.base_domain = 'annas-archive.org'
-        valid_other_domains = ['annas-archive.gs']
+        valid_other_domains = ['annas-archive.gs', 'annas-archive.se']
         if app.debug:
             valid_other_domains.append('localtest.me:8000')
             valid_other_domains.append('localhost:8000')
