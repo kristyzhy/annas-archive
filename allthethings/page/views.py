@@ -62,6 +62,7 @@ search_filtered_bad_aarecord_ids = [
 ]
 
 ES_TIMEOUT_PRIMARY = "3s"
+ES_TIMEOUT_ALL_AGG = "10s"
 ES_TIMEOUT = "300ms"
 
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
@@ -326,7 +327,7 @@ def get_stats_data():
         zlib_date = orjson.loads(zlib3_record['metadata'])['date_modified'] if zlib3_record is not None else ''
 
         stats_data_es = dict(es.msearch(
-            request_timeout=20,
+            request_timeout=30,
             max_concurrent_searches=10,
             max_concurrent_shard_requests=10,
             searches=[
@@ -379,7 +380,7 @@ def get_stats_data():
             ],
         ))
         stats_data_es_aux = dict(es_aux.msearch(
-            request_timeout=20,
+            request_timeout=30,
             max_concurrent_searches=10,
             max_concurrent_shard_requests=10,
             searches=[
@@ -2967,7 +2968,7 @@ search_query_aggs = {
 
 @functools.cache
 def all_search_aggs(display_lang, search_index_long):
-    search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=search_index_long, size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT_PRIMARY)
+    search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=search_index_long, size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT_ALL_AGG)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
@@ -3161,7 +3162,7 @@ def search_page():
             doc_counts['search_access_types'][bucket['key']] = bucket['doc_count']
         for bucket in all_aggregations['search_record_sources']:
             doc_counts['search_record_sources'][bucket['key']] = bucket['doc_count']
-    else:
+    elif 'aggregations' in search_results_raw:
         for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
             doc_counts['search_most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
         for bucket in search_results_raw['aggregations']['search_content_type']['buckets']:
