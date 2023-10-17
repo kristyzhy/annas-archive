@@ -215,7 +215,7 @@ def elastic_reset_aarecords():
     elastic_reset_aarecords_internal()
 
 def elastic_reset_aarecords_internal():
-    es.indices.delete(index='aarecords')
+    es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
     es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
     es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
     body = {
@@ -246,6 +246,7 @@ def elastic_reset_aarecords_internal():
             "index.store.preload": ["nvd", "dvd", "tim", "doc", "dim"],
             "index.sort.field": "search_only_fields.search_score_base",
             "index.sort.order": "desc",
+            "index.codec": "best_compression",
         },
     }
     es.indices.create(index='aarecords', body=body)

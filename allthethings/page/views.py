@@ -1890,6 +1890,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
         aarecord['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != aarecord['file_unified_data']['original_filename_best']]
         aarecord['file_unified_data']['original_filename_best_name_only'] = re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1] if not aarecord['file_unified_data']['original_filename_best'].startswith('10.') else aarecord['file_unified_data']['original_filename_best']
+        if len(aarecord['file_unified_data']['original_filename_additional']) == 0:
+            del aarecord['file_unified_data']['original_filename_additional']
 
         # Select the cover_url_normalized in order of what is likely to be the best one: ia, zlib, lgrsnf, lgrsfic, lgli.
         cover_url_multiple = [
@@ -1905,6 +1907,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
         aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
         aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
+        if len(aarecord['file_unified_data']['cover_url_additional']) == 0:
+            del aarecord['file_unified_data']['cover_url_additional']
 
         extension_multiple = [
             (((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('extension') or '').strip(),
@@ -1922,6 +1926,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         else:
             aarecord['file_unified_data']['extension_best'] = max(extension_multiple, key=len)
         aarecord['file_unified_data']['extension_additional'] = [s for s in dict.fromkeys(filter(len, extension_multiple)) if s != aarecord['file_unified_data']['extension_best']]
+        if len(aarecord['file_unified_data']['extension_additional']) == 0:
+            del aarecord['file_unified_data']['extension_additional']
 
         filesize_multiple = [
             ((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('filesize') or 0,
@@ -1942,6 +1948,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             # If we have a zlib_book with a `filesize`, then that is leading, since we measured it ourselves.
             aarecord['file_unified_data']['filesize_best'] = zlib_book_filesize
         aarecord['file_unified_data']['filesize_additional'] = [s for s in dict.fromkeys(filter(lambda fz: fz > 0, filesize_multiple)) if s != aarecord['file_unified_data']['filesize_best']]
+        if len(aarecord['file_unified_data']['filesize_additional']) == 0:
+            del aarecord['file_unified_data']['filesize_additional']
 
         title_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('title') or '').strip(),
@@ -1960,6 +1968,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if aarecord['file_unified_data']['title_best'] == '':
             aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
         aarecord['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != aarecord['file_unified_data']['title_best']]
+        if len(aarecord['file_unified_data']['title_additional']) == 0:
+            del aarecord['file_unified_data']['title_additional']
 
         author_multiple = [
             (aarecord['lgrsnf_book'] or {}).get('author', '').strip(),
@@ -1976,6 +1986,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if aarecord['file_unified_data']['author_best'] == '':
             aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
         aarecord['file_unified_data']['author_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(author_multiple) if s != aarecord['file_unified_data']['author_best']]
+        if len(aarecord['file_unified_data']['author_additional']) == 0:
+            del aarecord['file_unified_data']['author_additional']
 
         publisher_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('publisher') or '').strip(),
@@ -1992,6 +2004,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if aarecord['file_unified_data']['publisher_best'] == '':
             aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         aarecord['file_unified_data']['publisher_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(publisher_multiple) if s != aarecord['file_unified_data']['publisher_best']]
+        if len(aarecord['file_unified_data']['publisher_additional']) == 0:
+            del aarecord['file_unified_data']['publisher_additional']
 
         edition_varia_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('edition_varia_normalized') or '').strip(),
@@ -2008,6 +2022,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if aarecord['file_unified_data']['edition_varia_best'] == '':
             aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         aarecord['file_unified_data']['edition_varia_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(edition_varia_multiple) if s != aarecord['file_unified_data']['edition_varia_best']]
+        if len(aarecord['file_unified_data']['edition_varia_additional']) == 0:
+            del aarecord['file_unified_data']['edition_varia_additional']
 
         year_multiple_raw = [
             ((aarecord['lgrsnf_book'] or {}).get('year') or '').strip(),
@@ -2031,6 +2047,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if aarecord['file_unified_data']['year_best'] == '':
             aarecord['file_unified_data']['year_best'] = max(year_multiple, key=len)
         aarecord['file_unified_data']['year_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(year_multiple) if s != aarecord['file_unified_data']['year_best']]
+        if len(aarecord['file_unified_data']['year_additional']) == 0:
+            del aarecord['file_unified_data']['year_additional']
 
         comments_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('commentary') or '').strip(),
@@ -2057,6 +2075,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if aarecord['file_unified_data']['comments_best'] == '':
             aarecord['file_unified_data']['comments_best'] = max(comments_multiple, key=len)
         aarecord['file_unified_data']['comments_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(comments_multiple) if s != aarecord['file_unified_data']['comments_best']]
+        if len(aarecord['file_unified_data']['comments_additional']) == 0:
+            del aarecord['file_unified_data']['comments_additional']
 
         stripped_description_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('stripped_description') or '').strip()[0:5000],
@@ -2077,6 +2097,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             stripped_description_multiple += [ia_descr]
             aarecord['file_unified_data']['stripped_description_best'] = (aarecord['file_unified_data']['stripped_description_best'] + '\n\n' + ia_descr).strip()
         aarecord['file_unified_data']['stripped_description_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(stripped_description_multiple) if s != aarecord['file_unified_data']['stripped_description_best']]
+        if len(aarecord['file_unified_data']['stripped_description_additional']) == 0:
+            del aarecord['file_unified_data']['stripped_description_additional']
 
         aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
             ((aarecord['lgrsnf_book'] or {}).get('language_codes') or []),
