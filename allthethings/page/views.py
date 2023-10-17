@@ -2292,6 +2292,25 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['has_aa_downloads'] = additional['has_aa_downloads']
             aarecord['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
 
+        initial_search_text = "\n".join(list(dict.fromkeys([
+            aarecord['file_unified_data']['title_best'][:1000],
+            aarecord['file_unified_data']['author_best'][:1000],
+            aarecord['file_unified_data']['edition_varia_best'][:1000],
+            aarecord['file_unified_data']['publisher_best'][:1000],
+            aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
+            aarecord['id'][:1000],
+        ])))
+        split_search_text = set(initial_search_text.split())
+        normalized_search_terms = initial_search_text.replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' ')
+        filtered_normalized_search_terms = ' '.join([term for term in normalized_search_terms.split() if term not in split_search_text])
+        more_search_text = "\n".join([
+            aarecord['file_unified_data']['extension_best'],
+            *[f"{key}:{item}" for key, items in aarecord['file_unified_data']['identifiers_unified'].items() for item in items],
+            *[f"{key}:{item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
+            aarecord_id,
+        ])
+        search_text = f"{initial_search_text}\n\n{filtered_normalized_search_terms}\n\n{more_search_text}"
+
         aarecord['search_only_fields'] = {
             'search_filesize': aarecord['file_unified_data']['filesize_best'],
             'search_year': aarecord['file_unified_data']['year_best'],
@@ -2300,24 +2319,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_most_likely_language_code': aarecord['file_unified_data']['most_likely_language_code'],
             'search_isbn13': (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []),
             'search_doi': (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []),
-            'search_text': "\n".join(list(dict.fromkeys([
-                aarecord['file_unified_data']['title_best'][:1000],
-                aarecord['file_unified_data']['title_best'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                aarecord['file_unified_data']['author_best'][:1000],
-                aarecord['file_unified_data']['author_best'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                aarecord['file_unified_data']['edition_varia_best'][:1000],
-                aarecord['file_unified_data']['edition_varia_best'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                aarecord['file_unified_data']['publisher_best'][:1000],
-                aarecord['file_unified_data']['publisher_best'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
-                aarecord['file_unified_data']['original_filename_best_name_only'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                aarecord['file_unified_data']['extension_best'],
-                aarecord['id'][:1000],
-                aarecord['id'][:1000].replace('.', '. ').replace(':', ': ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-                *[f"{item} {key}:{item}" for key, items in aarecord['file_unified_data']['identifiers_unified'].items() for item in items],
-                *[f"{item} {key}:{item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
-                aarecord_id,
-            ]))),
+            'search_text': search_text,
             'search_access_types': [
                 *(['external_download'] if any([((aarecord.get(field) is not None) and (type(aarecord[field] != list or len(aarecord[field]) > 0))) for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book', 'scihub_doi']]) else []),
                 *(['external_borrow'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
