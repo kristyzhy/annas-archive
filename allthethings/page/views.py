@@ -31,7 +31,7 @@ import shortuuid
 import pymysql.cursors
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
-from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files, MariapersistSmallFiles
+from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files, Ia2AcsmpdfFiles, MariapersistSmallFiles
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
@@ -173,9 +173,9 @@ def make_temp_anon_zlib_path(zlibrary_id, pilimi_torrent):
         prefix = "zlib2"
     return f"e/{prefix}/{pilimi_torrent.replace('.torrent', '')}/{zlibrary_id}"
 
-def make_temp_anon_aac_zlib3_path(file_aac_id, data_folder):
+def make_temp_anon_aac_path(prefix, file_aac_id, data_folder):
     date = data_folder.split('__')[3][0:8]
-    return f"o/zlib3_files/{date}/{data_folder}/{file_aac_id}"
+    return f"{prefix}/{date}/{data_folder}/{file_aac_id}"
 
 def strip_description(description):
     return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n'))).strip()
@@ -661,7 +661,6 @@ def get_aac_zlib3_book_dicts(session, key, values):
         aac_zlib3_book_dicts.append(add_comments_to_dict(aac_zlib3_book_dict, zlib_book_dict_comments))
     return aac_zlib3_book_dicts
 
-
 @page.get("/db/zlib/<int:zlib_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def zlib_book_json(zlib_id):
@@ -690,12 +689,12 @@ def get_ia_record_dicts(session, key, values):
     seen_ia_ids = set()
     ia_entries = []
     try:
-        base_query = select(AaIa202306Metadata, AaIa202306Files).join(AaIa202306Files, AaIa202306Files.ia_id == AaIa202306Metadata.ia_id, isouter=True)
+        base_query = select(AaIa202306Metadata, AaIa202306Files, Ia2AcsmpdfFiles).join(AaIa202306Files, AaIa202306Files.ia_id == AaIa202306Metadata.ia_id, isouter=True).join(Ia2AcsmpdfFiles, Ia2AcsmpdfFiles.primary_id == AaIa202306Metadata.ia_id, isouter=True)
         if key.lower() in ['md5']:
             # TODO: we should also consider matching on libgen_md5, but we used to do that before and it had bad SQL performance,
             # when combined in a single query, so we'd have to split it up.
             ia_entries = session.execute(
-                base_query.where(getattr(AaIa202306Files, 'md5').in_(values))
+                base_query.where(AaIa202306Files.md5.in_(values) | Ia2AcsmpdfFiles.md5.in_(values))
             ).unique().all()
         else:
             ia_entries = session.execute(
@@ -707,7 +706,7 @@ def get_ia_record_dicts(session, key, values):
         traceback.print_tb(err.__traceback__)
 
     ia_record_dicts = []
-    for ia_record, ia_file in ia_entries:
+    for ia_record, ia_file, ia2_acsmpdf_file in ia_entries:
         ia_record_dict = ia_record.to_dict()
 
         # TODO: When querying by ia_id we can match multiple files. For now we just pick the first one.
@@ -716,9 +715,23 @@ def get_ia_record_dicts(session, key, values):
         seen_ia_ids.add(ia_record_dict['ia_id'])
 
         ia_record_dict['aa_ia_file'] = None
-        if ia_file and ia_record_dict['libgen_md5'] is None: # If there's a Libgen MD5, then we do NOT serve our IA file.
-            ia_record_dict['aa_ia_file'] = ia_file.to_dict()
-            ia_record_dict['aa_ia_file']['extension'] = 'pdf'
+        if ia_record_dict['libgen_md5'] is None: # If there's a Libgen MD5, then we do NOT serve our IA file.
+            if ia_file is not None:
+                ia_record_dict['aa_ia_file'] = ia_file.to_dict()
+                ia_record_dict['aa_ia_file']['extension'] = 'pdf'
+            elif ia2_acsmpdf_file is not None:
+                ia2_acsmpdf_file_dict = ia2_acsmpdf_file.to_dict()
+                ia2_acsmpdf_file_metadata = orjson.loads(ia2_acsmpdf_file_dict['metadata'])
+                ia_record_dict['aa_ia_file'] = {
+                    'md5': ia2_acsmpdf_file_dict['md5'],
+                    'type': 'ia2_acsmpdf',
+                    'filesize': ia2_acsmpdf_file_metadata['filesize'],
+                    'ia_id': ia2_acsmpdf_file_dict['primary_id'],
+                    'extension': 'pdf',
+                    'aacid': ia2_acsmpdf_file_dict['aacid'],
+                    'data_folder': ia2_acsmpdf_file_dict['data_folder'],
+                }
+
         ia_record_dict['json'] = orjson.loads(ia_record_dict['json'])
 
         ia_record_dict['aa_ia_derived'] = {}
@@ -2227,6 +2240,8 @@ def get_aarecords_mysql(session, aarecord_ids):
                     'filesize': aarecord['ia_record']['aa_ia_file']['filesize'],
                     'extension': aarecord['ia_record']['aa_ia_file']['extension'],
                     'ia_id': aarecord['ia_record']['aa_ia_file']['ia_id'],
+                    'aacid': aarecord['ia_record']['aa_ia_file'].get('aacid'),
+                    'data_folder': aarecord['ia_record']['aa_ia_file'].get('data_folder'),
                 } if (aarecord['ia_record'].get('aa_ia_file') is not None) else None,
                 'aa_ia_derived': {
                     'printdisabled_only': aarecord['ia_record']['aa_ia_derived']['printdisabled_only'],
@@ -2503,8 +2518,10 @@ def get_additional_for_aarecord(aarecord):
             elif bool(re.match(r"^[a-z]", ia_id)):
                 directory = ia_id[0]
             partner_path = f"u/annas-archive-ia-2023-06-lcpdf/{directory}/{ia_id}.{extension}"
+        elif ia_file_type == 'ia2_acsmpdf':
+            partner_path = make_temp_anon_aac_path("o/ia2_acsmpdf_files", aarecord['ia_record']['aa_ia_file']['aacid'], aarecord['ia_record']['aa_ia_file']['data_folder'])
         else:
-            raise Exception("Unknown ia_record file type: {ia_file_type}")
+            raise Exception(f"Unknown ia_record file type: {ia_file_type}")
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('aa_lgli_comics_2022_08_file') is not None:
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/comics'):
@@ -2559,7 +2576,7 @@ def get_additional_for_aarecord(aarecord):
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
     if aarecord.get('aac_zlib3_book') is not None:
-        zlib_path = make_temp_anon_aac_zlib3_path(aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
+        zlib_path = make_temp_anon_aac_path("o/zlib3_files", aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
     if aarecord.get('zlib_book') is not None:
         # additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/md5/{aarecord['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
