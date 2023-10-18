@@ -1,30 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-03 12:40+0000\n"
+"PO-Revision-Date: 2023-10-11 13:47+0000\n"
+"Last-Translator: Joel LeSanders <joellesanders@pretreer.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.15\n"
+
 #: allthethings/utils.py:213
 msgid "common.md5_report_type_mapping.metadata"
-msgstr ""
+msgstr "Dữ liệu số không chính xác (ví dụ: tiêu đề, mô tả, ảnh bìa)"
 
 #: allthethings/utils.py:214
 msgid "common.md5_report_type_mapping.download"
-msgstr ""
+msgstr "Sự cố tải xuống (ví dụ: không thể kết nối, thông báo lỗi, rất chậm)"
 
 #: allthethings/utils.py:215
 msgid "common.md5_report_type_mapping.broken"
-msgstr ""
+msgstr "Không thể mở được tệp (ví dụ: tệp bị hỏng, lỗi bản quyền)"
 
 #: allthethings/utils.py:216
 msgid "common.md5_report_type_mapping.pages"
-msgstr ""
+msgstr "Chất lượng kém (ví dụ: vấn đề về định dạng, chất lượng quét kém, thiếu trang)"
 
 #: allthethings/utils.py:217
 msgid "common.md5_report_type_mapping.spam"
-msgstr ""
+msgstr "Cần loại bỏ thư rác/tập tin (ví dụ: quảng cáo, nội dung lạm dụng)"
 
 #: allthethings/utils.py:218
 msgid "common.md5_report_type_mapping.copyright"
-msgstr ""
+msgstr "Khiếu nại về bản quyền"
 
 #: allthethings/utils.py:219
 msgid "common.md5_report_type_mapping.other"
-msgstr ""
+msgstr "Những thứ khác"
 
 #: allthethings/utils.py:244
 msgid "common.membership.tier_name.2"
@@ -44,15 +59,15 @@ msgstr "Lưu trữ viên tuyệt vời"
 
 #: allthethings/utils.py:338
 msgid "common.membership.format_currency.total_with_usd"
-msgstr ""
+msgstr "%(amount)s (%(amount_usd)s) tổng (theo đô la Mỹ)"
 
 #: allthethings/utils.py:340 allthethings/utils.py:341
 msgid "common.membership.format_currency.amount_with_usd"
-msgstr ""
+msgstr "%(amount)s (%(amount_usd)s)"
 
 #: allthethings/utils.py:352
 msgid "common.membership.format_currency.total"
-msgstr ""
+msgstr "%(amount)s tổng"
 
 #: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
@@ -125,7 +140,7 @@ msgstr "%(number)s lượt download nhanh mỗi ngày"
 
 #: allthethings/account/templates/account/donate.html:35
 msgid "page.donate.perks.scidb"
-msgstr ""
+msgstr "Tài liệu SciDB <strong>không giới hạn</strong> không cần xác minh"
 
 #: allthethings/account/templates/account/donate.html:36
 #, fuzzy
@@ -189,11 +204,11 @@ msgstr "PayPal (US) %(bitcoin_icon)s"
 
 #: allthethings/account/templates/account/donate.html:102
 msgid "page.donate.payment.buttons.amazon"
-msgstr ""
+msgstr "Thẻ quà tặng Amazon"
 
 #: allthethings/account/templates/account/donate.html:103
 msgid "page.donate.payment.buttons.credit_debit"
-msgstr ""
+msgstr "Thẻ tín dụng/thẻ ghi nợ"
 
 #: allthethings/account/templates/account/donate.html:105
 msgid "page.donate.payment.buttons.alipay"
@@ -205,23 +220,23 @@ msgstr "Pix (Brazil)"
 
 #: allthethings/account/templates/account/donate.html:109
 msgid "page.donate.payment.buttons.paypal_plain"
-msgstr ""
+msgstr "Paypal"
 
 #: allthethings/account/templates/account/donate.html:110
 msgid "page.donate.payment.buttons.cashapp"
-msgstr ""
+msgstr "Cash App"
 
 #: allthethings/account/templates/account/donate.html:111
 msgid "page.donate.payment.buttons.credit_debit2"
-msgstr ""
+msgstr "Thẻ tín dụng/thẻ ghi nợ 2"
 
 #: allthethings/account/templates/account/donate.html:114
 msgid "page.donate.payment.buttons.alipay_wechat"
-msgstr ""
+msgstr "Alipay / WeChat"
 
 #: allthethings/account/templates/account/donate.html:114
 msgid "page.donate.payment.buttons.temporarily_unavailable"
-msgstr ""
+msgstr "(tạm thời không có)"
 
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.desc.crypto"
@@ -792,7 +807,7 @@ msgstr "Những đóng góp sẽ được giữ riêng tư."
 
 #: allthethings/account/templates/account/donations.html:11
 msgid "page.my_donations.no_donations"
-msgstr ""
+msgstr "Chưa có khoản quyên góp nào. <a %(a_donate)s>Thực hiện khoản quyên góp đầu tiên của tôi.</a>"
 
 #: allthethings/account/templates/account/donations.html:13
 msgid "page.my_donations.make_another"
@@ -923,7 +938,7 @@ msgstr "Danh sách trống."
 
 #: allthethings/account/templates/account/list.html:31
 msgid "page.list.new_item"
-msgstr ""
+msgstr "Thêm hoặc xóa khỏi danh sách này bằng cách tìm tệp và mở tab “Danh sách”."
 
 #: allthethings/account/templates/account/profile.html:3
 msgid "page.profile.title"
@@ -951,11 +966,11 @@ msgstr ""
 
 #: allthethings/account/templates/account/profile.html:19
 msgid "page.profile.change_display_name.failure"
-msgstr ""
+msgstr "❌ Đã xảy ra lỗi. Vui lòng thử lại."
 
 #: allthethings/account/templates/account/profile.html:22
 msgid "page.profile.created_time"
-msgstr ""
+msgstr "Đã tạo hồ sơ <span %(span_time)s>%(time)s</span>"
 
 #: allthethings/account/templates/account/profile.html:24
 msgid "page.profile.lists.header"
@@ -1090,19 +1105,19 @@ msgstr ""
 
 #: allthethings/page/views.py:2356
 msgid "common.record_sources_mapping.ia"
-msgstr ""
+msgstr "Internet Archive"
 
 #: allthethings/page/views.py:2357
 msgid "common.record_sources_mapping.isbndb"
-msgstr ""
+msgstr "ISBNdb"
 
 #: allthethings/page/views.py:2358
 msgid "common.record_sources_mapping.ol"
-msgstr ""
+msgstr "OpenLibrary"
 
 #: allthethings/page/views.py:2359
 msgid "common.record_sources_mapping.scihub"
-msgstr ""
+msgstr "Sci-Hub"
 
 #: allthethings/page/views.py:2384
 msgid "common.md5.servers.fast_partner"
@@ -1110,15 +1125,15 @@ msgstr ""
 
 #: allthethings/page/views.py:2384 allthethings/page/views.py:2600
 msgid "common.md5.servers.no_browser_verification"
-msgstr ""
+msgstr "(không cần xác minh trình duyệt)"
 
 #: allthethings/page/views.py:2386
 msgid "common.md5.servers.slow_partner"
-msgstr ""
+msgstr "Máy chủ đối tác chậm #%(number)s"
 
 #: allthethings/page/views.py:2386
 msgid "common.md5.servers.browser_verification_unlimited"
-msgstr ""
+msgstr "(có thể yêu cầu <a %(a_browser)s>xác minh trình duyệt</a> — lượt tải xuống không giới hạn!)"
 
 #: allthethings/page/views.py:2492 allthethings/page/views.py:2584
 msgid "page.md5.box.download.scihub"
@@ -1131,7 +1146,7 @@ msgstr "Libgen.rs Phi hư cấu"
 #: allthethings/page/views.py:2536 allthethings/page/views.py:2544
 #: allthethings/page/views.py:2560
 msgid "page.md5.box.download.extra_also_click_get"
-msgstr ""
+msgstr "(cũng nhấp vào “NHẬN” ở trên cùng)"
 
 #: allthethings/page/views.py:2536 allthethings/page/views.py:2544
 #: allthethings/page/views.py:2560
@@ -1213,11 +1228,11 @@ msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:24
 msgid "page.md5.header.meta_isbn"
-msgstr ""
+msgstr "Bản ghi dữ liệu số ISBNdb %(id)s"
 
 #: allthethings/page/templates/page/aarecord.html:26
 msgid "page.md5.header.meta_openlib"
-msgstr ""
+msgstr "Mở bản ghi dữ liệu số của Thư viện %(id)s"
 
 #: allthethings/page/templates/page/aarecord.html:30
 msgid "page.md5.header.meta_desc"
@@ -1254,19 +1269,19 @@ msgstr "Chi tiết kỹ thuật"
 
 #: allthethings/page/templates/page/aarecord.html:166
 msgid "page.md5.box.issues.text1"
-msgstr ""
+msgstr "<span class=\"font-bold\">❌ Tệp này có thể có vấn đề và đã bị ẩn khỏi thư viện nguồn.</span> Đôi khi điều này là do yêu cầu của chủ bản quyền, đôi khi là do có sẵn giải pháp thay thế tốt hơn, nhưng đôi khi đó là do vấn đề với chính tập tin đó. Tải xuống vẫn có thể ổn nhưng chúng tôi khuyên bạn trước tiên nên tìm kiếm tệp thay thế. Thêm chi tiết:"
 
 #: allthethings/page/templates/page/aarecord.html:171
 msgid "page.md5.box.download.better_file"
-msgstr ""
+msgstr "Phiên bản tốt hơn của tệp này có thể tìm thấy tại %(link)s"
 
 #: allthethings/page/templates/page/aarecord.html:176
 msgid "page.md5.box.issues.text2"
-msgstr ""
+msgstr "Nếu bạn vẫn muốn tải xuống tệp này, hãy nhớ chỉ sử dụng phần mềm đã cập nhật, đáng tin cậy để mở tệp."
 
 #: allthethings/page/templates/page/aarecord.html:181
 msgid "page.md5.box.download.header_fast_no_member"
-msgstr ""
+msgstr "<strong>🚀 Tải xuống nhanh</strong> Trở thành <a %(a_membership)s>thành viên</a> để hỗ trợ việc bảo quản lâu dài sách, giấy tờ, v.v. Để thể hiện lòng biết ơn của chúng tôi đối với sự hỗ trợ của bạn, bạn sẽ có được bản tải xuống nhanh chóng. ❤️"
 
 #: allthethings/page/templates/page/aarecord.html:182
 msgid "page.md5.box.download.header_fast_member"
@@ -1287,15 +1302,15 @@ msgstr "Tùy chọn #%(num)d: %(link)s %(extra)s"
 
 #: allthethings/page/templates/page/aarecord.html:197
 msgid "page.md5.box.download.header_slow"
-msgstr ""
+msgstr "🐢 Tải xuống chậm từ bên ngoài"
 
 #: allthethings/page/templates/page/aarecord.html:199
 msgid "page.md5.box.download.header_generic"
-msgstr "Tải xuống"
+msgstr "Lượt tải xuống"
 
 #: allthethings/page/templates/page/aarecord.html:216
 msgid "page.md5.box.download.no_issues_notice"
-msgstr ""
+msgstr "Tất cả các tùy chọn tải xuống đều có cùng một tệp và thường sẽ an toàn khi sử dụng. Tuy vật, hãy luôn thận trọng khi tải xuống tệp từ Internet, đặc biệt là từ các trang bên ngoài Anna's Archive. Ví dụ: hãy đảm bảo cập nhật thiết bị của bạn."
 
 #: allthethings/page/templates/page/aarecord.html:242
 msgid "page.md5.box.download.no_found"
@@ -1462,12 +1477,12 @@ msgstr "Đăng nhập / Đăng ký"
 #: allthethings/page/templates/page/browser_verification.html:9
 #: allthethings/page/templates/page/login.html:9
 msgid "page.login.text1"
-msgstr ""
+msgstr "Để ngăn chặn các chương trình spam tạo nhiều tài khoản, trước tiên chúng tôi cần xác minh trình duyệt của bạn."
 
 #: allthethings/page/templates/page/browser_verification.html:13
 #: allthethings/page/templates/page/login.html:14
 msgid "page.login.text2"
-msgstr ""
+msgstr "Nếu bạn bị vướng vào vòng lặp vô tận, chúng tôi khuyên bạn nên cài đặt <a href=\"https://privacypass.github.io/\">Privacy Pass</a>."
 
 #: allthethings/page/templates/page/doi.html:3
 msgid "page.doi.title"
@@ -2117,4 +2132,3 @@ msgstr "đã chép!"
 
 #~ msgid "layout.index.footer.list2.translate"
 #~ msgstr "Phiên dịch"
-
