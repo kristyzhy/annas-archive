@@ -693,9 +693,11 @@ def get_ia_record_dicts(session, key, values):
         if key.lower() in ['md5']:
             # TODO: we should also consider matching on libgen_md5, but we used to do that before and it had bad SQL performance,
             # when combined in a single query, so we'd have to split it up.
-            ia_entries = session.execute(
-                base_query.where(AaIa202306Files.md5.in_(values) | Ia2AcsmpdfFiles.md5.in_(values))
-            ).unique().all()
+            ia_entries = list(session.execute(
+                base_query.where(AaIa202306Files.md5.in_(values))
+            ).unique().all()) + list(session.execute(
+                base_query.where(Ia2AcsmpdfFiles.md5.in_(values))
+            ).unique().all())
         else:
             ia_entries = session.execute(
                 base_query.where(getattr(AaIa202306Metadata, key).in_(values))
