@@ -319,6 +319,9 @@ def get_stats_data():
         # OpenLibrary author keys seem randomly distributed, so some random prefix is good enough.
         openlib_time = connection.execute(select(OlBase.last_modified).where(OlBase.ol_key.like("/authors/OL111%")).order_by(OlBase.last_modified.desc()).limit(1)).scalars().first()
         openlib_date = str(openlib_time.date()) if openlib_time is not None else ''
+        ia_aacid = connection.execute(select(Ia2AcsmpdfFiles.aacid).order_by(Ia2AcsmpdfFiles.aacid.desc()).limit(1)).scalars().first()
+        ia_date_raw = ia_aacid.split('__')[2][0:8]
+        ia_date = f"{ia_date_raw[0:4]}-{ia_date_raw[4:6]}-{ia_date_raw[6:8]}"
 
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
@@ -420,7 +423,7 @@ def get_stats_data():
         'libgenli_date': libgenli_date,
         'openlib_date': openlib_date,
         'zlib_date': zlib_date,
-        'ia_date': '2023-06-28',
+        'ia_date': ia_date,
         'isbndb_date': '2022-09-01',
         'isbn_country_date': '2022-02-11',
     }
