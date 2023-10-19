@@ -15,7 +15,7 @@
       </div>
 
       <div class="mb-4">
-        <div class="text-sm">{{ gettext('page.scidb.doi', doi=doi_input) }} <a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href="/search?q={{ doi_input | urlencode }}">🔍</a></div>
+        <div class="text-sm">{{ gettext('page.scidb.doi', doi=doi_input) }} <a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href='/search?q="doi:{{ doi_input | urlencode }}"'>🔍</a></div>
       </div>
 
       <div class="mb-4 text-sm">

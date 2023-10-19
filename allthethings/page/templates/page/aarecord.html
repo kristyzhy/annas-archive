@@ -63,7 +63,7 @@
           <!-- TODO:TRANSLATE -->
           {% if code_item.info.website %}<div class="">Website: <a href="{{ code_item.info.website }}" rel="noopener noreferrer nofollow">{{ code_item.info.website }}</a></div>{% endif %}
           <!-- TODO:TRANSLATE -->
-          <div>AA: <a href="/search?q={{ code_item.key | urlencode }}:{{ code_item.value | urlencode }}">Search Anna’s Archive for “{{ code_item.key }}:{{ code_item.value }}”</a></div>
+          <div>AA: <a href='/search?q="{{ code_item.key | urlencode }}:{{ code_item.value | urlencode }}"'>Search Anna’s Archive for “{{ code_item.key }}:{{ code_item.value }}”</a></div>
         </div>
       {% endfor %}
     </div>

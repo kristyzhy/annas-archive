@@ -2791,7 +2791,7 @@ def scidb_page(doi_input):
         return redirect(f"/search?q={doi_input}", code=302)
 
     if allthethings.utils.doi_is_isbn(doi_input):
-        return redirect(f"/search?q=doi:{doi_input}", code=302)
+        return redirect(f'/search?q="doi:{doi_input}"', code=302)
 
     fast_scidb = False
     verified = False
