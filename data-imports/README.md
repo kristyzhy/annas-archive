@@ -40,6 +40,7 @@ docker exec -it aa-data-import--web /scripts/download_pilimi_isbndb.sh
 docker exec -it aa-data-import--web /scripts/download_pilimi_zlib.sh
 docker exec -it aa-data-import--web /scripts/download_aa_various.sh
 docker exec -it aa-data-import--web /scripts/download_aac.sh
+docker exec -it aa-data-import--web /scripts/download_worldcat.sh
 
 # Load the data.
 docker exec -it aa-data-import--web /scripts/load_libgenli.sh
@@ -49,6 +50,7 @@ docker exec -it aa-data-import--web /scripts/load_pilimi_isbndb.sh
 docker exec -it aa-data-import--web /scripts/load_pilimi_zlib.sh
 docker exec -it aa-data-import--web /scripts/load_aa_various.sh
 docker exec -it aa-data-import--web /scripts/load_aac.sh
+docker exec -it aa-data-import--web /scripts/load_worldcat.sh
 
 # If you ever want to see what is going on in MySQL as these scripts run:
 # docker exec -it aa-data-import--web mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SHOW PROCESSLIST;'

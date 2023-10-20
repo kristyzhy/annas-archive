@@ -4,7 +4,7 @@ set -Eeuxo pipefail
 # https://stackoverflow.com/a/3355423
 cd "$(dirname "$0")"
 
-# Run this script by running: docker exec -it aa-data-import--mariadb /scripts/download_libgenrs.sh
+# Run this script by running: docker exec -it aa-data-import--web /scripts/download_libgenrs.sh
 # Download scripts are idempotent but will RESTART the download from scratch!
 
 cd /temp-dir

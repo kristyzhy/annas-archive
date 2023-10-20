@@ -7,7 +7,7 @@ set -Eeuxo pipefail
 # You don't need unique proxies for all lines; you can also use a limited set and then throw in a `wait` after each set.
 # Note that the terminal output will look super garbled when running this! :-)
 
-# After renaming, run this script by running: docker exec -it aa-data-import--mariadb /data-imports/download_libgenli_proxies.sh
+# After renaming, run this script by running: docker exec -it aa-data-import--web /data-imports/download_libgenli_proxies.sh
 # Download scripts are idempotent but will RESTART the download from scratch!
 
 cd /temp-dir

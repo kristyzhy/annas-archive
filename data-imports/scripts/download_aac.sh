@@ -2,7 +2,7 @@
 
 set -Eeuxo pipefail
 
-# Run this script by running: docker exec -it aa-data-import--mariadb /scripts/download_aac.sh
+# Run this script by running: docker exec -it aa-data-import--web /scripts/download_aac.sh
 # Download scripts are idempotent but will RESTART the download from scratch!
 
 rm -rf /temp-dir/aac

@@ -4,7 +4,7 @@ set -Eeuxo pipefail
 
 # For a faster method, see `download_libgenli_proxies_template.sh`.
 
-# Run this script by running: docker exec -it aa-data-import--mariadb /scripts/download_libgenli.sh
+# Run this script by running: docker exec -it aa-data-import--web /scripts/download_libgenli.sh
 # Download scripts are idempotent but will RESTART the download from scratch!
 
 cd /temp-dir
