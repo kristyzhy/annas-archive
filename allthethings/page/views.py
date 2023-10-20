@@ -2304,6 +2304,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['publisher_best'][:1000],
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['id'][:1000],
+            # TODO: Add description maybe?
         ])))
         split_search_text = set(initial_search_text.split())
         normalized_search_terms = initial_search_text.replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' ')
