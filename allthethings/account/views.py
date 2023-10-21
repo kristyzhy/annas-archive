@@ -295,16 +295,16 @@ def donation_page(donation_id):
                 # Note that these are sorted by key.
                 "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
                 "name": "Anna’s Archive Membership",
-                "notify_url": "https://annas-archive.org/dyn/payment1_notify/",
+                "notify_url": "https://annas-archive.se/dyn/payment1_notify/",
                 "out_trade_no": str(donation.donation_id),
                 "pid": PAYMENT1_ID,
-                "return_url": "https://annas-archive.org/account/",
+                "return_url": "https://annas-archive.se/account/",
                 "sitename": "Anna’s Archive",
                 # "type": method,
             }
             sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
             sign = hashlib.md5((sign_str).encode()).hexdigest()
-            return redirect(f'https://merchant.pacypay.net/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
+            return redirect(f'https://pay.funlou.top/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
         if donation_json['method'] in ['payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc'] and donation.processing_status == 0:
             donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(days=5)
