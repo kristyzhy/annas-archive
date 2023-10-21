@@ -74,7 +74,9 @@ def nonpersistent_dbreset_internal():
     cursor = engine_multi.raw_connection().cursor()
 
     # Generated with `docker compose exec mariadb mysqldump -u allthethings -ppassword --opt --where="1 limit 100" --skip-comments --ignore-table=computed_all_md5s allthethings > mariadb_dump.sql`
-    cursor.execute(pathlib.Path(os.path.join(__location__, 'mariadb_dump.sql')).read_text())
+    mariadb_dump = pathlib.Path(os.path.join(__location__, 'mariadb_dump.sql')).read_text()
+    for sql in mariadb_dump.split('# DELIMITER'):
+        cursor.execute(sql)
     cursor.close()
 
     mysql_build_computed_all_md5s_internal()
