@@ -1641,7 +1641,7 @@ def get_scihub_doi_dicts(session, key, values):
         cursor.execute(f'SELECT doi FROM scihub_dois WHERE doi IN %(values)s', { "values": [str(value) for value in values] })
         scihub_dois = cursor.fetchall()
     except Exception as err:
-        print(f"Error in get_aac_zlib3_book_dicts when querying {key}; {values}")
+        print(f"Error in get_scihub_doi_dicts when querying {key}; {values}")
         print(repr(err))
         traceback.print_tb(err.__traceback__)
 
