@@ -8,4 +8,8 @@ set -Eeuxo pipefail
 
 cd /temp-dir/worldcat
 
-PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/worldcat/annas_archive_meta__aacid__worldcat* &
+unzstd --keep annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.zst
+t2sz annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl -l 2 -s 50M -T 32 -o annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst
+
+rm -f /aa-data-import--allthethings-worldcat-data/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst
+mv annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst /aa-data-import--allthethings-worldcat-data/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst

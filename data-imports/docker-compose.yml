@@ -89,6 +89,7 @@ services:
       - "../../aa-data-import--allthethings-mysql-data:/aa-data-import--allthethings-mysql-data"
       - "../../aa-data-import--allthethings-elastic-data:/aa-data-import--allthethings-elastic-data"
       - "../../aa-data-import--allthethings-elasticsearchaux-data:/aa-data-import--allthethings-elasticsearchaux-data"
+      - "../../aa-data-import--allthethings-worldcat-data:/worldcat"
       - "./mariadb-conf:/etc/mysql/conf.d"
       - "../public:/app/public"
     tty: true

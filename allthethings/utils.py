@@ -20,6 +20,8 @@ import bip_utils
 import shortuuid
 import pymysql
 import httpx
+import indexed_zstd
+import threading
 
 from flask_babel import gettext, get_babel, force_locale
 
@@ -1326,3 +1328,77 @@ MARC_DEPRECATED_COUNTRY_CODES = {
     "ys" : "Yemen (People's Democratic Republic)",
     "yu" : "Serbia and Montenegro",
 }
+
+
+worldcat_thread_local = threading.local()
+
+def get_worldcat_records(oclc_id):
+    oclc_id = int(oclc_id)
+
+    file = getattr(worldcat_thread_local, 'file', None)
+    if file is None:
+        file = worldcat_thread_local.file = indexed_zstd.IndexedZstdFile('/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
+
+    low = 0
+    high = file.size()
+    mid = 0
+    last_mid = -1
+
+    while low < high:
+        mid = (low+high) // 2
+        file.seek(mid)
+        line = file.readline()
+        if not line.startswith(b'{"aacid":"aacid__worldcat__'):
+            mid = file.tell()
+            line = file.readline()
+
+        if mid == last_mid:
+            mid = low
+            high = low
+            file.seek(mid)
+            line = file.readline()
+        last_mid = mid
+
+        # print(line[0:100])
+        # print("low", low)
+        # print("high", high)
+        # print("mid", mid)
+        current_id = int(line[len(b'{"aacid":"aacid__worldcat__'):100].split(b'__', 2)[1])
+        if current_id >= oclc_id:
+            high = mid
+        else:
+            low = mid
+
+    file.seek(mid)
+    lines = []
+    while True:
+        line = file.readline()
+        current_id = int(line[len(b'{"aacid":"aacid__worldcat__'):100].split(b'__', 2)[1])
+        if current_id < oclc_id:
+            pass
+        elif current_id == oclc_id:
+            lines.append(line)
+        else:
+            return [orjson.loads(line) for line in lines]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

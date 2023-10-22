@@ -26,6 +26,8 @@ services:
       - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:8000}:${PORT:-8000}"
     networks:
       - "mynetwork"
+    volumes:
+      - "./annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.small.seekable.zst:/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst"
 
   elasticsearch:
     # ports:

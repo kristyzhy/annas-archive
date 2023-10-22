@@ -1669,6 +1669,198 @@ def scihub_doi_json(doi):
             return "{}", 404
         return nice_json(scihub_doi_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
+
+def worldcat_get_authors(contributors):
+    has_primary = any(contributor['isPrimary'] for contributor in contributors)
+    authors = []
+    for contributor in contributors:
+        if has_primary and (not contributor['isPrimary']):
+            continue
+        if "aut" not in (contributor.get('relatorCodes') or ["aut"]):
+            continue
+        if 'nonPersonName' in contributor:
+            authors.append(contributor['nonPersonName']['text'])
+        else:
+            authors.append(f"{contributor['firstName']['text']} {contributor['secondName']['text']}")
+    return "; ".join(authors)
+
+# f"{author['firstNameObject']['data']} {author['lastNameObject']['data']}" for author in (aac_metadata['record'].get('authors') or []) if author['primary'] or "aut" in [relator['code'] for relator in (author.get('relatorList') or {'relators':[{'code':'aut'}]})['relators']]]))
+
+def get_worldcat_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+    if key != 'oclc':
+        raise Exception(f"Unexpected 'key' in get_worldcat_dicts: '{key}'")
+
+    worldcat_dicts = []
+    for oclc_id in values:
+        aac_records = allthethings.utils.get_worldcat_records(oclc_id)
+
+        worldcat_dict = {}
+        worldcat_dict["oclc_id"] = oclc_id
+        worldcat_dict["aa_worldcat_derived"] = {}
+        worldcat_dict["aa_worldcat_derived"]["title_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["author_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["publisher_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["edition_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["place_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["date_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["year_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["series_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["volume_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["description_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["isbn_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["issn_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["doi_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["general_format_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["content_type"] = "other"
+        worldcat_dict["aa_worldcat_derived"]["rft_multiple"] = []
+        worldcat_dict["aac_records"] = aac_records
+
+        for aac_record in aac_records:
+            aac_metadata = aac_record['metadata']
+            if aac_metadata['type'] in 'title_json':
+                worldcat_dict["aa_worldcat_derived"]["title_multiple"].append((aac_metadata['record'].get('title') or ''))
+                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append(worldcat_get_authors(aac_metadata['record'].get('contributors') or []))
+                worldcat_dict["aa_worldcat_derived"]["publisher_multiple"].append((aac_metadata['record'].get('publisher') or ''))
+                worldcat_dict["aa_worldcat_derived"]["edition_multiple"].append((aac_metadata['record'].get('edition') or ''))
+                worldcat_dict["aa_worldcat_derived"]["place_multiple"].append((aac_metadata['record'].get('publicationPlace') or ''))
+                worldcat_dict["aa_worldcat_derived"]["date_multiple"].append((aac_metadata['record'].get('publicationDate') or ''))
+                worldcat_dict["aa_worldcat_derived"]["series_multiple"].append((aac_metadata['record'].get('series') or ''))
+                worldcat_dict["aa_worldcat_derived"]["volume_multiple"] += (aac_metadata['record'].get('seriesVolumes') or [])
+                worldcat_dict["aa_worldcat_derived"]["description_multiple"].append((aac_metadata['record'].get('summary') or ''))
+                worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"].append((aac_metadata['record'].get('catalogingLanguage') or ''))
+                worldcat_dict["aa_worldcat_derived"]["isbn_multiple"].append((aac_metadata['record'].get('isbn13') or ''))
+                worldcat_dict["aa_worldcat_derived"]["isbn_multiple"] += (aac_metadata['record'].get('isbns') or [])
+                worldcat_dict["aa_worldcat_derived"]["issn_multiple"].append((aac_metadata['record'].get('sourceIssn') or ''))
+                worldcat_dict["aa_worldcat_derived"]["issn_multiple"] += (aac_metadata['record'].get('issns') or [])
+                worldcat_dict["aa_worldcat_derived"]["doi_multiple"].append((aac_metadata['record'].get('doi') or ''))
+                worldcat_dict["aa_worldcat_derived"]["general_format_multiple"].append((aac_metadata['record'].get('generalFormat') or ''))
+                worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"].append((aac_metadata['record'].get('specificFormat') or ''))
+            elif aac_metadata['type'] == 'briefrecords_json':
+                worldcat_dict["aa_worldcat_derived"]["title_multiple"].append((aac_metadata['record'].get('title') or ''))
+                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append(worldcat_get_authors(aac_metadata['record'].get('contributors') or []))
+                worldcat_dict["aa_worldcat_derived"]["publisher_multiple"].append((aac_metadata['record'].get('publisher') or ''))
+                worldcat_dict["aa_worldcat_derived"]["edition_multiple"].append((aac_metadata['record'].get('edition') or ''))
+                worldcat_dict["aa_worldcat_derived"]["place_multiple"].append((aac_metadata['record'].get('publicationPlace') or ''))
+                worldcat_dict["aa_worldcat_derived"]["date_multiple"].append((aac_metadata['record'].get('publicationDate') or ''))
+                worldcat_dict["aa_worldcat_derived"]["description_multiple"].append((aac_metadata['record'].get('summary') or ''))
+                worldcat_dict["aa_worldcat_derived"]["description_multiple"] += (aac_metadata['record'].get('summaries') or [])
+                worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"].append((aac_metadata['record'].get('catalogingLanguage') or ''))
+                worldcat_dict["aa_worldcat_derived"]["isbn_multiple"].append((aac_metadata['record'].get('isbn13') or ''))
+                worldcat_dict["aa_worldcat_derived"]["isbn_multiple"] += (aac_metadata['record'].get('isbns') or [])
+                worldcat_dict["aa_worldcat_derived"]["general_format_multiple"].append((aac_metadata['record'].get('generalFormat') or ''))
+                worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"].append((aac_metadata['record'].get('specificFormat') or ''))
+                # TODO: unverified:
+                worldcat_dict["aa_worldcat_derived"]["issn_multiple"].append((aac_metadata['record'].get('sourceIssn') or ''))
+                worldcat_dict["aa_worldcat_derived"]["issn_multiple"] += (aac_metadata['record'].get('issns') or [])
+                worldcat_dict["aa_worldcat_derived"]["doi_multiple"].append((aac_metadata['record'].get('doi') or ''))
+                # TODO: series/volume?
+            elif aac_metadata['type'] == 'providersearchrequest_json':
+                rft = urllib.parse.parse_qs((aac_metadata['record'].get('openUrlContextObject') or ''))
+                worldcat_dict["aa_worldcat_derived"]["rft_multiple"].append(rft)
+
+                worldcat_dict["aa_worldcat_derived"]["title_multiple"].append((aac_metadata['record'].get('titleObject') or '')['data'])
+                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append("; ".join([f"{author['firstNameObject']['data']} {author['lastNameObject']['data']}" for author in (aac_metadata['record'].get('authors') or []) if author['primary'] or "aut" in [relator['code'] for relator in (author.get('relatorList') or {'relators':[{'code':'aut'}]})['relators']]]))
+                worldcat_dict["aa_worldcat_derived"]["publisher_multiple"] += (rft.get('rft.pub') or [])
+                worldcat_dict["aa_worldcat_derived"]["edition_multiple"].append((aac_metadata['record'].get('edition') or ''))
+                worldcat_dict["aa_worldcat_derived"]["place_multiple"] += (rft.get('rft.place') or [])
+                worldcat_dict["aa_worldcat_derived"]["date_multiple"] += (rft.get('rft.date') or [])
+                worldcat_dict["aa_worldcat_derived"]["date_multiple"].append((aac_metadata['record'].get('date') or ''))
+                worldcat_dict["aa_worldcat_derived"]["description_multiple"] += [summary['data'] for summary in (aac_metadata['record'].get('summariesObjectList') or [])]
+                worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"].append((aac_metadata['record'].get('language') or ''))
+                worldcat_dict["aa_worldcat_derived"]["general_format_multiple"] += [orjson.loads(dat)['stdrt1'] for dat in (rft.get('rft_dat') or [])]
+                worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"] += [orjson.loads(dat)['stdrt2'] for dat in (rft.get('rft_dat') or [])]
+
+                # TODO: series/volume?
+                # lcNumber, masterCallNumber
+            elif aac_metadata['type'] == 'legacysearch_html':
+                rft = urllib.parse.parse_qs(re.search('url_ver=Z39.88-2004[^"]+', aac_metadata['html']).group())
+                worldcat_dict["aa_worldcat_derived"]["rft_multiple"].append(rft)
+
+                worldcat_dict["aa_worldcat_derived"]["title_multiple"] += (rft.get('rft.title') or [])
+                legacy_author_match = re.search('<div class="author">([^<]+)</div>', aac_metadata['html'])
+                if legacy_author_match:
+                    legacy_authors = legacy_author_match.group(1)
+                    if legacy_authors.startswith('by '):
+                        legacy_authors = legacy_authors[len('by '):]
+                    worldcat_dict["aa_worldcat_derived"]["author_multiple"].append(legacy_authors)
+                worldcat_dict["aa_worldcat_derived"]["publisher_multiple"] += (rft.get('rft.pub') or [])
+                worldcat_dict["aa_worldcat_derived"]["edition_multiple"] += (rft.get('rft.edition') or [])
+                worldcat_dict["aa_worldcat_derived"]["place_multiple"] += (rft.get('rft.place') or [])
+                worldcat_dict["aa_worldcat_derived"]["date_multiple"] += (rft.get('rft.date') or [])
+                legacy_language_match = re.search('<span class="itemLanguage">([^<]+)</span>', aac_metadata['html'])
+                if legacy_language_match:
+                    legacy_language = legacy_language_match.group(1)
+                    worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"].append(legacy_language)
+                worldcat_dict["aa_worldcat_derived"]["general_format_multiple"] += [orjson.loads(dat)['stdrt1'] for dat in (rft.get('rft_dat') or [])]
+                worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"] += [orjson.loads(dat)['stdrt2'] for dat in (rft.get('rft_dat') or [])]
+                # TODO: series/volume?
+            else:
+                raise Exception(f"Unexpected aac_metadata.type: {aac_metadata['type']}")
+
+        worldcat_dict["aa_worldcat_derived"]["title_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["title_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["author_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["author_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["publisher_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["publisher_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["edition_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["edition_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["place_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["place_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["date_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["date_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["series_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["series_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["volume_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["volume_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["description_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["description_multiple"])))
+        worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"])))
+        worldcat_dict["aa_worldcat_derived"]["isbn_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["isbn_multiple"])))
+        worldcat_dict["aa_worldcat_derived"]["issn_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["issn_multiple"])))
+        worldcat_dict["aa_worldcat_derived"]["doi_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["doi_multiple"])))
+        worldcat_dict["aa_worldcat_derived"]["general_format_multiple"] = list(dict.fromkeys(filter(len, [s.lower() for s in worldcat_dict["aa_worldcat_derived"]["general_format_multiple"]])))
+        worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"] = list(dict.fromkeys(filter(len, [s.lower() for s in worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"]])))
+
+        for s in worldcat_dict["aa_worldcat_derived"]["date_multiple"]:
+            potential_year = re.search(r"(\d\d\d\d)", s)
+            if potential_year is not None:
+                worldcat_dict["aa_worldcat_derived"]["year_multiple"].append(potential_year[0])
+
+        if "thsis" in worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"]:
+            worldcat_dict["aa_worldcat_derived"]["content_type"] = 'journal_article'
+        elif "mss" in worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"]:
+            worldcat_dict["aa_worldcat_derived"]["content_type"] = 'journal_article'
+        elif "book" in worldcat_dict["aa_worldcat_derived"]["general_format_multiple"]:
+            worldcat_dict["aa_worldcat_derived"]["content_type"] = 'book_unknown'
+        elif "artchap" in worldcat_dict["aa_worldcat_derived"]["general_format_multiple"]:
+            worldcat_dict["aa_worldcat_derived"]["content_type"] = 'journal_article'
+        elif "artcl" in worldcat_dict["aa_worldcat_derived"]["general_format_multiple"]:
+            worldcat_dict["aa_worldcat_derived"]["content_type"] = 'journal_article'
+        elif "news" in worldcat_dict["aa_worldcat_derived"]["general_format_multiple"]:
+            worldcat_dict["aa_worldcat_derived"]["content_type"] = 'magazine'
+        elif "jrnl" in worldcat_dict["aa_worldcat_derived"]["general_format_multiple"]:
+            worldcat_dict["aa_worldcat_derived"]["content_type"] = 'magazine'
+        elif "msscr" in worldcat_dict["aa_worldcat_derived"]["general_format_multiple"]:
+            worldcat_dict["aa_worldcat_derived"]["content_type"] = 'musical_score'
+
+        # TODO:
+        # * cover_url
+        # * comments
+        # * other/related OCLC numbers
+        # * Genre for fiction detection
+        # * Full audit of all fields
+        # * dict comments
+
+        worldcat_dicts.append(worldcat_dict)
+
+
+    return worldcat_dicts
+
+@page.get("/db/worldcat/<path:oclc>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def worldcat_oclc_json(oclc):
+    with Session(engine) as session:
+        worldcat_dicts = get_worldcat_dicts(session, 'oclc', [oclc])
+        if len(worldcat_dicts) == 0:
+            return "{}", 404
+        return nice_json(worldcat_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+
 def is_string_subsequence(needle, haystack):
     i_needle = 0
     i_haystack = 0
@@ -2372,6 +2564,8 @@ def get_md5_content_type_mapping(display_lang):
             "standards_document": gettext("common.md5_content_type_mapping.standards_document"),
             "magazine":           gettext("common.md5_content_type_mapping.magazine"),
             "book_comic":         gettext("common.md5_content_type_mapping.book_comic"),
+            "musical_score":      "Musical score",
+            "other":              "Other",
         }
 
 def get_access_types_mapping(display_lang):
