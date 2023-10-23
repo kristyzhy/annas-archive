@@ -453,12 +453,10 @@ Thank you!
             <a class="custom-a hover:text-[#333]" href="/search">{{ gettext('layout.index.header.nav.search') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/about">{{ gettext('layout.index.header.nav.about') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/mobile">{{ gettext('layout.index.header.nav.mobile') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/security">{{ gettext('layout.index.header.nav.security') }}</a><br>
-            <select class="p-1 rounded text-gray-500 mt-1" onchange="handleChangeLang(event)">
+            <select class="p-1 rounded text-gray-500 mt-1 max-w-[110px]" onchange="handleChangeLang(event)">
               {% for lang_code, lang_name in g.languages %}
                 {% if g.domain_lang_code == lang_code %}
                   <option value="{{ lang_code }}">🌐 {{ lang_name }} [{{ lang_code }}]</option>
@@ -469,6 +467,7 @@ Thank you!
               {% endfor %}
             </select>
           </div>
+
           <div class="mr-4 mb-4" style="flex-grow: 1">
             <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
             <a class="custom-a hover:text-[#333]" href="https://twitter.com/AnnaArchivist">{{ gettext('layout.index.footer.list2.twitter') }}</a> / <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://t.me/annasarchiveorg">{{ gettext('layout.index.footer.list2.telegram') }}</a><!-- {% if not g.show_wechat_in_layout %} / <a class="custom-a hover:text-[#333]" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a>{% endif %}--><br>
@@ -480,7 +479,15 @@ Thank you!
             <a class="custom-a hover:text-[#333]" href="mailto:AnnaDMCA@proton.me">AnnaDMCA@proton.me</a><br>
           </div>
 
-          <div style="flex-grow: 2">
+          <div class="mr-4 mb-4" style="flex-grow: 1">
+            <strong class="font-bold text-[#000]">Advanced</strong><br>
+            <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/security">{{ gettext('layout.index.header.nav.security') }}</a><br>
+          </div>
+
+          <div style="flex-grow: 1">
             <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list3.header') }}</strong><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-org" href="https://annas-archive.org">annas-archive.org</a></a><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-gs" href="https://annas-archive.gs">annas-archive.gs</a><br>
