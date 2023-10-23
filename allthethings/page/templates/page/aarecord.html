@@ -188,7 +188,7 @@
 
         <ul class="mb-4">
           {% for label, url, extra in aarecord.additional.fast_partner_urls %}
-            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
           {% endfor %}
         </ul>
       </div>
@@ -206,7 +206,7 @@
       {% if (aarecord.additional.download_urls | length) > 0 %}
         <ul class="mb-4">
           {% for label, url, extra in aarecord.additional.download_urls %}
-            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(('<a href="' + url + '" rel="noopener noreferrer nofollow" {% if not url.startswith("/") }target="_blank"{% endif %} class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" {% if not url.startswith("/") }target="_blank"{% endif %} class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
           {% endfor %}
           {% if aarecord_id_split[0] in ['md5','doi'] %}
             <!-- TODO:TRANSLATE -->

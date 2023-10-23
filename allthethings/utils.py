@@ -1341,11 +1341,8 @@ worldcat_line_cache = {}
 def set_worldcat_line_cache(parsed_lines):
     global worldcat_line_cache
     worldcat_line_cache.clear()
-    first_id = parsed_lines[0][0]
-    last_id = parsed_lines[-1][0]
     for oclc_id, lines in parsed_lines:
-        if oclc_id != first_id and oclc_id != last_id:
-            worldcat_line_cache[oclc_id] = lines
+        worldcat_line_cache[oclc_id] = lines
 
 def get_worldcat_records(oclc_id):
     global worldcat_line_cache

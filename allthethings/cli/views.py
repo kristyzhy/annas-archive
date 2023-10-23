@@ -263,6 +263,9 @@ def elastic_build_aarecords_job(aarecord_ids):
             operations_by_es_handle = collections.defaultdict(list)
             dois = []
             session.connection().connection.ping(reconnect=True)
+            cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+            cursor.execute(f'SELECT 1;')
+            cursor.close()
             aarecords = get_aarecords_mysql(session, aarecord_ids)
             for aarecord in aarecords:
                 for index in aarecord['indexes']:
@@ -276,6 +279,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
                 count = cursor.execute(f'DELETE FROM scihub_dois_without_matches WHERE doi IN %(dois)s', { "dois": dois })
                 cursor.execute('COMMIT')
+                cursor.close()
                 # print(f'Deleted {count} DOIs')
                 
             try:
@@ -297,12 +301,17 @@ def elastic_build_aarecords_job(aarecord_ids):
                     for es_handle, operations in operations_by_es_handle.items():
                         elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
             # print(f"Processed {len(aarecords)} md5s")
+
+            session.connection().connection.ping(reconnect=True)
+            cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+            cursor.execute(f'SELECT 1;')
+            cursor.close()
     except Exception as err:
         print(repr(err))
         traceback.print_tb(err.__traceback__)
         raise err
 
-def elastic_build_aarecords_job_worldcat(fields):
+def elastic_build_aarecords_job_oclc(fields):
     fields = list(fields)
     allthethings.utils.set_worldcat_line_cache(fields)
     elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
@@ -332,7 +341,7 @@ def elastic_build_aarecords_all_internal():
     elastic_build_aarecords_ia_internal()
     elastic_build_aarecords_isbndb_internal()
     elastic_build_aarecords_ol_internal()
-    elastic_build_aarecords_worldcat_internal()
+    elastic_build_aarecords_oclc_internal()
     elastic_build_aarecords_main_internal()
 
 
@@ -436,40 +445,57 @@ def elastic_build_aarecords_ol_internal():
         print(f"Done with OpenLib!")
 
 #################################################################################################
-# ./run flask cli elastic_build_aarecords_worldcat
-@cli.cli.command('elastic_build_aarecords_worldcat')
-def elastic_build_aarecords_worldcat():
-    elastic_build_aarecords_worldcat_internal()
+# ./run flask cli elastic_build_aarecords_oclc
+@cli.cli.command('elastic_build_aarecords_oclc')
+def elastic_build_aarecords_oclc():
+    elastic_build_aarecords_oclc_internal()
 
-def elastic_build_aarecords_worldcat_internal():
+def elastic_build_aarecords_oclc_internal():
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
 
+    MAX_WORLDCAT = 999999999999999
+    if SLOW_DATA_IMPORTS:
+        MAX_WORLDCAT = 1000
+
     with multiprocessing.Pool(THREADS) as executor:
-        print("Processing from worldcat")
-        worldcat_file = indexed_zstd.IndexedZstdFile('/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
-        with tqdm.tqdm(total=35885, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+        print("Processing from oclc")
+        oclc_file = indexed_zstd.IndexedZstdFile('/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
+        with tqdm.tqdm(total=min(MAX_WORLDCAT, 750000000), bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
             last_map = []
+            total = 0
+            last_seen_id = -1
+            extra_line = None
             while True:
                 batch = collections.defaultdict(list)
                 while True:
-                    line = worldcat_file.readline()
+                    if extra_line is not None:
+                        line = extra_line
+                        extra_line = None
+                    else:
+                        line = oclc_file.readline()
                     if len(line) == 0:
                         break
                     if (b'not_found_title_json' in line) or (b'redirect_title_json' in line):
                         continue
                     oclc_id = int(line[len(b'{"aacid":"aacid__worldcat__20231001T025039Z__'):].split(b'__', 1)[0])
+                    if oclc_id != last_seen_id: # Don't break when we're still processing the same id
+                        if len(batch) >= BATCH_SIZE:
+                            extra_line = line
+                            break
                     batch[oclc_id].append(line)
-                    if len(batch) >= BATCH_SIZE:
-                        break
+                    last_seen_id = oclc_id
                 batch = list(batch.items())
 
                 list(last_map)
                 if len(batch) == 0:
                     break
-                print(f"Processing {len(batch)} aarecords from worldcat file ( starting oclc_id: {batch[0][0]} )...")
-                last_map = executor.map(elastic_build_aarecords_job_worldcat, more_itertools.ichunked(batch, CHUNK_SIZE))
+                print(f"Processing {len(batch)} aarecords from oclc (worldcat) file ( starting oclc_id: {batch[0][0]} )...")
+                last_map = executor.map(elastic_build_aarecords_job_oclc, more_itertools.ichunked(batch, CHUNK_SIZE))
                 pbar.update(len(batch))
+                total += len(batch)
+                if total >= MAX_WORLDCAT:
+                    break
     print(f"Done with Worldcat!")
 
 #################################################################################################
