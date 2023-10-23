@@ -26,7 +26,7 @@
         {{ gettext('page.md5.header.meta_openlib', id=aarecord_id_split[1]) }}
       {% elif aarecord_id_split[0] == 'oclc' %}
         <!-- TODO:TRANSLATE -->
-        OCLC (Worldcat) number {{ aarecord_id_split[1] }} metadata record
+        OCLC (WorldCat) number {{ aarecord_id_split[1] }} metadata record
       {% endif %}
     </div>
     <p class="mb-4">
@@ -35,7 +35,10 @@
   {% endif %}
 
   <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
-    <img class="float-right max-w-[25%] ml-4" src="{{aarecord.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
+    <div class="float-right w-[25%] ml-4 aspect-[0.64] relative">
+      <img class="w-[100%] max-h-[100%] absolute" src="{{aarecord.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
+      <div class="w-[100%] aspect-[0.85] mt-[7%] bg-gray-300"></div>
+    </div>
     <div class="text-sm text-gray-500">{{aarecord.additional.top_box.top_row}}</div>
     <div class="text-3xl font-bold">{{aarecord.additional.top_box.title}} {% if aarecord.additional.top_box.title %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.title | urlencode }}">🔍</a>{% endif %}</div>
     <div class="text-md">{{aarecord.additional.top_box.publisher_and_edition}}</div>

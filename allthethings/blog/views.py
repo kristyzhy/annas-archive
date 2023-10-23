@@ -137,9 +137,9 @@ def rss_xml():
             pubDate = datetime.datetime(2023,8,15),
         ),
         Item(
-            title = "1.3B Worldcat scrape & data science mini-competition",
+            title = "1.3B WorldCat scrape & data science mini-competition",
             link = "https://annas-blog.org/worldcat-scrape.html",
-            description = "Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.",
+            description = "Anna’s Archive scraped all of WorldCat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.",
             author = "Anna and the team",
             pubDate = datetime.datetime(2023,10,3),
         ),

@@ -496,7 +496,7 @@ def elastic_build_aarecords_oclc_internal():
                 total += len(batch)
                 if total >= MAX_WORLDCAT:
                     break
-    print(f"Done with Worldcat!")
+    print(f"Done with WorldCat!")
 
 #################################################################################################
 # ./run flask cli elastic_build_aarecords_main

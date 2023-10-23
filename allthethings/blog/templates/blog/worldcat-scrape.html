@@ -1,16 +1,16 @@
 {% extends "layouts/blog.html" %}
 
-{% block title %}1.3B Worldcat scrape & data science mini-competition{% endblock %}
+{% block title %}1.3B WorldCat scrape & data science mini-competition{% endblock %}
 
 {% block meta_tags %}
-<meta name="description" content="Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition." />
+<meta name="description" content="Anna’s Archive scraped all of WorldCat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition." />
 <meta name="twitter:card" value="summary">
 <meta name="twitter:creator" content="@AnnaArchivist"/>
-<meta property="og:title" content="1.3B Worldcat scrape & data science mini-competition" />
+<meta property="og:title" content="1.3B WorldCat scrape & data science mini-competition" />
 <meta property="og:image" content="https://annas-blog.org/worldcat_redesign.png" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://annas-blog.org/annas-archive-containers.html" />
-<meta property="og:description" content="Anna’s Archive scraped all of Worldcat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition." />
+<meta property="og:description" content="Anna’s Archive scraped all of WorldCat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition." />
 <style>
   code { word-break: break-all; font-size: 89%; letter-spacing: -0.3px; }
 
@@ -34,13 +34,13 @@
 {% endblock %}
 
 {% block body %}
-  <h1 style="margin-bottom: 0">1.3B Worldcat scrape & data science mini-competition</h1>
+  <h1 style="margin-bottom: 0">1.3B WorldCat scrape & data science mini-competition</h1>
   <p style="margin-top: 0; font-style: italic">
     annas-blog.org, 2023-10-03
   </p>
 
   <p style="background: #f4f4f4; padding: 1em; margin: 1.5em 0; border-radius: 4px">
-    <em><strong>TL;DR:</strong> Anna’s Archive scraped all of Worldcat (the world’s largest library metadata collection) to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.</em>
+    <em><strong>TL;DR:</strong> Anna’s Archive scraped all of WorldCat (the world’s largest library metadata collection) to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.</em>
   </p>
 
   <p>
@@ -65,10 +65,10 @@
     We were very surprised by how little overlap there was between ISBNdb and Open Library, both of which liberally include data from various sources, such as web scrapes and library records. If they both do a good job at finding most ISBNs in out there, their circles surely would have substantial overlap, or one would be a subset of the other. It made us wonder, how many books fall <em>completely outside of these circles</em>? We need a bigger database.
   </p>
 
-  <h2>Worldcat</h2>
+  <h2>WorldCat</h2>
 
   <p>
-    That is when we set our sights on the largest book database in the world: <a href="https://en.wikipedia.org/wiki/WorldCat">Worldcat</a>. This is a proprietary database by the non-profit <a href="https://en.wikipedia.org/wiki/OCLC">OCLC</a>, which aggregates metadata records from libraries all over the world, in exchange for giving those libraries access to the full dataset, and having them show up in end-users’ search results.
+    That is when we set our sights on the largest book database in the world: <a href="https://en.wikipedia.org/wiki/WorldCat">WorldCat</a>. This is a proprietary database by the non-profit <a href="https://en.wikipedia.org/wiki/OCLC">OCLC</a>, which aggregates metadata records from libraries all over the world, in exchange for giving those libraries access to the full dataset, and having them show up in end-users’ search results.
   </p>
 
   <p>
@@ -76,11 +76,11 @@
   </p>
 
   <p>
-    Over the past year, we’ve meticulously scraped all Worldcat records. At first, we hit a lucky break. Worldcat was just rolling out their complete website redesign (in Aug 2022). This included a substantial overhaul of their backend systems, introducing many security flaws. We immediately seized the opportunity, and were able scrape hundreds of millions (!) of records in mere days.
+    Over the past year, we’ve meticulously scraped all WorldCat records. At first, we hit a lucky break. WorldCat was just rolling out their complete website redesign (in Aug 2022). This included a substantial overhaul of their backend systems, introducing many security flaws. We immediately seized the opportunity, and were able scrape hundreds of millions (!) of records in mere days.
   </p>
 
   <img src="worldcat_redesign.png" style="max-width: 100%;">
-  <div style="font-size: 90%"><em>Worldcat redesign</em></div>
+  <div style="font-size: 90%"><em>WorldCat redesign</em></div>
 
   <p>
     After that, security flaws were slowly fixed one by one, until the final one we found was patched about a month ago. By that time we had pretty much all records, and were only going for slightly higher quality records. So we felt it is time to release!
@@ -95,9 +95,9 @@
     <li><strong>Where?</strong> On the torrents page of <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a>. We can’t link to it directly from here. Filename: <code>annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.zst.torrent</code>.</li>
     <li><strong>Size?</strong> 220GB compressed, 2.2TB uncompressed. 1.3 billion unique IDs (1,348,336,870), covered by 1.8 billion records (1,888,381,236), so 540 million duplicates (29%). 600 million are redirects or 404s, so <strong>700 million unique actual records</strong>.</li>
     <li><strong>Is that a lot?</strong> Yes. For comparison, Open Library has 47 million records, and ISBNdb has 34 million. Anna’s Archive has 125 million files, but with many duplicates, and most are papers from Sci-Hub (98 million).</li>
-    <li><strong>What?</strong> Worldcat library records, merged from ~30,000 OCLC member libraries. Mostly books, but also magazines, journals, dissertations, physical artifacts, and so on. We only captured the records themselves, not holding information (e.g. which library has which items).</li>
+    <li><strong>What?</strong> WorldCat library records, merged from ~30,000 OCLC member libraries. Mostly books, but also magazines, journals, dissertations, physical artifacts, and so on. We only captured the records themselves, not holding information (e.g. which library has which items).</li>
     <li><strong>Scraping quality?</strong> This varies between our different collection methods. The vast majority of records are “Title JSON”, which contains a good amount of information. There are some records we only managed to scrape through bulk HTML searches, containing only basic information like title, author, and ISBN.</li>
-    <li><strong>Primary key?</strong> The IDs of Worldcat records are known as “OCLC IDs”, and appear to be incrementing numbers, ranging from 1 to (when we started our scrape) about 1,350,000,000, which is the range we scraped for. However, due to how some of our scraping methods work, we also found other ranges, that seem different from the main set starting at 1.</li>
+    <li><strong>Primary key?</strong> The IDs of WorldCat records are known as “OCLC IDs”, and appear to be incrementing numbers, ranging from 1 to (when we started our scrape) about 1,350,000,000, which is the range we scraped for. However, due to how some of our scraping methods work, we also found other ranges, that seem different from the main set starting at 1.</li>
     <li><strong>Examples?</strong> Canoncial URLs of these records are of the form <code>worldcat.org/oclc/:id</code>, which currently redirects to <code>worldcat.org/title/:id</code>. For example, <a href="https://worldcat.org/oclc/528432361">https://worldcat.org/oclc/528432361</a>.</li>
   </ul>
 
@@ -1328,6 +1328,6 @@
   </p>
 
   <p>
-    PS: We do want to give a genuine shout-out to the Worldcat team. Even though it was a small tragedy that your data was locked up, you did an amazing job at getting 30,000 libraries on board to share their metadata with you. As with many of our releases, we could not have done it without the decades of hard work you put into building the collections that we now liberate. Truly: thank you.
+    PS: We do want to give a genuine shout-out to the WorldCat team. Even though it was a small tragedy that your data was locked up, you did an amazing job at getting 30,000 libraries on board to share their metadata with you. As with many of our releases, we could not have done it without the decades of hard work you put into building the collections that we now liberate. Truly: thank you.
   </p>
 {% endblock %}
