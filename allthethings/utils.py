@@ -45,12 +45,15 @@ def validate_canonical_md5s(canonical_md5s):
 def validate_ol_editions(ol_editions):
     return all([bool(re.match(r"^OL[\d]+M$", ol_edition)) for ol_edition in ol_editions])
 
+def validate_oclc_ids(oclc_ids):
+    return all([str(oclc_id).isdigit() for oclc_id in oclc_ids])
+
 def validate_aarecord_ids(aarecord_ids):
     try:
         split_ids = split_aarecord_ids(aarecord_ids)
     except:
         return False
-    return validate_canonical_md5s(split_ids['md5']) and validate_ol_editions(split_ids['ol'])
+    return validate_canonical_md5s(split_ids['md5']) and validate_ol_editions(split_ids['ol']) and validate_oclc_ids(split_ids['oclc'])
 
 def split_aarecord_ids(aarecord_ids):
     ret = {
@@ -59,6 +62,7 @@ def split_aarecord_ids(aarecord_ids):
         'isbn': [],
         'ol': [],
         'doi': [],
+        'oclc': [],
     }
     for aarecord_id in aarecord_ids:
         split_aarecord_id = aarecord_id.split(':', 1)
@@ -928,6 +932,7 @@ AARECORD_PREFIX_SEARCH_INDEX_MAPPING = {
     'ia': 'aarecords_digital_lending',
     'isbn': 'aarecords_metadata',
     'ol': 'aarecords_metadata',
+    'oclc': 'aarecords_metadata',
 }
 SEARCH_INDEX_TO_ES_MAPPING = {
     'aarecords': es,
@@ -1331,9 +1336,25 @@ MARC_DEPRECATED_COUNTRY_CODES = {
 
 
 worldcat_thread_local = threading.local()
+worldcat_line_cache = {}
+
+def set_worldcat_line_cache(parsed_lines):
+    global worldcat_line_cache
+    worldcat_line_cache.clear()
+    first_id = parsed_lines[0][0]
+    last_id = parsed_lines[-1][0]
+    for oclc_id, lines in parsed_lines:
+        if oclc_id != first_id and oclc_id != last_id:
+            worldcat_line_cache[oclc_id] = lines
 
 def get_worldcat_records(oclc_id):
+    global worldcat_line_cache
     oclc_id = int(oclc_id)
+
+    if oclc_id in worldcat_line_cache:
+        return [orjson.loads(line) for line in worldcat_line_cache[oclc_id]]
+    # else:
+    #     print(f"Cache miss: {oclc_id}")
 
     file = getattr(worldcat_thread_local, 'file', None)
     if file is None:
@@ -1363,7 +1384,10 @@ def get_worldcat_records(oclc_id):
         # print("low", low)
         # print("high", high)
         # print("mid", mid)
-        current_id = int(line[len(b'{"aacid":"aacid__worldcat__'):100].split(b'__', 2)[1])
+        if line == b'':
+            current_id = 999999999999
+        else:
+            current_id = int(line[len(b'{"aacid":"aacid__worldcat__20231001T025039Z__'):].split(b'__', 1)[0])
         if current_id >= oclc_id:
             high = mid
         else:
@@ -1373,7 +1397,10 @@ def get_worldcat_records(oclc_id):
     lines = []
     while True:
         line = file.readline()
-        current_id = int(line[len(b'{"aacid":"aacid__worldcat__'):100].split(b'__', 2)[1])
+        if line == b'':
+            current_id = 999999999999
+        else:
+            current_id = int(line[len(b'{"aacid":"aacid__worldcat__20231001T025039Z__'):].split(b'__', 1)[0])
         if current_id < oclc_id:
             pass
         elif current_id == oclc_id:

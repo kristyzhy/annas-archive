@@ -28,6 +28,7 @@ import flask_mail
 import click
 import pymysql.cursors
 import more_itertools
+import indexed_zstd
 
 import allthethings.utils
 
@@ -261,6 +262,7 @@ def elastic_build_aarecords_job(aarecord_ids):
         with Session(engine) as session:
             operations_by_es_handle = collections.defaultdict(list)
             dois = []
+            session.connection().connection.ping(reconnect=True)
             aarecords = get_aarecords_mysql(session, aarecord_ids)
             for aarecord in aarecords:
                 for index in aarecord['indexes']:
@@ -300,6 +302,11 @@ def elastic_build_aarecords_job(aarecord_ids):
         traceback.print_tb(err.__traceback__)
         raise err
 
+def elastic_build_aarecords_job_worldcat(fields):
+    fields = list(fields)
+    allthethings.utils.set_worldcat_line_cache(fields)
+    elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
+
 THREADS = 100
 CHUNK_SIZE = 50
 BATCH_SIZE = 100000
@@ -325,6 +332,7 @@ def elastic_build_aarecords_all_internal():
     elastic_build_aarecords_ia_internal()
     elastic_build_aarecords_isbndb_internal()
     elastic_build_aarecords_ol_internal()
+    elastic_build_aarecords_worldcat_internal()
     elastic_build_aarecords_main_internal()
 
 
@@ -426,6 +434,43 @@ def elastic_build_aarecords_ol_internal():
                     last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ol:{item['ol_key'].replace('/books/','')}" for item in batch if allthethings.utils.validate_ol_editions([item['ol_key'].replace('/books/','')])], CHUNK_SIZE))
                     pbar.update(len(batch))
         print(f"Done with OpenLib!")
+
+#################################################################################################
+# ./run flask cli elastic_build_aarecords_worldcat
+@cli.cli.command('elastic_build_aarecords_worldcat')
+def elastic_build_aarecords_worldcat():
+    elastic_build_aarecords_worldcat_internal()
+
+def elastic_build_aarecords_worldcat_internal():
+    print("Do a dummy detect of language so that we're sure the model is downloaded")
+    ftlangdetect.detect('dummy')
+
+    with multiprocessing.Pool(THREADS) as executor:
+        print("Processing from worldcat")
+        worldcat_file = indexed_zstd.IndexedZstdFile('/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
+        with tqdm.tqdm(total=35885, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+            last_map = []
+            while True:
+                batch = collections.defaultdict(list)
+                while True:
+                    line = worldcat_file.readline()
+                    if len(line) == 0:
+                        break
+                    if (b'not_found_title_json' in line) or (b'redirect_title_json' in line):
+                        continue
+                    oclc_id = int(line[len(b'{"aacid":"aacid__worldcat__20231001T025039Z__'):].split(b'__', 1)[0])
+                    batch[oclc_id].append(line)
+                    if len(batch) >= BATCH_SIZE:
+                        break
+                batch = list(batch.items())
+
+                list(last_map)
+                if len(batch) == 0:
+                    break
+                print(f"Processing {len(batch)} aarecords from worldcat file ( starting oclc_id: {batch[0][0]} )...")
+                last_map = executor.map(elastic_build_aarecords_job_worldcat, more_itertools.ichunked(batch, CHUNK_SIZE))
+                pbar.update(len(batch))
+    print(f"Done with Worldcat!")
 
 #################################################################################################
 # ./run flask cli elastic_build_aarecords_main

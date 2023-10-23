@@ -599,6 +599,9 @@ def zlib_add_edition_varia_normalized(zlib_book_dict):
     zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
 def get_zlib_book_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+
     zlib_books = []
     try:
         zlib_books = session.scalars(select(ZlibBook).where(getattr(ZlibBook, key).in_(values))).unique().all()
@@ -689,6 +692,9 @@ def extract_list_from_ia_json_field(ia_record_dict, key):
     return val
 
 def get_ia_record_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+
     seen_ia_ids = set()
     ia_entries = []
     try:
@@ -1116,6 +1122,8 @@ def ol_book_json(ol_edition):
         return nice_json(ol_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
+    if len(values) == 0:
+        return []
     aa_lgli_comics_2022_08_files = []
     try:
         aa_lgli_comics_2022_08_files = session.connection().execute(
@@ -1132,6 +1140,9 @@ def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
 
 
 def get_lgrsnf_book_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+
     lgrsnf_books = []
     try:
         # Hack: we explicitly name all the fields, because otherwise some get overwritten below due to lowercasing the column names.
@@ -1190,6 +1201,9 @@ def get_lgrsnf_book_dicts(session, key, values):
 
 
 def get_lgrsfic_book_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+
     lgrsfic_books = []
     try:
         # Hack: we explicitly name all the fields, because otherwise some get overwritten below due to lowercasing the column names.
@@ -1321,6 +1335,9 @@ def lgli_map_descriptions(descriptions):
 
 # See https://libgen.li/community/app.php/article/new-database-structure-published-o%CF%80y6%D0%BB%D0%B8%C4%B8o%D0%B2a%D0%BDa-%D0%BDo%D0%B2a%D1%8F-c%D1%82py%C4%B8%D1%82ypa-6a%D0%B7%C6%85i-%D0%B4a%D0%BD%D0%BD%C6%85ix
 def get_lgli_file_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+
     description_metadata = libgenli_elem_descr(session.connection())
 
     lgli_files = session.scalars(
@@ -1540,6 +1557,9 @@ def lgli_file_json(lgli_file_id):
         return nice_json(lgli_file_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_isbndb_dicts(session, canonical_isbn13s):
+    if len(canonical_isbn13s) == 0:
+        return []
+
     isbndb13_grouped = collections.defaultdict(list)
     for row in session.connection().execute(select(IsbndbIsbns).where(IsbndbIsbns.isbn13.in_(canonical_isbn13s))).all():
         isbndb13_grouped[row['isbn13']].append(row)
@@ -1670,21 +1690,31 @@ def scihub_doi_json(doi):
         return nice_json(scihub_doi_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 
-def worldcat_get_authors(contributors):
+def worldcat_get_authors_from_contributors(contributors):
     has_primary = any(contributor['isPrimary'] for contributor in contributors)
+    has_author_relator = any('aut' in (contributor.get('relatorCodes') or []) for contributor in contributors)
     authors = []
     for contributor in contributors:
         if has_primary and (not contributor['isPrimary']):
             continue
-        if "aut" not in (contributor.get('relatorCodes') or ["aut"]):
+        if has_author_relator and ('aut' not in (contributor.get('relatorCodes') or [])):
             continue
         if 'nonPersonName' in contributor:
             authors.append(contributor['nonPersonName']['text'])
         else:
-            authors.append(f"{contributor['firstName']['text']} {contributor['secondName']['text']}")
+            authors.append(' '.join(filter(len, [((contributor.get('firstName') or {}).get('text') or ''), ((contributor.get('secondName') or {}).get('text') or '')])))
     return "; ".join(authors)
 
-# f"{author['firstNameObject']['data']} {author['lastNameObject']['data']}" for author in (aac_metadata['record'].get('authors') or []) if author['primary'] or "aut" in [relator['code'] for relator in (author.get('relatorList') or {'relators':[{'code':'aut'}]})['relators']]]))
+def worldcat_get_authors_from_authors(authors):
+    contributors = []
+    for author in authors:
+        contributors.append({
+            'firstName': {'text': (author['firstNameObject'].get('data') or '')},
+            'secondName': {'text': ', '.join(filter(len, [(author['lastNameObject'].get('data') or ''), (author.get('notes') or '')]))},
+            'isPrimary': author['primary'],
+            'relatorCodes': [(relator.get('code') or '') for relator in (author.get('relatorList') or {'relators':[]})['relators']],
+        })
+    return worldcat_get_authors_from_contributors(contributors)
 
 def get_worldcat_dicts(session, key, values):
     if len(values) == 0:
@@ -1709,7 +1739,7 @@ def get_worldcat_dicts(session, key, values):
         worldcat_dict["aa_worldcat_derived"]["series_multiple"] = []
         worldcat_dict["aa_worldcat_derived"]["volume_multiple"] = []
         worldcat_dict["aa_worldcat_derived"]["description_multiple"] = []
-        worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"] = []
+        worldcat_dict["aa_worldcat_derived"]["languages_multiple"] = []
         worldcat_dict["aa_worldcat_derived"]["isbn_multiple"] = []
         worldcat_dict["aa_worldcat_derived"]["issn_multiple"] = []
         worldcat_dict["aa_worldcat_derived"]["doi_multiple"] = []
@@ -1723,7 +1753,7 @@ def get_worldcat_dicts(session, key, values):
             aac_metadata = aac_record['metadata']
             if aac_metadata['type'] in 'title_json':
                 worldcat_dict["aa_worldcat_derived"]["title_multiple"].append((aac_metadata['record'].get('title') or ''))
-                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append(worldcat_get_authors(aac_metadata['record'].get('contributors') or []))
+                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append(worldcat_get_authors_from_contributors(aac_metadata['record'].get('contributors') or []))
                 worldcat_dict["aa_worldcat_derived"]["publisher_multiple"].append((aac_metadata['record'].get('publisher') or ''))
                 worldcat_dict["aa_worldcat_derived"]["edition_multiple"].append((aac_metadata['record'].get('edition') or ''))
                 worldcat_dict["aa_worldcat_derived"]["place_multiple"].append((aac_metadata['record'].get('publicationPlace') or ''))
@@ -1731,7 +1761,7 @@ def get_worldcat_dicts(session, key, values):
                 worldcat_dict["aa_worldcat_derived"]["series_multiple"].append((aac_metadata['record'].get('series') or ''))
                 worldcat_dict["aa_worldcat_derived"]["volume_multiple"] += (aac_metadata['record'].get('seriesVolumes') or [])
                 worldcat_dict["aa_worldcat_derived"]["description_multiple"].append((aac_metadata['record'].get('summary') or ''))
-                worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"].append((aac_metadata['record'].get('catalogingLanguage') or ''))
+                worldcat_dict["aa_worldcat_derived"]["languages_multiple"].append((aac_metadata['record'].get('catalogingLanguage') or ''))
                 worldcat_dict["aa_worldcat_derived"]["isbn_multiple"].append((aac_metadata['record'].get('isbn13') or ''))
                 worldcat_dict["aa_worldcat_derived"]["isbn_multiple"] += (aac_metadata['record'].get('isbns') or [])
                 worldcat_dict["aa_worldcat_derived"]["issn_multiple"].append((aac_metadata['record'].get('sourceIssn') or ''))
@@ -1741,14 +1771,14 @@ def get_worldcat_dicts(session, key, values):
                 worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"].append((aac_metadata['record'].get('specificFormat') or ''))
             elif aac_metadata['type'] == 'briefrecords_json':
                 worldcat_dict["aa_worldcat_derived"]["title_multiple"].append((aac_metadata['record'].get('title') or ''))
-                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append(worldcat_get_authors(aac_metadata['record'].get('contributors') or []))
+                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append(worldcat_get_authors_from_contributors(aac_metadata['record'].get('contributors') or []))
                 worldcat_dict["aa_worldcat_derived"]["publisher_multiple"].append((aac_metadata['record'].get('publisher') or ''))
                 worldcat_dict["aa_worldcat_derived"]["edition_multiple"].append((aac_metadata['record'].get('edition') or ''))
                 worldcat_dict["aa_worldcat_derived"]["place_multiple"].append((aac_metadata['record'].get('publicationPlace') or ''))
                 worldcat_dict["aa_worldcat_derived"]["date_multiple"].append((aac_metadata['record'].get('publicationDate') or ''))
                 worldcat_dict["aa_worldcat_derived"]["description_multiple"].append((aac_metadata['record'].get('summary') or ''))
                 worldcat_dict["aa_worldcat_derived"]["description_multiple"] += (aac_metadata['record'].get('summaries') or [])
-                worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"].append((aac_metadata['record'].get('catalogingLanguage') or ''))
+                worldcat_dict["aa_worldcat_derived"]["languages_multiple"].append((aac_metadata['record'].get('catalogingLanguage') or ''))
                 worldcat_dict["aa_worldcat_derived"]["isbn_multiple"].append((aac_metadata['record'].get('isbn13') or ''))
                 worldcat_dict["aa_worldcat_derived"]["isbn_multiple"] += (aac_metadata['record'].get('isbns') or [])
                 worldcat_dict["aa_worldcat_derived"]["general_format_multiple"].append((aac_metadata['record'].get('generalFormat') or ''))
@@ -1763,14 +1793,14 @@ def get_worldcat_dicts(session, key, values):
                 worldcat_dict["aa_worldcat_derived"]["rft_multiple"].append(rft)
 
                 worldcat_dict["aa_worldcat_derived"]["title_multiple"].append((aac_metadata['record'].get('titleObject') or '')['data'])
-                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append("; ".join([f"{author['firstNameObject']['data']} {author['lastNameObject']['data']}" for author in (aac_metadata['record'].get('authors') or []) if author['primary'] or "aut" in [relator['code'] for relator in (author.get('relatorList') or {'relators':[{'code':'aut'}]})['relators']]]))
+                worldcat_dict["aa_worldcat_derived"]["author_multiple"].append(worldcat_get_authors_from_authors(aac_metadata['record'].get('authors') or []))
                 worldcat_dict["aa_worldcat_derived"]["publisher_multiple"] += (rft.get('rft.pub') or [])
                 worldcat_dict["aa_worldcat_derived"]["edition_multiple"].append((aac_metadata['record'].get('edition') or ''))
                 worldcat_dict["aa_worldcat_derived"]["place_multiple"] += (rft.get('rft.place') or [])
                 worldcat_dict["aa_worldcat_derived"]["date_multiple"] += (rft.get('rft.date') or [])
                 worldcat_dict["aa_worldcat_derived"]["date_multiple"].append((aac_metadata['record'].get('date') or ''))
                 worldcat_dict["aa_worldcat_derived"]["description_multiple"] += [summary['data'] for summary in (aac_metadata['record'].get('summariesObjectList') or [])]
-                worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"].append((aac_metadata['record'].get('language') or ''))
+                worldcat_dict["aa_worldcat_derived"]["languages_multiple"].append((aac_metadata['record'].get('language') or ''))
                 worldcat_dict["aa_worldcat_derived"]["general_format_multiple"] += [orjson.loads(dat)['stdrt1'] for dat in (rft.get('rft_dat') or [])]
                 worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"] += [orjson.loads(dat)['stdrt2'] for dat in (rft.get('rft_dat') or [])]
 
@@ -1794,10 +1824,12 @@ def get_worldcat_dicts(session, key, values):
                 legacy_language_match = re.search('<span class="itemLanguage">([^<]+)</span>', aac_metadata['html'])
                 if legacy_language_match:
                     legacy_language = legacy_language_match.group(1)
-                    worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"].append(legacy_language)
+                    worldcat_dict["aa_worldcat_derived"]["languages_multiple"].append(legacy_language)
                 worldcat_dict["aa_worldcat_derived"]["general_format_multiple"] += [orjson.loads(dat)['stdrt1'] for dat in (rft.get('rft_dat') or [])]
                 worldcat_dict["aa_worldcat_derived"]["specific_format_multiple"] += [orjson.loads(dat)['stdrt2'] for dat in (rft.get('rft_dat') or [])]
                 # TODO: series/volume?
+            elif aac_metadata['type'] in ['not_found_title_json', 'redirect_title_json']:
+                pass
             else:
                 raise Exception(f"Unexpected aac_metadata.type: {aac_metadata['type']}")
 
@@ -1810,7 +1842,7 @@ def get_worldcat_dicts(session, key, values):
         worldcat_dict["aa_worldcat_derived"]["series_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["series_multiple"]])))
         worldcat_dict["aa_worldcat_derived"]["volume_multiple"] = list(dict.fromkeys(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in worldcat_dict["aa_worldcat_derived"]["volume_multiple"]])))
         worldcat_dict["aa_worldcat_derived"]["description_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["description_multiple"])))
-        worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["language_codes_multiple"])))
+        worldcat_dict["aa_worldcat_derived"]["languages_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["languages_multiple"])))
         worldcat_dict["aa_worldcat_derived"]["isbn_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["isbn_multiple"])))
         worldcat_dict["aa_worldcat_derived"]["issn_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["issn_multiple"])))
         worldcat_dict["aa_worldcat_derived"]["doi_multiple"] = list(dict.fromkeys(filter(len, worldcat_dict["aa_worldcat_derived"]["doi_multiple"])))
@@ -1838,6 +1870,25 @@ def get_worldcat_dicts(session, key, values):
             worldcat_dict["aa_worldcat_derived"]["content_type"] = 'magazine'
         elif "msscr" in worldcat_dict["aa_worldcat_derived"]["general_format_multiple"]:
             worldcat_dict["aa_worldcat_derived"]["content_type"] = 'musical_score'
+
+        worldcat_dict["aa_worldcat_derived"]['edition_varia_normalized'] = ', '.join(list(dict.fromkeys(filter(len, [
+            max(['', *worldcat_dict["aa_worldcat_derived"]["series_multiple"]], key=len),
+            max(['', *worldcat_dict["aa_worldcat_derived"]["volume_multiple"]], key=len),
+            max(['', *worldcat_dict["aa_worldcat_derived"]["edition_multiple"]], key=len),
+            max(['', *worldcat_dict["aa_worldcat_derived"]["place_multiple"]], key=len),
+            max(['', *worldcat_dict["aa_worldcat_derived"]["date_multiple"]], key=len),
+        ]))))
+
+        worldcat_dict['aa_worldcat_derived']['stripped_description_multiple'] = [strip_description(description) for description in worldcat_dict['aa_worldcat_derived']['description_multiple']]
+        worldcat_dict['aa_worldcat_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(language) for language in worldcat_dict['aa_worldcat_derived']['languages_multiple']])
+
+        allthethings.utils.init_identifiers_and_classification_unified(worldcat_dict['aa_worldcat_derived'])
+        allthethings.utils.add_identifier_unified(worldcat_dict['aa_worldcat_derived'], 'oclc', oclc_id)
+        allthethings.utils.add_isbns_unified(worldcat_dict['aa_worldcat_derived'], worldcat_dict['aa_worldcat_derived']['isbn_multiple'])
+        for issn in worldcat_dict['aa_worldcat_derived']['issn_multiple']:
+            allthethings.utils.add_identifier_unified(worldcat_dict['aa_worldcat_derived'], 'issn', issn)
+        for doi in worldcat_dict['aa_worldcat_derived']['doi_multiple']:
+            allthethings.utils.add_identifier_unified(worldcat_dict['aa_worldcat_derived'], 'doi', doi)
 
         # TODO:
         # * cover_url
@@ -1891,8 +1942,9 @@ def get_aarecords_elasticsearch(aarecord_ids):
     if len(aarecord_ids) == 0:
         return []
 
-    # Uncomment the following line to use MySQL directly; useful for local development.
-    # return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
+    # Uncomment the following lines to use MySQL directly; useful for local development.
+    # with Session(engine) as session:
+    #     return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
     docs_by_es_handle = collections.defaultdict(list)
     for aarecord_id in aarecord_ids:
@@ -1973,13 +2025,16 @@ def get_aarecords_mysql(session, aarecord_ids):
     isbndb_dicts = {('isbn:' + item['ean13']): item['isbndb'] for item in get_isbndb_dicts(session, split_ids['isbn'])}
     ol_book_dicts = {('ol:' + item['ol_edition']): [item] for item in get_ol_book_dicts(session, 'ol_edition', split_ids['ol'])}
     scihub_doi_dicts = {('doi:' + item['doi']): [item] for item in get_scihub_doi_dicts(session, 'doi', split_ids['doi'])}
+    worldcat_dicts = {('oclc:' + item['oclc_id']): [item] for item in get_worldcat_dicts(session, 'oclc', split_ids['oclc'])}
 
     # First pass, so we can fetch more dependencies.
     aarecords = []
     canonical_isbn13s = []
     ol_editions = []
     dois = []
+    oclc_ids = []
     for aarecord_id in aarecord_ids:
+        aarecord_id_split = aarecord_id.split(':', 1)
         aarecord = {}
         aarecord['id'] = aarecord_id
         aarecord['lgrsnf_book'] = lgrsnf_book_dicts.get(aarecord_id)
@@ -1994,6 +2049,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['isbndb'] = list(isbndb_dicts.get(aarecord_id) or [])
         aarecord['ol'] = list(ol_book_dicts.get(aarecord_id) or [])
         aarecord['scihub_doi'] = list(scihub_doi_dicts.get(aarecord_id) or [])
+        aarecord['worldcat'] = list(worldcat_dicts.get(aarecord_id) or [])
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -2009,20 +2065,27 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
             *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
+            *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
+            *[worldcat['aa_worldcat_derived']['identifiers_unified'] for worldcat in aarecord['worldcat']],
         ])
-        for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-            canonical_isbn13s.append(canonical_isbn13)
-        for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('ol') or []):
-            if allthethings.utils.validate_ol_editions([potential_ol_edition]):
-                ol_editions.append(potential_ol_edition)
-        for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
-            dois.append(doi)
+        # TODO: This `if` is not necessary if we make sure that the fields of the primary records get priority.
+        if aarecord_id_split[0] not in ['isbn', 'ol', 'oclc']:
+            for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+                canonical_isbn13s.append(canonical_isbn13)
+            for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('ol') or []):
+                if allthethings.utils.validate_ol_editions([potential_ol_edition]):
+                    ol_editions.append(potential_ol_edition)
+            for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
+                dois.append(doi)
+            for oclc_id in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
+                oclc_ids.append(oclc_id)
 
         aarecords.append(aarecord)
 
     isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(set(canonical_isbn13s)))}
     ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(set(ol_editions)))}
     scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(set(dois)))}
+    worldcat_dicts2 = {item['oclc_id']: item for item in get_worldcat_dicts(session, 'oclc', list(set(oclc_ids)))}
 
     # Second pass
     for aarecord in aarecords:
@@ -2064,6 +2127,15 @@ def get_aarecords_mysql(session, aarecord_ids):
             if len(scihub_doi_all) > 3:
                 scihub_doi_all = []
             aarecord['scihub_doi'] = (aarecord['scihub_doi'] + scihub_doi_all)
+
+            worldcat_all = []
+            existing_oclc_ids = set([worldcat['oclc_id'] for worldcat in aarecord['worldcat']])
+            for oclc_id in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
+                if (oclc_id in worldcat_dicts2) and (oclc_id not in existing_oclc_ids):
+                    worldcat_all.append(worldcat_dicts2[oclc_id])
+            if len(worldcat_all) > 3:
+                worldcat_all = []
+            aarecord['worldcat'] = (aarecord['worldcat'] + worldcat_all)
 
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
@@ -2162,6 +2234,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or [])]
         title_multiple += [(ol_book_dict.get('title_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         title_multiple += [(isbndb.get('title_normalized') or '').strip() for isbndb in aarecord['isbndb']]
+        for worldcat in aarecord['worldcat']:
+            title_multiple += worldcat['aa_worldcat_derived']['title_multiple']
         if aarecord['file_unified_data']['title_best'] == '':
             aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
         aarecord['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != aarecord['file_unified_data']['title_best']]
@@ -2180,6 +2254,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
         author_multiple += [ol_book_dict['authors_normalized'] for ol_book_dict in aarecord['ol']]
         author_multiple += [", ".join(isbndb['json'].get('authors') or []) for isbndb in aarecord['isbndb']]
+        for worldcat in aarecord['worldcat']:
+            author_multiple += worldcat['aa_worldcat_derived']['author_multiple']
         if aarecord['file_unified_data']['author_best'] == '':
             aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
         aarecord['file_unified_data']['author_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(author_multiple) if s != aarecord['file_unified_data']['author_best']]
@@ -2198,6 +2274,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
         publisher_multiple += [(ol_book_dict.get('publishers_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         publisher_multiple += [(isbndb['json'].get('publisher') or '').strip() for isbndb in aarecord['isbndb']]
+        for worldcat in aarecord['worldcat']:
+            publisher_multiple += worldcat['aa_worldcat_derived']['publisher_multiple']
         if aarecord['file_unified_data']['publisher_best'] == '':
             aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         aarecord['file_unified_data']['publisher_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(publisher_multiple) if s != aarecord['file_unified_data']['publisher_best']]
@@ -2216,6 +2294,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
         edition_varia_multiple += [(ol_book_dict.get('edition_varia_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         edition_varia_multiple += [(isbndb.get('edition_varia_normalized') or '').strip() for isbndb in aarecord['isbndb']]
+        edition_varia_multiple += [worldcat['aa_worldcat_derived']['edition_varia_normalized'] for worldcat in aarecord['worldcat']]
         if aarecord['file_unified_data']['edition_varia_best'] == '':
             aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         aarecord['file_unified_data']['edition_varia_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(edition_varia_multiple) if s != aarecord['file_unified_data']['edition_varia_best']]
@@ -2237,6 +2316,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         year_multiple += [(edition.get('year_normalized') or '').strip() for edition in lgli_all_editions]
         year_multiple += [(ol_book_dict.get('year_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         year_multiple += [(isbndb.get('year_normalized') or '').strip() for isbndb in aarecord['isbndb']]
+        for worldcat in aarecord['worldcat']:
+            year_multiple += worldcat['aa_worldcat_derived']['year_multiple']
         for year in year_multiple:
             # If a year appears in edition_varia_best, then use that, for consistency.
             if year != '' and year in aarecord['file_unified_data']['edition_varia_best']:
@@ -2287,6 +2368,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         stripped_description_multiple += [ol_book_dict['stripped_description'].strip()[0:5000] for ol_book_dict in aarecord['ol']]
         stripped_description_multiple += [(isbndb['json'].get('synopsis') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
         stripped_description_multiple += [(isbndb['json'].get('overview') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
+        for worldcat in aarecord['worldcat']:
+            stripped_description_multiple += worldcat['aa_worldcat_derived']['stripped_description_multiple']
         if aarecord['file_unified_data']['stripped_description_best'] == '':
             aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         ia_descr = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000]
@@ -2311,6 +2394,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(ol_book_dict.get('language_codes') or []) for ol_book_dict in aarecord['ol']])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(isbndb.get('language_codes') or []) for isbndb in aarecord['isbndb']])
+        if len(aarecord['file_unified_data']['language_codes']) == 0:
+            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([worldcat['aa_worldcat_derived']['language_codes'] for worldcat in aarecord['worldcat']])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
                 potential_code = get_bcp47_lang_codes_parse_substr(isbnlib.info(canonical_isbn13))
@@ -2349,6 +2434,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
+            *[worldcat['aa_worldcat_derived']['identifiers_unified'] for worldcat in aarecord['worldcat']],
         ])
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
@@ -2399,6 +2485,11 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['content_type'] = ia_content_type
         if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (len(aarecord['scihub_doi']) > 0):
             aarecord['file_unified_data']['content_type'] = 'journal_article'
+        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (len(aarecord['worldcat']) > 0):
+            for worldcat in aarecord['worldcat']:
+                if (aarecord_id_split[0] == 'oclc') or (worldcat['aa_worldcat_derived']['content_type'] != 'other'):
+                    aarecord['file_unified_data']['content_type'] = worldcat['aa_worldcat_derived']['content_type']
+                    break
 
         if aarecord['lgrsnf_book'] is not None:
             aarecord['lgrsnf_book'] = {
@@ -2481,6 +2572,11 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['scihub_doi'][index] = {
                 'doi': aarecord['scihub_doi'][index]['doi'],
             }
+        aarecord['worldcat'] = aarecord.get('worldcat') or []
+        for index, item in enumerate(aarecord['worldcat']):
+            aarecord['worldcat'][index] = {
+                'oclc_id': aarecord['worldcat'][index]['oclc_id'],
+            }
 
         # Even though `additional` is only for computing real-time stuff,
         # we'd like to cache some fields for in the search results.
@@ -2523,7 +2619,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['external_borrow'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['external_borrow_printdisabled'] if (aarecord.get('ia_record') and (aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
-                *(['meta_explore'] if aarecord_id_split[0] in ['isbn', 'ol'] else []),
+                *(['meta_explore'] if aarecord_id_split[0] in ['isbn', 'ol', 'worldcat'] else []),
             ],
             'search_record_sources': list(set([
                 *(['lgrs']      if aarecord['lgrsnf_book'] is not None else []),
@@ -2536,6 +2632,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['scihub']    if len(aarecord['scihub_doi']) > 0 else []),
                 *(['isbndb']    if (aarecord_id_split[0] == 'isbn' and len(aarecord['isbndb'] or []) > 0) else []),
                 *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
+                *(['oclc']      if (aarecord_id_split[0] == 'worldcat' and len(aarecord['worldcat'] or []) > 0) else []),
             ])),
         }
 
@@ -2564,8 +2661,8 @@ def get_md5_content_type_mapping(display_lang):
             "standards_document": gettext("common.md5_content_type_mapping.standards_document"),
             "magazine":           gettext("common.md5_content_type_mapping.magazine"),
             "book_comic":         gettext("common.md5_content_type_mapping.book_comic"),
-            "musical_score":      "Musical score",
-            "other":              "Other",
+            "musical_score":      "Musical score", # TODO:TRANSLATE
+            "other":              "Other", # TODO:TRANSLATE
         }
 
 def get_access_types_mapping(display_lang):
@@ -2588,6 +2685,7 @@ def get_record_sources_mapping(display_lang):
             "isbndb": gettext("common.record_sources_mapping.isbndb"),
             "ol": gettext("common.record_sources_mapping.ol"),
             "scihub": gettext("common.record_sources_mapping.scihub"),
+            "oclc": "OCLC WorldCat", # TODO:TRANSLATE
         }
 
 def format_filesize(num):
@@ -2682,6 +2780,7 @@ def get_additional_for_aarecord(aarecord):
                 aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
                 aarecord_id_split[1] if aarecord_id_split[0] in ['ia', 'ol'] else '',
                 f"ISBNdb {aarecord_id_split[1]}" if aarecord_id_split[0] == 'isbn' else '',
+                f"OCLC {aarecord_id_split[1]}" if aarecord_id_split[0] == 'oclc' else '',
             ] if item != '']),
         'title': aarecord['file_unified_data'].get('title_best', None) or '',
         'publisher_and_edition': ", ".join([item for item in [
@@ -2954,6 +3053,27 @@ def doi_page(doi_input):
 
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=doi_input)
+
+        aarecord = aarecords[0]
+
+        render_fields = {
+            "header_active": "home/search",
+            "aarecord_id": aarecord['id'],
+            "aarecord_id_split": aarecord['id'].split(':', 1),
+            "aarecord": aarecord,
+            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
+            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
+        }
+        return render_template("page/aarecord.html", **render_fields)
+
+@page.get("/oclc/<path:oclc_input>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def oclc_page(oclc_input):
+    with Session(engine) as session:
+        aarecords = get_aarecords_elasticsearch([f"oclc:{oclc_input}"])
+
+        if len(aarecords) == 0:
+            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=oclc_input)
 
         aarecord = aarecords[0]
 
