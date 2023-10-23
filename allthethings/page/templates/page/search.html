@@ -23,6 +23,28 @@
         document.querySelector('.js-search-tab-count-aarecords').innerText = json.aarecords.value != -1 ? `(${json.aarecords.value}${json.aarecords.relation == 'gte' ? '+' : ''})` : '';
         document.querySelector('.js-search-tab-count-aarecords_digital_lending').innerText = json.aarecords_digital_lending.value != -1 ? `(${json.aarecords_digital_lending.value}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''})` : '';
         document.querySelector('.js-search-tab-count-aarecords_metadata').innerText = json.aarecords_metadata.value != -1 ? `(${json.aarecords_metadata.value}${json.aarecords_metadata.relation == 'gte' ? '+' : ''})` : '';
+
+        if (json.aarecords_digital_lending.value > 0) {
+          for (el of document.querySelectorAll('.js-not-found-additional')) {
+            el.classList.remove('hidden');
+          }
+          for (el of document.querySelectorAll('.js-not-found-digital_lending')) {
+            el.classList.remove('hidden');
+          }
+          for (el of document.querySelectorAll('.js-not-found-digital_lending-count')) {
+            el.innerText = `${json.aarecords_digital_lending.value}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''}`
+          }
+        } else if (json.aarecords_metadata.value > 0) {
+          for (el of document.querySelectorAll('.js-not-found-additional')) {
+            el.classList.remove('hidden');
+          }
+          for (el of document.querySelectorAll('.js-not-found-meta')) {
+            el.classList.remove('hidden');
+          }
+          for (el of document.querySelectorAll('.js-not-found-meta-count')) {
+            el.innerText = `${json.aarecords_metadata.value}${json.aarecords_metadata.relation == 'gte' ? '+' : ''}`
+          }
+        }
       })
     </script>
 
@@ -136,6 +158,11 @@
 
           {% if (search_dict.search_aarecords | length) == 0 %}
             <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
+
+            {% if search_dict.search_index_short == '' %}
+              <!-- TODO:TRANSLATE -->
+              <div class="mt-4 js-not-found-additional hidden"><span>We have found matches in: <a class="hidden js-not-found-digital_lending" href="/search?index=digital_lending" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'digital_lending'; document.querySelector('.js-search-form').submit()">Digital Lending (<span class="js-not-found-digital_lending-count">1</span>)</a><a class="hidden js-not-found-meta" href="/search?index=meta" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'meta'; document.querySelector('.js-search-form').submit()">Metadata (<span class="js-not-found-meta-count">1</span>)</a></span>. You can refer to the URL found there when <a href="/account/request">requesting a file</a>.</div>
+            {% endif %}
           {% endif %}
 
           <div class="mb-4">
