@@ -426,6 +426,7 @@ def get_stats_data():
         'ia_date': ia_date,
         'isbndb_date': '2022-09-01',
         'isbn_country_date': '2022-02-11',
+        'oclc_date': '2023-10-01',
     }
 
 @page.get("/datasets")
@@ -475,6 +476,11 @@ def datasets_libgen_li_page():
 def datasets_openlib_page():
     return render_template("page/datasets_openlib.html", header_active="home/datasets", stats_data=get_stats_data())
 
+@page.get("/datasets/worldcat")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+def datasets_worldcat_page():
+    return render_template("page/datasets_worldcat.html", header_active="home/datasets", stats_data=get_stats_data())
+
 # @page.get("/datasets/isbn_ranges")
 # @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 # def datasets_isbn_ranges_page():
@@ -518,6 +524,8 @@ def torrents_page():
                 group = aac_group
             if 'zlib3' in small_file.file_path:
                 group = 'zlib'
+            if 'ia2_acsmpdf_files' in small_file.file_path:
+                group = 'ia'
             small_file_dicts_grouped[group].append(dict(small_file))
 
         obsolete_file_paths = [
@@ -1792,7 +1800,7 @@ def get_oclc_dicts(session, key, values):
                 rft = urllib.parse.parse_qs((aac_metadata['record'].get('openUrlContextObject') or ''))
                 oclc_dict["aa_oclc_derived"]["rft_multiple"].append(rft)
 
-                oclc_dict["aa_oclc_derived"]["title_multiple"].append((aac_metadata['record'].get('titleObject') or '')['data'])
+                oclc_dict["aa_oclc_derived"]["title_multiple"].append((aac_metadata['record'].get('titleObject') or {}).get('data') or '')
                 oclc_dict["aa_oclc_derived"]["author_multiple"].append(oclc_get_authors_from_authors(aac_metadata['record'].get('authors') or []))
                 oclc_dict["aa_oclc_derived"]["publisher_multiple"] += (rft.get('rft.pub') or [])
                 oclc_dict["aa_oclc_derived"]["edition_multiple"].append((aac_metadata['record'].get('edition') or ''))
@@ -1807,7 +1815,10 @@ def get_oclc_dicts(session, key, values):
                 # TODO: series/volume?
                 # lcNumber, masterCallNumber
             elif aac_metadata['type'] == 'legacysearch_html':
-                rft = urllib.parse.parse_qs(re.search('url_ver=Z39.88-2004[^"]+', aac_metadata['html']).group())
+                rft = {}
+                rft_match = re.search('url_ver=Z39.88-2004[^"]+', aac_metadata['html'])
+                if rft_match is not None:
+                    rft = urllib.parse.parse_qs(rft_match.group())
                 oclc_dict["aa_oclc_derived"]["rft_multiple"].append(rft)
 
                 oclc_dict["aa_oclc_derived"]["title_multiple"] += (rft.get('rft.title') or [])

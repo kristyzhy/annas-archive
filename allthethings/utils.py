@@ -1344,14 +1344,8 @@ def set_worldcat_line_cache(parsed_lines):
     for oclc_id, lines in parsed_lines:
         worldcat_line_cache[oclc_id] = lines
 
-def get_worldcat_records(oclc_id):
-    global worldcat_line_cache
+def get_worldcat_pos_before_id(oclc_id):
     oclc_id = int(oclc_id)
-
-    if oclc_id in worldcat_line_cache:
-        return [orjson.loads(line) for line in worldcat_line_cache[oclc_id]]
-    # else:
-    #     print(f"Cache miss: {oclc_id}")
 
     file = getattr(worldcat_thread_local, 'file', None)
     if file is None:
@@ -1390,7 +1384,20 @@ def get_worldcat_records(oclc_id):
         else:
             low = mid
 
-    file.seek(mid)
+    return mid
+
+def get_worldcat_records(oclc_id):
+    global worldcat_line_cache
+    oclc_id = int(oclc_id)
+
+    if oclc_id in worldcat_line_cache:
+        return [orjson.loads(line) for line in worldcat_line_cache[oclc_id]]
+    # else:
+    #     print(f"Cache miss: {oclc_id}")
+
+    pos = get_worldcat_pos_before_id(oclc_id)
+    file = worldcat_thread_local.file
+    file.seek(pos)
     lines = []
     while True:
         line = file.readline()

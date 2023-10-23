@@ -21,15 +21,14 @@
       They have amassed a large collection in addition to Library Genesis.
     </p>
 
-    <p class="mb-4">
+    <!-- <p class="mb-4">
       <strong>Update as of February 2023.</strong> In late 2022, the alleged founders of Z-Library were arrested, and domains were seized by United States authorities.
       Since then the website has slowly been making its way online again.
       It is unknown who currently runs it.
-    </p>
+    </p> -->
 
     <p class="mb-4">
-      Anna’s Archive has been making backups of the Z-Library metadata and contents.
-      For technical details, see below.
+      The first two releases are described in more detail below. Newer updates get released in the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a>.
     </p>
 
     <p><strong>Resources</strong></p>
@@ -44,9 +43,10 @@
       <li class="list-disc"><a href="http://zlibrary24tuxziyiyfr7zd46ytefdqbqd2axkmxm4o5374ptpc52fad.onion/">Tor domain</a></li>
       <li class="list-disc">Blogs: <a href="https://annas-blog.org/blog-introducing.html">Release 1</a> <a href="https://annas-blog.org/blog-3x-new-books.html">Release 2</a></li>
       <li class="list-disc"><a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
+      <li class="list-disc"><a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a></li>
     </ul>
 
-    <h2 class="mt-4 mb-4 text-3xl font-bold">Z-Library scrape</h2>
+    <h2 class="mt-8 mb-4 text-3xl font-bold">Z-Library scrape history</h2>
 
     <p><strong>Release 1 (2022-07-01)</strong></p>
 
@@ -105,10 +105,10 @@
     <p><strong>Release 2 addendum (2022-11-22)</strong></p>
 
     <p class="mb-4">
-      This is a single extra torrent file. It does not contain any new information, but it has some data in it that can take a while to compute. That makes it convenient to have, since downloading this torrent is often faster than computing it from scratch. In particular, it contains SQLite indexes for the tar files, for use with <a href="https://github.com/mxmlnkn/ratarmount">ratarmount</a>, as well as <a href="https://docs.ipfs.tech/concepts/content-addressing/#cid-inspector">IPFS CIDs</a> in a CSV file, corresponding to the command line parameters <code>ipfs add --nocopy --recursive --hash=blake2b-256 --chunker=size-1048576</code>. For more information, see our <a href="http://annas-blog.org/putting-5,998,794-books-on-ipfs.html">blog post</a> on hosting this collection on IPFS.
+      This is a single extra torrent file. It does not contain any new information, but it has some data in it that can take a while to compute. That makes it convenient to have, since downloading this torrent is often faster than computing it from scratch. In particular, it contains SQLite indexes for the tar files, for use with <a href="https://github.com/mxmlnkn/ratarmount">ratarmount</a><!--, as well as <a href="https://docs.ipfs.tech/concepts/content-addressing/#cid-inspector">IPFS CIDs</a> in a CSV file, corresponding to the command line parameters <code>ipfs add --nocopy --recursive --hash=blake2b-256 --chunker=size-1048576</code>. For more information, see our <a href="http://annas-blog.org/putting-5,998,794-books-on-ipfs.html">blog post</a> on hosting this collection on IPFS-->.
     </p>
 
-    <p class="mb-4">
+    <!-- <p class="mb-4">
       Also, for completeness, these are the CIDs for the entire directories in our collection, similar to the list for <a href="https://freeread.org/ipfs/">Library Genesis</a>. It is recommended to instead host IPFS from our torrent files (it's faster because of fewer individual files), but if you really want to, you can mirror these in IPFS directly:
     </p>
 
@@ -240,6 +240,6 @@
       bafykbzaceapkthjb4rm3skd73cbjdhc37b777p4j5374tuq5tj3tovqvmcnje,pilimi-zlib2-22200000-22299999<br>
       bafykbzaceanqpal6kmc6gbc7s5iwl5jnli74e3luvbisjecobu4emwlg2acn4,pilimi-zlib2-22300000-22399999<br>
       bafykbzaceb3o6h4kgj32tmd4nsgmkleqtcbndq7xkvxfszsnut2q7ixyc4ciq,pilimi-zlib2-22400000-22433982<br>
-    </code style=" overflow: scroll; max-height: 300px; display: block; white-space: nowrap; font-size: 70%;">
+    </code style=" overflow: scroll; max-height: 300px; display: block; white-space: nowrap; font-size: 70%;"> -->
   </div>
 {% endblock %}
