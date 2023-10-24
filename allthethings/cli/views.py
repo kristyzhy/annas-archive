@@ -458,10 +458,17 @@ def elastic_build_aarecords_oclc_internal():
     if SLOW_DATA_IMPORTS:
         MAX_WORLDCAT = 1000
 
+    FIRST_OCLC_ID = None
+    # FIRST_OCLC_ID = 123
+    OCLC_DONE_ALREADY = 0
+    # OCLC_DONE_ALREADY = 100000
+
     with multiprocessing.Pool(THREADS) as executor:
         print("Processing from oclc")
         oclc_file = indexed_zstd.IndexedZstdFile('/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
-        with tqdm.tqdm(total=min(MAX_WORLDCAT, 750000000), bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+        if FIRST_OCLC_ID is not None:
+            oclc_file.seek(allthethings.utils.get_worldcat_pos_before_id(FIRST_OCLC_ID))
+        with tqdm.tqdm(total=min(MAX_WORLDCAT, 750000000-OCLC_DONE_ALREADY), bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
             last_map = []
             total = 0
             last_seen_id = -1

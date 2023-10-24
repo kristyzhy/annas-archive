@@ -1703,14 +1703,19 @@ def oclc_get_authors_from_contributors(contributors):
     has_author_relator = any('aut' in (contributor.get('relatorCodes') or []) for contributor in contributors)
     authors = []
     for contributor in contributors:
+        author = []
         if has_primary and (not contributor['isPrimary']):
             continue
         if has_author_relator and ('aut' not in (contributor.get('relatorCodes') or [])):
             continue
         if 'nonPersonName' in contributor:
-            authors.append(contributor['nonPersonName']['text'])
+            author = [contributor['nonPersonName'].get('text') or '']
         else:
-            authors.append(' '.join(filter(len, [((contributor.get('firstName') or {}).get('text') or ''), ((contributor.get('secondName') or {}).get('text') or '')])))
+            author = [((contributor.get('firstName') or {}).get('text') or ''), ((contributor.get('secondName') or {}).get('text') or '')]
+
+        author_full = ' '.join(filter(len, [re.sub(r'[ ]+', ' ', s.strip(' \n\t,.;[]')) for s in author]))
+        if len(author_full) > 0:
+            authors.append(author_full)
     return "; ".join(authors)
 
 def oclc_get_authors_from_authors(authors):
@@ -1807,7 +1812,7 @@ def get_oclc_dicts(session, key, values):
                 oclc_dict["aa_oclc_derived"]["place_multiple"] += (rft.get('rft.place') or [])
                 oclc_dict["aa_oclc_derived"]["date_multiple"] += (rft.get('rft.date') or [])
                 oclc_dict["aa_oclc_derived"]["date_multiple"].append((aac_metadata['record'].get('date') or ''))
-                oclc_dict["aa_oclc_derived"]["description_multiple"] += [summary['data'] for summary in (aac_metadata['record'].get('summariesObjectList') or [])]
+                oclc_dict["aa_oclc_derived"]["description_multiple"] += [(summary.get('data') or '') for summary in (aac_metadata['record'].get('summariesObjectList') or [])]
                 oclc_dict["aa_oclc_derived"]["languages_multiple"].append((aac_metadata['record'].get('language') or ''))
                 oclc_dict["aa_oclc_derived"]["general_format_multiple"] += [orjson.loads(dat)['stdrt1'] for dat in (rft.get('rft_dat') or [])]
                 oclc_dict["aa_oclc_derived"]["specific_format_multiple"] += [orjson.loads(dat)['stdrt2'] for dat in (rft.get('rft_dat') or [])]
