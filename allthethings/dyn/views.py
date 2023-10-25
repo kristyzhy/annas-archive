@@ -24,7 +24,7 @@ from flask_babel import format_timedelta, gettext
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
 from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
-from allthethings.page.views import get_aarecords_elasticsearch
+from allthethings.page.views import get_aarecords_elasticsearch, ES_TIMEOUT_PRIMARY
 
 import allthethings.utils
 
@@ -551,14 +551,15 @@ def search_counts_page():
     for search_index in list(set(allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING.values())):
         multi_searches = multi_searches_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index]]
         multi_searches.append({ "index": search_index })
-        multi_searches.append({ "size": 0, "query": search_query, "track_total_hits": 100, "timeout": "250ms" })
+        multi_searches.append({ "size": 0, "query": search_query, "track_total_hits": 100, "timeout": ES_TIMEOUT_PRIMARY })
 
     total_by_index_long = {index: {'value': -1, 'relation': ''} for index in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values()}
+    any_timeout = False
     try:
         # TODO: do these in parallel?
         for es_handle, multi_searches in multi_searches_by_es_handle.items():
             total_all_indexes = es_handle.msearch(
-                request_timeout=1,
+                request_timeout=10,
                 max_concurrent_searches=10,
                 max_concurrent_shard_requests=10,
                 searches=multi_searches,
@@ -566,10 +567,16 @@ def search_counts_page():
             for i, result in enumerate(total_all_indexes['responses']):
                 if 'hits' in result:
                     total_by_index_long[multi_searches[i*2]['index']] = result['hits']['total']
+                if result['timed_out']:
+                    total_by_index_long[multi_searches[i*2]['index']]['timed_out'] = True
+                    any_timeout = True
     except Exception as err:
         pass
 
-    return orjson.dumps(total_by_index_long)
+    r = make_response(orjson.dumps(total_by_index_long))
+    if any_timeout:
+        r.headers.add('Cache-Control', 'no-cache')
+    return r
 
 
 @dyn.put("/account/buy_membership/")

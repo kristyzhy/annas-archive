@@ -193,7 +193,9 @@ def public_cache(cloudflare_minutes=0, minutes=0):
         @functools.wraps(f)
         def wrapped_f(*args, **kwargs):
             r = flask.make_response(f(*args, **kwargs))
-            if r.status_code <= 299:
+            if r.headers.get('Cache-Control') is not None:
+                r.headers.add('Cloudflare-CDN-Cache-Control', r.headers.get('Cache-Control'))
+            elif r.status_code <= 299:
                 r.headers.add('Cache-Control', f"public,max-age={int(60 * minutes)},s-maxage={int(60 * minutes)}")
                 r.headers.add('Cloudflare-CDN-Cache-Control', f"max-age={int(60 * cloudflare_minutes)}")
             else:

@@ -3396,13 +3396,17 @@ def all_search_aggs(display_lang, search_index_long):
     #     if key not in content_type_keys_present:
     #         all_aggregations['search_record_sources'].append({ 'key': key, 'label': label, 'doc_count': 0 })
 
-    return all_aggregations
+    es_stat = { 'name': 'all_search_aggs//' + search_index_long, 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') }
+
+    return (all_aggregations, es_stat)
 
 
 @page.get("/search")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def search_page():
     had_es_timeout = False
+    had_primary_es_timeout = False
+    es_stats = []
 
     search_input = request.args.get("q", "").strip()
     filter_values = {
@@ -3518,11 +3522,15 @@ def search_page():
         )
     except Exception as err:
         had_es_timeout = True
+        had_primary_es_timeout = True
     if search_results_raw.get('timed_out'):
         had_es_timeout = True
+        had_primary_es_timeout = True
+    es_stats.append({ 'name': 'search1_primary', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
 
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
-    all_aggregations = all_search_aggs(display_lang, search_index_long)
+    all_aggregations, all_aggregations_es_stat = all_search_aggs(display_lang, search_index_long)
+    es_stats.append(all_aggregations_es_stat)
     es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
 
     doc_counts = {}
@@ -3608,6 +3616,7 @@ def search_page():
             had_es_timeout = True
         if search_results_raw.get('timed_out'):
             had_es_timeout = True
+        es_stats.append({ 'name': 'search2', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
         if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
         additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
@@ -3630,6 +3639,7 @@ def search_page():
                 had_es_timeout = True
             if search_results_raw.get('timed_out'):
                 had_es_timeout = True
+            es_stats.append({ 'name': 'search3', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
             if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
             additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
@@ -3652,6 +3662,7 @@ def search_page():
                     had_es_timeout = True
                 if search_results_raw.get('timed_out'):
                     had_es_timeout = True
+                es_stats.append({ 'name': 'search4', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
                 if (len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results) and (not had_es_timeout):
                     max_additional_search_aarecords_reached = True
                 additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
@@ -3668,19 +3679,24 @@ def search_page():
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
     search_dict['search_index_short'] = search_index_short
+    search_dict['es_stats'] = es_stats
+    search_dict['had_primary_es_timeout'] = had_primary_es_timeout
     # search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
 
     # status = 404 if had_fatal_es_timeout else 200 # So we don't cache
     status = 200
 
-    return render_template(
-        "page/search.html",
-        header_active="home/search",
-        search_input=search_input,
-        search_dict=search_dict,
-        redirect_pages={
-            'ol_page': ol_page,
-            'doi_page': doi_page,
-            'isbn_page': isbn_page,
-        }
-    ), status
+    r = make_response((render_template(
+            "page/search.html",
+            header_active="home/search",
+            search_input=search_input,
+            search_dict=search_dict,
+            redirect_pages={
+                'ol_page': ol_page,
+                'doi_page': doi_page,
+                'isbn_page': isbn_page,
+            }
+        ), status))
+    if had_primary_es_timeout:
+        r.headers.add('Cache-Control', 'no-cache')
+    return r

@@ -20,9 +20,9 @@
 
     <script>
       fetch('/dyn/search_counts?q=' + {{ search_input | tojson }}).then(function(response) { return response.json() }).then(function(json) {
-        document.querySelector('.js-search-tab-count-aarecords').innerText = json.aarecords.value != -1 ? `(${json.aarecords.value}${json.aarecords.relation == 'gte' ? '+' : ''})` : '';
-        document.querySelector('.js-search-tab-count-aarecords_digital_lending').innerText = json.aarecords_digital_lending.value != -1 ? `(${json.aarecords_digital_lending.value}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''})` : '';
-        document.querySelector('.js-search-tab-count-aarecords_metadata').innerText = json.aarecords_metadata.value != -1 ? `(${json.aarecords_metadata.value}${json.aarecords_metadata.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords').innerText = json.aarecords.value != -1 ? `(${json.aarecords.timed_out ? '~' : ''}${json.aarecords.value}${json.aarecords.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords_digital_lending').innerText = json.aarecords_digital_lending.value != -1 ? `(${json.aarecords_digital_lending.timed_out ? '~' : ''}${json.aarecords_digital_lending.value}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords_metadata').innerText = json.aarecords_metadata.value != -1 ? `(${json.aarecords_metadata.timed_out ? '~' : ''}${json.aarecords_metadata.value}${json.aarecords_metadata.relation == 'gte' ? '+' : ''})` : '';
 
         if (json.aarecords_digital_lending.value > 0) {
           for (el of document.querySelectorAll('.js-not-found-additional')) {
@@ -56,24 +56,24 @@
 
     <div class="text-xs flex flex-wrap mb-4 sm:hidden">
       {% if (search_dict.aggregations.search_content_type | selectattr("selected") | list | length) > 0 %}
-        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.content.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_content_type | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.content.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_content_type | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
       {% endif %}
       {% if search_dict.search_index_short == '' %}
         {% if (search_dict.aggregations.search_extension | selectattr("selected") | list | length) > 0 %}
-          <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.filetype.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_extension | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
+          <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.filetype.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_extension | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
         {% endif %}
       {% endif %}
       {% if (search_dict.aggregations.search_access_types | selectattr("selected") | list | length) > 0 %}
-        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.access.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_access_types | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.access.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_access_types | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
       {% endif %}
       {% if (search_dict.aggregations.search_record_sources | selectattr("selected") | list | length) > 0 %}
-        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.source.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_record_sources | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.source.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_record_sources | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
       {% endif %}
       {% if search_dict.sort_value != '' %}
         <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.order_by.header') }}</span><span class="py-[2px]">{% if search_dict.sort_value == 'newest' %}{{ gettext('page.search.filters.sorting.newest') }}{% endif %}{% if search_dict.sort_value == 'oldest' %}{{ gettext('page.search.filters.sorting.oldest') }}{% endif %}{% if search_dict.sort_value == 'largest' %}{{ gettext('page.search.filters.sorting.largest') }}{% endif %}{% if search_dict.sort_value == 'smallest' %}{{ gettext('page.search.filters.sorting.smallest') }}{% endif %}</span></a>
       {% endif %}
       {% if (search_dict.aggregations.search_most_likely_language_code | selectattr("selected") | list | length) > 0 %}
-        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.language.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_most_likely_language_code | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-[2px] bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.language.header') }}</span><span class="py-[2px]">{% for bucket in search_dict.aggregations.search_most_likely_language_code | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
       {% endif %}
     </div>
 
@@ -89,30 +89,44 @@
 
           <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4" type="submit">{{ gettext('page.search.submit') }}</button>
 
+          {% if search_dict.had_primary_es_timeout %}
+            {% if search_dict.max_search_aarecords_reached %}
+              <div class="mb-4 text-xs text-gray-500">
+                <!-- TODO:TRANSLATE -->
+                The search took too long, which is common for broad queries. The filter counts may not be accurate.
+              </div>
+            {% else %}
+              <div class="mb-4 text-xs text-gray-500 max-sm:hidden">
+                <!-- TODO:TRANSLATE -->
+                The search took too long, which means you might see inaccurate results. Sometimes <a href="javascript:location.reload()">reloading</a> the page helps.
+              </div>
+            {% endif %}
+          {% endif %}
+
           <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_content_type %}
-              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="content" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="content" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}</span></label>
             {% endfor %}
           </div>
           {% if search_dict.search_index_short == '' %}
             <div class="font-bold mb-1">{{ gettext('page.search.filters.filetype.header') }}</div>
             <div class="mb-4">
               {% for bucket in search_dict.aggregations.search_extension %}
-                <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="ext" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+                <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="ext" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}</span></label>
               {% endfor %}
             </div>
           {% endif %}
           <div class="font-bold mb-1">{{ gettext('page.search.filters.access.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_access_types %}
-              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="acc" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;')}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="acc" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;')}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}</span></label>
             {% endfor %}
           </div>
           <div class="font-bold mb-1">{{ gettext('page.search.filters.source.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_record_sources %}
-              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="src" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="src" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}</span></label>
             {% endfor %}
           </div>
           <div class="font-bold mb-1">{{ gettext('page.search.filters.order_by.header') }}</div>
@@ -127,7 +141,7 @@
             <div class="font-bold mb-1">{{ gettext('page.search.filters.language.header') }}</div>
             <div class="mb-4">
               {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
-                <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %} {% if loop.index > 10 %}hidden js-language-hidden{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+                <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %} {% if loop.index > 10 %}hidden js-language-hidden{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}</span></label>
               {% endfor %}
               {% if search_dict.aggregations.search_most_likely_language_code | length > 10 %}
                 <a href="#" onclick="event.preventDefault(); event.stopPropagation(); for(var el of document.querySelectorAll('.js-language-hidden')) { el.classList.remove('hidden') }; event.currentTarget.classList.add('hidden')">{{ gettext('page.search.more') }}</a>
@@ -157,6 +171,13 @@
           {% if redirect_pages.ol_page %}
             <p class="my-4">That looks like it might be an Open Library Edition ID. <a href="/ol/{{ redirect_pages.ol_page | urlencode }}">View our Open Library data page for “{{ redirect_pages.ol_page }}”.</a></p>
           {% endif %} -->
+
+          {% if search_dict.had_primary_es_timeout and (not search_dict.max_search_aarecords_reached) %}
+            <div class="mt-4 text-sm text-gray-500 sm:hidden">
+              <!-- TODO:TRANSLATE -->
+              The search took too long, which means you might see inaccurate results. Sometimes <a href="javascript:location.reload()">reloading</a> the page helps.
+            </div>
+          {% endif %}
 
           {% if (search_dict.search_aarecords | length) == 0 %}
             <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
@@ -243,4 +264,8 @@
       </div>
     </div>
   </form>
+
+  <!-- es_stats:
+{{ search_dict.es_stats | tojson(indent=2) }}
+  -->
 {% endblock %}

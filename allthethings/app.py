@@ -231,7 +231,7 @@ def extensions(app):
         g.languages.sort()
 
         g.last_data_refresh_date = last_data_refresh_date()
-        doc_counts = {content_type['key']: content_type['doc_count'] for content_type in all_search_aggs('en', 'aarecords')['search_content_type']}
+        doc_counts = {content_type['key']: content_type['doc_count'] for content_type in all_search_aggs('en', 'aarecords')[0]['search_content_type']}
         doc_counts['total'] = sum(doc_counts.values())
         doc_counts['journal_article'] = doc_counts.get('journal_article') or 0
         doc_counts['book_comic'] = doc_counts.get('book_comic') or 0
