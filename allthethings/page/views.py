@@ -3334,37 +3334,31 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 warning=warning
             )
 
-search_query_aggs = {
-    "search_most_likely_language_code": {
-      "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 50 } 
-    },
-    "search_content_type": {
-      "terms": { "field": "search_only_fields.search_content_type", "size": 200 } 
-    },
-    "search_extension": {
-      "terms": { "field": "search_only_fields.search_extension", "size": 9 } 
-    },
-    "search_access_types": {
-      "terms": { "field": "search_only_fields.search_access_types", "size": 100 } 
-    },
-    "search_record_sources": {
-      "terms": { "field": "search_only_fields.search_record_sources", "size": 100 } 
-    },
-}
+def search_query_aggs(search_index_long):
+    aggs = {
+        "search_content_type": { "terms": { "field": "search_only_fields.search_content_type", "size": 200 } },
+        "search_extension": { "terms": { "field": "search_only_fields.search_extension", "size": 9 } },
+        "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "size": 100 } },
+        "search_record_sources": { "terms": { "field": "search_only_fields.search_record_sources", "size": 100 } }
+    }
+    if search_index_long != "aarecords_metadata":
+        aggs["search_most_likely_language_code"] = { "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 50 } }
+    return aggs
 
 @functools.cache
 def all_search_aggs(display_lang, search_index_long):
-    search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=search_index_long, size=0, aggs=search_query_aggs, timeout=ES_TIMEOUT_ALL_AGG)
+    search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=search_index_long, size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
     all_aggregations['search_most_likely_language_code'] = []
-    for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
-        if bucket['key'] == '':
-            all_aggregations['search_most_likely_language_code'].append({ 'key': '_empty', 'label': get_display_name_for_lang('', display_lang), 'doc_count': bucket['doc_count'] })
-        else:
-            all_aggregations['search_most_likely_language_code'].append({ 'key': bucket['key'], 'label': get_display_name_for_lang(bucket['key'], display_lang), 'doc_count': bucket['doc_count'] })
-    all_aggregations['search_most_likely_language_code'].sort(key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
+    if 'search_most_likely_language_code' in search_results_raw['aggregations']:
+        for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
+            if bucket['key'] == '':
+                all_aggregations['search_most_likely_language_code'].append({ 'key': '_empty', 'label': get_display_name_for_lang('', display_lang), 'doc_count': bucket['doc_count'] })
+            else:
+                all_aggregations['search_most_likely_language_code'].append({ 'key': bucket['key'], 'label': get_display_name_for_lang(bucket['key'], display_lang), 'doc_count': bucket['doc_count'] })
+        all_aggregations['search_most_likely_language_code'].sort(key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
 
     content_type_buckets = list(search_results_raw['aggregations']['search_content_type']['buckets'])
     md5_content_type_mapping = get_md5_content_type_mapping(display_lang)
@@ -3516,7 +3510,7 @@ def search_page():
             index=search_index_long, 
             size=max_display_results, 
             query=search_query,
-            aggs=search_query_aggs,
+            aggs=search_query_aggs(search_index_long),
             post_filter={ "bool": { "filter": post_filter } },
             sort=custom_search_sorting+['_score'],
             track_total_hits=False,
@@ -3549,8 +3543,9 @@ def search_page():
         for bucket in all_aggregations['search_record_sources']:
             doc_counts['search_record_sources'][bucket['key']] = bucket['doc_count']
     elif 'aggregations' in search_results_raw:
-        for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
-            doc_counts['search_most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
+        if 'search_most_likely_language_code' in search_results_raw['aggregations']:
+            for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
+                doc_counts['search_most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
         for bucket in search_results_raw['aggregations']['search_content_type']['buckets']:
             doc_counts['search_content_type'][bucket['key']] = bucket['doc_count']
         for bucket in search_results_raw['aggregations']['search_extension']['buckets']:

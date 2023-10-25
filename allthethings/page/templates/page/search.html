@@ -123,15 +123,17 @@
             <option value="largest" {% if search_dict.sort_value == 'largest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.largest') }}</option>
             <option value="smallest" {% if search_dict.sort_value == 'smallest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.smallest') }}</option>
           </select>
-          <div class="font-bold mb-1">{{ gettext('page.search.filters.language.header') }}</div>
-          <div class="mb-4">
-            {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
-              <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %} {% if loop.index > 10 %}hidden js-language-hidden{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
-            {% endfor %}
-            {% if search_dict.aggregations.search_most_likely_language_code | length > 10 %}
-              <a href="#" onclick="event.preventDefault(); event.stopPropagation(); for(var el of document.querySelectorAll('.js-language-hidden')) { el.classList.remove('hidden') }; event.currentTarget.classList.add('hidden')">{{ gettext('page.search.more') }}</a>
-            {% endif %}
-          </div>
+          {% if (search_dict.aggregations.search_most_likely_language_code | length) > 0 %}
+            <div class="font-bold mb-1">{{ gettext('page.search.filters.language.header') }}</div>
+            <div class="mb-4">
+              {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
+                <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %} {% if loop.index > 10 %}hidden js-language-hidden{% endif %}"><input type="checkbox" class="mr-1 mt-[6px] sm:mt-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-[2px] text-sm sm:text-xs text-gray-500">{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+              {% endfor %}
+              {% if search_dict.aggregations.search_most_likely_language_code | length > 10 %}
+                <a href="#" onclick="event.preventDefault(); event.stopPropagation(); for(var el of document.querySelectorAll('.js-language-hidden')) { el.classList.remove('hidden') }; event.currentTarget.classList.add('hidden')">{{ gettext('page.search.more') }}</a>
+              {% endif %}
+            </div>
+          {% endif %}
           <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" type="submit">{{ gettext('page.search.submit') }}</button>
 
           {% if g.last_data_refresh_date %}
