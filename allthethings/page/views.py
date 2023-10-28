@@ -2964,29 +2964,7 @@ def add_additional_to_aarecord(aarecord):
 def md5_page(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
-
-    if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
-
-    if canonical_md5 != md5_input:
-        return redirect(f"/md5/{canonical_md5}", code=301)
-
-    aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
-
-    if len(aarecords) == 0:
-        return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
-
-    aarecord = aarecords[0]
-
-    render_fields = {
-        "header_active": "home/search",
-        "aarecord_id": aarecord['id'],
-        "aarecord_id_split": aarecord['id'].split(':', 1),
-        "aarecord": aarecord,
-        "md5_problem_type_mapping": get_md5_problem_type_mapping(),
-        "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
-    }
-    return render_template("page/aarecord.html", **render_fields)
+    return render_aarecord(f"md5:{canonical_md5}")
 
 @page.get("/ia/<string:ia_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -2999,22 +2977,7 @@ def ia_page(ia_input):
             md5 = cursor.fetchone()['md5']
             return redirect(f"/md5/{md5}", code=301)
 
-        aarecords = get_aarecords_elasticsearch([f"ia:{ia_input}"])
-
-        if len(aarecords) == 0:
-            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ia_input)
-
-        aarecord = aarecords[0]
-
-        render_fields = {
-            "header_active": "home/search",
-            "aarecord_id": aarecord['id'],
-            "aarecord_id_split": aarecord['id'].split(':', 1),
-            "aarecord": aarecord,
-            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
-            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
-        }
-        return render_template("page/aarecord.html", **render_fields)
+        return render_aarecord(f"ia:{ia_input}")
 
 @page.get("/isbn/<string:isbn_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -3024,77 +2987,33 @@ def isbn_page(isbn_input):
 @page.get("/isbndb/<string:isbn_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def isbndb_page(isbn_input):
-    with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch([f"isbn:{isbn_input}"])
-
-        if len(aarecords) == 0:
-            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=isbn_input)
-
-        aarecord = aarecords[0]
-
-        render_fields = {
-            "header_active": "home/search",
-            "aarecord_id": aarecord['id'],
-            "aarecord_id_split": aarecord['id'].split(':', 1),
-            "aarecord": aarecord,
-            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
-            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
-        }
-        return render_template("page/aarecord.html", **render_fields)
+    return render_aarecord(f"isbn:{isbn_input}")
 
 @page.get("/ol/<string:ol_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def ol_page(ol_input):
-    if not allthethings.utils.validate_ol_editions([ol_input]):
-        return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ol_input)
-
-    with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch([f"ol:{ol_input}"])
-
-        if len(aarecords) == 0:
-            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=ol_input)
-
-        aarecord = aarecords[0]
-
-        render_fields = {
-            "header_active": "home/search",
-            "aarecord_id": aarecord['id'],
-            "aarecord_id_split": aarecord['id'].split(':', 1),
-            "aarecord": aarecord,
-            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
-            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
-        }
-        return render_template("page/aarecord.html", **render_fields)
+    return render_aarecord(f"ol:{ol_input}")
 
 @page.get("/doi/<path:doi_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def doi_page(doi_input):
-    with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch([f"doi:{doi_input}"])
-
-        if len(aarecords) == 0:
-            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=doi_input)
-
-        aarecord = aarecords[0]
-
-        render_fields = {
-            "header_active": "home/search",
-            "aarecord_id": aarecord['id'],
-            "aarecord_id_split": aarecord['id'].split(':', 1),
-            "aarecord": aarecord,
-            "md5_problem_type_mapping": get_md5_problem_type_mapping(),
-            "md5_report_type_mapping": allthethings.utils.get_md5_report_type_mapping()
-        }
-        return render_template("page/aarecord.html", **render_fields)
+    return render_aarecord(f"doi:{doi_input}")
 
 @page.get("/oclc/<path:oclc_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def oclc_page(oclc_input):
+    return render_aarecord(f"oclc:{oclc_input}")
+
+def render_aarecord(record_id):
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch([f"oclc:{oclc_input}"])
+        ids = [record_id]
+        if not allthethings.utils.validate_aarecord_ids(ids):
+            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=record_id)
+
+        aarecords = get_aarecords_elasticsearch(ids)
 
         if len(aarecords) == 0:
-            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=oclc_input)
+            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=record_id)
 
         aarecord = aarecords[0]
 
