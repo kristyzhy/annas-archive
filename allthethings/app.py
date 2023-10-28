@@ -4,6 +4,7 @@ import functools
 import base64
 import sys
 import time
+import babel.numbers as babel_numbers
 
 from celery import Celery
 from flask import Flask, request, g
@@ -237,7 +238,7 @@ def extensions(app):
         doc_counts['book_comic'] = doc_counts.get('book_comic') or 0
         doc_counts['magazine'] = doc_counts.get('magazine') or 0
         doc_counts['book_any'] = (doc_counts.get('book_unknown') or 0) + (doc_counts.get('book_fiction') or 0) + (doc_counts.get('book_nonfiction') or 0)
-        g.header_stats = {key: "{:,}".format(value) for key, value in doc_counts.items() }
+        g.header_stats = {key: babel_numbers.format_number(value, locale=get_locale()) for key, value in doc_counts.items() }
 
 
     return None
