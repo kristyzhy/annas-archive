@@ -23,7 +23,7 @@ from flask_babel import gettext, ngettext, force_locale, get_locale
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations
 from allthethings.page.views import get_aarecords_elasticsearch
-from config.settings import SECRET_KEY, PAYMENT1_ID, PAYMENT1_KEY
+from config.settings import SECRET_KEY, PAYMENT1_ID, PAYMENT1_KEY, PAYMENT1B_ID, PAYMENT1B_KEY
 
 import allthethings.utils
 
@@ -238,6 +238,7 @@ def donate_page():
         MEMBERSHIP_DOWNLOADS_PER_DAY=allthethings.utils.MEMBERSHIP_DOWNLOADS_PER_DAY,
         MEMBERSHIP_METHOD_MINIMUM_CENTS_USD=allthethings.utils.MEMBERSHIP_METHOD_MINIMUM_CENTS_USD,
         MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE=allthethings.utils.MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE,
+        days_parity=(datetime.datetime.utcnow() - datetime.datetime(1970,1,1)).days,
     )
 
 
@@ -300,11 +301,25 @@ def donation_page(donation_id):
                 "pid": PAYMENT1_ID,
                 "return_url": "https://annas-archive.se/account/",
                 "sitename": "Anna’s Archive",
-                # "type": method,
             }
             sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
             sign = hashlib.md5((sign_str).encode()).hexdigest()
             return redirect(f'https://pay.funlou.top/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
+
+        if donation_json['method'] == 'payment1b' and donation.processing_status == 0:
+            data = {
+                # Note that these are sorted by key.
+                "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
+                "name": "Anna’s Archive Membership",
+                "notify_url": "https://annas-archive.org/dyn/payment1b_notify/",
+                "out_trade_no": str(donation.donation_id),
+                "pid": PAYMENT1B_ID,
+                "return_url": "https://annas-archive.org/account/",
+                "sitename": "Anna’s Archive",
+            }
+            sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1B_KEY
+            sign = hashlib.md5((sign_str).encode()).hexdigest()
+            return redirect(f'https://merchant.pacypay.net/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
         if donation_json['method'] in ['payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc'] and donation.processing_status == 0:
             donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(days=5)

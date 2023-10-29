@@ -23,7 +23,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta, gettext
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
+from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT1B_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
 from allthethings.page.views import get_aarecords_elasticsearch, ES_TIMEOUT_PRIMARY
 
 import allthethings.utils
@@ -597,7 +597,7 @@ def account_buy_membership():
         raise Exception(f"Invalid costCentsUsdVerification")
 
     donation_type = 0 # manual
-    if method in ['payment1', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon']:
+    if method in ['payment1', 'payment1b', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon']:
         donation_type = 1
 
     donation_id = shortuuid.uuid()
@@ -745,6 +745,14 @@ def log_search():
 @dyn.get("/payment1_notify/")
 @allthethings.utils.no_cache()
 def payment1_notify():
+    payment1_common_notify(PAYMENT1_KEY, 'payment1_notify')
+
+@dyn.get("/payment1b_notify/")
+@allthethings.utils.no_cache()
+def payment1b_notify():
+    payment1_common_notify(PAYMENT1B_KEY, 'payment1b_notify')
+
+def payment1_common_notify(sign_key, data_key):
     data = {
         # Note that these are sorted by key.
         "money": request.args.get('money'),
@@ -755,17 +763,17 @@ def payment1_notify():
         "trade_status": request.args.get('trade_status'),
         "type": request.args.get('type'),
     }
-    sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
+    sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + sign_key
     sign = hashlib.md5((sign_str).encode()).hexdigest()
     if sign != request.args.get('sign'):
-        print(f"Warning: failed payment1_notify request because of incorrect signature {sign_str} /// {dict(request.args)}.")
+        print(f"Warning: failed {data_key} request because of incorrect signature {sign_str} /// {dict(request.args)}.")
         return "fail"
     if data['trade_status'] == 'TRADE_SUCCESS':
         with mariapersist_engine.connect() as connection:
             donation_id = data['out_trade_no']
             connection.connection.ping(reconnect=True)
             cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-            if allthethings.utils.confirm_membership(cursor, donation_id, 'payment1_notify', data):
+            if allthethings.utils.confirm_membership(cursor, donation_id, data_key, data):
                 return "success"
             else:
                 return "fail"
