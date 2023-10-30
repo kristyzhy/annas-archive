@@ -745,12 +745,12 @@ def log_search():
 @dyn.get("/payment1_notify/")
 @allthethings.utils.no_cache()
 def payment1_notify():
-    payment1_common_notify(PAYMENT1_KEY, 'payment1_notify')
+    return payment1_common_notify(PAYMENT1_KEY, 'payment1_notify')
 
 @dyn.get("/payment1b_notify/")
 @allthethings.utils.no_cache()
 def payment1b_notify():
-    payment1_common_notify(PAYMENT1B_KEY, 'payment1b_notify')
+    return payment1_common_notify(PAYMENT1B_KEY, 'payment1b_notify')
 
 def payment1_common_notify(sign_key, data_key):
     data = {
