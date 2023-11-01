@@ -1,50 +1,66 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-02 04:55+0000\n"
+"PO-Revision-Date: 2023-11-02 04:55+0000\n"
+"Last-Translator: Grzegorz Brzęczyszczykiewicz <shsdrch@proton.me>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.15\n"
+
 #: allthethings/utils.py:213
 msgid "common.md5_report_type_mapping.metadata"
-msgstr ""
+msgstr "Błędne metadane (np. tytuł, opis, zdjęcie okładki)"
 
 #: allthethings/utils.py:214
 msgid "common.md5_report_type_mapping.download"
-msgstr ""
+msgstr "Problemy z pobraniem (np. brak połączenia, kod błędu, bardzo powolne)"
 
 #: allthethings/utils.py:215
 msgid "common.md5_report_type_mapping.broken"
-msgstr ""
+msgstr "Nie można otworzyć pliku (np. plik uszkodzony, z zabezpieczeniami DRM)"
 
 #: allthethings/utils.py:216
 msgid "common.md5_report_type_mapping.pages"
-msgstr ""
+msgstr "Słaba jakość (np. problemy z formatowaniem, słaba jakość skanu, brakujące strony)"
 
 #: allthethings/utils.py:217
 msgid "common.md5_report_type_mapping.spam"
-msgstr ""
+msgstr "Spam / plik powinien zostać usunięty (np. reklamy, treści obraźliwe)"
 
 #: allthethings/utils.py:218
 msgid "common.md5_report_type_mapping.copyright"
-msgstr ""
+msgstr "Roszczenie dotyczące praw autorskich"
 
 #: allthethings/utils.py:219
 msgid "common.md5_report_type_mapping.other"
-msgstr ""
+msgstr "Inne"
 
 #: allthethings/utils.py:244
 msgid "common.membership.tier_name.2"
-msgstr "Błyskotliwy mól książkowy"
+msgstr "Przebojowy Pożeracz Powieści"
 
 #: allthethings/utils.py:245
 msgid "common.membership.tier_name.3"
-msgstr "Szczęśliwy bibliotekarz"
+msgstr "Błyskotliwy Bibliotekarz"
 
 #: allthethings/utils.py:246
 msgid "common.membership.tier_name.4"
-msgstr "Oświecony zbieracz danych"
+msgstr "Dziarski Danoskarbnik"
 
 #: allthethings/utils.py:247
 msgid "common.membership.tier_name.5"
-msgstr "Zadziwiający archiwista"
+msgstr "Anielski Archiwista"
 
 #: allthethings/utils.py:338
 msgid "common.membership.format_currency.total_with_usd"
-msgstr ""
+msgstr "%(amount)s (%(amount_usd)s) razem"
 
 #: allthethings/utils.py:340 allthethings/utils.py:341
 msgid "common.membership.format_currency.amount_with_usd"
@@ -52,19 +68,19 @@ msgstr "%(amount)s (%(amount_usd)s)"
 
 #: allthethings/utils.py:352
 msgid "common.membership.format_currency.total"
-msgstr ""
+msgstr "%(amount)s razem"
 
 #: allthethings/account/views.py:253
 msgid "common.donation.order_processing_status_labels.0"
-msgstr "bezpłatny"
+msgstr "nieopłacony"
 
 #: allthethings/account/views.py:254
 msgid "common.donation.order_processing_status_labels.1"
-msgstr "płatny"
+msgstr "opłacony"
 
 #: allthethings/account/views.py:255
 msgid "common.donation.order_processing_status_labels.2"
-msgstr "unieważniony"
+msgstr "anulowany"
 
 #: allthethings/account/views.py:256
 msgid "common.donation.order_processing_status_labels.3"
@@ -72,7 +88,7 @@ msgstr "wygasły"
 
 #: allthethings/account/views.py:257
 msgid "common.donation.order_processing_status_labels.4"
-msgstr "Oczekuje na potwierdzenie od Anny"
+msgstr "oczekuje na potwierdzenie od Anny"
 
 #: allthethings/account/templates/account/donate.html:3
 #: allthethings/account/templates/account/donate.html:17
@@ -93,7 +109,7 @@ msgstr "Anna's Archive jest projektem opierającym się o otwarte źródła i ot
 
 #: allthethings/account/templates/account/donate.html:20
 msgid "page.donate.header.text2"
-msgstr "Aby uzyskać więcej informacji, sprawdź<a href=\"/donation_faq\">Regulamin wsparcia</a>."
+msgstr "Aby uzyskać więcej informacji, sprawdź <a href=\"/donation_faq\">Najczęściej zadawane pytania o darowizny</a>."
 
 #: allthethings/account/templates/account/donate.html:29
 #: allthethings/account/templates/account/donate.html:43
@@ -121,11 +137,11 @@ msgstr "do %(percentage)s%% zniżki"
 #: allthethings/account/templates/account/donate.html:63
 #: allthethings/account/templates/account/donate.html:77
 msgid "page.donate.perks.fast_downloads"
-msgstr "%(number)s szybkich pobrań przez dzień"
+msgstr "%(number)s szybkich pobierań na dzień"
 
 #: allthethings/account/templates/account/donate.html:35
 msgid "page.donate.perks.scidb"
-msgstr ""
+msgstr "<strong>Nielimitowane</strong> dokumenty SciDB bez weryfikacji"
 
 #: allthethings/account/templates/account/donate.html:36
 msgid "page.donate.perks.credits"
@@ -139,11 +155,11 @@ msgstr "Poprzednie korzyści oraz:"
 
 #: allthethings/account/templates/account/donate.html:50
 msgid "page.donate.perks.early_access"
-msgstr "Wcześniejszy dostęp do nowych funkcjonalności"
+msgstr "Wczesny dostęp do nowych funkcji"
 
 #: allthethings/account/templates/account/donate.html:64
 msgid "page.donate.perks.exclusive_telegram"
-msgstr "Dostęp do grupy na komunikatorze Telegram z akutalizacjami odnośnie szczegółów aktualizacji projektu \"zza kulis\""
+msgstr "Dostęp do grupy na Telegram z informacjami \"zza kulis\" dot. aktualizacji"
 
 #: allthethings/account/templates/account/donate.html:78
 msgid "page.donate.perks.adopt"
@@ -155,7 +171,7 @@ msgstr "Przy chęci wsparcia projektu kwotą powyżej 5000$, prosimy o kontakt p
 
 #: allthethings/account/templates/account/donate.html:90
 msgid "page.donate.payment.intro"
-msgstr "Wybierz opcję płatności: Przyznajemy zniżki przy płatości kryptowalutami %(bitcoin_icon)s, ponieważ ponosimy (dużo) mniej kosztów."
+msgstr "Wybierz opcję płatności. Przyznajemy zniżki przy płatości kryptowalutami %(bitcoin_icon)s, ponieważ ponosimy (dużo) mniejsze koszty."
 
 #: allthethings/account/templates/account/donate.html:91
 msgid "page.donate.payment.intro2"
@@ -184,15 +200,15 @@ msgstr "-%(percentage)s%%"
 
 #: allthethings/account/templates/account/donate.html:99
 msgid "page.donate.payment.buttons.paypal"
-msgstr "PayPal %(bitcoin_icon)s"
+msgstr "PayPal (US) %(bitcoin_icon)s"
 
 #: allthethings/account/templates/account/donate.html:102
 msgid "page.donate.payment.buttons.amazon"
-msgstr ""
+msgstr "Karta Podarunkowa Amazon"
 
 #: allthethings/account/templates/account/donate.html:103
 msgid "page.donate.payment.buttons.credit_debit"
-msgstr ""
+msgstr "Karta kredytowa/debetowa"
 
 #: allthethings/account/templates/account/donate.html:105
 msgid "page.donate.payment.buttons.alipay"
@@ -204,23 +220,23 @@ msgstr "Pix (Brazylia)"
 
 #: allthethings/account/templates/account/donate.html:109
 msgid "page.donate.payment.buttons.paypal_plain"
-msgstr ""
+msgstr "PayPal"
 
 #: allthethings/account/templates/account/donate.html:110
 msgid "page.donate.payment.buttons.cashapp"
-msgstr ""
+msgstr "CashApp"
 
 #: allthethings/account/templates/account/donate.html:111
 msgid "page.donate.payment.buttons.credit_debit2"
-msgstr ""
+msgstr "Karta kredytowa/debetowa 2"
 
 #: allthethings/account/templates/account/donate.html:114
 msgid "page.donate.payment.buttons.alipay_wechat"
-msgstr ""
+msgstr "Alipay/WeChat"
 
 #: allthethings/account/templates/account/donate.html:114
 msgid "page.donate.payment.buttons.temporarily_unavailable"
-msgstr ""
+msgstr "(na tę chwilę niedostępny)"
 
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.desc.crypto"
@@ -228,69 +244,69 @@ msgstr "Przy wyborze płatności kryptowalutami możliwym jest wsparcie za pomoc
 
 #: allthethings/account/templates/account/donate.html:127
 msgid "page.donate.payment.desc.crypto2"
-msgstr ""
+msgstr "Przy płatnościach kryptowalutami można użyć BTC, ETH, XMR i więcej."
 
 #: allthethings/account/templates/account/donate.html:131
 msgid "page.donate.payment.desc.crypto_suggestion"
-msgstr ""
+msgstr "Jeżeli korzystasz z kryptowalut po raz pierwszy, proponujemy użycie %(option1)s, %(option2)s, lub %(option3)s by kupić i podarować Bitcoin (oryginalna i najpowszechniej używana kryptowaluta)."
 
 #: allthethings/account/templates/account/donate.html:137
 msgid "page.donate.payment.desc.paypal"
-msgstr "Zamierzając wspomóc nas przez PayPal, należy użyć PayPal Crypto, które pozwoli nam na pozostanie anonimowymi. Doceniamy Twój wkład w nauczenie się sposobu wykonywania płatności za pomocą tej metody, ponieważ Twoje działanie bardzo nam pomaga."
+msgstr "By wspomóc nas przez PayPal, należy użyć PayPal Crypto, które pozwoli nam na pozostanie anonimowymi. Doceniamy Twój wkład w nauczenie się sposobu wykonywania płatności tą metodą, to bardzo nam pomaga."
 
 #: allthethings/account/templates/account/donate.html:138
 msgid "page.donate.payment.desc.paypal_short"
-msgstr ""
+msgstr "Wspomóż za pomocą PayPal."
 
 #: allthethings/account/templates/account/donate.html:144
 msgid "page.donate.payment.desc.cashapp"
-msgstr ""
+msgstr "Wspomóż za pomocą Cash App."
 
 #: allthethings/account/templates/account/donate.html:144
 msgid "page.donate.payment.desc.cashapp_easy"
-msgstr ""
+msgstr "Jeśli masz Cash App, to jest to najłatwiejszy sposób, aby dokonać darowizny!"
 
 #: allthethings/account/templates/account/donate.html:147
 msgid "page.donate.payment.desc.cashapp_fee"
-msgstr ""
+msgstr "Zwróc uwagę, że przy transakcjach poniżej %(amount)s, Cash App może pobierać opłatę w wysokości %(fee)s. Dla %(amount)s lub więcej, jest to bezpłatne!"
 
 #: allthethings/account/templates/account/donate.html:153
 #: allthethings/account/templates/account/donate.html:201
 msgid "page.donate.payment.desc.credit_debit"
-msgstr ""
+msgstr "Wspomóż za pomocą karty kredytowej/debetowej."
 
 #: allthethings/account/templates/account/donate.html:154
 msgid "page.donate.payment.desc.google_apple"
-msgstr ""
+msgstr "Google Pay i Apple Pay też mogą zadziałać."
 
 #: allthethings/account/templates/account/donate.html:155
 msgid "page.donate.payment.desc.elimate_discount"
-msgstr ""
+msgstr "Zwróć uwagę, że dla mniejszych darowizn opłaty z kard kredytowych mogą wyeliminować naszą zniżkę w wysokości %(discount)s, więc zalecamy dłuższe subskrypcje."
 
 #: allthethings/account/templates/account/donate.html:156
 msgid "page.donate.payment.desc.longer_subs"
-msgstr ""
+msgstr "Zwróć uwagę, że dla mniejszych darowizn opłaty są wysokie, więc zalecamy dłuższe subskrypcje."
 
 #: allthethings/account/templates/account/donate.html:178
 msgid "page.donate.payment.desc.alipay_wechat"
-msgstr ""
+msgstr "Wspomóż za pomocą Alipay lub WeChat. Możesz wybrać którąś z tych opcji na kolejnej stronie."
 
 #: allthethings/account/templates/account/donate.html:190
 msgid "page.donate.payment.desc.amazon"
-msgstr ""
+msgstr "Wspomóż za pomocą karty podarunkowej Amazon."
 
 #: allthethings/account/templates/account/donate.html:191
 msgid "page.donate.payment.desc.amazon_round"
-msgstr ""
+msgstr "Zwróć uwagę, że musimy zaokrąglać do wartości akceptowanych przez naszych partnerów handlowych (minimum %(minimum)s)."
 
 #: allthethings/account/templates/account/donate.html:195
 #: allthethings/account/templates/account/donation.html:291
 msgid "page.donate.payment.desc.amazon_com"
-msgstr ""
+msgstr "<strong>WAŻNE:</strong> Mamy wsparcie tylko dla Amazon.com, nie innych stron Amazon. Np.: .de, .co.uk, .ca NIE są wspierane."
 
 #: allthethings/account/templates/account/donate.html:212
 msgid "page.donate.duration.intro"
-msgstr "Jak długo zamierzasz nas wspierać."
+msgstr "Wybierz jak długo zamierzasz nas wspierać."
 
 #: allthethings/account/templates/account/donate.html:217
 msgid "page.donate.duration.1_mo"
@@ -318,15 +334,15 @@ msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>after <span %(span_di
 
 #: allthethings/account/templates/account/donate.html:230
 msgid "page.donate.payment.minimum_method"
-msgstr ""
+msgstr "Ta metoda płatności wymaga minimum %(amount)s. Proszę wybierz inną długość lub metodę płatności."
 
 #: allthethings/account/templates/account/donate.html:231
 msgid "page.donate.payment.maximum_method"
-msgstr ""
+msgstr "Ta metoda płatności wymaga maksimum %(amount)s. Proszę wybierz inną długość lub metodę płatności."
 
 #: allthethings/account/templates/account/donate.html:236
 msgid "page.donate.login2"
-msgstr ""
+msgstr "Aby zostać członkiem, prosimy się <a %(a_login)s>Zalogować lub Zarejestrować</a>. Dziękujemy za Twoje wsparcie!"
 
 #: allthethings/account/templates/account/donate.html:243
 msgid "page.donate.payment.crypto_select"
@@ -346,7 +362,7 @@ msgstr "Wciąż możesz wycofać płatność podczas realizacji płatności."
 
 #: allthethings/account/templates/account/donate.html:292
 msgid "page.donate.submit.success"
-msgstr "✅ Przekierowanie na stronę wsparcia finansowego projektu …"
+msgstr "✅ Przekierowywanie na stronę wsparcia finansowego projektu…"
 
 #: allthethings/account/templates/account/donate.html:293
 msgid "page.donate.submit.failure"
@@ -1831,7 +1847,7 @@ msgstr "Szukaj"
 #: allthethings/templates/layouts/index.html:366
 #: allthethings/templates/layouts/index.html:443
 msgid "layout.index.header.nav.about"
-msgstr "O"
+msgstr "O nas"
 
 #: allthethings/templates/layouts/index.html:341
 #: allthethings/templates/layouts/index.html:353
@@ -2224,4 +2240,3 @@ msgstr "skopiowano!"
 
 #~ msgid "layout.index.footer.list2.translate"
 #~ msgstr "Przetłumacz"
-
