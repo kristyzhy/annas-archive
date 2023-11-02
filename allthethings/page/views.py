@@ -544,8 +544,9 @@ def torrents_page():
 @page.get("/torrents.json")
 @allthethings.utils.no_cache()
 def torrents_json_page():
-    with mariapersist_engine.connect() as conn:
-        small_files = conn.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        small_files = connection.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
         output_json = []
         for small_file in small_files:
             output_json.append({ 
@@ -569,8 +570,9 @@ def torrents_latest_aac_page(collection):
 @page.get("/small_file/<path:file_path>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def small_file_page(file_path):
-    with mariapersist_engine.connect() as conn:
-        file = conn.execute(select(MariapersistSmallFiles.data).where(MariapersistSmallFiles.file_path == file_path).limit(10000)).first()
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        file = connection.execute(select(MariapersistSmallFiles.data).where(MariapersistSmallFiles.file_path == file_path).limit(10000)).first()
         if file is None:
             return "File not found", 404
         return send_file(io.BytesIO(file.data), as_attachment=True, download_name=file_path.split('/')[-1])
@@ -3512,7 +3514,9 @@ def search_page():
     # Only sort languages, for the other lists we want consistency.
     aggregations['search_most_likely_language_code'] = sorted(aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
 
-    search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+    search_aarecords = []
+    if 'hits' in search_results_raw:
+        search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
     max_search_aarecords_reached = False
     max_additional_search_aarecords_reached = False

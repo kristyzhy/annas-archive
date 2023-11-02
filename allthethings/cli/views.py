@@ -218,6 +218,7 @@ def elastic_reset_aarecords():
     elastic_reset_aarecords_internal()
 
 def elastic_reset_aarecords_internal():
+    print("Deleting ES indices")
     es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
     es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
     es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
@@ -252,6 +253,7 @@ def elastic_reset_aarecords_internal():
             "index.codec": "best_compression",
         },
     }
+    print("Creating ES indices")
     es.indices.create(index='aarecords', body=body)
     es_aux.indices.create(index='aarecords_digital_lending', body=body)
     es_aux.indices.create(index='aarecords_metadata', body=body)
@@ -316,9 +318,9 @@ def elastic_build_aarecords_job_oclc(fields):
     allthethings.utils.set_worldcat_line_cache(fields)
     elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
 
-THREADS = 100
-CHUNK_SIZE = 50
-BATCH_SIZE = 100000
+THREADS = 40
+CHUNK_SIZE = 20
+BATCH_SIZE = 20000
 
 # Locally
 if SLOW_DATA_IMPORTS:
@@ -355,24 +357,28 @@ def elastic_build_aarecords_ia_internal():
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
 
+    before_first_ia_id = ''
+
     with engine.connect() as connection:
+        print("Processing from aa_ia_2023_06_metadata")
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        with multiprocessing.Pool(THREADS) as executor:
-            print("Processing from aa_ia_2023_06_metadata")
-            cursor.execute('SELECT COUNT(ia_id) AS count FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id LIMIT 1')
-            total = list(cursor.fetchall())[0]['count']
-            cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id')
-            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-                last_map = []
-                while True:
-                    batch = list(cursor.fetchmany(BATCH_SIZE))
-                    list(last_map)
-                    if len(batch) == 0:
-                        break
-                    print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata ( starting ia_id: {batch[0]['ia_id']} )...")
-                    last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
-                    pbar.update(len(batch))
+        cursor.execute('SELECT COUNT(ia_id) AS count FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_metadata.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id LIMIT 1', { "from": before_first_ia_id })
+        total = list(cursor.fetchall())[0]['count']
+        current_ia_id = before_first_ia_id
+        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+            while True:
+                connection.connection.ping(reconnect=True)
+                cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+                cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_metadata.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id LIMIT %(limit)s', { "from": current_ia_id, "limit": BATCH_SIZE })
+                batch = list(cursor.fetchmany(BATCH_SIZE))
+                if len(batch) == 0:
+                    break
+                print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata ( starting ia_id: {batch[0]['ia_id']} , ia_id: {batch[-1]['ia_id']} )...")
+                with multiprocessing.Pool(THREADS) as executor:
+                    list(executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE)))
+                pbar.update(len(batch))
+                current_ia_id = batch[-1]['ia_id']
 
         print(f"Done with IA!")
 
@@ -387,29 +393,33 @@ def elastic_build_aarecords_isbndb_internal():
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
 
+    before_first_isbn13 = ''
+
     with engine.connect() as connection:
+        print("Processing from isbndb_isbns")
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        with multiprocessing.Pool(THREADS) as executor:
-            print("Processing from isbndb_isbns")
-            cursor.execute('SELECT COUNT(isbn13) AS count FROM isbndb_isbns ORDER BY isbn13 LIMIT 1')
-            total = list(cursor.fetchall())[0]['count']
-            cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns ORDER BY isbn13')
-            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-                last_map = []
-                while True:
-                    batch = list(cursor.fetchmany(BATCH_SIZE))
-                    list(last_map)
-                    if len(batch) == 0:
-                        break
-                    print(f"Processing {len(batch)} aarecords from isbndb_isbns ( starting isbn13: {batch[0]['isbn13']} )...")
-                    last_map = isbn13s = set()
-                    for item in batch:
-                        if item['isbn10'] != "0000000000":
-                            isbn13s.add(f"isbn:{item['isbn13']}")
-                            isbn13s.add(f"isbn:{isbnlib.ean13(item['isbn10'])}")
-                    executor.map(elastic_build_aarecords_job, more_itertools.ichunked(list(isbn13s), CHUNK_SIZE))
-                    pbar.update(len(batch))
+        cursor.execute('SELECT COUNT(isbn13) AS count FROM isbndb_isbns WHERE isbn13 > %(from)s ORDER BY isbn13 LIMIT 1', { "from": before_first_isbn13 })
+        total = list(cursor.fetchall())[0]['count']
+        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+            current_isbn13 = before_first_isbn13
+            while True:
+                connection.connection.ping(reconnect=True)
+                cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+                cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns WHERE isbn13 > %(from)s ORDER BY isbn13 LIMIT %(limit)s', { "from": current_isbn13, "limit": BATCH_SIZE })
+                batch = list(cursor.fetchmany(BATCH_SIZE))
+                if len(batch) == 0:
+                    break
+                print(f"Processing {len(batch)} aarecords from isbndb_isbns ( starting isbn13: {batch[0]['isbn13']} , ending isbn13: {batch[-1]['isbn13']} )...")
+                isbn13s = set()
+                for item in batch:
+                    if item['isbn10'] != "0000000000":
+                        isbn13s.add(f"isbn:{item['isbn13']}")
+                        isbn13s.add(f"isbn:{isbnlib.ean13(item['isbn10'])}")
+                with multiprocessing.Pool(THREADS) as executor:
+                    list(executor.map(elastic_build_aarecords_job, more_itertools.ichunked(list(isbn13s), CHUNK_SIZE)))
+                pbar.update(len(batch))
+                current_isbn13 = batch[-1]['isbn13']
         print(f"Done with ISBNdb!")
 
 #################################################################################################
@@ -419,29 +429,31 @@ def elastic_build_aarecords_ol():
     elastic_build_aarecords_ol_internal()
 
 def elastic_build_aarecords_ol_internal():
-    first_ol_key = ''
-    # first_ol_key = '/books/OL5624024M'
+    before_first_ol_key = ''
+    # before_first_ol_key = '/books/OL5624024M'
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
 
     with engine.connect() as connection:
+        print("Processing from ol_base")
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        with multiprocessing.Pool(THREADS) as executor:
-            print("Processing from ol_base")
-            cursor.execute('SELECT COUNT(ol_key) AS count FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s ORDER BY ol_key LIMIT 1', { "from": first_ol_key })
-            total = list(cursor.fetchall())[0]['count']
-            cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key >= %(from)s ORDER BY ol_key', { "from": first_ol_key })
-            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-                last_map = []
-                while True:
-                    batch = list(cursor.fetchmany(BATCH_SIZE))
-                    list(last_map)
-                    if len(batch) == 0:
-                        break
-                    print(f"Processing {len(batch)} aarecords from ol_base ( starting ol_key: {batch[0]['ol_key']} )...")
-                    last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ol:{item['ol_key'].replace('/books/','')}" for item in batch if allthethings.utils.validate_ol_editions([item['ol_key'].replace('/books/','')])], CHUNK_SIZE))
-                    pbar.update(len(batch))
+        cursor.execute('SELECT COUNT(ol_key) AS count FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key > %(from)s ORDER BY ol_key LIMIT 1', { "from": before_first_ol_key })
+        total = list(cursor.fetchall())[0]['count']
+        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+            current_ol_key = before_first_ol_key
+            while True:
+                connection.connection.ping(reconnect=True)
+                cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+                cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key > %(from)s ORDER BY ol_key LIMIT %(limit)s', { "from": current_ol_key, "limit": BATCH_SIZE })
+                batch = list(cursor.fetchall())
+                if len(batch) == 0:
+                    break
+                print(f"Processing {len(batch)} aarecords from ol_base ( starting ol_key: {batch[0]['ol_key']} , ending ol_key: {batch[-1]['ol_key']} )...")
+                with multiprocessing.Pool(THREADS) as executor:
+                    list(executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"ol:{item['ol_key'].replace('/books/','')}" for item in batch if allthethings.utils.validate_ol_editions([item['ol_key'].replace('/books/','')])], CHUNK_SIZE)))
+                pbar.update(len(batch))
+                current_ol_key = batch[-1]['ol_key']
         print(f"Done with OpenLib!")
 
 #################################################################################################
@@ -512,104 +524,56 @@ def elastic_build_aarecords_main():
     elastic_build_aarecords_main_internal()
 
 def elastic_build_aarecords_main_internal():
-    first_md5 = ''
-    # first_md5 = '0337ca7b631f796fa2f465ef42cb815c'
-    first_doi = ''
-    # first_doi = ''
+    before_first_md5 = ''
+    # before_first_md5 = '4dcf17fc02034aadd33e2e5151056b5d'
+    before_first_doi = ''
+    # before_first_doi = ''
 
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
 
     with engine.connect() as connection:
+        print("Processing from computed_all_md5s")
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        with multiprocessing.Pool(THREADS) as executor:
-            print("Processing from computed_all_md5s")
-            cursor.execute('SELECT COUNT(md5) AS count FROM computed_all_md5s WHERE md5 >= %(from)s ORDER BY md5 LIMIT 1', { "from": bytes.fromhex(first_md5) })
-            total = list(cursor.fetchall())[0]['count']
-            cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 >= %(from)s ORDER BY md5', { "from": bytes.fromhex(first_md5) })
-            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-                last_map = []
-                while True:
-                    batch = list(cursor.fetchmany(BATCH_SIZE))
-                    list(last_map)
-                    if len(batch) == 0:
-                        break
-                    print(f"Processing {len(batch)} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} )...")
-                    last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
-                    pbar.update(len(batch))
+        cursor.execute('SELECT COUNT(md5) AS count FROM computed_all_md5s WHERE md5 > %(from)s ORDER BY md5 LIMIT 1', { "from": bytes.fromhex(before_first_md5) })
+        total = list(cursor.fetchall())[0]['count']
+        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+            current_md5 = bytes.fromhex(before_first_md5)
+            while True:
+                connection.connection.ping(reconnect=True)
+                cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+                cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 > %(from)s ORDER BY md5 LIMIT %(limit)s', { "from": current_md5, "limit": BATCH_SIZE })
+                batch = list(cursor.fetchall())
+                if len(batch) == 0:
+                    break
+                print(f"Processing {len(batch)} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
+                with multiprocessing.Pool(THREADS) as executor:
+                    list(executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE)))
+                pbar.update(len(batch))
+                current_md5 = batch[-1]['md5']
 
             print("Processing from scihub_dois_without_matches")
-            cursor.execute('SELECT COUNT(doi) AS count FROM scihub_dois_without_matches WHERE doi >= %(from)s ORDER BY doi LIMIT 1', { "from": first_doi })
+            connection.connection.ping(reconnect=True)
+            cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+            cursor.execute('SELECT COUNT(doi) AS count FROM scihub_dois_without_matches WHERE doi > %(from)s ORDER BY doi LIMIT 1', { "from": before_first_doi })
             total = list(cursor.fetchall())[0]['count']
-            cursor.execute('SELECT doi FROM scihub_dois_without_matches WHERE doi >= %(from)s ORDER BY doi', { "from": first_doi })
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-                last_map = []
+                current_doi = before_first_doi
                 while True:
-                    batch = list(cursor.fetchmany(BATCH_SIZE))
-                    list(last_map)
+                    connection.connection.ping(reconnect=True)
+                    cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+                    cursor.execute('SELECT doi FROM scihub_dois_without_matches WHERE doi > %(from)s ORDER BY doi LIMIT %(limit)s', { "from": current_doi, "limit": BATCH_SIZE })
+                    batch = list(cursor.fetchall())
                     if len(batch) == 0:
                         break
-                    print(f"Processing {len(batch)} aarecords from scihub_dois_without_matches ( starting doi: {batch[0]['doi']} )...")
-                    last_map = executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
+                    print(f"Processing {len(batch)} aarecords from scihub_dois_without_matches ( starting doi: {batch[0]['doi']}, ending doi: {batch[-1]['doi']} )...")
+                    with multiprocessing.Pool(THREADS) as executor:
+                        list(executor.map(elastic_build_aarecords_job, more_itertools.ichunked([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE)))
                     pbar.update(len(batch))
+                    current_doi = batch[-1]['doi']
 
         print(f"Done with main!")
-
-
-# Kept for future reference, for future migrations
-# #################################################################################################
-# # ./run flask cli elastic_migrate_from_aarecords_to_aarecords2
-# @cli.cli.command('elastic_migrate_from_aarecords_to_aarecords2')
-# def elastic_migrate_from_aarecords_to_aarecords2():
-#     print("Erasing entire ElasticSearch 'aarecords2' index! Did you double-check that any production/large databases are offline/inaccessible from here?")
-#     time.sleep(2)
-#     print("Giving you 5 seconds to abort..")
-#     time.sleep(5)
-
-#     elastic_migrate_from_aarecords_to_aarecords2_internal()
-
-# def elastic_migrate_from_aarecords_to_aarecords2_job(canonical_md5s):
-#     try:
-#         search_results_raw = es.mget(index="aarecords", ids=canonical_md5s)
-#         # print(f"{search_results_raw}"[0:10000])
-#         new_aarecords = []
-#         for item in search_results_raw['docs']:
-#             new_aarecords.append({
-#                 **item['_source'],
-#                 '_op_type': 'index',
-#                 '_index': 'aarecords2',
-#                 '_id': item['_id'],
-#             })
-                
-#         elasticsearch.helpers.bulk(es, new_aarecords, request_timeout=30)
-#         # print(f"Processed {len(new_aarecords)} md5s")
-#     except Exception as err:
-#         print(repr(err))
-#         raise err
-
-# def elastic_migrate_from_aarecords_to_aarecords2_internal():
-#     elastic_reset_aarecords_internal()
-
-#     THREADS = 60
-#     CHUNK_SIZE = 70
-#     BATCH_SIZE = 100000
-
-#     first_md5 = ''
-#     # Uncomment to resume from a given md5, e.g. after a crash (be sure to also comment out the index deletion above)
-#     # first_md5 = '0337ca7b631f796fa2f465ef42cb815c'
-
-#     with engine.connect() as conn:
-#         total = conn.execute(select([func.count(ComputedAllMd5s.md5)])).scalar()
-#         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-#             for batch in query_yield_batches(conn, select(ComputedAllMd5s.md5).where(ComputedAllMd5s.md5 >= first_md5), ComputedAllMd5s.md5, BATCH_SIZE):
-#                 with multiprocessing.Pool(THREADS) as executor:
-#                     print(f"Processing {len(batch)} md5s from computed_all_md5s (starting md5: {batch[0][0]})...")
-#                     executor.map(elastic_migrate_from_aarecords_to_aarecords2_job, more_itertools.ichunked([item[0] for item in batch], CHUNK_SIZE))
-#                     pbar.update(len(batch))
-
-#             print(f"Done!")
-
 
 
 #################################################################################################
