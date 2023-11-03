@@ -473,7 +473,16 @@ def get_torrents_data():
                     seeder_sizes[2] += metadata['data_size']
 
             group_sizes[group] += metadata['data_size']
-            small_file_dicts_grouped[group].append({ **small_file, "metadata": metadata, "size_string": format_filesize(metadata['data_size']), "display_name": small_file['file_path'].split('/')[-1], "scrape_metadata": scrape_metadata, "scrape_created": small_file['scrape_created'], 'scrape_created_delta': small_file['scrape_created'] - datetime.datetime.now() })
+            small_file_dicts_grouped[group].append({ 
+                **small_file, 
+                "metadata": metadata, 
+                "size_string": format_filesize(metadata['data_size']), 
+                "display_name": small_file['file_path'].split('/')[-1], 
+                "scrape_metadata": scrape_metadata, 
+                "scrape_created": small_file['scrape_created'], 
+                "scrape_created_delta": small_file['scrape_created'] - datetime.datetime.now(),
+                "is_metadata": (('annas_archive_meta__' in small_file['file_path']) or ('.sql' in small_file['file_path']) or ('-index-' in small_file['file_path']) or ('-derived' in small_file['file_path']) or ('isbndb' in small_file['file_path']) or ('covers-' in small_file['file_path']) or ('-metadata-' in small_file['file_path']) or ('-thumbs' in small_file['file_path']) or ('.csv' in small_file['file_path']))
+            })
 
         group_size_strings = { group: format_filesize(total) for group, total in group_sizes.items() }
         seeder_size_strings = { index: format_filesize(seeder_sizes[index]) for index in [0,1,2] }
@@ -629,6 +638,7 @@ zlib_book_dict_comments = {
     "file_data_folder": ("after", ["The AAC data folder / torrent that contains this file"]),
     "record_aacid": ("after", ["The AACID of the corresponding metadata entry in the zlib3_records collection"]),
     "file_aacid": ("after", ["The AACID of the corresponding metadata entry in the zlib3_files collection (corresponding to the data filename)"]),
+    "cover_url_guess": ("after", ["Anna's Archive best guess of the cover URL, based on the MD5."]),
 }
 def zlib_add_edition_varia_normalized(zlib_book_dict):
     edition_varia_normalized = []
@@ -641,6 +651,9 @@ def zlib_add_edition_varia_normalized(zlib_book_dict):
     if len((zlib_book_dict.get('year') or '').strip()) > 0:
         edition_varia_normalized.append(zlib_book_dict['year'].strip())
     zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
+
+def zlib_cover_url_guess(md5):
+    return f"https://static.1lib.sk/covers/books/{md5[0:2]}/{md5[2:4]}/{md5[4:6]}/{md5}.jpg"
 
 def get_zlib_book_dicts(session, key, values):
     if len(values) == 0:
@@ -659,6 +672,7 @@ def get_zlib_book_dicts(session, key, values):
         zlib_book_dict = zlib_book.to_dict()
         zlib_book_dict['stripped_description'] = strip_description(zlib_book_dict['description'])
         zlib_book_dict['language_codes'] = get_bcp47_lang_codes(zlib_book_dict['language'] or '')
+        zlib_book_dict['cover_url_guess'] = zlib_cover_url_guess(zlib_book_dict['md5_reported'])
         zlib_add_edition_varia_normalized(zlib_book_dict)
 
         allthethings.utils.init_identifiers_and_classification_unified(zlib_book_dict)
@@ -2223,11 +2237,15 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgli_file'] or {}).get('cover_url_guess_normalized') or '').strip(),
             *[ol_book_dict['cover_url_normalized'] for ol_book_dict in aarecord['ol']],
             *[(isbndb['json'].get('image') or '').strip() for isbndb in aarecord['isbndb']],
-            *[isbndb['cover_url_guess'] for isbndb in aarecord['isbndb']],
         ]
         cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
         aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
         aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
+        if aarecord['file_unified_data']['cover_url_best'] == '':
+            aarecord['file_unified_data']['cover_url_additional'] += [isbndb['cover_url_guess'] for isbndb in aarecord['isbndb']]
+            aarecord['file_unified_data']['cover_url_additional'].append(((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip())
+            aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
+            aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
         if len(aarecord['file_unified_data']['cover_url_additional']) == 0:
             del aarecord['file_unified_data']['cover_url_additional']
 

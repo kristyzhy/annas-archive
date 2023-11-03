@@ -53,11 +53,11 @@
         </td></tr>
 
         {% for small_file in small_files %}
-          <tr class="{% if small_file.file_path in torrents_data.obsolete_file_paths %}line-through{% endif %}"><td colspan="100" class="max-sm:break-all"><a href="/small_file/{{ small_file.file_path }}">{{ small_file.file_path }}</a></td></tr>
+          <tr class="{% if small_file.file_path in torrents_data.obsolete_file_paths %}line-through{% endif %}"><td colspan="100" class="max-sm:break-all"><a href="/small_file/{{ small_file.file_path }}">{{ small_file.file_path }}</a><a class="ml-2 text-sm whitespace-nowrap" href="magnet:?xt=urn:btih:{{ small_file.metadata.btih }}&dn={{ small_file.display_name | urlencode }}&tr=udp://tracker.opentrackr.org:1337/announce">magnet</a></td></tr>
           <tr>
             <td class="text-sm pb-1 whitespace-nowrap">{{ small_file.created | datetimeformat('yyyy-MM-dd') }}</td>
             <td class="text-sm pb-1 pl-2 whitespace-nowrap">{{ small_file.size_string }}</td>
-            <td class="text-sm pb-1 pl-2 whitespace-nowrap"><a href="magnet:?xt=urn:btih:{{ small_file.metadata.btih }}&dn={{ small_file.display_name | urlencode }}&tr=udp://tracker.opentrackr.org:1337/announce">magnet</a></td>
+            <td class="text-sm pb-1 pl-2 whitespace-nowrap">{% if small_file.is_metadata %}metadata{% else %}data{% endif %}</td>
             <td class="text-sm pb-1 pl-2 pr-2 whitespace-nowrap">{% if small_file.scrape_metadata.scrape %}<span class="text-[10px] leading-none align-[2px]">{% if small_file.scrape_metadata.scrape.seeders < 4 %}<span title="<4 seeders">🔴</span>{% elif small_file.scrape_metadata.scrape.seeders < 11 %}<span title="4–10 seeders">🟡</span>{% else %}<span title=">10 seeders">🟢</span>{% endif %}</span> {{ small_file.scrape_metadata.scrape.seeders }} seed / {{ small_file.scrape_metadata.scrape.leechers }} leech <span class="max-sm:hidden text-xs text-gray-500" title="{{ small_file.scrape_created | datetimeformat(format='long') }}">{{ small_file.scrape_created_delta | timedeltaformat(add_direction=True) }}</span>{% endif %}</td>
           </tr>
         {% endfor %}
