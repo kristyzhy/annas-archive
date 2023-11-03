@@ -22,12 +22,14 @@
       Torrents with “aac” in the filename use the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available.
     </p>
 
-    {% for group, small_files in small_file_dicts_grouped.items() %}
-      <h3 class="mt-4 mb-1 text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }} <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [h3:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></h3>
+    <table>
+      {% for group, small_files in small_file_dicts_grouped.items() %}
+        <tr><td colspan="100"><span class="mt-4 mb-1 text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }}</span> <span class="text-xs text-gray-500">{{ group_size_strings[group] }}</span> <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [td:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></td></tr>
 
-      {% for small_file in small_files %}
-        <div {% if small_file.file_path in obsolete_file_paths %}class="line-through"{% endif %}>{{ small_file.created | datetimeformat('yyyy-MM-dd') }} <a href="/small_file/{{ small_file.file_path }}" class="break-all">{{ small_file.file_path }}</a></div>
+        {% for small_file in small_files %}
+          <tr class="{% if small_file.file_path in obsolete_file_paths %}line-through{% endif %}"><td class="pb-1 break-all"><a href="/small_file/{{ small_file.file_path }}">{{ small_file.file_path }}</a></td><td class="pb-1 pl-2 whitespace-nowrap">{{ small_file.created | datetimeformat('yyyy-MM-dd') }}</td><td class="pb-1 pl-2 whitespace-nowrap">{{ small_file.size_string }}</td><td class="pb-1 pl-2 whitespace-nowrap"><a href="magnet:?xt=urn:btih:{{ small_file.metadata.btih }}&dn={{ small_file.display_name | urlencode }}&tr=udp://tracker.opentrackr.org:1337/announce">magnet</a></td></tr>
+        {% endfor %}
       {% endfor %}
-    {% endfor %}
+    </table>
   </div>
 {% endblock %}
