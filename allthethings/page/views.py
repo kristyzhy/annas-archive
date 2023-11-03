@@ -248,9 +248,10 @@ def add_comments_to_dict(before_dict, comments):
     return after_dict
 
 @page.get("/")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def home_page():
-    return render_template("page/home.html", header_active="home/home")
+    torrents_data = get_torrents_data()
+    return render_template("page/home.html", header_active="home/home", torrents_data=torrents_data)
 
 @page.get("/login")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -429,6 +430,68 @@ def get_stats_data():
         'oclc_date': '2023-10-01',
     }
 
+def get_torrents_data():
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(f'SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 10000')
+        small_files = cursor.fetchall()
+
+        group_sizes = collections.defaultdict(int)
+        small_file_dicts_grouped = collections.defaultdict(list)
+        aac_meta_file_paths_grouped = collections.defaultdict(list)
+        seeder_counts = collections.defaultdict(int)
+        seeder_sizes = collections.defaultdict(int)
+        for small_file in small_files:
+            metadata = orjson.loads(small_file['metadata'])
+            group = small_file['file_path'].split('/')[2]
+            aac_meta_prefix = 'torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__'
+            if small_file['file_path'].startswith(aac_meta_prefix):
+                aac_group = small_file['file_path'][len(aac_meta_prefix):].split('__', 1)[0]
+                aac_meta_file_paths_grouped[aac_group].append(small_file['file_path'])
+                group = aac_group
+            aac_data_prefix = 'torrents/managed_by_aa/annas_archive_data__aacid/annas_archive_data__aacid__'
+            if small_file['file_path'].startswith(aac_data_prefix):
+                aac_group = small_file['file_path'][len(aac_data_prefix):].split('__', 1)[0]
+                group = aac_group
+            if 'zlib3' in small_file['file_path']:
+                group = 'zlib'
+            if 'ia2_acsmpdf_files' in small_file['file_path']:
+                group = 'ia'
+
+            scrape_metadata = {"scrape":{}}
+            if small_file['scrape_metadata'] is not None:
+                scrape_metadata = orjson.loads(small_file['scrape_metadata'])
+                if scrape_metadata['scrape']['seeders'] < 4:
+                    seeder_counts[0] += 1
+                    seeder_sizes[0] += metadata['data_size']
+                elif scrape_metadata['scrape']['seeders'] < 11:
+                    seeder_counts[1] += 1
+                    seeder_sizes[1] += metadata['data_size']
+                else:
+                    seeder_counts[2] += 1
+                    seeder_sizes[2] += metadata['data_size']
+
+            group_sizes[group] += metadata['data_size']
+            small_file_dicts_grouped[group].append({ **small_file, "metadata": metadata, "size_string": format_filesize(metadata['data_size']), "display_name": small_file['file_path'].split('/')[-1], "scrape_metadata": scrape_metadata, "scrape_created": small_file['scrape_created'], 'scrape_created_delta': small_file['scrape_created'] - datetime.datetime.now() })
+
+        group_size_strings = { group: format_filesize(total) for group, total in group_sizes.items() }
+        seeder_size_strings = { index: format_filesize(seeder_sizes[index]) for index in [0,1,2] }
+
+        obsolete_file_paths = [
+            'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent'
+        ]
+        for file_path_list in aac_meta_file_paths_grouped.values():
+            obsolete_file_paths += file_path_list[0:-1]
+
+        return {
+            'small_file_dicts_grouped': small_file_dicts_grouped,
+            'obsolete_file_paths': obsolete_file_paths,
+            'group_size_strings': group_size_strings,
+            'seeder_counts': seeder_counts,
+            'seeder_size_strings': seeder_size_strings,
+        }
+
 @page.get("/datasets")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_page():
@@ -502,56 +565,15 @@ def fast_download_not_member_page():
     return render_template("page/fast_download_not_member.html", header_active="")
 
 @page.get("/torrents")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=10)
 def torrents_page():
-    with mariapersist_engine.connect() as connection:
-        connection.connection.ping(reconnect=True)
-        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(f'SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 10000')
-        small_files = cursor.fetchall()
+    torrents_data = get_torrents_data()
 
-        group_sizes = collections.defaultdict(int)
-        small_file_dicts_grouped = collections.defaultdict(list)
-        aac_meta_file_paths_grouped = collections.defaultdict(list)
-        for small_file in small_files:
-            metadata = orjson.loads(small_file['metadata'])
-            group = small_file['file_path'].split('/')[2]
-            aac_meta_prefix = 'torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__'
-            if small_file['file_path'].startswith(aac_meta_prefix):
-                aac_group = small_file['file_path'][len(aac_meta_prefix):].split('__', 1)[0]
-                aac_meta_file_paths_grouped[aac_group].append(small_file['file_path'])
-                group = aac_group
-            aac_data_prefix = 'torrents/managed_by_aa/annas_archive_data__aacid/annas_archive_data__aacid__'
-            if small_file['file_path'].startswith(aac_data_prefix):
-                aac_group = small_file['file_path'][len(aac_data_prefix):].split('__', 1)[0]
-                group = aac_group
-            if 'zlib3' in small_file['file_path']:
-                group = 'zlib'
-            if 'ia2_acsmpdf_files' in small_file['file_path']:
-                group = 'ia'
-
-            scrape_metadata = {"scrape":{}}
-            if small_file['scrape_metadata'] is not None:
-                scrape_metadata = orjson.loads(small_file['scrape_metadata'])
-
-            group_sizes[group] += metadata['data_size']
-            small_file_dicts_grouped[group].append({ **small_file, "metadata": metadata, "size_string": format_filesize(metadata['data_size']), "display_name": small_file['file_path'].split('/')[-1], "scrape_metadata": scrape_metadata, "scrape_created": small_file['scrape_created'], 'scrape_created_delta': small_file['scrape_created'] - datetime.datetime.now() })
-
-        group_size_strings = { group: format_filesize(total) for group, total in group_sizes.items() }
-
-        obsolete_file_paths = [
-            'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent'
-        ]
-        for file_path_list in aac_meta_file_paths_grouped.values():
-            obsolete_file_paths += file_path_list[0:-1]
-
-        return render_template(
-            "page/torrents.html",
-            header_active="home/torrents",
-            small_file_dicts_grouped=small_file_dicts_grouped,
-            obsolete_file_paths=obsolete_file_paths,
-            group_size_strings=group_size_strings,
-        )
+    return render_template(
+        "page/torrents.html",
+        header_active="home/torrents",
+        torrents_data=torrents_data,
+    )
 
 @page.get("/torrents.json")
 @allthethings.utils.no_cache()
