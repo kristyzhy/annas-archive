@@ -264,6 +264,7 @@ def elastic_build_aarecords_job(aarecord_ids):
         with Session(engine) as session:
             operations_by_es_handle = collections.defaultdict(list)
             dois = []
+            isbn13_oclc_insert_data = []
             session.connection().connection.ping(reconnect=True)
             cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
             cursor.execute(f'SELECT 1;')
@@ -274,6 +275,9 @@ def elastic_build_aarecords_job(aarecord_ids):
                     operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
                 for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
                     dois.append(doi)
+                if aarecord['id'].startswith('oclc:'):
+                    for isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+                        isbn13_oclc_insert_data.append({ "isbn13": isbn13, "oclc_id": int(aarecord['id'].split(':', 1)[1]) })
 
             if (aarecord_ids[0].startswith('md5:')) and (len(dois) > 0):
                 dois = list(set(dois))
@@ -283,6 +287,13 @@ def elastic_build_aarecords_job(aarecord_ids):
                 cursor.execute('COMMIT')
                 cursor.close()
                 # print(f'Deleted {count} DOIs')
+
+            if len(isbn13_oclc_insert_data) > 0:
+                session.connection().connection.ping(reconnect=True)
+                cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+                cursor.executemany(f"INSERT IGNORE INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s)", isbn13_oclc_insert_data)
+                cursor.execute('COMMIT')
+                cursor.close()
                 
             try:
                 for es_handle, operations in operations_by_es_handle.items():
@@ -474,6 +485,12 @@ def elastic_build_aarecords_oclc_internal():
     # FIRST_OCLC_ID = 123
     OCLC_DONE_ALREADY = 0
     # OCLC_DONE_ALREADY = 100000
+
+    with engine.connect() as connection:
+        print("Creating oclc_isbn table")
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        cursor.execute('CREATE TABLE IF NOT EXISTS isbn13_oclc (isbn13 CHAR(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL, oclc_id BIGINT NOT NULL, PRIMARY KEY (isbn13, oclc_id)) ENGINE=MyISAM ROW_FORMAT=FIXED DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
 
     with multiprocessing.Pool(THREADS) as executor:
         print("Processing from oclc")

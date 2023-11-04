@@ -1867,6 +1867,8 @@ def get_oclc_dicts(session, key, values):
                 oclc_dict["aa_oclc_derived"]["languages_multiple"].append((aac_metadata['record'].get('language') or ''))
                 oclc_dict["aa_oclc_derived"]["general_format_multiple"] += [orjson.loads(dat)['stdrt1'] for dat in (rft.get('rft_dat') or [])]
                 oclc_dict["aa_oclc_derived"]["specific_format_multiple"] += [orjson.loads(dat)['stdrt2'] for dat in (rft.get('rft_dat') or [])]
+                oclc_dict["aa_oclc_derived"]["isbn_multiple"] += (aac_metadata['record'].get('isbns') or [])
+                oclc_dict["aa_oclc_derived"]["isbn_multiple"] += (rft.get('rft.isbn') or [])
 
                 # TODO: series/volume?
                 # lcNumber, masterCallNumber
@@ -1894,6 +1896,7 @@ def get_oclc_dicts(session, key, values):
                     oclc_dict["aa_oclc_derived"]["languages_multiple"].append(legacy_language)
                 oclc_dict["aa_oclc_derived"]["general_format_multiple"] += [orjson.loads(dat)['stdrt1'] for dat in (rft.get('rft_dat') or [])]
                 oclc_dict["aa_oclc_derived"]["specific_format_multiple"] += [orjson.loads(dat)['stdrt2'] for dat in (rft.get('rft_dat') or [])]
+                oclc_dict["aa_oclc_derived"]["isbn_multiple"] += (rft.get('rft.isbn') or [])
                 # TODO: series/volume?
             elif aac_metadata['type'] in ['not_found_title_json', 'redirect_title_json']:
                 pass
@@ -1961,6 +1964,7 @@ def get_oclc_dicts(session, key, values):
         # * cover_url
         # * comments
         # * other/related OCLC numbers
+        # * redirects
         # * Genre for fiction detection
         # * Full audit of all fields
         # * dict comments
