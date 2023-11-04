@@ -248,7 +248,7 @@ def add_comments_to_dict(before_dict, comments):
     return after_dict
 
 @page.get("/")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def home_page():
     torrents_data = get_torrents_data()
     return render_template("page/home.html", header_active="home/home", torrents_data=torrents_data)
@@ -477,6 +477,7 @@ def get_torrents_data():
                 **small_file, 
                 "metadata": metadata, 
                 "size_string": format_filesize(metadata['data_size']), 
+                "file_path_short": small_file['file_path'].replace('torrents/managed_by_aa/annas_archive_meta__aacid/', '').replace('torrents/managed_by_aa/annas_archive_data__aacid/', '').replace(f'torrents/managed_by_aa/{group}/', ''),
                 "display_name": small_file['file_path'].split('/')[-1], 
                 "scrape_metadata": scrape_metadata, 
                 "scrape_created": small_file['scrape_created'], 
@@ -494,7 +495,7 @@ def get_torrents_data():
             obsolete_file_paths += file_path_list[0:-1]
 
         return {
-            'small_file_dicts_grouped': small_file_dicts_grouped,
+            'small_file_dicts_grouped': dict(sorted(small_file_dicts_grouped.items())),
             'obsolete_file_paths': obsolete_file_paths,
             'group_size_strings': group_size_strings,
             'seeder_counts': seeder_counts,
