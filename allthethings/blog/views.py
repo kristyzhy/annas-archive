@@ -13,6 +13,14 @@ blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blo
 def index():
     return render_template("blog/index.html")
 
+@blog.get("/duxiu-exclusive.html")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def duxiu_exclusive():
+    return render_template("blog/duxiu-exclusive.html")
+@blog.get("/duxiu-exclusive-chinese.html")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+def duxiu_exclusive_chinese():
+    return render_template("blog/duxiu-exclusive-chinese.html")
 @blog.get("/worldcat-scrape.html")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
 def worldcat_scrape():
@@ -140,6 +148,13 @@ def rss_xml():
             title = "1.3B WorldCat scrape & data science mini-competition",
             link = "https://annas-blog.org/worldcat-scrape.html",
             description = "Anna’s Archive scraped all of WorldCat to make a TODO list of books that need to be preserved, and is hosting a data science mini-competition.",
+            author = "Anna and the team",
+            pubDate = datetime.datetime(2023,10,3),
+        ),
+        Item(
+            title = "Exclusive access for LLM companies to largest Chinese non-fiction book collection in the world",
+            link = "https://annas-blog.org/duxiu-exclusive.html",
+            description = "Anna’s Archive acquired a unique collection of 7.5 million / 350TB Chinese non-fiction books — larger than Library Genesis. We’re willing to give an LLM company exclusive access, in exchange for high-quality OCR and text extraction.",
             author = "Anna and the team",
             pubDate = datetime.datetime(2023,10,3),
         ),
