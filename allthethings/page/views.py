@@ -474,7 +474,8 @@ def get_torrents_data():
 
             group_sizes[group] += metadata['data_size']
             small_file_dicts_grouped[group].append({ 
-                **small_file, 
+                "created": small_file['created'], # First, so it gets sorted by first.
+                "file_path": small_file['file_path'],
                 "metadata": metadata, 
                 "size_string": format_filesize(metadata['data_size']), 
                 "file_path_short": small_file['file_path'].replace('torrents/managed_by_aa/annas_archive_meta__aacid/', '').replace('torrents/managed_by_aa/annas_archive_data__aacid/', '').replace(f'torrents/managed_by_aa/{group}/', ''),
@@ -1170,6 +1171,28 @@ def get_ol_book_dicts(session, key, values):
             # {% endfor %}
 
         return ol_book_dicts
+
+def get_ol_book_dicts_by_isbn13(session, isbn13s):
+    if len(isbn13s) == 0:
+        return {}
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT ol_key, isbn FROM ol_isbn13 WHERE isbn IN %(isbn13s)s', { "isbn13s": isbn13s })
+        rows = cursor.fetchall()
+        if len(rows) == 0:
+            return {}
+        isbn13s_by_ol_edition = collections.defaultdict(list)
+        for row in rows:
+            if row['ol_key'].startswith('/books/OL') and row['ol_key'].endswith('M'):
+                ol_edition = row['ol_key'][len('/books/'):]
+                isbn13s_by_ol_edition[ol_edition].append(row['isbn'])
+        ol_book_dicts = get_ol_book_dicts(session, 'ol_edition', list(isbn13s_by_ol_edition.keys()))
+        retval = collections.defaultdict(list)
+        for ol_book_dict in ol_book_dicts:
+            for isbn13 in isbn13s_by_ol_edition[ol_book_dict['ol_edition']]: 
+                retval[isbn13].append(ol_book_dict)
+        return dict(retval)
 
 @page.get("/db/ol/<string:ol_edition>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -1970,9 +1993,42 @@ def get_oclc_dicts(session, key, values):
         # * dict comments
 
         oclc_dicts.append(oclc_dict)
-
-
     return oclc_dicts
+
+def get_oclc_id_by_isbn13(session, isbn13s):
+    if len(isbn13s) == 0:
+        return {}
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT isbn13, oclc_id FROM isbn13_oclc WHERE isbn13 IN %(isbn13s)s', { "isbn13s": isbn13s })
+        rows = cursor.fetchall()
+        if len(rows) == 0:
+            return {}
+        oclc_ids_by_isbn13 = collections.defaultdict(list)
+        for row in rows:
+            oclc_ids_by_isbn13[row['isbn13']].append(row['oclc_id'])
+        return dict(oclc_ids_by_isbn13)
+
+def get_oclc_dicts_by_isbn13(session, isbn13s):
+    if len(isbn13s) == 0:
+        return {}
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT isbn13, oclc_id FROM isbn13_oclc WHERE isbn13 IN %(isbn13s)s', { "isbn13s": isbn13s })
+        rows = cursor.fetchall()
+        if len(rows) == 0:
+            return {}
+        isbn13s_by_oclc_id = collections.defaultdict(list)
+        for row in rows:
+            isbn13s_by_oclc_id[row['oclc_id']].append(row['isbn13'])
+        oclc_dicts = get_oclc_dicts(session, 'oclc', list(isbn13s_by_oclc_id.keys()))
+        retval = collections.defaultdict(list)
+        for oclc_dict in oclc_dicts:
+            for isbn13 in isbn13s_by_oclc_id[oclc_dict['oclc_id']]:
+                retval[isbn13].append(oclc_dict)
+        return dict(retval)
 
 @page.get("/db/oclc/<path:oclc>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
@@ -2155,8 +2211,13 @@ def get_aarecords_mysql(session, aarecord_ids):
 
     isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(set(canonical_isbn13s)))}
     ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(set(ol_editions)))}
+    ol_book_dicts2_for_isbn13 = get_ol_book_dicts_by_isbn13(session, list(set(canonical_isbn13s)))
     scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(set(dois)))}
-    oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(set(oclc_ids)))}
+
+    # Too expensive.. TODO: enable combining results from ES?
+    # oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(set(oclc_ids)))}
+    # oclc_dicts2_for_isbn13 = get_oclc_dicts_by_isbn13(session, list(set(canonical_isbn13s)))
+    oclc_id_by_isbn13 = get_oclc_id_by_isbn13(session, list(set(canonical_isbn13s)))
 
     # Second pass
     for aarecord in aarecords:
@@ -2190,6 +2251,17 @@ def get_aarecords_mysql(session, aarecord_ids):
                 ol_book_dicts_all = []
             aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
 
+            ol_book_dicts_all = []
+            existing_ol_editions = set([ol_book_dict['ol_edition'] for ol_book_dict in aarecord['ol']])
+            for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+                for ol_book_dict in (ol_book_dicts2_for_isbn13.get(canonical_isbn13) or []):
+                    if ol_book_dict['ol_edition'] not in existing_ol_editions:
+                        ol_book_dicts_all.append(ol_book_dict)
+                        existing_ol_editions.add(ol_book_dict['ol_edition']) # TODO: restructure others to also do something similar?
+            if len(ol_book_dicts_all) > 3:
+                ol_book_dicts_all = []
+            aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
+
             scihub_doi_all = []
             existing_dois = set([scihub_doi['doi'] for scihub_doi in aarecord['scihub_doi']])
             for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
@@ -2199,14 +2271,29 @@ def get_aarecords_mysql(session, aarecord_ids):
                 scihub_doi_all = []
             aarecord['scihub_doi'] = (aarecord['scihub_doi'] + scihub_doi_all)
 
-            oclc_all = []
-            existing_oclc_ids = set([oclc['oclc_id'] for oclc in aarecord['oclc']])
-            for oclc_id in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
-                if (oclc_id in oclc_dicts2) and (oclc_id not in existing_oclc_ids):
-                    oclc_all.append(oclc_dicts2[oclc_id])
-            if len(oclc_all) > 3:
-                oclc_all = []
-            aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
+            # oclc_all = []
+            # existing_oclc_ids = set([oclc['oclc_id'] for oclc in aarecord['oclc']])
+            # for oclc_id in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
+            #     if (oclc_id in oclc_dicts2) and (oclc_id not in existing_oclc_ids):
+            #         oclc_all.append(oclc_dicts2[oclc_id])
+            # if len(oclc_all) > 3:
+            #     oclc_all = []
+            # aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
+
+            # oclc_all = []
+            # existing_oclc_ids = set([oclc['oclc_id'] for oclc in aarecord['oclc']])
+            # for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+            #     for oclc_dict in (oclc_dicts2_for_isbn13.get(canonical_isbn13) or []):
+            #         if oclc_dict['oclc_id'] not in existing_oclc_ids:
+            #             oclc_all.append(oclc_dict)
+            #             existing_oclc_ids.add(oclc_dict['oclc_id']) # TODO: restructure others to also do something similar?
+            # if len(oclc_all) > 3:
+            #     oclc_all = []
+            # aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
+
+            for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+                for oclc_id in (oclc_id_by_isbn13.get(canonical_isbn13) or []):
+                    allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'oclc', oclc_id)            
 
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
