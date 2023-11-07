@@ -75,7 +75,7 @@ render();
   </p>
 
   <ul>
-    <li>Some queries took super long, to the point where they would hog all the open connections (until we added a <a href="https://twitter.com/AnnaArchivist/status/1594602710221086721">hacky timeout</a>).</li>
+    <li>Some queries took super long, to the point where they would hog all the open connections.</li>
     <li>By default MySQL has a minimum word length, or your index can get really large. People reported not being able to search for “Ben Hur”.</li>
     <li>Search was only somewhat fast when fully loaded in memory, which required us to get a more expensive machine to run this on, plus some commands to preload the index on startup.</li>
     <li>We wouldn’t have been able to extend it easily to build new features, like better <a href="https://en.wikipedia.org/wiki/CJK_characters">tokenization for non-whitespaced languages</a>, filtering/faceting, sorting, "did you mean" suggestions, autocomplete, and so on.</li>
