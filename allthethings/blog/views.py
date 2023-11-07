@@ -156,7 +156,7 @@ def rss_xml():
             link = "https://annas-blog.org/duxiu-exclusive.html",
             description = "Anna’s Archive acquired a unique collection of 7.5 million / 350TB Chinese non-fiction books — larger than Library Genesis. We’re willing to give an LLM company exclusive access, in exchange for high-quality OCR and text extraction.",
             author = "Anna and the team",
-            pubDate = datetime.datetime(2023,10,3),
+            pubDate = datetime.datetime(2023,11,4),
         ),
     ]
 
