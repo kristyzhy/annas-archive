@@ -27,25 +27,27 @@
   </form>
 
   {% if g.domain_lang_code == 'zh' %}
+    <!-- Volunteers -->
     <!-- <p class="mt-4 bg-yellow-100 p-2 rounded text-sm">
       我们正在寻找能够流利地说英语和中文的志愿者，帮助我们创建一个非官方微信群，以便人们可以及时了解我们的最新动态。如果您对保护人类知识的兴趣，请联系我们。谢谢！<a class="text-xs break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a> <span class="block text-xs text-gray-500">我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。</span>
     </p> -->
 
-    <!-- <p class="mt-4 mx-[-8px] bg-yellow-100 p-2 rounded text-sm">
+    <!-- GFW -->
+    <p class="mt-4 mx-[-8px] bg-yellow-100 p-2 rounded text-sm">
       我们正在寻找专业服务，可以帮助可靠地绕过GFW，例如通过设置定期更改的代理和域名，或其他技巧。如果您确实具有此方面的实际专业经验，请与我们联系。<a class="text-xs break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a> <span class="block text-xs text-gray-500">我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。</span>
-    </p> -->
+    </p>
 
-    <p class="mt-4 mx-[-8px] bg-yellow-100 p-2 rounded text-sm">
-      Anna's Archive收购了一批独特的750万/350TB中文非虚构图书，比Library Genesis还要大。我们愿意为LLM公司提供独家早期访问权限，以换取高质量的OCR和文本提取。<a class="text-xs" href="https://annas-blog.org/duxiu-exclusive-chinese.html">了解更多</a>
-    </p>
-  {% else %}
-    <!-- TODO:TRANSLATE -->
     <!-- <p class="mt-4 mx-[-8px] bg-yellow-100 p-2 rounded text-sm">
-      If you run a high-risk anonymous payment processor, please contact us. We are also looking for people looking to place tasteful small ads. All proceeds to go our preservation efforts. <a class="text-xs break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>
+      Anna's Archive收购了一批独特的750万/350TB中文非虚构图书，比Library Genesis还要大。我们愿意为LLM公司提供独家早期访问权限，以换取高质量的OCR和文本提取。<a class="text-xs" href="https://annas-blog.org/duxiu-exclusive-chinese.html">了解更多</a>
     </p> -->
+  {% else %}
     <p class="mt-4 mx-[-8px] bg-yellow-100 p-2 rounded text-sm">
-      Anna’s Archive acquired a unique collection of 7.5 million / 350TB non-fiction books — larger than Library Genesis. We’re willing to give an LLM company exclusive access, in exchange for high-quality OCR and text extraction. <a class="text-xs" href="https://annas-blog.org/duxiu-exclusive.html">Learn more…</a>
+      If you run a high-risk anonymous payment processor, please contact us. We are also looking for people looking to place tasteful small ads. All proceeds to go our preservation efforts. <a class="text-xs break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>
     </p>
+
+    <!-- <p class="mt-4 mx-[-8px] bg-yellow-100 p-2 rounded text-sm">
+      Anna’s Archive acquired a unique collection of 7.5 million / 350TB non-fiction books — larger than Library Genesis. We’re willing to give an LLM company exclusive access, in exchange for high-quality OCR and text extraction. <a class="text-xs" href="https://annas-blog.org/duxiu-exclusive.html">Learn more…</a>
+    </p> -->
   {% endif %}
 
   <h2 class="mt-8 text-xl font-bold">🏛️ {{ gettext('page.home.archive.header') }}</h2>
@@ -54,16 +56,15 @@
     {{ gettext('page.home.archive.body', a_datasets=(' href="/datasets" ' | safe)) }}
   </p>
 
-  <!-- TODO:TRANSLATE -->
-  <!-- <div class="mt-4 mx-[-8px] bg-yellow-100 p-2 rounded text-sm">
-    <p class="mb-1">You can help out enormously by seeding torrents. <a href="/torrents">Learn more…</a></p>
+  <div class="mt-4 mx-[-8px] bg-yellow-100 p-2 rounded text-sm">
+    <p class="mb-1">{{ gettext('page.home.torrents.body', a_torrents=(' href="/torrents" ' | safe)) }}</p>
 
     <table class="mb-1 text-sm">
-      <tr><td>🔴 {{ torrents_data.seeder_counts[0] }} torrent{% if torrents_data.seeder_counts[0] != 1 %}s{% endif %}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[0] }}</td><td class="text-xs text-gray-500 pl-4">&lt;4 seeders</td></tr>
-      <tr><td>🟡 {{ torrents_data.seeder_counts[1] }} torrent{% if torrents_data.seeder_counts[1] != 1 %}s{% endif %}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[1] }}</td><td class="text-xs text-gray-500 pl-4">4–10 seeders</td></tr>
-      <tr><td>🟢 {{ torrents_data.seeder_counts[2] }} torrent{% if torrents_data.seeder_counts[2] != 1 %}s{% endif %}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[2] }}</td><td class="text-xs text-gray-500 pl-4">&gt;10 seeders</td></tr>
+      <tr><td>🔴 {{ gettext('page.home.torrents.number', count=torrents_data.seeder_counts[0]) }}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[0] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_less', count=4) }}</td></tr>
+      <tr><td>🟡 {{ gettext('page.home.torrents.number', count=torrents_data.seeder_counts[1]) }}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[1] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_range', count_min=4, count_max=10) }}</td></tr>
+      <tr><td>🟢 {{ gettext('page.home.torrents.number', count=torrents_data.seeder_counts[2]) }}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[2] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_greater', count=10) }}</td></tr>
     </table>
-  </div> -->
+  </div>
 
   <h2 class="mt-8 text-xl font-bold">🤖 {{ gettext('page.home.llm.header') }}</h2>
 

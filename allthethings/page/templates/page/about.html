@@ -112,12 +112,12 @@
 
   <ol class="list-inside mb-4">
     {{ gettext('page.about.help.text') }}
-    <li>6. If you are a security researcher, we can use your skills both for offense and defense. Check out our <a href="/security">Security</a> page.</li>
-    <li>7. We are looking for experts in payments for anonymous merchants. Can you help us add more convenient ways to donate? PayPal, WeChat, gift cards. If you know anyone, please contact us.</li>
-    <li>8. We are always looking for more server capacity.</li>
-    <li>9. You can help by reporting file issues, leaving comments, and creating lists right on this website. You can also help by <a href="/account/upload">uploading more books</a>, or fixing up file issues or formatting of existing books.</li>
-    <li>10. Create or help maintain the Wikipedia page for Anna’s Archive in your language.</li>
-    <li>11. We are looking to place small, tasteful advertisements. If you’d like to advertise on Anna’s Archive, please let us know.</li>
+    <li>{{ gettext('page.about.help.text6', a_security=('href="/security"' | safe)) }}</li>
+    <li>{{ gettext('page.about.help.text7') }}</li>
+    <li>{{ gettext('page.about.help.text8') }}</li>
+    <li>{{ gettext('page.about.help.text9', a_upload=('href="/account/upload"' | safe)) }}</li>
+    <li>{{ gettext('page.about.help.text10') }}</li>
+    <li>{{ gettext('page.about.help.text11') }}</li>
   </ol>
 
   {% if gettext('common.english_only') != 'Text below continues in English.' %}
@@ -125,7 +125,7 @@
   {% endif %}
 
   <div lang="en">
-    <p><strong>Progress bar</strong></p>
+    <!-- <p><strong>Progress bar</strong></p>
 
     <p class="mb-4">
       The progress bar on the home page is currently not meaningful.
@@ -137,7 +137,7 @@
 
     <p class="mb-4">
       For now, the progress bar highlights our ambition and philosophy. We hope to inspire you to join us on this mission.
-    </p>
+    </p> -->
 
     <p><strong>Resources</strong></p>
 

@@ -163,7 +163,7 @@ msgstr "Direct <strong>SFTP</strong> servers"
 
 #: allthethings/account/templates/account/donate.html:93
 msgid "page.donate.expert.enterprise_donation"
-msgstr "Enterprise-level donation or exchange for new collections (e.g. new scans, OCR'ed datasets)."
+msgstr "Enterprise-level donation or exchange for new collections (e.g. new scans, OCR’ed datasets)."
 
 #: allthethings/account/templates/account/donate.html:98
 msgid "page.donate.header.large_donations"
@@ -1499,6 +1499,30 @@ msgstr "How to help"
 msgid "page.about.help.text"
 msgstr "<li>1. Follow us on <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>, or <a href=\"https://t.me/annasarchiveorg\">Telegram</a>.</li><li>2. Spread the word about Anna’s Archive on Twitter, Reddit, Tiktok, Instagram, at your local cafe or library, or wherever you go! We don’t believe in gatekeeping — if we get taken down we’ll just pop right up elsewhere, since all our code and data is fully open source.</li><li>3. If you are able, consider <a href=\"/donate\">donating</a>.</li><li>4. Help <a href=\"https://translate.annas-software.org/\">translate</a> our website into different languages.</li><li>5. If you are a software engineer, consider contributing to our <a href=\"https://annas-software.org/\">open source</a>, or seeding our <a href=\"/datasets\">torrents</a>.</li>"
 
+#: allthethings/page/templates/page/about.html:115
+msgid "page.about.help.text6"
+msgstr "6. If you are a security researcher, we can use your skills both for offense and defense. Check out our <a %(a_security)s>Security</a> page."
+
+#: allthethings/page/templates/page/about.html:116
+msgid "page.about.help.text7"
+msgstr "7. We are looking for experts in payments for anonymous merchants. Can you help us add more convenient ways to donate? PayPal, WeChat, gift cards. If you know anyone, please contact us."
+
+#: allthethings/page/templates/page/about.html:117
+msgid "page.about.help.text8"
+msgstr "8. We are always looking for more server capacity."
+
+#: allthethings/page/templates/page/about.html:118
+msgid "page.about.help.text9"
+msgstr "9. You can help by reporting file issues, leaving comments, and creating lists right on this website. You can also help by <a %(a_upload)s>uploading more books</a>, or fixing up file issues or formatting of existing books."
+
+#: allthethings/page/templates/page/about.html:119
+msgid "page.about.help.text10"
+msgstr "10. Create or help maintain the Wikipedia page for Anna’s Archive in your language."
+
+#: allthethings/page/templates/page/about.html:120
+msgid "page.about.help.text11"
+msgstr "11. We are looking to place small, tasteful advertisements. If you’d like to advertise on Anna’s Archive, please let us know."
+
 #: allthethings/page/templates/page/about.html:169
 msgid "page.home.explore.header"
 msgstr "Explore books"
@@ -1604,19 +1628,41 @@ msgstr "Open"
 msgid "page.home.scidb.browser_verification"
 msgstr "If you’re a <a %(a_member)s>member</a>, browser verification is not required."
 
-#: allthethings/page/templates/page/home.html:51
+#: allthethings/page/templates/page/home.html:53
 msgid "page.home.archive.header"
 msgstr "Long-term archive"
 
-#: allthethings/page/templates/page/home.html:54
+#: allthethings/page/templates/page/home.html:56
 msgid "page.home.archive.body"
 msgstr "The datasets used in Anna’s Archive are completely open, and can be mirrored in bulk using torrents. <a %(a_datasets)s>Learn more…</a>"
 
-#: allthethings/page/templates/page/home.html:68
+#: allthethings/page/templates/page/home.html:60
+msgid "page.home.torrents.body"
+msgstr "You can help out enormously by seeding torrents. <a %(a_torrents)s>Learn more…</a>"
+
+#: allthethings/page/templates/page/home.html:63
+#: allthethings/page/templates/page/home.html:64
+#: allthethings/page/templates/page/home.html:65
+msgid "page.home.torrents.number"
+msgstr "%(count)s torrents"
+
+#: allthethings/page/templates/page/home.html:63
+msgid "page.home.torrents.legend_less"
+msgstr "<%(count)s seeders"
+
+#: allthethings/page/templates/page/home.html:64
+msgid "page.home.torrents.legend_range"
+msgstr "%(count_max)s–%(count_min)s seeders"
+
+#: allthethings/page/templates/page/home.html:65
+msgid "page.home.torrents.legend_greater"
+msgstr ">%(count)s seeders"
+
+#: allthethings/page/templates/page/home.html:69
 msgid "page.home.llm.header"
 msgstr "LLM training data"
 
-#: allthethings/page/templates/page/home.html:71
+#: allthethings/page/templates/page/home.html:72
 msgid "page.home.llm.body"
 msgstr "We have the world’s largest collection of high-quality text data. <a %(a_llm)s>Learn more…</a>"
 
