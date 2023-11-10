@@ -2826,8 +2826,8 @@ def get_md5_content_type_mapping(display_lang):
             "standards_document": gettext("common.md5_content_type_mapping.standards_document"),
             "magazine":           gettext("common.md5_content_type_mapping.magazine"),
             "book_comic":         gettext("common.md5_content_type_mapping.book_comic"),
-            "musical_score":      "Musical score", # TODO:TRANSLATE
-            "other":              "Other", # TODO:TRANSLATE
+            "musical_score":      gettext("common.md5_content_type_mapping.musical_score"),
+            "other":              gettext("common.md5_content_type_mapping.other"),
         }
 
 def get_access_types_mapping(display_lang):
@@ -2850,7 +2850,7 @@ def get_record_sources_mapping(display_lang):
             "isbndb": gettext("common.record_sources_mapping.isbndb"),
             "ol": gettext("common.record_sources_mapping.ol"),
             "scihub": gettext("common.record_sources_mapping.scihub"),
-            "oclc": "OCLC (WorldCat)", # TODO:TRANSLATE
+            "oclc": gettext("common.record_sources_mapping.oclc"),
         }
 
 def format_filesize(num):
@@ -3091,10 +3091,8 @@ def get_additional_for_aarecord(aarecord):
         if len(aarecord.get('ol') or []) > 0:
             additional['download_urls'].append((gettext('page.md5.box.download.original_openlib'), f"https://openlibrary.org/books/{aarecord_id_split[1]}", ""))
     if aarecord_id_split[0] == 'oclc':
-        # TODO:TRANSLATE
-        additional['download_urls'].append(("Search Anna’s Archive for OCLC (WorldCat) number", f'/search?q="oclc:{aarecord_id_split[1]}"', ""))
-        # TODO:TRANSLATE
-        additional['download_urls'].append(("Find original record in WorldCat", f"https://worldcat.org/title/{aarecord_id_split[1]}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.aa_oclc'), f'/search?q="oclc:{aarecord_id_split[1]}"', ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.original_oclc'), f"https://worldcat.org/title/{aarecord_id_split[1]}", ""))
     additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
 
     scidb_info = allthethings.utils.scidb_info(aarecord, additional)

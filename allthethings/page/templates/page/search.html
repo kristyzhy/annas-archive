@@ -92,13 +92,11 @@
           {% if search_dict.had_primary_es_timeout %}
             {% if search_dict.max_search_aarecords_reached %}
               <div class="mb-4 text-xs text-gray-500">
-                <!-- TODO:TRANSLATE -->
-                The search took too long, which is common for broad queries. The filter counts may not be accurate.
+                {{ gettext('page.search.too_long_broad_query') }}
               </div>
             {% else %}
               <div class="mb-4 text-xs text-gray-500 max-sm:hidden">
-                <!-- TODO:TRANSLATE -->
-                The search took too long, which means you might see inaccurate results. Sometimes <a href="javascript:location.reload()">reloading</a> the page helps.
+                {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
               </div>
             {% endif %}
           {% endif %}
@@ -174,8 +172,7 @@
 
           {% if search_dict.had_primary_es_timeout and (not search_dict.max_search_aarecords_reached) %}
             <div class="mt-4 text-sm text-gray-500 sm:hidden">
-              <!-- TODO:TRANSLATE -->
-              The search took too long, which means you might see inaccurate results. Sometimes <a href="javascript:location.reload()">reloading</a> the page helps.
+              {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
             </div>
           {% endif %}
 
@@ -183,8 +180,9 @@
             <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
 
             {% if search_dict.search_index_short == '' %}
-              <!-- TODO:TRANSLATE -->
-              <div class="mt-4 js-not-found-additional hidden"><span>We have found matches in: <a class="hidden js-not-found-digital_lending" href="/search?index=digital_lending" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'digital_lending'; document.querySelector('.js-search-form').submit()">Digital Lending (<span class="js-not-found-digital_lending-count">1</span>)</a><a class="hidden js-not-found-meta" href="/search?index=meta" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'meta'; document.querySelector('.js-search-form').submit()">Metadata (<span class="js-not-found-meta-count">1</span>)</a></span>. You can refer to the URL found there when <a href="/account/request">requesting a file</a>.</div>
+              <div class="mt-4 js-not-found-additional hidden">
+                {{ gettext('page.search.found_matches.main', a_request=('href="/account/request"' | safe), in=((('<a class="hidden js-not-found-digital_lending" href="/search?index=digital_lending" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'digital_lending\'; document.querySelector(\'.js-search-form\').submit()">' | safe) + gettext('page.search.found_matches.digital_lending', count=('<span class="js-not-found-digital_lending-count">1</span>' | safe)) + ('</a><a class="hidden js-not-found-meta" href="/search?index=meta" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'meta\'; document.querySelector(\'.js-search-form\').submit()">') | safe + gettext('page.search.found_matches.metadata', count=('<span class="js-not-found-meta-count">1</span>' | safe)) + ('</a>' | safe)) | safe)) }}
+              </div>
             {% endif %}
           {% endif %}
 
@@ -230,9 +228,7 @@
                 {{ gettext('page.search.results.search_metadata', a_request=(' href="/account/request" ' | safe)) }}
               </p>
               <p class="mb-4">
-                <!-- {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }} -->
-                <!-- TODO:TRANSLATE -->
-                This search index currently includes metadata from ISBNdb, Open Library, and OCLC (WorldCat). <a href="/datasets">More about our datasets</a>.
+                {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.metadata_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/Wikipedia:Book_sources" ' | safe)) }}

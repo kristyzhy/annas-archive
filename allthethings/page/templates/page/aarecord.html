@@ -25,8 +25,7 @@
       {% elif aarecord_id_split[0] == 'ol' %}
         {{ gettext('page.md5.header.meta_openlib', id=aarecord_id_split[1]) }}
       {% elif aarecord_id_split[0] == 'oclc' %}
-        <!-- TODO:TRANSLATE -->
-        OCLC (WorldCat) number {{ aarecord_id_split[1] }} metadata record
+        {{ gettext('page.md5.header.meta_oclc', id=aarecord_id_split[1]) }}
       {% endif %}
     </div>
     <p class="mb-4">
@@ -212,9 +211,8 @@
             <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" {% if not url.startswith("/") }target="_blank"{% endif %} class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
           {% endfor %}
           {% if aarecord_id_split[0] in ['md5','doi'] %}
-            <!-- TODO:TRANSLATE -->
-            <li>- Support authors: If you like this and can afford it, consider buying the original, or supporting the authors directly.</li>
-            <li>- Support libraries: If this is available at your local library, consider borrowing it for free there.</li>
+            <li>- {{ gettext('page.md5.box.download.support_authors') }}</li>
+            <li>- {{ gettext('page.md5.box.download.support_libraries') }}</li>
           {% endif %}
         </ul>
         {% if (aarecord.file_unified_data.problems | length) == 0 %}
