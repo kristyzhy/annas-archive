@@ -14,6 +14,8 @@ rm -rf libgen_new
 unrar x /temp-dir/libgen_new.part001.rar
 chown -R 999:999 libgen_new
 
+mysqlcheck -h aa-data-import--mariadb -u root -ppassword --auto-repair --check libgen_new
+
 # Used this to generate this list: SELECT Concat('DROP TRIGGER ', Trigger_Name, ';') FROM  information_schema.TRIGGERS WHERE TRIGGER_SCHEMA = 'libgen_new';
 # (from https://stackoverflow.com/a/30339930)
 echo 'DROP TRIGGER libgen_new.authors_before_ins_tr; DROP TRIGGER libgen_new.authors_add_descr_before_ins_tr; DROP TRIGGER libgen_new.authors_add_descr_before_upd_tr; DROP TRIGGER libgen_new.authors_add_descr_before_del_tr1;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &

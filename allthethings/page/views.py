@@ -718,6 +718,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
         aac_zlib3_book_dict['file_data_folder'] = zlib_book['file_data_folder']
         aac_zlib3_book_dict['stripped_description'] = strip_description(aac_zlib3_book_dict['description'])
         aac_zlib3_book_dict['language_codes'] = get_bcp47_lang_codes(aac_zlib3_book_dict['language'] or '')
+        aac_zlib3_book_dict['cover_url_guess'] = zlib_cover_url_guess(aac_zlib3_book_dict['md5_reported'])
         zlib_add_edition_varia_normalized(aac_zlib3_book_dict)
 
         allthethings.utils.init_identifiers_and_classification_unified(aac_zlib3_book_dict)
@@ -2334,8 +2335,10 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
         aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
         if aarecord['file_unified_data']['cover_url_best'] == '':
-            aarecord['file_unified_data']['cover_url_additional'] += [isbndb['cover_url_guess'] for isbndb in aarecord['isbndb']]
-            aarecord['file_unified_data']['cover_url_additional'].append(((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip())
+            cover_url_multiple += [isbndb['cover_url_guess'] for isbndb in aarecord['isbndb']]
+            cover_url_multiple.append(((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip())
+            cover_url_multiple.append(((aarecord['aac_zlib3_book'] or {}).get('cover_url_guess') or '').strip())
+            cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
             aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
             aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
         if len(aarecord['file_unified_data']['cover_url_additional']) == 0:
