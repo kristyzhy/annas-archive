@@ -126,13 +126,13 @@
       <!-- <button class="js-membership-method js-membership-method-binance relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('binance')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>Credit/debit card or bank <span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="hidden absolute left-[50%] top-[-14px] translate-x-[-50%] bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button> -->
 
       <!-- Payment 1 with variants -->
-      {% if (days_parity % 2) == 0 %}
+      {% if (days_parity % 3) == 0 %}
         <button class="js-membership-method js-membership-method-payment1b relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 {% if g.domain_lang_code == 'zh' %}order-[-1]{% endif %}" aria-selected="false" onclick="window.membershipMethodToggle('payment1b')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay_wechat') }} (变体S)</button>
       {% endif %}
 
       <button class="js-membership-method js-membership-method-payment1 relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 {% if g.domain_lang_code == 'zh' %}order-[-1]{% endif %}" aria-selected="false" onclick="window.membershipMethodToggle('payment1')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay_wechat') }} (变体R)</button>
 
-      {% if (days_parity % 2) == 1 %}
+      {% if (days_parity % 3) != 0 %}
         <button class="js-membership-method js-membership-method-payment1b relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1 {% if g.domain_lang_code == 'zh' %}order-[-1]{% endif %}" aria-selected="false" onclick="window.membershipMethodToggle('payment1b')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-lg align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.alipay_wechat') }} (变体S)</button>
       {% endif %}
 

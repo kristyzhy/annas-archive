@@ -60,33 +60,34 @@ wait $job13pid
 
 mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv < /scripts/helpers/libgenli_renames.sql
 
-echo 'ALTER TABLE libgen_new.libgenli_editions DROP INDEX `YEAR`, DROP INDEX `N_YEAR`, DROP INDEX `MONTH`, DROP INDEX `MONTH_END`, DROP INDEX `VISIBLE`, DROP INDEX `LG_TOP`, DROP INDEX `TYPE`, DROP INDEX `COMMENT`, DROP INDEX `S_ID`, DROP INDEX `DOI`, DROP INDEX `ISSUE`, DROP INDEX `DAY`, DROP INDEX `TIME`, DROP INDEX `TIMELM`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job1pid=$!
-echo 'ALTER TABLE libgen_new.libgenli_editions_add_descr DROP INDEX `TIME`, DROP INDEX `VAL3`, DROP INDEX `VAL`, DROP INDEX `VAL2`, DROP INDEX `VAL1`, DROP INDEX `VAL_ID`, DROP INDEX `VAL_UNIQ`, DROP INDEX `KEY`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job2pid=$!
-echo 'ALTER TABLE libgen_new.libgenli_editions_to_files DROP INDEX `TIME`, DROP INDEX `FID`; -- f_id is already covered by `IDS`.' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job3pid=$!
-echo 'ALTER TABLE libgen_new.libgenli_elem_descr DROP INDEX `key`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job4pid=$!
-echo 'ALTER TABLE libgen_new.libgenli_files DROP INDEX `md5_2`, DROP INDEX `MAGZID`, DROP INDEX `COMICSID`, DROP INDEX `LGTOPIC`, DROP INDEX `FICID`, DROP INDEX `FICTRID`, DROP INDEX `SMID`, DROP INDEX `STDID`, DROP INDEX `LGID`, DROP INDEX `FSIZE`, DROP INDEX `TIME`, DROP INDEX `TIMELM`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job5pid=$!
-echo 'ALTER TABLE libgen_new.libgenli_files_add_descr DROP INDEX `TIME`, DROP INDEX `VAL`, DROP INDEX `KEY`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job6pid=$!
-echo 'ALTER TABLE libgen_new.libgenli_publishers DROP INDEX `TIME`, DROP INDEX `COM`, DROP INDEX `FULLTEXT`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job7pid=$!
-echo 'ALTER TABLE libgen_new.libgenli_series DROP INDEX `LG_TOP`, DROP INDEX `TIME`, DROP INDEX `TYPE`, DROP INDEX `VISIBLE`, DROP INDEX `COMMENT`, DROP INDEX `VAL_FULLTEXT`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job8pid=$!
-echo 'ALTER TABLE libgen_new.libgenli_series_add_descr DROP INDEX `TIME`, DROP INDEX `VAL`, DROP INDEX `VAL1`, DROP INDEX `VAL2`, DROP INDEX `VAL3`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
-job9pid=$!
-wait $job1pid
-wait $job2pid
-wait $job3pid
-wait $job4pid
-wait $job5pid
-wait $job6pid
-wait $job7pid
-wait $job8pid
-wait $job9pid
+# Not really necessary; skip to save time.
+# echo 'ALTER TABLE libgen_new.libgenli_editions DROP INDEX `YEAR`, DROP INDEX `N_YEAR`, DROP INDEX `MONTH`, DROP INDEX `MONTH_END`, DROP INDEX `VISIBLE`, DROP INDEX `LG_TOP`, DROP INDEX `TYPE`, DROP INDEX `COMMENT`, DROP INDEX `S_ID`, DROP INDEX `DOI`, DROP INDEX `ISSUE`, DROP INDEX `DAY`, DROP INDEX `TIME`, DROP INDEX `TIMELM`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job1pid=$!
+# echo 'ALTER TABLE libgen_new.libgenli_editions_add_descr DROP INDEX `TIME`, DROP INDEX `VAL3`, DROP INDEX `VAL`, DROP INDEX `VAL2`, DROP INDEX `VAL1`, DROP INDEX `VAL_ID`, DROP INDEX `VAL_UNIQ`, DROP INDEX `KEY`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job2pid=$!
+# echo 'ALTER TABLE libgen_new.libgenli_editions_to_files DROP INDEX `TIME`, DROP INDEX `FID`; -- f_id is already covered by `IDS`.' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job3pid=$!
+# echo 'ALTER TABLE libgen_new.libgenli_elem_descr DROP INDEX `key`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job4pid=$!
+# echo 'ALTER TABLE libgen_new.libgenli_files DROP INDEX `md5_2`, DROP INDEX `MAGZID`, DROP INDEX `COMICSID`, DROP INDEX `LGTOPIC`, DROP INDEX `FICID`, DROP INDEX `FICTRID`, DROP INDEX `SMID`, DROP INDEX `STDID`, DROP INDEX `LGID`, DROP INDEX `FSIZE`, DROP INDEX `TIME`, DROP INDEX `TIMELM`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job5pid=$!
+# echo 'ALTER TABLE libgen_new.libgenli_files_add_descr DROP INDEX `TIME`, DROP INDEX `VAL`, DROP INDEX `KEY`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job6pid=$!
+# echo 'ALTER TABLE libgen_new.libgenli_publishers DROP INDEX `TIME`, DROP INDEX `COM`, DROP INDEX `FULLTEXT`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job7pid=$!
+# echo 'ALTER TABLE libgen_new.libgenli_series DROP INDEX `LG_TOP`, DROP INDEX `TIME`, DROP INDEX `TYPE`, DROP INDEX `VISIBLE`, DROP INDEX `COMMENT`, DROP INDEX `VAL_FULLTEXT`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job8pid=$!
+# echo 'ALTER TABLE libgen_new.libgenli_series_add_descr DROP INDEX `TIME`, DROP INDEX `VAL`, DROP INDEX `VAL1`, DROP INDEX `VAL2`, DROP INDEX `VAL3`;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv &
+# job9pid=$!
+# wait $job1pid
+# wait $job2pid
+# wait $job3pid
+# wait $job4pid
+# wait $job5pid
+# wait $job6pid
+# wait $job7pid
+# wait $job8pid
+# wait $job9pid
 
 # Split into multiple lines for easier resuming if one fails.
 mysqldump -h aa-data-import--mariadb -u root -ppassword libgen_new libgenli_elem_descr         | PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/sanitize_unicode.py | mariadb -h aa-data-import--mariadb --default-character-set=utf8mb4 -u root -ppassword allthethings &

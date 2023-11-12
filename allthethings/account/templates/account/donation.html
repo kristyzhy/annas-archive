@@ -287,9 +287,11 @@
           {{ gettext('page.donation.amazon.only_official') }}
         </p>
 
-        <p class="mb-4">
-          {{ gettext('page.donate.payment.desc.amazon_com') }}
-        </p>
+        <ul class="list-inside mb-4 ml-1">
+          <li class="list-disc">{{ gettext('page.donate.payment.desc.amazon_com') }}</li>
+          <!-- TODO:TRANSLATE -->
+          <li class="list-disc">Please do NOT write your own message.</li>
+        </ul>
 
         <p class="mb-4">
           {{ gettext('page.donation.amazon.form_to') }} <span class="font-mono font-bold text-sm">giftcards+{{ donation_dict.receipt_id }}@annas-mail.org{{ copy_button('giftcards+' + donation_dict.receipt_id + '@annas-mail.org') }}</span>
@@ -312,7 +314,7 @@
         <p class="mb-4">{{ gettext('page.donation.amazon.example') }}</p>
 
         <p class="mb-4 bg-gray-100 rounded">
-          <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts3.png">
+          <img class="w-[100%] max-w-[500px] p-2" src="/images/annagifts4.png">
         </p>
     {% elif donation_dict.json.method == 'paypalreg' %}
       <p class="mb-4">

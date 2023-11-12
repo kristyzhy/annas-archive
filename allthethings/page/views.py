@@ -2872,7 +2872,7 @@ def add_partner_servers(path, modifier, aarecord, additional):
         targeted_seconds = 180
         additional['has_aa_exclusive_downloads'] = 1
     if modifier == 'scimag':
-        targeted_seconds = 3
+        targeted_seconds = 10
     # When changing the domains, don't forget to change md5_fast_download and md5_slow_download.
     for _ in range(len(allthethings.utils.FAST_DOWNLOAD_DOMAINS)):
         additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(len(additional['fast_partner_urls'])), gettext("common.md5.servers.no_browser_verification") if len(additional['fast_partner_urls']) == 0 else ''))
@@ -3234,11 +3234,11 @@ def scidb_page(doi_input):
         if path_info:
             domain = random.choice(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)
             targeted_seconds_multiplier = 1.0
-            minimum = 30
-            maximum = 200
+            minimum = 500
+            maximum = 1000
             if fast_scidb:
-                minimum = 400
-                maximum = 800
+                minimum = 1000
+                maximum = 5000
             speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
             pdf_url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(False, speed, path_info['path'], aarecord['additional']['filename'], domain)
             download_url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'], domain)
@@ -3333,6 +3333,7 @@ def md5_fast_download(md5_input, path_index, domain_index):
         header_active="search",
         url=url,
         slow_download=False,
+        canonical_md5=canonical_md5,
     )
 
 def compute_download_speed(targeted_seconds, filesize, minimum, maximum):
@@ -3364,8 +3365,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
             # cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
             # cursor.execute('SELECT COUNT(DISTINCT md5) AS count FROM mariapersist_slow_download_access WHERE timestamp > (NOW() - INTERVAL 24 HOUR) AND SUBSTRING(ip, 1, 8) = %(data_ip)s LIMIT 1', { "data_ip": data_ip })
             # download_count_from_ip = cursor.fetchone()['count']
-            minimum = 20
-            maximum = 300
+            minimum = 10
+            maximum = 100
             targeted_seconds_multiplier = 1.0
             warning = False
             # if download_count_from_ip > 500:
@@ -3397,7 +3398,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 header_active="search",
                 url=url,
                 slow_download=True,
-                warning=warning
+                warning=warning,
+                canonical_md5=canonical_md5,
             )
 
 def search_query_aggs(search_index_long):
