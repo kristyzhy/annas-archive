@@ -15,6 +15,7 @@ import hmac
 import httpx
 import email
 import email.policy
+import traceback
 
 from flask import Blueprint, request, g, make_response, render_template, redirect
 from flask_cors import cross_origin
@@ -635,18 +636,25 @@ def account_buy_membership():
         if pay_currency in ['busdbsc','dai','pyusd','tusd','usdc','usdterc20','usdttrc20']:
             price_currency = pay_currency
 
-        donation_json['payment2_request'] = httpx.post(PAYMENT2_URL, headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0, json={
-            "price_amount": round(float(membership_costs['cost_cents_usd']) * (1.03 if price_currency == 'usd' else 1.0) / 100.0, 2),
-            "price_currency": price_currency,
-            "pay_currency": pay_currency,
-            "order_id": donation_id,
-        }).json()
+        try:
+            donation_json['payment2_request'] = httpx.post(PAYMENT2_URL, headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0, json={
+                "price_amount": round(float(membership_costs['cost_cents_usd']) * (1.03 if price_currency == 'usd' else 1.0) / 100.0, 2),
+                "price_currency": price_currency,
+                "pay_currency": pay_currency,
+                "order_id": donation_id,
+            }).json()
+        except httpx.HTTPError as err:
+            return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.try_again') })
+        except Exception as err:
+            print(f"Warning: unknown error in payment2 http request: {repr(err)} /// {traceback.format_exc()}")
+            return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })
+
 
         if 'code' in donation_json['payment2_request']:
             if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
                 return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.minimum') })
             else:
-                print(f"Warning: unknown error in payment2: {donation_json['payment2_request']}")
+                print(f"Warning: unknown error in payment2 with code missing: {donation_json['payment2_request']}")
                 return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })
 
     with Session(mariapersist_engine) as mariapersist_session:
