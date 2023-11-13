@@ -1,17 +1,48 @@
-msgid ""
+#: allthethings/app.py:243
+msgid "layout.index.header.tagline_scihub"
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-12 08:28+0000\n"
-"PO-Revision-Date: 2023-11-12 08:28+0000\n"
-"Last-Translator: gumblex <abcdoyle888@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: zh\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.15\n"
+
+#: allthethings/app.py:244
+msgid "layout.index.header.tagline_libgen"
+msgstr ""
+
+#: allthethings/app.py:245
+msgid "layout.index.header.tagline_zlib"
+msgstr ""
+
+#: allthethings/app.py:246
+msgid "layout.index.header.tagline_openlib"
+msgstr ""
+
+#: allthethings/app.py:247
+msgid "layout.index.header.tagline_duxiu"
+msgstr ""
+
+#: allthethings/app.py:248
+msgid "layout.index.header.tagline_separator"
+msgstr ""
+
+#: allthethings/app.py:254 allthethings/app.py:256 allthethings/app.py:257
+#: allthethings/app.py:260
+msgid "layout.index.header.tagline_new1"
+msgstr ""
+
+#: allthethings/app.py:254 allthethings/app.py:256 allthethings/app.py:257
+#: allthethings/app.py:260
+msgid "layout.index.header.tagline_new2"
+msgstr ""
+
+#: allthethings/app.py:254 allthethings/app.py:256 allthethings/app.py:260
+msgid "layout.index.header.tagline_new3"
+msgstr ""
+
+#: allthethings/app.py:262 allthethings/app.py:263
+msgid "layout.index.header.tagline"
+msgstr "📚&nbsp;世界最大开源及开放数据图书馆。 ⭐️&nbsp;不仅是 Sci-Hub、Library Genesis、Z-Library 等站的镜像。 📈&nbsp;%(book_any)s 本图书、%(journal_article)s 篇论文、%(book_comic)s 部漫画、%(magazine)s 期杂志——永久保存。"
+
+#: allthethings/app.py:264
+msgid "layout.index.header.tagline_short"
+msgstr "📚 世界上最大的开源、开放数据图书馆。<br>⭐️ 不仅是 Scihub、Libgen、Zlib 等站的镜像。"
 
 #: allthethings/utils.py:221
 msgid "common.md5_report_type_mapping.metadata"
@@ -517,11 +548,11 @@ msgstr "<strong>重要提示</strong>：加密货币价格可能会大幅波动�
 #: allthethings/account/templates/account/donation.html:176
 #: allthethings/account/templates/account/donation.html:221
 #: allthethings/account/templates/account/donation.html:262
-#: allthethings/account/templates/account/donation.html:319
-#: allthethings/account/templates/account/donation.html:335
-#: allthethings/account/templates/account/donation.html:353
-#: allthethings/account/templates/account/donation.html:369
-#: allthethings/account/templates/account/donation.html:385
+#: allthethings/account/templates/account/donation.html:320
+#: allthethings/account/templates/account/donation.html:336
+#: allthethings/account/templates/account/donation.html:354
+#: allthethings/account/templates/account/donation.html:370
+#: allthethings/account/templates/account/donation.html:386
 msgid "page.donation.expired"
 msgstr "这笔捐赠已经超时。请取消并重新创建一笔。"
 
@@ -605,7 +636,7 @@ msgstr "给 %(account)s 转账 %(amount)s"
 #: allthethings/account/templates/account/donation.html:204
 #: allthethings/account/templates/account/donation.html:245
 #: allthethings/account/templates/account/donation.html:270
-#: allthethings/account/templates/account/donation.html:300
+#: allthethings/account/templates/account/donation.html:301
 msgid "page.donation.status_header"
 msgstr "状态："
 
@@ -648,7 +679,7 @@ msgstr "进行捐赠即可重置计时器。"
 #: allthethings/account/templates/account/donation.html:213
 #: allthethings/account/templates/account/donation.html:254
 #: allthethings/account/templates/account/donation.html:279
-#: allthethings/account/templates/account/donation.html:304
+#: allthethings/account/templates/account/donation.html:305
 msgid "page.donation.refresh_status"
 msgstr "更新状态"
 
@@ -668,122 +699,126 @@ msgstr "请使用 <a %(a_form)s> 亚马逊网站官方表格 </a> 将金额为 %
 msgid "page.donation.amazon.only_official"
 msgstr "我们无法接收其他方式的礼品卡，<strong>只能通过 Amazon.com 上的官方表格直接发送</strong>。如果没有使用此表格，我们将无法退还您的礼品卡。"
 
-#: allthethings/account/templates/account/donation.html:295
+#: allthethings/account/templates/account/donation.html:292
+msgid "page.donate.payment.desc.amazon_message"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:296
 msgid "page.donation.amazon.form_to"
 msgstr "表单中 ”To\" 收件人电子邮箱："
 
-#: allthethings/account/templates/account/donation.html:296
+#: allthethings/account/templates/account/donation.html:297
 msgid "page.donation.amazon.unique"
 msgstr "专属于您的账户，请勿分享。"
 
-#: allthethings/account/templates/account/donation.html:300
+#: allthethings/account/templates/account/donation.html:301
 msgid "page.donation.amazon.waiting_gift_card"
 msgstr "等待礼品卡…（刷新页面查看）"
 
-#: allthethings/account/templates/account/donation.html:308
+#: allthethings/account/templates/account/donation.html:309
 msgid "page.donation.amazon.confirm_automated"
 msgstr "在寄送出您的礼品卡后，我们的自动化系统会在几分钟内确认。如果没有成功的话，请尝试重新寄送礼品卡(<a %(a_instr)s>说明</a>)。"
 
-#: allthethings/account/templates/account/donation.html:309
+#: allthethings/account/templates/account/donation.html:310
 msgid "page.donation.amazon.doesnt_work"
 msgstr "如果还是不管用的话，请给我们发邮件，安娜会手动检查请求（这可能会花几天时间）。请确保在邮件中提及是否已经尝试重新寄送过礼品卡。"
 
-#: allthethings/account/templates/account/donation.html:312
+#: allthethings/account/templates/account/donation.html:313
 msgid "page.donation.amazon.example"
 msgstr "例如："
 
-#: allthethings/account/templates/account/donation.html:348
-#: allthethings/account/templates/account/donation.html:365
-#: allthethings/account/templates/account/donation.html:381
-#: allthethings/account/templates/account/donation.html:397
+#: allthethings/account/templates/account/donation.html:349
+#: allthethings/account/templates/account/donation.html:366
+#: allthethings/account/templates/account/donation.html:382
+#: allthethings/account/templates/account/donation.html:398
 msgid "page.donate.strange_account"
 msgstr "账户名或头像可能会有点奇怪。不必担心！这个账户由我们的捐赠伙伴管理，我们的账户没有被黑。"
 
-#: allthethings/account/templates/account/donation.html:372
+#: allthethings/account/templates/account/donation.html:373
 msgid "page.donation.payment.alipay.top_header"
 msgstr "支付宝使用说明"
 
-#: allthethings/account/templates/account/donation.html:374
+#: allthethings/account/templates/account/donation.html:375
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>在支付宝上捐款"
 
-#: allthethings/account/templates/account/donation.html:377
+#: allthethings/account/templates/account/donation.html:378
 msgid "page.donation.payment.alipay.text1"
 msgstr "使用支付宝账户<a %(a_account)s>捐赠总金额%(total)s"
 
-#: allthethings/account/templates/account/donation.html:388
+#: allthethings/account/templates/account/donation.html:389
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix使用说明"
 
-#: allthethings/account/templates/account/donation.html:390
+#: allthethings/account/templates/account/donation.html:391
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>在Pix上捐赠"
 
-#: allthethings/account/templates/account/donation.html:393
+#: allthethings/account/templates/account/donation.html:394
 msgid "page.donation.payment.pix.text1"
 msgstr "使用Pix帐户<a %(a_account)s>捐献总金额%(total)s"
 
-#: allthethings/account/templates/account/donation.html:402
+#: allthethings/account/templates/account/donation.html:403
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>把收据用电子邮件发给我们"
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:409
 msgid "page.donation.footer.text1"
 msgstr "发送收据或截图到您的个人验证地址："
 
-#: allthethings/account/templates/account/donation.html:418
+#: allthethings/account/templates/account/donation.html:419
 msgid "page.donation.footer.crypto_note"
 msgstr "如果加密货币汇率在交易期间波动，请务必包括显示原始汇率的收据。我们非常感谢您不厌其烦地使用加密货币，这对我们非常有帮助！"
 
-#: allthethings/account/templates/account/donation.html:423
+#: allthethings/account/templates/account/donation.html:424
 msgid "page.donation.footer.text2"
 msgstr "当你用电子邮件发送了收据之后，点击这个按钮，这样安娜可以手动审核（这可能需要几天）："
 
-#: allthethings/account/templates/account/donation.html:433
+#: allthethings/account/templates/account/donation.html:434
 msgid "page.donation.footer.button"
 msgstr "是的，我已经发送了收据"
 
-#: allthethings/account/templates/account/donation.html:436
+#: allthethings/account/templates/account/donation.html:437
 msgid "page.donation.footer.success"
 msgstr "✅ 感谢你的捐赠！安娜将在几天内手动激活您的会员资格。"
 
-#: allthethings/account/templates/account/donation.html:437
+#: allthethings/account/templates/account/donation.html:438
 msgid "page.donation.footer.failure"
 msgstr "❌ 出错了，请刷新页面重试。"
 
-#: allthethings/account/templates/account/donation.html:442
+#: allthethings/account/templates/account/donation.html:443
 msgid "page.donation.stepbystep"
 msgstr "分步骤指南"
 
-#: allthethings/account/templates/account/donation.html:444
+#: allthethings/account/templates/account/donation.html:445
 msgid "page.donation.crypto_dont_worry"
 msgstr "有些步骤提到了加密货币钱包。不用担心，此处你无需深入了解加密货币。"
 
-#: allthethings/account/templates/account/donation.html:446
+#: allthethings/account/templates/account/donation.html:447
 msgid "page.donation.hoodpay.step1"
 msgstr "1. 输入你的电子邮箱。"
 
-#: allthethings/account/templates/account/donation.html:452
+#: allthethings/account/templates/account/donation.html:453
 msgid "page.donation.hoodpay.step2"
 msgstr "2. 选择支付方式。"
 
-#: allthethings/account/templates/account/donation.html:458
+#: allthethings/account/templates/account/donation.html:459
 msgid "page.donation.hoodpay.step3"
 msgstr "3. 再次选择支付方式。"
 
-#: allthethings/account/templates/account/donation.html:464
+#: allthethings/account/templates/account/donation.html:465
 msgid "page.donation.hoodpay.step4"
 msgstr "4. 选择自行托管的（Self-hosted）钱包。"
 
-#: allthethings/account/templates/account/donation.html:470
+#: allthethings/account/templates/account/donation.html:471
 msgid "page.donation.hoodpay.step5"
 msgstr "5. 点击“我确认所有权”。"
 
-#: allthethings/account/templates/account/donation.html:476
+#: allthethings/account/templates/account/donation.html:477
 msgid "page.donation.hoodpay.step6"
 msgstr "6. 你会收到一封邮件回复。请将这封邮件转发给我们，我们会尽快确认你的捐赠。"
 
-#: allthethings/account/templates/account/donation.html:480
+#: allthethings/account/templates/account/donation.html:481
 msgid "page.donation.footer.issues_contact"
 msgstr "如果您遇到了任何问题，请通过%(email)s联系我们，并附上尽可能多的信息（例如截图）。"
 
@@ -1469,7 +1504,7 @@ msgstr "搜索我们的影子图书馆目录。"
 
 #: allthethings/page/templates/page/about.html:79
 #: allthethings/page/templates/page/search.html:53
-#: allthethings/templates/layouts/index.html:391
+#: allthethings/templates/layouts/index.html:392
 msgid "common.search.placeholder"
 msgstr "标题、作者、DOI、ISBN、MD5……"
 
@@ -1623,7 +1658,7 @@ msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:18
-#: allthethings/templates/layouts/index.html:394
+#: allthethings/templates/layouts/index.html:395
 msgid "layout.index.header.nav.beta"
 msgstr "测试版"
 
@@ -1689,15 +1724,19 @@ msgstr "继续"
 msgid "page.partner_download.header"
 msgstr "从合作伙伴网站下载"
 
-#: allthethings/page/templates/page/partner_download.html:12
+#: allthethings/page/templates/page/partner_download.html:13
+msgid "page.partner_download.main_page"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:17
 msgid "page.partner_download.url"
 msgstr "📚使用以下URL下载:<a %(a_download)s>立即下载</a >。"
 
-#: allthethings/page/templates/page/partner_download.html:19
+#: allthethings/page/templates/page/partner_download.html:23
 msgid "page.partner_download.faster_downloads"
 msgstr "🚀要获得更快的下载并跳过浏览器检查，<a %(a_membership)s >成为会员</a>。"
 
-#: allthethings/page/templates/page/partner_download.html:24
+#: allthethings/page/templates/page/partner_download.html:28
 msgid "page.partner_download.bulk_mirroring"
 msgstr "📡对于我们集合的批量镜像，请查看<a %(a_datasets)s >数据集</a>和<a %(a_torrents)s>Torrents</a>页面。"
 
@@ -1940,114 +1979,97 @@ msgid "layout.index.banners.comics_fundraiser.text"
 msgstr "我们正在为<a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">备份</a>世界上最大的影子漫画图书馆筹款。感谢您的支持！<a href=\"/donate\">点此捐助</a>。如果您无法捐助，也请帮忙转告亲友，或关注我们的 <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a> 或 <a href=\"https://t.me/annasarchiveorg\">Telegram</a>。"
 
 #: allthethings/templates/layouts/index.html:261
-msgid "layout.index.header.tagline"
-msgstr "📚&nbsp;世界最大开源及开放数据图书馆。 ⭐️&nbsp;不仅是 Sci-Hub、Library Genesis、Z-Library 等站的镜像。 📈&nbsp;%(book_any)s 本图书、%(journal_article)s 篇论文、%(book_comic)s 部漫画、%(magazine)s 期杂志——永久保存。"
-
-#: allthethings/templates/layouts/index.html:261
 #: allthethings/templates/layouts/index.html:262
+#: allthethings/templates/layouts/index.html:263
 msgid "layout.index.header.learn_more"
 msgstr "了解更多……"
 
-#: allthethings/templates/layouts/index.html:262
-msgid "layout.index.header.tagline_short"
-msgstr "📚 世界上最大的开源、开放数据图书馆。<br>⭐️ 不仅是 Scihub、Libgen、Zlib 等站的镜像。"
-
-#: allthethings/templates/layouts/index.html:266
+#: allthethings/templates/layouts/index.html:267
 msgid "layout.index.header.recent_downloads"
 msgstr "近期下载："
-
-#: allthethings/templates/layouts/index.html:349
-#: allthethings/templates/layouts/index.html:361
-#: allthethings/templates/layouts/index.html:375
-#: allthethings/templates/layouts/index.html:452
-msgid "layout.index.header.nav.search"
-msgstr "搜索"
 
 #: allthethings/templates/layouts/index.html:350
 #: allthethings/templates/layouts/index.html:362
 #: allthethings/templates/layouts/index.html:376
 #: allthethings/templates/layouts/index.html:453
-msgid "layout.index.header.nav.about"
-msgstr "关于"
+msgid "layout.index.header.nav.search"
+msgstr "搜索"
 
 #: allthethings/templates/layouts/index.html:351
 #: allthethings/templates/layouts/index.html:363
 #: allthethings/templates/layouts/index.html:377
-#: allthethings/templates/layouts/index.html:484
-msgid "layout.index.header.nav.datasets"
-msgstr "数据集"
+#: allthethings/templates/layouts/index.html:454
+msgid "layout.index.header.nav.about"
+msgstr "关于"
 
 #: allthethings/templates/layouts/index.html:352
 #: allthethings/templates/layouts/index.html:364
 #: allthethings/templates/layouts/index.html:378
 #: allthethings/templates/layouts/index.html:485
-msgid "layout.index.header.nav.torrents"
-msgstr "种子"
+msgid "layout.index.header.nav.datasets"
+msgstr "数据集"
 
 #: allthethings/templates/layouts/index.html:353
 #: allthethings/templates/layouts/index.html:365
 #: allthethings/templates/layouts/index.html:379
 #: allthethings/templates/layouts/index.html:486
-msgid "layout.index.header.nav.llm_data"
-msgstr "大语言模型数据"
+msgid "layout.index.header.nav.torrents"
+msgstr "种子"
 
 #: allthethings/templates/layouts/index.html:354
 #: allthethings/templates/layouts/index.html:366
 #: allthethings/templates/layouts/index.html:380
-#: allthethings/templates/layouts/index.html:457
-msgid "layout.index.header.nav.mobile"
-msgstr "移动端"
+#: allthethings/templates/layouts/index.html:487
+msgid "layout.index.header.nav.llm_data"
+msgstr "大语言模型数据"
 
 #: allthethings/templates/layouts/index.html:355
 #: allthethings/templates/layouts/index.html:367
-#: allthethings/templates/layouts/index.html:487
-msgid "layout.index.header.nav.security"
-msgstr "安全性"
+#: allthethings/templates/layouts/index.html:381
+#: allthethings/templates/layouts/index.html:458
+msgid "layout.index.header.nav.mobile"
+msgstr "移动端"
 
 #: allthethings/templates/layouts/index.html:356
 #: allthethings/templates/layouts/index.html:368
-#: allthethings/templates/layouts/index.html:382
-#: allthethings/templates/layouts/index.html:472
-#: allthethings/templates/layouts/index.html:496
-msgid "layout.index.header.nav.wechat"
-msgstr "非官方微信号"
+#: allthethings/templates/layouts/index.html:488
+msgid "layout.index.header.nav.security"
+msgstr "安全性"
 
 #: allthethings/templates/layouts/index.html:357
 #: allthethings/templates/layouts/index.html:369
-#: allthethings/templates/layouts/index.html:374
-#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:383
+#: allthethings/templates/layouts/index.html:473
+#: allthethings/templates/layouts/index.html:497
+msgid "layout.index.header.nav.wechat"
+msgstr "非官方微信号"
+
+#: allthethings/templates/layouts/index.html:358
+#: allthethings/templates/layouts/index.html:370
+#: allthethings/templates/layouts/index.html:375
+#: allthethings/templates/layouts/index.html:452
 msgid "layout.index.header.nav.home"
 msgstr "主页"
 
-#: allthethings/templates/layouts/index.html:384
-#: allthethings/templates/layouts/index.html:473
+#: allthethings/templates/layouts/index.html:385
+#: allthethings/templates/layouts/index.html:474
 msgid "layout.index.header.nav.annasblog"
 msgstr "安娜的博客 ↗"
 
-#: allthethings/templates/layouts/index.html:385
-#: allthethings/templates/layouts/index.html:474
+#: allthethings/templates/layouts/index.html:386
+#: allthethings/templates/layouts/index.html:475
 msgid "layout.index.header.nav.annassoftware"
 msgstr "安娜的软件 ↗"
 
-#: allthethings/templates/layouts/index.html:386
-#: allthethings/templates/layouts/index.html:475
+#: allthethings/templates/layouts/index.html:387
+#: allthethings/templates/layouts/index.html:476
 msgid "layout.index.header.nav.translate"
 msgstr "翻译 ↗"
 
-#: allthethings/templates/layouts/index.html:388
-#: allthethings/templates/layouts/index.html:454
+#: allthethings/templates/layouts/index.html:389
+#: allthethings/templates/layouts/index.html:455
 msgid "layout.index.header.nav.donate"
 msgstr "捐赠"
-
-#: allthethings/templates/layouts/index.html:397
-#: allthethings/templates/layouts/index.html:403
-#: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:419
-#: allthethings/templates/layouts/index.html:428
-#: allthethings/templates/layouts/index.html:439
-#: allthethings/templates/layouts/index.html:455
-msgid "layout.index.header.nav.request"
-msgstr "请求图书"
 
 #: allthethings/templates/layouts/index.html:398
 #: allthethings/templates/layouts/index.html:404
@@ -2056,62 +2078,72 @@ msgstr "请求图书"
 #: allthethings/templates/layouts/index.html:429
 #: allthethings/templates/layouts/index.html:440
 #: allthethings/templates/layouts/index.html:456
-msgid "layout.index.header.nav.upload"
-msgstr "上传"
+msgid "layout.index.header.nav.request"
+msgstr "请求图书"
 
 #: allthethings/templates/layouts/index.html:399
 #: allthethings/templates/layouts/index.html:405
-#: allthethings/templates/layouts/index.html:410
+#: allthethings/templates/layouts/index.html:413
+#: allthethings/templates/layouts/index.html:421
+#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:441
+#: allthethings/templates/layouts/index.html:457
+msgid "layout.index.header.nav.upload"
+msgstr "上传"
+
+#: allthethings/templates/layouts/index.html:400
+#: allthethings/templates/layouts/index.html:406
+#: allthethings/templates/layouts/index.html:411
 msgid "layout.index.header.nav.login_register"
 msgstr "登录 / 注册"
-
-#: allthethings/templates/layouts/index.html:416
-#: allthethings/templates/layouts/index.html:425
-#: allthethings/templates/layouts/index.html:436
-msgid "layout.index.header.nav.public_profile"
-msgstr "公开资料"
 
 #: allthethings/templates/layouts/index.html:417
 #: allthethings/templates/layouts/index.html:426
 #: allthethings/templates/layouts/index.html:437
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "已下载文件"
+msgid "layout.index.header.nav.public_profile"
+msgstr "公开资料"
 
 #: allthethings/templates/layouts/index.html:418
 #: allthethings/templates/layouts/index.html:427
 #: allthethings/templates/layouts/index.html:438
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "已下载文件"
+
+#: allthethings/templates/layouts/index.html:419
+#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:439
 msgid "layout.index.header.nav.my_donations"
 msgstr "我的捐赠"
 
-#: allthethings/templates/layouts/index.html:435
+#: allthethings/templates/layouts/index.html:436
 msgid "layout.index.header.nav.account"
 msgstr "账户"
 
-#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:451
 msgid "layout.index.footer.list1.header"
 msgstr "安娜的档案"
 
-#: allthethings/templates/layouts/index.html:471
+#: allthethings/templates/layouts/index.html:472
 msgid "layout.index.footer.list2.header"
 msgstr "保持联系"
 
-#: allthethings/templates/layouts/index.html:472
+#: allthethings/templates/layouts/index.html:473
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:472
+#: allthethings/templates/layouts/index.html:473
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:478
 msgid "layout.index.footer.dont_email"
 msgstr "不要给我们发邮件来<a %(a_request)s>请求图书</a><br>或提供小批量（<1万）<a %(a_upload)s>上传</a>。"
 
-#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:479
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "数字千年版权法(DCMA)/ 版权声明"
 
-#: allthethings/templates/layouts/index.html:491
+#: allthethings/templates/layouts/index.html:492
 msgid "layout.index.footer.list3.header"
 msgstr "镜像"
 
@@ -2366,3 +2398,4 @@ msgstr "已复制！"
 
 #~ msgid "layout.index.footer.list2.twitter"
 #~ msgstr "推特"
+
