@@ -11,7 +11,7 @@ from flask import Flask, request, g
 from werkzeug.security import safe_join
 from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.proxy_fix import ProxyFix
-from flask_babel import get_locale, get_translations, force_locale
+from flask_babel import get_locale, get_translations, force_locale, gettext
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -240,6 +240,28 @@ def extensions(app):
         doc_counts['book_any'] = (doc_counts.get('book_unknown') or 0) + (doc_counts.get('book_fiction') or 0) + (doc_counts.get('book_nonfiction') or 0)
         g.header_stats = {key: babel_numbers.format_number(value, locale=get_locale()) for key, value in doc_counts.items() }
 
+        new_header_tagline_scihub = gettext('layout.index.header.tagline_scihub')
+        new_header_tagline_libgen = gettext('layout.index.header.tagline_libgen')
+        new_header_tagline_zlib = gettext('layout.index.header.tagline_zlib')
+        new_header_tagline_openlib = gettext('layout.index.header.tagline_openlib')
+        new_header_tagline_duxiu = gettext('layout.index.header.tagline_duxiu')
+        new_header_tagline_separator = gettext('layout.index.header.tagline_separator')
+        new_stats = {
+            'book_count': babel_numbers.format_number((doc_counts.get('book_unknown') or 0) + (doc_counts.get('book_fiction') or 0) + (doc_counts.get('book_nonfiction') or 0) + (doc_counts.get('book_comic') or 0) + (doc_counts.get('musical_score') or 0), locale=get_locale()),
+            'paper_count': babel_numbers.format_number((doc_counts.get('journal_article') or 0) + (doc_counts.get('standards_document') or 0) + (doc_counts.get('magazine') or 0), locale=get_locale()),
+            'libraries': new_header_tagline_separator.join([new_header_tagline_scihub, new_header_tagline_libgen, new_header_tagline_zlib])
+        }
+        new_header_tagline = " ".join([gettext('layout.index.header.tagline_new1'), gettext('layout.index.header.tagline_new2', **new_stats), '<br>' + gettext('layout.index.header.tagline_new3', **new_stats)])
+        g.header_tagline = new_header_tagline
+        g.header_tagline_mid = " ".join([gettext('layout.index.header.tagline_new1'), gettext('layout.index.header.tagline_new2', **new_stats), gettext('layout.index.header.tagline_new3', **new_stats)])
+        g.header_tagline_short = " ".join([gettext('layout.index.header.tagline_new1'), '<br>' + gettext('layout.index.header.tagline_new2', **new_stats)])
+        if str(get_locale()) != 'en':
+            with force_locale('en'):
+                new_header_tagline_english = " ".join([gettext('layout.index.header.tagline_new1'), gettext('layout.index.header.tagline_new2', **new_stats), '<br>' + gettext('layout.index.header.tagline_new3', **new_stats)])
+            if new_header_tagline == new_header_tagline_english:
+                g.header_tagline = gettext('layout.index.header.tagline', **g.header_stats)
+                g.header_tagline_mid = gettext('layout.index.header.tagline', **g.header_stats)
+                g.header_tagline_short = gettext('layout.index.header.tagline_short')
 
     return None
 
