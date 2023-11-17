@@ -1220,7 +1220,12 @@ def get_aa_lgli_comics_2022_08_file_dicts(session, key, values):
         print(repr(err))
         traceback.print_tb(err.__traceback__)
 
-    aa_lgli_comics_2022_08_file_dicts = [dict(aa_lgli_comics_2022_08_file) for aa_lgli_comics_2022_08_file in aa_lgli_comics_2022_08_files]
+    aa_lgli_comics_2022_08_file_dicts = []
+    for aa_lgli_comics_2022_08_file in aa_lgli_comics_2022_08_files:
+        aa_lgli_comics_2022_08_file_dicts.append({ 
+            **aa_lgli_comics_2022_08_file,
+            'extension': aa_lgli_comics_2022_08_file.path.rsplit('.', 1)[-1],
+        })
     return aa_lgli_comics_2022_08_file_dicts
 
 
@@ -2315,6 +2320,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
         original_filename_multiple += [(scihub_doi['doi'].strip() + '.pdf') for scihub_doi in aarecord['scihub_doi']]
+        original_filename_multiple.append(((aarecord['aa_lgli_comics_2022_08_file'] or {}).get('path') or '').strip().lower())
         if aarecord['file_unified_data']['original_filename_best'] == '':
             original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
             aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
@@ -2353,6 +2359,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgrsfic_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgli_file'] or {}).get('extension') or '').strip().lower(),
+            ((aarecord['aa_lgli_comics_2022_08_file'] or {}).get('extension') or '').strip().lower(),
             ('pdf' if aarecord_id_split[0] == 'doi' else ''),
         ]
         if "epub" in extension_multiple:
@@ -2373,6 +2380,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             (aarecord['lgrsnf_book'] or {}).get('filesize') or 0,
             (aarecord['lgrsfic_book'] or {}).get('filesize') or 0,
             (aarecord['lgli_file'] or {}).get('filesize') or 0,
+            (aarecord['aa_lgli_comics_2022_08_file'] or {}).get('filesize') or 0,
         ]
         aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
         if aarecord['ia_record'] is not None and len(aarecord['ia_record']['json']['aa_shorter_files']) > 0:
@@ -2657,6 +2665,8 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if (aarecord_id_split[0] == 'oclc') or (oclc['aa_oclc_derived']['content_type'] != 'other'):
                     aarecord['file_unified_data']['content_type'] = oclc['aa_oclc_derived']['content_type']
                     break
+        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (aarecord['aa_lgli_comics_2022_08_file'] is not None):
+            aarecord['file_unified_data']['content_type'] = 'book_comic'
 
         if aarecord['lgrsnf_book'] is not None:
             aarecord['lgrsnf_book'] = {
@@ -2930,6 +2940,8 @@ def get_additional_for_aarecord(aarecord):
     CODES_PRIORITY = ['isbn13', 'isbn10', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin']
     additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100))
 
+    md5_content_type_mapping = get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale()))
+
     additional['top_box'] = {
         'meta_information': [item for item in [
                 aarecord['file_unified_data'].get('title_best', None) or '',
@@ -2944,6 +2956,7 @@ def get_additional_for_aarecord(aarecord):
                 additional['most_likely_language_name'],
                 aarecord['file_unified_data'].get('extension_best', None) or '',
                 format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0) if aarecord['file_unified_data'].get('filesize_best', None) else '',
+                md5_content_type_mapping[aarecord['file_unified_data']['content_type']],
                 aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
                 aarecord_id_split[1] if aarecord_id_split[0] in ['ia', 'ol'] else '',
                 f"ISBNdb {aarecord_id_split[1]}" if aarecord_id_split[0] == 'isbn' else '',
