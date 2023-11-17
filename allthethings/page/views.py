@@ -59,6 +59,8 @@ search_filtered_bad_aarecord_ids = [
     "md5:d4c01f9370c5ac93eb5ee5c2037ac794",
     "md5:08499f336fbf8d31f8e7fadaaa517477",
     "md5:351024f9b101ac7797c648ff43dcf76e",
+    "md5:ffdbec06986b84f24fc786d89ce46528",
+    "md5:ca10d6b2ee5c758955ff468591ad67d9",
 ]
 
 ES_TIMEOUT_PRIMARY = "3s"

@@ -902,7 +902,7 @@ def gc_notify():
             print(error)
             return "", 404
 
-        data_value = { "links": links, "claim_code": claim_code }
+        data_value = { "links": links, "claim_code": claim_code, "money": money }
         if not allthethings.utils.confirm_membership(cursor, donation_id, 'amazon_gc_done', data_value):
             error = f"Warning: gc_notify message '{message['X-Original-To']}' confirm_membership failed"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
