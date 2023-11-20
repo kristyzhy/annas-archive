@@ -111,6 +111,9 @@ def query_yield_batches(conn, qry, pk_attr, maxrq):
 # Rebuild "computed_all_md5s" table in MySQL. At the time of writing, this isn't
 # used in the app, but it is used for `./run flask cli elastic_build_aarecords_main`.
 # ./run flask cli mysql_build_computed_all_md5s
+#
+# To dump computed_all_md5s to txt: 
+#   docker exec mariadb mariadb -uallthethings -ppassword allthethings --skip-column-names -e 'SELECT LOWER(HEX(md5)) from computed_all_md5s;' > md5.txt
 @cli.cli.command('mysql_build_computed_all_md5s')
 def mysql_build_computed_all_md5s():
     print("Erasing entire MySQL 'computed_all_md5s' table! Did you double-check that any production/large databases are offline/inaccessible from here?")
