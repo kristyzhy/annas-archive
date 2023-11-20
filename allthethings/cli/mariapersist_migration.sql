@@ -186,13 +186,6 @@ INSERT INTO `mariapersist_torrent_scrapes` VALUES
 --     PRIMARY KEY (`timestamp`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin PAGE_COMPRESSED=1;
 
-CREATE TABLE mariapersist_downloads (
-    `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    `md5` BINARY(16) NOT NULL,
-    `ip` BINARY(16) NOT NULL,
-    PRIMARY KEY (`timestamp`, `md5`, `ip`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
 CREATE TABLE mariapersist_slow_download_access (
     `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
     `md5` binary(16) NOT NULL,
