@@ -77,7 +77,7 @@
       {% endif %}
     </div>
 
-    <div class="flex w-[100%]">
+    <div class="flex w-full">
       <div aria-labelledby="{{ gettext('page.search.search_settings') }}" class="max-sm:hidden sm:text-sm max-sm:cursor-pointer js-search-filter-settings max-sm:fixed max-sm:top-0 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:z-[999999999] max-sm:bg-[rgba(230,230,230,0.7)] max-sm:p-4 sm:w-[25%] sm:max-w-[240px] sm:shrink-0 md:pr-6 sm:pr-3" onclick="if(event.target === event.currentTarget) { event.preventDefault(); event.stopPropagation(); document.querySelector('.js-search-filter-settings').classList.add('max-sm:hidden'); document.body.style.overflow = 'unset' }">
         <div class="max-sm:cursor-auto max-sm:shadow-2xl max-sm:rounded-xl max-sm:absolute max-sm:top-4 max-sm:bottom-4 max-sm:left-4 max-sm:right-4 max-sm:bg-white max-sm:p-4 max-sm:overflow-y-auto max-sm:mx-auto max-sm:max-w-[700px]">
           <div class="flex justify-between items-center mb-4 sm:hidden">
@@ -154,7 +154,7 @@
         </div>
       </div>
 
-      <div class="min-w-[0] w-[100%]">
+      <div class="min-w-[0] w-full">
         {% if search_dict.had_fatal_es_timeout %}
           <!-- <p class="mt-4 font-bold">{{ gettext('page.search.results.error.header') }}</p>
 

@@ -37,7 +37,7 @@
       <strong>IMPORTANT:</strong> If you seed large amounts of our collection (50TB or more), please contact us at <a class="" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a> so we can let you know when we deprecate any large torrents.
     </p>
 
-    <div class="overflow-hidden max-w-[100%]">
+    <div class="overflow-hidden max-w-full">
       <table>
         {% for group, small_files in torrents_data.small_file_dicts_grouped.items() %}
           <tr><td colspan="100" class="pt-4"><span class="text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }}</span> <span class="text-xs text-gray-500">{{ torrents_data.group_size_strings[group] }}</span> <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [td:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a>

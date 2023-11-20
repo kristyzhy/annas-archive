@@ -265,9 +265,9 @@ Thank you!
 
           <div class="hidden sm:flex text-xs mb-1" aria-hidden="true">
             <div class="font-bold shrink-0">{{ gettext('layout.index.header.recent_downloads') }}&nbsp;&nbsp;</div>
-            <div class="w-[100%] overflow-hidden flex js-recent-downloads-scroll">
+            <div class="w-full overflow-hidden flex js-recent-downloads-scroll">
               <!-- Make sure tailwind picks up these classes -->
-              <div class="shrink-0 min-w-[100%]"></div>
+              <div class="shrink-0 min-w-full"></div>
               <div class="inline-block max-w-[50%] truncate"></div>
             </div>
             <script>
@@ -277,7 +277,7 @@ Thank you!
                   const shuffledItems = [...items].sort(() => Math.random() - 0.5).slice(0, 8);
 
                   const titlesLength = shuffledItems.map((item) => item.title).join("   ").length;
-                  const scrollHtml = `<div class="shrink-0 min-w-[100%]" style="animation: scroll ${Math.round(titlesLength/4)}s linear infinite">` + shuffledItems.map((item) => `<span class="inline-block truncate">&nbsp;•&nbsp;</span><a tabindex="-1" href="${(item.path[0] == '/' ? '' : '/') + item.path}" class="inline-block max-w-[50%] truncate">${item.title}</a>`).join('') + '</div>';
+                  const scrollHtml = `<div class="shrink-0 min-w-full" style="animation: scroll ${Math.round(titlesLength/4)}s linear infinite">` + shuffledItems.map((item) => `<span class="inline-block truncate">&nbsp;•&nbsp;</span><a tabindex="-1" href="${(item.path[0] == '/' ? '' : '/') + item.path}" class="inline-block max-w-[50%] truncate">${item.title}</a>`).join('') + '</div>';
                   document.querySelector('.js-recent-downloads-scroll').innerHTML = scrollHtml + scrollHtml;
                 }
 
@@ -371,7 +371,7 @@ Thank you!
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
                 </span>
               </a>
-              <div class="absolute left-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
+              <div class="absolute left-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
                 <a class="custom-a block py-1 {% if header_active == 'home/home'     %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/search'   %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/search">{{ gettext('layout.index.header.nav.search') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/about'    %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
@@ -407,7 +407,7 @@ Thank you!
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
                 </span>
               </a>
-              <div class="absolute right-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-login hidden">
+              <div class="absolute right-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-login hidden">
                 <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/login">{{ gettext('layout.index.header.nav.login_register') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a>
@@ -432,7 +432,7 @@ Thank you!
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] ml-[-1px]"></span>
                 </span>
               </a>
-              <div class="absolute right-0 top-[100%] bg-[#f2f2f2] px-4 shadow js-top-menu-account hidden">
+              <div class="absolute right-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-account hidden">
                 <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account">{{ gettext('layout.index.header.nav.account') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/profile' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/profile">{{ gettext('layout.index.header.nav.public_profile') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/downloaded' %}font-bold text-black{% else %}text-[#000000a3]{% endif %} hover:text-black" href="/account/downloaded">{{ gettext('layout.index.header.nav.downloaded_files') }}</a>
@@ -495,7 +495,7 @@ Thank you!
             <a class="custom-a hover:text-[#333] js-annas-archive-se" href="https://annas-archive.se">annas-archive.se</a><br>
             {% if g.show_wechat_in_layout %}
               <!-- <a class="custom-a hover:text-[#333]" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a><br>
-              <div class="bg-white p-2 max-w-[130px]"><img class="w-[100%]" src="/images/wechat.jpg"></div> -->
+              <div class="bg-white p-2 max-w-[130px]"><img class="w-full" src="/images/wechat.jpg"></div> -->
             {% endif %}
           </div>
         </div>

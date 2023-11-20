@@ -9,7 +9,7 @@
         {% for list_dict in my_list_dicts %}
           <div class="flex items-center mb-1"><label class="flex items-center cursor-pointer"><input class="mr-1 cursor-pointer" type="checkbox" name="{{ list_dict.list_id }}" {% if list_dict.selected %}checked{% endif %}> {{ list_dict.name }}</label><a class="ml-2 text-sm" target="_blank" href="/list/{{ list_dict.list_id }}">view</a></div>
         {% endfor %}
-        <div class="flex"><input class="mr-1" type="checkbox" disabled checked maxlength="200"><input type="text" name="list_new_name" class="grow bg-[#00000011] px-2 py-1 rounded w-[100%] max-w-[300px] text-sm" placeholder="New list" /></div>
+        <div class="flex"><input class="mr-1" type="checkbox" disabled checked maxlength="200"><input type="text" name="list_new_name" class="grow bg-[#00000011] px-2 py-1 rounded w-full max-w-[300px] text-sm" placeholder="New list" /></div>
         <p class="mt-4 mb-2 text-sm text-gray-500">
           All lists are public on your profile.
         </p>

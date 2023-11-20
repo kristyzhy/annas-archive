@@ -57,7 +57,7 @@
     <p class="mb-1">{{ gettext('page.account.logged_out.key_form.text') }}</p>
 
     <form autocomplete="on" method="post" action="/account/" class="mb-4">
-      <input type="password" autocomplete="current-password" id="key" name="key" required placeholder="{{ gettext('page.account.logged_out.key_form.placeholder') }}" class="w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" />
+      <input type="password" autocomplete="current-password" id="key" name="key" required placeholder="{{ gettext('page.account.logged_out.key_form.placeholder') }}" class="w-full max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" />
       <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">{{ gettext('page.account.logged_out.key_form.button') }}</button>
       {% if invalid_key %}
         <p class="mb-1 text-red-500">{{ gettext('page.account.logged_out.key_form.invalid_key') }}</p>
@@ -125,7 +125,7 @@
 
       <form autocomplete="on" onsubmit="if (accountValidateEmail(event)) {window.submitForm(event, '/dyn/account/access/'); document.querySelector('.js-account-sent-email').innerText = document.getElementById('email').value }" class="mb-4 hidden js-account-email-form">
         <fieldset class="mb-4">
-          <input type="email" id="email" name="email" required placeholder="anna@example.org" class="js-account-email w-[100%] max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" />
+          <input type="email" id="email" name="email" required placeholder="anna@example.org" class="js-account-email w-full max-w-[400px] bg-[#00000011] px-2 py-1 mr-2 rounded mb-1" />
           <div class="js-account-email-validation-error-msg hidden mb-4 text-red-500"></div>
           <div class="mb-1">
             <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Send my secret key to my email</button>
