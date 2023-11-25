@@ -14,6 +14,7 @@
   </p>
 
   <p class="mb-4">
+    <!-- TODO:TRANSLATE -->
     {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">Download now</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
     {% if warning %}Warning: there have been lots of downloads from your IP address in the last 24 hours. Downloads might be slower than usual.{% endif %}
   </p>

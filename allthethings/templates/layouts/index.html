@@ -170,12 +170,30 @@
     </script>
     {% block main %}
       <div class="header" role="navigation">
-        <div class="[html:not(.aa-logged-in)_&]:hidden">
+        <div>
+        <!-- <div class="[html:not(.aa-logged-in)_&]:hidden"> -->
+          {% if g.domain_lang_code == 'zh' %}
+            <!-- blue -->
+            <div class="bg-[#0195ff] hidden js-top-banner">
+              <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
+                <div>
+                  <!-- GFW, payment processors, ads -->
+                  我们正在寻找专业服务，可以帮助可靠地绕过GFW，例如通过设置定期更改的代理和域名，或其他技巧。如果您确实具有此方面的实际专业经验，请与我们联系。<strong>我们愿意为此付出代价。</strong><a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>
+                  <!-- <span class="text-xs">我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。此外，我们正在寻找希望放置小而别致广告的公司。</span> -->
+                </div>
+                <div>
+                  <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+
           <!-- blue -->
           <!-- <div class="bg-[#0195ff] hidden js-top-banner">  -->
           <!-- purple -->
           <!-- <div class="bg-[#7f01ff] hidden js-top-banner">  -->
-          <div class="hidden js-top-banner text-xs sm:text-base [html:not(.aa-logged-in)_&]:hidden">
+          <!-- <div class="hidden js-top-banner text-xs sm:text-base [html:not(.aa-logged-in)_&]:hidden"> -->
             <!-- <div>
               {{ gettext('layout.index.header.banner.new_donation_method', method_name=('<strong>Paypal</strong>' | safe), donate_link_open_tag=('<a href="/donate" class="custom-a text-[#fff] hover:text-[#ddd] underline">' | safe)) }}
             </div> -->
@@ -191,14 +209,14 @@
                 {% include 'macros/fundraiser.html' %}
               </div>
             </div> -->
-            <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between bg-[#0160a7]">
+            <!-- <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between bg-[#0160a7]">
               <div>
                 Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please contact us at <a class="custom-a text-[#fff] hover:text-[#ddd] underline break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>.
               </div>
               <div>
                 <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
               </div>
-            </div>
+            </div> -->
             <!-- <div class="max-w-[1050px] mx-auto text-[#fff] bg-[#0160a7]">
               <div class="flex justify-between">
                 <div class="px-4 py-2">
@@ -212,39 +230,30 @@
                 Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please contact us at <a class="custom-a text-[#fff] hover:text-[#ddd] underline break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a>.
               </div>
             </div> -->
-          </div>
-          <!-- <script>
+          <!-- </div> -->
+          <script>
             (function() {
-              var latestTopBannerType = '6';
-              var topBannerMatch = document.cookie.match(/top_banner_hidden=([^$ ;}]+)/);
-              var topBannerType = '';
-              if (topBannerMatch) {
-                topBannerType = topBannerMatch[1];
-                // Refresh cookie.
-                document.cookie = 'top_banner_hidden=' + topBannerType + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT';
-              }
-              if (topBannerType !== latestTopBannerType) {
-                document.querySelector('.js-top-banner').style.display = 'block';
-                document.querySelector('.js-top-banner-close').addEventListener('click', function(event) {
-                  document.querySelector('.js-top-banner').style.display = 'none';
-                  document.cookie = 'top_banner_hidden=' + latestTopBannerType + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT';
-                  event.preventDefault();
-                  return false;
-                });
+              if (document.querySelector('.js-top-banner')) {
+                var latestTopBannerType = '7';
+                var topBannerMatch = document.cookie.match(/top_banner_hidden=([^$ ;}]+)/);
+                var topBannerType = '';
+                if (topBannerMatch) {
+                  topBannerType = topBannerMatch[1];
+                  // Refresh cookie.
+                  document.cookie = 'top_banner_hidden=' + topBannerType + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT';
+                }
+                if (topBannerType !== latestTopBannerType) {
+                  document.querySelector('.js-top-banner').style.display = 'block';
+                  document.querySelector('.js-top-banner-close').addEventListener('click', function(event) {
+                    document.querySelector('.js-top-banner').style.display = 'none';
+                    document.cookie = 'top_banner_hidden=' + latestTopBannerType + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT';
+                    event.preventDefault();
+                    return false;
+                  });
+                }
               }
             })();
-          </script> -->
-
-<!-- Message from Zlib for inspiration:
-
- We're currently searching for a high-risk payment processing provider to handle bank cards and local payments.
-
-If you know of any reliable providers, please get in touch with us via XXX with the subject line "High-risk merchant". Your help is greatly appreciated!
-
-Please refrain from emailing if you are not familiar with this topic.
-
-Thank you!
- -->
+          </script>
         </div>
         <div class="header-inner">
           <div class="header-inner-top">

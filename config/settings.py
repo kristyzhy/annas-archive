@@ -18,6 +18,7 @@ GC_NOTIFY_SIG = os.getenv("GC_NOTIFY_SIG", None)
 HOODPAY_URL = os.getenv("HOODPAY_URL", None)
 HOODPAY_AUTH = os.getenv("HOODPAY_AUTH", None)
 FAST_PARTNER_SERVER1 = os.getenv("FAST_PARTNER_SERVER1", None)
+X_AA_SECRET = os.getenv("X_AA_SECRET", None)
 
 # Redis.
 # REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")

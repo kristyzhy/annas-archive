@@ -21,7 +21,7 @@ from allthethings.page.views import page, all_search_aggs
 from allthethings.dyn.views import dyn
 from allthethings.cli.views import cli
 from allthethings.extensions import engine, mariapersist_engine, babel, debug_toolbar, flask_static_digest, Base, Reflected, ReflectedMariapersist, mail, LibgenrsUpdated, LibgenliFiles
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, X_AA_SECRET
 
 import allthethings.utils
 
@@ -197,6 +197,10 @@ def extensions(app):
     translations_with_english_fallback = set()
     @app.before_request
     def before_req():
+        # TODO:TRANSLATE
+        if ((request.headers.get('cf-worker') or '') != '') or (X_AA_SECRET is not None and request.headers.get('x-aa-secret') != X_AA_SECRET and (not request.full_path.startswith('/dyn/up'))):
+            return "Invalid request. Visit annas-archive.org, .gs, or .se.", 403
+
         # Add English as a fallback language to all translations.
         translations = get_translations()
         if translations not in translations_with_english_fallback:
