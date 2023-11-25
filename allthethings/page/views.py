@@ -2886,10 +2886,10 @@ def add_partner_servers(path, modifier, aarecord, additional):
     if modifier == 'scimag':
         targeted_seconds = 10
     # When changing the domains, don't forget to change md5_fast_download and md5_slow_download.
-    for _ in range(len(allthethings.utils.FAST_DOWNLOAD_DOMAINS)):
-        additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(len(additional['fast_partner_urls'])), gettext("common.md5.servers.no_browser_verification") if len(additional['fast_partner_urls']) == 0 else ''))
-    for _ in range(len(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)):
-        additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(len(additional['slow_partner_urls'])), gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification" ') if len(additional['slow_partner_urls']) == 0 else ''))
+    for index in range(len(allthethings.utils.FAST_DOWNLOAD_DOMAINS)):
+        additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), gettext("common.md5.servers.no_browser_verification") if len(additional['fast_partner_urls']) == 0 else ''))
+    for index in range(len(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)):
+        additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification" ') if len(additional['slow_partner_urls']) == 0 else ''))
     additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
 
 def max_length_with_word_boundary(sentence, max_len):
