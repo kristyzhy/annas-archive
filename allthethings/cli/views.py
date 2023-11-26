@@ -56,7 +56,13 @@ def dbreset():
 
     mariapersist_reset_internal()
     nonpersistent_dbreset_internal()
-    print("Done! Search for example for 'Rhythms of the brain': http://localhost:8000/search?q=Rhythms+of+the+brain")
+    done_message()
+
+def done_message():
+    print("Done!")
+    print("Search for example for 'Rhythms of the brain': http://localtest.me:8000/search?q=Rhythms+of+the+brain")
+    print("To test SciDB: http://localtest.me:8000/scidb/10.5822/978-1-61091-843-5_15")
+    print("See mariadb_dump.sql for various other records you can look at.")
 
 #################################################################################################
 # ./run flask cli nonpersistent_dbreset
@@ -64,7 +70,7 @@ def dbreset():
 def nonpersistent_dbreset():
     print("Erasing nonpersistent databases (1 MariaDB databases servers + 1 ElasticSearch)! Did you double-check that any production/large databases are offline/inaccessible from here?")
     nonpersistent_dbreset_internal()
-    print("Done! Search for example for 'Rhythms of the brain': http://localhost:8000/search?q=Rhythms+of+the+brain")
+    done_message()
 
 
 def nonpersistent_dbreset_internal():

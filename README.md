@@ -47,7 +47,7 @@ See [data-imports/README.md](data-imports/README.md).
 
 ## Translations
 
-These are a work in progress. For now, we check in .po _and_ .mo files. The process is as follows:
+We check in .po _and_ .mo files. The process is as follows:
 ```sh
 # After updating any `gettext` calls:
 pybabel extract --omit-header -F babel.cfg -o messages.pot .
@@ -66,7 +66,7 @@ pybabel compile -f -d allthethings/translations
 pybabel init -i messages.pot -d allthethings/translations -l es
 ```
 
-Try it out by going to `http://es.localhost` (on some systems you might have to add this to your `/etc/hosts` file).
+Try it out by going to `http://es.localtest.me:8000`
 
 ## Production deployment
 
