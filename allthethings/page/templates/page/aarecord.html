@@ -55,7 +55,7 @@
 
     <div class="mt-4 text-xs flex flex-wrap js-md5-codes-tabs" role="tablist" aria-label="code tabs" aria-multiselectable="true">
       {% for code_item in aarecord.additional.codes %}
-        <a class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#aaa] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" href="#" aria-selected="false" id="md5-codes-tab-{{ loop.index }}" aria-controls="md5-codes-panel-{{ loop.index }}" tabindex="0"><span class="py-[2px] bg-[#aaa] mr-1 px-1">{{ code_item.info.label or code_item.key }}</span><span class="py-[2px]">{{ code_item.masked_isbn or code_item.value }}</span></a>
+        <a class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#aaa] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" href="#" aria-selected="false" id="md5-codes-tab-{{ loop.index }}" aria-controls="md5-codes-panel-{{ loop.index }}" tabindex="0"><span class="py-0.5 bg-[#aaa] mr-1 px-1">{{ code_item.info.label or code_item.key }}</span><span class="py-0.5">{{ code_item.masked_isbn or code_item.value }}</span></a>
       {% endfor %}
     </div>
     <div>
