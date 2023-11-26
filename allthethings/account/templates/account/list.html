@@ -7,7 +7,7 @@
 
   <form onsubmit='window.submitForm(event, "/dyn/list/name/" + {{ list_record_dict.list_id | tojson }})' class="js-list-edit-name hidden mt-2 mb-4">
     <fieldset class="mb-4">
-      <input required minlength="1" maxlength="200" type="text" name="name" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-full" value="{{ list_record_dict.name }}" placeholder="{{ list_record_dict.name }}"/>
+      <input required minlength="1" maxlength="200" type="text" name="name" class="grow bg-black/6.7 px-2 py-1 mb-1 rounded w-full" value="{{ list_record_dict.name }}" placeholder="{{ list_record_dict.name }}"/>
       <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold px-4 py-2 rounded shadow">{{ gettext('page.list.edit.button') }}</button>
       <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
     </fieldset>
@@ -16,7 +16,7 @@
   </form>
 
   {% from 'macros/profile_link.html' import profile_link %}
-  <div class="mb-4 text-sm text-gray-500">{{ gettext('page.list.by_and_date', by=profile_link(account_dict, current_account_id), span_time=((' class="text-[#000000a3] text-sm" title="' + (list_record_dict.created | datetimeformat(format='long')) + '"') | safe), time=(list_record_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
+  <div class="mb-4 text-sm text-gray-500">{{ gettext('page.list.by_and_date', by=profile_link(account_dict, current_account_id), span_time=((' class="text-black/64 text-sm" title="' + (list_record_dict.created | datetimeformat(format='long')) + '"') | safe), time=(list_record_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
 
   <div class="mb-4">
     {% if aarecords | length == 0 %}

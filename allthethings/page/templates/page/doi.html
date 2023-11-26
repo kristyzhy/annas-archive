@@ -11,7 +11,7 @@
       {{ gettext('page.doi.invalid.text', doi_input=doi_input) }}
     </p>
   {% else %}
-    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words">
+    <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words">
       <div class="text-xl font-bold mb-4">{{ gettext('page.doi.box.header', doi_input=doi_input) }}</div>
 
       <div class="mb-4">
@@ -60,7 +60,7 @@
           This is the raw JSON used to render this page.
         </p>
 
-        <div class="text-xs p-4 font-mono break-words bg-[#0000000d]">{{ doi_dict_json | escape | replace('\n', '<br>' | safe) | replace('  ', '&nbsp;&nbsp;' | safe) }}</div>
+        <div class="text-xs p-4 font-mono break-words bg-black/5">{{ doi_dict_json | escape | replace('\n', '<br>' | safe) | replace('  ', '&nbsp;&nbsp;' | safe) }}</div>
       </div>
     </div>
   {% endif %}

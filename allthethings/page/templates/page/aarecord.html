@@ -33,7 +33,7 @@
     </p>
   {% endif %}
 
-  <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
+  <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
     <div class="float-right w-[25%] ml-4 aspect-[0.64] relative">
       <img class="w-full max-h-full absolute" src="{{aarecord.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
       <div class="w-full aspect-[0.85] mt-[7%] bg-gray-300"></div>
@@ -94,7 +94,7 @@
     </a> -->
   {% endif %}
 
-  <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
+  <div class="flex flex-wrap mb-1 text-black/64" role="tablist" aria-label="file tabs">
     <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] in ['md5','doi'] %}{{ gettext('page.md5.tabs.downloads', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] == 'ia' %}{{ gettext('page.md5.tabs.borrow', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc'] %}{{ gettext('page.md5.tabs.explore_metadata', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% endif %}</button>
     {% if aarecord_id_split[0] == 'md5' %}
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">{{ gettext('page.md5.tabs.lists', count=('<span class="js-md5-tab-lists">–</span>' | safe)) }}</button>
@@ -272,7 +272,7 @@
             <p class="mb-2">
               What is wrong with this file?
             </p>
-            <select name="type" class="bg-[#00000011] px-2 py-1 rounded mb-4 w-full max-w-[400px]" oninput="for (el of document.querySelectorAll('.js-report-file-issues-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-issues-submenu-' + this.value).classList.remove('hidden')">
+            <select name="type" class="bg-black/6.7 px-2 py-1 rounded mb-4 w-full max-w-[400px]" oninput="for (el of document.querySelectorAll('.js-report-file-issues-submenu')) { el.classList.add('hidden'); } document.querySelector('.js-report-file-issues-submenu-' + this.value).classList.remove('hidden')">
               <option></option>
               {% for type in md5_report_type_mapping %}
                 <option value="{{ type }}">{{ md5_report_type_mapping[type] }}</option>
@@ -310,14 +310,14 @@
               <p class="mb-1">
                 Describe the issue (required)
               </p>
-              <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-full h-[120px]" placeholder="Issue description"></textarea>
+              <textarea required name="content" class="grow bg-black/6.7 px-2 py-1 mb-4 rounded w-full h-[120px]" placeholder="Issue description"></textarea>
               <p class="mb-2">
                 MD5 of a better version of this file (if applicable). Fill this in if there is another file that closely matches this file (same edition, same file extension if you can find one), which people should use instead of this file. If you know of a better version of this file outside of Anna’s Archive, then please <a href="/account/upload" target="_blank">upload it</a>.
               </p>
               <p class="mb-1">
                 You can get the md5 from the URL, e.g.<br>https://annas-archive.org/md5/<strong>{{ aarecord_id_split[1] }}</strong>
               </p>
-              <input type="text" name="better_md5" class="grow bg-[#00000011] px-2 py-1 mb-4 rounded w-full" placeholder="{{ aarecord_id_split[1] }}" minlength="32" maxlength="32" />
+              <input type="text" name="better_md5" class="grow bg-black/6.7 px-2 py-1 mb-4 rounded w-full" placeholder="{{ aarecord_id_split[1] }}" minlength="32" maxlength="32" />
               <div class="">
                 <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Submit report</button>
                 <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
@@ -333,7 +333,7 @@
             <p class="mb-1">
               If this file has great quality, you can discuss anything about it here! If not, please use the “Report file issue” button.
             </p>
-            <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-full h-[80px]" placeholder="I loved this book!"></textarea>
+            <textarea required name="content" class="grow bg-black/6.7 px-2 py-1 mb-1 rounded w-full h-[80px]" placeholder="I loved this book!"></textarea>
             <div class="">
               <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Leave comment</button>
               <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>

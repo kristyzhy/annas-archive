@@ -6,7 +6,7 @@
   {% from 'macros/copy_button.html' import copy_button %}
 
   {% if has_made_donations %}
-    <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
+    <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
       {% if existing_unpaid_donation_id %}
         <div class="mb-4">{{ gettext('page.donate.header.existing_unpaid_donation', a_donation=((' href="/account/donations/' + existing_unpaid_donation_id + '"') | safe)) }}</div>
       {% endif %}
@@ -284,7 +284,7 @@
               </p>
 
               <!-- Be sure to update the validation list in `def buy_membership`! -->
-              <select class="pr-8 mb-4 bg-[#00000011] px-2 py-1 rounded" name="pay_currency">
+              <select class="pr-8 mb-4 bg-black/6.7 px-2 py-1 rounded" name="pay_currency">
                 <option value="btc">BTC / Bitcoin</option>
                 <option value="eth">ETH / Ethereum</option>
                 <option value="bch">BCH / Bitcoin Cash</option>

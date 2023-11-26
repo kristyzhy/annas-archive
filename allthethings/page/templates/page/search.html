@@ -12,7 +12,7 @@
   <form action="/search" method="get" role="search" class="js-search-form">
     <input type="hidden" name="index" value="{{ search_dict.search_index_short }}" class="js-search-form-index">
 
-    <div class="flex flex-wrap mb-1 text-[#000000a3]" role="tablist" aria-label="file tabs">
+    <div class="flex flex-wrap mb-1 text-black/64" role="tablist" aria-label="file tabs">
       <a href="/search" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="{{ 'true' if search_dict.search_index_short == '' else 'false' }}" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = ''; document.querySelector('.js-search-form').submit()">{{ gettext('page.search.tabs.download') }} <span class="js-search-tab-count-aarecords"></span></a>
       <a href="/search?index=digital_lending" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="{{ 'true' if search_dict.search_index_short == 'digital_lending' else 'false' }}" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'digital_lending'; document.querySelector('.js-search-form').submit()">{{ gettext('page.search.tabs.digital_lending') }} <span class="js-search-tab-count-aarecords_digital_lending"></span></a>
       <a href="/search?index=meta" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="{{ 'true' if search_dict.search_index_short == 'meta' else 'false' }}" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'meta'; document.querySelector('.js-search-form').submit()">{{ gettext('page.search.tabs.metadata') }} <span class="js-search-tab-count-aarecords_metadata"></span></a>
@@ -50,7 +50,7 @@
 
     <div class="flex mb-2 items-center">
       <a href="#" class="custom-a sm:hidden text-lg mr-2 opacity-50 hover:opacity-100" alt="Filter settings" title="Filter settings" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="icon-[mingcute--settings-6-line]"></span></a>
-      <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-[#00000011] px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %} title="Focus: '/' Scroll search results: 'j', 'k'">
+      <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %} title="Focus: '/' Scroll search results: 'j', 'k'">
       <button class="sm:hidden text-[#777] hover:text-[#333]" type="submit">{{ gettext('common.search.submit') }}</button>
     </div>
 
@@ -128,7 +128,7 @@
             {% endfor %}
           </div>
           <div class="font-bold mb-1">{{ gettext('page.search.filters.order_by.header') }}</div>
-          <select class="pr-8 mb-4 bg-[#00000011] px-2 py-1 rounded" name="sort">
+          <select class="pr-8 mb-4 bg-black/6.7 px-2 py-1 rounded" name="sort">
             <option value="">{{ gettext('page.search.filters.sorting.most_relevant') }}</option>
             <option value="newest" {% if search_dict.sort_value == 'newest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.newest') }}</option>
             <option value="oldest" {% if search_dict.sort_value == 'oldest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.oldest') }}</option>

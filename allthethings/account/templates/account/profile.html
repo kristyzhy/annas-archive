@@ -10,7 +10,7 @@
 
     <form onsubmit="window.submitForm(event, '/dyn/account/display_name/')" class="js-profile-edit-display-name hidden mt-2 mb-4">
       <fieldset class="mb-4">
-        <input required minlength="4" maxlength="20" type="text" name="display_name" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-full" value="{{ account_dict.display_name }}" placeholder="{{ account_dict.display_name }}"/>
+        <input required minlength="4" maxlength="20" type="text" name="display_name" class="grow bg-black/6.7 px-2 py-1 mb-1 rounded w-full" value="{{ account_dict.display_name }}" placeholder="{{ account_dict.display_name }}"/>
         <p class="mb-2 text-sm text-gray-500">{{ gettext('page.profile.change_display_name.text') }}</p>
         <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold px-4 py-2 rounded shadow">{{ gettext('page.profile.change_display_name.button') }}</button>
         <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
@@ -19,7 +19,7 @@
       <div class="hidden js-failure">{{ gettext('page.profile.change_display_name.failure') }}</div>
     </form>
 
-    <div class="mb-4 text-sm text-gray-500">{{ gettext('page.profile.created_time', span_time=((' class="text-[#000000a3] text-sm" title="' + (account_dict.created | datetimeformat(format='long')) + '"') | safe), time=(account_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
+    <div class="mb-4 text-sm text-gray-500">{{ gettext('page.profile.created_time', span_time=((' class="text-black/64 text-sm" title="' + (account_dict.created | datetimeformat(format='long')) + '"') | safe), time=(account_dict.created_delta | timedeltaformat(add_direction=True))) }}</div>
 
     <h2 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.profile.lists.header') }}</h2>
 

@@ -5,7 +5,7 @@
 {% block body %}
   {% from 'macros/copy_button.html' import copy_button %}
 
-  <div class="mb-4 p-6 overflow-hidden bg-[#0000000d] break-words rounded">
+  <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
     <div class="font-bold">{{ gettext('page.donation.title') }}</div>
     <div>{{ gettext('page.donation.header.id', id=('+' + donation_dict.receipt_id)) }}</div>
     <div>{{ gettext('page.donation.header.date', date=(donation_dict.created | dateformat(format='long'))) }}</div>

@@ -1160,7 +1160,7 @@ def get_ol_book_dicts(session, key, values):
             ] if item and item.strip() != '']
 
             # {% for source_record in ol_book_dict.json.source_records %}
-            #   <div class="flex odd:bg-[#0000000d] hover:bg-[#0000001a]">
+            #   <div class="flex odd:bg-black/5 hover:bg-black/64">
             #     <div class="flex-none w-[150] px-2 py-1">{{ 'Source records' if loop.index0 == 0 else ' ' }}&nbsp;</div>
             #     <div class="px-2 py-1 grow break-words line-clamp-[8]">{{source_record}}</div>
             #     <div class="px-2 py-1 whitespace-nowrap text-right">

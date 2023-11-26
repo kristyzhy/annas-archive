@@ -9,4 +9,12 @@ module.exports = {
   plugins: [
     addDynamicIconSelectors(),
   ],
+  theme: {
+    extend: {
+      opacity: {
+        '6.7': '.067',
+        '64': '.64',
+      }
+    },
+  },
 }

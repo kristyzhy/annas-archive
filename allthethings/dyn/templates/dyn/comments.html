@@ -26,11 +26,11 @@
   {% endif %}
       <div>
         {{ profile_link(comment_dict, current_account_id) }}
-        <span class="ml-2 text-[#000000a3] text-sm" title="{{ comment_dict.created | datetimeformat(format='long') }}">{{ comment_dict.created_delta | timedeltaformat(add_direction=True) }}</span>
+        <span class="ml-2 text-black/64 text-sm" title="{{ comment_dict.created | datetimeformat(format='long') }}">{{ comment_dict.created_delta | timedeltaformat(add_direction=True) }}</span>
         {% if current_account_id and (comment_dict.account_id != current_account_id) and comment_dict.user_reaction != 1 %}
           <span class="relative">
             <div class="absolute right-0 top-full bg-[#f2f2f2] mt-1 px-3 py-1 shadow whitespace-nowrap hidden js-comments-menu">
-              <a href="#" class="custom-a text-[#000000a3] hover:text-black" onclick='event.preventDefault(); if (confirm("Do you want to report this user for abusive or inappropriate behavior?")) { fetch("/dyn/reactions/1/comment:{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]()); }'>
+              <a href="#" class="custom-a text-black/64 hover:text-black" onclick='event.preventDefault(); if (confirm("Do you want to report this user for abusive or inappropriate behavior?")) { fetch("/dyn/reactions/1/comment:{{ comment_dict.comment_id }}", { method: "PUT" }).then(() => window.reloadCommentsListFor[{{ reload_url | tojson }}]()); }'>
                 Report abuse
               </a>
             </div>
@@ -77,7 +77,7 @@
             <div class="[html.aa-logged-in_&]:hidden">Please <a href="/login">log in</a> to reply.</div>
             <form class="[html:not(.aa-logged-in)_&]:hidden" onsubmit='window.submitForm(event, "/dyn/comments/comment:" + {{ comment_dict.comment_id | tojson }})'>
               <fieldset>
-                <textarea required name="content" class="grow bg-[#00000011] px-2 py-1 mb-1 rounded w-full h-[50px] max-w-[500px]" placeholder=""></textarea>
+                <textarea required name="content" class="grow bg-black/6.7 px-2 py-1 mb-1 rounded w-full h-[50px] max-w-[500px]" placeholder=""></textarea>
                 <div class="">
                   <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">Reply</button>
                   <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>

@@ -76,7 +76,7 @@
 
   <form action="/search" method="get" role="search">
     <div class="flex mb-8">
-      <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="grow max-w-[400] bg-[#00000011] px-2 py-1 mr-2 rounded">
+      <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="grow max-w-[400] bg-black/6.7 px-2 py-1 mr-2 rounded">
       <button class="text-[#777] hover:text-[#333]" type="submit">{{ gettext('common.search.submit') }}</button>
     </div>
   </form> -->
@@ -173,7 +173,7 @@
   </p>
 
   {% for aarecord in aarecords %}
-    <a href="/search?q={{aarecord.file_unified_data.title_best | urlencode}}" class="custom-a flex items-center relative left-[-10] px-[10] py-2 hover:bg-[#00000011]" rel="nofollow">
+    <a href="/search?q={{aarecord.file_unified_data.title_best | urlencode}}" class="custom-a flex items-center relative left-[-10] px-[10] py-2 hover:bg-black/6.7" rel="nofollow">
       <div class="flex-none">
         <div class="relative overflow-hidden w-[72] h-[108] flex flex-col justify-center">
           <div class="absolute w-full h-[90]" style="background-color: hsl({{ (loop.index0 % 4) * (256//3) + (range(0, 256//3) | random) }}deg 43% 73%)"></div>
