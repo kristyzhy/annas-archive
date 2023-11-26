@@ -203,7 +203,7 @@
             <!-- <div class="max-w-[1050px] mx-auto px-4 py-2">
               <div class="flex justify-between mb-2">
                 <div>{{ gettext('layout.index.banners.comics_fundraiser.text') }}</div>
-                <div><a href="#" class="custom-a text-[#777] hover:text-[#000] js-top-banner-close">✕</a></div>
+                <div><a href="#" class="custom-a text-[#777] hover:text-black js-top-banner-close">✕</a></div>
               </div>
               <div style="background: #fff; padding: 8px; border-radius: 8px; box-shadow: 0px 2px 4px 0px #00000020">
                 {% include 'macros/fundraiser.html' %}
@@ -257,7 +257,7 @@
         </div>
         <div class="header-inner">
           <div class="header-inner-top">
-            <a href="/" class="custom-a text-[#000] hover:text-[#444]"><h1 class="text-2xl sm:text-4xl">{{ gettext('layout.index.header.title') }}</h1></a>
+            <a href="/" class="custom-a text-black hover:text-[#444]"><h1 class="text-2xl sm:text-4xl">{{ gettext('layout.index.header.title') }}</h1></a>
             <select class="text-lg bg-center icon-[twemoji--globe-with-meridians] py-1 rounded text-gray-500 max-w-[50px] mt-1 ml-2 appearance-none" style="width: 1.8em; height: 1.6em; background-color: white; background-size: 1em;" onchange="handleChangeLang(event)">
               <option></option>
               {% for lang_code, lang_name in g.languages %}
@@ -457,7 +457,7 @@
       <footer class="bg-black/5 text-[#777]" style="box-shadow: 0px 0px 7px rgb(0 0 0 / 30%)">
         <div class="max-w-[1050px] mx-auto p-[12px] leading-relaxed flex flex-wrap">
           <div class="mr-4 mb-4" style="flex-grow: 1">
-            <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list1.header') }}</strong><br>
+            <strong class="font-bold text-black">{{ gettext('layout.index.footer.list1.header') }}</strong><br>
             <a class="custom-a hover:text-[#333]" href="/">{{ gettext('layout.index.header.nav.home') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/search">{{ gettext('layout.index.header.nav.search') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/about">{{ gettext('layout.index.header.nav.about') }}</a><br>
@@ -478,7 +478,7 @@
           </div>
 
           <div class="mr-4 mb-4" style="flex-grow: 1">
-            <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
+            <strong class="font-bold text-black">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
             <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://t.me/annasarchiveorg">{{ gettext('layout.index.footer.list2.telegram') }}</a><!-- {% if not g.show_wechat_in_layout %} / <a class="custom-a hover:text-[#333]" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a>{% endif %}--><br>
             <a class="custom-a hover:text-[#333]" href="https://annas-blog.org">{{ gettext('layout.index.header.nav.annasblog') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.header.nav.annassoftware') }}</a><br>
@@ -490,7 +490,7 @@
           </div>
 
           <div class="mr-4 mb-4" style="flex-grow: 1">
-            <strong class="font-bold text-[#000]">Advanced</strong><br>
+            <strong class="font-bold text-black">Advanced</strong><br>
             <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a><br>
@@ -498,7 +498,7 @@
           </div>
 
           <div style="flex-grow: 1">
-            <strong class="font-bold text-[#000]">{{ gettext('layout.index.footer.list3.header') }}</strong><br>
+            <strong class="font-bold text-black">{{ gettext('layout.index.footer.list3.header') }}</strong><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-org" href="https://annas-archive.org">annas-archive.org</a></a><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-gs" href="https://annas-archive.gs">annas-archive.gs</a><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-se" href="https://annas-archive.se">annas-archive.se</a><br>
