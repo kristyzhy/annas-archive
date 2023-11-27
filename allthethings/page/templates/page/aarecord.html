@@ -43,7 +43,7 @@
     <div class="text-md">{{aarecord.additional.top_box.publisher_and_edition}}</div>
     <div class="italic">{{aarecord.additional.top_box.author}} {% if aarecord.additional.top_box.author %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.author | urlencode }}">🔍</a>{% endif %}</div>
     <div class="mt-4 line-clamp-[5] js-md5-top-box-description">{% if aarecord.additional.top_box.description %}“{{aarecord.additional.top_box.description | escape | replace('\n', '<br>' | safe)}}”{% endif %}</div>
-    <a href="#" class="mt-4 js-md5-top-box-description-link hidden" onclick="document.querySelector('.js-md5-top-box-description').classList.remove('line-clamp-[5]'); this.parentNode.removeChild(this); event.preventDefault(); return false;">{{ gettext('page.md5.box.descr_read_more') }}</a>
+    <a href="#" class="mt-4 js-md5-top-box-description-link text-sm hidden" onclick="document.querySelector('.js-md5-top-box-description').classList.remove('line-clamp-[5]'); this.parentNode.removeChild(this); event.preventDefault(); return false;">{{ gettext('page.md5.box.descr_read_more') }}</a>
     <script>
       (function() {
         const descriptionEl = document.querySelector('.js-md5-top-box-description');
