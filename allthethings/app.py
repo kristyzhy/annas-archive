@@ -197,8 +197,8 @@ def extensions(app):
     translations_with_english_fallback = set()
     @app.before_request
     def before_req():
-        # TODO:TRANSLATE
-        if ((request.headers.get('cf-worker') or '') != '') or (X_AA_SECRET is not None and request.headers.get('x-aa-secret') != X_AA_SECRET and (not request.full_path.startswith('/dyn/up'))):
+        if X_AA_SECRET is not None and request.headers.get('x-aa-secret') != X_AA_SECRET and (not request.full_path.startswith('/dyn/up')):
+            # TODO:TRANSLATE
             return "Invalid request. Visit annas-archive.org, .gs, or .se.", 403
 
         # Add English as a fallback language to all translations.

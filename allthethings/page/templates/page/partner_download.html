@@ -9,17 +9,26 @@
 {% block body %}
   <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.partner_download.header') }}</h2>
 
+  {% if only_official %}
+    <p class="mb-4 font-bold underline">
+      <!-- TODO:TRANSLATE -->
+      ❌ Slow downloads are only available through the official website. Visit annas-archive.org, .gs, or .se.
+    </p>
+  {% endif %}
+
   <p class="mb-4">
     {{ gettext('page.partner_download.main_page', a_main=((' href="/md5/' + canonical_md5 + '"') | safe)) }}
   </p>
 
-  <p class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">Download now</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
-    {% if warning %}Warning: there have been lots of downloads from your IP address in the last 24 hours. Downloads might be slower than usual.{% endif %}
-  </p>
+  {% if not only_official %}
+    <p class="mb-4">
+      <!-- TODO:TRANSLATE -->
+      {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">Download now</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
+      {% if warning %}Warning: there have been lots of downloads from your IP address in the last 24 hours. Downloads might be slower than usual.{% endif %}
+    </p>
+  {% endif %}
 
-  {% if slow_download %}
+  {% if slow_download or only_official %}
     <p class="mb-4">
       {{ gettext('page.partner_download.faster_downloads', a_membership=(' href="/donate"' | safe)) }}
     </p>

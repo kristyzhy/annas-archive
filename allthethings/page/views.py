@@ -3363,6 +3363,14 @@ def md5_slow_download(md5_input, path_index, domain_index):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
 
+    if (request.headers.get('cf-worker') or '') != '':
+        return render_template(
+            "page/partner_download.html",
+            header_active="search",
+            only_official=True,
+            canonical_md5=canonical_md5,
+        )
+
     data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
     account_id = allthethings.utils.get_account_id(request.cookies)
 
