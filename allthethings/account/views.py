@@ -304,7 +304,7 @@ def donation_page(donation_id):
             }
             sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
             sign = hashlib.md5((sign_str).encode()).hexdigest()
-            return redirect(f'https://pay.funlou.top/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
+            return redirect(f'https://integrate.payments-gateway.org/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
         if donation_json['method'] == 'payment1b' and donation.processing_status == 0:
             data = {

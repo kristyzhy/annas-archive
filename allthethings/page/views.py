@@ -438,6 +438,8 @@ def get_torrents_data():
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute(f'SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 10000')
         small_files = cursor.fetchall()
+        cursor.execute(f'SELECT day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 4, 0, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 11, 1, 2)) AS seeder_group, JSON_EXTRACT(mariapersist_small_files.metadata, "$.data_size") / 1000000000000 AS size_tb, DATE_FORMAT(mariapersist_torrent_scrapes.created, "%Y-%m-%d") AS day FROM mariapersist_torrent_scrapes JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created > NOW() - INTERVAL 100 DAY GROUP BY file_path, day) s GROUP BY day, seeder_group ORDER BY day, seeder_group LIMIT 500')
+        histogram = cursor.fetchall()
 
         group_sizes = collections.defaultdict(int)
         small_file_dicts_grouped = collections.defaultdict(list)
@@ -503,6 +505,7 @@ def get_torrents_data():
             'group_size_strings': group_size_strings,
             'seeder_counts': seeder_counts,
             'seeder_size_strings': seeder_size_strings,
+            'histogram': histogram,
         }
 
 @page.get("/datasets")

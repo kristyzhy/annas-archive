@@ -63,9 +63,9 @@
       <p class="mb-1">{{ gettext('page.home.torrents.body', a_torrents=(' href="/torrents" ' | safe)) }}</p>
 
       <table class="mb-1 text-sm">
-        <tr><td>🔴 {{ gettext('page.home.torrents.number', count=torrents_data.seeder_counts[0]) }}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[0] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_less', count=4) }}</td></tr>
-        <tr><td>🟡 {{ gettext('page.home.torrents.number', count=torrents_data.seeder_counts[1]) }}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[1] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_range', count_min=4, count_max=10) }}</td></tr>
-        <tr><td>🟢 {{ gettext('page.home.torrents.number', count=torrents_data.seeder_counts[2]) }}</td><td class="pl-4">{{ torrents_data.seeder_size_strings[2] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_greater', count=10) }}</td></tr>
+        <tr><td>🔴 {{ torrents_data.seeder_size_strings[0] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_less', count=4) }}</td></tr>
+        <tr><td>🟡 {{ torrents_data.seeder_size_strings[1] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_range', count_min=4, count_max=10) }}</td></tr>
+        <tr><td>🟢 {{ torrents_data.seeder_size_strings[2] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_greater', count=10) }}</td></tr>
       </table>
     </div>
 
