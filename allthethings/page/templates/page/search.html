@@ -20,9 +20,9 @@
 
     <script>
       fetch('/dyn/search_counts?q=' + {{ search_input | tojson }}).then(function(response) { return response.json() }).then(function(json) {
-        document.querySelector('.js-search-tab-count-aarecords').innerText = json.aarecords.value != -1 ? `(${json.aarecords.timed_out ? '~' : ''}${json.aarecords.value}${json.aarecords.relation == 'gte' ? '+' : ''})` : '';
-        document.querySelector('.js-search-tab-count-aarecords_digital_lending').innerText = json.aarecords_digital_lending.value != -1 ? `(${json.aarecords_digital_lending.timed_out ? '~' : ''}${json.aarecords_digital_lending.value}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''})` : '';
-        document.querySelector('.js-search-tab-count-aarecords_metadata').innerText = json.aarecords_metadata.value != -1 ? `(${json.aarecords_metadata.timed_out ? '~' : ''}${json.aarecords_metadata.value}${json.aarecords_metadata.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords').innerText = json.aarecords.value != -1 ? `(${json.aarecords.timed_out ? '~' : ''}${json.aarecords.value_formatted}${json.aarecords.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords_digital_lending').innerText = json.aarecords_digital_lending.value != -1 ? `(${json.aarecords_digital_lending.timed_out ? '~' : ''}${json.aarecords_digital_lending.value_formatted}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords_metadata').innerText = json.aarecords_metadata.value != -1 ? `(${json.aarecords_metadata.timed_out ? '~' : ''}${json.aarecords_metadata.value_formatted}${json.aarecords_metadata.relation == 'gte' ? '+' : ''})` : '';
 
         if (json.aarecords_digital_lending.value > 0) {
           for (el of document.querySelectorAll('.js-not-found-additional')) {
@@ -32,7 +32,7 @@
             el.classList.remove('hidden');
           }
           for (el of document.querySelectorAll('.js-not-found-digital_lending-count')) {
-            el.innerText = `${json.aarecords_digital_lending.value}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''}`
+            el.innerText = `${json.aarecords_digital_lending.value_formatted}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''}`
           }
         } else if (json.aarecords_metadata.value > 0) {
           for (el of document.querySelectorAll('.js-not-found-additional')) {
@@ -42,7 +42,7 @@
             el.classList.remove('hidden');
           }
           for (el of document.querySelectorAll('.js-not-found-meta-count')) {
-            el.innerText = `${json.aarecords_metadata.value}${json.aarecords_metadata.relation == 'gte' ? '+' : ''}`
+            el.innerText = `${json.aarecords_metadata.value_formatted}${json.aarecords_metadata.relation == 'gte' ? '+' : ''}`
           }
         }
       })

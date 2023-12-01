@@ -17,12 +17,13 @@ import email
 import email.policy
 import traceback
 import curlify2
+import babel.numbers as babel_numbers
 
 from flask import Blueprint, request, g, make_response, render_template, redirect
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
-from flask_babel import format_timedelta, gettext
+from flask_babel import format_timedelta, gettext, get_locale
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
 from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT1B_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
@@ -540,20 +541,25 @@ def lists(resource):
 def search_counts_page():
     search_input = request.args.get("q", "").strip()
 
-    search_query = {
-        "bool": {
-            "should": [
-                { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
-                { "simple_query_string": {"query": search_input, "fields": ["search_only_fields.search_text"], "default_operator": "and"} },
-            ],
-        },
-    }
+    search_query = None
+    if search_input != "":
+        search_query = {
+            "bool": {
+                "should": [
+                    { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
+                    { "simple_query_string": {"query": search_input, "fields": ["search_only_fields.search_text"], "default_operator": "and"} },
+                ],
+            },
+        }
 
     multi_searches_by_es_handle = collections.defaultdict(list)
     for search_index in list(set(allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING.values())):
         multi_searches = multi_searches_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index]]
         multi_searches.append({ "index": search_index })
-        multi_searches.append({ "size": 0, "query": search_query, "track_total_hits": 100, "timeout": ES_TIMEOUT_PRIMARY })
+        if search_query is None:
+            multi_searches.append({ "size": 0, "track_total_hits": True, "timeout": ES_TIMEOUT_PRIMARY })
+        else:
+            multi_searches.append({ "size": 0, "query": search_query, "track_total_hits": 100, "timeout": ES_TIMEOUT_PRIMARY })
 
     total_by_index_long = {index: {'value': -1, 'relation': ''} for index in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values()}
     any_timeout = False
@@ -568,6 +574,7 @@ def search_counts_page():
             )
             for i, result in enumerate(total_all_indexes['responses']):
                 if 'hits' in result:
+                    result['hits']['total']['value_formatted'] = babel_numbers.format_number(result['hits']['total']['value'], locale=get_locale())
                     total_by_index_long[multi_searches[i*2]['index']] = result['hits']['total']
                 if result['timed_out']:
                     total_by_index_long[multi_searches[i*2]['index']]['timed_out'] = True
