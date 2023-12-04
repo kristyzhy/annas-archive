@@ -68,11 +68,11 @@ def downloads_increment(md5_input):
     canonical_md5 = md5_input.strip().lower()[0:32]
 
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        raise Exception("Non-canonical md5")
+        return "Non-canonical md5", 404
 
     # Prevent hackers from filling up our database with non-existing MD5s.
     if not es.exists(index="aarecords", id=f"md5:{canonical_md5}"):
-        raise Exception("Md5 not found")
+        return "md5 not found", 404
 
     with Session(mariapersist_engine) as mariapersist_session:
         data_hour_since_epoch = int(time.time() / 3600)
@@ -108,7 +108,7 @@ def downloads_stats_md5(md5_input):
     canonical_md5 = md5_input.strip().lower()[0:32]
 
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        raise Exception("Non-canonical md5")
+        return "Non-canonical md5", 404
 
     with mariapersist_engine.connect() as mariapersist_conn:
         total = mariapersist_conn.execute(select(MariapersistDownloadsTotalByMd5.count).where(MariapersistDownloadsTotalByMd5.md5 == bytes.fromhex(canonical_md5)).limit(1)).scalar() or 0
@@ -172,7 +172,7 @@ def md5_summary(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        raise Exception("Non-canonical md5")
+        return "Non-canonical md5", 404
 
     account_id = allthethings.utils.get_account_id(request.cookies)
 
@@ -205,7 +205,7 @@ def md5_report(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        raise Exception("Non-canonical md5")
+        return "Non-canonical md5", 404
 
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
@@ -393,7 +393,7 @@ def md5_reports(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]):
-        raise Exception("Non-canonical md5")
+        return "Non-canonical md5", 404
 
     with Session(mariapersist_engine) as mariapersist_session:
         data_md5 = bytes.fromhex(canonical_md5)
