@@ -396,6 +396,7 @@ def get_stats_data():
             ],
         ))
         if any([response['timed_out'] for response in stats_data_es['responses']]):
+            # WARNING: don't change this message because we match on 'timed out' below
             raise Exception("One of the 'get_stats_data' responses timed out")
 
         stats_by_group = {}
@@ -511,59 +512,102 @@ def get_torrents_data():
 @page.get("/datasets")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_page():
-    return render_template(
-        "page/datasets.html",
-        header_active="home/datasets",
-        stats_data=get_stats_data(),
-    )
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/datasets/ia")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_ia_page():
-    return render_template("page/datasets_ia.html", header_active="home/datasets", stats_data=get_stats_data())
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets_ia.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/datasets/zlib")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_zlib_page():
-    return render_template("page/datasets_zlib.html", header_active="home/datasets", stats_data=get_stats_data())
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets_zlib.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/datasets/isbndb")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_isbndb_page():
-    return render_template("page/datasets_isbndb.html", header_active="home/datasets", stats_data=get_stats_data())
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets_isbndb.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/datasets/scihub")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_scihub_page():
-    return render_template("page/datasets_scihub.html", header_active="home/datasets", stats_data=get_stats_data())
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets_scihub.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/datasets/libgen_rs")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_libgen_rs_page():
-    with engine.connect() as conn:
-        libgenrs_time = conn.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
-        libgenrs_date = str(libgenrs_time.date())
-    return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", stats_data=get_stats_data())
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/datasets/libgen_li")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_libgen_li_page():
-    return render_template("page/datasets_libgen_li.html", header_active="home/datasets", stats_data=get_stats_data())
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets_libgen_li.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/datasets/openlib")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_openlib_page():
-    return render_template("page/datasets_openlib.html", header_active="home/datasets", stats_data=get_stats_data())
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets_openlib.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/datasets/worldcat")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 def datasets_worldcat_page():
-    return render_template("page/datasets_worldcat.html", header_active="home/datasets", stats_data=get_stats_data())
+    try:
+        stats_data = get_stats_data()
+    except Exception as e:
+        if 'timed out' in e.message:
+            return "Error with datasets page, please try again.", 503
+    return render_template("page/datasets_worldcat.html", header_active="home/datasets", stats_data=stats_data)
 
 # @page.get("/datasets/isbn_ranges")
 # @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
 # def datasets_isbn_ranges_page():
-#     return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets", stats_data=get_stats_data())
+#     try:
+#         stats_data = get_stats_data()
+#     except Exception as e:
+#         if 'timed out' in e.message:
+#             return "Error with datasets page, please try again.", 503
+#     return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/copyright")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
