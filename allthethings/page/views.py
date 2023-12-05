@@ -515,7 +515,7 @@ def datasets_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -525,7 +525,7 @@ def datasets_ia_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets_ia.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -535,7 +535,7 @@ def datasets_zlib_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets_zlib.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -545,7 +545,7 @@ def datasets_isbndb_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets_isbndb.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -555,7 +555,7 @@ def datasets_scihub_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets_scihub.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -565,7 +565,7 @@ def datasets_libgen_rs_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -575,7 +575,7 @@ def datasets_libgen_li_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets_libgen_li.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -585,7 +585,7 @@ def datasets_openlib_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets_openlib.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -595,7 +595,7 @@ def datasets_worldcat_page():
     try:
         stats_data = get_stats_data()
     except Exception as e:
-        if 'timed out' in e.message:
+        if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
     return render_template("page/datasets_worldcat.html", header_active="home/datasets", stats_data=stats_data)
 
@@ -605,7 +605,7 @@ def datasets_worldcat_page():
 #     try:
 #         stats_data = get_stats_data()
 #     except Exception as e:
-#         if 'timed out' in e.message:
+#         if 'timed out' in str(e):
 #             return "Error with datasets page, please try again.", 503
 #     return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets", stats_data=stats_data)
 
