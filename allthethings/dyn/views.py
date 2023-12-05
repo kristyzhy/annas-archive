@@ -621,10 +621,11 @@ def account_buy_membership():
     if method == 'hoodpay':
         payload = {
             "metadata": { "donation_id": donation_id },
-            "name":"Anna",
-            "currency":"USD",
+            "name": "Anna",
+            "currency": "USD",
             "amount": round(float(membership_costs['cost_cents_usd']) / 100.0, 2),
-            "redirectUrl":"annas-archive.org/account",
+            "redirectUrl": "https://annas-archive.org/account",
+            "notifyUrl": f"https://annas-archive.org/dyn/hoodpay_notify/{donation_id}",
         }
         response = httpx.post(HOODPAY_URL, json=payload, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES, timeout=10.0)
         response.raise_for_status()
@@ -809,6 +810,21 @@ def payment2_notify():
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         payment2_status, payment2_request_success = allthethings.utils.payment2_check(cursor, request.json['payment_id'])
         if not payment2_request_success:
+            return "Error happened", 404
+    return ""
+
+@dyn.post("/hoodpay_notify/<string:donation_id>")
+@allthethings.utils.no_cache()
+def hoodpay_notify(donation_id):
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        donation = connection.execute(select(MariapersistDonations).where(MariapersistDonations.donation_id == donation_id).limit(1)).first()
+        if donation is None:
+            return "", 403
+        donation_json = orjson.loads(donation['json'])
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        hoodpay_status, hoodpay_request_success = allthethings.utils.hoodpay_check(cursor, donation_json['hoodpay_request']['data']['id'], donation_id)
+        if not hoodpay_request_success:
             return "Error happened", 404
     return ""
 

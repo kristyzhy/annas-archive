@@ -32,7 +32,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1, HOODPAY_URL, HOODPAY_AUTH
 
 FEATURE_FLAGS = {}
 
@@ -498,6 +498,14 @@ def payment2_check(cursor, payment_id):
             return (payment2_status, False)
     return (payment2_status, True)
 
+def hoodpay_check(cursor, hoodpay_id, donation_id):
+    hoodpay_status = httpx.get(HOODPAY_URL.split('/v1/businesses/', 1)[0] + '/v1/public/payments/hosted-page/' + hoodpay_id, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES, timeout=10.0).json()['data']
+    if hoodpay_status['status'] in ['COMPLETED']:
+        if confirm_membership(cursor, donation_id, 'hoodpay_status', hoodpay_status):
+            return (hoodpay_status, True)
+        else:
+            return (hoodpay_status, False)
+    return (hoodpay_status, True)
 
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename, domain):
     limit_multiple_field = 'y' if limit_multiple else 'x'

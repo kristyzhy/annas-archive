@@ -341,6 +341,22 @@ def donation_page(donation_id):
             if payment2_status['payment_status'] == 'confirming':
                 donation_confirming = True
 
+        if donation_json['method'] in ['hoodpay']:
+            donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(minutes=55)
+            if donation_time_left < datetime.timedelta(minutes=10):
+                donation_time_left_not_much = True
+            if donation_time_left < datetime.timedelta():
+                donation_time_expired = True
+
+            mariapersist_session.connection().connection.ping(reconnect=True)
+            cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
+
+            hoodpay_status, hoodpay_request_success = allthethings.utils.hoodpay_check(cursor, donation_json['hoodpay_request']['data']['id'], str(donation.donation_id))
+            if not hoodpay_request_success:
+                raise Exception("Not hoodpay_request_success in donation_page")
+            if hoodpay_status['status'] in ['PENDING', 'PROCESSING']:
+                donation_confirming = True
+
         donation_dict = make_donation_dict(donation)
 
         donation_email = f"AnnaReceipts+{donation_dict['receipt_id']}@proton.me"

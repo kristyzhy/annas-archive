@@ -125,10 +125,27 @@
     {% elif donation_dict.json.method == 'hoodpay' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.credit_debit_card_instructions') }}</h2>
 
-      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>{{ gettext('page.donation.credit_debit_card_our_page') }}</p>
+      <!-- <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>{{ gettext('page.donation.credit_debit_card_our_page') }}</p> -->
 
       <p class="mb-4">
         {{ gettext('page.donation.donate_on_this_page', amount=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_page=((' href="' + donation_dict.json.hoodpay_request.data.url + '" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank" ') | safe)) }} {{ gettext('page.donation.stepbystep_below') }}
+      </p>
+
+      <p class="mb-4">
+        <strong>{{ gettext('page.donation.status_header') }}</strong> {% if donation_confirming %}{{ gettext('page.donation.waiting_for_confirmation_refresh') }}{% else %}{{ gettext('page.donation.waiting_for_transfer_refresh') }}{% endif %}<br>
+        <strong>{{ gettext('page.donation.time_left_header') }}</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}{{ gettext('page.donation.might_want_to_cancel') }}{% endif %}
+      </p>
+
+      <p class="mb-4">
+        {{ gettext('page.donation.reset_timer') }}
+      </p>
+
+      <p class="mb-4">
+        <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
+      </p>
+
+      <p class="mb-4">
+        {{ gettext('page.donation.footer.issues_contact', email=(('<a class="break-all" href="mailto:' + donation_email + '">' + donation_email + '</a>') | safe)) }}
       </p>
     {% elif donation_dict.json.method == 'payment2paypal' %}
       {% if donation_time_expired %}
@@ -399,7 +416,7 @@
       </p> -->
     {% endif %}
 
-    {% if donation_dict.json.method not in ['payment1', 'payment1b', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon'] %}
+    {% if donation_dict.json.method not in ['payment1', 'payment1b', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay'] %}
       <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
 
       <p class="mb-4">
@@ -474,7 +491,7 @@
         <img class="w-full max-w-[650px] p-2" src="/images/hoodpay/5.png">
       </p>
 
-      <p class="mb-4">{{ gettext('page.donation.hoodpay.step6') }}</p>
+      <!-- <p class="mb-4">{{ gettext('page.donation.hoodpay.step6') }}</p> -->
     {% endif %}
 
     <p class="mb-4">
