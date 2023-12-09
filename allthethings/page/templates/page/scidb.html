@@ -7,25 +7,25 @@
 {% endblock %}
 
 {% block main %}
-  <div class="flex flex-row h-full">
-    <div class="p-4 overflow-hidden bg-black/5 break-words w-2/5 max-w-[300px] overflow-y-auto">
-      <div class="mb-4 flex justify-between items-center">
+  <div class="flex flex-col sm:flex-row h-full">
+    <div class="p-4 bg-black/5 break-words space-y-4 sm:w-2/5 sm:max-w-[300px] sm:overflow-hidden sm:overflow-y-auto">
+      <div class="flex justify-between items-center">
         <a href="/" class="custom-a text-black hover:text-[#444]"><h1 class="text-md sm:text-lg leading-none font-black">{{ gettext('layout.index.header.title') }}</h1></a>
         <div class="text-sm">🧬&nbsp;{{ gettext('page.scidb.header') }}</div>
       </div>
 
-      <div class="mb-4">
+      <div>
         <div class="text-sm">{{ gettext('page.scidb.doi', doi=doi_input) }} <a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href='/search?q="doi:{{ doi_input | urlencode }}"'>🔍</a></div>
       </div>
 
-      <div class="mb-4 text-sm">
+      <div class="text-sm">
         <div class="text-xs text-gray-500">{{aarecord.additional.top_box.top_row}}</div>
         <div class="font-bold">{{aarecord.additional.top_box.title}} {% if aarecord.additional.top_box.title %}<a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.title | urlencode }}">🔍</a>{% endif %}</div>
-        <div class="">{{aarecord.additional.top_box.publisher_and_edition}}</div>
+        <div>{{aarecord.additional.top_box.publisher_and_edition}}</div>
         <div class="italic">{{aarecord.additional.top_box.author}} {% if aarecord.additional.top_box.author %}<a class="custom-a text-[10px] align-[1px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.author | urlencode }}">🔍</a>{% endif %}</div>
       </div>
 
-      <ul class="mb-4">
+      <ul>
         <li>- <a href="{{ aarecord.additional.path }}">{{ gettext('page.scidb.aa_record') }}</a></li>
         {% if download_url %}<li>- <a href="{{ download_url }}">{{ gettext('page.scidb.download') }}</a></li>{% endif %}
         {% if scihub_link %}<li>- <a href="{{ scihub_link }}" rel="noopener noreferrer nofollow" target="_blank">{{ gettext('page.scidb.scihub') }}</a></li>{% endif %}
