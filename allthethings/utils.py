@@ -462,7 +462,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     #     return False
 
     donation_json = orjson.loads(donation['json'])
-    if donation_json['method'] not in ['payment1', 'payment1b', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon']:
+    if donation_json['method'] not in ['payment1', 'payment1b', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay']:
         print(f"Warning: failed {data_key} request because method is not valid: {donation_id}")
         return False
 
