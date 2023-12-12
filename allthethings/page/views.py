@@ -3435,8 +3435,10 @@ def md5_slow_download(md5_input, path_index, domain_index):
             # cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
             # cursor.execute('SELECT COUNT(DISTINCT md5) AS count FROM mariapersist_slow_download_access WHERE timestamp > (NOW() - INTERVAL 24 HOUR) AND SUBSTRING(ip, 1, 8) = %(data_ip)s LIMIT 1', { "data_ip": data_ip })
             # download_count_from_ip = cursor.fetchone()['count']
-            minimum = 10
-            maximum = 100
+            # minimum = 10
+            # maximum = 100
+            minimum = 100
+            maximum = 200
             targeted_seconds_multiplier = 1.0
             warning = False
             # if download_count_from_ip > 500:

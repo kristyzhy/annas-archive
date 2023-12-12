@@ -859,7 +859,7 @@ def gc_notify():
         donation_json = orjson.loads(donation['json'])
         donation_json['gc_notify_debug'] = (donation_json.get('gc_notify_debug') or [])
 
-        message_body = "\n\n".join([item.get_payload(decode=True).decode() for item in message.get_payload()])
+        message_body = "\n\n".join([item.get_payload(decode=True).decode() for item in message.get_payload() if item is not None])
 
         auth_results = "\n\n".join(message.get_all('Authentication-Results'))
         if "dkim=pass" not in auth_results:
