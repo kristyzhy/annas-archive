@@ -242,9 +242,6 @@ def usd_currency_rates_cached():
     #     # 2023-05-04 fallback
     return {'EUR': 0.9161704076958315, 'JPY': 131.46129180027486, 'BGN': 1.7918460833715073, 'CZK': 21.44663307375172, 'DKK': 6.8263857077416406, 'GBP': 0.8016032982134678, 'HUF': 344.57169033440226, 'PLN': 4.293449381584975, 'RON': 4.52304168575355, 'SEK': 10.432890517636281, 'CHF': 0.9049931287219424, 'ISK': 137.15071003206597, 'NOK': 10.43105817682089, 'TRY': 19.25744388456253, 'AUD': 1.4944571690334403, 'BRL': 5.047732478240953, 'CAD': 1.3471369674759506, 'CNY': 6.8725606962895105, 'HKD': 7.849931287219422, 'IDR': 14924.993128721942, 'INR': 81.87402656894183, 'KRW': 1318.1951442968393, 'MXN': 18.288960146587264, 'MYR': 4.398992212551534, 'NZD': 1.592945487860742, 'PHP': 54.56894182317912, 'SGD': 1.3290884104443428, 'THB': 34.054970224461755, 'ZAR': 18.225286303252407}
 
-def account_is_member(account):
-    return (account is not None) and (account.membership_expiration is not None) and (account.membership_expiration > datetime.datetime.now()) and (int(account.membership_tier or "0") >= 2)
-
 @functools.cache
 def membership_tier_names(locale):
     with force_locale(locale):
@@ -325,13 +322,24 @@ MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
 }
 
 def get_account_fast_download_info(mariapersist_session, account_id):
-    account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
-    if not account_is_member(account):
+    mariapersist_session.connection().connection.ping(reconnect=True)
+    cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
+    cursor.execute('SELECT mariapersist_memberships.membership_tier AS membership_tier FROM mariapersist_accounts INNER JOIN mariapersist_memberships USING (account_id) WHERE mariapersist_accounts.account_id = %(account_id)s AND mariapersist_memberships.membership_expiration >= CURDATE()', { 'account_id': account_id })
+    membership_tiers = [row['membership_tier'] for row in cursor.fetchall()]
+    if len(membership_tiers) == 0:
         return None
-    downloads_left = MEMBERSHIP_DOWNLOADS_PER_DAY[account.membership_tier]
+
+    downloads_per_day = 0
+    for membership_tier in membership_tiers:
+        downloads_per_day += MEMBERSHIP_DOWNLOADS_PER_DAY[membership_tier]
+
+    downloads_left = downloads_per_day
     recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(10000)).scalars()]
     downloads_left -= len(recently_downloaded_md5s)
-    return { 'downloads_left': max(0, downloads_left), 'recently_downloaded_md5s': recently_downloaded_md5s, 'downloads_per_day': MEMBERSHIP_DOWNLOADS_PER_DAY[account.membership_tier], 'telegram_url': MEMBERSHIP_TELEGRAM_URL[account.membership_tier] }
+
+    max_tier = str(max([int(membership_tier) for membership_tier in membership_tiers]))
+
+    return { 'downloads_left': max(0, downloads_left), 'recently_downloaded_md5s': recently_downloaded_md5s, 'downloads_per_day': downloads_per_day, 'telegram_url': MEMBERSHIP_TELEGRAM_URL[max_tier] }
 
 def cents_to_usd_str(cents):
     return str(cents)[:-2] + "." + str(cents)[-2:]
@@ -471,19 +479,13 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     if account is None:
         print(f"Warning: failed {data_key} request because of account not found: {donation_id}")
         return False
+
     new_tier = int(donation_json['tier'])
-    old_tier = int(account['membership_tier'])
     datetime_today = datetime.datetime.combine(datetime.datetime.utcnow().date(), datetime.datetime.min.time())
-    old_membership_expiration = datetime_today
-    if ('membership_expiration' in account) and (account['membership_expiration'] is not None) and account['membership_expiration'] > datetime_today:
-        old_membership_expiration = account['membership_expiration']
-    if new_tier != old_tier:
-        # When upgrading to a new tier, cancel the previous membership and start a new one.
-        old_membership_expiration = datetime_today
-    new_membership_expiration = old_membership_expiration + datetime.timedelta(days=1) + datetime.timedelta(days=31*int(donation_json['duration']))
+    new_membership_expiration = datetime_today + datetime.timedelta(days=1) + datetime.timedelta(days=31*int(donation_json['duration']))
 
     donation_json[data_key] = data_value
-    cursor.execute('UPDATE mariapersist_accounts SET membership_tier=%(membership_tier)s, membership_expiration=%(membership_expiration)s WHERE account_id=%(account_id)s LIMIT 1', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'] })
+    cursor.execute('INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration, from_donation_id) VALUES (%(account_id)s, %(membership_tier)s, %(membership_expiration)s, %(donation_id)s)', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'], 'donation_id': donation_id })
     cursor.execute('UPDATE mariapersist_donations SET json=%(json)s, processing_status=1, paid_timestamp=NOW() WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
     cursor.execute('COMMIT')
     return True

@@ -50,12 +50,18 @@ def account_index_page():
         if account is None:
             raise Exception("Valid account_id was not found in db!")
 
+        mariapersist_session.connection().connection.ping(reconnect=True)
+        cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT membership_tier, membership_expiration FROM mariapersist_memberships WHERE account_id = %(account_id)s AND mariapersist_memberships.membership_expiration > NOW()', { 'account_id': account_id })
+        memberships = cursor.fetchall()
+
         return render_template(
             "account/index.html",
             header_active="account",
             account_dict=dict(account),
             account_fast_download_info=allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id),
             membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
+            memberships=[dict(membership) for membership in memberships]
         )
 
 

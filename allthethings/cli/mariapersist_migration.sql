@@ -196,3 +196,19 @@ CREATE TABLE mariapersist_slow_download_access (
     CONSTRAINT `mariapersist_slow_download_access_account_id` FOREIGN KEY (`account_id`) REFERENCES `mariapersist_accounts` (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+CREATE TABLE mariapersist_memberships (
+    `membership_id` BIGINT NOT NULL AUTO_INCREMENT,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `account_id` CHAR(7) NOT NULL,
+    `membership_tier` CHAR(7) NOT NULL DEFAULT 0,
+    `membership_expiration` TIMESTAMP NOT NULL,
+    `from_donation_id` CHAR(22) NULL, # NULL for backwards compatibility
+    PRIMARY KEY (`membership_id`),
+    INDEX (`created`),
+    INDEX (`account_id`),
+    UNIQUE INDEX (`from_donation_id`),
+    CONSTRAINT `mariapersist_memberships_account_id` FOREIGN KEY (`account_id`) REFERENCES `mariapersist_accounts` (`account_id`),
+    CONSTRAINT `mariapersist_memberships_from_donation_id` FOREIGN KEY (`from_donation_id`) REFERENCES `mariapersist_donations` (`donation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT account_id, membership_tier, membership_expiration FROM mariapersist_accounts WHERE membership_expiration IS NOT NULL;
+
+
