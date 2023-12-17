@@ -52,7 +52,7 @@ def account_index_page():
 
         mariapersist_session.connection().connection.ping(reconnect=True)
         cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT membership_tier, membership_expiration FROM mariapersist_memberships WHERE account_id = %(account_id)s AND mariapersist_memberships.membership_expiration > NOW()', { 'account_id': account_id })
+        cursor.execute('SELECT membership_tier, membership_expiration FROM mariapersist_memberships WHERE account_id = %(account_id)s AND mariapersist_memberships.membership_expiration >= CURDATE()', { 'account_id': account_id })
         memberships = cursor.fetchall()
 
         return render_template(
