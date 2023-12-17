@@ -537,7 +537,7 @@ def lists(resource):
         )
 
 @dyn.get("/search_counts")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*30)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def search_counts_page():
     search_input = request.args.get("q", "").strip()
 
