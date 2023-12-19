@@ -3828,6 +3828,13 @@ def search_page():
     # status = 404 if had_fatal_es_timeout else 200 # So we don't cache
     status = 200
 
+    # newest_label = gettext('page.search.filters.sorting.newest')
+    # oldest_label = gettext('page.search.filters.sorting.oldest')
+    # if str(get_locale()) != 'en':
+    #     with force_locale('en'):
+    #         newest_label_english = gettext('page.search.filters.sorting.newest')
+    #         oldest_label_english = gettext('page.search.filters.sorting.oldest')
+
     r = make_response((render_template(
             "page/search.html",
             header_active="home/search",
