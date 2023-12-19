@@ -21,7 +21,6 @@
 
   {% if not only_official %}
     <p class="mb-4">
-      <!-- TODO:TRANSLATE -->
       {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">' + gettext('page.partner_download.download_now') + '</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
       {% if warning %}{{ gettext('page.partner_download.warning_many_downloads') }}{% endif %}
     </p>
