@@ -31,8 +31,7 @@
         <div class="mb-4">Exclusive Telegram group: <em>Upgrade to a <a href="/donate">higher tier</a> to join our group</em>.</div>
       {% endif %}
       <!-- <div class="mb-4">{{ gettext('page.account.logged_in.membership_upgrade') }}</div> -->
-      <!-- TODO:TRANSLATE -->
-      <div class="mb-4">You can combine multiple memberships (fast downloads per 24 hours will be added together).</div>
+      <div class="mb-4">{{ gettext('page.account.logged_in.membership_multiple') }}</div>
     {% endif %}
 
     <form autocomplete="on" onsubmit="window.submitForm(event, '/dyn/account/logout/', (jsonResponse) => { window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in); })" class="mb-8">

@@ -11,8 +11,7 @@
 
   {% if only_official %}
     <p class="mb-4 font-bold underline">
-      <!-- TODO:TRANSLATE -->
-      ❌ Slow downloads are only available through the official website. Visit annas-archive.org, .gs, or .se.
+      {{ gettext('page.partner_download.slow_downloads_official', websites='annas-archive.org, .gs, or .se') }}
     </p>
   {% endif %}
 
@@ -23,8 +22,8 @@
   {% if not only_official %}
     <p class="mb-4">
       <!-- TODO:TRANSLATE -->
-      {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">Download now</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
-      {% if warning %}Warning: there have been lots of downloads from your IP address in the last 24 hours. Downloads might be slower than usual.{% endif %}
+      {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">' + gettext('page.partner_download.download_now') + '</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
+      {% if warning %}{{ gettext('page.partner_download.warning_many_downloads') }}{% endif %}
     </p>
   {% endif %}
 

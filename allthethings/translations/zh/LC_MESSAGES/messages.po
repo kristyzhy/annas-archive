@@ -1,46 +1,50 @@
-#: allthethings/app.py:247
+#: allthethings/app.py:201
+msgid "layout.index.invalid_request"
+msgstr ""
+
+#: allthethings/app.py:246
 msgid "layout.index.header.tagline_scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/app.py:248
+#: allthethings/app.py:247
 msgid "layout.index.header.tagline_libgen"
 msgstr "LibGen"
 
-#: allthethings/app.py:249
+#: allthethings/app.py:248
 msgid "layout.index.header.tagline_zlib"
 msgstr "Z-Lib"
 
-#: allthethings/app.py:250
+#: allthethings/app.py:249
 msgid "layout.index.header.tagline_openlib"
 msgstr "OpenLib"
 
-#: allthethings/app.py:251
+#: allthethings/app.py:250
 msgid "layout.index.header.tagline_duxiu"
 msgstr "读秀"
 
-#: allthethings/app.py:252
+#: allthethings/app.py:251
 msgid "layout.index.header.tagline_separator"
 msgstr ", "
 
-#: allthethings/app.py:258 allthethings/app.py:260 allthethings/app.py:261
-#: allthethings/app.py:264
+#: allthethings/app.py:257 allthethings/app.py:259 allthethings/app.py:260
+#: allthethings/app.py:263
 msgid "layout.index.header.tagline_new1"
 msgstr "📚&nbsp;人类历史上最大的完全开放的图书馆。"
 
-#: allthethings/app.py:258 allthethings/app.py:260 allthethings/app.py:261
-#: allthethings/app.py:264
+#: allthethings/app.py:257 allthethings/app.py:259 allthethings/app.py:260
+#: allthethings/app.py:263
 msgid "layout.index.header.tagline_new2"
 msgstr "⭐️&nbsp;不仅是 %(libraries)s 的镜像。"
 
-#: allthethings/app.py:258 allthethings/app.py:260 allthethings/app.py:264
+#: allthethings/app.py:257 allthethings/app.py:259 allthethings/app.py:263
 msgid "layout.index.header.tagline_new3"
 msgstr "📈&nbsp;%(book_count)s&nbsp;本图书、%(paper_count)s&nbsp;篇论文——永久保存。"
 
-#: allthethings/app.py:266 allthethings/app.py:267
+#: allthethings/app.py:265 allthethings/app.py:266
 msgid "layout.index.header.tagline"
 msgstr "📚&nbsp;世界最大开源及开放数据图书馆。 ⭐️&nbsp;不仅是 Sci-Hub、Library Genesis、Z-Library 等站的镜像。 📈&nbsp;%(book_any)s 本图书、%(journal_article)s 篇论文、%(book_comic)s 部漫画、%(magazine)s 期杂志——永久保存。"
 
-#: allthethings/app.py:268
+#: allthethings/app.py:267
 msgid "layout.index.header.tagline_short"
 msgstr "📚 世界上最大的开源、开放数据图书馆。<br>⭐️ 不仅是 Scihub、Libgen、Zlib 等站的镜像。"
 
@@ -896,7 +900,7 @@ msgid "page.account.logged_in.title"
 msgstr "账号"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:47
+#: allthethings/account/templates/account/index.html:46
 msgid "page.account.logged_out.title"
 msgstr "登录 / 注册"
 
@@ -920,55 +924,59 @@ msgstr "高速下载使用量（最近24小时）：<strong>%(used)s / %(total)s
 msgid "page.account.logged_in.membership_upgrade"
 msgstr "如欲提升会员级别，请联系安娜：AnnaArchivist@proton.me。"
 
-#: allthethings/account/templates/account/index.html:40
+#: allthethings/account/templates/account/index.html:34
+msgid "page.account.logged_in.membership_multiple"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.button"
 msgstr "退出登录"
 
-#: allthethings/account/templates/account/index.html:43
+#: allthethings/account/templates/account/index.html:42
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ 账号已退出，刷新页面以重新登录。"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ 出错了，请刷新页面重试。"
 
-#: allthethings/account/templates/account/index.html:50
+#: allthethings/account/templates/account/index.html:49
 msgid "page.account.logged_out.registered.text1"
 msgstr "注册成功！您的密钥为：<span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:53
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_out.registered.text2"
 msgstr "请小心保存此密钥。如果您丢失了它，您将失去访问您的帐户的权限。"
 
-#: allthethings/account/templates/account/index.html:57
+#: allthethings/account/templates/account/index.html:56
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>加入书签。</strong>你可以在浏览器中收藏此页面以保存你的密钥。</li><li %(li_item)s><strong>下载。</strong> 点击<a %(a_download)s>此链接</a>下载你的密钥。</li><li %(li_item)s><strong>密码管理器。</strong>为方便起见，下面已经填充了你的密钥。这样当你登录时，你可以在密码管理器中保存密钥。</li>"
 
-#: allthethings/account/templates/account/index.html:61
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.text"
 msgstr "输入密钥以登录："
 
-#: allthethings/account/templates/account/index.html:64
+#: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "密钥"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.key_form.button"
 msgstr "登录"
 
-#: allthethings/account/templates/account/index.html:67
+#: allthethings/account/templates/account/index.html:66
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "密钥无效。请检查密钥并再次尝试，或者在下方注册一个新账号。"
 
-#: allthethings/account/templates/account/index.html:74
+#: allthethings/account/templates/account/index.html:73
 msgid "page.account.logged_out.register.header"
 msgstr "还没有账号？"
 
-#: allthethings/account/templates/account/index.html:77
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.register.button"
 msgstr "注册新账号"
 
-#: allthethings/account/templates/account/index.html:80
+#: allthethings/account/templates/account/index.html:79
 msgid "page.account.logged_out.old_email.button"
 msgstr "旧的电子邮件账户？在这里输入您的<a %(a_open)s>电子邮件地址</a>。"
 
@@ -1734,19 +1742,31 @@ msgstr "继续"
 msgid "page.partner_download.header"
 msgstr "从合作伙伴网站下载"
 
-#: allthethings/page/templates/page/partner_download.html:20
+#: allthethings/page/templates/page/partner_download.html:14
+msgid "page.partner_download.slow_downloads_official"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:19
 msgid "page.partner_download.main_page"
 msgstr "🔗 此文件的所有下载地址：<a %(a_main)s>文件主页</a>。"
 
-#: allthethings/page/templates/page/partner_download.html:26
+#: allthethings/page/templates/page/partner_download.html:25
 msgid "page.partner_download.url"
 msgstr "📚使用以下URL下载:<a %(a_download)s>立即下载</a >。"
 
-#: allthethings/page/templates/page/partner_download.html:33
+#: allthethings/page/templates/page/partner_download.html:25
+msgid "page.partner_download.download_now"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:26
+msgid "page.partner_download.warning_many_downloads"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:32
 msgid "page.partner_download.faster_downloads"
 msgstr "🚀要获得更快的下载并跳过浏览器检查，<a %(a_membership)s >成为会员</a>。"
 
-#: allthethings/page/templates/page/partner_download.html:38
+#: allthethings/page/templates/page/partner_download.html:37
 msgid "page.partner_download.bulk_mirroring"
 msgstr "📡对于我们集合的批量镜像，请查看<a %(a_datasets)s >数据集</a>和<a %(a_torrents)s>Torrents</a>页面。"
 

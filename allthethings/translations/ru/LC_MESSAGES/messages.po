@@ -1,46 +1,50 @@
-#: allthethings/app.py:247
+#: allthethings/app.py:201
+msgid "layout.index.invalid_request"
+msgstr ""
+
+#: allthethings/app.py:246
 msgid "layout.index.header.tagline_scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/app.py:248
+#: allthethings/app.py:247
 msgid "layout.index.header.tagline_libgen"
 msgstr "LibGen"
 
-#: allthethings/app.py:249
+#: allthethings/app.py:248
 msgid "layout.index.header.tagline_zlib"
 msgstr "Z-Lib"
 
-#: allthethings/app.py:250
+#: allthethings/app.py:249
 msgid "layout.index.header.tagline_openlib"
 msgstr "OpenLib"
 
-#: allthethings/app.py:251
+#: allthethings/app.py:250
 msgid "layout.index.header.tagline_duxiu"
 msgstr "DuXiu"
 
-#: allthethings/app.py:252
+#: allthethings/app.py:251
 msgid "layout.index.header.tagline_separator"
 msgstr ", "
 
-#: allthethings/app.py:258 allthethings/app.py:260 allthethings/app.py:261
-#: allthethings/app.py:264
+#: allthethings/app.py:257 allthethings/app.py:259 allthethings/app.py:260
+#: allthethings/app.py:263
 msgid "layout.index.header.tagline_new1"
 msgstr "📚&nbsp;Самая большая полностью открытая библиотека в истории человечества."
 
-#: allthethings/app.py:258 allthethings/app.py:260 allthethings/app.py:261
-#: allthethings/app.py:264
+#: allthethings/app.py:257 allthethings/app.py:259 allthethings/app.py:260
+#: allthethings/app.py:263
 msgid "layout.index.header.tagline_new2"
 msgstr "⭐️&nbsp;Зеркала %(libraries)s и других."
 
-#: allthethings/app.py:258 allthethings/app.py:260 allthethings/app.py:264
+#: allthethings/app.py:257 allthethings/app.py:259 allthethings/app.py:263
 msgid "layout.index.header.tagline_new3"
 msgstr "📈&nbsp;%(book_count)s&nbsp;книг, %(paper_count)s&nbsp;документов сохранено навсегда."
 
-#: allthethings/app.py:266 allthethings/app.py:267
+#: allthethings/app.py:265 allthethings/app.py:266
 msgid "layout.index.header.tagline"
 msgstr "📚&nbsp;Самая большая в мире открытая библиотека знаний с открытым исходным кодом. ⭐️&nbsp;Зеркала Sci-Hub, Library Genesis, Z-Library и других. 📈&nbsp;%(book_any)s книги, %(journal_article)s статьи, %(book_comic)s комиксы, %(magazine)s журналы — сохранены навсегда."
 
-#: allthethings/app.py:268
+#: allthethings/app.py:267
 msgid "layout.index.header.tagline_short"
 msgstr "📚 Крупнейшая в мире библиотека с открытыми кодом и датасетами.<br>⭐️ Зеркала Sci-hub, LibGen, Z-Lib и других."
 
@@ -896,7 +900,7 @@ msgid "page.account.logged_in.title"
 msgstr "Учётная запись"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:47
+#: allthethings/account/templates/account/index.html:46
 msgid "page.account.logged_out.title"
 msgstr "Зайти / зарегистрироваться"
 
@@ -920,55 +924,59 @@ msgstr "Быстрых загрузок использовано (за посл�
 msgid "page.account.logged_in.membership_upgrade"
 msgstr "Свяжитесь с Анной по AnnaArchivist@proton.me в случае если хотите поднять свой уровень участника."
 
-#: allthethings/account/templates/account/index.html:40
+#: allthethings/account/templates/account/index.html:34
+msgid "page.account.logged_in.membership_multiple"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.button"
 msgstr "Выйти"
 
-#: allthethings/account/templates/account/index.html:43
+#: allthethings/account/templates/account/index.html:42
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Вы вышли из системы. Перезагрузите страницу, чтобы зайти снова."
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Что-то пошло не так. Просим перезагрузить страницу и попробовать снова."
 
-#: allthethings/account/templates/account/index.html:50
+#: allthethings/account/templates/account/index.html:49
 msgid "page.account.logged_out.registered.text1"
 msgstr "Регистрация выполнена! Вот ваш секретный ключ: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:53
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_out.registered.text2"
 msgstr "Берегите этот ключ. Если потеряете его, лишитесь и доступа к своей учётной записи."
 
-#: allthethings/account/templates/account/index.html:57
+#: allthethings/account/templates/account/index.html:56
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>В закладки!</strong> Вы можете добавить эту страницу в закладки, чтобы найти свой ключ вновь.</li><li %(li_item)s><strong>Скачайте.</strong> Нажмите <a %(a_download)s>этот линк</a>, чтобы скачать ключ.</li><li %(li_item)s><strong>Менеджер паролей.</strong> Сохраните ключ в менеджере паролей, когда введёте его ниже.</li>"
 
-#: allthethings/account/templates/account/index.html:61
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.text"
 msgstr "Введите свой секретный ключ, чтобы зайти:"
 
-#: allthethings/account/templates/account/index.html:64
+#: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Секретный ключ"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.key_form.button"
 msgstr "Зайти"
 
-#: allthethings/account/templates/account/index.html:67
+#: allthethings/account/templates/account/index.html:66
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Секретный ключ недействителен. Проверьте ключ и попробуйте снова, а если хотите — создайте новую учётную запись ниже."
 
-#: allthethings/account/templates/account/index.html:74
+#: allthethings/account/templates/account/index.html:73
 msgid "page.account.logged_out.register.header"
 msgstr "Вы пока без учётной записи?"
 
-#: allthethings/account/templates/account/index.html:77
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.register.button"
 msgstr "Зарегистрироваться"
 
-#: allthethings/account/templates/account/index.html:80
+#: allthethings/account/templates/account/index.html:79
 msgid "page.account.logged_out.old_email.button"
 msgstr "Старая учётная запись на базе email? Введите <a %(a_open)s>эл. почту здесь</a>."
 
@@ -1734,19 +1742,31 @@ msgstr ""
 msgid "page.partner_download.header"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:20
+#: allthethings/page/templates/page/partner_download.html:14
+msgid "page.partner_download.slow_downloads_official"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:19
 msgid "page.partner_download.main_page"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:26
+#: allthethings/page/templates/page/partner_download.html:25
 msgid "page.partner_download.url"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:33
+#: allthethings/page/templates/page/partner_download.html:25
+msgid "page.partner_download.download_now"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:26
+msgid "page.partner_download.warning_many_downloads"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:32
 msgid "page.partner_download.faster_downloads"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:38
+#: allthethings/page/templates/page/partner_download.html:37
 msgid "page.partner_download.bulk_mirroring"
 msgstr ""
 
