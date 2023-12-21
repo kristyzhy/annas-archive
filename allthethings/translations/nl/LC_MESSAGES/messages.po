@@ -1,6 +1,21 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-20 20:38+0000\n"
+"PO-Revision-Date: 2023-12-20 20:38+0000\n"
+"Last-Translator: Guus <guusvanweelderen@hotmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.15\n"
+
 #: allthethings/app.py:201
 msgid "layout.index.invalid_request"
-msgstr ""
+msgstr "Ongeldig verzoek. Bezoek %(websites)s."
 
 #: allthethings/app.py:246
 msgid "layout.index.header.tagline_scihub"
@@ -212,9 +227,8 @@ msgid "page.donate.expert.direct_sftp"
 msgstr "Directe <strong>SFTP</strong>-servers"
 
 #: allthethings/account/templates/account/donate.html:93
-#, fuzzy
 msgid "page.donate.expert.enterprise_donation"
-msgstr "Donatie of uitwisseling op bedrijfsniveau voor nieuwe collecties (bijv. nieuwe scans, OCR-ed datasets)."
+msgstr "Donatie op bedrijfsniveau of uitwisseling van nieuwe collecties (bijv. nieuwe scans of datasets via OCR)."
 
 #: allthethings/account/templates/account/donate.html:98
 msgid "page.donate.header.large_donations"
@@ -387,7 +401,7 @@ msgstr "24 maanden"
 
 #: allthethings/account/templates/account/donate.html:266
 msgid "page.donate.duration.summary"
-msgstr ""
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>na <span %(span_discount)s></span> kortingen</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
 #: allthethings/account/templates/account/donate.html:272
 msgid "page.donate.payment.minimum_method"
@@ -927,7 +941,7 @@ msgstr "Neem contact op met Anna via AnnaArchivist@proton.me als je je lidmaatsc
 
 #: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.membership_multiple"
-msgstr ""
+msgstr "Je kunt meerdere lidmaatschappen combineren (het aantal snelle downloads per 24 uur wordt dan samengevoegd)."
 
 #: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.button"
@@ -1142,7 +1156,7 @@ msgstr "Documentatievormen"
 
 #: allthethings/page/views.py:2886
 msgid "common.md5_content_type_mapping.magazine"
-msgstr "Tjidschrift"
+msgstr "Tijdschrift"
 
 #: allthethings/page/views.py:2887
 msgid "common.md5_content_type_mapping.book_comic"
@@ -1150,11 +1164,11 @@ msgstr "Stripboek"
 
 #: allthethings/page/views.py:2888
 msgid "common.md5_content_type_mapping.musical_score"
-msgstr ""
+msgstr "Partituur"
 
 #: allthethings/page/views.py:2889
 msgid "common.md5_content_type_mapping.other"
-msgstr ""
+msgstr "Overig"
 
 #: allthethings/page/views.py:2895
 msgid "common.access_types_mapping.aa_download"
@@ -1170,7 +1184,7 @@ msgstr "Extern lenen"
 
 #: allthethings/page/views.py:2898
 msgid "common.access_types_mapping.external_borrow_printdisabled"
-msgstr "Extern lenen (afdrukken uitgeschakeld)"
+msgstr "Extern lenen (leesbeperkingen)"
 
 #: allthethings/page/views.py:2899
 msgid "common.access_types_mapping.meta_explore"
@@ -1264,7 +1278,6 @@ msgid "page.md5.box.download.ia_borrow"
 msgstr "Lenen uit het internetarchief"
 
 #: allthethings/page/views.py:3140
-#, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(alleen voor gebruikers met leesbeperkingen)"
 
@@ -1274,7 +1287,7 @@ msgstr "(bijbehorende DOI is mogelijk niet beschikbaar in Sci-Hub)"
 
 #: allthethings/page/views.py:3145
 msgid "page.md5.box.download.bulk_torrents"
-msgstr "Bulk torrent downloads"
+msgstr "Torrentdownloads in bulk"
 
 #: allthethings/page/views.py:3145
 msgid "page.md5.box.download.experts_only"
@@ -1306,7 +1319,7 @@ msgstr "Anna’s Archief doorzoeken op OCLC (WorldCat) nummer"
 
 #: allthethings/page/views.py:3157
 msgid "page.md5.box.download.original_oclc"
-msgstr ""
+msgstr "Oorspronkelijke vermelding in WorldCat zoeken"
 
 #: allthethings/page/views.py:3162 allthethings/page/views.py:3163
 msgid "page.md5.box.download.scidb"
@@ -1326,15 +1339,15 @@ msgstr "Dit is een vermelding van een bestand van Internet Archive, geen direct 
 
 #: allthethings/page/templates/page/aarecord.html:24
 msgid "page.md5.header.meta_isbn"
-msgstr ""
+msgstr "Metadatavermelding ISBNdb %(id)s"
 
 #: allthethings/page/templates/page/aarecord.html:26
 msgid "page.md5.header.meta_openlib"
-msgstr ""
+msgstr "Metadatavermelding Open Library %(id)s"
 
 #: allthethings/page/templates/page/aarecord.html:28
 msgid "page.md5.header.meta_oclc"
-msgstr ""
+msgstr "Metadatavermelding OCLC (WorldCat) %(id)s"
 
 #: allthethings/page/templates/page/aarecord.html:32
 msgid "page.md5.header.meta_desc"
@@ -1383,7 +1396,7 @@ msgstr "Als je dit bestand nog steeds wilt downloaden, zorg dan dat je enkel bet
 
 #: allthethings/page/templates/page/aarecord.html:186
 msgid "page.md5.box.download.header_fast_no_member"
-msgstr ""
+msgstr "<strong>🚀 Snelle downloads</strong> Word <a %(a_membership)s>lid</a> om het langdurige behoud van boeken, papers en meer te ondersteunen. Als dank daarvoor krijg je snelle downloads. ❤️"
 
 #: allthethings/page/templates/page/aarecord.html:187
 msgid "page.md5.box.download.header_fast_member"
@@ -1491,7 +1504,7 @@ msgstr "<span %(span_anna)s>Anna’s Archief</span> is een non-profitproject met
 
 #: allthethings/page/templates/page/about.html:13
 msgid "page.home.intro.text2"
-msgstr ""
+msgstr "<li><strong>Behoud:</strong> we slaan de kennis en cultuur van de mensheid op.</li><li><strong>Toegang:</strong> we maken deze kennis en cultuur beschikbaar voor iedereen ter wereld.</li>"
 
 #: allthethings/page/templates/page/about.html:17
 msgid "page.home.preservation.header"
@@ -1499,7 +1512,7 @@ msgstr "Behoud"
 
 #: allthethings/page/templates/page/about.html:19
 msgid "page.home.preservation.text"
-msgstr ""
+msgstr "We behouden boeken, papers, stripboeken, tijdschriften en meer door deze materialen van verschillende <a href=\"https://en.wikipedia.org/wiki/Shadow_library\">schaduwbibliotheken</a> samen te brengen op één plek. Doordat de gegevens grootschalig kunnen worden gekopieerd, zijn overal ter wereld vele exemplaren te vinden. Deze brede distributie zorgt er samen met de opensourcecode tevens voor dat onze website weerbaar is tegen aanvallen. Meer informatie over <a href=\"/datasets\">onze datasets</a>."
 
 #: allthethings/page/templates/page/about.html:33
 msgid "page.home.preservation.label"
@@ -1523,7 +1536,7 @@ msgstr "Zoeken"
 
 #: allthethings/page/templates/page/about.html:74
 msgid "page.home.search.intro"
-msgstr "Doorzoek onze catalogus van schaduw bibliotheken."
+msgstr "Doorzoek onze catalogus."
 
 #: allthethings/page/templates/page/about.html:79
 #: allthethings/page/templates/page/search.html:53
@@ -1550,7 +1563,7 @@ msgstr "Willekeurig boek"
 
 #: allthethings/page/templates/page/about.html:96
 msgid "page.about.text1"
-msgstr "Anna’s Archief is een non-profit, open-source zoekmachine voor “<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">schaduwbibliotheken</a>. Het is gemaakt door <a href=\"http://annas-blog.org\">Anna</a>, die vond dat er een centrale plek nodig was om boeken, kranten, stripboeken, tijdschriften en andere documenten te zoeken."
+msgstr "Anna’s Archief is een non-profit-, opensource-zoekmachine voor '<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">schaduwbibliotheken</a>'. Het is gemaakt door <a href=\"http://annas-blog.org\">Anna</a>, die vond dat er een centrale plek nodig was om boeken, papers, stripboeken, tijdschriften en andere documenten te zoeken."
 
 #: allthethings/page/templates/page/about.html:100
 msgid "page.about.text2"
@@ -1574,11 +1587,11 @@ msgstr "<li>1. Volg ons op <a href=\"https://www.reddit.com/r/Annas_Archive/\">R
 
 #: allthethings/page/templates/page/about.html:115
 msgid "page.about.help.text6"
-msgstr ""
+msgstr "6. Als je een beveiligingsonderzoeker bent, kunnen we je vaardigheden op zowel offensief als defensief vlak goed gebruiken. Bekijk daarvoor de pagina <a %(a_security)s>Beveiliging</a>."
 
 #: allthethings/page/templates/page/about.html:116
 msgid "page.about.help.text7"
-msgstr ""
+msgstr "7. We zijn op zoek naar betalingsexperts voor anonieme verkopers. Kan jij, of iemand die je kent, ons helpen bij het toevoegen van makkelijkere manieren om te doneren? Denk daarbij aan PayPal, WeChat en cadeaukaarten. Neem dan contact met ons op."
 
 #: allthethings/page/templates/page/about.html:117
 msgid "page.about.help.text8"
@@ -1586,7 +1599,7 @@ msgstr "8. We zijn altijd op zoek naar meer servercapaciteit."
 
 #: allthethings/page/templates/page/about.html:118
 msgid "page.about.help.text9"
-msgstr ""
+msgstr "9. Je kunt ons helpen door problemen met bestanden te melden, opmerkingen achter te laten en lijsten op deze website samen te stellen. Je kunt ons ook helpen door <a %(a_upload)s>meer boeken te uploaden</a> of door problemen met of indelingen van bestaande boeken te verhelpen."
 
 #: allthethings/page/templates/page/about.html:119
 msgid "page.about.help.text10"
@@ -1602,7 +1615,7 @@ msgstr "Verken boeken"
 
 #: allthethings/page/templates/page/about.html:172
 msgid "page.home.explore.intro"
-msgstr "Dit is een combinatie van populaire boeken en boeken die een speciale betekenis hebben voor de wereld van schaduw bibliotheken en digitaal behoud."
+msgstr "Dit is een combinatie van populaire boeken en boeken die een speciale betekenis hebben voor de wereld van schaduwbibliotheken en digitaal behoud."
 
 #: allthethings/page/templates/page/browser_verification.html:3
 #: allthethings/page/templates/page/login.html:3
@@ -1711,22 +1724,22 @@ msgstr "De datasets die worden gebruikt in Anna’s Archief zijn volledig open e
 
 #: allthethings/page/templates/page/home.html:63
 msgid "page.home.torrents.body"
-msgstr ""
+msgstr "Je helpt ons enorm door torrents te seeden. <a %(a_torrents)s>Meer informatie…</a>"
 
 #: allthethings/page/templates/page/home.html:66
 #: allthethings/page/templates/page/torrents.html:34
 msgid "page.home.torrents.legend_less"
-msgstr ""
+msgstr "<%(count)s seeders"
 
 #: allthethings/page/templates/page/home.html:67
 #: allthethings/page/templates/page/torrents.html:35
 msgid "page.home.torrents.legend_range"
-msgstr ""
+msgstr "%(count_min)s–%(count_max)s seeders"
 
 #: allthethings/page/templates/page/home.html:68
 #: allthethings/page/templates/page/torrents.html:36
 msgid "page.home.torrents.legend_greater"
-msgstr ""
+msgstr ">%(count)s seeders"
 
 #: allthethings/page/templates/page/home.html:72
 msgid "page.home.llm.header"
@@ -1746,11 +1759,11 @@ msgstr "Download van partnerwebsite"
 
 #: allthethings/page/templates/page/partner_download.html:14
 msgid "page.partner_download.slow_downloads_official"
-msgstr ""
+msgstr "❌ Trage downloads zijn alleen beschikbaar via de officiële website. Bezoek %(websites)s."
 
 #: allthethings/page/templates/page/partner_download.html:19
 msgid "page.partner_download.main_page"
-msgstr ""
+msgstr "🔗 Alle downloadlinks voor dit bestand: <a %(a_main)s>hoofdpagina van bestand</a>."
 
 #: allthethings/page/templates/page/partner_download.html:25
 msgid "page.partner_download.url"
@@ -1758,11 +1771,11 @@ msgstr "📚 Gebruik de volgende URL om te downloaden: <a %(a_download)s>nu down
 
 #: allthethings/page/templates/page/partner_download.html:25
 msgid "page.partner_download.download_now"
-msgstr ""
+msgstr "Nu downloaden"
 
 #: allthethings/page/templates/page/partner_download.html:26
 msgid "page.partner_download.warning_many_downloads"
-msgstr ""
+msgstr "Waarschuwing: In de afgelopen 24 uur zijn er veel downloads vanaf jouw IP-adres gedaan. Downloads kunnen trager zijn dan gebruikelijk."
 
 #: allthethings/page/templates/page/partner_download.html:32
 msgid "page.partner_download.faster_downloads"
@@ -1770,7 +1783,7 @@ msgstr "🚀 <a %(a_membership)s>Word lid</a> om snellere downloads te krijgen e
 
 #: allthethings/page/templates/page/partner_download.html:37
 msgid "page.partner_download.bulk_mirroring"
-msgstr ""
+msgstr "📡 Bekijk de pagina's <a %(a_datasets)s>Datasets</a> en <a %(a_torrents)s>Torrents</a> voor het spiegelen van onze collectie in bulk."
 
 #: allthethings/page/templates/page/scidb.html:13
 #: allthethings/templates/layouts/index.html:260
@@ -1855,7 +1868,7 @@ msgstr "Nieuwste"
 #: allthethings/page/templates/page/search.html:133
 #: allthethings/page/templates/page/search.html:134
 msgid "page.search.filters.sorting.note_publication_year"
-msgstr ""
+msgstr "(publicatiejaar)"
 
 #: allthethings/page/templates/page/search.html:73
 #: allthethings/page/templates/page/search.html:134
@@ -1871,7 +1884,7 @@ msgstr "Grootste"
 #: allthethings/page/templates/page/search.html:135
 #: allthethings/page/templates/page/search.html:136
 msgid "page.search.filters.sorting.note_filesize"
-msgstr ""
+msgstr "(bestandsgrootte)"
 
 #: allthethings/page/templates/page/search.html:73
 #: allthethings/page/templates/page/search.html:136
@@ -1895,12 +1908,12 @@ msgstr "Zoeken"
 
 #: allthethings/page/templates/page/search.html:95
 msgid "page.search.too_long_broad_query"
-msgstr ""
+msgstr "De zoekopdracht duurde te lang. Dit is gebruikelijk bij brede opdrachten. De filteraantallen kunnen onnauwkeurig zijn."
 
 #: allthethings/page/templates/page/search.html:99
 #: allthethings/page/templates/page/search.html:175
 msgid "page.search.too_inaccurate"
-msgstr ""
+msgstr "De zoekopdracht duurde te lang. Dit kan betekenen dat je onnauwkeurige resultaten te zien krijgt. Soms helpt het om de pagina te <a %(a_reload)s>herladen</a>."
 
 #: allthethings/page/templates/page/search.html:132
 msgid "page.search.filters.sorting.most_relevant"
@@ -1928,15 +1941,15 @@ msgstr "<span class=\"font-bold\">Geen bestanden gevonden.</span> Probeer het me
 
 #: allthethings/page/templates/page/search.html:184
 msgid "page.search.found_matches.main"
-msgstr ""
+msgstr "We hebben overeenkomsten gevonden in %(in)s. Je kunt verwijzen naar de URL daar als je <a %(a_request)s>een bestand aanvraagt</a>."
 
 #: allthethings/page/templates/page/search.html:184
 msgid "page.search.found_matches.digital_lending"
-msgstr ""
+msgstr "Digitaal lenen (%(count)s)"
 
 #: allthethings/page/templates/page/search.html:184
 msgid "page.search.found_matches.metadata"
-msgstr ""
+msgstr "Metadata (%(count)s)"
 
 #: allthethings/page/templates/page/search.html:194
 msgid "page.search.results.partial_more"
@@ -1948,15 +1961,15 @@ msgstr "%(num)d gedeeltelijke overeenkomsten"
 
 #: allthethings/page/templates/page/search.html:203
 msgid "page.search.results.search_downloads"
-msgstr ""
+msgstr "Typ in het veld om onze catalogus van %(count)s direct downloadbare bestanden te doorzoeken, die we <a %(a_preserve)s>voor altijd behouden</a>."
 
 #: allthethings/page/templates/page/search.html:206
 msgid "page.search.results.most_comprehensive"
-msgstr ""
+msgstr "Momenteel hebben we 's werelds meest uitgebreide open catalogus van boeken, papers en andere geschreven werken. We spiegelen Sci-Hub, Library Genesis, Z-Library <a %(a_datasets)s>en meer</a>."
 
 #: allthethings/page/templates/page/search.html:209
 msgid "page.search.results.other_shadow_libs"
-msgstr ""
+msgstr "Als je andere 'schaduwbibliotheken' vindt die we moeten spiegelen of vragen hebt, kun je contact met ons opnemen via <a %(a_email)s>AnnaArchivist@proton.me</a>."
 
 #: allthethings/page/templates/page/search.html:210
 msgid "page.search.results.dmca"
@@ -1968,15 +1981,15 @@ msgstr "Tip: Gebruik de sneltoetsen “/” (focus op zoeken), “Enter” (zoek
 
 #: allthethings/page/templates/page/search.html:218
 msgid "page.search.results.search_digital_lending"
-msgstr ""
+msgstr "Typ in het veld om bestanden in bibliotheken die digitaal uitlenen te zoeken."
 
 #: allthethings/page/templates/page/search.html:221
 msgid "page.search.results.digital_lending_info"
-msgstr ""
+msgstr "Deze zoekindex bevat momenteel metadata van de Controlled Digital Lending-bibliotheek van Internet Archive. <a %(a_datasets)s>Meer informatie over onze datasets</a>."
 
 #: allthethings/page/templates/page/search.html:224
 msgid "page.search.results.digital_lending_info_more"
-msgstr ""
+msgstr "Bekijk <a %(a_wikipedia)s>Wikipedia</a> en <a %(a_mobileread)s>MobileRead Wiki</a> voor meer bibliotheken die digitaal uitlenen."
 
 #: allthethings/page/templates/page/search.html:228
 msgid "page.search.results.search_metadata"
@@ -1984,11 +1997,11 @@ msgstr "Typ in het veld om naar metadata van bibliotheken te zoeken. Dit kan han
 
 #: allthethings/page/templates/page/search.html:231
 msgid "page.search.results.metadata_info"
-msgstr ""
+msgstr "Deze zoekindex bevat momenteel metadata van verschillende bronnen. <a %(a_datasets)s>Meer informatie over onze datasets</a>."
 
 #: allthethings/page/templates/page/search.html:234
 msgid "page.search.results.metadata_info_more"
-msgstr ""
+msgstr "Er zijn vele bronnen met metadata voor geschreven werken van over de hele wereld. <a %(a_wikipedia)s>Deze Wikipedia-pagina</a> is een goed begin, maar als je andere goede lijsten kent, laat het ons dan vooral weten."
 
 #: allthethings/page/templates/page/search.html:238
 msgid "page.search.results.search_generic"
@@ -2020,7 +2033,7 @@ msgstr "We hebben een nieuwe donatiemogelijkheid: %(method_name)s. Overweeg alsj
 
 #: allthethings/templates/layouts/index.html:205
 msgid "layout.index.banners.comics_fundraiser.text"
-msgstr ""
+msgstr "We houden een fondsenwerving om <a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">een kopie</a> van 's werelds grootste schaduwbibliotheek voor stripboeken te maken. Bedankt voor je steun! <a href=\"/donate\">Doneren.</a> En als je niet kunt doneren, probeer ons dan te steunen door je vrienden over ons te vertellen en ons te volgen op <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a> of <a href=\"https://t.me/annasarchiveorg\">Telegram</a>."
 
 #: allthethings/templates/layouts/index.html:270
 #: allthethings/templates/layouts/index.html:271
@@ -2181,7 +2194,7 @@ msgstr "Telegram"
 
 #: allthethings/templates/layouts/index.html:487
 msgid "layout.index.footer.dont_email"
-msgstr ""
+msgstr "Mail ons niet voor <a %(a_request)s>boekaanvragen</a><br>of kleine (<10k) <a %(a_upload)s>uploads</a>."
 
 #: allthethings/templates/layouts/index.html:488
 msgid "layout.index.footer.list2.dmca_copyright"
@@ -2442,4 +2455,3 @@ msgstr "gekopieerd!"
 
 #~ msgid "page.home.torrents.number"
 #~ msgstr ""
-
