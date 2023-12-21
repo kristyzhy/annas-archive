@@ -437,18 +437,21 @@ def get_torrents_data():
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(f'SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 10000')
+        # cursor.execute('SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 50000')
+        cursor.execute('SELECT created, file_path, metadata FROM mariapersist_small_files WHERE mariapersist_small_files.file_path LIKE "torrents/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC LIMIT 50000')
         small_files = cursor.fetchall()
-        cursor.execute(f'SELECT day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 4, 0, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 11, 1, 2)) AS seeder_group, JSON_EXTRACT(mariapersist_small_files.metadata, "$.data_size") / 1000000000000 AS size_tb, DATE_FORMAT(mariapersist_torrent_scrapes.created, "%Y-%m-%d") AS day FROM mariapersist_torrent_scrapes JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created > NOW() - INTERVAL 100 DAY GROUP BY file_path, day) s GROUP BY day, seeder_group ORDER BY day, seeder_group LIMIT 500')
-        histogram = cursor.fetchall()
+        cursor.execute('SELECT * FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)')
+        scrapes_by_file_path = { row['file_path']: row for row in cursor.fetchall() }
 
         group_sizes = collections.defaultdict(int)
-        small_file_dicts_grouped = collections.defaultdict(list)
+        small_file_dicts_grouped_aa = collections.defaultdict(list)
+        small_file_dicts_grouped_external = collections.defaultdict(list)
         aac_meta_file_paths_grouped = collections.defaultdict(list)
         seeder_counts = collections.defaultdict(int)
         seeder_sizes = collections.defaultdict(int)
         for small_file in small_files:
             metadata = orjson.loads(small_file['metadata'])
+            toplevel = small_file['file_path'].split('/')[1]
             group = small_file['file_path'].split('/')[2]
             aac_meta_prefix = 'torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__'
             if small_file['file_path'].startswith(aac_meta_prefix):
@@ -464,9 +467,12 @@ def get_torrents_data():
             if 'ia2_acsmpdf_files' in small_file['file_path']:
                 group = 'ia'
 
+            scrape_row = scrapes_by_file_path.get(small_file['file_path'])
             scrape_metadata = {"scrape":{}}
-            if small_file['scrape_metadata'] is not None:
-                scrape_metadata = orjson.loads(small_file['scrape_metadata'])
+            scrape_created = datetime.datetime.utcnow()
+            if scrape_row is not None:
+                scrape_created = scrape_row['created']
+                scrape_metadata = orjson.loads(scrape_row['metadata'])
                 if scrape_metadata['scrape']['seeders'] < 4:
                     seeder_counts[0] += 1
                     seeder_sizes[0] += metadata['data_size']
@@ -478,16 +484,19 @@ def get_torrents_data():
                     seeder_sizes[2] += metadata['data_size']
 
             group_sizes[group] += metadata['data_size']
-            small_file_dicts_grouped[group].append({ 
-                "created": small_file['created'], # First, so it gets sorted by first.
+            list_to_add = small_file_dicts_grouped_aa[group]
+            if toplevel == 'external':
+                list_to_add = small_file_dicts_grouped_external[group]
+            list_to_add.append({ 
+                "created": small_file['created'].strftime("%Y-%m-%d"), # First, so it gets sorted by first. Also, only year-month-day, so it gets secondarily sorted by file path.
                 "file_path": small_file['file_path'],
                 "metadata": metadata, 
                 "size_string": format_filesize(metadata['data_size']), 
-                "file_path_short": small_file['file_path'].replace('torrents/managed_by_aa/annas_archive_meta__aacid/', '').replace('torrents/managed_by_aa/annas_archive_data__aacid/', '').replace(f'torrents/managed_by_aa/{group}/', ''),
+                "file_path_short": small_file['file_path'].replace('torrents/managed_by_aa/annas_archive_meta__aacid/', '').replace('torrents/managed_by_aa/annas_archive_data__aacid/', '').replace(f'torrents/managed_by_aa/{group}/', '').replace(f'torrents/external/{group}/', ''),
                 "display_name": small_file['file_path'].split('/')[-1], 
                 "scrape_metadata": scrape_metadata, 
-                "scrape_created": small_file['scrape_created'], 
-                "scrape_created_delta": small_file['scrape_created'] - datetime.datetime.now(),
+                "scrape_created": scrape_created, 
+                "scrape_created_delta": scrape_created - datetime.datetime.now(),
                 "is_metadata": (('annas_archive_meta__' in small_file['file_path']) or ('.sql' in small_file['file_path']) or ('-index-' in small_file['file_path']) or ('-derived' in small_file['file_path']) or ('isbndb' in small_file['file_path']) or ('covers-' in small_file['file_path']) or ('-metadata-' in small_file['file_path']) or ('-thumbs' in small_file['file_path']) or ('.csv' in small_file['file_path']))
             })
 
@@ -501,12 +510,14 @@ def get_torrents_data():
             obsolete_file_paths += file_path_list[0:-1]
 
         return {
-            'small_file_dicts_grouped': dict(sorted(small_file_dicts_grouped.items())),
+            'small_file_dicts_grouped': {
+                'managed_by_aa': dict(sorted(small_file_dicts_grouped_aa.items())),
+                'external': dict(sorted(small_file_dicts_grouped_external.items())),
+            },
             'obsolete_file_paths': obsolete_file_paths,
             'group_size_strings': group_size_strings,
             'seeder_counts': seeder_counts,
             'seeder_size_strings': seeder_size_strings,
-            'histogram': histogram,
         }
 
 @page.get("/datasets")
@@ -629,11 +640,18 @@ def fast_download_not_member_page():
 def torrents_page():
     torrents_data = get_torrents_data()
 
-    return render_template(
-        "page/torrents.html",
-        header_active="home/torrents",
-        torrents_data=torrents_data,
-    )
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 4, 0, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 11, 1, 2)) AS seeder_group, JSON_EXTRACT(mariapersist_small_files.metadata, "$.data_size") / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created > NOW() - INTERVAL 100 DAY GROUP BY file_path, created_date) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
+        histogram = cursor.fetchall()
+
+        return render_template(
+            "page/torrents.html",
+            header_active="home/torrents",
+            torrents_data=torrents_data,
+            histogram=histogram,
+        )
 
 @page.get("/torrents.json")
 @allthethings.utils.no_cache()

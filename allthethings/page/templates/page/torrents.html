@@ -11,7 +11,7 @@
     <h2 class="mt-4 mb-1 text-3xl font-bold">Torrents</h2>
 
     <p class="mb-4">
-      These are all the torrents currently managed and released by Anna’s Archive. For more information, see “Our projects” on the <a href="/datasets">Datasets</a> page. For Library Genesis and Sci-Hub torrents, the <a href="https://libgen.li/torrents/">Libgen.li torrents page</a> maintains an overview.
+      These torrents represent the vast majority of human knowledge that can be mirrored in bulk. By seeding these torrents, you help preserve humanity’s legacy.
     </p>
 
     <p class="mb-4">
@@ -19,7 +19,14 @@
     </p>
 
     <p class="mb-4">
-      Torrents with “aac” in the filename use the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents. Some torrents that have messages in their filename are “adopted torrents”, which is a perk of our top tier <a href="/donate">“Amazing Archivist” membership</a>.
+      The list of torrents is split in two parts:<br>
+      1. The first part is managed and released by Anna’s Archive. These include books, papers, and magazines from websites such as Z-Library and Internet Archive. It also includes metadata records from websites such as WorldCat and ISBNdb.<br>
+      2. The second part is managed and released by others, such as Library Genesis and Sci-Hub. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.<br>
+      For more information about the different collections, see the <a href="/datasets">Datasets</a> page.
+    </p>
+
+    <p class="mb-4">
+      We try to keep minimal duplication or overlap between the torrents in this list.
     </p>
 
     <p class="mb-4">
@@ -41,7 +48,7 @@
 
     <script>
       new Promise((resolve, reject) => document.addEventListener("DOMContentLoaded", () => { resolve () })).then(() => {
-        const seedingHistogram = {{ torrents_data.histogram | tojson }};
+        const seedingHistogram = {{ histogram | tojson }};
 
         const colorsBySeederGroup = ['rgb(240,85,79)', 'rgb(255,218,1)', 'rgb(1,180,1)'];
 
@@ -62,37 +69,67 @@
       });
     </script>
 
-    <div class="overflow-hidden max-w-full">
-      <table>
-        {% for group, small_files in torrents_data.small_file_dicts_grouped.items() %}
-          <tr><td colspan="100" class="pt-4"><span class="text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }}</span> <span class="text-xs text-gray-500">{{ torrents_data.group_size_strings[group] }}</span> <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [td:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a>
+    {% for toplevel, groups in torrents_data.small_file_dicts_grouped.items() %}
+      {% if toplevel == 'managed_by_aa' %}
+        <h2 class="mt-8 text-2xl font-bold">Managed by Anna’s Archive</h2>
 
-            {% if group == 'libgenli_comics' %}
-              <div class="mb-1 text-sm">Comics and magazines from Libgen.li. <a href="/datasets/libgen_li">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html">blog</a></div>
-            {% elif group == 'zlib' %}
-              <div class="mb-1 text-sm">Z-Library books. <a href="/datasets/zlib">dataset</a></div>
-            {% elif group == 'isbndb' %}
-              <div class="mb-1 text-sm">ISBNdb metadata. <a href="/datasets/isbndb">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">blog</a></div>
-            {% elif group == 'libgenrs_covers' %}
-              <div class="mb-1 text-sm">Book covers from Libgen.rs. <a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/annas-update-open-source-elasticsearch-covers.html">blog</a></div>
-            {% elif group == 'ia' %}
-              <div class="mb-1 text-sm">Internet Archive Controlled Digital Lending books and magazines. <a href="/datasets/ia">dataset</a></div>
-            {% elif group == 'worldcat' %}
-              <div class="mb-1 text-sm">Metadata from OCLC/Worldcat. <a href="/datasets/worldcat">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/worldcat-scrape.html">blog</a></div>
-            {% endif %}
-          </td></tr>
+        <p class="mb-4">
+          These torrents are managed and released by Anna’s Archive.
+        </p>
 
-          {% for small_file in small_files %}
-            <tr class="{% if small_file.file_path in torrents_data.obsolete_file_paths %}line-through{% endif %}">
-              <td class="pb-1 max-md:break-all"><a href="/small_file/{{ small_file.file_path }}">{{ small_file.file_path_short }}</a><a class="ml-2 text-sm whitespace-nowrap" href="magnet:?xt=urn:btih:{{ small_file.metadata.btih }}&dn={{ small_file.display_name | urlencode }}&tr=udp://tracker.opentrackr.org:1337/announce">magnet</a></td>
-              <td class="text-sm pb-1 pl-2 md:whitespace-nowrap">{{ small_file.created | datetimeformat('yyyy-MM-dd') }}</td>
-              <td class="text-sm pb-1 pl-2 whitespace-nowrap">{{ small_file.size_string }}</td>
-              <td class="text-sm pb-1 pl-2 whitespace-nowrap max-md:hidden">{% if small_file.is_metadata %}metadata{% else %}data{% endif %}</td>
-              <td class="text-sm pb-1 pl-2 pr-2 lg:whitespace-nowrap">{% if small_file.scrape_metadata.scrape %}<span class="text-[10px] leading-none align-[2px]">{% if small_file.scrape_metadata.scrape.seeders < 4 %}<span title="<4 seeders">🔴</span>{% elif small_file.scrape_metadata.scrape.seeders < 11 %}<span title="4–10 seeders">🟡</span>{% else %}<span title=">10 seeders">🟢</span>{% endif %}</span> {{ small_file.scrape_metadata.scrape.seeders }}&nbsp;seed / {{ small_file.scrape_metadata.scrape.leechers }}&nbsp;leech <span class="max-md:hidden text-xs text-gray-500 whitespace-nowrap" title="{{ small_file.scrape_created | datetimeformat(format='long') }}">{{ small_file.scrape_created_delta | timedeltaformat(add_direction=True) }}</span>{% endif %}</td>
-            </tr>
+        <p class="mb-0">
+          Torrents with “aac” in the filename use the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents. Some torrents that have messages in their filename are “adopted torrents”, which is a perk of our top tier <a href="/donate">“Amazing Archivist” membership</a>.
+        </p>
+      {% else %}
+        <h2 class="mt-8 text-2xl font-bold">External Collections</h2>
+
+        <p class="mb-4">
+          These torrents are managed and released by others. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.
+        </p>
+
+        <p class="mb-0">
+          This list is very long, so we hide it by default. <a href="#" onclick="event.preventDefault(); document.querySelector('.js-external-list').classList.remove('hidden'); this.classList.add('hidden')">Show all external torrents.</a>
+        </p>
+      {% endif %}
+
+      <div class="overflow-hidden max-w-full {% if toplevel == 'external' %}hidden js-external-list{% endif %}">
+        <table>
+          {% for group, small_files in groups.items() %}
+            <tr><td colspan="100" class="pt-4"><span class="text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }}</span> <span class="text-xs text-gray-500">{{ torrents_data.group_size_strings[group] }}</span> <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [td:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a>
+
+              {% if group == 'libgenli_comics' %}
+                <div class="mb-1 text-sm">Comics and magazines from Libgen.li. <a href="/datasets/libgen_li">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html">blog</a></div>
+              {% elif group == 'zlib' %}
+                <div class="mb-1 text-sm">Z-Library books. <a href="/datasets/zlib">dataset</a></div>
+              {% elif group == 'isbndb' %}
+                <div class="mb-1 text-sm">ISBNdb metadata. <a href="/datasets/isbndb">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">blog</a></div>
+              {% elif group == 'libgenrs_covers' %}
+                <div class="mb-1 text-sm">Book covers from Libgen.rs. <a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/annas-update-open-source-elasticsearch-covers.html">blog</a></div>
+              {% elif group == 'ia' %}
+                <div class="mb-1 text-sm">Internet Archive Controlled Digital Lending books and magazines. <a href="/datasets/ia">dataset</a></div>
+              {% elif group == 'worldcat' %}
+                <div class="mb-1 text-sm">Metadata from OCLC/Worldcat. <a href="/datasets/worldcat">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/worldcat-scrape.html">blog</a></div>
+              {% elif group == 'libgen_rs_non_fic' %}
+                <div class="mb-1 text-sm">Non-fiction book collection from Libgen.rs. <a href="/datasets/libgen_rs">dataset</a></div>
+              {% elif group == 'libgen_rs_fic' %}
+                <div class="mb-1 text-sm">Fiction book collection from Libgen.rs. <a href="/datasets/libgen_rs">dataset</a></div>
+              {% elif group == 'scihub' %}
+                <div class="mb-1 text-sm">Sci-Hub / “scimag” collection of academic papers. <a href="/datasets/scihub">dataset</a></div>
+              {% endif %}
+            </td></tr>
+
+            {% for small_file in small_files %}
+              <tr class="{% if small_file.file_path in torrents_data.obsolete_file_paths %}line-through{% endif %}">
+                <td class="pb-1 max-md:break-all"><a href="/small_file/{{ small_file.file_path }}">{{ small_file.file_path_short }}</a><a class="ml-2 text-sm whitespace-nowrap" href="magnet:?xt=urn:btih:{{ small_file.metadata.btih }}&dn={{ small_file.display_name | urlencode }}&tr=udp://tracker.opentrackr.org:1337/announce">magnet</a></td>
+                <td class="text-sm pb-1 pl-2 md:whitespace-nowrap">{{ small_file.created }}</td>
+                <td class="text-sm pb-1 pl-2 whitespace-nowrap">{{ small_file.size_string }}</td>
+                <td class="text-sm pb-1 pl-2 whitespace-nowrap max-md:hidden">{% if small_file.is_metadata %}metadata{% else %}data{% endif %}</td>
+                <td class="text-sm pb-1 pl-2 pr-2 lg:whitespace-nowrap">{% if small_file.scrape_metadata.scrape %}<span class="text-[10px] leading-none align-[2px]">{% if small_file.scrape_metadata.scrape.seeders < 4 %}<span title="<4 seeders">🔴</span>{% elif small_file.scrape_metadata.scrape.seeders < 11 %}<span title="4–10 seeders">🟡</span>{% else %}<span title=">10 seeders">🟢</span>{% endif %}</span> {{ small_file.scrape_metadata.scrape.seeders }}&nbsp;seed / {{ small_file.scrape_metadata.scrape.leechers }}&nbsp;leech <span class="max-md:hidden text-xs text-gray-500 whitespace-nowrap" title="{{ small_file.scrape_created | datetimeformat(format='long') }}">{{ small_file.scrape_created_delta | timedeltaformat(add_direction=True) }}</span>{% endif %}</td>
+              </tr>
+            {% endfor %}
           {% endfor %}
-        {% endfor %}
-      </table>
-    </div>
+        </table>
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}

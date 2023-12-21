@@ -59,7 +59,7 @@ docker exec -it aa-data-import--web /scripts/load_worldcat.sh
 docker exec -it aa-data-import--web /scripts/check_after_imports.sh
 
 # Sanity check to make sure the tables are filled.
-docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
+docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1000 / 1000 / 1000), 2) AS "Size (GB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
 
 # Calculate derived data:
 docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s && docker exec -it aa-data-import--web flask cli elastic_reset_aarecords && docker exec -it aa-data-import--web flask cli elastic_build_aarecords_all

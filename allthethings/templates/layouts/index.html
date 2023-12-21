@@ -182,7 +182,19 @@
                   <!-- <span class="text-xs">我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。此外，我们正在寻找希望放置小而别致广告的公司。</span> -->
                 </div>
                 <div>
-                  <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
+                  <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <!-- blue -->
+            <div class="bg-[#0195ff] hidden js-top-banner">
+              <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
+                <div>
+                  🎄 <strong>Saving human knowledge: a great holiday gift!</strong> ❄️ Surprise a loved one by giving them an account with membership. <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a>
+                </div>
+                <div>
+                  <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
                 </div>
               </div>
             </div>
@@ -234,7 +246,7 @@
           <script>
             (function() {
               if (document.querySelector('.js-top-banner')) {
-                var latestTopBannerType = '7';
+                var latestTopBannerType = '8';
                 var topBannerMatch = document.cookie.match(/top_banner_hidden=([^$ ;}]+)/);
                 var topBannerType = '';
                 if (topBannerMatch) {
