@@ -178,8 +178,8 @@ CREATE TABLE mariapersist_torrent_scrapes (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 ALTER TABLE mariapersist_torrent_scrapes ADD COLUMN `created_date` DATE NOT NULL DEFAULT CURDATE();
 
-INSERT INTO `mariapersist_torrent_scrapes` VALUES
-('torrents/managed_by_aa/libgenli_comics/aa_lgli_comics_2022_08_files.sql.gz.torrent','2023-07-17 22:52:47','{"scrape":{"seeders":2,"completed":75,"leechers":1}}');
+INSERT INTO `mariapersist_torrent_scrapes` (file_path, created, created_date, metadata) VALUES
+('torrents/managed_by_aa/libgenli_comics/aa_lgli_comics_2022_08_files.sql.gz.torrent','2023-07-17 22:52:47','2023-07-17','{"scrape":{"seeders":2,"completed":75,"leechers":1}}');
 
 -- CREATE TABLE mariapersist_searches (
 --     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
