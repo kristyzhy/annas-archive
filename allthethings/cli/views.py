@@ -29,6 +29,7 @@ import click
 import pymysql.cursors
 import more_itertools
 import indexed_zstd
+import hashlib
 
 import allthethings.utils
 
@@ -280,10 +281,18 @@ def elastic_build_aarecords_job(aarecord_ids):
             isbn13_oclc_insert_data = []
             session.connection().connection.ping(reconnect=True)
             cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-            cursor.execute(f'SELECT 1;')
+            # cursor.execute(f'SELECT 1;')
+            cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json JSON NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
             cursor.close()
             aarecords = get_aarecords_mysql(session, aarecord_ids)
+            aarecords_all_insert_data = []
             for aarecord in aarecords:
+                aarecords_all_insert_data.append({
+                    'hashed_aarecord_id': hashlib.md5(aarecord['id'].encode()).digest(),
+                    'aarecord_id': aarecord['id'],
+                    'md5': bytes.fromhex(aarecord['id'].split(':', 1)[1]) if aarecord['id'].startswith('md5:') else None,
+                    'json': orjson.dumps(aarecord),
+                })
                 for index in aarecord['indexes']:
                     operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
                 for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
@@ -304,7 +313,7 @@ def elastic_build_aarecords_job(aarecord_ids):
             if len(isbn13_oclc_insert_data) > 0:
                 session.connection().connection.ping(reconnect=True)
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-                cursor.executemany(f"INSERT IGNORE INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s)", isbn13_oclc_insert_data)
+                cursor.executemany(f"INSERT INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s) ON DUPLICATE KEY UPDATE isbn13=isbn13", isbn13_oclc_insert_data)
                 cursor.execute('COMMIT')
                 cursor.close()
                 
@@ -330,7 +339,7 @@ def elastic_build_aarecords_job(aarecord_ids):
 
             session.connection().connection.ping(reconnect=True)
             cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-            cursor.execute(f'SELECT 1;')
+            cursor.executemany(f'INSERT INTO aarecords_all (hashed_aarecord_id, aarecord_id, md5, json) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(md5)s, %(json)s) ON DUPLICATE KEY UPDATE json=json', aarecords_all_insert_data)
             cursor.close()
     except Exception as err:
         print(repr(err))
