@@ -2,9 +2,14 @@
 import AriaTablist from 'aria-tablist';
 import Plotly from 'plotly.js-basic-dist-min';
 import PDFObject from 'pdfobject';
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
 
 window.Plotly = Plotly;
 window.PDFObject = PDFObject;
+
+TimeAgo.addDefaultLocale(en)
+window.timeAgo = new TimeAgo('en-US')
 
 
 // const microsoftWithMsn = microsoft.concat(

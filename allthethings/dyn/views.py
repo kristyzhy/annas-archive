@@ -18,14 +18,15 @@ import email.policy
 import traceback
 import curlify2
 import babel.numbers as babel_numbers
+import io
 
-from flask import Blueprint, request, g, make_response, render_template, redirect
+from flask import Blueprint, request, g, make_response, render_template, redirect, send_file
 from flask_cors import cross_origin
 from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import format_timedelta, gettext, get_locale
 
-from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
+from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess, MariapersistSmallFiles
 from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT1B_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
 from allthethings.page.views import get_aarecords_elasticsearch, ES_TIMEOUT_PRIMARY
 
@@ -60,6 +61,52 @@ def databases():
     if not es_aux.ping():
         raise Exception("es_aux.ping failed!")
     return ""
+
+@dyn.get("/torrents.txt")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+def torrents_txt_page():
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT file_path FROM mariapersist_small_files WHERE file_path LIKE "torrents/managed_by_aa/%" ORDER BY file_path LIMIT 50000')
+        small_files_aa = list(cursor.fetchall())
+        cursor.execute('SELECT file_path FROM mariapersist_small_files WHERE file_path LIKE "torrents/external/%" ORDER BY file_path LIMIT 50000')
+        small_files_external = list(cursor.fetchall())
+    return render_template(
+        "dyn/torrents.txt",
+        small_files=small_files_aa + small_files_external
+    ), {'Content-Type': 'text/plain; charset=utf-8'}
+
+@dyn.get("/torrents.json")
+@allthethings.utils.no_cache()
+def torrents_json_page():
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT file_path, created, metadata FROM mariapersist_small_files WHERE file_path LIKE "torrents/%" ORDER BY file_path LIMIT 50000')
+        return orjson.dumps([{ **file, "metadata": orjson.loads(file['metadata']) } for file in cursor.fetchall()]), {'Content-Type': 'text/json; charset=utf-8'}
+
+@dyn.get("/torrents/latest_aac_meta/<string:collection>.torrent")
+@allthethings.utils.no_cache()
+def torrents_latest_aac_page(collection):
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT data FROM mariapersist_small_files WHERE file_path LIKE CONCAT("torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__", %(collection)s, "%%") ORDER BY created DESC LIMIT 1', { "collection": collection })
+        file = cursor.fetchone()
+        if file is None:
+            return "File not found", 404
+        return send_file(io.BytesIO(file['data']), as_attachment=True, download_name=f'{collection}.torrent')
+
+@dyn.get("/small_file/<path:file_path>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def small_file_page(file_path):
+    with mariapersist_engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        file = connection.execute(select(MariapersistSmallFiles.data).where(MariapersistSmallFiles.file_path == file_path).limit(10000)).first()
+        if file is None:
+            return "File not found", 404
+        return send_file(io.BytesIO(file.data), as_attachment=True, download_name=file_path.split('/')[-1])
 
 @dyn.post("/downloads/increment/<string:md5_input>")
 @allthethings.utils.no_cache()

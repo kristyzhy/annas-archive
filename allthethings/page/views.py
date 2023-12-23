@@ -250,7 +250,7 @@ def add_comments_to_dict(before_dict, comments):
     return after_dict
 
 @page.get("/")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def home_page():
     torrents_data = get_torrents_data()
     return render_template("page/home.html", header_active="home/home", torrents_data=torrents_data)
@@ -484,10 +484,12 @@ def get_torrents_data():
                     seeder_sizes[2] += metadata['data_size']
 
             group_sizes[group] += metadata['data_size']
-            list_to_add = small_file_dicts_grouped_aa[group]
             if toplevel == 'external':
                 list_to_add = small_file_dicts_grouped_external[group]
-            list_to_add.append({ 
+            else:
+                list_to_add = small_file_dicts_grouped_aa[group]
+            list_to_add.append({
+                "temp_uuid": shortuuid.uuid(),
                 "created": small_file['created'].strftime("%Y-%m-%d"), # First, so it gets sorted by first. Also, only year-month-day, so it gets secondarily sorted by file path.
                 "file_path": small_file['file_path'],
                 "metadata": metadata, 
@@ -496,7 +498,6 @@ def get_torrents_data():
                 "display_name": small_file['file_path'].split('/')[-1], 
                 "scrape_metadata": scrape_metadata, 
                 "scrape_created": scrape_created, 
-                "scrape_created_delta": scrape_created - datetime.datetime.now(),
                 "is_metadata": (('annas_archive_meta__' in small_file['file_path']) or ('.sql' in small_file['file_path']) or ('-index-' in small_file['file_path']) or ('-derived' in small_file['file_path']) or ('isbndb' in small_file['file_path']) or ('covers-' in small_file['file_path']) or ('-metadata-' in small_file['file_path']) or ('-thumbs' in small_file['file_path']) or ('.csv' in small_file['file_path']))
             })
 
@@ -636,7 +637,7 @@ def fast_download_not_member_page():
     return render_template("page/fast_download_not_member.html", header_active="")
 
 @page.get("/torrents")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=10)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def torrents_page():
     torrents_data = get_torrents_data()
 
@@ -645,50 +646,18 @@ def torrents_page():
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 4, 0, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 11, 1, 2)) AS seeder_group, JSON_EXTRACT(mariapersist_small_files.metadata, "$.data_size") / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created > NOW() - INTERVAL 100 DAY GROUP BY file_path, created_date) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
+        show_external = request.args.get("show_external", "").strip() == "1"
+
+        if not show_external:
+            torrents_data["small_file_dicts_grouped"]["external"] = {}
 
         return render_template(
             "page/torrents.html",
             header_active="home/torrents",
             torrents_data=torrents_data,
             histogram=histogram,
+            show_external=show_external,
         )
-
-@page.get("/torrents.json")
-@allthethings.utils.no_cache()
-def torrents_json_page():
-    with mariapersist_engine.connect() as connection:
-        connection.connection.ping(reconnect=True)
-        small_files = connection.execute(select(MariapersistSmallFiles.created, MariapersistSmallFiles.file_path, MariapersistSmallFiles.metadata).where(MariapersistSmallFiles.file_path.like("torrents/managed_by_aa/%")).order_by(MariapersistSmallFiles.created.asc()).limit(10000)).all()
-        output_json = []
-        for small_file in small_files:
-            output_json.append({ 
-                "file_path": small_file.file_path,
-                "metadata": orjson.loads(small_file.metadata),
-            })
-        return orjson.dumps({ "small_files": output_json })
-
-@page.get("/torrents/latest_aac_meta/<string:collection>.torrent")
-@allthethings.utils.no_cache()
-def torrents_latest_aac_page(collection):
-    with mariapersist_engine.connect() as connection:
-        connection.connection.ping(reconnect=True)
-        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT data FROM mariapersist_small_files WHERE file_path LIKE CONCAT("torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__", %(collection)s, "%%") ORDER BY created DESC LIMIT 1', { "collection": collection })
-        file = cursor.fetchone()
-        if file is None:
-            return "File not found", 404
-        return send_file(io.BytesIO(file['data']), as_attachment=True, download_name=f'{collection}.torrent')
-
-@page.get("/small_file/<path:file_path>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
-def small_file_page(file_path):
-    with mariapersist_engine.connect() as connection:
-        connection.connection.ping(reconnect=True)
-        file = connection.execute(select(MariapersistSmallFiles.data).where(MariapersistSmallFiles.file_path == file_path).limit(10000)).first()
-        if file is None:
-            return "File not found", 404
-        return send_file(io.BytesIO(file.data), as_attachment=True, download_name=file_path.split('/')[-1])
-
 
 zlib_book_dict_comments = {
     **allthethings.utils.COMMON_DICT_COMMENTS,
