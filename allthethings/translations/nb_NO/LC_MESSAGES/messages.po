@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-23 12:56+0000\n"
-"PO-Revision-Date: 2023-12-23 12:56+0000\n"
+"PO-Revision-Date: 2023-12-23 23:05+0000\n"
 "Last-Translator: Plantera <pn76br72i@relay.firefox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nb_NO\n"
@@ -70,23 +70,23 @@ msgstr "Feil metadata (f.eks. tittel, beskrivelse, forsidebilde)"
 
 #: allthethings/utils.py:222
 msgid "common.md5_report_type_mapping.download"
-msgstr ""
+msgstr "Problemer med nedlasting (f.eks. kan ikke koble til, feilmelding, veldig treg)"
 
 #: allthethings/utils.py:223
 msgid "common.md5_report_type_mapping.broken"
-msgstr ""
+msgstr "Fil kan ikke åpnes (f.eks. korruptert fil, DRM)"
 
 #: allthethings/utils.py:224
 msgid "common.md5_report_type_mapping.pages"
-msgstr ""
+msgstr "Dårlig kvalitet (f.eks. problemer med formatering, dårlig kvaltitet på skanning, manglende sider)"
 
 #: allthethings/utils.py:225
 msgid "common.md5_report_type_mapping.spam"
-msgstr ""
+msgstr "Spam / fil burde fjernes (f.eks. reklame, støtende innhold)"
 
 #: allthethings/utils.py:226
 msgid "common.md5_report_type_mapping.copyright"
-msgstr ""
+msgstr "Opphavsrettskrav"
 
 #: allthethings/utils.py:227
 msgid "common.md5_report_type_mapping.other"
@@ -110,7 +110,7 @@ msgstr "Strålende arkivar"
 
 #: allthethings/utils.py:357
 msgid "common.membership.format_currency.total_with_usd"
-msgstr ""
+msgstr "%(amount)s%(amount_usd)s totalt"
 
 #: allthethings/utils.py:359 allthethings/utils.py:360
 msgid "common.membership.format_currency.amount_with_usd"
@@ -118,7 +118,7 @@ msgstr "%(amount)s (%(amount_usd)s)"
 
 #: allthethings/utils.py:371
 msgid "common.membership.format_currency.total"
-msgstr ""
+msgstr "%(amount)s totalt"
 
 #: allthethings/account/views.py:260
 msgid "common.donation.order_processing_status_labels.0"
@@ -147,11 +147,11 @@ msgstr "Doner"
 
 #: allthethings/account/templates/account/donate.html:11
 msgid "page.donate.header.existing_unpaid_donation"
-msgstr ""
+msgstr "Du har en <a %(a_donation)s>eksisterende donasjon</a> pågående. Fullfør eller avbryt donasjonen før du starter en ny donasjon."
 
 #: allthethings/account/templates/account/donate.html:13
 msgid "page.donate.header.existing_unpaid_donation_view_all"
-msgstr ""
+msgstr "<a %(a_all_donations)s>Se alle mine donasjoner</a>"
 
 #: allthethings/account/templates/account/donate.html:20
 msgid "page.donate.header.text1"
@@ -166,32 +166,32 @@ msgstr "For mer informasjon, sjekk våres <a href=\"/donation_faq\">Donasjon OSS
 #: allthethings/account/templates/account/donate.html:57
 #: allthethings/account/templates/account/donate.html:71
 msgid "page.donate.buttons.join"
-msgstr ""
+msgstr "Bli med"
 
 #: allthethings/account/templates/account/donate.html:30
 #: allthethings/account/templates/account/donate.html:44
 #: allthethings/account/templates/account/donate.html:58
 #: allthethings/account/templates/account/donate.html:72
 msgid "page.donate.buttons.selected"
-msgstr ""
+msgstr "Valgt"
 
 #: allthethings/account/templates/account/donate.html:32
 #: allthethings/account/templates/account/donate.html:46
 #: allthethings/account/templates/account/donate.html:60
 #: allthethings/account/templates/account/donate.html:74
 msgid "page.donate.buttons.up_to_discounts"
-msgstr ""
+msgstr "opp til %(percentage)s avslag"
 
 #: allthethings/account/templates/account/donate.html:34
 #: allthethings/account/templates/account/donate.html:49
 #: allthethings/account/templates/account/donate.html:63
 #: allthethings/account/templates/account/donate.html:77
 msgid "page.donate.perks.fast_downloads"
-msgstr ""
+msgstr "%(number)s raske nedlastinger hver dag"
 
 #: allthethings/account/templates/account/donate.html:35
 msgid "page.donate.perks.scidb"
-msgstr ""
+msgstr "SciDB journaler <strong>ubegrenset</strong> uten bekreftelse"
 
 #: allthethings/account/templates/account/donate.html:36
 msgid "page.donate.perks.credits"
@@ -201,11 +201,11 @@ msgstr ""
 #: allthethings/account/templates/account/donate.html:62
 #: allthethings/account/templates/account/donate.html:76
 msgid "page.donate.perks.previous_plus"
-msgstr ""
+msgstr "Tidligere fordeler, og:"
 
 #: allthethings/account/templates/account/donate.html:50
 msgid "page.donate.perks.early_access"
-msgstr ""
+msgstr "Tidlig tilgang til nye funksjoner"
 
 #: allthethings/account/templates/account/donate.html:64
 msgid "page.donate.perks.exclusive_telegram"
@@ -213,23 +213,23 @@ msgstr ""
 
 #: allthethings/account/templates/account/donate.html:78
 msgid "page.donate.perks.adopt"
-msgstr ""
+msgstr "\"Adopter en torrent\": brukernavnet ditt eller en melding i filnavnet til en torrent-fil <div %(div_months)s>en gang hver 12. måned med medlemskap</div>"
 
 #: allthethings/account/templates/account/donate.html:85
 msgid "page.donate.expert.title"
-msgstr ""
+msgstr "Eksperttilgang"
 
 #: allthethings/account/templates/account/donate.html:89
 msgid "page.donate.expert.unlimited_access"
-msgstr ""
+msgstr "<strong>Ubegrenset</strong> høy-hastighet tilgang"
 
 #: allthethings/account/templates/account/donate.html:90
 msgid "page.donate.expert.direct_sftp"
-msgstr ""
+msgstr "Direkte <strong>SFTP</strong> servere"
 
 #: allthethings/account/templates/account/donate.html:93
 msgid "page.donate.expert.enterprise_donation"
-msgstr ""
+msgstr "Donasjon på bedriftsnivå eller utveksling for nye samlinger på bedriftsnivå (f.eks. nye skanninger, OCR-baserte datasett)."
 
 #: allthethings/account/templates/account/donate.html:98
 msgid "page.donate.header.large_donations"
