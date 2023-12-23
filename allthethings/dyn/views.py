@@ -62,6 +62,9 @@ def databases():
         raise Exception("es_aux.ping failed!")
     return ""
 
+def make_torrent_url(file_path):
+    return f"{g.full_domain}/dyn/small_file/{file_path}"
+
 @dyn.get("/torrents.txt")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def torrents_txt_page():
@@ -72,21 +75,18 @@ def torrents_txt_page():
         small_files_aa = list(cursor.fetchall())
         cursor.execute('SELECT file_path FROM mariapersist_small_files WHERE file_path LIKE "torrents/external/%" ORDER BY file_path LIMIT 50000')
         small_files_external = list(cursor.fetchall())
-    return render_template(
-        "dyn/torrents.txt",
-        small_files=small_files_aa + small_files_external
-    ), {'Content-Type': 'text/plain; charset=utf-8'}
+        output_text = '\n'.join(make_torrent_url(small_file['file_path']) for small_file in (small_files_aa + small_files_external))
+    return output_text, {'Content-Type': 'text/plain; charset=utf-8'}
 
 def make_torrent_json(small_file):
     metadata = orjson.loads(small_file['metadata'])
     return { 
-        'url': f"{g.full_domain}/dyn/small_file/{small_file['file_path']}",
+        'url': make_torrent_url(small_file['file_path']),
         'btih': metadata['btih'],
         'torrent_size': metadata['torrent_size'],
         'num_files': metadata['num_files'],
         'data_size': metadata['data_size'],
     }
-
 
 @dyn.get("/torrents.json")
 @allthethings.utils.no_cache()
