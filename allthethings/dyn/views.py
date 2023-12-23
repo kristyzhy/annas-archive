@@ -77,14 +77,28 @@ def torrents_txt_page():
         small_files=small_files_aa + small_files_external
     ), {'Content-Type': 'text/plain; charset=utf-8'}
 
+def make_torrent_json(small_file):
+    metadata = orjson.loads(small_file['metadata'])
+    return { 
+        'url': f"{g.full_domain}/dyn/small_file/{small_file['file_path']}",
+        'btih': metadata['btih'],
+        'torrent_size': metadata['torrent_size'],
+        'num_files': metadata['num_files'],
+        'data_size': metadata['data_size'],
+    }
+
+
 @dyn.get("/torrents.json")
 @allthethings.utils.no_cache()
 def torrents_json_page():
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT file_path, created, metadata FROM mariapersist_small_files WHERE file_path LIKE "torrents/%" ORDER BY file_path LIMIT 50000')
-        return orjson.dumps([{ **file, "metadata": orjson.loads(file['metadata']) } for file in cursor.fetchall()]), {'Content-Type': 'text/json; charset=utf-8'}
+        cursor.execute('SELECT file_path, created, metadata FROM mariapersist_small_files WHERE file_path LIKE "torrents/managed_by_aa/%" ORDER BY file_path LIMIT 50000')
+        small_files_aa = [make_torrent_json(small_file) for small_file in cursor.fetchall()]
+        cursor.execute('SELECT file_path, created, metadata FROM mariapersist_small_files WHERE file_path LIKE "torrents/external/%" ORDER BY file_path LIMIT 50000')
+        small_files_external = [make_torrent_json(small_file) for small_file in cursor.fetchall()]
+        return orjson.dumps(small_files_aa + small_files_external), {'Content-Type': 'text/json; charset=utf-8'}
 
 @dyn.get("/torrents/latest_aac_meta/<string:collection>.torrent")
 @allthethings.utils.no_cache()
