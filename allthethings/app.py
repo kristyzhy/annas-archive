@@ -5,6 +5,7 @@ import base64
 import sys
 import time
 import babel.numbers as babel_numbers
+import multiprocessing
 
 from celery import Celery
 from flask import Flask, request, g
@@ -24,6 +25,8 @@ from allthethings.extensions import engine, mariapersist_engine, babel, debug_to
 from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, X_AA_SECRET
 
 import allthethings.utils
+
+multiprocessing.set_start_method('spawn', force=True)
 
 # Rewrite `annas-blog.org` to `/blog` as a workaround for Flask not nicely supporting multiple domains.
 # Also strip `/blog` if we encounter it directly, to avoid duplicating it.
@@ -96,7 +99,6 @@ def create_app(settings_override=None):
     extensions(app)
 
     return app
-
 
 def extensions(app):
     """

@@ -272,59 +272,59 @@ def elastic_reset_aarecords_internal():
     es_aux.indices.create(index='aarecords_digital_lending', body=body)
     es_aux.indices.create(index='aarecords_metadata', body=body)
 
+
+
+elastic_build_aarecords_job_app = None
 def elastic_build_aarecords_job(aarecord_ids):
-    try:
-        aarecord_ids = list(aarecord_ids)
-        with Session(engine) as session:
-            operations_by_es_handle = collections.defaultdict(list)
-            dois = []
-            isbn13_oclc_insert_data = []
-            session.connection().connection.ping(reconnect=True)
-            cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-            # cursor.execute(f'SELECT 1;')
-            cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json JSON NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-            cursor.close()
-            aarecords = get_aarecords_mysql(session, aarecord_ids)
-            aarecords_all_insert_data = []
-            for aarecord in aarecords:
-                aarecords_all_insert_data.append({
-                    'hashed_aarecord_id': hashlib.md5(aarecord['id'].encode()).digest(),
-                    'aarecord_id': aarecord['id'],
-                    'md5': bytes.fromhex(aarecord['id'].split(':', 1)[1]) if aarecord['id'].startswith('md5:') else None,
-                    'json': orjson.dumps(aarecord),
-                })
-                for index in aarecord['indexes']:
-                    operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
-                for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
-                    dois.append(doi)
-                if aarecord['id'].startswith('oclc:'):
-                    for isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-                        isbn13_oclc_insert_data.append({ "isbn13": isbn13, "oclc_id": int(aarecord['id'].split(':', 1)[1]) })
-
-            if (aarecord_ids[0].startswith('md5:')) and (len(dois) > 0):
-                dois = list(set(dois))
+    global elastic_build_aarecords_job_app
+    if elastic_build_aarecords_job_app is None:
+        from allthethings.app import create_app
+        elastic_build_aarecords_job_app = create_app()
+    with elastic_build_aarecords_job_app.app_context():
+        try:
+            aarecord_ids = list(aarecord_ids)
+            # print(f"[{os.getpid()}] elastic_build_aarecords_job start {len(aarecord_ids)}")
+            with Session(engine) as session:
+                operations_by_es_handle = collections.defaultdict(list)
+                dois = []
+                isbn13_oclc_insert_data = []
                 session.connection().connection.ping(reconnect=True)
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-                count = cursor.execute(f'DELETE FROM scihub_dois_without_matches WHERE doi IN %(dois)s', { "dois": dois })
-                cursor.execute('COMMIT')
-                cursor.close()
-                # print(f'Deleted {count} DOIs')
+                cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json JSON NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+                # print(f"[{os.getpid()}] elastic_build_aarecords_job set up aa_records_all")
+                aarecords = get_aarecords_mysql(session, aarecord_ids)
+                # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
+                aarecords_all_insert_data = []
+                for aarecord in aarecords:
+                    aarecords_all_insert_data.append({
+                        'hashed_aarecord_id': hashlib.md5(aarecord['id'].encode()).digest(),
+                        'aarecord_id': aarecord['id'],
+                        'md5': bytes.fromhex(aarecord['id'].split(':', 1)[1]) if aarecord['id'].startswith('md5:') else None,
+                        'json': orjson.dumps(aarecord),
+                    })
+                    for index in aarecord['indexes']:
+                        operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
+                    for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
+                        dois.append(doi)
+                    if aarecord['id'].startswith('oclc:'):
+                        for isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+                            isbn13_oclc_insert_data.append({ "isbn13": isbn13, "oclc_id": int(aarecord['id'].split(':', 1)[1]) })
+                # print(f"[{os.getpid()}] elastic_build_aarecords_job finished for loop")
 
-            if len(isbn13_oclc_insert_data) > 0:
-                session.connection().connection.ping(reconnect=True)
-                cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-                cursor.executemany(f"INSERT INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s) ON DUPLICATE KEY UPDATE isbn13=isbn13", isbn13_oclc_insert_data)
-                cursor.execute('COMMIT')
-                cursor.close()
-                
-            try:
-                for es_handle, operations in operations_by_es_handle.items():
-                    elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
-            except Exception as err:
-                if hasattr(err, 'errors'):
-                    print(err.errors)
-                print(repr(err))
-                print("Got the above error; retrying..")
+                if (aarecord_ids[0].startswith('md5:')) and (len(dois) > 0):
+                    dois = list(set(dois))
+                    session.connection().connection.ping(reconnect=True)
+                    count = cursor.execute(f'DELETE FROM scihub_dois_without_matches WHERE doi IN %(dois)s', { "dois": dois })
+                    cursor.execute('COMMIT')
+                    # print(f'Deleted {count} DOIs')
+
+                if len(isbn13_oclc_insert_data) > 0:
+                    session.connection().connection.ping(reconnect=True)
+                    cursor.executemany(f"INSERT INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s) ON DUPLICATE KEY UPDATE isbn13=isbn13", isbn13_oclc_insert_data)
+                    cursor.execute('COMMIT')
+
+                # print(f"[{os.getpid()}] elastic_build_aarecords_job processed incidental inserts")
+                    
                 try:
                     for es_handle, operations in operations_by_es_handle.items():
                         elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
@@ -332,28 +332,41 @@ def elastic_build_aarecords_job(aarecord_ids):
                     if hasattr(err, 'errors'):
                         print(err.errors)
                     print(repr(err))
-                    print("Got the above error; retrying one more time..")
-                    for es_handle, operations in operations_by_es_handle.items():
-                        elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
-            # print(f"Processed {len(aarecords)} md5s")
+                    print("Got the above error; retrying..")
+                    try:
+                        for es_handle, operations in operations_by_es_handle.items():
+                            elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
+                    except Exception as err:
+                        if hasattr(err, 'errors'):
+                            print(err.errors)
+                        print(repr(err))
+                        print("Got the above error; retrying one more time..")
+                        for es_handle, operations in operations_by_es_handle.items():
+                            elasticsearch.helpers.bulk(es_handle, operations, request_timeout=30)
 
-            session.connection().connection.ping(reconnect=True)
-            cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-            cursor.executemany(f'INSERT INTO aarecords_all (hashed_aarecord_id, aarecord_id, md5, json) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(md5)s, %(json)s) ON DUPLICATE KEY UPDATE json=json', aarecords_all_insert_data)
-            cursor.close()
-    except Exception as err:
-        print(repr(err))
-        traceback.print_tb(err.__traceback__)
-        raise err
+                # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into ES")
+
+                session.connection().connection.ping(reconnect=True)
+                cursor.executemany(f'INSERT IGNORE INTO aarecords_all (hashed_aarecord_id, aarecord_id, md5, json) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(md5)s, %(json)s) ON DUPLICATE KEY UPDATE json=json', aarecords_all_insert_data)
+                cursor.execute('COMMIT')
+                cursor.close()
+
+                # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into aarecords_all")
+                # print(f"[{os.getpid()}] Processed {len(aarecords)} md5s")
+
+        except Exception as err:
+            print(repr(err))
+            traceback.print_tb(err.__traceback__)
+            raise err
 
 def elastic_build_aarecords_job_oclc(fields):
     fields = list(fields)
     allthethings.utils.set_worldcat_line_cache(fields)
     elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
 
-THREADS = 40
-CHUNK_SIZE = 20
-BATCH_SIZE = 20000
+THREADS = 50
+CHUNK_SIZE = 30
+BATCH_SIZE = 30000
 
 # Locally
 if SLOW_DATA_IMPORTS:
