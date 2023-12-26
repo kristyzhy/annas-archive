@@ -7,6 +7,8 @@
 {% endblock %}
 
 {% block body %}
+  {% from 'macros/copy_button.html' import copy_button %}
+
   {% if aarecord_id_split[0] == 'doi' %}
     <div class="text-xl mb-1 font-bold mb-4">
       {{ gettext('page.md5.header.scihub', id=aarecord_id_split[1]) }}
@@ -17,6 +19,8 @@
     </div>
     <p class="mb-4">
       {{ gettext('page.md5.header.ia_desc', a_request=(' href="/account/request" ' | safe)) }}
+      <!-- TODO:TRANSLATE -->
+      If you have this file and it’s not yet available in Anna’s Archive, consider <a href="/account/upload">uploading it</a>.
     </p>
   {% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc'] %}
     <div class="text-xl mb-1 font-bold">
@@ -30,6 +34,8 @@
     </div>
     <p class="mb-4">
       {{ gettext('page.md5.header.meta_desc', a_request=(' href="/account/request" ' | safe)) }}
+      <!-- TODO:TRANSLATE -->
+      If you have this file and it’s not yet available in Anna’s Archive, consider <a href="/account/upload">uploading it</a>.
     </p>
   {% endif %}
 
@@ -61,7 +67,8 @@
     <div>
       {% for code_item in aarecord.additional.codes %}
         <div id="md5-codes-panel-{{ loop.index }}" role="tabpanel" aria-labelledby="md5-codes-tab-{{ loop.index }}" hidden class="text-sm mt-2">
-          <div><strong>{{ code_item.info.label or code_item.key }}:</strong> {{ code_item.masked_isbn or code_item.value }}</div>
+          <div><strong>{{ code_item.info.label or code_item.key }}:</strong>
+          {% if code_item.masked_isbn %}{{ code_item.masked_isbn }} {{ copy_button(code_item.masked_isbn) }} / {% endif %}{{ code_item.value }} {{ copy_button(code_item.value) }}</div>
           {% if code_item.info.description %}<div class="">{{ code_item.info.description }}</div>{% endif %}
           <!-- TODO:TRANSLATE -->
           {% if code_item.info.url %}<div class="">URL: <a href="{{ code_item.info.url | replace('%s', code_item.value) }}" rel="noopener noreferrer nofollow">{{ code_item.info.url | replace('%s', code_item.value) }}</a></div>{% endif %}
@@ -208,7 +215,11 @@
       {% if (aarecord.additional.download_urls | length) > 0 %}
         <ul class="mb-4">
           {% for label, url, extra in aarecord.additional.download_urls %}
-            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" {% if not url.startswith("/") }target="_blank"{% endif %} class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
+            {% if label %}
+              <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" ' + (' target="_blank" ' if (not url.startswith("/")) else '') + ' class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
+            {% else %}
+              <li>- {{ extra | safe }}</li>
+            {% endif %}
           {% endfor %}
           {% if aarecord_id_split[0] in ['md5','doi'] %}
             <li>- {{ gettext('page.md5.box.download.support_authors') }}</li>

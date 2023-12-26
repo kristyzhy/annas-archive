@@ -29,6 +29,7 @@ import base64
 import hashlib
 import shortuuid
 import pymysql.cursors
+import cachetools
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
 from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files, Ia2AcsmpdfFiles, MariapersistSmallFiles
@@ -433,6 +434,24 @@ def get_stats_data():
         'oclc_date': '2023-10-01',
     }
 
+def torrent_group_data_from_file_path(file_path):
+    group = file_path.split('/')[2]
+    aac_meta_group = None
+    aac_meta_prefix = 'torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__'
+    if file_path.startswith(aac_meta_prefix):
+        aac_meta_group = file_path[len(aac_meta_prefix):].split('__', 1)[0]
+        group = aac_meta_group
+    aac_data_prefix = 'torrents/managed_by_aa/annas_archive_data__aacid/annas_archive_data__aacid__'
+    if file_path.startswith(aac_data_prefix):
+        group = file_path[len(aac_data_prefix):].split('__', 1)[0]
+    if 'zlib3' in file_path:
+        group = 'zlib'
+    if 'ia2_acsmpdf_files' in file_path:
+        group = 'ia'
+
+    return { 'group': group, 'aac_meta_group': aac_meta_group }
+
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=30*60))
 def get_torrents_data():
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
@@ -452,20 +471,11 @@ def get_torrents_data():
         for small_file in small_files:
             metadata = orjson.loads(small_file['metadata'])
             toplevel = small_file['file_path'].split('/')[1]
-            group = small_file['file_path'].split('/')[2]
-            aac_meta_prefix = 'torrents/managed_by_aa/annas_archive_meta__aacid/annas_archive_meta__aacid__'
-            if small_file['file_path'].startswith(aac_meta_prefix):
-                aac_group = small_file['file_path'][len(aac_meta_prefix):].split('__', 1)[0]
-                aac_meta_file_paths_grouped[aac_group].append(small_file['file_path'])
-                group = aac_group
-            aac_data_prefix = 'torrents/managed_by_aa/annas_archive_data__aacid/annas_archive_data__aacid__'
-            if small_file['file_path'].startswith(aac_data_prefix):
-                aac_group = small_file['file_path'][len(aac_data_prefix):].split('__', 1)[0]
-                group = aac_group
-            if 'zlib3' in small_file['file_path']:
-                group = 'zlib'
-            if 'ia2_acsmpdf_files' in small_file['file_path']:
-                group = 'ia'
+
+            torrent_group_data = torrent_group_data_from_file_path(small_file['file_path'])
+            group = torrent_group_data['group']
+            if torrent_group_data['aac_meta_group'] != None:
+                aac_meta_file_paths_grouped[torrent_group_data['aac_meta_group']].append(small_file['file_path'])
 
             scrape_row = scrapes_by_file_path.get(small_file['file_path'])
             scrape_metadata = {"scrape":{}}
@@ -646,8 +656,8 @@ def torrents_page():
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 4, 0, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 11, 1, 2)) AS seeder_group, JSON_EXTRACT(mariapersist_small_files.metadata, "$.data_size") / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created > NOW() - INTERVAL 100 DAY GROUP BY file_path, created_date) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
-        show_external = request.args.get("show_external", "").strip() == "1"
 
+        show_external = request.args.get("show_external", "").strip() == "1"
         if not show_external:
             torrents_data["small_file_dicts_grouped"]["external"] = {}
 
@@ -2795,6 +2805,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             additional = get_additional_for_aarecord(aarecord)
             aarecord['file_unified_data']['has_aa_downloads'] = additional['has_aa_downloads']
             aarecord['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
+            aarecord['file_unified_data']['has_torrent_paths'] = (1 if (len(additional['torrent_paths']) > 0) else 0)
 
         initial_search_text = "\n".join(list(dict.fromkeys([
             aarecord['file_unified_data']['title_best'][:1000],
@@ -2810,8 +2821,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         filtered_normalized_search_terms = ' '.join([term for term in normalized_search_terms.split() if term not in split_search_text])
         more_search_text = "\n".join([
             aarecord['file_unified_data']['extension_best'],
-            *[f"{key}:{item}" for key, items in aarecord['file_unified_data']['identifiers_unified'].items() for item in items],
-            *[f"{key}:{item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
+            *[f"{key}:{item} {item}" for key, items in aarecord['file_unified_data']['identifiers_unified'].items() for item in items],
+            *[f"{key}:{item} {item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
             aarecord_id,
         ])
         search_text = f"{initial_search_text}\n\n{filtered_normalized_search_terms}\n\n{more_search_text}"
@@ -2845,6 +2856,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
                 *(['oclc']      if (aarecord_id_split[0] == 'oclc' and len(aarecord['oclc'] or []) > 0) else []),
             ])),
+            'search_bulk_torrents': 'has_bulk_torrents' if aarecord['file_unified_data']['has_torrent_paths'] else 'no_bulk_torrents',
         }
 
         # At the very end
@@ -3028,6 +3040,7 @@ def get_additional_for_aarecord(aarecord):
     additional['partner_url_paths'] = []
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
+    additional['torrent_paths'] = []
     shown_click_get = False
     linked_dois = set()
 
@@ -3044,6 +3057,7 @@ def get_additional_for_aarecord(aarecord):
             if bool(re.match(r"^[a-z]", ia_id)):
                 directory = ia_id[0]
             partner_path = f"u/annas-archive-ia-2023-06-acsm/{directory}/{ia_id}.{extension}"
+            additional['torrent_paths'].append([f"managed_by_aa/ia/annas-archive-ia-acsm-{directory}.tar.torrent"])
         elif ia_file_type == 'lcpdf':
             directory = 'other'
             if ia_id.startswith('per_c'):
@@ -3055,8 +3069,10 @@ def get_additional_for_aarecord(aarecord):
             elif bool(re.match(r"^[a-z]", ia_id)):
                 directory = ia_id[0]
             partner_path = f"u/annas-archive-ia-2023-06-lcpdf/{directory}/{ia_id}.{extension}"
+            additional['torrent_paths'].append([f"managed_by_aa/ia/annas-archive-ia-lcpdf-{directory}.tar.torrent"])
         elif ia_file_type == 'ia2_acsmpdf':
             partner_path = make_temp_anon_aac_path("o/ia2_acsmpdf_files", aarecord['ia_record']['aa_ia_file']['aacid'], aarecord['ia_record']['aa_ia_file']['data_folder'])
+            additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{aarecord['ia_record']['aa_ia_file']['data_folder']}.torrent"])
         else:
             raise Exception(f"Unknown ia_record file type: {ia_file_type}")
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
@@ -3065,16 +3081,29 @@ def get_additional_for_aarecord(aarecord):
             stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):])
             partner_path = f"a/comics_2022_08/{stripped_path}"
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+            if stripped_path.startswith('comics0/'):
+                additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/comics0__shoutout_to_tosec.torrent"])
+            elif stripped_path.startswith('comics1/'):
+                additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/comics1__adopted_by_yperion.tar.torrent"])
+            elif stripped_path.startswith('comics2/'):
+                additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/comics2__never_give_up_against_elsevier.tar.torrent"])
+            elif stripped_path.startswith('comics3/'):
+                additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/comics3.0__hone_the_hachette.tar.torrent", f"managed_by_aa/annas_archive_data__aacid/comics3.1__adopted_by_oskanios.tar.torrent"])
+            elif stripped_path.startswith('comics4/'):
+                additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/comics4__for_science.tar.torrent"])
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/repository/'):
             stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/repository/'):])
             partner_path = f"a/c_2022_12_thousand_dirs/{stripped_path}"
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+            additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs.torrent"])
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_magz/repository/'):
             stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_magz/repository/'):])
             partner_path = f"a/c_2022_12_thousand_dirs_magz/{stripped_path}"
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+            additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs_magz.torrent"])
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
+        additional['torrent_paths'].append([f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"])
         if lgrsnf_thousands_dir <= 3730000:
             lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
             add_partner_servers(lgrsnf_path, '', aarecord, additional)
@@ -3083,6 +3112,7 @@ def get_additional_for_aarecord(aarecord):
         shown_click_get = True
     if aarecord.get('lgrsfic_book') is not None:
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
+        additional['torrent_paths'].append([f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir:03}.torrent"])
         if lgrsfic_thousands_dir <= 2715000:
             lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
             add_partner_servers(lgrsfic_path, '', aarecord, additional)
@@ -3096,12 +3126,17 @@ def get_additional_for_aarecord(aarecord):
             if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 4259000:
                 lglific_path = f"e/lglific/{lglific_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
                 add_partner_servers(lglific_path, '', aarecord, additional)
+            if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000:
+                additional['torrent_paths'].append([f"external/libgen_li_fic/f_{lglific_thousands_dir:03}.torrent"])
         scimag_id = aarecord['lgli_file']['scimag_id']
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
             scimag_tenmillion_dir = (scimag_id // 10000000)
             scimag_filename = urllib.parse.quote(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/'))
             scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
             add_partner_servers(scimag_path, 'scimag', aarecord, additional)
+
+            scimag_hundredthousand_dir = (scimag_id // 100000)
+            additional['torrent_paths'].append([f"external/scihub/sm_{scimag_hundredthousand_dir:03}00000-{scimag_hundredthousand_dir:03}99999.torrent"])
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -3112,9 +3147,11 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('zlib_book') is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
+        additional['torrent_paths'].append([f"managed_by_aa/zlib/{aarecord['zlib_book']['pilimi_torrent']}"])
     if aarecord.get('aac_zlib3_book') is not None:
         zlib_path = make_temp_anon_aac_path("o/zlib3_files", aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
+        additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{aarecord['aac_zlib3_book']['file_data_folder']}.torrent"])
     if aarecord.get('zlib_book') is not None:
         # additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://loginzlib2vrak5zzpcocc3ouizykn6k5qecgj2tzlnab5wcbqhembyd.onion/md5/{aarecord['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
         additional['download_urls'].append(("Z-Library", f"https://1lib.sk/md5/{aarecord['zlib_book']['md5_reported'].lower()}", ""))
@@ -3129,7 +3166,19 @@ def get_additional_for_aarecord(aarecord):
         if doi not in linked_dois:
             additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord_id_split[0] == 'md5':
-        additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only')))
+        for torrent_paths in additional['torrent_paths']:
+            # path = "/torrents"
+            # if any(torrent_path.startswith('external/') for torrent_path in torrent_paths):
+            #     path = "/torrents?show_external=1"
+            # group = torrent_group_data_from_file_path(f"torrents/{torrent_paths[0]}")['group']
+            # path += f"#{group}"
+            files_html = " or ".join([f'<a href="/dyn/small_file/torrents/{torrent_path}">file</a>' for torrent_path in torrent_paths])
+            additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only') + f' <span class="text-sm text-gray-500">{files_html}</em></span>'))
+        if len(additional['torrent_paths']) == 0:
+            if additional['has_aa_downloads'] == 0:
+                additional['download_urls'].append(("", "", 'Bulk torrents not yet available for this file. If you have this file, help out by <a href="/account/upload">uploading</a>.'))
+            else:
+                additional['download_urls'].append(("", "", 'Bulk torrents not yet available for this file.'))
     if aarecord_id_split[0] == 'isbn':
         additional['download_urls'].append((gettext('page.md5.box.download.aa_isbn'), f'/search?q="isbn13:{aarecord_id_split[1]}"', ""))
         additional['download_urls'].append((gettext('page.md5.box.download.other_isbn'), f"https://en.wikipedia.org/wiki/Special:BookSources?isbn={aarecord_id_split[1]}", ""))

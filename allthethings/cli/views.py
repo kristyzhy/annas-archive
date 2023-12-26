@@ -254,6 +254,7 @@ def elastic_reset_aarecords_internal():
                         "search_score_base_rank": { "type": "rank_feature" },
                         "search_access_types": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                         "search_record_sources": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                        "search_bulk_torrents": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                     },
                 },
             },
@@ -364,9 +365,9 @@ def elastic_build_aarecords_job_oclc(fields):
     allthethings.utils.set_worldcat_line_cache(fields)
     elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
 
-THREADS = 50
+THREADS = 70
 CHUNK_SIZE = 30
-BATCH_SIZE = 30000
+BATCH_SIZE = 50000
 
 # Locally
 if SLOW_DATA_IMPORTS:
