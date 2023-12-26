@@ -40,7 +40,7 @@ WORKDIR /app
 
 RUN sed -i -e's/ main/ main contrib non-free archive stretch/g' /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar p7zip curl python3 python3-pip ctorrent mariadb-client pv rclone gcc g++ make libzstd-dev wget git cmake ca-certificates curl gnupg
+RUN apt-get install -y build-essential curl libpq-dev python3-dev default-libmysqlclient-dev aria2 unrar p7zip curl python3 python3-pip ctorrent mariadb-client pv rclone gcc g++ make libzstd-dev wget git cmake ca-certificates curl gnupg sshpass
 # https://github.com/nodesource/distributions
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
