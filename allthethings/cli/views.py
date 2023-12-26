@@ -30,6 +30,7 @@ import pymysql.cursors
 import more_itertools
 import indexed_zstd
 import hashlib
+import zstandard
 
 import allthethings.utils
 
@@ -277,18 +278,24 @@ def elastic_reset_aarecords_internal():
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_all')
-        cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json JSON NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
 def elastic_build_aarecords_job_init_pool():
     global elastic_build_aarecords_job_app
+    global elastic_build_aarecords_compressor
     print("Initializing pool worker (elastic_build_aarecords_job_init_pool)")
     from allthethings.app import create_app
     elastic_build_aarecords_job_app = create_app()
 
-# elastic_build_aarecords_job_app = None
+    # Per https://stackoverflow.com/a/4060259
+    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    elastic_build_aarecords_compressor = zstandard.ZstdCompressor(dict_data=zstandard.ZstdCompressionDict(pathlib.Path(os.path.join(__location__, 'aarecords_dump_for_dictionary.bin')).read_bytes()))
+
 def elastic_build_aarecords_job(aarecord_ids):
     global elastic_build_aarecords_job_app
+    global elastic_build_aarecords_compressor
+
     with elastic_build_aarecords_job_app.app_context():
         try:
             aarecord_ids = list(aarecord_ids)
@@ -310,7 +317,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                         'hashed_aarecord_id': hashlib.md5(aarecord['id'].encode()).digest(),
                         'aarecord_id': aarecord['id'],
                         'md5': bytes.fromhex(aarecord['id'].split(':', 1)[1]) if aarecord['id'].startswith('md5:') else None,
-                        'json': orjson.dumps(aarecord),
+                        'json': elastic_build_aarecords_compressor.compress(orjson.dumps(aarecord)),
                     })
                     for index in aarecord['indexes']:
                         operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
