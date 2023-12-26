@@ -272,6 +272,13 @@ def elastic_reset_aarecords_internal():
     es.indices.create(index='aarecords', body=body)
     es_aux.indices.create(index='aarecords_digital_lending', body=body)
     es_aux.indices.create(index='aarecords_metadata', body=body)
+    print("Creating MySQL aarecords tables")
+    with Session(engine) as session:
+        session.connection().connection.ping(reconnect=True)
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('DROP TABLE IF EXISTS aarecords_all')
+        cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json JSON NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('COMMIT')
 
 def elastic_build_aarecords_job_init_pool():
     global elastic_build_aarecords_job_app
@@ -292,7 +299,8 @@ def elastic_build_aarecords_job(aarecord_ids):
                 isbn13_oclc_insert_data = []
                 session.connection().connection.ping(reconnect=True)
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-                cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json JSON NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+                cursor.execute('SELECT 1')
+                cursor.fetchall()
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job set up aa_records_all")
                 aarecords = get_aarecords_mysql(session, aarecord_ids)
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
