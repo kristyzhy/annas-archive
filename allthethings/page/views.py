@@ -654,7 +654,7 @@ def torrents_page():
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 4, 0, IF(JSON_EXTRACT(mariapersist_torrent_scrapes.metadata, "$.scrape.seeders") < 11, 1, 2)) AS seeder_group, JSON_EXTRACT(mariapersist_small_files.metadata, "$.data_size") / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created > NOW() - INTERVAL 100 DAY GROUP BY file_path, created_date) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
+        cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(mariapersist_torrent_scrapes.seeders < 4, 0, IF(mariapersist_torrent_scrapes.seeders < 11, 1, 2)) AS seeder_group, mariapersist_small_files.data_size / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes FORCE INDEX (created_date_file_path_seeders) JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created_date > NOW() - INTERVAL 60 DAY GROUP BY created_date, file_path) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
 
         show_external = request.args.get("show_external", "").strip() == "1"

@@ -397,7 +397,7 @@ def elastic_build_aarecords_job_oclc(fields):
     allthethings.utils.set_worldcat_line_cache(fields)
     elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
 
-THREADS = 60
+THREADS = 70
 CHUNK_SIZE = 40
 BATCH_SIZE = 70000
 
