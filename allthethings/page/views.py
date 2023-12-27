@@ -2053,6 +2053,7 @@ def get_oclc_id_by_isbn13(session, isbn13s):
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        # TODO: Replace with aarecords_isbn13
         cursor.execute('SELECT isbn13, oclc_id FROM isbn13_oclc WHERE isbn13 IN %(isbn13s)s', { "isbn13s": isbn13s })
         rows = cursor.fetchall()
         if len(rows) == 0:
@@ -2068,6 +2069,7 @@ def get_oclc_dicts_by_isbn13(session, isbn13s):
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        # TODO: Replace with aarecords_isbn13
         cursor.execute('SELECT isbn13, oclc_id FROM isbn13_oclc WHERE isbn13 IN %(isbn13s)s', { "isbn13s": isbn13s })
         rows = cursor.fetchall()
         if len(rows) == 0:
