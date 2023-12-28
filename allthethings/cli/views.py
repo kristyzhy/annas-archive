@@ -452,7 +452,7 @@ def elastic_build_aarecords_ia_internal():
                     connection.connection.ping(reconnect=True)
                     cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
                     cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_metadata.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id LIMIT %(limit)s', { "from": current_ia_id, "limit": BATCH_SIZE })
-                    batch = list(cursor.fetchmany(BATCH_SIZE))
+                    batch = list(cursor.fetchall())
                     if last_map is not None:
                         last_map.wait()
                     if len(batch) == 0:
@@ -490,8 +490,9 @@ def elastic_build_aarecords_isbndb_internal():
                 while True:
                     connection.connection.ping(reconnect=True)
                     cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                    cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns WHERE isbn13 > %(from)s ORDER BY isbn13 LIMIT %(limit)s', { "from": current_isbn13, "limit": BATCH_SIZE })
-                    batch = list(cursor.fetchmany(BATCH_SIZE))
+                    # Note that with `isbn13 >` we might be skipping some, because isbn13 is not unique, but oh well..
+                    cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns WHERE isbn13 >= %(from)s ORDER BY isbn13 LIMIT %(limit)s', { "from": current_isbn13, "limit": BATCH_SIZE })
+                    batch = list(cursor.fetchall())
                     if last_map is not None:
                         last_map.wait()
                     if len(batch) == 0:
@@ -502,7 +503,7 @@ def elastic_build_aarecords_isbndb_internal():
                         if item['isbn10'] != "0000000000":
                             isbn13s.add(f"isbn:{item['isbn13']}")
                             isbn13s.add(f"isbn:{isbnlib.ean13(item['isbn10'])}")
-                        last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked(list(isbn13s), CHUNK_SIZE))
+                    last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked(list(isbn13s), CHUNK_SIZE))
                     pbar.update(len(batch))
                     current_isbn13 = batch[-1]['isbn13']
         print(f"Done with ISBNdb!")
@@ -575,7 +576,7 @@ def elastic_build_aarecords_oclc_internal():
         oclc_file = indexed_zstd.IndexedZstdFile('/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
         if FIRST_OCLC_ID is not None:
             oclc_file.seek(allthethings.utils.get_worldcat_pos_before_id(FIRST_OCLC_ID))
-        with tqdm.tqdm(total=min(MAX_WORLDCAT, 750000000-OCLC_DONE_ALREADY), bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+        with tqdm.tqdm(total=min(MAX_WORLDCAT, 765200000-OCLC_DONE_ALREADY), bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
             last_map = None
             total = 0
             last_seen_id = -1

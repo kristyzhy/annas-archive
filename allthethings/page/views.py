@@ -329,7 +329,7 @@ def get_stats_data():
 
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT metadata FROM annas_archive_meta__aacid__zlib3_records ORDER BY aacid DESC LIMIT 1')
+        cursor.execute('SELECT metadata FROM annas_archive_meta__aacid__zlib3_records ORDER BY primary_id DESC, aacid DESC LIMIT 1')
         zlib3_record = cursor.fetchone()
         zlib_date = orjson.loads(zlib3_record['metadata'])['date_modified'] if zlib3_record is not None else ''
 
@@ -745,8 +745,10 @@ def get_aac_zlib3_book_dicts(session, key, values):
     try:
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s', { "values": [str(value) for value in values] })
+        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) LEFT JOIN annas_archive_meta__aacid__zlib3_records records2 ON (records2.primary_id = annas_archive_meta__aacid__zlib3_records.primary_id AND records2.aacid > annas_archive_meta__aacid__zlib3_records.aacid) WHERE records2.aacid IS NULL AND {aac_key} IN %(values)s', { "values": [str(value) for value in values] })
         aac_zlib3_books = cursor.fetchall()
+        if len(aac_zlib3_books) > len(values):
+            raise Exception(f'More returned values in get_aac_zlib3_book_dicts ({len(aac_zlib3_books)=}) than requested ({len(values)=})')
     except Exception as err:
         print(f"Error in get_aac_zlib3_book_dicts when querying {key}; {values}")
         print(repr(err))
