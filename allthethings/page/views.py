@@ -693,6 +693,7 @@ zlib_book_dict_comments = {
     "record_aacid": ("after", ["The AACID of the corresponding metadata entry in the zlib3_records collection"]),
     "file_aacid": ("after", ["The AACID of the corresponding metadata entry in the zlib3_files collection (corresponding to the data filename)"]),
     "cover_url_guess": ("after", ["Anna's Archive best guess of the cover URL, based on the MD5."]),
+    "removed": ("after", ["Whether the file has been removed from Z-Library. We typically don't know the precise reason."]),
 }
 def zlib_add_edition_varia_normalized(zlib_book_dict):
     edition_varia_normalized = []
@@ -2690,6 +2691,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if ((aarecord['lgli_file'] or {}).get('broken') or '') in [1, "1", "y", "Y"]:
             aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_broken', 'descr': ((aarecord['lgli_file'] or {}).get('broken') or ''), 'better_md5': ((aarecord['lgli_file'] or {}).get('generic') or '').lower() })
         if (aarecord['zlib_book'] and (aarecord['zlib_book']['in_libgen'] or False) == False and (aarecord['zlib_book']['pilimi_torrent'] or '') == ''):
+            aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', 'better_md5': '' })
+        if (aarecord['aac_zlib3_book'] or {}).get('removed') == 1:
             aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', 'better_md5': '' })
 
         aarecord['file_unified_data']['content_type'] = 'book_unknown'
