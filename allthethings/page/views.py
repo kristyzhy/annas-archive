@@ -659,7 +659,13 @@ def torrents_page():
 
         show_external = request.args.get("show_external", "").strip() == "1"
         if not show_external:
-            torrents_data["small_file_dicts_grouped"]["external"] = {}
+            torrents_data = {
+                **torrents_data,
+                "small_file_dicts_grouped": {
+                    **torrents_data["small_file_dicts_grouped"],
+                    "external": {}
+                }
+            }
 
         return render_template(
             "page/torrents.html",
@@ -1052,6 +1058,9 @@ def get_ol_book_dicts(session, key, values):
                 for author in ol_authors:
                     if author.type == '/type/redirect':
                         # Yet another redirect.. this is too much for now, skipping.
+                        continue
+                    if author.type == '/type/delete':
+                        # Deleted, not sure how to handle this, skipping.
                         continue
                     if author.type != '/type/author':
                         print(f"Warning: found author without /type/author: {author}")

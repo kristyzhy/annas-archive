@@ -491,7 +491,7 @@ def elastic_build_aarecords_isbndb_internal():
                     connection.connection.ping(reconnect=True)
                     cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
                     # Note that with `isbn13 >` we might be skipping some, because isbn13 is not unique, but oh well..
-                    cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns WHERE isbn13 >= %(from)s ORDER BY isbn13 LIMIT %(limit)s', { "from": current_isbn13, "limit": BATCH_SIZE })
+                    cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns WHERE isbn13 > %(from)s ORDER BY isbn13 LIMIT %(limit)s', { "from": current_isbn13, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
                         last_map.wait()
