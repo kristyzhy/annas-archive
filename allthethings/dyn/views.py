@@ -132,7 +132,8 @@ def downloads_increment(md5_input):
         return "Non-canonical md5", 404
 
     # Prevent hackers from filling up our database with non-existing MD5s.
-    if not es.exists(index="aarecords", id=f"md5:{canonical_md5}"):
+    aarecord_id = f"md5:{canonical_md5}"
+    if not es.exists(index=f"aarecords_{allthethings.utils.virtshard_for_aarecord_id(aarecord_id)}", id=aarecord_id):
         return "md5 not found", 404
 
     with Session(mariapersist_engine) as mariapersist_session:

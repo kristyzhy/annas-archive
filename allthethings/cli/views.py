@@ -234,9 +234,10 @@ def elastic_reset_aarecords():
 
 def elastic_reset_aarecords_internal():
     print("Deleting ES indices")
-    es.options(ignore_status=[400,404]).indices.delete(index='aarecords')
-    es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_digital_lending')
-    es_aux.options(ignore_status=[400,404]).indices.delete(index='aarecords_metadata')
+    for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+        es_handle.options(ignore_status=[400,404]).indices.delete(index=index_name) # Old
+        for virtshard in range(0, 100): # Out of abundance, delete up to a large number
+            es_handle.options(ignore_status=[400,404]).indices.delete(index=f'{index_name}__{virtshard}')
     body = {
         "mappings": {
             "dynamic": False,
@@ -267,9 +268,10 @@ def elastic_reset_aarecords_internal():
         },
     }
     print("Creating ES indices")
-    es.indices.create(index='aarecords', body=body)
-    es_aux.indices.create(index='aarecords_digital_lending', body=body)
-    es_aux.indices.create(index='aarecords_metadata', body=body)
+
+    for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+        for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
+            es_handle.indices.create(index=full_index_name, body=body)
     print("Creating MySQL aarecords tables")
     with Session(engine) as session:
         session.connection().connection.ping(reconnect=True)
@@ -321,7 +323,8 @@ def elastic_build_aarecords_job(aarecord_ids):
                         'json_compressed': elastic_build_aarecords_compressor.compress(orjson.dumps(aarecord)),
                     })
                     for index in aarecord['indexes']:
-                        operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': index, '_id': aarecord['id'] })
+                        virtshard = allthethings.utils.virtshard_for_hashed_aarecord_id(hashed_aarecord_id)
+                        operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': f'{index}__{virtshard}', '_id': aarecord['id'] })
                     for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
                         dois.append(doi)
                     for isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):

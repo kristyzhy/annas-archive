@@ -956,6 +956,14 @@ SEARCH_INDEX_TO_ES_MAPPING = {
     'aarecords_digital_lending': es_aux,
     'aarecords_metadata': es_aux,
 }
+# TODO: Look into https://discuss.elastic.co/t/score-and-relevance-across-the-shards/5371
+ES_VIRTUAL_SHARDS_NUM = 12
+def virtshard_for_hashed_aarecord_id(hashed_aarecord_id):
+    return int.from_bytes(hashed_aarecord_id, byteorder='big', signed=False) % ES_VIRTUAL_SHARDS_NUM
+def virtshard_for_aarecord_id(aarecord_id):
+    return virtshard_for_hashed_aarecord_id(hashlib.md5(aarecord_id.encode()).digest())
+def all_virtshards_for_index(index_name):
+    return [f'{index_name}__{virtshard}' for virtshard in range(0, ES_VIRTUAL_SHARDS_NUM)]
 
 # TODO: translate?
 def marc_country_code_to_english(marc_country_code):

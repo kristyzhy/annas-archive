@@ -338,11 +338,11 @@ def get_stats_data():
             max_concurrent_searches=10,
             max_concurrent_shard_requests=10,
             searches=[
-                # { "index": "aarecords", "request_cache": False },
-                { "index": "aarecords" },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
                 { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
-                # { "index": "aarecords", "request_cache": False },
-                { "index": "aarecords" },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
                 {
                     "track_total_hits": True,
                     "timeout": "20s",
@@ -358,8 +358,8 @@ def get_stats_data():
                         },
                     },
                 },
-                # { "index": "aarecords", "request_cache": False },
-                { "index": "aarecords" },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
                 {
                     "track_total_hits": True,
                     "timeout": "20s",
@@ -367,8 +367,8 @@ def get_stats_data():
                     "query": { "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } },
                     "aggs": { "search_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } },
                 },
-                # { "index": "aarecords", "request_cache": False },
-                { "index": "aarecords" },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
                 {
                     "track_total_hits": True,
                     "timeout": "20s",
@@ -376,8 +376,8 @@ def get_stats_data():
                     "query": { "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } },
                     "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
                 },
-                # { "index": "aarecords", "request_cache": False },
-                { "index": "aarecords" },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
                 {
                     "track_total_hits": True,
                     "timeout": "20s",
@@ -391,8 +391,8 @@ def get_stats_data():
             max_concurrent_searches=10,
             max_concurrent_shard_requests=10,
             searches=[
-                # { "index": "aarecords_digital_lending", "request_cache": False },
-                { "index": "aarecords_digital_lending" },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords_digital_lending"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords_digital_lending") },
                 { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
             ],
         ))
@@ -2143,7 +2143,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
     for aarecord_id in aarecord_ids:
         index = allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':', 1)[0]]
         es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]
-        docs_by_es_handle[es_handle].append({'_id': aarecord_id, '_index': index })
+        docs_by_es_handle[es_handle].append({'_id': aarecord_id, '_index': f'{index}__{allthethings.utils.virtshard_for_aarecord_id(aarecord_id)}' })
 
     search_results_raw = []
     for es_handle, docs in docs_by_es_handle.items():
@@ -3313,7 +3313,7 @@ def scidb_page(doi_input):
     with Session(engine) as session:
         try:
             search_results_raw = es.search(
-                index="aarecords",
+                index=allthethings.utils.all_virtshards_for_index("aarecords"),
                 size=50,
                 query={ "term": { "search_only_fields.search_doi": doi_input } },
                 timeout=ES_TIMEOUT_PRIMARY,
@@ -3526,7 +3526,7 @@ def search_query_aggs(search_index_long):
 
 @functools.cache
 def all_search_aggs(display_lang, search_index_long):
-    search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=search_index_long, size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
+    search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=allthethings.utils.all_virtshards_for_index(search_index_long), size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
@@ -3690,7 +3690,7 @@ def search_page():
     search_results_raw = {}
     try:
         search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(
-            index=search_index_long, 
+            index=allthethings.utils.all_virtshards_for_index(search_index_long),
             size=max_display_results, 
             query=search_query,
             aggs=search_query_aggs(search_index_long),
@@ -3786,7 +3786,7 @@ def search_page():
         search_results_raw = {}
         try:
             search_results_raw = es_handle.search(
-                index=search_index_long, 
+                index=allthethings.utils.all_virtshards_for_index(search_index_long), 
                 size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
                 query=search_query,
                 sort=custom_search_sorting+['_score'],
@@ -3808,7 +3808,7 @@ def search_page():
             search_results_raw = {}
             try:
                 search_results_raw = es_handle.search(
-                    index=search_index_long,
+                    index=allthethings.utils.all_virtshards_for_index(search_index_long),
                     size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                     # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                     query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
@@ -3831,7 +3831,7 @@ def search_page():
                 search_results_raw = {}
                 try:
                     search_results_raw = es_handle.search(
-                        index=search_index_long,
+                        index=allthethings.utils.all_virtshards_for_index(search_index_long),
                         size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
                         # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                         query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
