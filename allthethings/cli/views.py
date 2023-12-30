@@ -251,7 +251,6 @@ def elastic_reset_aarecords_internal():
                         "search_isbn13": { "type": "keyword", "index": True, "doc_values": True },
                         "search_doi": { "type": "keyword", "index": True, "doc_values": True },
                         "search_text": { "type": "text", "index": True, "analyzer": "icu_analyzer" },
-                        "search_score_base": { "type": "float", "index": False, "doc_values": True },
                         "search_score_base_rank": { "type": "rank_feature" },
                         "search_access_types": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                         "search_record_sources": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
@@ -264,8 +263,6 @@ def elastic_reset_aarecords_internal():
             "index.number_of_replicas": 0,
             "index.search.slowlog.threshold.query.warn": "4s",
             "index.store.preload": ["nvd", "dvd", "tim", "doc", "dim"],
-            "index.sort.field": "search_only_fields.search_score_base",
-            "index.sort.order": "desc",
             "index.codec": "best_compression",
         },
     }

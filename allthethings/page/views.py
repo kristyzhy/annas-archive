@@ -2865,8 +2865,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         }
 
         # At the very end
-        aarecord['search_only_fields']['search_score_base'] = float(aarecord_score_base(aarecord))
-        aarecord['search_only_fields']['search_score_base_rank'] = aarecord['search_only_fields']['search_score_base']
+        aarecord['search_only_fields']['search_score_base_rank'] = float(aarecord_score_base(aarecord))
 
     return aarecords
 
