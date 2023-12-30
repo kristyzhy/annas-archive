@@ -2148,7 +2148,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
     search_results_raw = []
     for es_handle, docs in docs_by_es_handle.items():
         search_results_raw += es_handle.mget(docs=docs)['docs']
-    return [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
+    return [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
 def aarecord_score_base(aarecord):
@@ -3205,8 +3205,7 @@ def get_additional_for_aarecord(aarecord):
     return additional
 
 def add_additional_to_aarecord(aarecord):
-    return { **aarecord, 'additional': get_additional_for_aarecord(aarecord) }
-
+    return { **aarecord['_source'], '_score': (aarecord.get('_score') or 0.0), 'additional': get_additional_for_aarecord(aarecord['_source']) }
 
 @page.get("/md5/<string:md5_input>")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
@@ -3321,7 +3320,7 @@ def scidb_page(doi_input):
             )
         except Exception as err:
             return redirect(f"/search?q=doi:{doi_input}", code=302)
-        aarecords = [add_additional_to_aarecord(aarecord['_source']) for aarecord in search_results_raw['hits']['hits']]
+        aarecords = [add_additional_to_aarecord(aarecord) for aarecord in search_results_raw['hits']['hits']]
         aarecords_and_infos = [(aarecord, allthethings.utils.scidb_info(aarecord)) for aarecord in aarecords if allthethings.utils.scidb_info(aarecord) is not None]
         aarecords_and_infos.sort(key=lambda aarecord_and_info: aarecord_and_info[1]['priority'])
 
@@ -3775,7 +3774,7 @@ def search_page():
 
     search_aarecords = []
     if 'hits' in search_results_raw:
-        search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+        search_aarecords = [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
     max_search_aarecords_reached = False
     max_additional_search_aarecords_reached = False
@@ -3801,7 +3800,7 @@ def search_page():
         es_stats.append({ 'name': 'search2', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
         if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
             max_additional_search_aarecords_reached = True
-        additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+        additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
         # Then do an "OR" query, but this time with the filters again.
         if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and (not had_es_timeout):
@@ -3824,7 +3823,7 @@ def search_page():
             es_stats.append({ 'name': 'search3', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
             if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
                 max_additional_search_aarecords_reached = True
-            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
             # If we still don't have enough, do another OR query but this time without filters.
             if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and not had_es_timeout:
@@ -3847,7 +3846,7 @@ def search_page():
                 es_stats.append({ 'name': 'search4', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
                 if (len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results) and (not had_es_timeout):
                     max_additional_search_aarecords_reached = True
-                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw['_source']) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
     else:
         max_search_aarecords_reached = True
 
