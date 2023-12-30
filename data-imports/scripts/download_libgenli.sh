@@ -17,9 +17,9 @@ for i in $(seq -w 1 47); do
     # and this way we stay consistent with `libgenli_proxies_template.sh`.
 
     # Server doesn't support resuming??
-    # curl -C - -O "https://libgen.li/dbdumps/libgen_new.part0${i}.rar"
+    # curl -L -C - -O "https://libgen.li/dbdumps/libgen_new.part0${i}.rar"
     
     # Try bewteen these:
     # *.lc, *.li, *.gs, *.vg, *.pm
-    curl -O "https://libgen.lc/dbdumps/libgen_new.part0${i}.rar" || curl -O "https://libgen.li/dbdumps/libgen_new.part0${i}.rar" || curl -O "https://libgen.gs/dbdumps/libgen_new.part0${i}.rar" || curl -O "https://libgen.vg/dbdumps/libgen_new.part0${i}.rar" || curl -O "https://libgen.pm/dbdumps/libgen_new.part0${i}.rar"
+    curl -L -O "https://libgen.lc/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.li/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.gs/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.vg/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.pm/dbdumps/libgen_new.part0${i}.rar"
 done

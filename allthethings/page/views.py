@@ -2251,8 +2251,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
-            ((aarecord['aac_zlib3_book'] or {}).get('identifiers_unified') or {}),
-            ((aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
             *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
@@ -2402,8 +2401,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
         if aarecord['file_unified_data']['cover_url_best'] == '':
             cover_url_multiple += [isbndb['cover_url_guess'] for isbndb in aarecord['isbndb']]
-            cover_url_multiple.append(((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip())
             cover_url_multiple.append(((aarecord['aac_zlib3_book'] or {}).get('cover_url_guess') or '').strip())
+            cover_url_multiple.append(((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip())
             cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
             aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
             aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
@@ -2412,8 +2411,7 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         extension_multiple = [
             (((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('extension') or '').strip(),
-            ((aarecord['aac_zlib3_book'] or {}).get('extension') or '').strip().lower(),
-            ((aarecord['zlib_book'] or {}).get('extension') or '').strip().lower(),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgrsnf_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgrsfic_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgli_file'] or {}).get('extension') or '').strip().lower(),
@@ -2432,8 +2430,7 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         filesize_multiple = [
             ((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('filesize') or 0,
-            (aarecord['aac_zlib3_book'] or {}).get('filesize_reported') or 0,
-            (aarecord['zlib_book'] or {}).get('filesize_reported') or 0,
+            (aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('filesize_reported') or 0,
             (aarecord['zlib_book'] or {}).get('filesize') or 0,
             (aarecord['lgrsnf_book'] or {}).get('filesize') or 0,
             (aarecord['lgrsfic_book'] or {}).get('filesize') or 0,
@@ -2457,8 +2454,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('title') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('title') or '').strip(),
             ((lgli_single_edition or {}).get('title') or '').strip(),
-            ((aarecord['aac_zlib3_book'] or {}).get('title') or '').strip(),
-            ((aarecord['zlib_book'] or {}).get('title') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('title') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('title') or '').strip(),
         ]
         aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
@@ -2479,8 +2475,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             (aarecord['lgrsnf_book'] or {}).get('author', '').strip(),
             (aarecord['lgrsfic_book'] or {}).get('author', '').strip(),
             (lgli_single_edition or {}).get('authors_normalized', '').strip(),
-            (aarecord['aac_zlib3_book'] or {}).get('author', '').strip(),
-            (aarecord['zlib_book'] or {}).get('author', '').strip(),
+            (aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('author', '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('author') or '').strip(),
         ]
         aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
@@ -2499,8 +2494,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('publisher') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('publisher') or '').strip(),
             ((lgli_single_edition or {}).get('publisher_normalized') or '').strip(),
-            ((aarecord['aac_zlib3_book'] or {}).get('publisher') or '').strip(),
-            ((aarecord['zlib_book'] or {}).get('publisher') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('publisher') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('publisher') or '').strip(),
         ]
         aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
@@ -2519,8 +2513,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((lgli_single_edition or {}).get('edition_varia_normalized') or '').strip(),
-            ((aarecord['aac_zlib3_book'] or {}).get('edition_varia_normalized') or '').strip(),
-            ((aarecord['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('edition_varia_normalized') or '').strip(),
         ]
         aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
@@ -2539,8 +2532,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsfic_book'] or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('issue_year_number') or '').strip(),
-            ((aarecord['aac_zlib3_book'] or {}).get('year') or '').strip(),
-            ((aarecord['zlib_book'] or {}).get('year') or '').strip(),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('year') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('year') or '').strip(),
         ]
         # Filter out years in for which we surely don't have books (famous last words..)
@@ -2593,8 +2585,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((aarecord['lgrsfic_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((lgli_single_edition or {}).get('stripped_description') or '').strip()[0:5000],
-            ((aarecord['aac_zlib3_book'] or {}).get('stripped_description') or '').strip()[0:5000],
-            ((aarecord['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
         ]
         aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
@@ -2617,8 +2608,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsnf_book'] or {}).get('language_codes') or []),
             ((aarecord['lgrsfic_book'] or {}).get('language_codes') or []),
             ((lgli_single_edition or {}).get('language_codes') or []),
-            ((aarecord['aac_zlib3_book'] or {}).get('language_codes') or []),
-            ((aarecord['zlib_book'] or {}).get('language_codes') or []),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('language_codes') or []),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('language_codes') or []),
         ])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
@@ -2659,8 +2649,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('identifiers_unified') or {}),
-            ((aarecord['aac_zlib3_book'] or {}).get('identifiers_unified') or {}),
-            ((aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('identifiers_unified') or {}),
             ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
             *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
@@ -2672,8 +2661,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
             ((aarecord['lgrsfic_book'] or {}).get('classifications_unified') or {}),
-            ((aarecord['aac_zlib3_book'] or {}).get('classifications_unified') or {}),
-            ((aarecord['zlib_book'] or {}).get('classifications_unified') or {}),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('classifications_unified') or {}),
             *[(edition.get('classifications_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('classifications_unified') or {}),
             *[isbndb['classifications_unified'] for isbndb in aarecord['isbndb']],
@@ -2692,7 +2680,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_broken', 'descr': ((aarecord['lgli_file'] or {}).get('broken') or ''), 'better_md5': ((aarecord['lgli_file'] or {}).get('generic') or '').lower() })
         if (aarecord['zlib_book'] and (aarecord['zlib_book']['in_libgen'] or False) == False and (aarecord['zlib_book']['pilimi_torrent'] or '') == ''):
             aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', 'better_md5': '' })
-        if (aarecord['aac_zlib3_book'] or {}).get('removed') == 1:
+        if ((aarecord['aac_zlib3_book'] or {}).get('removed') or 0) == 1:
             aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', 'better_md5': '' })
 
         aarecord['file_unified_data']['content_type'] = 'book_unknown'
@@ -2771,6 +2759,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 'file_data_folder': aarecord['aac_zlib3_book']['file_data_folder'],
                 'record_aacid': aarecord['aac_zlib3_book']['record_aacid'],
                 'file_aacid': aarecord['aac_zlib3_book']['file_aacid'],
+                'removed': (aarecord['aac_zlib3_book'].get('removed') or 0),
             }
         if aarecord['aa_lgli_comics_2022_08_file'] is not None:
             aarecord ['aa_lgli_comics_2022_08_file'] = {
