@@ -752,10 +752,21 @@ def get_aac_zlib3_book_dicts(session, key, values):
     try:
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) LEFT JOIN annas_archive_meta__aacid__zlib3_records records2 ON (records2.primary_id = annas_archive_meta__aacid__zlib3_records.primary_id AND records2.aacid > annas_archive_meta__aacid__zlib3_records.aacid) WHERE records2.aacid IS NULL AND {aac_key} IN %(values)s', { "values": [str(value) for value in values] })
-        aac_zlib3_books = cursor.fetchall()
-        if len(aac_zlib3_books) > len(values):
-            raise Exception(f'More returned values in get_aac_zlib3_book_dicts ({len(aac_zlib3_books)=}) than requested ({len(values)=})')
+        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata, annas_archive_meta__aacid__zlib3_records.primary_id AS primary_id FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s ORDER BY record_aacid ASC', { "values": [str(value) for value in values] })
+        aac_zlib3_books_by_primary_id = collections.defaultdict(dict)
+        # Merge different iterations of books, so even when a book gets "missing":1 later, we still use old
+        # metadata where available (note: depends on `ORDER BY record_aacid` above).
+        for row in cursor.fetchall():
+            aac_zlib3_books_by_primary_id[row['primary_id']] = {
+                **aac_zlib3_books_by_primary_id[row['primary_id']],
+                **row,
+                'record_metadata': {
+                    **(aac_zlib3_books_by_primary_id[row['primary_id']].get('record_metadata') or {}),
+                    **orjson.loads(row['record_metadata']),
+                },
+            }
+        aac_zlib3_books = list(aac_zlib3_books_by_primary_id.values())
+
     except Exception as err:
         print(f"Error in get_aac_zlib3_book_dicts when querying {key}; {values}")
         print(repr(err))
@@ -763,7 +774,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
 
     aac_zlib3_book_dicts = []
     for zlib_book in aac_zlib3_books:
-        aac_zlib3_book_dict = orjson.loads(zlib_book['record_metadata'])
+        aac_zlib3_book_dict = zlib_book['record_metadata']
         file_metadata = orjson.loads(zlib_book['file_metadata'])
         aac_zlib3_book_dict['md5'] = file_metadata['md5']
         if 'filesize' in file_metadata:
@@ -771,6 +782,9 @@ def get_aac_zlib3_book_dicts(session, key, values):
         aac_zlib3_book_dict['record_aacid'] = zlib_book['record_aacid']
         aac_zlib3_book_dict['file_aacid'] = zlib_book['file_aacid']
         aac_zlib3_book_dict['file_data_folder'] = zlib_book['file_data_folder']
+        if 'description' not in aac_zlib3_book_dict:
+            print(f'WARNING WARNING! missing description in aac_zlib3_book_dict: {aac_zlib3_book_dict=} {zlib_book=}')
+            print('------------------')
         aac_zlib3_book_dict['stripped_description'] = strip_description(aac_zlib3_book_dict['description'])
         aac_zlib3_book_dict['language_codes'] = get_bcp47_lang_codes(aac_zlib3_book_dict['language'] or '')
         aac_zlib3_book_dict['cover_url_guess'] = zlib_cover_url_guess(aac_zlib3_book_dict['md5_reported'])

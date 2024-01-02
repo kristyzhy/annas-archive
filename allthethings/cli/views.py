@@ -387,19 +387,21 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into aarecords_all")
                 # print(f"[{os.getpid()}] Processed {len(aarecords)} md5s")
 
+                return False
+
         except Exception as err:
             print(repr(err))
             traceback.print_tb(err.__traceback__)
-            raise err
+            return True
 
 def elastic_build_aarecords_job_oclc(fields):
     fields = list(fields)
     allthethings.utils.set_worldcat_line_cache(fields)
-    elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
+    return elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
 
-THREADS = 70
-CHUNK_SIZE = 40
-BATCH_SIZE = 70000
+THREADS = 60
+CHUNK_SIZE = 30
+BATCH_SIZE = 50000
 
 # Locally
 if SLOW_DATA_IMPORTS:
@@ -454,7 +456,9 @@ def elastic_build_aarecords_ia_internal():
                     cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_metadata.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id LIMIT %(limit)s', { "from": current_ia_id, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
-                        last_map.wait()
+                        if any(last_map.get()):
+                            print("Error detected; exiting")
+                            os._exit(1)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata ( starting ia_id: {batch[0]['ia_id']} , ia_id: {batch[-1]['ia_id']} )...")
@@ -494,7 +498,9 @@ def elastic_build_aarecords_isbndb_internal():
                     cursor.execute('SELECT isbn13, isbn10 FROM isbndb_isbns WHERE isbn13 > %(from)s ORDER BY isbn13 LIMIT %(limit)s', { "from": current_isbn13, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
-                        last_map.wait()
+                        if any(last_map.get()):
+                            print("Error detected; exiting")
+                            os._exit(1)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from isbndb_isbns ( starting isbn13: {batch[0]['isbn13']} , ending isbn13: {batch[-1]['isbn13']} )...")
@@ -536,7 +542,9 @@ def elastic_build_aarecords_ol_internal():
                     cursor.execute('SELECT ol_key FROM ol_base WHERE ol_key LIKE "/books/OL%%" AND ol_key > %(from)s ORDER BY ol_key LIMIT %(limit)s', { "from": current_ol_key, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
-                        last_map.wait()
+                        if any(last_map.get()):
+                            print("Error detected; exiting")
+                            os._exit(1)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from ol_base ( starting ol_key: {batch[0]['ol_key']} , ending ol_key: {batch[-1]['ol_key']} )...")
@@ -603,7 +611,9 @@ def elastic_build_aarecords_oclc_internal():
                 batch = list(batch.items())
 
                 if last_map is not None:
-                    last_map.wait()
+                    if any(last_map.get()):
+                        print("Error detected; exiting")
+                        os._exit(1)
                 if len(batch) == 0:
                     break
                 print(f"Processing {len(batch)} aarecords from oclc (worldcat) file ( starting oclc_id: {batch[0][0]} )...")
@@ -622,7 +632,7 @@ def elastic_build_aarecords_main():
 
 def elastic_build_aarecords_main_internal():
     before_first_md5 = ''
-    # before_first_md5 = '4dcf17fc02034aadd33e2e5151056b5d'
+    before_first_md5 = 'aaa5a4759e87b0192c1ecde213535ba1'
     before_first_doi = ''
     # before_first_doi = ''
 
@@ -645,7 +655,9 @@ def elastic_build_aarecords_main_internal():
                     cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 > %(from)s ORDER BY md5 LIMIT %(limit)s', { "from": current_md5, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
-                        last_map.wait()
+                        if any(last_map.get()):
+                            print("Error detected; exiting")
+                            os._exit(1)
                     if len(batch) == 0:
                         break
                     print(f"Processing {len(batch)} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
@@ -668,7 +680,9 @@ def elastic_build_aarecords_main_internal():
                         cursor.execute('SELECT doi FROM scihub_dois_without_matches WHERE doi > %(from)s ORDER BY doi LIMIT %(limit)s', { "from": current_doi, "limit": BATCH_SIZE })
                         batch = list(cursor.fetchall())
                         if last_map is not None:
-                            last_map.wait()
+                            if any(last_map.get()):
+                                print("Error detected; exiting")
+                                os._exit(1)
                         if len(batch) == 0:
                             break
                         print(f"Processing {len(batch)} aarecords from scihub_dois_without_matches ( starting doi: {batch[0]['doi']}, ending doi: {batch[-1]['doi']} )...")

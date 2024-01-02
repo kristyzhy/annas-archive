@@ -23,3 +23,6 @@ for i in $(seq -w 1 47); do
     # *.lc, *.li, *.gs, *.vg, *.pm
     curl -L -O "https://libgen.lc/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.li/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.gs/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.vg/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.pm/dbdumps/libgen_new.part0${i}.rar"
 done
+
+
+#for i in $(seq -w 6 47); do curl -L -O "https://libgen.lc/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.li/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.gs/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.vg/dbdumps/libgen_new.part0${i}.rar" || curl -L -O "https://libgen.pm/dbdumps/libgen_new.part0${i}.rar"; done
