@@ -642,6 +642,7 @@ def search_counts_page():
                 if result['timed_out']:
                     total_by_index_long[multi_searches[i*2]['index'][0].split('__', 1)[0]]['timed_out'] = True
                     any_timeout = True
+                total_by_index_long[multi_searches[i*2]['index'][0].split('__', 1)[0]]['took'] = result['took']
     except Exception as err:
         pass
 
