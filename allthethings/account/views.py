@@ -349,7 +349,7 @@ def donation_page(donation_id):
                 donation_confirming = True
 
         if donation_json['method'] in ['hoodpay'] and donation.processing_status == 0:
-            donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(minutes=55)
+            donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(minutes=30)
             if donation_time_left < datetime.timedelta(minutes=10):
                 donation_time_left_not_much = True
             if donation_time_left < datetime.timedelta():
