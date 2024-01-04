@@ -127,6 +127,7 @@
 
             {% for small_file in small_files %}
               <tr class="{% if small_file.file_path in torrents_data.obsolete_file_paths %}line-through{% endif %}">
+                <td class="pb-1 pr-1 text-xs">{% if small_file.aa_currently_seeding %}<span title="Seeded by Anna’s Archive">✅</span>{% else %}<span title="Not currently seeded by Anna’s Archive">❌</span>{% endif %}</td>
                 <td class="pb-1 max-md:break-all"><a href="/dyn/small_file/{{ small_file.file_path }}">{{ small_file.file_path_short }}</a><a class="ml-2 text-sm whitespace-nowrap" href="magnet:?xt=urn:btih:{{ small_file.metadata.btih }}&dn={{ small_file.display_name | urlencode }}&tr=udp://tracker.opentrackr.org:1337/announce">magnet</a></td>
                 <td class="text-sm pb-1 pl-2 max-sm:hidden md:whitespace-nowrap" title="Date added">{{ small_file.created }}</td>
                 <td class="text-sm pb-1 pl-2"><span class="whitespace-nowrap" title="Data size">{{ small_file.size_string }}</span><span class="whitespace-nowrap max-md:hidden" title="Number of files (there may be more files inside a .tar or .zip file)"> / {{ small_file.metadata.num_files }}</span></td>

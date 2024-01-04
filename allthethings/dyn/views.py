@@ -86,6 +86,7 @@ def make_torrent_json(small_file):
         'torrent_size': metadata['torrent_size'],
         'num_files': metadata['num_files'],
         'data_size': metadata['data_size'],
+        'aa_currently_seeding': allthethings.utils.aa_currently_seeding(metadata),
     }
 
 @dyn.get("/torrents.json")

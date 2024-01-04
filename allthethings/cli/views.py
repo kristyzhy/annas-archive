@@ -86,6 +86,9 @@ def nonpersistent_dbreset_internal():
     mariadb_dump = pathlib.Path(os.path.join(__location__, 'mariadb_dump.sql')).read_text()
     for sql in mariadb_dump.split('# DELIMITER'):
         cursor.execute(sql)
+
+    torrents_json = pathlib.Path(os.path.join(__location__, 'torrents.json')).read_text()
+    cursor.execute('DROP TABLE IF EXISTS torrents_json; CREATE TABLE torrents_json (json JSON NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin; INSERT INTO torrents_json (json) VALUES (%(json)s); COMMIT', {'json': torrents_json})
     cursor.close()
 
     mysql_build_computed_all_md5s_internal()

@@ -1439,7 +1439,8 @@ def get_worldcat_records(oclc_id):
         else:
             return [orjson.loads(line) for line in lines]
 
-
+def aa_currently_seeding(metadata):
+    return ((datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.strptime(metadata['seeding_at'], "%Y-%m-%dT%H:%M:%S%z")) < datetime.timedelta(days=7)) if ('seeding_at' in metadata) else False
 
 
 
