@@ -1442,7 +1442,13 @@ def get_worldcat_records(oclc_id):
 def aa_currently_seeding(metadata):
     return ((datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.strptime(metadata['seeding_at'], "%Y-%m-%dT%H:%M:%S%z")) < datetime.timedelta(days=7)) if ('seeding_at' in metadata) else False
 
-
+@functools.cache
+def get_torrents_json_aa_currently_seeding_by_torrent_path():
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT json FROM torrents_json LIMIT 1')
+        return { row['url'].split('dyn/small_file/torrents/', 1)[1]: row['aa_currently_seeding'] for row in orjson.loads(cursor.fetchone()['json']) }
 
 
 

@@ -3063,6 +3063,8 @@ def get_additional_for_aarecord(aarecord):
     shown_click_get = False
     linked_dois = set()
 
+    torrents_json_aa_currently_seeding_by_torrent_path = allthethings.utils.get_torrents_json_aa_currently_seeding_by_torrent_path()
+
     for scihub_doi in aarecord.get('scihub_doi') or []:
         doi = scihub_doi['doi']
         additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", ""))
@@ -3122,19 +3124,23 @@ def get_additional_for_aarecord(aarecord):
             additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs_magz.torrent"])
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
-        additional['torrent_paths'].append([f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"])
-        if lgrsnf_thousands_dir <= 3730000:
-            lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
-            add_partner_servers(lgrsnf_path, '', aarecord, additional)
+        lgrsnf_torrent_path = f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"
+        if lgrsnf_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path:
+            additional['torrent_paths'].append([lgrsnf_torrent_path])
+            if torrents_json_aa_currently_seeding_by_torrent_path[lgrsnf_torrent_path]:
+                lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
+                add_partner_servers(lgrsnf_path, '', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{aarecord['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
     if aarecord.get('lgrsfic_book') is not None:
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
-        additional['torrent_paths'].append([f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir:03}.torrent"])
-        if lgrsfic_thousands_dir <= 2715000:
-            lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
-            add_partner_servers(lgrsfic_path, '', aarecord, additional)
+        lgrsfic_torrent_path = f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir:03}.torrent"
+        if lgrsfic_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path:
+            additional['torrent_paths'].append([lgrsfic_torrent_path])
+            if torrents_json_aa_currently_seeding_by_torrent_path[lgrsfic_torrent_path]:
+                lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+                add_partner_servers(lgrsfic_path, '', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{aarecord['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -3142,20 +3148,29 @@ def get_additional_for_aarecord(aarecord):
         lglific_id = aarecord['lgli_file']['fiction_id']
         if lglific_id > 0:
             lglific_thousands_dir = (lglific_id // 1000) * 1000
+
+            # Don't use torrents_json for this, because we have more files that haven't been
+            # torrented yet.
             if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 4259000:
                 lglific_path = f"e/lglific/{lglific_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
                 add_partner_servers(lglific_path, '', aarecord, additional)
-            if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 3462000:
-                additional['torrent_paths'].append([f"external/libgen_li_fic/f_{lglific_thousands_dir:03}.torrent"])
+
+            lglific_torrent_path = f"external/libgen_li_fic/f_{lglific_thousands_dir:03}.torrent"
+            if lglific_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path:
+                additional['torrent_paths'].append([lglific_torrent_path])
         scimag_id = aarecord['lgli_file']['scimag_id']
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
-            scimag_tenmillion_dir = (scimag_id // 10000000)
-            scimag_filename = urllib.parse.quote(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/'))
-            scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
-            add_partner_servers(scimag_path, 'scimag', aarecord, additional)
 
             scimag_hundredthousand_dir = (scimag_id // 100000)
-            additional['torrent_paths'].append([f"external/scihub/sm_{scimag_hundredthousand_dir:03}00000-{scimag_hundredthousand_dir:03}99999.torrent"])
+            scimag_torrent_path = f"external/scihub/sm_{scimag_hundredthousand_dir:03}00000-{scimag_hundredthousand_dir:03}99999.torrent"
+            if scimag_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path:
+                additional['torrent_paths'].append([scimag_torrent_path])
+
+                if torrents_json_aa_currently_seeding_by_torrent_path[scimag_torrent_path]:
+                    scimag_tenmillion_dir = (scimag_id // 10000000)
+                    scimag_filename = urllib.parse.quote(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/'))
+                    scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
+                    add_partner_servers(scimag_path, 'scimag', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
