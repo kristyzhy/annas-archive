@@ -443,6 +443,11 @@ def elastic_build_aarecords_ia_internal():
 
     before_first_ia_id = ''
 
+    if len(before_first_ia_id) > 0:
+        print(f'WARNING!!!!! before_first_ia_id is set to {before_first_ia_id}')
+        print(f'WARNING!!!!! before_first_ia_id is set to {before_first_ia_id}')
+        print(f'WARNING!!!!! before_first_ia_id is set to {before_first_ia_id}')
+
     with engine.connect() as connection:
         print("Processing from aa_ia_2023_06_metadata")
         connection.connection.ping(reconnect=True)
@@ -483,6 +488,11 @@ def elastic_build_aarecords_isbndb_internal():
     ftlangdetect.detect('dummy')
 
     before_first_isbn13 = ''
+
+    if len(before_first_isbn13) > 0:
+        print(f'WARNING!!!!! before_first_isbn13 is set to {before_first_isbn13}')
+        print(f'WARNING!!!!! before_first_isbn13 is set to {before_first_isbn13}')
+        print(f'WARNING!!!!! before_first_isbn13 is set to {before_first_isbn13}')
 
     with engine.connect() as connection:
         print("Processing from isbndb_isbns")
@@ -575,6 +585,11 @@ def elastic_build_aarecords_oclc_internal():
     OCLC_DONE_ALREADY = 0
     # OCLC_DONE_ALREADY = 100000
 
+    if FIRST_OCLC_ID is not None:
+        print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
+        print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
+        print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
+
     with engine.connect() as connection:
         print("Creating oclc_isbn table")
         connection.connection.ping(reconnect=True)
@@ -635,12 +650,21 @@ def elastic_build_aarecords_main():
 
 def elastic_build_aarecords_main_internal():
     before_first_md5 = ''
-    before_first_md5 = 'aaa5a4759e87b0192c1ecde213535ba1'
+    # before_first_md5 = 'aaa5a4759e87b0192c1ecde213535ba1'
     before_first_doi = ''
     # before_first_doi = ''
 
     print("Do a dummy detect of language so that we're sure the model is downloaded")
     ftlangdetect.detect('dummy')
+
+    if len(before_first_md5) > 0:
+        print(f'WARNING!!!!! before_first_md5 is set to {before_first_md5}')
+        print(f'WARNING!!!!! before_first_md5 is set to {before_first_md5}')
+        print(f'WARNING!!!!! before_first_md5 is set to {before_first_md5}')
+    if len(before_first_doi) > 0:
+        print(f'WARNING!!!!! before_first_doi is set to {before_first_doi}')
+        print(f'WARNING!!!!! before_first_doi is set to {before_first_doi}')
+        print(f'WARNING!!!!! before_first_doi is set to {before_first_doi}')
 
     with engine.connect() as connection:
         print("Processing from computed_all_md5s")

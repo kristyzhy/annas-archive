@@ -313,7 +313,7 @@ def llm_page():
 def browser_verification_page():
     return render_template("page/browser_verification.html", header_active="home/search")
 
-@functools.cache
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=24*60*60))
 def get_stats_data():
     with engine.connect() as connection:
         libgenrs_time = connection.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
@@ -399,6 +399,8 @@ def get_stats_data():
         if any([response['timed_out'] for response in stats_data_es['responses']]):
             # WARNING: don't change this message because we match on 'timed out' below
             raise Exception("One of the 'get_stats_data' responses timed out")
+
+        print(f'{orjson.dumps(stats_data_es)=}')
 
         stats_by_group = {}
         for bucket in stats_data_es['responses'][1]['aggregations']['search_record_sources']['buckets']:
@@ -537,90 +539,99 @@ def get_torrents_data():
 def datasets_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 @page.get("/datasets/ia")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def datasets_ia_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets_ia.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets_ia.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 @page.get("/datasets/zlib")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def datasets_zlib_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets_zlib.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets_zlib.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 @page.get("/datasets/isbndb")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def datasets_isbndb_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets_isbndb.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets_isbndb.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 @page.get("/datasets/scihub")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def datasets_scihub_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets_scihub.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets_scihub.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 @page.get("/datasets/libgen_rs")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def datasets_libgen_rs_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets_libgen_rs.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 @page.get("/datasets/libgen_li")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def datasets_libgen_li_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets_libgen_li.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets_libgen_li.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 @page.get("/datasets/openlib")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def datasets_openlib_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets_openlib.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets_openlib.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 @page.get("/datasets/worldcat")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def datasets_worldcat_page():
     try:
         stats_data = get_stats_data()
+        return render_template("page/datasets_worldcat.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
-    return render_template("page/datasets_worldcat.html", header_active="home/datasets", stats_data=stats_data)
+        raise
 
 # @page.get("/datasets/isbn_ranges")
 # @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
@@ -3554,7 +3565,7 @@ def search_query_aggs(search_index_long):
         aggs["search_most_likely_language_code"] = { "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 50 } }
     return aggs
 
-@functools.cache
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=24*60*60))
 def all_search_aggs(display_lang, search_index_long):
     search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=allthethings.utils.all_virtshards_for_index(search_index_long), size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
 
