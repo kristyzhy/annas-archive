@@ -36,9 +36,9 @@ from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_U
 
 FEATURE_FLAGS = {}
 
-FAST_DOWNLOAD_DOMAINS = [x for x in [FAST_PARTNER_SERVER1, 'momot.rs'] if x is not None]
+FAST_DOWNLOAD_DOMAINS = [x for x in [FAST_PARTNER_SERVER1, 'wbsg8v.xyz', 'momot.rs'] if x is not None]
 # SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'ktxr.rs', 'nrzr.li']
-SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'nrzr.li']
+SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'nrzr.li', 'wbsg8v.xyz']
 
 def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])

@@ -103,7 +103,7 @@
             <tr><td colspan="100" class="pt-4"><span class="text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }}</span> <span class="text-xs text-gray-500">{{ torrents_data.group_size_strings[group] }}</span> <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [td:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a>
 
               {% if group == 'libgenli_comics' %}
-                <div class="mb-1 text-sm">Comics and magazines from Libgen.li. <a href="/datasets/libgen_li">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html">blog</a></div>
+                <div class="mb-1 text-sm">Comics and magazines from Libgen.li. <a href="/datasets/libgen_li">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html">blog</a>. <strong>NOTE:</strong> we are looking into splitting these comics/magazines torrents into smaller torrents. This might take a while. When we do this, we will likely provide scripts to migrate the existing torrents to the new torrents, so you don’t have to download from scratch.</div>
               {% elif group == 'zlib' %}
                 <div class="mb-1 text-sm">Z-Library books. <a href="/datasets/zlib">dataset</a></div>
               {% elif group == 'isbndb' %}

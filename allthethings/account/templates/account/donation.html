@@ -284,6 +284,11 @@
         </p>
 
         <p class="mb-4">
+          <!-- TODO:TRANSLATE -->
+          We only support the standard version of crypto coins, no exotic networks or versions of coins.
+        </p>
+
+        <p class="mb-4">
           <strong>{{ gettext('page.donation.status_header') }}</strong> {% if donation_confirming %}{{ gettext('page.donation.waiting_for_confirmation_refresh') }}{% else %}{{ gettext('page.donation.waiting_for_transfer_refresh') }}{% endif %}<br>
           <strong>{{ gettext('page.donation.time_left_header') }}</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}{{ gettext('page.donation.might_want_to_cancel') }}{% endif %}
         </p>
