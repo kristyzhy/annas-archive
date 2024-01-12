@@ -201,6 +201,7 @@ CREATE TABLE mariapersist_slow_download_access (
     CONSTRAINT `mariapersist_slow_download_access_account_id` FOREIGN KEY (`account_id`) REFERENCES `mariapersist_accounts` (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+-- INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration) VALUES ('XXXXX', 5, NOW() + INTERVAL 10 YEAR);
 CREATE TABLE mariapersist_memberships (
     `membership_id` BIGINT NOT NULL AUTO_INCREMENT,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

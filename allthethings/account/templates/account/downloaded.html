@@ -5,12 +5,21 @@
 {% block body %}
   <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.downloaded.title') }}</h2>
 
-  <p class="mb-4">{{ gettext('page.downloaded.not_public') }}</p>
+  <!-- TODO:TRANSLATE -->
+  <p class="mb-4 max-w-[700px]">Downloads from Faster Partner Servers are marked by&nbsp;⭐️. Fast downloads in the last 24 hours count towards the daily limit. All times are in UTC. {{ gettext('page.downloaded.not_public') }}</p>
 
-  {% if aarecords_downloaded | length == 0 %}
+  {% if (aarecords_downloaded_last_24h+aarecords_downloaded_later) | length == 0 %}
     <p>{{ gettext('page.downloaded.no_files') }}</p>
   {% else %}
     {% from 'macros/aarecord_list.html' import aarecord_list %}
-    {{ aarecord_list(aarecords_downloaded) }}
+
+    {% if aarecords_downloaded_last_24h | length > 0 %}
+      <h3 class="text-xl font-bold">Last 24 hours</h3>
+      {{ aarecord_list(aarecords_downloaded_last_24h) }}
+    {% endif %}
+    {% if aarecords_downloaded_later | length > 0 %}
+      <h3 class="text-xl font-bold">Earlier</h3>
+      {{ aarecord_list(aarecords_downloaded_later) }}
+    {% endif %}
   {% endif %}
 {% endblock %}

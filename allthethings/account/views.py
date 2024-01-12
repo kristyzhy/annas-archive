@@ -21,7 +21,7 @@ from sqlalchemy import select, func, text, inspect
 from sqlalchemy.orm import Session
 from flask_babel import gettext, ngettext, force_locale, get_locale
 
-from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations
+from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistAccounts, mail, MariapersistDownloads, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistFastDownloadAccess
 from allthethings.page.views import get_aarecords_elasticsearch
 from config.settings import SECRET_KEY, PAYMENT1_ID, PAYMENT1_KEY, PAYMENT1B_ID, PAYMENT1B_KEY
 
@@ -73,11 +73,21 @@ def account_downloaded_page():
         return redirect(f"/account/", code=302)
 
     with Session(mariapersist_engine) as mariapersist_session:
-        downloads = mariapersist_session.connection().execute(select(MariapersistDownloads).where(MariapersistDownloads.account_id == account_id).order_by(MariapersistDownloads.timestamp.desc()).limit(100)).all()
-        aarecords_downloaded = []
+        downloads = mariapersist_session.connection().execute(select(MariapersistDownloads).where(MariapersistDownloads.account_id == account_id).order_by(MariapersistDownloads.timestamp.desc()).limit(1000)).all()
+        fast_downloads = mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess).where(MariapersistFastDownloadAccess.account_id == account_id).order_by(MariapersistFastDownloadAccess.timestamp.desc()).limit(1000)).all()
+
+        # TODO: This merging is not great, because the lists will get out of sync, so you get a gap toward the end.
+        fast_downloads_ids_only = set([f"md5:{download.md5.hex()}" for download in fast_downloads])
+        merged_downloads = sorted(set([(download.timestamp, f"md5:{download.md5.hex()}") for download in (downloads+fast_downloads)]), reverse=True)
+        aarecords_downloaded_by_id = {}
         if len(downloads) > 0:
-            aarecords_downloaded = get_aarecords_elasticsearch([f"md5:{download.md5.hex()}" for download in downloads])
-        return render_template("account/downloaded.html", header_active="account/downloaded", aarecords_downloaded=aarecords_downloaded)
+            aarecords_downloaded_by_id = {record['id']: record for record in get_aarecords_elasticsearch(list(set([row[1] for row in merged_downloads])))}
+        aarecords_downloaded = [{ **aarecords_downloaded_by_id.get(row[1]), 'extra_download_timestamp': row[0], 'extra_was_fast_download': (row[1] in fast_downloads_ids_only) } for row in merged_downloads]
+        cutoff_24h = datetime.datetime.utcnow() - datetime.timedelta(hours=24)
+        aarecords_downloaded_last_24h = [row for row in aarecords_downloaded if row['extra_download_timestamp'] >= cutoff_24h]
+        aarecords_downloaded_later = [row for row in aarecords_downloaded if row['extra_download_timestamp'] < cutoff_24h]
+
+        return render_template("account/downloaded.html", header_active="account/downloaded", aarecords_downloaded_last_24h=aarecords_downloaded_last_24h, aarecords_downloaded_later=aarecords_downloaded_later)
 
 
 @account.post("/account/")
