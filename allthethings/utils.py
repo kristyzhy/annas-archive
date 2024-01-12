@@ -283,6 +283,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # "pix":    0,
     "payment1": 0,
     "payment1b": 0,
+    "payment1bb": 0,
     "givebutter": 0,
     "hoodpay": 0,
 }
@@ -312,6 +313,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     # "pix":    0,
     "payment1": 1000,
     "payment1b": 1000,
+    "payment1bb": 1000,
     "givebutter": 500,
     "hoodpay": 1000,
 }
@@ -319,6 +321,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
 MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
     # "payment1":  30000,
     "payment1b": 100000,
+    "payment1bb": 100000,
     "amazon": 10000,
 }
 
@@ -392,7 +395,7 @@ def membership_costs_data(locale):
 
         native_currency_code = 'USD'
         cost_cents_native_currency = cost_cents_usd
-        if method in ['alipay', 'payment1', 'payment1b']:
+        if method in ['alipay', 'payment1', 'payment1b', 'payment1bb']:
             native_currency_code = 'CNY'
             cost_cents_native_currency = math.floor(cost_cents_usd * 7 / 100) * 100
         # elif method == 'bmc':
@@ -473,7 +476,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     #     return False
 
     donation_json = orjson.loads(donation['json'])
-    if donation_json['method'] not in ['payment1', 'payment1b', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay']:
+    if donation_json['method'] not in ['payment1', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay']:
         print(f"Warning: failed {data_key} request because method is not valid: {donation_id}")
         return False
 

@@ -323,7 +323,7 @@ def donation_page(donation_id):
             sign = hashlib.md5((sign_str).encode()).hexdigest()
             return redirect(f'https://integrate.payments-gateway.org/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
-        if donation_json['method'] == 'payment1b' and donation.processing_status == 0:
+        if donation_json['method'] in ['payment1b', 'payment1bb'] and donation.processing_status == 0:
             data = {
                 # Note that these are sorted by key.
                 "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
