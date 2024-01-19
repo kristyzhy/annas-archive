@@ -3839,9 +3839,10 @@ def search_page():
         if search_results_raw.get('timed_out'):
             had_es_timeout = True
         es_stats.append({ 'name': 'search2', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
-        if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
-            max_additional_search_aarecords_reached = True
-        additional_search_aarecords = [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+        if 'hits' in search_results_raw:
+            if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
+                max_additional_search_aarecords_reached = True
+            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
         # Then do an "OR" query, but this time with the filters again.
         if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and (not had_es_timeout):
@@ -3862,9 +3863,10 @@ def search_page():
             if search_results_raw.get('timed_out'):
                 had_es_timeout = True
             es_stats.append({ 'name': 'search3', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
-            if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
-                max_additional_search_aarecords_reached = True
-            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+            if 'hits' in search_results_raw:
+                if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
+                    max_additional_search_aarecords_reached = True
+                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
             # If we still don't have enough, do another OR query but this time without filters.
             if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and not had_es_timeout:
@@ -3885,9 +3887,10 @@ def search_page():
                 if search_results_raw.get('timed_out'):
                     had_es_timeout = True
                 es_stats.append({ 'name': 'search4', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
-                if (len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results) and (not had_es_timeout):
-                    max_additional_search_aarecords_reached = True
-                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+                if 'hits' in search_results_raw:
+                    if (len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results) and (not had_es_timeout):
+                        max_additional_search_aarecords_reached = True
+                    additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
     else:
         max_search_aarecords_reached = True
 
