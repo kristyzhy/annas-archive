@@ -322,6 +322,36 @@ def donation_page(donation_id):
             sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
             sign = hashlib.md5((sign_str).encode()).hexdigest()
             return redirect(f'https://integrate.payments-gateway.org/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
+        if donation_json['method'] == 'payment1_alipay' and donation.processing_status == 0:
+            data = {
+                # Note that these are sorted by key.
+                "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
+                "name": "Anna’s Archive Membership",
+                "notify_url": "https://annas-archive.se/dyn/payment1_notify/",
+                "out_trade_no": str(donation.donation_id),
+                "pid": PAYMENT1_ID,
+                "return_url": "https://annas-archive.se/account/",
+                "sitename": "Anna’s Archive",
+                "type": "alipay",
+            }
+            sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
+            sign = hashlib.md5((sign_str).encode()).hexdigest()
+            return redirect(f'https://integrate.payments-gateway.org/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
+        if donation_json['method'] == 'payment1_wechat' and donation.processing_status == 0:
+            data = {
+                # Note that these are sorted by key.
+                "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
+                "name": "Anna’s Archive Membership",
+                "notify_url": "https://annas-archive.se/dyn/payment1_notify/",
+                "out_trade_no": str(donation.donation_id),
+                "pid": PAYMENT1_ID,
+                "return_url": "https://annas-archive.se/account/",
+                "sitename": "Anna’s Archive",
+                "type": "wechat",
+            }
+            sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
+            sign = hashlib.md5((sign_str).encode()).hexdigest()
+            return redirect(f'https://integrate.payments-gateway.org/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
         if donation_json['method'] in ['payment1b', 'payment1bb'] and donation.processing_status == 0:
             data = {

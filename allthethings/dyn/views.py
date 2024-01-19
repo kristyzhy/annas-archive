@@ -671,7 +671,7 @@ def account_buy_membership():
         raise Exception(f"Invalid costCentsUsdVerification")
 
     donation_type = 0 # manual
-    if method in ['payment1', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay']:
+    if method in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay']:
         donation_type = 1
 
     donation_id = shortuuid.uuid()
