@@ -82,7 +82,7 @@ def account_downloaded_page():
         aarecords_downloaded_by_id = {}
         if len(downloads) > 0:
             aarecords_downloaded_by_id = {record['id']: record for record in get_aarecords_elasticsearch(list(set([row[1] for row in merged_downloads])))}
-        aarecords_downloaded = [{ **aarecords_downloaded_by_id.get(row[1]), 'extra_download_timestamp': row[0], 'extra_was_fast_download': (row in fast_downloads_ids_only) } for row in merged_downloads]
+        aarecords_downloaded = [{ **aarecords_downloaded_by_id.get(row[1]), 'extra_download_timestamp': row[0], 'extra_was_fast_download': (row in fast_downloads_ids_only) } for row in merged_downloads if row[1] in aarecords_downloaded_by_id]
         cutoff_24h = datetime.datetime.utcnow() - datetime.timedelta(hours=24)
         aarecords_downloaded_last_24h = [row for row in aarecords_downloaded if row['extra_download_timestamp'] >= cutoff_24h]
         aarecords_downloaded_later = [row for row in aarecords_downloaded if row['extra_download_timestamp'] < cutoff_24h]
