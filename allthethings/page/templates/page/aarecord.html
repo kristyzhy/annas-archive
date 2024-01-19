@@ -19,8 +19,7 @@
     </div>
     <p class="mb-4">
       {{ gettext('page.md5.header.ia_desc', a_request=(' href="/account/request" ' | safe)) }}
-      <!-- TODO:TRANSLATE -->
-      If you have this file and it’s not yet available in Anna’s Archive, consider <a href="/account/upload">uploading it</a>.
+      {{ gettext('page.md5.header.consider_upload', a_request=(' href="/account/upload" ' | safe)) }}
     </p>
   {% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc'] %}
     <div class="text-xl mb-1 font-bold">
@@ -34,8 +33,7 @@
     </div>
     <p class="mb-4">
       {{ gettext('page.md5.header.meta_desc', a_request=(' href="/account/request" ' | safe)) }}
-      <!-- TODO:TRANSLATE -->
-      If you have this file and it’s not yet available in Anna’s Archive, consider <a href="/account/upload">uploading it</a>.
+      {{ gettext('page.md5.header.consider_upload', a_request=(' href="/account/upload" ' | safe)) }}
     </p>
   {% endif %}
 
@@ -70,12 +68,9 @@
           <div><strong>{{ code_item.info.label or code_item.key }}:</strong>
           {% if code_item.masked_isbn %}{{ code_item.masked_isbn }} {{ copy_button(code_item.masked_isbn) }} / {% endif %}{{ code_item.value }} {{ copy_button(code_item.value) }}</div>
           {% if code_item.info.description %}<div class="">{{ code_item.info.description }}</div>{% endif %}
-          <!-- TODO:TRANSLATE -->
-          {% if code_item.info.url %}<div class="">URL: <a href="{{ code_item.info.url | replace('%s', code_item.value) }}" rel="noopener noreferrer nofollow">{{ code_item.info.url | replace('%s', code_item.value) }}</a></div>{% endif %}
-          <!-- TODO:TRANSLATE -->
-          {% if code_item.info.website %}<div class="">Website: <a href="{{ code_item.info.website }}" rel="noopener noreferrer nofollow">{{ code_item.info.website }}</a></div>{% endif %}
-          <!-- TODO:TRANSLATE -->
-          <div>AA: <a href='/search?q="{{ code_item.key | urlencode }}:{{ code_item.value | urlencode }}"'>Search Anna’s Archive for “{{ code_item.key }}:{{ code_item.value }}”</a></div>
+          {% if code_item.info.url %}<div class="">{{ gettext('page.md5.codes.url') }} <a href="{{ code_item.info.url | replace('%s', code_item.value) }}" rel="noopener noreferrer nofollow">{{ code_item.info.url | replace('%s', code_item.value) }}</a></div>{% endif %}
+          {% if code_item.info.website %}<div class="">{{ gettext('page.md5.codes.website') }} <a href="{{ code_item.info.website }}" rel="noopener noreferrer nofollow">{{ code_item.info.website }}</a></div>{% endif %}
+          <div>{{ gettext('page.md5.codes.aa_abbr') }} <a href='/search?q="{{ code_item.key | urlencode }}:{{ code_item.value | urlencode }}"'>{{ gettext('page.md5.codes.aa_search', name=(code_item.key + ':' + code_item.value)) }}</a></div>
         </div>
       {% endfor %}
     </div>

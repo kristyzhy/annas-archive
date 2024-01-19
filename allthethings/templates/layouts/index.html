@@ -497,7 +497,7 @@
             <a class="custom-a hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.header.nav.annassoftware') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="https://translate.annas-software.org">{{ gettext('layout.index.header.nav.translate') }}</a><br>
             <a class="custom-a hover:text-[#333] break-all" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a><br>
-            <div class="text-xs text-gray-500 mb-1 max-w-[200px]">{{ gettext('layout.index.footer.dont_email', a_request=('href="/account/request"' | safe), a_upload=('href="/account/upload"' | safe)) }} <!-- TODO:TRANSLATE -->We’re a small team of volunteers. It might take us 1-2 weeks to respond.</div>
+            <div class="text-xs text-gray-500 mb-1 max-w-[200px]">{{ gettext('layout.index.footer.dont_email', a_request=('href="/account/request"' | safe), a_upload=('href="/account/upload"' | safe)) }} {{ gettext('page.donate.small_team') }}</div>
             <a class="custom-a hover:text-[#333]" href="/copyright">{{ gettext('layout.index.footer.list2.dmca_copyright') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="mailto:AnnaDMCA@proton.me">AnnaDMCA@proton.me</a><br>
           </div>

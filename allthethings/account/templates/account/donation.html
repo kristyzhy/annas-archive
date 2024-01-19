@@ -284,8 +284,7 @@
         </p>
 
         <p class="mb-4">
-          <!-- TODO:TRANSLATE -->
-          We only support the standard version of crypto coins, no exotic networks or versions of coins. It can take up to an hour to confirm the transaction, depending on the coin.
+          {{ gettext('page.donation.crypto_standard') }}
         </p>
 
         <p class="mb-4">
@@ -500,7 +499,7 @@
     {% endif %}
 
     <p class="mb-4">
-      {{ gettext('page.donation.footer.issues_contact', email=(('<a class="break-all" href="mailto:' + donation_email + '">' + donation_email + '</a>') | safe)) }} <span class="text-sm text-gray-500"><!-- TODO:TRANSLATE -->We’re a small team of volunteers. It might take us 1-2 weeks to respond. If you made a mistake during payment, we can’t do refunds, but we’ll try to make it right.</span>
+      {{ gettext('page.donation.footer.issues_contact', email=(('<a class="break-all" href="mailto:' + donation_email + '">' + donation_email + '</a>') | safe)) }} <span class="text-sm text-gray-500">{{ gettext('page.donate.small_team') }} {{ gettext('page.donate.mistake') }}</span>
     </p>
   </div>
 {% endblock %}

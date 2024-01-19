@@ -272,7 +272,7 @@ def get_order_processing_status_labels(locale):
             2: gettext('common.donation.order_processing_status_labels.2'),
             3: gettext('common.donation.order_processing_status_labels.3'),
             4: gettext('common.donation.order_processing_status_labels.4'),
-            5: 'invalid', # TODO:TRANSLATE
+            5: gettext('common.donation.order_processing_status_labels.5'),
         }
 
 
