@@ -366,7 +366,7 @@ def donation_page(donation_id):
             }
             sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1B_KEY
             sign = hashlib.md5((sign_str).encode()).hexdigest()
-            return redirect(f'https://portal-new.hufe.cc/api/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
+            return redirect(f'https://anna-payment.se/submit.php?{urllib.parse.urlencode(data)}&sign={sign}&sign_type=MD5', code=302)
 
         if donation_json['method'] in ['payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc'] and donation.processing_status == 0:
             donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(days=5)
