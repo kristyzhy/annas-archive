@@ -3567,7 +3567,11 @@ def search_query_aggs(search_index_long):
 
 @cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=24*60*60))
 def all_search_aggs(display_lang, search_index_long):
-    search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=allthethings.utils.all_virtshards_for_index(search_index_long), size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
+    try:
+        search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=allthethings.utils.all_virtshards_for_index(search_index_long), size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
+    except:
+        # Simple retry, just once.
+        search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=allthethings.utils.all_virtshards_for_index(search_index_long), size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
 
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
