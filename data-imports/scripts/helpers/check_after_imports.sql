@@ -24,5 +24,6 @@ DESCRIBE aa_ia_2023_06_files;
 DESCRIBE aa_ia_2023_06_metadata;
 DESCRIBE annas_archive_meta__aacid__zlib3_records;
 DESCRIBE annas_archive_meta__aacid__zlib3_files;
+DESCRIBE annas_archive_meta__aacid__ia2_records;
 DESCRIBE annas_archive_meta__aacid__ia2_acsmpdf_files;
 DESCRIBE torrents_json;

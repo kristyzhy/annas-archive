@@ -116,6 +116,8 @@ class AaIa202306Metadata(Reflected):
     __tablename__ = "aa_ia_2023_06_metadata"
 class AaIa202306Files(Reflected):
     __tablename__ = "aa_ia_2023_06_files"
+class Ia2Records(Reflected):
+    __tablename__ = "annas_archive_meta__aacid__ia2_records"
 class Ia2AcsmpdfFiles(Reflected):
     __tablename__ = "annas_archive_meta__aacid__ia2_acsmpdf_files"
 

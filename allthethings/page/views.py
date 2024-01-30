@@ -32,7 +32,7 @@ import pymysql.cursors
 import cachetools
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
-from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files, Ia2AcsmpdfFiles, MariapersistSmallFiles
+from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaLgliComics202208Files, AaIa202306Metadata, AaIa202306Files, Ia2Records, Ia2AcsmpdfFiles, MariapersistSmallFiles
 from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
@@ -839,8 +839,10 @@ def get_ia_record_dicts(session, key, values):
 
     seen_ia_ids = set()
     ia_entries = []
+    ia_entries2 = []
     try:
         base_query = select(AaIa202306Metadata, AaIa202306Files, Ia2AcsmpdfFiles).join(AaIa202306Files, AaIa202306Files.ia_id == AaIa202306Metadata.ia_id, isouter=True).join(Ia2AcsmpdfFiles, Ia2AcsmpdfFiles.primary_id == AaIa202306Metadata.ia_id, isouter=True)
+        base_query2 = select(Ia2Records, AaIa202306Files, Ia2AcsmpdfFiles).join(AaIa202306Files, AaIa202306Files.ia_id == Ia2Records.primary_id, isouter=True).join(Ia2AcsmpdfFiles, Ia2AcsmpdfFiles.primary_id == Ia2Records.primary_id, isouter=True)
         if key.lower() in ['md5']:
             # TODO: we should also consider matching on libgen_md5, but we used to do that before and it had bad SQL performance,
             # when combined in a single query, so we'd have to split it up.
@@ -849,9 +851,17 @@ def get_ia_record_dicts(session, key, values):
             ).unique().all()) + list(session.execute(
                 base_query.where(Ia2AcsmpdfFiles.md5.in_(values))
             ).unique().all())
+            ia_entries2 = list(session.execute(
+                base_query2.where(AaIa202306Files.md5.in_(values))
+            ).unique().all()) + list(session.execute(
+                base_query2.where(Ia2AcsmpdfFiles.md5.in_(values))
+            ).unique().all())
         else:
             ia_entries = session.execute(
                 base_query.where(getattr(AaIa202306Metadata, key).in_(values))
+            ).unique().all()
+            ia_entries2 = session.execute(
+                base_query2.where(getattr(Ia2Records, key.replace('ia_id', 'primary_id')).in_(values))
             ).unique().all()
     except Exception as err:
         print(f"Error in get_ia_record_dicts when querying {key}; {values}")
@@ -859,8 +869,32 @@ def get_ia_record_dicts(session, key, values):
         traceback.print_tb(err.__traceback__)
 
     ia_record_dicts = []
-    for ia_record, ia_file, ia2_acsmpdf_file in ia_entries:
+    # Prioritize ia_entries2 first, because their records are newer.
+    for ia_record, ia_file, ia2_acsmpdf_file in (ia_entries2 + ia_entries):
         ia_record_dict = ia_record.to_dict()
+        if 'primary_id' in ia_record_dict:
+            # Convert from AAC.
+            metadata = orjson.loads(ia_record_dict["metadata"])
+
+            libgen_md5 = None
+            for external_id in extract_list_from_ia_json_field(metadata['metadata_json'], 'external-identifier'):
+                if 'urn:libgen:' in external_id:
+                    libgen_md5 = external_id.split('/')[-1]
+                    break
+
+            ia_record_dict = {
+                "ia_id": metadata["ia_id"],
+                # "has_thumb" # We'd need to look at both ia_entries2 and ia_entries to get this, but not worth it.
+                "libgen_md5": libgen_md5,
+                "json": metadata['metadata_json'],
+            }
+        else:
+            ia_record_dict = {
+                "ia_id": ia_record_dict["ia_id"],
+                # "has_thumb": ia_record_dict["has_thumb"],
+                "libgen_md5": ia_record_dict["libgen_md5"],
+                "json": orjson.loads(ia_record_dict["json"]),
+            }
 
         # TODO: When querying by ia_id we can match multiple files. For now we just pick the first one.
         if ia_record_dict['ia_id'] in seen_ia_ids:
@@ -884,8 +918,6 @@ def get_ia_record_dicts(session, key, values):
                     'aacid': ia2_acsmpdf_file_dict['aacid'],
                     'data_folder': ia2_acsmpdf_file_dict['data_folder'],
                 }
-
-        ia_record_dict['json'] = orjson.loads(ia_record_dict['json'])
 
         ia_record_dict['aa_ia_derived'] = {}
         ia_record_dict['aa_ia_derived']['printdisabled_only'] = 'inlibrary' not in ((ia_record_dict['json'].get('metadata') or {}).get('collection') or [])
@@ -965,7 +997,7 @@ def get_ia_record_dicts(session, key, values):
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "libgen_md5": ("after", "If the metadata refers to a Libgen MD5 from which IA imported, it will be filled in here."),
-            "has_thumb": ("after", "Whether Anna's Archive has stored a thumbnail (scraped from __ia_thumb.jpg)."),
+            # "has_thumb": ("after", "Whether Anna's Archive has stored a thumbnail (scraped from __ia_thumb.jpg)."),
             "json": ("before", "The original metadata JSON, scraped from https://archive.org/metadata/<ia_id>.",
                                "We did strip out the full file list, since it's a bit long, and replaced it with a shorter `aa_shorter_files`."),
             "aa_ia_file": ("before", "File metadata, if we have it."),
@@ -2796,7 +2828,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         if aarecord['ia_record'] is not None:
             aarecord['ia_record'] = {
                 'ia_id': aarecord['ia_record']['ia_id'],
-                'has_thumb': aarecord['ia_record']['has_thumb'],
+                # 'has_thumb': aarecord['ia_record']['has_thumb'],
                 'aa_ia_file': {
                     'type': aarecord['ia_record']['aa_ia_file']['type'],
                     'filesize': aarecord['ia_record']['aa_ia_file']['filesize'],
@@ -3126,12 +3158,18 @@ def get_additional_for_aarecord(aarecord):
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/repository/'):
             stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/repository/'):])
             partner_path = f"a/c_2022_12_thousand_dirs/{stripped_path}"
-            add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+            # TODO: Bring back.
+            # add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+            additional['download_urls'].append(("", "", 'Partner Server downloads temporarily not available for this file.'))
+
             additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs.torrent"])
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_magz/repository/'):
             stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_magz/repository/'):])
             partner_path = f"a/c_2022_12_thousand_dirs_magz/{stripped_path}"
-            add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+            # TODO: Bring back.
+            # add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+            additional['download_urls'].append(("", "", 'Partner Server downloads temporarily not available for this file.'))
+
             additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs_magz.torrent"])
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000

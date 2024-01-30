@@ -12,9 +12,12 @@ PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/aac/
 job1pid=$!
 PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/aac/annas_archive_meta__aacid__zlib3_files* &
 job2pid=$!
-PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/aac/annas_archive_meta__aacid__ia2_acsmpdf_files* &
+PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/aac/annas_archive_meta__aacid__ia2_records* &
 job3pid=$!
+PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/aac/annas_archive_meta__aacid__ia2_acsmpdf_files* &
+job4pid=$!
 
 wait $job1pid
 wait $job2pid
 wait $job3pid
+wait $job4pid

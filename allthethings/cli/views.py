@@ -449,11 +449,18 @@ def elastic_build_aarecords_ia_internal():
         print(f'WARNING!!!!! before_first_ia_id is set to {before_first_ia_id}')
 
     with engine.connect() as connection:
-        print("Processing from aa_ia_2023_06_metadata")
+        print("Processing from aa_ia_2023_06_metadata+annas_archive_meta__aacid__ia2_records")
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        cursor.execute('SELECT COUNT(ia_id) AS count FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_metadata.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id LIMIT 1', { "from": before_first_ia_id })
-        total = list(cursor.fetchall())[0]['count']
+
+        # Sanity check: we assume that in annas_archive_meta__aacid__ia2_records we have no libgen-imported records.
+        cursor.execute('SELECT COUNT(*) AS count, ia_id FROM aa_ia_2023_06_metadata JOIN annas_archive_meta__aacid__ia2_records ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_records.primary_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NOT NULL LIMIT 1')
+        sanity_check_result = cursor.fetchone()
+        if sanity_check_result['count'] > 0:
+            raise Exception(f"Sanity check failed: libgen records found in annas_archive_meta__aacid__ia2_records {sanity_check_result=}")
+
+        cursor.execute('SELECT COUNT(ia_id) AS count FROM (SELECT ia_id, libgen_md5 FROM aa_ia_2023_06_metadata UNION SELECT primary_id AS ia_id, NULL AS libgen_md5 FROM annas_archive_meta__aacid__ia2_records) combined LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (combined.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE combined.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND combined.libgen_md5 IS NULL ORDER BY ia_id LIMIT 1', { "from": before_first_ia_id })
+        total = cursor.fetchone()['count']
         current_ia_id = before_first_ia_id
         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
             with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
@@ -461,7 +468,7 @@ def elastic_build_aarecords_ia_internal():
                 while True:
                     connection.connection.ping(reconnect=True)
                     cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                    cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_metadata.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND aa_ia_2023_06_metadata.libgen_md5 IS NULL ORDER BY ia_id LIMIT %(limit)s', { "from": current_ia_id, "limit": BATCH_SIZE })
+                    cursor.execute('SELECT ia_id FROM (SELECT ia_id, libgen_md5 FROM aa_ia_2023_06_metadata UNION SELECT primary_id AS ia_id, NULL AS libgen_md5 FROM annas_archive_meta__aacid__ia2_records) combined LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (combined.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE combined.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND combined.libgen_md5 IS NULL ORDER BY ia_id LIMIT %(limit)s', { "from": current_ia_id, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
                         if any(last_map.get()):
@@ -469,7 +476,7 @@ def elastic_build_aarecords_ia_internal():
                             os._exit(1)
                     if len(batch) == 0:
                         break
-                    print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata ( starting ia_id: {batch[0]['ia_id']} , ia_id: {batch[-1]['ia_id']} )...")
+                    print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata+annas_archive_meta__aacid__ia2_records ( starting ia_id: {batch[0]['ia_id']} , ia_id: {batch[-1]['ia_id']} )...")
                     last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
                     current_ia_id = batch[-1]['ia_id']

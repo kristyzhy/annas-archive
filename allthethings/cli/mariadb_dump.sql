@@ -2851,6 +2851,21 @@ CREATE TABLE `aa_ia_2023_06_files` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 INSERT INTO `aa_ia_2023_06_files` VALUES ('74f3b80bbb292475043d13f21e5f5059','acsm',15257229,'100insightslesso0000maie');
 
+DROP TABLE IF EXISTS `annas_archive_meta__aacid__ia2_records`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `annas_archive_meta__aacid__ia2_records` (
+  `aacid` varchar(250) NOT NULL,
+  `primary_id` varchar(250) DEFAULT NULL,
+  `md5` char(32) CHARACTER SET ascii COLLATE ascii_general_ci DEFAULT NULL,
+  `data_folder` varchar(250) DEFAULT NULL,
+  `metadata` longtext NOT NULL CHECK (json_valid(`metadata`)),
+  PRIMARY KEY (`aacid`),
+  KEY `primary_id` (`primary_id`),
+  KEY `md5` (`md5`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 DROP TABLE IF EXISTS `annas_archive_meta__aacid__ia2_acsmpdf_files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
