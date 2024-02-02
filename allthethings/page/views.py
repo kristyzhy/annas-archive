@@ -396,11 +396,14 @@ def get_stats_data():
                 { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
             ],
         ))
-        if any([response['timed_out'] for response in stats_data_es['responses']]):
+        responses_without_timed_out = [response for response in (stats_data_es['responses'] + stats_data_es_aux['responses']) if 'timed_out' not in response]
+        if len(responses_without_timed_out) > 0:
+            raise Exception(f"One of the 'get_stats_data' responses didn't have 'timed_out' field in it: {responses_without_timed_out=}")
+        if any([response['timed_out'] for response in (stats_data_es['responses'] + stats_data_es_aux['responses'])]):
             # WARNING: don't change this message because we match on 'timed out' below
             raise Exception("One of the 'get_stats_data' responses timed out")
 
-        print(f'{orjson.dumps(stats_data_es)=}')
+        # print(f'{orjson.dumps(stats_data_es)=}')
 
         stats_by_group = {}
         for bucket in stats_data_es['responses'][1]['aggregations']['search_record_sources']['buckets']:
@@ -876,18 +879,17 @@ def get_ia_record_dicts(session, key, values):
             # Convert from AAC.
             metadata = orjson.loads(ia_record_dict["metadata"])
 
-            libgen_md5 = None
-            for external_id in extract_list_from_ia_json_field(metadata['metadata_json'], 'external-identifier'):
-                if 'urn:libgen:' in external_id:
-                    libgen_md5 = external_id.split('/')[-1]
-                    break
-
             ia_record_dict = {
                 "ia_id": metadata["ia_id"],
                 # "has_thumb" # We'd need to look at both ia_entries2 and ia_entries to get this, but not worth it.
-                "libgen_md5": libgen_md5,
+                "libgen_md5": None,
                 "json": metadata['metadata_json'],
             }
+
+            for external_id in extract_list_from_ia_json_field(ia_record_dict, 'external-identifier'):
+                if 'urn:libgen:' in external_id:
+                    ia_record_dict['libgen_md5'] = external_id.split('/')[-1]
+                    break
         else:
             ia_record_dict = {
                 "ia_id": ia_record_dict["ia_id"],

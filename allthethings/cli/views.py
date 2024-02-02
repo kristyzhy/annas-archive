@@ -180,6 +180,7 @@ def mysql_build_computed_all_md5s_internal():
     print("Inserting from 'annas_archive_meta__aacid__zlib3_files'")
     cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5) SELECT UNHEX(md5) FROM annas_archive_meta__aacid__zlib3_files WHERE md5 IS NOT NULL')
     cursor.close()
+    print("Done mysql_build_computed_all_md5s_internal!")
     # engine_multi = create_engine(mariadb_url_no_timeout, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
     # cursor = engine_multi.raw_connection().cursor()
     # print("Removing table computed_all_md5s (if exists)")
