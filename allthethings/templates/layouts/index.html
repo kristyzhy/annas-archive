@@ -189,16 +189,19 @@
             </div>
           {% else %}
             <!-- blue -->
-            <!-- <div class="bg-[#0195ff] hidden js-top-banner">
+            <div class="bg-[#0195ff] hidden js-top-banner">
               <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
-                <div>
+                <!-- <div>
                   🎄 <strong>{{ gettext('layout.index.header.banner.holiday_gift') }}</strong> ❄️ {{ gettext('layout.index.header.banner.surprise') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a>
+                </div> -->
+                <div>
+                  To increase the resiliency of Anna’s Archive, we’re looking for volunteers to run mirrors. <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/mirrors">{{ gettext('layout.index.header.learn_more') }}</a>
                 </div>
                 <div>
                   <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
                 </div>
               </div>
-            </div> -->
+            </div>
           {% endif %}
 
 
@@ -247,7 +250,7 @@
           <script>
             (function() {
               if (document.querySelector('.js-top-banner')) {
-                var latestTopBannerType = '8';
+                var latestTopBannerType = '9';
                 var topBannerMatch = document.cookie.match(/top_banner_hidden=([^$ ;}]+)/);
                 var topBannerType = '';
                 if (topBannerMatch) {
@@ -373,6 +376,7 @@
                   {% elif header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
                   {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                   {% elif header_active == 'home/torrents' %}{{ gettext('layout.index.header.nav.torrents') }}
+                  {% elif header_active == 'home/mirrors' %}Mirrors: call for volunteers <!-- TODO:TRANSLATE -->
                   {% elif header_active == 'home/llm' %}{{ gettext('layout.index.header.nav.llm_data') }}
                   {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
                   {% elif header_active == 'home/security' %}{{ gettext('layout.index.header.nav.security') }}
@@ -385,6 +389,7 @@
                   {% elif header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
                   {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                   {% elif header_active == 'home/torrents' %}{{ gettext('layout.index.header.nav.torrents') }}
+                  {% elif header_active == 'home/mirrors' %}Mirrors: call for volunteers
                   {% elif header_active == 'home/llm' %}{{ gettext('layout.index.header.nav.llm_data') }}
                   {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
                   {% elif header_active == 'home/security' %}{{ gettext('layout.index.header.nav.security') }}
@@ -399,7 +404,8 @@
                 <a class="custom-a block py-1 {% if header_active == 'home/about'    %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/datasets' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/torrents' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/llm' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/mirrors' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/mirrors">Mirrors: call for volunteers</a>
+                <!-- <a class="custom-a block py-1 {% if header_active == 'home/llm' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a> -->
                 <a class="custom-a block py-1 {% if header_active == 'home/mobile' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/mobile">{{ gettext('layout.index.header.nav.mobile') }}</a>
                 {% if g.show_wechat_in_layout %}
                   <!-- <a class="custom-a block py-1 {% if header_active == 'home/wechat' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a> -->
@@ -506,6 +512,7 @@
             <strong class="font-bold text-black">Advanced</strong><br>
             <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/mirrors">Mirrors: call for volunteers</a><br>
             <a class="custom-a hover:text-[#333]" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/security">{{ gettext('layout.index.header.nav.security') }}</a><br>
           </div>

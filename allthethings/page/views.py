@@ -308,6 +308,11 @@ def mobile_page():
 def llm_page():
     return render_template("page/llm.html", header_active="home/llm")
 
+@page.get("/mirrors")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def mirrors_page():
+    return render_template("page/mirrors.html", header_active="home/mirrors")
+
 @page.get("/browser_verification")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def browser_verification_page():
@@ -521,7 +526,15 @@ def get_torrents_data():
         seeder_size_strings = { index: format_filesize(seeder_sizes[index]) for index in [0,1,2] }
 
         obsolete_file_paths = [
-            'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent'
+            'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent',
+            'torrents/managed_by_aa/libgenli_comics/comics0__shoutout_to_tosec.torrent',
+            'torrents/managed_by_aa/libgenli_comics/comics1__adopted_by_yperion.tar.torrent',
+            'torrents/managed_by_aa/libgenli_comics/comics2__never_give_up_against_elsevier.tar.torrent',
+            'torrents/managed_by_aa/libgenli_comics/comics4__for_science.tar.torrent',
+            'torrents/managed_by_aa/libgenli_comics/comics3.0__hone_the_hachette.tar.torrent',
+            'torrents/managed_by_aa/libgenli_comics/comics3.1__adopted_by_oskanios.tar.torrent',
+            'torrents/managed_by_aa/libgenli_comics/c_2022_12_thousand_dirs.torrent',
+            'torrents/managed_by_aa/libgenli_comics/c_2022_12_thousand_dirs_magz.torrent',
         ]
         for file_path_list in aac_meta_file_paths_grouped.values():
             obsolete_file_paths += file_path_list[0:-1]
@@ -672,6 +685,13 @@ def torrents_page():
         cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(mariapersist_torrent_scrapes.seeders < 4, 0, IF(mariapersist_torrent_scrapes.seeders < 11, 1, 2)) AS seeder_group, mariapersist_small_files.data_size / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes FORCE INDEX (created_date_file_path_seeders) JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created_date > NOW() - INTERVAL 60 DAY GROUP BY created_date, file_path) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
 
+        small_files_to_sample_from = []
+        for small_files_group in torrents_data['small_file_dicts_grouped'].values():
+            for small_files in small_files_group.values():
+                for small_file in small_files:
+                    if (small_file['metadata'].get('embargo') or False) == False and small_file['scrape_metadata']['scrape']['seeders'] < 4 and small_file['file_path'] not in torrents_data['obsolete_file_paths']:
+                        small_files_to_sample_from.append(small_file)
+
         show_external = request.args.get("show_external", "").strip() == "1"
         if not show_external:
             torrents_data = {
@@ -688,6 +708,7 @@ def torrents_page():
             torrents_data=torrents_data,
             histogram=histogram,
             show_external=show_external,
+            small_file_sample=random.sample(small_files_to_sample_from, min(30, len(small_files_to_sample_from))),
         )
 
 zlib_book_dict_comments = {
