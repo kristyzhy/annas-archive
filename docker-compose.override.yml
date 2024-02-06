@@ -4,26 +4,31 @@ services:
   mariadb:
     # ports:
     #   - "${MARIADB_PORT_FORWARD:-127.0.0.1:3306}:3306"
+    network_mode: ""
     networks:
       - "mynetwork"
 
   mariapersist:
     # ports:
     #   - "${MARIAPERSIST_PORT_FORWARD:-127.0.0.1:3333}:3333"
+    network_mode: ""
     networks:
       - "mynetwork"
 
   mariapersistreplica:
+    network_mode: ""
     networks:
       - "mynetwork"
 
   mariabackup:
+    network_mode: ""
     networks:
       - "mynetwork"
 
   web:
     ports:
       - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:8000}:${PORT:-8000}"
+    network_mode: ""
     networks:
       - "mynetwork"
     volumes:
@@ -34,6 +39,7 @@ services:
     #   - "${ELASTICSEARCH_PORT_FORWARD:-127.0.0.1:9200}:9200"
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    network_mode: ""
     networks:
       - "mynetwork"
 
@@ -42,18 +48,21 @@ services:
     #   - "${ELASTICSEARCHAUX_PORT_FORWARD:-127.0.0.1:9201}:9201"
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    network_mode: ""
     networks:
       - "mynetwork"
 
   kibana:
     ports:
       - "${KIBANA_PORT_FORWARD:-127.0.0.1:5601}:5601"
+    network_mode: ""
     networks:
       - "mynetwork"
 
   mailpit:
     ports:
       - '127.0.0.1:8025:8025' # web ui
+    network_mode: ""
     networks:
       - "mynetwork"
 

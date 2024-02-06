@@ -11,7 +11,7 @@ cd /aa-data-import--allthethings-mysql-data
 echo 'DROP DATABASE IF EXISTS libgen_new;' | mariadb -h aa-data-import--mariadb -u root -ppassword --show-warnings -vv
 rm -rf libgen_new
 
-unrar x /temp-dir/libgen_new.part001.rar
+7z x /temp-dir/libgenli_db/libgen_new.zip
 chown -R 999:999 libgen_new
 
 mysqlcheck -h aa-data-import--mariadb -u root -ppassword --auto-repair --check libgen_new

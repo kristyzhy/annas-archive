@@ -477,7 +477,7 @@ def elastic_build_aarecords_ia_internal():
                             os._exit(1)
                     if len(batch) == 0:
                         break
-                    print(f"Processing {len(batch)} aarecords from aa_ia_2023_06_metadata+annas_archive_meta__aacid__ia2_records ( starting ia_id: {batch[0]['ia_id']} , ia_id: {batch[-1]['ia_id']} )...")
+                    print(f"Processing with {THREADS=} {len(batch)=} aarecords from aa_ia_2023_06_metadata+annas_archive_meta__aacid__ia2_records ( starting ia_id: {batch[0]['ia_id']} , ia_id: {batch[-1]['ia_id']} )...")
                     last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"ia:{item['ia_id']}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
                     current_ia_id = batch[-1]['ia_id']
@@ -524,7 +524,7 @@ def elastic_build_aarecords_isbndb_internal():
                             os._exit(1)
                     if len(batch) == 0:
                         break
-                    print(f"Processing {len(batch)} aarecords from isbndb_isbns ( starting isbn13: {batch[0]['isbn13']} , ending isbn13: {batch[-1]['isbn13']} )...")
+                    print(f"Processing with {THREADS=} {len(batch)=} aarecords from isbndb_isbns ( starting isbn13: {batch[0]['isbn13']} , ending isbn13: {batch[-1]['isbn13']} )...")
                     isbn13s = set()
                     for item in batch:
                         if item['isbn10'] != "0000000000":
@@ -568,7 +568,7 @@ def elastic_build_aarecords_ol_internal():
                             os._exit(1)
                     if len(batch) == 0:
                         break
-                    print(f"Processing {len(batch)} aarecords from ol_base ( starting ol_key: {batch[0]['ol_key']} , ending ol_key: {batch[-1]['ol_key']} )...")
+                    print(f"Processing with {THREADS=} {len(batch)=} aarecords from ol_base ( starting ol_key: {batch[0]['ol_key']} , ending ol_key: {batch[-1]['ol_key']} )...")
                     last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"ol:{item['ol_key'].replace('/books/','')}" for item in batch if allthethings.utils.validate_ol_editions([item['ol_key'].replace('/books/','')])], CHUNK_SIZE))
                     pbar.update(len(batch))
                     current_ol_key = batch[-1]['ol_key']
@@ -642,7 +642,7 @@ def elastic_build_aarecords_oclc_internal():
                         os._exit(1)
                 if len(batch) == 0:
                     break
-                print(f"Processing {len(batch)} aarecords from oclc (worldcat) file ( starting oclc_id: {batch[0][0]} )...")
+                print(f"Processing with {THREADS=} {len(batch)=} aarecords from oclc (worldcat) file ( starting oclc_id: {batch[0][0]} )...")
                 last_map = executor.map_async(elastic_build_aarecords_job_oclc, more_itertools.ichunked(batch, CHUNK_SIZE))
                 pbar.update(len(batch))
                 total += len(batch)
@@ -695,7 +695,7 @@ def elastic_build_aarecords_main_internal():
                             os._exit(1)
                     if len(batch) == 0:
                         break
-                    print(f"Processing {len(batch)} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
+                    print(f"Processing with {THREADS=} {len(batch)=} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
                     last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
                     pbar.update(len(batch))
                     current_md5 = batch[-1]['md5']
@@ -720,7 +720,7 @@ def elastic_build_aarecords_main_internal():
                                 os._exit(1)
                         if len(batch) == 0:
                             break
-                        print(f"Processing {len(batch)} aarecords from scihub_dois_without_matches ( starting doi: {batch[0]['doi']}, ending doi: {batch[-1]['doi']} )...")
+                        print(f"Processing with {THREADS=} {len(batch)=} aarecords from scihub_dois_without_matches ( starting doi: {batch[0]['doi']}, ending doi: {batch[-1]['doi']} )...")
                         last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
                         pbar.update(len(batch))
                         current_doi = batch[-1]['doi']
