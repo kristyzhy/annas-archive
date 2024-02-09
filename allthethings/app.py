@@ -251,18 +251,23 @@ def extensions(app):
         new_header_tagline_openlib = gettext('layout.index.header.tagline_openlib')
         new_header_tagline_duxiu = gettext('layout.index.header.tagline_duxiu')
         new_header_tagline_separator = gettext('layout.index.header.tagline_separator')
+        # TODO:TRANSLATE
         new_stats = {
             'book_count': babel_numbers.format_number((doc_counts.get('book_unknown') or 0) + (doc_counts.get('book_fiction') or 0) + (doc_counts.get('book_nonfiction') or 0) + (doc_counts.get('book_comic') or 0) + (doc_counts.get('musical_score') or 0), locale=get_locale()),
             'paper_count': babel_numbers.format_number((doc_counts.get('journal_article') or 0) + (doc_counts.get('standards_document') or 0) + (doc_counts.get('magazine') or 0), locale=get_locale()),
-            'libraries': new_header_tagline_separator.join([new_header_tagline_scihub, new_header_tagline_libgen, new_header_tagline_zlib])
+            # 'libraries': new_header_tagline_separator.join([new_header_tagline_scihub, new_header_tagline_libgen]),
+            'libraries': "".join([new_header_tagline_scihub, " and ", new_header_tagline_libgen]),
+            'scraped': new_header_tagline_separator.join([new_header_tagline_zlib, new_header_tagline_openlib, "and more"]),
         }
-        new_header_tagline = " ".join([gettext('layout.index.header.tagline_new1'), gettext('layout.index.header.tagline_new2', **new_stats), '<br>' + gettext('layout.index.header.tagline_new3', **new_stats)])
+        tagline_newnew2a = f"⭐️&nbsp;We mirror {new_stats['libraries']}."
+        tagline_newnew2b = f"We scrape and open-source {new_stats['scraped']}."
+        new_header_tagline = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats)])
         g.header_tagline = new_header_tagline
-        g.header_tagline_mid = " ".join([gettext('layout.index.header.tagline_new1'), gettext('layout.index.header.tagline_new2', **new_stats), gettext('layout.index.header.tagline_new3', **new_stats)])
-        g.header_tagline_short = " ".join([gettext('layout.index.header.tagline_new1'), '<br>' + gettext('layout.index.header.tagline_new2', **new_stats)])
+        g.header_tagline_mid = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats)])
+        g.header_tagline_short = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b])
         if str(get_locale()) != 'en':
             with force_locale('en'):
-                new_header_tagline_english = " ".join([gettext('layout.index.header.tagline_new1'), gettext('layout.index.header.tagline_new2', **new_stats), '<br>' + gettext('layout.index.header.tagline_new3', **new_stats)])
+                new_header_tagline_english = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats)])
             if new_header_tagline == new_header_tagline_english:
                 g.header_tagline = gettext('layout.index.header.tagline', **g.header_stats)
                 g.header_tagline_mid = gettext('layout.index.header.tagline', **g.header_stats)
