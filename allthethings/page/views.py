@@ -2962,15 +2962,15 @@ def get_md5_problem_type_mapping():
 def get_md5_content_type_mapping(display_lang):
     with force_locale(display_lang):
         return {
-            "book_unknown":       gettext("common.md5_content_type_mapping.book_unknown"),
-            "book_nonfiction":    gettext("common.md5_content_type_mapping.book_nonfiction"),
-            "book_fiction":       gettext("common.md5_content_type_mapping.book_fiction"),
-            "journal_article":    gettext("common.md5_content_type_mapping.journal_article"),
-            "standards_document": gettext("common.md5_content_type_mapping.standards_document"),
-            "magazine":           gettext("common.md5_content_type_mapping.magazine"),
-            "book_comic":         gettext("common.md5_content_type_mapping.book_comic"),
-            "musical_score":      gettext("common.md5_content_type_mapping.musical_score"),
-            "other":              gettext("common.md5_content_type_mapping.other"),
+            "book_unknown":       "📗 " + gettext("common.md5_content_type_mapping.book_unknown"),
+            "book_nonfiction":    "📘 " + gettext("common.md5_content_type_mapping.book_nonfiction"),
+            "book_fiction":       "📕 " + gettext("common.md5_content_type_mapping.book_fiction"),
+            "journal_article":    "📄 " + gettext("common.md5_content_type_mapping.journal_article"),
+            "standards_document": "📝 " + gettext("common.md5_content_type_mapping.standards_document"),
+            "magazine":           "📰 " + gettext("common.md5_content_type_mapping.magazine"),
+            "book_comic":         "💬 " + gettext("common.md5_content_type_mapping.book_comic"),
+            "musical_score":      "🎶 " + gettext("common.md5_content_type_mapping.musical_score"),
+            "other":              "🤨 " + gettext("common.md5_content_type_mapping.other"),
         }
 
 def get_access_types_mapping(display_lang):
@@ -3167,7 +3167,11 @@ def get_additional_for_aarecord(aarecord):
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_comics/comics'):
             stripped_path = urllib.parse.quote(aarecord['aa_lgli_comics_2022_08_file']['path'][len('libgen_comics/'):])
             partner_path = f"a/comics_2022_08/{stripped_path}"
-            add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+
+            # TODO: Bring back.
+            # add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+            additional['download_urls'].append(("", "", 'Partner Server downloads temporarily not available for this file.'))
+
             if stripped_path.startswith('comics0/'):
                 additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/comics0__shoutout_to_tosec.torrent"])
             elif stripped_path.startswith('comics1/'):
