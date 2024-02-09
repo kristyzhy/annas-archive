@@ -247,7 +247,7 @@ def usd_currency_rates_cached():
 def membership_tier_names(locale):
     with force_locale(locale):
         return { 
-            "1": "Bonus downloads", # TODO:TRANSLATE
+            "1": gettext('common.membership.tier_name.bonus'),
             "2": gettext('common.membership.tier_name.2'),
             "3": gettext('common.membership.tier_name.3'),
             "4": gettext('common.membership.tier_name.4'),

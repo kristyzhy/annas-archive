@@ -30,26 +30,37 @@ msgstr "DuXiu"
 msgid "layout.index.header.tagline_separator"
 msgstr ", "
 
-#: allthethings/app.py:259 allthethings/app.py:261 allthethings/app.py:262
-#: allthethings/app.py:265
+#: allthethings/app.py:254
+msgid "layout.index.header.tagline_and"
+msgstr ""
+
+#: allthethings/app.py:255
+msgid "layout.index.header.tagline_and_more"
+msgstr ""
+
+#: allthethings/app.py:263
+msgid "layout.index.header.tagline_newnew2a"
+msgstr ""
+
+#: allthethings/app.py:264
+msgid "layout.index.header.tagline_newnew2b"
+msgstr ""
+
+#: allthethings/app.py:265 allthethings/app.py:267 allthethings/app.py:268
+#: allthethings/app.py:271
 #, fuzzy
 msgid "layout.index.header.tagline_new1"
 msgstr "📚&nbsp;İnsanlık tarihindeki en büyük açık kütüphane."
 
-#: allthethings/app.py:259 allthethings/app.py:261 allthethings/app.py:262
-#: allthethings/app.py:265
-msgid "layout.index.header.tagline_new2"
-msgstr ""
-
-#: allthethings/app.py:259 allthethings/app.py:261 allthethings/app.py:265
+#: allthethings/app.py:265 allthethings/app.py:267 allthethings/app.py:271
 msgid "layout.index.header.tagline_new3"
 msgstr "📈&nbsp;%(book_count)s&nbsp;kitaplar, %(paper_count)s&nbsp;sayfalar — sonsuza dek korunur."
 
-#: allthethings/app.py:267 allthethings/app.py:268
+#: allthethings/app.py:273 allthethings/app.py:274
 msgid "layout.index.header.tagline"
 msgstr "📚&nbsp;Dünyanın en büyük açık kaynak açık veri kütüphanesi. ⭐️&nbsp;Sci-Hub, Library Genesis, Z-Library ve daha fazlasını içerir. 📈&nbsp;%(book_any)s kitap, %(journal_article)s makale, %(book_comic)s çizgi roman, %(magazine)s dergi — sonsuza kadar saklı."
 
-#: allthethings/app.py:269
+#: allthethings/app.py:275
 msgid "layout.index.header.tagline_short"
 msgstr "📚 Dünyanın en büyük açık kaynak veri kütüphanesi. <br>⭐️ Scihub, Libgen, Zlib, ve dahası."
 
@@ -82,54 +93,62 @@ msgid "common.md5_report_type_mapping.other"
 msgstr "Diğer"
 
 #: allthethings/utils.py:250
+msgid "common.membership.tier_name.bonus"
+msgstr ""
+
+#: allthethings/utils.py:251
 msgid "common.membership.tier_name.2"
 msgstr "Zeki Kitap Kurdu"
 
-#: allthethings/utils.py:251
+#: allthethings/utils.py:252
 msgid "common.membership.tier_name.3"
 msgstr "Şanslı Kütüphaneci"
 
-#: allthethings/utils.py:252
+#: allthethings/utils.py:253
 msgid "common.membership.tier_name.4"
 msgstr "Muhteşem Veri İstifçisi"
 
-#: allthethings/utils.py:253
+#: allthethings/utils.py:254
 msgid "common.membership.tier_name.5"
 msgstr "Harika Arşivci"
 
-#: allthethings/utils.py:365
+#: allthethings/utils.py:392
 msgid "common.membership.format_currency.total_with_usd"
 msgstr "toplam %(amount)s %(amount_usd)s"
 
-#: allthethings/utils.py:367 allthethings/utils.py:368
+#: allthethings/utils.py:394 allthethings/utils.py:395
 msgid "common.membership.format_currency.amount_with_usd"
 msgstr "%(amount)s (%(amount_usd)s)"
 
-#: allthethings/utils.py:379
+#: allthethings/utils.py:406
 msgid "common.membership.format_currency.total"
 msgstr "toplam %(amount)s"
 
-#: allthethings/account/views.py:270
+#: allthethings/account/views.py:64
+msgid "common.donation.membership_bonus_parens"
+msgstr ""
+
+#: allthethings/account/views.py:313
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "ödenmedi"
 
-#: allthethings/account/views.py:271
+#: allthethings/account/views.py:314
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "ödendi"
 
-#: allthethings/account/views.py:272
+#: allthethings/account/views.py:315
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "iptal edildi"
 
-#: allthethings/account/views.py:273
+#: allthethings/account/views.py:316
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "bitti"
 
-#: allthethings/account/views.py:274
+#: allthethings/account/views.py:317
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "Anna'nın onaylamasını bekle"
 
-#: allthethings/account/views.py:275
+#: allthethings/account/views.py:318
 msgid "common.donation.order_processing_status_labels.5"
 msgstr ""
 
@@ -154,341 +173,367 @@ msgstr "Anna’s Archive; kâr amacı gütmeyen, açık kaynaklı, açık verili
 msgid "page.donate.header.text2"
 msgstr "Daha fazla bilgi için, <a href=\"/donation_faq\">Bağış Hakkında SSS</a> sayfasını ziyaret edin."
 
-#: allthethings/account/templates/account/donate.html:29
-#: allthethings/account/templates/account/donate.html:43
-#: allthethings/account/templates/account/donate.html:57
-#: allthethings/account/templates/account/donate.html:71
+#: allthethings/account/templates/account/donate.html:27
+#: allthethings/account/templates/account/donation.html:23
+msgid "page.donate.bonus_downloads.main"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:28
+#: allthethings/account/templates/account/donation.html:24
+msgid "page.donate.bonus_downloads.period"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:38
+#: allthethings/account/templates/account/donate.html:53
+#: allthethings/account/templates/account/donate.html:67
+#: allthethings/account/templates/account/donate.html:81
 msgid "page.donate.buttons.join"
 msgstr "Katıl"
 
-#: allthethings/account/templates/account/donate.html:30
-#: allthethings/account/templates/account/donate.html:44
-#: allthethings/account/templates/account/donate.html:58
-#: allthethings/account/templates/account/donate.html:72
+#: allthethings/account/templates/account/donate.html:39
+#: allthethings/account/templates/account/donate.html:54
+#: allthethings/account/templates/account/donate.html:68
+#: allthethings/account/templates/account/donate.html:82
 msgid "page.donate.buttons.selected"
 msgstr "Seçildi"
 
-#: allthethings/account/templates/account/donate.html:32
-#: allthethings/account/templates/account/donate.html:46
-#: allthethings/account/templates/account/donate.html:60
-#: allthethings/account/templates/account/donate.html:74
+#: allthethings/account/templates/account/donate.html:41
+#: allthethings/account/templates/account/donate.html:56
+#: allthethings/account/templates/account/donate.html:70
+#: allthethings/account/templates/account/donate.html:84
 msgid "page.donate.buttons.up_to_discounts"
 msgstr "%(percentage)s%%'e varan indirimler"
 
-#: allthethings/account/templates/account/donate.html:34
-#: allthethings/account/templates/account/donate.html:49
-#: allthethings/account/templates/account/donate.html:63
-#: allthethings/account/templates/account/donate.html:77
+#: allthethings/account/templates/account/donate.html:43
+#: allthethings/account/templates/account/donate.html:59
+#: allthethings/account/templates/account/donate.html:73
+#: allthethings/account/templates/account/donate.html:87
 msgid "page.donate.perks.fast_downloads"
 msgstr "Her gün %(number)s hızlı indirme"
 
-#: allthethings/account/templates/account/donate.html:35
+#: allthethings/account/templates/account/donate.html:44
 msgid "page.donate.perks.scidb"
 msgstr "Doğrulama olmaksızın <strong>sınırsız</strong> SciDB sayfasına erişim"
 
-#: allthethings/account/templates/account/donate.html:36
+#: allthethings/account/templates/account/donate.html:45
+msgid "page.donate.perks.refer"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:46
 msgid "page.donate.perks.credits"
 msgstr "Katkıda Bulunanlar kısmında kullanıcı adınızla ya da anonim olarak değinme"
 
-#: allthethings/account/templates/account/donate.html:48
-#: allthethings/account/templates/account/donate.html:62
-#: allthethings/account/templates/account/donate.html:76
+#: allthethings/account/templates/account/donate.html:58
+#: allthethings/account/templates/account/donate.html:72
+#: allthethings/account/templates/account/donate.html:86
 msgid "page.donate.perks.previous_plus"
 msgstr "Önceki avantajlar, artı:"
 
-#: allthethings/account/templates/account/donate.html:50
+#: allthethings/account/templates/account/donate.html:60
 msgid "page.donate.perks.early_access"
 msgstr "Yeni özelliklere erken erişim"
 
-#: allthethings/account/templates/account/donate.html:64
+#: allthethings/account/templates/account/donate.html:74
 msgid "page.donate.perks.exclusive_telegram"
 msgstr "Sahne arkası güncellemeleri içeren özel Telegram kanalı"
 
-#: allthethings/account/templates/account/donate.html:78
+#: allthethings/account/templates/account/donate.html:88
 msgid "page.donate.perks.adopt"
 msgstr "“Bir torrent sahiplen”: <div %(div_months)s>her 12 aylık üyelikte bir defa</div> bir torrent dosyasında kullanıcı adınız veya mesajınız"
 
-#: allthethings/account/templates/account/donate.html:85
+#: allthethings/account/templates/account/donate.html:89
+msgid "page.donate.perks.legendary"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:96
 #, fuzzy
 msgid "page.donate.expert.title"
 msgstr "Uzman Erişimi"
 
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donation.html:502
-#: allthethings/templates/layouts/index.html:500
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donation.html:510
+#: allthethings/templates/layouts/index.html:534
 msgid "page.donate.small_team"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:90
+#: allthethings/account/templates/account/donate.html:101
 msgid "page.donate.expert.unlimited_access"
 msgstr "<strong>Sınırsız</strong> yüksek hızlı erişim"
 
-#: allthethings/account/templates/account/donate.html:91
+#: allthethings/account/templates/account/donate.html:102
 msgid "page.donate.expert.direct_sftp"
 msgstr "Doğrudan <strong>SFTP</strong> sunucuları"
 
-#: allthethings/account/templates/account/donate.html:94
+#: allthethings/account/templates/account/donate.html:105
 #, fuzzy
 msgid "page.donate.expert.enterprise_donation"
 msgstr "Yeni koleksiyonlar için kurumsal düzeyde bağış veya takas (örn. yeni taramalar, OCR'lenmiş veri kümeleri)."
 
-#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:110
+msgid "page.donate.header.large_donations_wealthy"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:111
 msgid "page.donate.header.large_donations"
 msgstr "5000$'ın üstündeki bağışlar için lütfen bizimle direkt olarak <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a> üzerinden iletişime geçin."
 
-#: allthethings/account/templates/account/donate.html:105
+#: allthethings/account/templates/account/donate.html:117
 msgid "page.donate.payment.intro"
 msgstr "Bir ödeme yöntemi seçin. Kripto-bazlı ödemelerde %(bitcoin_icon)s indirim yapıyoruz çünkü daha az komisyona maruz kalıyoruz."
 
-#: allthethings/account/templates/account/donate.html:106
+#: allthethings/account/templates/account/donate.html:118
 msgid "page.donate.payment.intro2"
 msgstr "Bir ödeme seçeneği seçin. Şu anda sadece kripto bazlı ödeme yöntemlerimiz var %(bitcoin_icon)s, geleneksel ödeme işleyicileri bizle çalışmayı reddetmekte."
 
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:123
+#: allthethings/account/templates/account/donate.html:120
+msgid "page.donate.payment.select_method"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:124
+#: allthethings/account/templates/account/donate.html:135
 msgid "page.donate.payment.buttons.crypto"
 msgstr "Kripto %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:123
 #: allthethings/account/templates/account/donate.html:124
-#: allthethings/account/templates/account/donate.html:127
-#: allthethings/account/templates/account/donate.html:128
-#: allthethings/account/templates/account/donate.html:130
-#: allthethings/account/templates/account/donate.html:131
-#: allthethings/account/templates/account/donate.html:271
-#: allthethings/account/templates/account/donate.html:272
-#: allthethings/account/templates/account/donate.html:273
-#: allthethings/account/templates/account/donate.html:274
+#: allthethings/account/templates/account/donate.html:125
+#: allthethings/account/templates/account/donate.html:126
+#: allthethings/account/templates/account/donate.html:135
+#: allthethings/account/templates/account/donate.html:136
+#: allthethings/account/templates/account/donate.html:139
+#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:142
+#: allthethings/account/templates/account/donate.html:143
+#: allthethings/account/templates/account/donate.html:283
+#: allthethings/account/templates/account/donate.html:284
+#: allthethings/account/templates/account/donate.html:285
+#: allthethings/account/templates/account/donate.html:286
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:114
+#: allthethings/account/templates/account/donate.html:126
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:118
+#: allthethings/account/templates/account/donate.html:130
 msgid "page.donate.payment.buttons.amazon"
 msgstr "Amazon Hediye Kartı"
 
-#: allthethings/account/templates/account/donate.html:121
-#: allthethings/account/templates/account/donate.html:135
+#: allthethings/account/templates/account/donate.html:133
+#: allthethings/account/templates/account/donate.html:147
 msgid "page.donate.payment.buttons.alipay"
 msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:122
+#: allthethings/account/templates/account/donate.html:134
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix (Brezilya)"
 
-#: allthethings/account/templates/account/donate.html:127
+#: allthethings/account/templates/account/donate.html:139
 msgid "page.donate.payment.buttons.paypal_plain"
 msgstr "PayPal"
 
-#: allthethings/account/templates/account/donate.html:128
+#: allthethings/account/templates/account/donate.html:140
 msgid "page.donate.payment.buttons.cashapp"
 msgstr "Cash App"
 
-#: allthethings/account/templates/account/donate.html:129
+#: allthethings/account/templates/account/donate.html:141
 msgid "page.donate.payment.buttons.credit_debit"
 msgstr "Kredi/banka kartı"
 
-#: allthethings/account/templates/account/donate.html:130
+#: allthethings/account/templates/account/donate.html:142
 msgid "page.donate.payment.buttons.credit_debit2"
 msgstr "Kredi/banka kartı 2"
 
-#: allthethings/account/templates/account/donate.html:136
+#: allthethings/account/templates/account/donate.html:148
 msgid "page.donate.payment.buttons.wechat"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:137
-#: allthethings/account/templates/account/donate.html:146
-#: allthethings/account/templates/account/donate.html:154
-#: allthethings/account/templates/account/donate.html:161
+#: allthethings/account/templates/account/donate.html:149
+#: allthethings/account/templates/account/donate.html:158
+#: allthethings/account/templates/account/donate.html:166
+#: allthethings/account/templates/account/donate.html:173
 msgid "page.donate.payment.buttons.alipay_wechat"
 msgstr "Alipay / WeChat"
 
-#: allthethings/account/templates/account/donate.html:161
+#: allthethings/account/templates/account/donate.html:173
 msgid "page.donate.payment.buttons.temporarily_unavailable"
 msgstr "(geçici olarak ulaşılamıyor)"
 
-#: allthethings/account/templates/account/donate.html:168
+#: allthethings/account/templates/account/donate.html:180
 msgid "page.donate.payment.desc.crypto"
 msgstr "Kripto kullanarak BTC, ETH, XMR ve SOL ile bağış yapabilirsin. Bu seçeneği halihazırda kripto para birimlerine alışkınsan kullan."
 
-#: allthethings/account/templates/account/donate.html:174
+#: allthethings/account/templates/account/donate.html:186
 msgid "page.donate.payment.desc.crypto2"
 msgstr "Kripto ile BTC, ETH, XMR ve diğerlerini kullanarak bağış yapabilirsiniz."
 
-#: allthethings/account/templates/account/donate.html:178
+#: allthethings/account/templates/account/donate.html:190
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr "Eğer kripto parayı ilk kez kullanıyorsanız, Bitcoin (orijinal ve en çok kullanılan kripto para) satın almak ve bağışlamak için %(option1)s, %(option2)s ya da %(option3)s kullanmanızı öneririz."
 
-#: allthethings/account/templates/account/donate.html:184
+#: allthethings/account/templates/account/donate.html:196
 msgid "page.donate.payment.desc.paypal"
 msgstr "PayPal ABD ile bağışta bulunmak için, anonim olmamıza izin veren PayPal Kripto kullanacağı. Bu metotla nasıl bağış yapılacağını öğrenmeye vakit ayırdığınız için müteşekkiriz, bu bize çok yardımcı olur."
 
-#: allthethings/account/templates/account/donate.html:185
+#: allthethings/account/templates/account/donate.html:197
 msgid "page.donate.payment.desc.paypal_short"
 msgstr "PayPal kullanarak bağış yap."
 
-#: allthethings/account/templates/account/donate.html:191
+#: allthethings/account/templates/account/donate.html:203
 msgid "page.donate.payment.desc.cashapp"
 msgstr "Cash App kullanarak bağış yap."
 
-#: allthethings/account/templates/account/donate.html:191
+#: allthethings/account/templates/account/donate.html:203
 msgid "page.donate.payment.desc.cashapp_easy"
 msgstr "Cash App kullanıyorsanız, bağış yapmak için en kolay yöntem bu!"
 
-#: allthethings/account/templates/account/donate.html:194
+#: allthethings/account/templates/account/donate.html:206
 msgid "page.donate.payment.desc.cashapp_fee"
 msgstr "%(amount)s altındaki transferler için Cash App'in %(fee)s ücret kesebileceği aklınızda bulunsun. %(amount)s ve üstü için ücret yok!"
 
-#: allthethings/account/templates/account/donate.html:200
-#: allthethings/account/templates/account/donate.html:254
+#: allthethings/account/templates/account/donate.html:212
+#: allthethings/account/templates/account/donate.html:266
 msgid "page.donate.payment.desc.credit_debit"
 msgstr "Kredi veya banka kartı ile bağış yapın."
 
-#: allthethings/account/templates/account/donate.html:201
+#: allthethings/account/templates/account/donate.html:213
 msgid "page.donate.payment.desc.google_apple"
 msgstr "Google Pay ve Apple Pay de işe yarayabilir."
 
-#: allthethings/account/templates/account/donate.html:202
+#: allthethings/account/templates/account/donate.html:214
 msgid "page.donate.payment.desc.elimate_discount"
 msgstr "Daha küçük bağışlarda kredi kartında kesilen ücretler bizim %(discount)s%% indirimimizi kaldırabilir, bu yüzden daha uzun abonelikler öneririz."
 
-#: allthethings/account/templates/account/donate.html:203
+#: allthethings/account/templates/account/donate.html:215
 msgid "page.donate.payment.desc.longer_subs"
 msgstr "Küçük bağışlar için kesilen ücretlerin yüksek olduğunu unutmayın, bu nedenle daha uzun abonelikler yapmanızı öneririz."
 
-#: allthethings/account/templates/account/donate.html:225
-#: allthethings/account/templates/account/donate.html:231
+#: allthethings/account/templates/account/donate.html:237
+#: allthethings/account/templates/account/donate.html:243
 msgid "page.donate.payment.desc.alipay_wechat"
 msgstr "Alipay veya WeChat'i kullanarak bağış yapın. Bir sonraki sayfada bunlar arasında seçim yapabilirsiniz."
 
-#: allthethings/account/templates/account/donate.html:243
+#: allthethings/account/templates/account/donate.html:255
 msgid "page.donate.payment.desc.amazon"
 msgstr "Amazon Hediye Kartı kullanarak bağış yapın."
 
-#: allthethings/account/templates/account/donate.html:244
+#: allthethings/account/templates/account/donate.html:256
 msgid "page.donate.payment.desc.amazon_round"
 msgstr "Bayilerimiz tarafından kabul edilen miktarlara (minimum %(minimum)slar) yuvarlamamız gerektiğini unutmayın."
 
-#: allthethings/account/templates/account/donate.html:248
-#: allthethings/account/templates/account/donation.html:312
+#: allthethings/account/templates/account/donate.html:260
+#: allthethings/account/templates/account/donation.html:320
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>ÖNEMLİ</strong> Sadece Amazon.com'u destekliyoruz, diğer Amazon sitelerini değil. Mesela, .tr, .de, .co.uk destekli DEĞİL."
 
-#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:277
 msgid "page.donate.duration.intro"
 msgstr "Ne kadar süre için abone olacağını seç."
 
-#: allthethings/account/templates/account/donate.html:270
+#: allthethings/account/templates/account/donate.html:282
 msgid "page.donate.duration.1_mo"
 msgstr "1 ay"
 
-#: allthethings/account/templates/account/donate.html:271
+#: allthethings/account/templates/account/donate.html:283
 msgid "page.donate.duration.3_mo"
 msgstr "3 ay"
 
-#: allthethings/account/templates/account/donate.html:272
+#: allthethings/account/templates/account/donate.html:284
 msgid "page.donate.duration.6_mo"
 msgstr "6 ay"
 
-#: allthethings/account/templates/account/donate.html:273
+#: allthethings/account/templates/account/donate.html:285
 msgid "page.donate.duration.12_mo"
 msgstr "12 ay"
 
-#: allthethings/account/templates/account/donate.html:274
+#: allthethings/account/templates/account/donate.html:286
 msgid "page.donate.duration.24_mo"
 msgstr "24 ay"
 
-#: allthethings/account/templates/account/donate.html:277
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><span %(span_discount)s></span> <div %(div_after)s>indirimden sonra</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:283
+#: allthethings/account/templates/account/donate.html:295
 msgid "page.donate.payment.minimum_method"
 msgstr "Bu ödeme yöntemi minimum %(amount)s destekliyor. Lütfen başka bir tutar ya da ödeme yöntemi seçin."
 
-#: allthethings/account/templates/account/donate.html:284
+#: allthethings/account/templates/account/donate.html:296
 msgid "page.donate.payment.maximum_method"
 msgstr "Bu ödeme yöntemi maksimum %(amount)s destekliyor. Lütfen başka bir tutar ya da ödeme yöntemi seçin."
 
-#: allthethings/account/templates/account/donate.html:289
+#: allthethings/account/templates/account/donate.html:301
 msgid "page.donate.login2"
 msgstr "Üye olmak için, lütfen <a %(a_login)s>Giriş yap ya da Kaydol</a>. Desteğiniz için teşekkürler!"
 
-#: allthethings/account/templates/account/donate.html:296
+#: allthethings/account/templates/account/donate.html:308
 msgid "page.donate.payment.crypto_select"
 msgstr "Tercih ettiğiniz kripto parayı seçin:"
 
-#: allthethings/account/templates/account/donate.html:328
+#: allthethings/account/templates/account/donate.html:340
 msgid "page.donate.submit.confirm"
 msgstr "Bağışı onaylama için bağış tuşuna tıkla."
 
-#: allthethings/account/templates/account/donate.html:336
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.submit.button"
 msgstr "Bağışla <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:341
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.submit.cancel_note"
 msgstr "Ödeme sırasında bağışı hâlâ iptal edebilirsiniz."
 
-#: allthethings/account/templates/account/donate.html:345
+#: allthethings/account/templates/account/donate.html:357
 msgid "page.donate.submit.success"
 msgstr "✅ Bağış sayfasına yönlendiriliyor…"
 
-#: allthethings/account/templates/account/donate.html:346
+#: allthethings/account/templates/account/donate.html:358
 msgid "page.donate.submit.failure"
 msgstr "❌ Bir şeyler ters gitti. Lütfen sayfayı yenileyin ve tekrar deneyin."
 
-#: allthethings/account/templates/account/donate.html:403
+#: allthethings/account/templates/account/donate.html:415
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:404
+#: allthethings/account/templates/account/donate.html:416
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / ay"
 
-#: allthethings/account/templates/account/donate.html:407
+#: allthethings/account/templates/account/donate.html:419
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 ay için"
 
-#: allthethings/account/templates/account/donate.html:408
+#: allthethings/account/templates/account/donate.html:420
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 ay için"
 
-#: allthethings/account/templates/account/donate.html:409
+#: allthethings/account/templates/account/donate.html:421
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 ay için"
 
-#: allthethings/account/templates/account/donate.html:410
+#: allthethings/account/templates/account/donate.html:422
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 ay için"
 
-#: allthethings/account/templates/account/donate.html:411
+#: allthethings/account/templates/account/donate.html:423
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 ay için"
 
-#: allthethings/account/templates/account/donate.html:415
+#: allthethings/account/templates/account/donate.html:427
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 ay için “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:416
+#: allthethings/account/templates/account/donate.html:428
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 ay için “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:417
+#: allthethings/account/templates/account/donate.html:429
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 ay için “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:418
+#: allthethings/account/templates/account/donate.html:430
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 ay için “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:419
+#: allthethings/account/templates/account/donate.html:431
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 ay için “%(tier_name)s”"
 
@@ -513,353 +558,353 @@ msgstr "Toplam: %(total)s <span %(span_details)s>(%(discounts)s%% indirim dâhil
 msgid "page.donation.header.total_without_discount"
 msgstr "Toplam: %(total)s <span %(span_details)s>(%(duration)s ay için aylık %(monthly_amount_usd)s)</span>"
 
-#: allthethings/account/templates/account/donation.html:19
+#: allthethings/account/templates/account/donation.html:27
 msgid "page.donation.header.status"
 msgstr "Durum: <span %(span_label)s>%(label)s</span>"
 
-#: allthethings/account/templates/account/donation.html:25
+#: allthethings/account/templates/account/donation.html:33
 msgid "page.donation.header.cancel.button"
 msgstr "İptal Et"
 
-#: allthethings/account/templates/account/donation.html:26
+#: allthethings/account/templates/account/donation.html:34
 msgid "page.donation.header.cancel.confirm.msg"
 msgstr "İptal etmek istediğine emin misin? Zaten ödemeyi yaptıysan iptal etme."
 
-#: allthethings/account/templates/account/donation.html:26
+#: allthethings/account/templates/account/donation.html:34
 msgid "page.donation.header.cancel.confirm.button"
 msgstr "Evet, iptal et"
 
-#: allthethings/account/templates/account/donation.html:28
+#: allthethings/account/templates/account/donation.html:36
 msgid "page.donation.header.cancel.success"
 msgstr "✅ Bağışın iptal edildi."
 
-#: allthethings/account/templates/account/donation.html:28
+#: allthethings/account/templates/account/donation.html:36
 msgid "page.donation.header.cancel.new_donation"
 msgstr "Yeni bir bağış yap"
 
-#: allthethings/account/templates/account/donation.html:29
+#: allthethings/account/templates/account/donation.html:37
 msgid "page.donation.header.cancel.failure"
 msgstr "❌ Bir şeyler yanlış gitti. Lütfen sayfayı yenile ve tekrar dene."
 
-#: allthethings/account/templates/account/donation.html:33
+#: allthethings/account/templates/account/donation.html:41
 msgid "page.donation.header.reorder"
 msgstr "Yeniden sipariş ver"
 
-#: allthethings/account/templates/account/donation.html:40
+#: allthethings/account/templates/account/donation.html:48
 msgid "page.donation.old_instructions.intro_paid"
 msgstr "Zaten ödemeyi yaptın. Eğer yine de ödeme talimatlarını tekrar gözden geçirmek istersen buraya tıkla:"
 
-#: allthethings/account/templates/account/donation.html:43
-#: allthethings/account/templates/account/donation.html:55
+#: allthethings/account/templates/account/donation.html:51
+#: allthethings/account/templates/account/donation.html:63
 msgid "page.donation.old_instructions.show_button"
 msgstr "Eski ödeme talimatlarını göster"
 
-#: allthethings/account/templates/account/donation.html:48
+#: allthethings/account/templates/account/donation.html:56
 msgid "page.donation.thank_you_donation"
 msgstr "Bağışınız için teşekkürler!"
 
-#: allthethings/account/templates/account/donation.html:52
+#: allthethings/account/templates/account/donation.html:60
 msgid "page.donation.old_instructions.intro_outdated"
 msgstr "Ödeme yönergeleri şu anda eskimiş durumda. Eğer başka bir bağış yapmak isterseniz, yukarıdaki \"Yeniden sipariş ver\" butonunu kullanın."
 
-#: allthethings/account/templates/account/donation.html:62
+#: allthethings/account/templates/account/donation.html:70
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>Önemli not:</strong> Kripto fiyatları bazen birkaç dakikada 20%% olacak kadar çılgınca dalgalanabilir. Bu yine de çoğu ödeme sağlayıcısına ödediğimiz komisyonlardan düşüktür; genellikle bizim gibi bir \"gölge hayır işi\" ile çalışırken 50-60%% komisyon keserler. <u>Eğer bize ödediğiniz asıl fiyatla birlikte bir makbuz gönderirseniz, sizin hesabınıza seçilen üyeliği tanımlayacağız </u> (makbuzun birkaç saatten daha eski olmaması koşuluyla). Bizi desteklemek için böyle şeylere katlanmaya niyetli olmanızı gerçekten takdir ediyoruz! ❤️"
 
-#: allthethings/account/templates/account/donation.html:68
-#: allthethings/account/templates/account/donation.html:81
-#: allthethings/account/templates/account/donation.html:102
-#: allthethings/account/templates/account/donation.html:153
-#: allthethings/account/templates/account/donation.html:193
-#: allthethings/account/templates/account/donation.html:238
-#: allthethings/account/templates/account/donation.html:279
-#: allthethings/account/templates/account/donation.html:341
-#: allthethings/account/templates/account/donation.html:357
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:391
-#: allthethings/account/templates/account/donation.html:407
+#: allthethings/account/templates/account/donation.html:76
+#: allthethings/account/templates/account/donation.html:89
+#: allthethings/account/templates/account/donation.html:110
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:201
+#: allthethings/account/templates/account/donation.html:246
+#: allthethings/account/templates/account/donation.html:287
+#: allthethings/account/templates/account/donation.html:349
+#: allthethings/account/templates/account/donation.html:365
+#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:399
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.expired"
 msgstr "Bu bağışın süresi doldu. Lütfen iptal edin ve yeni bir tane başlatın."
 
-#: allthethings/account/templates/account/donation.html:71
+#: allthethings/account/templates/account/donation.html:79
 msgid "page.donation.payment.crypto.top_header"
 msgstr "Kripto talimatları"
 
-#: allthethings/account/templates/account/donation.html:73
+#: allthethings/account/templates/account/donation.html:81
 msgid "page.donation.payment.crypto.header1"
 msgstr "<span %(span_circle)s>1</span>Kripto hesaplarımızdan birine transfer edin"
 
-#: allthethings/account/templates/account/donation.html:76
+#: allthethings/account/templates/account/donation.html:84
 msgid "page.donation.payment.crypto.text1"
 msgstr "Bu adreslerden birine toplam %(total)s miktarını bağışlayın:"
 
-#: allthethings/account/templates/account/donation.html:105
+#: allthethings/account/templates/account/donation.html:113
 msgid "page.donate.submit.header1"
 msgstr "<span %(span_circle)s>1</span>PayPal'da Bitcoin al"
 
-#: allthethings/account/templates/account/donation.html:108
-#: allthethings/account/templates/account/donation.html:159
+#: allthethings/account/templates/account/donation.html:116
+#: allthethings/account/templates/account/donation.html:167
 msgid "page.donate.one_time_payment.paypal.text2"
 msgstr "Paypal uygulamanızda ya da websitesinde \"Crypto\" sayfasını bulun. Bu genelde \"Finans\" bölümünün altında bulunur."
 
-#: allthethings/account/templates/account/donation.html:112
+#: allthethings/account/templates/account/donation.html:120
 msgid "page.donation.payment.paypal.text3"
 msgstr "Bitcoin (BTC) almak için talimatları takip edin. Yalnızca bağış yapmak istediğiniz miktarı satın almanız gerekli, %(total)s."
 
-#: allthethings/account/templates/account/donation.html:115
+#: allthethings/account/templates/account/donation.html:123
 msgid "page.donate.submit.header2"
 msgstr "<span %(span_circle)s>2</span>Bitcoini adresimize transfer edin"
 
-#: allthethings/account/templates/account/donation.html:118
+#: allthethings/account/templates/account/donation.html:126
 msgid "page.donate.one_time_payment.paypal.text4"
 msgstr "Paypal uygulamanızda ya da websitesinde “Bitcoin” sayfasına gidin. “Para gönder” butonuna %(transfer_icon)s, basın ve ardından “Gönder”."
 
-#: allthethings/account/templates/account/donation.html:122
+#: allthethings/account/templates/account/donation.html:130
 msgid "page.donation.payment.paypal.text5"
 msgstr "Bitcoin (BTC) adresimizi alıcı olarak girin ve %(total)s tutarındaki bağışınızı göndermek için talimatları takip edin:"
 
-#: allthethings/account/templates/account/donation.html:126
-#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:134
+#: allthethings/account/templates/account/donation.html:242
 msgid "page.donation.credit_debit_card_instructions"
 msgstr "Kredi/banka kartı talimatları"
 
-#: allthethings/account/templates/account/donation.html:128
+#: allthethings/account/templates/account/donation.html:136
 msgid "page.donation.credit_debit_card_our_page"
 msgstr "Kredi/ banka kartı sayfamızdan bağış yapın"
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:139
 msgid "page.donation.donate_on_this_page"
 msgstr "<a %(a_page)s>Bu sayfadan</a> %(amount)s bağış yapın."
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:139
 msgid "page.donation.stepbystep_below"
 msgstr "Aşağıdaki adım-adım rehbere bakın."
 
-#: allthethings/account/templates/account/donation.html:135
-#: allthethings/account/templates/account/donation.html:178
-#: allthethings/account/templates/account/donation.html:221
-#: allthethings/account/templates/account/donation.html:262
-#: allthethings/account/templates/account/donation.html:291
-#: allthethings/account/templates/account/donation.html:322
+#: allthethings/account/templates/account/donation.html:143
+#: allthethings/account/templates/account/donation.html:186
+#: allthethings/account/templates/account/donation.html:229
+#: allthethings/account/templates/account/donation.html:270
+#: allthethings/account/templates/account/donation.html:299
+#: allthethings/account/templates/account/donation.html:330
 msgid "page.donation.status_header"
 msgstr "Durum:"
 
-#: allthethings/account/templates/account/donation.html:135
-#: allthethings/account/templates/account/donation.html:178
-#: allthethings/account/templates/account/donation.html:221
-#: allthethings/account/templates/account/donation.html:262
-#: allthethings/account/templates/account/donation.html:291
+#: allthethings/account/templates/account/donation.html:143
+#: allthethings/account/templates/account/donation.html:186
+#: allthethings/account/templates/account/donation.html:229
+#: allthethings/account/templates/account/donation.html:270
+#: allthethings/account/templates/account/donation.html:299
 msgid "page.donation.waiting_for_confirmation_refresh"
 msgstr "Onay bekleniyor (kontrol etmek için sayfayı yenileyin)…"
 
-#: allthethings/account/templates/account/donation.html:135
-#: allthethings/account/templates/account/donation.html:178
-#: allthethings/account/templates/account/donation.html:221
-#: allthethings/account/templates/account/donation.html:262
-#: allthethings/account/templates/account/donation.html:291
+#: allthethings/account/templates/account/donation.html:143
+#: allthethings/account/templates/account/donation.html:186
+#: allthethings/account/templates/account/donation.html:229
+#: allthethings/account/templates/account/donation.html:270
+#: allthethings/account/templates/account/donation.html:299
 msgid "page.donation.waiting_for_transfer_refresh"
 msgstr "Transfer için bekleniyor (kontrol etmek için sayfayı yenileyin)…"
-
-#: allthethings/account/templates/account/donation.html:136
-#: allthethings/account/templates/account/donation.html:179
-#: allthethings/account/templates/account/donation.html:222
-#: allthethings/account/templates/account/donation.html:263
-#: allthethings/account/templates/account/donation.html:292
-msgid "page.donation.time_left_header"
-msgstr "Kalan zaman:"
-
-#: allthethings/account/templates/account/donation.html:136
-#: allthethings/account/templates/account/donation.html:179
-#: allthethings/account/templates/account/donation.html:222
-#: allthethings/account/templates/account/donation.html:263
-#: allthethings/account/templates/account/donation.html:292
-msgid "page.donation.might_want_to_cancel"
-msgstr ""
-
-#: allthethings/account/templates/account/donation.html:140
-#: allthethings/account/templates/account/donation.html:183
-#: allthethings/account/templates/account/donation.html:226
-#: allthethings/account/templates/account/donation.html:267
-#: allthethings/account/templates/account/donation.html:296
-msgid "page.donation.reset_timer"
-msgstr ""
 
 #: allthethings/account/templates/account/donation.html:144
 #: allthethings/account/templates/account/donation.html:187
 #: allthethings/account/templates/account/donation.html:230
 #: allthethings/account/templates/account/donation.html:271
 #: allthethings/account/templates/account/donation.html:300
-#: allthethings/account/templates/account/donation.html:326
-msgid "page.donation.refresh_status"
+msgid "page.donation.time_left_header"
+msgstr "Kalan zaman:"
+
+#: allthethings/account/templates/account/donation.html:144
+#: allthethings/account/templates/account/donation.html:187
+#: allthethings/account/templates/account/donation.html:230
+#: allthethings/account/templates/account/donation.html:271
+#: allthethings/account/templates/account/donation.html:300
+msgid "page.donation.might_want_to_cancel"
 msgstr ""
 
 #: allthethings/account/templates/account/donation.html:148
-#: allthethings/account/templates/account/donation.html:502
-msgid "page.donation.footer.issues_contact"
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+msgid "page.donation.reset_timer"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:152
+#: allthethings/account/templates/account/donation.html:195
+#: allthethings/account/templates/account/donation.html:238
+#: allthethings/account/templates/account/donation.html:279
+#: allthethings/account/templates/account/donation.html:308
+#: allthethings/account/templates/account/donation.html:334
+msgid "page.donation.refresh_status"
 msgstr ""
 
 #: allthethings/account/templates/account/donation.html:156
+#: allthethings/account/templates/account/donation.html:510
+msgid "page.donation.footer.issues_contact"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:164
 msgid "page.donation.buy_pyusd"
 msgstr "PayPal'dan PYUSD satın alın"
 
-#: allthethings/account/templates/account/donation.html:163
+#: allthethings/account/templates/account/donation.html:171
 msgid "page.donation.pyusd.instructions"
 msgstr "PYUSD coin (PayPal USD) almak için talimatları takip edin."
 
-#: allthethings/account/templates/account/donation.html:164
+#: allthethings/account/templates/account/donation.html:172
 msgid "page.donation.pyusd.more"
 msgstr "Transfer ücretlerini karşılamak için, bağış yapacağınız tutardan(%(amount)s) biraz daha fazla (%(more)s daha tavsiye ediyoruz) satın alın. Artan para sizde kalacak."
 
-#: allthethings/account/templates/account/donation.html:170
+#: allthethings/account/templates/account/donation.html:178
 msgid "page.donation.pyusd.transfer"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:174
-#: allthethings/account/templates/account/donation.html:213
-#: allthethings/account/templates/account/donation.html:283
+#: allthethings/account/templates/account/donation.html:182
+#: allthethings/account/templates/account/donation.html:221
+#: allthethings/account/templates/account/donation.html:291
 msgid "page.donation.transfer_amount_to"
 msgstr "%(account)s'a %(amount)s bağış yapın"
 
-#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:283
 msgid "page.donation.crypto_instructions"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:287
+#: allthethings/account/templates/account/donation.html:295
 msgid "page.donation.crypto_standard"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:304
+#: allthethings/account/templates/account/donation.html:312
 msgid "page.donation.amazon.header"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:307
+#: allthethings/account/templates/account/donation.html:315
 msgid "page.donation.amazon.form_instructions"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:308
+#: allthethings/account/templates/account/donation.html:316
 msgid "page.donation.amazon.only_official"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:313
+#: allthethings/account/templates/account/donation.html:321
 msgid "page.donate.payment.desc.amazon_message"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:317
+#: allthethings/account/templates/account/donation.html:325
 msgid "page.donation.amazon.form_to"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:318
+#: allthethings/account/templates/account/donation.html:326
 msgid "page.donation.amazon.unique"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:322
+#: allthethings/account/templates/account/donation.html:330
 msgid "page.donation.amazon.waiting_gift_card"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:330
+#: allthethings/account/templates/account/donation.html:338
 msgid "page.donation.amazon.confirm_automated"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:331
+#: allthethings/account/templates/account/donation.html:339
 msgid "page.donation.amazon.doesnt_work"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:334
+#: allthethings/account/templates/account/donation.html:342
 msgid "page.donation.amazon.example"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:370
-#: allthethings/account/templates/account/donation.html:387
-#: allthethings/account/templates/account/donation.html:403
-#: allthethings/account/templates/account/donation.html:419
+#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:395
+#: allthethings/account/templates/account/donation.html:411
+#: allthethings/account/templates/account/donation.html:427
 msgid "page.donate.strange_account"
 msgstr "Hesap adının veya resminin garip görünebileceğini aklınızda bulundurun. Endişelenmenize gerek yok! Bu hesaplar bağış ortaklarımız tarafından yönetilmektedir. Hesaplarımız hacklenmemiştir."
 
-#: allthethings/account/templates/account/donation.html:394
+#: allthethings/account/templates/account/donation.html:402
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Alipay talimatları"
 
-#: allthethings/account/templates/account/donation.html:396
+#: allthethings/account/templates/account/donation.html:404
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Alipay'de bağış yap"
 
-#: allthethings/account/templates/account/donation.html:399
+#: allthethings/account/templates/account/donation.html:407
 msgid "page.donation.payment.alipay.text1"
 msgstr "Toplam %(total)s tutarını <a %(a_account)s>bu Alipay hesabını kullanarak bağışlayın"
 
-#: allthethings/account/templates/account/donation.html:410
+#: allthethings/account/templates/account/donation.html:418
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix talimatları"
 
-#: allthethings/account/templates/account/donation.html:412
+#: allthethings/account/templates/account/donation.html:420
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Pix'te bağış yap"
 
-#: allthethings/account/templates/account/donation.html:415
+#: allthethings/account/templates/account/donation.html:423
 msgid "page.donation.payment.pix.text1"
 msgstr "Toplam %(total)s tutarını <a %(a_account)s>bu Pix hesabını kullanarak bağışlayın"
 
-#: allthethings/account/templates/account/donation.html:424
+#: allthethings/account/templates/account/donation.html:432
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Makbuzu bize e-posta yoluyla gönderin"
 
-#: allthethings/account/templates/account/donation.html:430
+#: allthethings/account/templates/account/donation.html:438
 msgid "page.donation.footer.text1"
 msgstr "Şahsi doğrulama adresinize bir makbuz veya ekran görüntüsünü gönderin:"
 
-#: allthethings/account/templates/account/donation.html:440
+#: allthethings/account/templates/account/donation.html:448
 msgid "page.donation.footer.crypto_note"
 msgstr "Eğer kripto kuru işlem sırasında dalgalandıysa, makbuzun orijinal kuru gösterdiğinden emin olun. Kriptoyu kullanma zahmetine katlanmanızı gerçekten takdir ediyoruz, bize çok yardımcı oluyor!"
 
-#: allthethings/account/templates/account/donation.html:445
+#: allthethings/account/templates/account/donation.html:453
 msgid "page.donation.footer.text2"
 msgstr "Makbuzu e-posta olarak gönderdikten sonra, bu butona tıklayın, bu sayede Anna bizzat inceleyebilir (bu birkaç gün sürebilir):"
 
-#: allthethings/account/templates/account/donation.html:455
+#: allthethings/account/templates/account/donation.html:463
 msgid "page.donation.footer.button"
 msgstr "Evet, makbuzumu e-posta olarak gönderdim"
 
-#: allthethings/account/templates/account/donation.html:458
+#: allthethings/account/templates/account/donation.html:466
 msgid "page.donation.footer.success"
 msgstr "✅ Bağışınız için teşekkürler! Anna şahsen üyeliğinizi birkaç gün içinde etkinleştirecek."
 
-#: allthethings/account/templates/account/donation.html:459
+#: allthethings/account/templates/account/donation.html:467
 msgid "page.donation.footer.failure"
 msgstr "❌ Bir şey yanlış gitti. Lütfen sayfayı yenileyin ve tekrar deneyin."
 
-#: allthethings/account/templates/account/donation.html:464
+#: allthethings/account/templates/account/donation.html:472
 msgid "page.donation.stepbystep"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:466
+#: allthethings/account/templates/account/donation.html:474
 msgid "page.donation.crypto_dont_worry"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:468
+#: allthethings/account/templates/account/donation.html:476
 msgid "page.donation.hoodpay.step1"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:474
+#: allthethings/account/templates/account/donation.html:482
 msgid "page.donation.hoodpay.step2"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:480
+#: allthethings/account/templates/account/donation.html:488
 msgid "page.donation.hoodpay.step3"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:486
+#: allthethings/account/templates/account/donation.html:494
 msgid "page.donation.hoodpay.step4"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:492
+#: allthethings/account/templates/account/donation.html:500
 msgid "page.donation.hoodpay.step5"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:498
+#: allthethings/account/templates/account/donation.html:506
 msgid "page.donation.hoodpay.step6"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:502
+#: allthethings/account/templates/account/donation.html:510
 msgid "page.donate.mistake"
 msgstr ""
 
@@ -916,6 +961,10 @@ msgstr "İndirilen dosyalar"
 
 #: allthethings/account/templates/account/downloaded.html:8
 msgid "page.downloaded.fast_partner_star"
+msgstr ""
+
+#: allthethings/account/templates/account/downloaded.html:8
+msgid "page.downloaded.twice"
 msgstr ""
 
 #: allthethings/account/templates/account/downloaded.html:8
@@ -1104,6 +1153,59 @@ msgstr "Henüz liste yok"
 msgid "page.profile.lists.new_list"
 msgstr "Bir dosya bularak ve “Listeler” sekmesini açarak yeni bir liste oluştur."
 
+#: allthethings/account/templates/account/refer.html:3
+#: allthethings/account/templates/account/refer.html:8
+msgid "page.refer.title"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:11
+msgid "page.refer.section1.intro"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:12
+msgid "page.refer.section1.list_start"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:16
+msgid "page.refer.section1.list_1"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:17
+msgid "page.refer.section1.list_2"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:21
+msgid "page.refer.section2.list_start"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:25
+msgid "page.refer.section2.list_1"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:26
+msgid "page.refer.section2.list_2"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:27
+msgid "page.refer.section2.list_3"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:31
+msgid "page.refer.linkbox.header"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:33
+msgid "page.refer.linkbox.login"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:35
+msgid "page.refer.linkbox.donate"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:38
+msgid "page.refer.linkbox.remember"
+msgstr ""
+
 #: allthethings/account/templates/account/request.html:3
 #: allthethings/account/templates/account/request.html:6
 msgid "page.request.title"
@@ -1131,6 +1233,10 @@ msgstr "Eğer e-posta adresiniz Libgen forumlarında çalışmazsa, <a %(a_mail)
 msgid "page.upload.title"
 msgstr "Yükle"
 
+#: allthethings/account/templates/account/upload.html:8
+msgid "page.upload.libgen.header"
+msgstr ""
+
 #: allthethings/account/templates/account/upload.html:11
 msgid "page.upload.text1"
 msgstr "Şimdilik, yeni kitapları Library Genesis forklarına yüklemeyi tavsiye ediyoruz. Burada <a %(a_guide)s>yararlı bir rehber</a> bulabilirsiniz. Bu websitede dizinlediğimiz her iki forkun aynı karşıya yükleme sisteminden çektiğini dikkate alın."
@@ -1151,226 +1257,226 @@ msgstr ""
 msgid "page.upload.large.text"
 msgstr ""
 
-#: allthethings/dyn/views.py:723
+#: allthethings/dyn/views.py:725
 msgid "dyn.buy_membership.error.try_again"
 msgstr ""
 
-#: allthethings/dyn/views.py:726 allthethings/dyn/views.py:734
+#: allthethings/dyn/views.py:728 allthethings/dyn/views.py:736
 msgid "dyn.buy_membership.error.unknown"
 msgstr ""
 
-#: allthethings/dyn/views.py:731
+#: allthethings/dyn/views.py:733
 msgid "dyn.buy_membership.error.minimum"
 msgstr ""
 
-#: allthethings/page/views.py:2900
+#: allthethings/page/views.py:2955
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Library Genesis'e ait Kurgu Dışı \".rs-fork\"unda görünür değil"
 
-#: allthethings/page/views.py:2901
+#: allthethings/page/views.py:2956
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Library Genesis Kurgu \".rs-fork\"da görünür değil"
 
-#: allthethings/page/views.py:2902
+#: allthethings/page/views.py:2957
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Libgen.li'de görünür değil"
 
-#: allthethings/page/views.py:2903
+#: allthethings/page/views.py:2958
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Libgen.li'de bozuk olarak işaretlendi"
 
-#: allthethings/page/views.py:2904
+#: allthethings/page/views.py:2959
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Z-library'de mevcut değil"
 
-#: allthethings/page/views.py:2910
+#: allthethings/page/views.py:2965
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Kitap (bilinmeyen)"
 
-#: allthethings/page/views.py:2911
+#: allthethings/page/views.py:2966
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Kitap (kurgu dışı)"
 
-#: allthethings/page/views.py:2912
+#: allthethings/page/views.py:2967
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Kitap (kurgu)"
 
-#: allthethings/page/views.py:2913
+#: allthethings/page/views.py:2968
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Dergi makalesi"
 
-#: allthethings/page/views.py:2914
+#: allthethings/page/views.py:2969
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Standart dokümanı"
 
-#: allthethings/page/views.py:2915
+#: allthethings/page/views.py:2970
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Dergi"
 
-#: allthethings/page/views.py:2916
+#: allthethings/page/views.py:2971
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Çizgi roman"
 
-#: allthethings/page/views.py:2917
+#: allthethings/page/views.py:2972
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr ""
 
-#: allthethings/page/views.py:2918
+#: allthethings/page/views.py:2973
 msgid "common.md5_content_type_mapping.other"
 msgstr ""
 
-#: allthethings/page/views.py:2924
+#: allthethings/page/views.py:2979
 msgid "common.access_types_mapping.aa_download"
 msgstr ""
 
-#: allthethings/page/views.py:2925
+#: allthethings/page/views.py:2980
 msgid "common.access_types_mapping.external_download"
 msgstr ""
 
-#: allthethings/page/views.py:2926
+#: allthethings/page/views.py:2981
 msgid "common.access_types_mapping.external_borrow"
 msgstr ""
 
-#: allthethings/page/views.py:2927
+#: allthethings/page/views.py:2982
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr ""
 
-#: allthethings/page/views.py:2928
+#: allthethings/page/views.py:2983
 msgid "common.access_types_mapping.meta_explore"
 msgstr ""
 
-#: allthethings/page/views.py:2934
+#: allthethings/page/views.py:2989
 msgid "common.record_sources_mapping.lgrs"
 msgstr ""
 
-#: allthethings/page/views.py:2935
+#: allthethings/page/views.py:2990
 msgid "common.record_sources_mapping.lgli"
 msgstr ""
 
-#: allthethings/page/views.py:2936
+#: allthethings/page/views.py:2991
 msgid "common.record_sources_mapping.zlib"
 msgstr "Z-Kütüphane"
 
-#: allthethings/page/views.py:2937
+#: allthethings/page/views.py:2992
 msgid "common.record_sources_mapping.ia"
 msgstr "Internet Archive"
 
-#: allthethings/page/views.py:2938
+#: allthethings/page/views.py:2993
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:2939
+#: allthethings/page/views.py:2994
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:2940
+#: allthethings/page/views.py:2995
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:2941
+#: allthethings/page/views.py:2996
 msgid "common.record_sources_mapping.oclc"
 msgstr ""
 
-#: allthethings/page/views.py:2966
+#: allthethings/page/views.py:3021
 msgid "common.md5.servers.fast_partner"
 msgstr "Hızlı Ortak Sunucu #%(number)s"
 
-#: allthethings/page/views.py:2966 allthethings/page/views.py:3243
+#: allthethings/page/views.py:3021 allthethings/page/views.py:3308
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(tarayıcı doğrulama gerekmez)"
 
-#: allthethings/page/views.py:2968
+#: allthethings/page/views.py:3023
 msgid "common.md5.servers.slow_partner"
 msgstr "Yavaş Ortak Sunucu #%(number)s"
 
-#: allthethings/page/views.py:2968
+#: allthethings/page/views.py:3023
 msgid "common.md5.servers.browser_verification_unlimited"
 msgstr "(<a %(a_browser)s>tarayıcı doğrulama</a> gerektirebilir — sınırsız indirme!)"
 
-#: allthethings/page/views.py:3081 allthethings/page/views.py:3212
+#: allthethings/page/views.py:3136 allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:3145
+#: allthethings/page/views.py:3210
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Kurgu Dışı"
 
-#: allthethings/page/views.py:3145 allthethings/page/views.py:3156
-#: allthethings/page/views.py:3186
+#: allthethings/page/views.py:3210 allthethings/page/views.py:3221
+#: allthethings/page/views.py:3251
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(yine üst kısımdaki “GET”e tıklayın)"
 
-#: allthethings/page/views.py:3145 allthethings/page/views.py:3156
-#: allthethings/page/views.py:3186
+#: allthethings/page/views.py:3210 allthethings/page/views.py:3221
+#: allthethings/page/views.py:3251
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(en üstteki “GET”e tıklayın)"
 
-#: allthethings/page/views.py:3156
+#: allthethings/page/views.py:3221
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Kurgu"
 
-#: allthethings/page/views.py:3186
+#: allthethings/page/views.py:3251
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:3189 allthethings/page/views.py:3190
-#: allthethings/page/views.py:3191
+#: allthethings/page/views.py:3254 allthethings/page/views.py:3255
+#: allthethings/page/views.py:3256
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "IPFS Ağ Geçidi #%(num)d"
 
-#: allthethings/page/views.py:3189
+#: allthethings/page/views.py:3254
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(IPFS ile birden çok kez denemeniz gerekebilir)"
 
-#: allthethings/page/views.py:3209
+#: allthethings/page/views.py:3274
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Internet Archive'den ödünç al"
 
-#: allthethings/page/views.py:3209
+#: allthethings/page/views.py:3274
 msgid "page.md5.box.download.print_disabled_only"
 msgstr ""
 
-#: allthethings/page/views.py:3212
+#: allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(ilgili DOI Sci-Hub'da mevcut olmayabilir)"
 
-#: allthethings/page/views.py:3221
+#: allthethings/page/views.py:3286
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Toplu torrent indirmeleri"
 
-#: allthethings/page/views.py:3221
+#: allthethings/page/views.py:3286
 msgid "page.md5.box.download.experts_only"
 msgstr "(sadece uzmanlar)"
 
-#: allthethings/page/views.py:3228
+#: allthethings/page/views.py:3293
 msgid "page.md5.box.download.aa_isbn"
 msgstr "Anna'nın Arşivinde ISBN aratın"
 
-#: allthethings/page/views.py:3229
+#: allthethings/page/views.py:3294
 msgid "page.md5.box.download.other_isbn"
 msgstr "Diğer çeşitli veritabanlarında ISBN aratın"
 
-#: allthethings/page/views.py:3231
+#: allthethings/page/views.py:3296
 msgid "page.md5.box.download.original_isbndb"
 msgstr "ISBNdb'de orijinal kayıt bulun"
 
-#: allthethings/page/views.py:3233
+#: allthethings/page/views.py:3298
 msgid "page.md5.box.download.aa_openlib"
 msgstr ""
 
-#: allthethings/page/views.py:3235
+#: allthethings/page/views.py:3300
 msgid "page.md5.box.download.original_openlib"
 msgstr ""
 
-#: allthethings/page/views.py:3237
+#: allthethings/page/views.py:3302
 msgid "page.md5.box.download.aa_oclc"
 msgstr ""
 
-#: allthethings/page/views.py:3238
+#: allthethings/page/views.py:3303
 msgid "page.md5.box.download.original_oclc"
 msgstr ""
 
-#: allthethings/page/views.py:3243 allthethings/page/views.py:3244
+#: allthethings/page/views.py:3308 allthethings/page/views.py:3309
 msgid "page.md5.box.download.scidb"
 msgstr "Anna'nın Arşivi 🧬 SciDB"
 
@@ -1494,27 +1600,35 @@ msgid "page.md5.box.download.header_generic"
 msgstr "İndirmeler"
 
 #: allthethings/page/templates/page/aarecord.html:220
-msgid "page.md5.box.download.support_authors"
+msgid "page.md5.box.download.convert"
 msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:221
+msgid "page.md5.box.download.kindle"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:222
+msgid "page.md5.box.download.support_authors"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:223
 msgid "page.md5.box.download.support_libraries"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:226
+#: allthethings/page/templates/page/aarecord.html:228
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Tüm aynalarda aynı dosya vardır ve kullanımları güvenli olmalıdır. Bununla birlikte, internetten dosya indirirken her zaman dikkatli olun. Örneğin, cihazlarınızı güncel tuttuğunuzdan emin olun."
 
-#: allthethings/page/templates/page/aarecord.html:252
+#: allthethings/page/templates/page/aarecord.html:254
 msgid "page.md5.box.download.no_found"
 msgstr "İndirme bulunamadı."
 
-#: allthethings/page/templates/page/aarecord.html:257
-#: allthethings/page/templates/page/aarecord.html:258
-#: allthethings/page/templates/page/aarecord.html:359
-#: allthethings/page/templates/page/aarecord.html:360
-#: allthethings/page/templates/page/aarecord.html:379
-#: allthethings/page/templates/page/aarecord.html:380
+#: allthethings/page/templates/page/aarecord.html:259
+#: allthethings/page/templates/page/aarecord.html:260
+#: allthethings/page/templates/page/aarecord.html:361
+#: allthethings/page/templates/page/aarecord.html:362
+#: allthethings/page/templates/page/aarecord.html:381
+#: allthethings/page/templates/page/aarecord.html:382
 #: allthethings/page/templates/page/about.html:123
 #: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6
@@ -1543,12 +1657,14 @@ msgstr "İndirme bulunamadı."
 #: allthethings/page/templates/page/doi.html:41
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
+#: allthethings/page/templates/page/mirrors.html:7
+#: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/security.html:6
 #: allthethings/page/templates/page/security.html:7
-#: allthethings/page/templates/page/torrents.html:6
-#: allthethings/page/templates/page/torrents.html:7
+#: allthethings/page/templates/page/torrents.html:22
+#: allthethings/page/templates/page/torrents.html:23
 msgid "common.english_only"
 msgstr "Metin aşağıda İngilizce olarak devam etmektedir."
 
@@ -1610,7 +1726,7 @@ msgstr "Saklı kütüphane kataloglarımızda arama yapın."
 
 #: allthethings/page/templates/page/about.html:79
 #: allthethings/page/templates/page/search.html:53
-#: allthethings/templates/layouts/index.html:414
+#: allthethings/templates/layouts/index.html:441
 msgid "common.search.placeholder"
 msgstr "Başlık, yazar, DOI, ISBN, MD5, …"
 
@@ -1768,7 +1884,7 @@ msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
-#: allthethings/templates/layouts/index.html:417
+#: allthethings/templates/layouts/index.html:444
 msgid "layout.index.header.nav.beta"
 msgstr "beta"
 
@@ -1801,17 +1917,17 @@ msgid "page.home.torrents.body"
 msgstr ""
 
 #: allthethings/page/templates/page/home.html:66
-#: allthethings/page/templates/page/torrents.html:41
+#: allthethings/page/templates/page/torrents.html:57
 msgid "page.home.torrents.legend_less"
 msgstr ""
 
 #: allthethings/page/templates/page/home.html:67
-#: allthethings/page/templates/page/torrents.html:42
+#: allthethings/page/templates/page/torrents.html:58
 msgid "page.home.torrents.legend_range"
 msgstr ""
 
 #: allthethings/page/templates/page/home.html:68
-#: allthethings/page/templates/page/torrents.html:43
+#: allthethings/page/templates/page/torrents.html:59
 msgid "page.home.torrents.legend_greater"
 msgstr ""
 
@@ -1821,6 +1937,14 @@ msgstr ""
 
 #: allthethings/page/templates/page/home.html:75
 msgid "page.home.llm.body"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:78
+msgid "page.home.mirrors.header"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:81
+msgid "page.home.mirrors.body"
 msgstr ""
 
 #: allthethings/page/templates/page/login.html:18
@@ -1860,7 +1984,7 @@ msgid "page.partner_download.bulk_mirroring"
 msgstr "📡 Koleksiyonumuzun toplu yansıtması için <a %(a_datasets)s>Veri Setleri</a> ve <a %(a_torrents)s>Torrentler</a> sayfalarına bakın."
 
 #: allthethings/page/templates/page/scidb.html:13
-#: allthethings/templates/layouts/index.html:273
+#: allthethings/templates/layouts/index.html:297
 msgid "layout.index.header.title"
 msgstr "Anna'nın Arşivi"
 
@@ -1989,6 +2113,10 @@ msgstr ""
 msgid "page.search.too_inaccurate"
 msgstr ""
 
+#: allthethings/page/templates/page/search.html:127
+msgid "page.search.filters.source.scraped"
+msgstr ""
+
 #: allthethings/page/templates/page/search.html:132
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "En uygun"
@@ -2101,191 +2229,218 @@ msgstr "Dünyanın en büyük açık-kaynaklı açık-veri kütüphanesi. Sci-Hu
 msgid "layout.index.meta.opensearch"
 msgstr "Anna’nın Arşivi'ni Ara"
 
-#: allthethings/templates/layouts/index.html:195
+#: allthethings/templates/layouts/index.html:213
 msgid "layout.index.header.banner.holiday_gift"
 msgstr "İnsan bilgisini kurtarmak: harika bir tatil hediyesi!"
 
-#: allthethings/templates/layouts/index.html:195
+#: allthethings/templates/layouts/index.html:213
 msgid "layout.index.header.banner.surprise"
 msgstr "Sevdiklerinize sürpriz yapın, ona üyelikli bir hesap verin."
 
-#: allthethings/templates/layouts/index.html:195
-#: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:213
+#: allthethings/templates/layouts/index.html:438
+#: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.donate"
 msgstr "Bağış yapın"
 
-#: allthethings/templates/layouts/index.html:211
-msgid "layout.index.header.banner.new_donation_method"
-msgstr "Yeni bir bağış yapma yöntemi mevcut: %(method_name)s Lütfen %(donate_link_open_tag)sbağış</a> yapmayı düşünün. Yaptığınız bağışlar sayesinde bu siteyi ayakta tutabiliyoruz. Çok teşekkür ederiz."
-
-#: allthethings/templates/layouts/index.html:218
-msgid "layout.index.banners.comics_fundraiser.text"
-msgstr "We’re running a fundraiser for <a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">backing up</a> the largest comics shadow library in the world. Thanks for your support! <a href=\"/donate\">Bağış yap.</a> Eğer bağış yapamıyorsanız, arkadaşlarınıza söyleyerek ve bizi <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a>'te veya <a href=\"https://t.me/annasarchiveorg\">Telegram</a>'da takip ederek bizi destekleyebilirsiniz."
-
-#: allthethings/templates/layouts/index.html:283
-#: allthethings/templates/layouts/index.html:284
-#: allthethings/templates/layouts/index.html:285
+#: allthethings/templates/layouts/index.html:216
+#: allthethings/templates/layouts/index.html:219
+#: allthethings/templates/layouts/index.html:307
+#: allthethings/templates/layouts/index.html:308
+#: allthethings/templates/layouts/index.html:309
 msgid "layout.index.header.learn_more"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:289
+#: allthethings/templates/layouts/index.html:219
+msgid "layout.index.header.banner.valentine_gift"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:219
+msgid "layout.index.header.banner.refer"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:235
+msgid "layout.index.header.banner.new_donation_method"
+msgstr "Yeni bir bağış yapma yöntemi mevcut: %(method_name)s Lütfen %(donate_link_open_tag)sbağış</a> yapmayı düşünün. Yaptığınız bağışlar sayesinde bu siteyi ayakta tutabiliyoruz. Çok teşekkür ederiz."
+
+#: allthethings/templates/layouts/index.html:242
+msgid "layout.index.banners.comics_fundraiser.text"
+msgstr "We’re running a fundraiser for <a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">backing up</a> the largest comics shadow library in the world. Thanks for your support! <a href=\"/donate\">Bağış yap.</a> Eğer bağış yapamıyorsanız, arkadaşlarınıza söyleyerek ve bizi <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a>'te veya <a href=\"https://t.me/annasarchiveorg\">Telegram</a>'da takip ederek bizi destekleyebilirsiniz."
+
+#: allthethings/templates/layouts/index.html:313
 msgid "layout.index.header.recent_downloads"
 msgstr "Son indirmeler:"
 
-#: allthethings/templates/layouts/index.html:372
-#: allthethings/templates/layouts/index.html:384
-#: allthethings/templates/layouts/index.html:398
-#: allthethings/templates/layouts/index.html:475
+#: allthethings/templates/layouts/index.html:396
+#: allthethings/templates/layouts/index.html:409
+#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:508
 msgid "layout.index.header.nav.search"
 msgstr "Arama"
 
-#: allthethings/templates/layouts/index.html:373
-#: allthethings/templates/layouts/index.html:385
-#: allthethings/templates/layouts/index.html:399
-#: allthethings/templates/layouts/index.html:476
+#: allthethings/templates/layouts/index.html:397
+#: allthethings/templates/layouts/index.html:410
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:509
 msgid "layout.index.header.nav.about"
 msgstr "Hakkında"
 
-#: allthethings/templates/layouts/index.html:374
-#: allthethings/templates/layouts/index.html:386
-#: allthethings/templates/layouts/index.html:400
-#: allthethings/templates/layouts/index.html:507
+#: allthethings/templates/layouts/index.html:398
+#: allthethings/templates/layouts/index.html:411
+#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:541
 msgid "layout.index.header.nav.datasets"
 msgstr "Veri kümeleri"
 
-#: allthethings/templates/layouts/index.html:375
-#: allthethings/templates/layouts/index.html:387
-#: allthethings/templates/layouts/index.html:401
-#: allthethings/templates/layouts/index.html:508
+#: allthethings/templates/layouts/index.html:399
+#: allthethings/templates/layouts/index.html:412
+#: allthethings/templates/layouts/index.html:427
+#: allthethings/templates/layouts/index.html:542
 msgid "layout.index.header.nav.torrents"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:376
-#: allthethings/templates/layouts/index.html:388
-#: allthethings/templates/layouts/index.html:402
-#: allthethings/templates/layouts/index.html:509
+#: allthethings/templates/layouts/index.html:400
+#: allthethings/templates/layouts/index.html:413
+#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:543
+msgid "layout.index.header.nav.mirrors"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:401
+#: allthethings/templates/layouts/index.html:414
+#: allthethings/templates/layouts/index.html:429
+#: allthethings/templates/layouts/index.html:544
 msgid "layout.index.header.nav.llm_data"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:377
-#: allthethings/templates/layouts/index.html:389
-#: allthethings/templates/layouts/index.html:403
-#: allthethings/templates/layouts/index.html:480
+#: allthethings/templates/layouts/index.html:402
+#: allthethings/templates/layouts/index.html:415
+#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:514
 msgid "layout.index.header.nav.mobile"
 msgstr "Mobil uygulama"
 
-#: allthethings/templates/layouts/index.html:378
-#: allthethings/templates/layouts/index.html:390
-#: allthethings/templates/layouts/index.html:510
+#: allthethings/templates/layouts/index.html:403
+#: allthethings/templates/layouts/index.html:416
+#: allthethings/templates/layouts/index.html:545
 msgid "layout.index.header.nav.security"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:379
-#: allthethings/templates/layouts/index.html:391
-#: allthethings/templates/layouts/index.html:405
-#: allthethings/templates/layouts/index.html:495
-#: allthethings/templates/layouts/index.html:519
+#: allthethings/templates/layouts/index.html:404
+#: allthethings/templates/layouts/index.html:417
+#: allthethings/templates/layouts/index.html:432
+#: allthethings/templates/layouts/index.html:529
+#: allthethings/templates/layouts/index.html:554
 #, fuzzy
 msgid "layout.index.header.nav.wechat"
 msgstr "Unofficial WeChat"
 
-#: allthethings/templates/layouts/index.html:380
-#: allthethings/templates/layouts/index.html:392
-#: allthethings/templates/layouts/index.html:397
-#: allthethings/templates/layouts/index.html:474
+#: allthethings/templates/layouts/index.html:405
+#: allthethings/templates/layouts/index.html:418
+#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:507
 #, fuzzy
 msgid "layout.index.header.nav.home"
 msgstr "Ana Sayfa"
 
-#: allthethings/templates/layouts/index.html:407
-#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:434
+#: allthethings/templates/layouts/index.html:530
 msgid "layout.index.header.nav.annasblog"
 msgstr "Anna'nın Blogu ↗"
 
-#: allthethings/templates/layouts/index.html:408
-#: allthethings/templates/layouts/index.html:497
+#: allthethings/templates/layouts/index.html:435
+#: allthethings/templates/layouts/index.html:531
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Anna'nın Yazılımı ↗"
 
-#: allthethings/templates/layouts/index.html:409
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:436
+#: allthethings/templates/layouts/index.html:532
 msgid "layout.index.header.nav.translate"
 msgstr "Çevir ↗"
 
-#: allthethings/templates/layouts/index.html:420
-#: allthethings/templates/layouts/index.html:426
-#: allthethings/templates/layouts/index.html:434
-#: allthethings/templates/layouts/index.html:442
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:462
-#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:454
+#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:472
+#: allthethings/templates/layouts/index.html:482
+#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:512
 msgid "layout.index.header.nav.request"
 msgstr "Kitap talep et"
 
-#: allthethings/templates/layouts/index.html:421
-#: allthethings/templates/layouts/index.html:427
-#: allthethings/templates/layouts/index.html:435
-#: allthethings/templates/layouts/index.html:443
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:463
-#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:448
+#: allthethings/templates/layouts/index.html:455
+#: allthethings/templates/layouts/index.html:465
+#: allthethings/templates/layouts/index.html:473
+#: allthethings/templates/layouts/index.html:483
+#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:513
 msgid "layout.index.header.nav.upload"
 msgstr "Yükle"
 
-#: allthethings/templates/layouts/index.html:422
-#: allthethings/templates/layouts/index.html:428
-#: allthethings/templates/layouts/index.html:433
+#: allthethings/templates/layouts/index.html:449
+#: allthethings/templates/layouts/index.html:456
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:474
+#: allthethings/templates/layouts/index.html:484
+#: allthethings/templates/layouts/index.html:494
+#: allthethings/templates/layouts/index.html:511
+msgid "layout.index.header.nav.refer"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:462
 msgid "layout.index.header.nav.login_register"
 msgstr "Giriş yap / Kaydol"
 
-#: allthethings/templates/layouts/index.html:439
-#: allthethings/templates/layouts/index.html:448
-#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:469
+#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:491
 msgid "layout.index.header.nav.public_profile"
 msgstr "Herkese açık profil"
 
-#: allthethings/templates/layouts/index.html:440
-#: allthethings/templates/layouts/index.html:449
-#: allthethings/templates/layouts/index.html:460
+#: allthethings/templates/layouts/index.html:470
+#: allthethings/templates/layouts/index.html:480
+#: allthethings/templates/layouts/index.html:492
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "İndirilen dosyalar"
 
-#: allthethings/templates/layouts/index.html:441
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:461
+#: allthethings/templates/layouts/index.html:471
+#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:493
 msgid "layout.index.header.nav.my_donations"
 msgstr "Bağışlarım"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:490
 msgid "layout.index.header.nav.account"
 msgstr "Hesap"
 
-#: allthethings/templates/layouts/index.html:473
+#: allthethings/templates/layouts/index.html:506
 msgid "layout.index.footer.list1.header"
 msgstr "Anna'nın Arşivi"
 
-#: allthethings/templates/layouts/index.html:494
+#: allthethings/templates/layouts/index.html:528
 msgid "layout.index.footer.list2.header"
 msgstr "İletişim"
 
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:529
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:529
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:500
+#: allthethings/templates/layouts/index.html:534
 msgid "layout.index.footer.dont_email"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:501
+#: allthethings/templates/layouts/index.html:535
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA / telif hakkı talepleri"
 
-#: allthethings/templates/layouts/index.html:514
+#: allthethings/templates/layouts/index.html:549
 msgid "layout.index.footer.list3.header"
 msgstr "Alternatifler"
 
@@ -2550,5 +2705,8 @@ msgstr "kopyalandı!"
 #~ msgstr "Twitter"
 
 #~ msgid "page.home.torrents.number"
+#~ msgstr ""
+
+#~ msgid "layout.index.header.tagline_new2"
 #~ msgstr ""
 

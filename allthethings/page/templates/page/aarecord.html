@@ -217,9 +217,8 @@
             {% endif %}
           {% endfor %}
           {% if aarecord_id_split[0] in ['md5','doi'] %}
-            <!-- TODO:TRANSLATE -->
-            <li>- Convert: use online tools to convert between formats. For example, to convert between epub and pdf, use <a href="https://cloudconvert.com/epub-to-pdf">CloudConvert</a>.</li>
-            <li>- Kindle: download the file (pdf or epub are supported), then <a href="https://www.amazon.com/sendtokindle">send it to Kindle</a> using web, app, or email.</li>
+            <li>- {{ gettext('page.md5.box.download.convert') }}</li>
+            <li>- {{ gettext('page.md5.box.download.kindle') }}</li>
             <li>- {{ gettext('page.md5.box.download.support_authors') }}</li>
             <li>- {{ gettext('page.md5.box.download.support_libraries') }}</li>
           {% endif %}

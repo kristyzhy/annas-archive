@@ -23,8 +23,9 @@
   {% if ref_account_dict %}
     <div class="mb-4 p-4 overflow-hidden bg-yellow-200 break-words rounded">
       {% from 'macros/profile_link.html' import profile_link %}
-      <!-- TODO:TRANSLATE -->
-      🤩 You get 50% bonus downloads for free, because you were referred by user {{ profile_link(ref_account_dict) }}. This applies to the entire membership period.
+      🤩
+      {{ gettext('page.donate.bonus_downloads.main', percentage=50, profile_link=profile_link(ref_account_dict)) }}
+      {{ gettext('page.donate.bonus_downloads.period') }}
     </div>
   {% endif %}
 
@@ -41,8 +42,7 @@
         <ul class="pl-5">
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 🚀 {{ gettext('page.donate.perks.fast_downloads', number=(('<strong>' + (MEMBERSHIP_DOWNLOADS_PER_DAY['2'] | string) + '</strong>') | safe)) }}</li>
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 🧬 {{ gettext('page.donate.perks.scidb') }}</li>
-          <!-- TODO:TRANSLATE -->
-          <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 💁‍♀️ Earn <strong>50% bonus downloads</strong> by <a href="/refer">referring friends</a>.</li>
+          <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 💁‍♀️ {{ gettext('page.donate.perks.refer', percentage=50) }}</li>
           <!-- <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> {{ gettext('page.donate.perks.credits') }}</li> -->
         </ul>
       </div>
@@ -86,7 +86,7 @@
           <li class="text-sm relative mb-1">{{ gettext('page.donate.perks.previous_plus') }}</li>
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 🚀 {{ gettext('page.donate.perks.fast_downloads', number=(('<strong>' + (MEMBERSHIP_DOWNLOADS_PER_DAY['5'] | string) + '</strong>') | safe)) }}</li>
           <!-- <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 🤗 {{ gettext('page.donate.perks.adopt', div_months=(' class="text-gray-500 text-sm" ' | safe)) }}</li> -->
-          <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 🤯 Legendary status in helping preserve humanity’s knowledge and culture<!-- TODO:TRANSLATE --></li>
+          <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 🤯 {{ gettext('page.donate.perks.legendary') }}</li>
         </ul>
       </div>
     </div>
@@ -107,8 +107,7 @@
     </div>
 
     <p class="mb-4 text-sm text-gray-500 text-center">
-      <!-- TODO:TRANSLATE -->
-      We welcome large donations from wealthy individuals or institutions. 
+      {{ gettext('page.donate.header.large_donations_wealthy') }}
       {{ gettext('page.donate.header.large_donations') }}
     </p>
   </div>
@@ -118,9 +117,7 @@
       <!-- {{ gettext('page.donate.payment.intro', bitcoin_icon=('<span class="hidden icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }} -->
       <!-- {{ gettext('page.donate.payment.intro2', bitcoin_icon=('<span class="hidden icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>' | safe)) }} -->
       <!-- Select a payment option. We mostly have crypto-based payments <span class="icon-[mdi--bitcoin] text-xl align-text-bottom text-gray-500"></span>, since traditional payment processors don't like to work with us. -->
-
-      <!-- TODO:TRANSLATE -->
-      Please select a payment method.
+      {{ gettext('page.donate.payment.select_method') }}
     </p>
 
     <div class="mb-4 flex flex-wrap items-end">

@@ -5,8 +5,7 @@
 {% block body %}
   <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.downloaded.title') }}</h2>
 
-  <!-- TODO:TRANSLATE -->
-  <p class="mb-4 max-w-[700px]">{{ gettext('page.downloaded.fast_partner_star', icon='⭐️') | replace(' ⭐️', '&nbsp⭐️' | safe) }} If you downloaded a file with both fast and slow downloads, it will show up twice. {{ gettext('page.downloaded.fast_download_time') }} {{ gettext('page.downloaded.times_utc') }} {{ gettext('page.downloaded.not_public') }}</p>
+  <p class="mb-4 max-w-[700px]">{{ gettext('page.downloaded.fast_partner_star', icon='⭐️') | replace(' ⭐️', '&nbsp⭐️' | safe) }} {{ gettext('page.downloaded.twice') }} {{ gettext('page.downloaded.fast_download_time') }} {{ gettext('page.downloaded.times_utc') }} {{ gettext('page.downloaded.not_public') }}</p>
 
   {% if (aarecords_downloaded_last_24h+aarecords_downloaded_later) | length == 0 %}
     <p>{{ gettext('page.downloaded.no_files') }}</p>

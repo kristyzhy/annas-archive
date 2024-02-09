@@ -61,7 +61,7 @@ def account_index_page():
             membership_tier_str = str(membership['membership_tier'])
             membership_name = membership_tier_names[membership_tier_str]
             if membership['bonus_downloads'] > 0:
-                membership_name += f" (+{membership['bonus_downloads']} bonus)" # TODO:TRANSLATE
+                membership_name += gettext('common.donation.membership_bonus_parens', num=membership['bonus_downloads'])
 
             membership_dicts.append({
                 **membership,

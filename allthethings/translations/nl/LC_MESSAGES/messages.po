@@ -1,19 +1,3 @@
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 22:23+0000\n"
-"PO-Revision-Date: 2024-01-29 22:23+0000\n"
-"Last-Translator: Guus <guusvanweelderen@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: nl\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3.1\n"
-
 #: allthethings/app.py:203
 msgid "layout.index.invalid_request"
 msgstr "Ongeldig verzoek. Bezoek %(websites)s."
@@ -42,25 +26,36 @@ msgstr "DuXiu"
 msgid "layout.index.header.tagline_separator"
 msgstr ", "
 
-#: allthethings/app.py:259 allthethings/app.py:261 allthethings/app.py:262
-#: allthethings/app.py:265
+#: allthethings/app.py:254
+msgid "layout.index.header.tagline_and"
+msgstr ""
+
+#: allthethings/app.py:255
+msgid "layout.index.header.tagline_and_more"
+msgstr ""
+
+#: allthethings/app.py:263
+msgid "layout.index.header.tagline_newnew2a"
+msgstr ""
+
+#: allthethings/app.py:264
+msgid "layout.index.header.tagline_newnew2b"
+msgstr ""
+
+#: allthethings/app.py:265 allthethings/app.py:267 allthethings/app.py:268
+#: allthethings/app.py:271
 msgid "layout.index.header.tagline_new1"
 msgstr "📚&nbsp;De grootste écht open bibliotheek in de geschiedenis van de mensheid."
 
-#: allthethings/app.py:259 allthethings/app.py:261 allthethings/app.py:262
-#: allthethings/app.py:265
-msgid "layout.index.header.tagline_new2"
-msgstr "⭐️&nbsp;Spiegelt %(libraries)s en meer."
-
-#: allthethings/app.py:259 allthethings/app.py:261 allthethings/app.py:265
+#: allthethings/app.py:265 allthethings/app.py:267 allthethings/app.py:271
 msgid "layout.index.header.tagline_new3"
 msgstr "📈&nbsp;%(book_count)s&nbsp;boeken, %(paper_count)s&nbsp;papers – voor altijd behouden."
 
-#: allthethings/app.py:267 allthethings/app.py:268
+#: allthethings/app.py:273 allthethings/app.py:274
 msgid "layout.index.header.tagline"
 msgstr "📚&nbsp;'s Werelds grootste opensourcebibliotheek met open data. ⭐️&nbsp;Een spiegeling van Sci-Hub, Library Genesis, Z-Library en meer. 📈&nbsp;%(book_any)s boeken, %(journal_article)s papers, %(book_comic)s stripboeken, %(magazine)s tijdschriften – voor altijd behouden."
 
-#: allthethings/app.py:269
+#: allthethings/app.py:275
 msgid "layout.index.header.tagline_short"
 msgstr "📚 's Werelds grootste opensourcebibliotheek met open data.<br>⭐️ Een spiegeling van Sci-Hub, Libgen, Zlib en meer."
 
@@ -93,54 +88,62 @@ msgid "common.md5_report_type_mapping.other"
 msgstr "Overig"
 
 #: allthethings/utils.py:250
+msgid "common.membership.tier_name.bonus"
+msgstr ""
+
+#: allthethings/utils.py:251
 msgid "common.membership.tier_name.2"
 msgstr "Briljante boekenwurm"
 
-#: allthethings/utils.py:251
+#: allthethings/utils.py:252
 msgid "common.membership.tier_name.3"
 msgstr "Blije bibliothecaris"
 
-#: allthethings/utils.py:252
+#: allthethings/utils.py:253
 msgid "common.membership.tier_name.4"
 msgstr "Grandioze gegevensverzamelaar"
 
-#: allthethings/utils.py:253
+#: allthethings/utils.py:254
 msgid "common.membership.tier_name.5"
 msgstr "Aanzienlijke archivaris"
 
-#: allthethings/utils.py:365
+#: allthethings/utils.py:392
 msgid "common.membership.format_currency.total_with_usd"
 msgstr "%(amount)s (%(amount_usd)s) totaal"
 
-#: allthethings/utils.py:367 allthethings/utils.py:368
+#: allthethings/utils.py:394 allthethings/utils.py:395
 msgid "common.membership.format_currency.amount_with_usd"
 msgstr "%(amount)s (%(amount_usd)s)"
 
-#: allthethings/utils.py:379
+#: allthethings/utils.py:406
 msgid "common.membership.format_currency.total"
 msgstr "%(amount)s totaal"
 
-#: allthethings/account/views.py:270
+#: allthethings/account/views.py:64
+msgid "common.donation.membership_bonus_parens"
+msgstr ""
+
+#: allthethings/account/views.py:313
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "Onbetaald"
 
-#: allthethings/account/views.py:271
+#: allthethings/account/views.py:314
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "Betaald"
 
-#: allthethings/account/views.py:272
+#: allthethings/account/views.py:315
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "Geannuleerd"
 
-#: allthethings/account/views.py:273
+#: allthethings/account/views.py:316
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "Verlopen"
 
-#: allthethings/account/views.py:274
+#: allthethings/account/views.py:317
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "Wachten op Anna ter bevestiging"
 
-#: allthethings/account/views.py:275
+#: allthethings/account/views.py:318
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "ongeldig"
 
@@ -165,339 +168,365 @@ msgstr "Anna’s Archief is een non-profit, open-source, open-data project. Door
 msgid "page.donate.header.text2"
 msgstr "Raadpleeg de <a href=\"/donation_faq\">veelgestelde vragen over donaties</a> voor meer informatie."
 
-#: allthethings/account/templates/account/donate.html:29
-#: allthethings/account/templates/account/donate.html:43
-#: allthethings/account/templates/account/donate.html:57
-#: allthethings/account/templates/account/donate.html:71
+#: allthethings/account/templates/account/donate.html:27
+#: allthethings/account/templates/account/donation.html:23
+msgid "page.donate.bonus_downloads.main"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:28
+#: allthethings/account/templates/account/donation.html:24
+msgid "page.donate.bonus_downloads.period"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:38
+#: allthethings/account/templates/account/donate.html:53
+#: allthethings/account/templates/account/donate.html:67
+#: allthethings/account/templates/account/donate.html:81
 msgid "page.donate.buttons.join"
 msgstr "Lid worden"
 
-#: allthethings/account/templates/account/donate.html:30
-#: allthethings/account/templates/account/donate.html:44
-#: allthethings/account/templates/account/donate.html:58
-#: allthethings/account/templates/account/donate.html:72
+#: allthethings/account/templates/account/donate.html:39
+#: allthethings/account/templates/account/donate.html:54
+#: allthethings/account/templates/account/donate.html:68
+#: allthethings/account/templates/account/donate.html:82
 msgid "page.donate.buttons.selected"
 msgstr "Geselecteerd"
 
-#: allthethings/account/templates/account/donate.html:32
-#: allthethings/account/templates/account/donate.html:46
-#: allthethings/account/templates/account/donate.html:60
-#: allthethings/account/templates/account/donate.html:74
+#: allthethings/account/templates/account/donate.html:41
+#: allthethings/account/templates/account/donate.html:56
+#: allthethings/account/templates/account/donate.html:70
+#: allthethings/account/templates/account/donate.html:84
 msgid "page.donate.buttons.up_to_discounts"
 msgstr "kortingen tot wel %(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:34
-#: allthethings/account/templates/account/donate.html:49
-#: allthethings/account/templates/account/donate.html:63
-#: allthethings/account/templates/account/donate.html:77
+#: allthethings/account/templates/account/donate.html:43
+#: allthethings/account/templates/account/donate.html:59
+#: allthethings/account/templates/account/donate.html:73
+#: allthethings/account/templates/account/donate.html:87
 msgid "page.donate.perks.fast_downloads"
 msgstr "%(number)s snelle downloads per dag"
 
-#: allthethings/account/templates/account/donate.html:35
+#: allthethings/account/templates/account/donate.html:44
 msgid "page.donate.perks.scidb"
 msgstr "SciDB-papers <strong>(onbeperkt)</strong> zonder verificatie"
 
-#: allthethings/account/templates/account/donate.html:36
+#: allthethings/account/templates/account/donate.html:45
+msgid "page.donate.perks.refer"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:46
 msgid "page.donate.perks.credits"
 msgstr "Je gebruikersnaam of anonieme vermelding in de vermeldingen"
 
-#: allthethings/account/templates/account/donate.html:48
-#: allthethings/account/templates/account/donate.html:62
-#: allthethings/account/templates/account/donate.html:76
+#: allthethings/account/templates/account/donate.html:58
+#: allthethings/account/templates/account/donate.html:72
+#: allthethings/account/templates/account/donate.html:86
 msgid "page.donate.perks.previous_plus"
 msgstr "Voorgaande voordelen, plus:"
 
-#: allthethings/account/templates/account/donate.html:50
+#: allthethings/account/templates/account/donate.html:60
 msgid "page.donate.perks.early_access"
 msgstr "Vroege toegang tot nieuwe functies"
 
-#: allthethings/account/templates/account/donate.html:64
+#: allthethings/account/templates/account/donate.html:74
 msgid "page.donate.perks.exclusive_telegram"
 msgstr "Exclusieve Telegram met updates van achter de schermen"
 
-#: allthethings/account/templates/account/donate.html:78
+#: allthethings/account/templates/account/donate.html:88
 msgid "page.donate.perks.adopt"
 msgstr "'Een torrent adopteren': je gebruikersnaam of bericht in de bestandsnaam van een torrent <div %(div_months)s>een keer per 12 maanden lidmaatschap</div>"
 
-#: allthethings/account/templates/account/donate.html:85
+#: allthethings/account/templates/account/donate.html:89
+msgid "page.donate.perks.legendary"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:96
 msgid "page.donate.expert.title"
 msgstr "Toegang voor experts"
 
-#: allthethings/account/templates/account/donate.html:87
-#: allthethings/account/templates/account/donation.html:502
-#: allthethings/templates/layouts/index.html:500
+#: allthethings/account/templates/account/donate.html:98
+#: allthethings/account/templates/account/donation.html:510
+#: allthethings/templates/layouts/index.html:534
 msgid "page.donate.small_team"
 msgstr "We zijn een klein team dat bestaat uit vrijwilligers. Het kan 1-2 weken duren voordat je antwoord van ons krijgt."
 
-#: allthethings/account/templates/account/donate.html:90
+#: allthethings/account/templates/account/donate.html:101
 msgid "page.donate.expert.unlimited_access"
 msgstr "<strong>Onbeperkte</strong> snelle toegang"
 
-#: allthethings/account/templates/account/donate.html:91
+#: allthethings/account/templates/account/donate.html:102
 msgid "page.donate.expert.direct_sftp"
 msgstr "Directe <strong>SFTP</strong>-servers"
 
-#: allthethings/account/templates/account/donate.html:94
+#: allthethings/account/templates/account/donate.html:105
 msgid "page.donate.expert.enterprise_donation"
 msgstr "Donatie op bedrijfsniveau of uitwisseling van nieuwe collecties (bijv. nieuwe scans of datasets via OCR)."
 
-#: allthethings/account/templates/account/donate.html:99
+#: allthethings/account/templates/account/donate.html:110
+msgid "page.donate.header.large_donations_wealthy"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:111
 msgid "page.donate.header.large_donations"
 msgstr "Neem rechtstreeks contact met ons op via <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a> voor donaties van $ 5000 en meer."
 
-#: allthethings/account/templates/account/donate.html:105
+#: allthethings/account/templates/account/donate.html:117
 msgid "page.donate.payment.intro"
 msgstr "Selecteer een betaalwijze. We geven korting op cryptobetalingen %(bitcoin_icon)s omdat die ons (veel) minder kosten."
 
-#: allthethings/account/templates/account/donate.html:106
+#: allthethings/account/templates/account/donate.html:118
 msgid "page.donate.payment.intro2"
 msgstr "Selecteer een betaalwijze. Er zijn momenteel alleen cryptobetaalwijzen %(bitcoin_icon)s beschikbaar, omdat traditionele betalingsverwerkers weigeren met ons samen te werken."
 
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:123
+#: allthethings/account/templates/account/donate.html:120
+msgid "page.donate.payment.select_method"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:124
+#: allthethings/account/templates/account/donate.html:135
 msgid "page.donate.payment.buttons.crypto"
 msgstr "Crypto %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:112
-#: allthethings/account/templates/account/donate.html:113
-#: allthethings/account/templates/account/donate.html:114
-#: allthethings/account/templates/account/donate.html:123
 #: allthethings/account/templates/account/donate.html:124
-#: allthethings/account/templates/account/donate.html:127
-#: allthethings/account/templates/account/donate.html:128
-#: allthethings/account/templates/account/donate.html:130
-#: allthethings/account/templates/account/donate.html:131
-#: allthethings/account/templates/account/donate.html:271
-#: allthethings/account/templates/account/donate.html:272
-#: allthethings/account/templates/account/donate.html:273
-#: allthethings/account/templates/account/donate.html:274
+#: allthethings/account/templates/account/donate.html:125
+#: allthethings/account/templates/account/donate.html:126
+#: allthethings/account/templates/account/donate.html:135
+#: allthethings/account/templates/account/donate.html:136
+#: allthethings/account/templates/account/donate.html:139
+#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:142
+#: allthethings/account/templates/account/donate.html:143
+#: allthethings/account/templates/account/donate.html:283
+#: allthethings/account/templates/account/donate.html:284
+#: allthethings/account/templates/account/donate.html:285
+#: allthethings/account/templates/account/donate.html:286
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:114
+#: allthethings/account/templates/account/donate.html:126
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal (VS) %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:118
+#: allthethings/account/templates/account/donate.html:130
 msgid "page.donate.payment.buttons.amazon"
 msgstr "Amazon-cadeaubon"
 
-#: allthethings/account/templates/account/donate.html:121
-#: allthethings/account/templates/account/donate.html:135
+#: allthethings/account/templates/account/donate.html:133
+#: allthethings/account/templates/account/donate.html:147
 msgid "page.donate.payment.buttons.alipay"
 msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:122
+#: allthethings/account/templates/account/donate.html:134
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix (Brazilië)"
 
-#: allthethings/account/templates/account/donate.html:127
+#: allthethings/account/templates/account/donate.html:139
 msgid "page.donate.payment.buttons.paypal_plain"
 msgstr "PayPal"
 
-#: allthethings/account/templates/account/donate.html:128
+#: allthethings/account/templates/account/donate.html:140
 msgid "page.donate.payment.buttons.cashapp"
 msgstr "Cash App"
 
-#: allthethings/account/templates/account/donate.html:129
+#: allthethings/account/templates/account/donate.html:141
 msgid "page.donate.payment.buttons.credit_debit"
 msgstr "Creditcard/betaalpas"
 
-#: allthethings/account/templates/account/donate.html:130
+#: allthethings/account/templates/account/donate.html:142
 msgid "page.donate.payment.buttons.credit_debit2"
 msgstr "Creditcard/betaalpas 2"
 
-#: allthethings/account/templates/account/donate.html:136
+#: allthethings/account/templates/account/donate.html:148
 msgid "page.donate.payment.buttons.wechat"
 msgstr "WeChat"
 
-#: allthethings/account/templates/account/donate.html:137
-#: allthethings/account/templates/account/donate.html:146
-#: allthethings/account/templates/account/donate.html:154
-#: allthethings/account/templates/account/donate.html:161
+#: allthethings/account/templates/account/donate.html:149
+#: allthethings/account/templates/account/donate.html:158
+#: allthethings/account/templates/account/donate.html:166
+#: allthethings/account/templates/account/donate.html:173
 msgid "page.donate.payment.buttons.alipay_wechat"
 msgstr "Alipay 支付宝 / WeChat 微信"
 
-#: allthethings/account/templates/account/donate.html:161
+#: allthethings/account/templates/account/donate.html:173
 msgid "page.donate.payment.buttons.temporarily_unavailable"
 msgstr "(tijdelijk niet beschikbaar)"
 
-#: allthethings/account/templates/account/donate.html:168
+#: allthethings/account/templates/account/donate.html:180
 msgid "page.donate.payment.desc.crypto"
 msgstr "Met crypto kun je doneren met BTC, ETH, XMR en SOL. Gebruik deze optie als je al bekend bent met cryptocurrency."
 
-#: allthethings/account/templates/account/donate.html:174
+#: allthethings/account/templates/account/donate.html:186
 msgid "page.donate.payment.desc.crypto2"
 msgstr "Met crypto kun je BTC, ETH, XMR en meer doneren."
 
-#: allthethings/account/templates/account/donate.html:178
+#: allthethings/account/templates/account/donate.html:190
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr "Als je voor het eerst crypto gebruikt, raden we je aan Bitcoin (de oorspronkelijke en meestgebruikte cryptovaluta) te kopen en doneren met %(option1)s, %(option2)s of %(option3)s."
 
-#: allthethings/account/templates/account/donate.html:184
+#: allthethings/account/templates/account/donate.html:196
 msgid "page.donate.payment.desc.paypal"
 msgstr "We gebruiken PayPal Crypto om je te laten doneren met PayPal (VS). Zo blijven we anoniem. We waarderen het dat je de tijd neemt om te leren hoe je op deze manier kunt doneren; dit helpt ons enorm."
 
-#: allthethings/account/templates/account/donate.html:185
+#: allthethings/account/templates/account/donate.html:197
 msgid "page.donate.payment.desc.paypal_short"
 msgstr "Doneren met PayPal."
 
-#: allthethings/account/templates/account/donate.html:191
+#: allthethings/account/templates/account/donate.html:203
 msgid "page.donate.payment.desc.cashapp"
 msgstr "Doneren met Cash App."
 
-#: allthethings/account/templates/account/donate.html:191
+#: allthethings/account/templates/account/donate.html:203
 msgid "page.donate.payment.desc.cashapp_easy"
 msgstr "Als je Cash App hebt, is dat de eenvoudigste manier om te doneren!"
 
-#: allthethings/account/templates/account/donate.html:194
+#: allthethings/account/templates/account/donate.html:206
 msgid "page.donate.payment.desc.cashapp_fee"
 msgstr "Voor transacties onder %(amount)s kan Cash App kosten van %(fee)s in rekening brengen. Bedragen boven %(amount)s zijn gratis!"
 
-#: allthethings/account/templates/account/donate.html:200
-#: allthethings/account/templates/account/donate.html:254
+#: allthethings/account/templates/account/donate.html:212
+#: allthethings/account/templates/account/donate.html:266
 msgid "page.donate.payment.desc.credit_debit"
 msgstr "Doneren met een creditcard of betaalpas."
 
-#: allthethings/account/templates/account/donate.html:201
+#: allthethings/account/templates/account/donate.html:213
 msgid "page.donate.payment.desc.google_apple"
 msgstr "Google Pay en Apple Pay kunnen ook werken."
 
-#: allthethings/account/templates/account/donate.html:202
+#: allthethings/account/templates/account/donate.html:214
 msgid "page.donate.payment.desc.elimate_discount"
 msgstr "Bij kleine donaties kunnen creditcardkosten onze korting van %(discount)s%% tenietdoen. Daarom raden we langere abonnementen aan."
 
-#: allthethings/account/templates/account/donate.html:203
+#: allthethings/account/templates/account/donate.html:215
 msgid "page.donate.payment.desc.longer_subs"
 msgstr "Bij kleine donaties zijn de kosten hoog. Daarom raden we langere abonnementen aan."
 
-#: allthethings/account/templates/account/donate.html:225
-#: allthethings/account/templates/account/donate.html:231
+#: allthethings/account/templates/account/donate.html:237
+#: allthethings/account/templates/account/donate.html:243
 msgid "page.donate.payment.desc.alipay_wechat"
 msgstr "Doneren met Alipay of WeChat. Op de volgende pagina kun je kiezen."
 
-#: allthethings/account/templates/account/donate.html:243
+#: allthethings/account/templates/account/donate.html:255
 msgid "page.donate.payment.desc.amazon"
 msgstr "Doneren met een Amazon-cadeaubon."
 
-#: allthethings/account/templates/account/donate.html:244
+#: allthethings/account/templates/account/donate.html:256
 msgid "page.donate.payment.desc.amazon_round"
 msgstr "Houd er rekening mee dat we moeten afronden naar bedragen die door onze wederverkopers worden geaccepteerd (minimaal %(minimum)s)."
 
-#: allthethings/account/templates/account/donate.html:248
-#: allthethings/account/templates/account/donation.html:312
+#: allthethings/account/templates/account/donate.html:260
+#: allthethings/account/templates/account/donation.html:320
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>BELANGRIJK:</strong> We ondersteunen alleen Amazon.com, geen andere websites van Amazon. Lokale winkels zoals .nl, .de en .co.uk worden níét ondersteund."
 
-#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:277
 msgid "page.donate.duration.intro"
 msgstr "Kies hoelang je je wil abonneren."
 
-#: allthethings/account/templates/account/donate.html:270
+#: allthethings/account/templates/account/donate.html:282
 msgid "page.donate.duration.1_mo"
 msgstr "1 maand"
 
-#: allthethings/account/templates/account/donate.html:271
+#: allthethings/account/templates/account/donate.html:283
 msgid "page.donate.duration.3_mo"
 msgstr "3 maanden"
 
-#: allthethings/account/templates/account/donate.html:272
+#: allthethings/account/templates/account/donate.html:284
 msgid "page.donate.duration.6_mo"
 msgstr "6 maanden"
 
-#: allthethings/account/templates/account/donate.html:273
+#: allthethings/account/templates/account/donate.html:285
 msgid "page.donate.duration.12_mo"
 msgstr "12 maanden"
 
-#: allthethings/account/templates/account/donate.html:274
+#: allthethings/account/templates/account/donate.html:286
 msgid "page.donate.duration.24_mo"
 msgstr "24 maanden"
 
-#: allthethings/account/templates/account/donate.html:277
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>na <span %(span_discount)s></span> kortingen</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:283
+#: allthethings/account/templates/account/donate.html:295
 msgid "page.donate.payment.minimum_method"
 msgstr "Voor deze betaalmethode is een minimum van %(amount)s vereist. Selecteer een andere duur of betaalmethode."
 
-#: allthethings/account/templates/account/donate.html:284
+#: allthethings/account/templates/account/donate.html:296
 msgid "page.donate.payment.maximum_method"
 msgstr "Deze betaalmethode staat slechts een maximum van %(amount)s toe. Selecteer een andere duur of betaalmethode."
 
-#: allthethings/account/templates/account/donate.html:289
+#: allthethings/account/templates/account/donate.html:301
 msgid "page.donate.login2"
 msgstr "<a %(a_login)s>Log in of registreer</a> om lid te worden. Bedankt voor je steun!"
 
-#: allthethings/account/templates/account/donate.html:296
+#: allthethings/account/templates/account/donate.html:308
 msgid "page.donate.payment.crypto_select"
 msgstr "Selecteer je gewenste cryptomunt:"
 
-#: allthethings/account/templates/account/donate.html:328
+#: allthethings/account/templates/account/donate.html:340
 msgid "page.donate.submit.confirm"
 msgstr "Klik op de doneerknop om deze donatie te bevestigen."
 
-#: allthethings/account/templates/account/donate.html:336
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.submit.button"
 msgstr "<span %(span_cost)s></span> doneren <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:341
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.submit.cancel_note"
 msgstr "Je kunt de donatie nog annuleren tijdens het afrekenen."
 
-#: allthethings/account/templates/account/donate.html:345
+#: allthethings/account/templates/account/donate.html:357
 msgid "page.donate.submit.success"
 msgstr "✅ Je wordt doorverwezen naar de donatiepagina…"
 
-#: allthethings/account/templates/account/donate.html:346
+#: allthethings/account/templates/account/donate.html:358
 msgid "page.donate.submit.failure"
 msgstr "❌ Er ging iets mis. Vernieuw de pagina en probeer het opnieuw."
 
-#: allthethings/account/templates/account/donate.html:403
+#: allthethings/account/templates/account/donate.html:415
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:404
+#: allthethings/account/templates/account/donate.html:416
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / maand"
 
-#: allthethings/account/templates/account/donate.html:407
+#: allthethings/account/templates/account/donate.html:419
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "voor 1 maand"
 
-#: allthethings/account/templates/account/donate.html:408
+#: allthethings/account/templates/account/donate.html:420
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "voor 3 maanden"
 
-#: allthethings/account/templates/account/donate.html:409
+#: allthethings/account/templates/account/donate.html:421
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "voor 6 maanden"
 
-#: allthethings/account/templates/account/donate.html:410
+#: allthethings/account/templates/account/donate.html:422
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "voor 12 maanden"
 
-#: allthethings/account/templates/account/donate.html:411
+#: allthethings/account/templates/account/donate.html:423
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "voor 24 maanden"
 
-#: allthethings/account/templates/account/donate.html:415
+#: allthethings/account/templates/account/donate.html:427
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "voor 1 maand %(tier_name)s"
 
-#: allthethings/account/templates/account/donate.html:416
+#: allthethings/account/templates/account/donate.html:428
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "voor 3 maanden %(tier_name)s"
 
-#: allthethings/account/templates/account/donate.html:417
+#: allthethings/account/templates/account/donate.html:429
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "voor 6 maanden %(tier_name)s"
 
-#: allthethings/account/templates/account/donate.html:418
+#: allthethings/account/templates/account/donate.html:430
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "voor 12 maanden %(tier_name)s"
 
-#: allthethings/account/templates/account/donate.html:419
+#: allthethings/account/templates/account/donate.html:431
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "voor 24 maanden %(tier_name)s"
 
@@ -522,353 +551,353 @@ msgstr "Totaal: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / maand
 msgid "page.donation.header.total_without_discount"
 msgstr "Totaal: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / maand voor %(duration)s maanden)</span>"
 
-#: allthethings/account/templates/account/donation.html:19
+#: allthethings/account/templates/account/donation.html:27
 msgid "page.donation.header.status"
 msgstr "Status: <span %(span_label)s>%(label)s</span>"
 
-#: allthethings/account/templates/account/donation.html:25
+#: allthethings/account/templates/account/donation.html:33
 msgid "page.donation.header.cancel.button"
 msgstr "Annuleren"
 
-#: allthethings/account/templates/account/donation.html:26
+#: allthethings/account/templates/account/donation.html:34
 msgid "page.donation.header.cancel.confirm.msg"
 msgstr "Weet je zeker dat je wilt annuleren? Annuleer niet als je al hebt betaald."
 
-#: allthethings/account/templates/account/donation.html:26
+#: allthethings/account/templates/account/donation.html:34
 msgid "page.donation.header.cancel.confirm.button"
 msgstr "Ja, annuleren"
 
-#: allthethings/account/templates/account/donation.html:28
+#: allthethings/account/templates/account/donation.html:36
 msgid "page.donation.header.cancel.success"
 msgstr "✅ Je donatie is geannuleerd."
 
-#: allthethings/account/templates/account/donation.html:28
+#: allthethings/account/templates/account/donation.html:36
 msgid "page.donation.header.cancel.new_donation"
 msgstr "Nieuwe donatie doen"
 
-#: allthethings/account/templates/account/donation.html:29
+#: allthethings/account/templates/account/donation.html:37
 msgid "page.donation.header.cancel.failure"
 msgstr "❌ Er ging iets mis. Vernieuw de pagina en probeer het opnieuw."
 
-#: allthethings/account/templates/account/donation.html:33
+#: allthethings/account/templates/account/donation.html:41
 msgid "page.donation.header.reorder"
 msgstr "Opnieuw bestellen"
 
-#: allthethings/account/templates/account/donation.html:40
+#: allthethings/account/templates/account/donation.html:48
 msgid "page.donation.old_instructions.intro_paid"
 msgstr "Je hebt al betaald. Klik hier als je de betaalinstructies toch wilt bekijken:"
 
-#: allthethings/account/templates/account/donation.html:43
-#: allthethings/account/templates/account/donation.html:55
+#: allthethings/account/templates/account/donation.html:51
+#: allthethings/account/templates/account/donation.html:63
 msgid "page.donation.old_instructions.show_button"
 msgstr "Oude betaalinstructies tonen"
 
-#: allthethings/account/templates/account/donation.html:48
+#: allthethings/account/templates/account/donation.html:56
 msgid "page.donation.thank_you_donation"
 msgstr "Bedankt voor je donatie!"
 
-#: allthethings/account/templates/account/donation.html:52
+#: allthethings/account/templates/account/donation.html:60
 msgid "page.donation.old_instructions.intro_outdated"
 msgstr "De betaalinstructies zijn nu verouderd. Gebruik de knop 'Opnieuw bestellen' hierboven als je een andere donatie wil doen."
 
-#: allthethings/account/templates/account/donation.html:62
+#: allthethings/account/templates/account/donation.html:70
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>Belangrijke opmerking:</strong> Cryptoprijzen kunnen enorm fluctueren; soms wel 20%% in een paar minuten. Dit is nog steeds minder dan de kosten die we bij veel betalingsaanbieders oplopen. Deze vragen vaak 50-60%% om met een 'grijze' liefdadigheidsinstelling als wij te werken. <u>Als je ons een afschrift stuurt met de oorspronkelijke prijs die je hebt betaald, dan schrijven we je account alsnog het gekozen lidmaatschap bij</u> (zolang het afschrift niet ouder dan een paar uur is). We waarderen het enorm dat je dit soort dingen verdraagt om ons te steunen! ❤️"
 
-#: allthethings/account/templates/account/donation.html:68
-#: allthethings/account/templates/account/donation.html:81
-#: allthethings/account/templates/account/donation.html:102
-#: allthethings/account/templates/account/donation.html:153
-#: allthethings/account/templates/account/donation.html:193
-#: allthethings/account/templates/account/donation.html:238
-#: allthethings/account/templates/account/donation.html:279
-#: allthethings/account/templates/account/donation.html:341
-#: allthethings/account/templates/account/donation.html:357
-#: allthethings/account/templates/account/donation.html:375
-#: allthethings/account/templates/account/donation.html:391
-#: allthethings/account/templates/account/donation.html:407
+#: allthethings/account/templates/account/donation.html:76
+#: allthethings/account/templates/account/donation.html:89
+#: allthethings/account/templates/account/donation.html:110
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:201
+#: allthethings/account/templates/account/donation.html:246
+#: allthethings/account/templates/account/donation.html:287
+#: allthethings/account/templates/account/donation.html:349
+#: allthethings/account/templates/account/donation.html:365
+#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:399
+#: allthethings/account/templates/account/donation.html:415
 msgid "page.donation.expired"
 msgstr "Deze donatie is verlopen. Annuleer 'm en start een nieuwe."
 
-#: allthethings/account/templates/account/donation.html:71
+#: allthethings/account/templates/account/donation.html:79
 msgid "page.donation.payment.crypto.top_header"
 msgstr "Instructies voor crypto"
 
-#: allthethings/account/templates/account/donation.html:73
+#: allthethings/account/templates/account/donation.html:81
 msgid "page.donation.payment.crypto.header1"
 msgstr "<span %(span_circle)s>1</span>Maak over naar een van onze cryptorekeningen"
 
-#: allthethings/account/templates/account/donation.html:76
+#: allthethings/account/templates/account/donation.html:84
 msgid "page.donation.payment.crypto.text1"
 msgstr "Doneer het totaalbedrag van %(total)s naar een van de volgende adressen:"
 
-#: allthethings/account/templates/account/donation.html:105
+#: allthethings/account/templates/account/donation.html:113
 msgid "page.donate.submit.header1"
 msgstr "<span %(span_circle)s>1</span>Bitcoin op PayPal kopen"
 
-#: allthethings/account/templates/account/donation.html:108
-#: allthethings/account/templates/account/donation.html:159
+#: allthethings/account/templates/account/donation.html:116
+#: allthethings/account/templates/account/donation.html:167
 msgid "page.donate.one_time_payment.paypal.text2"
 msgstr "Zoek de pagina Crypto in de PayPal-app of -website. Deze vind je vaak onder Financiën."
 
-#: allthethings/account/templates/account/donation.html:112
+#: allthethings/account/templates/account/donation.html:120
 msgid "page.donation.payment.paypal.text3"
 msgstr "Volg de instructies om Bitcoin (BTC) te kopen. Je hoeft alleen het bedrag te kopen dat je wil doneren, %(total)s."
 
-#: allthethings/account/templates/account/donation.html:115
+#: allthethings/account/templates/account/donation.html:123
 msgid "page.donate.submit.header2"
 msgstr "<span %(span_circle)s>2</span>Bitcoin naar ons adres versturen"
 
-#: allthethings/account/templates/account/donation.html:118
+#: allthethings/account/templates/account/donation.html:126
 msgid "page.donate.one_time_payment.paypal.text4"
 msgstr "Ga naar de Bitcoin-pagina in de PayPal-app of -website. Druk op de knop Versturen %(transfer_icon)s en daarna op Verzenden."
 
-#: allthethings/account/templates/account/donation.html:122
+#: allthethings/account/templates/account/donation.html:130
 msgid "page.donation.payment.paypal.text5"
 msgstr "Voer ons Bitcoin (BTC)-adres in als ontvanger en volg de instructies om je donatie van %(total)s te doen:"
 
-#: allthethings/account/templates/account/donation.html:126
-#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:134
+#: allthethings/account/templates/account/donation.html:242
 msgid "page.donation.credit_debit_card_instructions"
 msgstr "Instructies voor creditcard/betaalpas"
 
-#: allthethings/account/templates/account/donation.html:128
+#: allthethings/account/templates/account/donation.html:136
 msgid "page.donation.credit_debit_card_our_page"
 msgstr "Doneren via onze pagina voor creditcards/betaalpassen"
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:139
 msgid "page.donation.donate_on_this_page"
 msgstr "Doneer %(amount)s op <a %(a_page)s>deze pagina</a>."
 
-#: allthethings/account/templates/account/donation.html:131
+#: allthethings/account/templates/account/donation.html:139
 msgid "page.donation.stepbystep_below"
 msgstr "Raadpleeg de stapsgewijze handleiding hierboven."
 
-#: allthethings/account/templates/account/donation.html:135
-#: allthethings/account/templates/account/donation.html:178
-#: allthethings/account/templates/account/donation.html:221
-#: allthethings/account/templates/account/donation.html:262
-#: allthethings/account/templates/account/donation.html:291
-#: allthethings/account/templates/account/donation.html:322
+#: allthethings/account/templates/account/donation.html:143
+#: allthethings/account/templates/account/donation.html:186
+#: allthethings/account/templates/account/donation.html:229
+#: allthethings/account/templates/account/donation.html:270
+#: allthethings/account/templates/account/donation.html:299
+#: allthethings/account/templates/account/donation.html:330
 msgid "page.donation.status_header"
 msgstr "Status:"
 
-#: allthethings/account/templates/account/donation.html:135
-#: allthethings/account/templates/account/donation.html:178
-#: allthethings/account/templates/account/donation.html:221
-#: allthethings/account/templates/account/donation.html:262
-#: allthethings/account/templates/account/donation.html:291
+#: allthethings/account/templates/account/donation.html:143
+#: allthethings/account/templates/account/donation.html:186
+#: allthethings/account/templates/account/donation.html:229
+#: allthethings/account/templates/account/donation.html:270
+#: allthethings/account/templates/account/donation.html:299
 msgid "page.donation.waiting_for_confirmation_refresh"
 msgstr "Wachten op bevestiging (vernieuw de pagina om te controleren)…"
 
-#: allthethings/account/templates/account/donation.html:135
-#: allthethings/account/templates/account/donation.html:178
-#: allthethings/account/templates/account/donation.html:221
-#: allthethings/account/templates/account/donation.html:262
-#: allthethings/account/templates/account/donation.html:291
+#: allthethings/account/templates/account/donation.html:143
+#: allthethings/account/templates/account/donation.html:186
+#: allthethings/account/templates/account/donation.html:229
+#: allthethings/account/templates/account/donation.html:270
+#: allthethings/account/templates/account/donation.html:299
 msgid "page.donation.waiting_for_transfer_refresh"
 msgstr "Wachten op transactie (vernieuw de pagina om te controleren)…"
-
-#: allthethings/account/templates/account/donation.html:136
-#: allthethings/account/templates/account/donation.html:179
-#: allthethings/account/templates/account/donation.html:222
-#: allthethings/account/templates/account/donation.html:263
-#: allthethings/account/templates/account/donation.html:292
-msgid "page.donation.time_left_header"
-msgstr "Tijd resterend:"
-
-#: allthethings/account/templates/account/donation.html:136
-#: allthethings/account/templates/account/donation.html:179
-#: allthethings/account/templates/account/donation.html:222
-#: allthethings/account/templates/account/donation.html:263
-#: allthethings/account/templates/account/donation.html:292
-msgid "page.donation.might_want_to_cancel"
-msgstr "(het kan handig zijn om te annuleren en een nieuwe donatie te starten)"
-
-#: allthethings/account/templates/account/donation.html:140
-#: allthethings/account/templates/account/donation.html:183
-#: allthethings/account/templates/account/donation.html:226
-#: allthethings/account/templates/account/donation.html:267
-#: allthethings/account/templates/account/donation.html:296
-msgid "page.donation.reset_timer"
-msgstr "Start een nieuwe donatie om de teller terug te zetten."
 
 #: allthethings/account/templates/account/donation.html:144
 #: allthethings/account/templates/account/donation.html:187
 #: allthethings/account/templates/account/donation.html:230
 #: allthethings/account/templates/account/donation.html:271
 #: allthethings/account/templates/account/donation.html:300
-#: allthethings/account/templates/account/donation.html:326
+msgid "page.donation.time_left_header"
+msgstr "Tijd resterend:"
+
+#: allthethings/account/templates/account/donation.html:144
+#: allthethings/account/templates/account/donation.html:187
+#: allthethings/account/templates/account/donation.html:230
+#: allthethings/account/templates/account/donation.html:271
+#: allthethings/account/templates/account/donation.html:300
+msgid "page.donation.might_want_to_cancel"
+msgstr "(het kan handig zijn om te annuleren en een nieuwe donatie te starten)"
+
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+msgid "page.donation.reset_timer"
+msgstr "Start een nieuwe donatie om de teller terug te zetten."
+
+#: allthethings/account/templates/account/donation.html:152
+#: allthethings/account/templates/account/donation.html:195
+#: allthethings/account/templates/account/donation.html:238
+#: allthethings/account/templates/account/donation.html:279
+#: allthethings/account/templates/account/donation.html:308
+#: allthethings/account/templates/account/donation.html:334
 msgid "page.donation.refresh_status"
 msgstr "Status bijwerken"
 
-#: allthethings/account/templates/account/donation.html:148
-#: allthethings/account/templates/account/donation.html:502
+#: allthethings/account/templates/account/donation.html:156
+#: allthethings/account/templates/account/donation.html:510
 msgid "page.donation.footer.issues_contact"
 msgstr "Neem contact met ons op via %(email)s als je problemen ondervindt. Voeg zo veel mogelijk informatie toe (zoals screenshots)."
 
-#: allthethings/account/templates/account/donation.html:156
+#: allthethings/account/templates/account/donation.html:164
 msgid "page.donation.buy_pyusd"
 msgstr "Koop PYUSD op PayPal"
 
-#: allthethings/account/templates/account/donation.html:163
+#: allthethings/account/templates/account/donation.html:171
 msgid "page.donation.pyusd.instructions"
 msgstr "Volg de instructies om PYUSD (PayPal USD) te kopen."
 
-#: allthethings/account/templates/account/donation.html:164
+#: allthethings/account/templates/account/donation.html:172
 msgid "page.donation.pyusd.more"
 msgstr "Koop iets meer (we raden %(more)s extra aan) dan het bedrag dat je wilt doneren (%(amount)s) om de transactiekosten te dekken. Wat overblijft, kun je houden."
 
-#: allthethings/account/templates/account/donation.html:170
+#: allthethings/account/templates/account/donation.html:178
 msgid "page.donation.pyusd.transfer"
 msgstr "Ga naar de pagina 'PYUSD' in de app of op de website van PayPal. Druk op de knop 'Transfer' %(icon)s en vervolgens op 'Send'."
 
-#: allthethings/account/templates/account/donation.html:174
-#: allthethings/account/templates/account/donation.html:213
-#: allthethings/account/templates/account/donation.html:283
+#: allthethings/account/templates/account/donation.html:182
+#: allthethings/account/templates/account/donation.html:221
+#: allthethings/account/templates/account/donation.html:291
 msgid "page.donation.transfer_amount_to"
 msgstr "Maak %(amount)s over naar %(account)s"
 
-#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:283
 msgid "page.donation.crypto_instructions"
 msgstr "Instructies voor %(coin_name)s"
 
-#: allthethings/account/templates/account/donation.html:287
+#: allthethings/account/templates/account/donation.html:295
 msgid "page.donation.crypto_standard"
 msgstr "We ondersteunen alleen de standaardversie van cryptomunten, dus geen exotische netwerken of versies van munten. Afhankelijk van de munt kan het een uur duren om transacties te bevestigen."
 
-#: allthethings/account/templates/account/donation.html:304
+#: allthethings/account/templates/account/donation.html:312
 msgid "page.donation.amazon.header"
 msgstr "Amazon-cadeaubon"
 
-#: allthethings/account/templates/account/donation.html:307
+#: allthethings/account/templates/account/donation.html:315
 msgid "page.donation.amazon.form_instructions"
 msgstr "Gebruik het <a %(a_form)s>officiële formulier van Amazon.com</a> om ons een cadeaubon van %(amount)s te sturen naar onderstaand e-mailadres."
 
-#: allthethings/account/templates/account/donation.html:308
+#: allthethings/account/templates/account/donation.html:316
 msgid "page.donation.amazon.only_official"
 msgstr "We accepteren geen andere methodes voor cadeaubonnen, <strong>alleen die rechtstreeks via het officiële formulier op Amazon.com worden verzonden</strong>. We kunnen je cadeaubon niet retourneren als je dit formulier niet gebruikt."
 
-#: allthethings/account/templates/account/donation.html:313
+#: allthethings/account/templates/account/donation.html:321
 msgid "page.donate.payment.desc.amazon_message"
 msgstr "Schrijf NIET je eigen bericht."
 
-#: allthethings/account/templates/account/donation.html:317
+#: allthethings/account/templates/account/donation.html:325
 msgid "page.donation.amazon.form_to"
 msgstr "Geadresseerde 'Aan' in het formulier:"
 
-#: allthethings/account/templates/account/donation.html:318
+#: allthethings/account/templates/account/donation.html:326
 msgid "page.donation.amazon.unique"
 msgstr "Uniek voor jouw account; niet delen."
 
-#: allthethings/account/templates/account/donation.html:322
+#: allthethings/account/templates/account/donation.html:330
 msgid "page.donation.amazon.waiting_gift_card"
 msgstr "Wachten op cadeaubon (vernieuw de pagina om te controleren)…"
 
-#: allthethings/account/templates/account/donation.html:330
+#: allthethings/account/templates/account/donation.html:338
 msgid "page.donation.amazon.confirm_automated"
 msgstr "Nadat je je cadeaubon hebt verzonden, bevestigt ons geautomatiseerde systeem dit binnen een paar minuten. Probeer je cadeaubon opnieuw te verzenden als dit niet werkt (<a %(a_instr)s>instructies</a>)."
 
-#: allthethings/account/templates/account/donation.html:331
+#: allthethings/account/templates/account/donation.html:339
 msgid "page.donation.amazon.doesnt_work"
 msgstr "Als dat nog steeds niet werkt, stuur ons dan een e-mail. Anna controleert het vervolgens handmatig (dit kan een paar dagen duren). Vermeld daarbij of je al opnieuw hebt geprobeerd te verzenden."
 
-#: allthethings/account/templates/account/donation.html:334
+#: allthethings/account/templates/account/donation.html:342
 msgid "page.donation.amazon.example"
 msgstr "Voorbeeld:"
 
-#: allthethings/account/templates/account/donation.html:370
-#: allthethings/account/templates/account/donation.html:387
-#: allthethings/account/templates/account/donation.html:403
-#: allthethings/account/templates/account/donation.html:419
+#: allthethings/account/templates/account/donation.html:378
+#: allthethings/account/templates/account/donation.html:395
+#: allthethings/account/templates/account/donation.html:411
+#: allthethings/account/templates/account/donation.html:427
 msgid "page.donate.strange_account"
 msgstr "Let op dat je accountnaam of profielfoto er vreemd uit kan zien. Geen zorgen! Deze accounts worden beheerd door onze donatiepartners. Onze accounts zijn niet gehackt."
 
-#: allthethings/account/templates/account/donation.html:394
+#: allthethings/account/templates/account/donation.html:402
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Instructies voor Alipay"
 
-#: allthethings/account/templates/account/donation.html:396
+#: allthethings/account/templates/account/donation.html:404
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Doneren met Alipay"
 
-#: allthethings/account/templates/account/donation.html:399
+#: allthethings/account/templates/account/donation.html:407
 msgid "page.donation.payment.alipay.text1"
 msgstr "Doneer het totaalbedrag van %(total)s aan <a %(a_account)s>dit Alipay-account"
 
-#: allthethings/account/templates/account/donation.html:410
+#: allthethings/account/templates/account/donation.html:418
 msgid "page.donation.payment.pix.top_header"
 msgstr "Instructies voor Pix"
 
-#: allthethings/account/templates/account/donation.html:412
+#: allthethings/account/templates/account/donation.html:420
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Doneren met Pix"
 
-#: allthethings/account/templates/account/donation.html:415
+#: allthethings/account/templates/account/donation.html:423
 msgid "page.donation.payment.pix.text1"
 msgstr "Doneer het totaalbedrag van %(total)s aan <a %(a_account)s>dit Pix-account"
 
-#: allthethings/account/templates/account/donation.html:424
+#: allthethings/account/templates/account/donation.html:432
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Mail ons het ontvangstbewijs"
 
-#: allthethings/account/templates/account/donation.html:430
+#: allthethings/account/templates/account/donation.html:438
 msgid "page.donation.footer.text1"
 msgstr "Stuur een ontvangstbewijs of schermafbeelding naar je persoonlijke verificatieadres:"
 
-#: allthethings/account/templates/account/donation.html:440
+#: allthethings/account/templates/account/donation.html:448
 msgid "page.donation.footer.crypto_note"
 msgstr "Als de koers op de cryptobeurs tijdens de transactie fluctueerde, zorg er dan voor dat je het afschrift met de oorspronkelijke wisselkoers bijvoegt. We waarderen het dat je de moeite neemt om crypto te gebruiken. Dat helpt ons enorm!"
 
-#: allthethings/account/templates/account/donation.html:445
+#: allthethings/account/templates/account/donation.html:453
 msgid "page.donation.footer.text2"
 msgstr "Klik op deze knop als je je ontvangstbewijs hebt gemaild, zodat Anna dat handmatig kan controleren (dit kan een paar dagen duren):"
 
-#: allthethings/account/templates/account/donation.html:455
+#: allthethings/account/templates/account/donation.html:463
 msgid "page.donation.footer.button"
 msgstr "Ja, ik heb mijn ontvangstbewijs gemaild"
 
-#: allthethings/account/templates/account/donation.html:458
+#: allthethings/account/templates/account/donation.html:466
 msgid "page.donation.footer.success"
 msgstr "✅ Bedankt voor je donatie! Anna activeert je lidmaatschap handmatig binnen een paar dagen."
 
-#: allthethings/account/templates/account/donation.html:459
+#: allthethings/account/templates/account/donation.html:467
 msgid "page.donation.footer.failure"
 msgstr "❌ Er ging iets mis. Vernieuw de pagina en probeer het opnieuw."
 
-#: allthethings/account/templates/account/donation.html:464
+#: allthethings/account/templates/account/donation.html:472
 msgid "page.donation.stepbystep"
 msgstr "Stapsgewijze handleiding"
 
-#: allthethings/account/templates/account/donation.html:466
+#: allthethings/account/templates/account/donation.html:474
 msgid "page.donation.crypto_dont_worry"
 msgstr "Sommige stappen benoemen 'cryptowallets'. Geen zorgen: je hoeft niets over crypto te leren."
 
-#: allthethings/account/templates/account/donation.html:468
+#: allthethings/account/templates/account/donation.html:476
 msgid "page.donation.hoodpay.step1"
 msgstr "1. Voer je e-mailadres in."
 
-#: allthethings/account/templates/account/donation.html:474
+#: allthethings/account/templates/account/donation.html:482
 msgid "page.donation.hoodpay.step2"
 msgstr "2. Selecteer de betaalmethode."
 
-#: allthethings/account/templates/account/donation.html:480
+#: allthethings/account/templates/account/donation.html:488
 msgid "page.donation.hoodpay.step3"
 msgstr "3. Selecteer de betaalmethode opnieuw."
 
-#: allthethings/account/templates/account/donation.html:486
+#: allthethings/account/templates/account/donation.html:494
 msgid "page.donation.hoodpay.step4"
 msgstr "4. Selecteer de wallet 'Self-hosted'."
 
-#: allthethings/account/templates/account/donation.html:492
+#: allthethings/account/templates/account/donation.html:500
 msgid "page.donation.hoodpay.step5"
 msgstr "5. Klik op 'I confirm ownership'."
 
-#: allthethings/account/templates/account/donation.html:498
+#: allthethings/account/templates/account/donation.html:506
 msgid "page.donation.hoodpay.step6"
 msgstr "6. Je ontvangt een afschrift. Stuur dat naar ons. Wij bevestigen je donatie zo snel mogelijk."
 
-#: allthethings/account/templates/account/donation.html:502
+#: allthethings/account/templates/account/donation.html:510
 msgid "page.donate.mistake"
 msgstr "Als je tijdens het betalen een fout hebt gemaakt, kunnen we je niet terugbetalen. We doen dan ons best om het te corrigeren."
 
@@ -926,6 +955,10 @@ msgstr "Gedownloade bestanden"
 #: allthethings/account/templates/account/downloaded.html:8
 msgid "page.downloaded.fast_partner_star"
 msgstr "Downloads van snelle partnerservers worden gemarkeerd met %(icon)s."
+
+#: allthethings/account/templates/account/downloaded.html:8
+msgid "page.downloaded.twice"
+msgstr ""
 
 #: allthethings/account/templates/account/downloaded.html:8
 msgid "page.downloaded.fast_download_time"
@@ -1113,6 +1146,59 @@ msgstr "Nog geen lijsten"
 msgid "page.profile.lists.new_list"
 msgstr "Maak een nieuwe lijst door een titel te zoeken en het tabblad Lijsten te openen."
 
+#: allthethings/account/templates/account/refer.html:3
+#: allthethings/account/templates/account/refer.html:8
+msgid "page.refer.title"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:11
+msgid "page.refer.section1.intro"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:12
+msgid "page.refer.section1.list_start"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:16
+msgid "page.refer.section1.list_1"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:17
+msgid "page.refer.section1.list_2"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:21
+msgid "page.refer.section2.list_start"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:25
+msgid "page.refer.section2.list_1"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:26
+msgid "page.refer.section2.list_2"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:27
+msgid "page.refer.section2.list_3"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:31
+msgid "page.refer.linkbox.header"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:33
+msgid "page.refer.linkbox.login"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:35
+msgid "page.refer.linkbox.donate"
+msgstr ""
+
+#: allthethings/account/templates/account/refer.html:38
+msgid "page.refer.linkbox.remember"
+msgstr ""
+
 #: allthethings/account/templates/account/request.html:3
 #: allthethings/account/templates/account/request.html:6
 msgid "page.request.title"
@@ -1140,6 +1226,10 @@ msgstr "Als je e-mailadres niet op de Libgen-fora werkt, raden we je aan om <a %
 msgid "page.upload.title"
 msgstr "Uploaden"
 
+#: allthethings/account/templates/account/upload.html:8
+msgid "page.upload.libgen.header"
+msgstr ""
+
 #: allthethings/account/templates/account/upload.html:11
 msgid "page.upload.text1"
 msgstr "Voorlopig raden we je aan om nieuwe boeken op de forks van Library Genesis te uploaden. Hier vind je een <a %(a_guide)s>handleiding</a>. Beide forks die we op deze website indexeren, halen hun gegevens van ditzelfde uploadsysteem."
@@ -1160,226 +1250,226 @@ msgstr "Grote uploads"
 msgid "page.upload.large.text"
 msgstr "Neem contact met ons op via %(a_email)s bij grote uploads (van meer dan 10.000 bestanden) die niet door Libgen of Z-Library worden geaccepteerd."
 
-#: allthethings/dyn/views.py:723
+#: allthethings/dyn/views.py:725
 msgid "dyn.buy_membership.error.try_again"
 msgstr "Aanvraag kon niet worden voltooid. Probeer het over een paar minuten opnieuw en als het blijft gebeuren, neem dan contact met ons op via AnnaArchivist@proton.me met een schermafbeelding."
 
-#: allthethings/dyn/views.py:726 allthethings/dyn/views.py:734
+#: allthethings/dyn/views.py:728 allthethings/dyn/views.py:736
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Er is een onbekende fout opgetreden. Neem contact met ons op via AnnaArchivist@proton.me met een screenshot."
 
-#: allthethings/dyn/views.py:731
+#: allthethings/dyn/views.py:733
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Deze munt heeft een minimum dat hoger is dan gebruikelijk. Selecteer een andere duur of munt."
 
-#: allthethings/page/views.py:2900
+#: allthethings/page/views.py:2955
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Niet zichtbaar in Libgen.rs Non-Fictie"
 
-#: allthethings/page/views.py:2901
+#: allthethings/page/views.py:2956
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Niet zichtbaar in Libgen.rs Fictie"
 
-#: allthethings/page/views.py:2902
+#: allthethings/page/views.py:2957
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Niet zichtbaar in Libgen.li"
 
-#: allthethings/page/views.py:2903
+#: allthethings/page/views.py:2958
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Gemarkeerd als beschadigd bestand in Libgen.li"
 
-#: allthethings/page/views.py:2904
+#: allthethings/page/views.py:2959
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Niet aanwezig in Z-Library"
 
-#: allthethings/page/views.py:2910
+#: allthethings/page/views.py:2965
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Boek (onbekend)"
 
-#: allthethings/page/views.py:2911
+#: allthethings/page/views.py:2966
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Boek (non-fictie)"
 
-#: allthethings/page/views.py:2912
+#: allthethings/page/views.py:2967
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Boek (fictie)"
 
-#: allthethings/page/views.py:2913
+#: allthethings/page/views.py:2968
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Wetenschappelijk artikel"
 
-#: allthethings/page/views.py:2914
+#: allthethings/page/views.py:2969
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Documentatievormen"
 
-#: allthethings/page/views.py:2915
+#: allthethings/page/views.py:2970
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Tijdschrift"
 
-#: allthethings/page/views.py:2916
+#: allthethings/page/views.py:2971
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Stripboek"
 
-#: allthethings/page/views.py:2917
+#: allthethings/page/views.py:2972
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "Partituur"
 
-#: allthethings/page/views.py:2918
+#: allthethings/page/views.py:2973
 msgid "common.md5_content_type_mapping.other"
 msgstr "Overig"
 
-#: allthethings/page/views.py:2924
+#: allthethings/page/views.py:2979
 msgid "common.access_types_mapping.aa_download"
 msgstr "Download van partnerserver"
 
-#: allthethings/page/views.py:2925
+#: allthethings/page/views.py:2980
 msgid "common.access_types_mapping.external_download"
 msgstr "Externe download"
 
-#: allthethings/page/views.py:2926
+#: allthethings/page/views.py:2981
 msgid "common.access_types_mapping.external_borrow"
 msgstr "Extern lenen"
 
-#: allthethings/page/views.py:2927
+#: allthethings/page/views.py:2982
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "Extern lenen (leesbeperkingen)"
 
-#: allthethings/page/views.py:2928
+#: allthethings/page/views.py:2983
 msgid "common.access_types_mapping.meta_explore"
 msgstr "Metadata verkennen"
 
-#: allthethings/page/views.py:2934
+#: allthethings/page/views.py:2989
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:2935
+#: allthethings/page/views.py:2990
 msgid "common.record_sources_mapping.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:2936
+#: allthethings/page/views.py:2991
 msgid "common.record_sources_mapping.zlib"
 msgstr "Z-Library"
 
-#: allthethings/page/views.py:2937
+#: allthethings/page/views.py:2992
 msgid "common.record_sources_mapping.ia"
 msgstr "Internet Archive"
 
-#: allthethings/page/views.py:2938
+#: allthethings/page/views.py:2993
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:2939
+#: allthethings/page/views.py:2994
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:2940
+#: allthethings/page/views.py:2995
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:2941
+#: allthethings/page/views.py:2996
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
-#: allthethings/page/views.py:2966
+#: allthethings/page/views.py:3021
 msgid "common.md5.servers.fast_partner"
 msgstr "Snelle partnerserver #%(number)s"
 
-#: allthethings/page/views.py:2966 allthethings/page/views.py:3243
+#: allthethings/page/views.py:3021 allthethings/page/views.py:3308
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(geen browserverificatie vereist)"
 
-#: allthethings/page/views.py:2968
+#: allthethings/page/views.py:3023
 msgid "common.md5.servers.slow_partner"
 msgstr "Langzame partnerserver #%(number)s"
 
-#: allthethings/page/views.py:2968
+#: allthethings/page/views.py:3023
 msgid "common.md5.servers.browser_verification_unlimited"
 msgstr "(<a %(a_browser)s>browserverificatie</a> mogelijk vereist — onbeperkte downloads!)"
 
-#: allthethings/page/views.py:3081 allthethings/page/views.py:3212
+#: allthethings/page/views.py:3136 allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:3145
+#: allthethings/page/views.py:3210
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Non-Fictie"
 
-#: allthethings/page/views.py:3145 allthethings/page/views.py:3156
-#: allthethings/page/views.py:3186
+#: allthethings/page/views.py:3210 allthethings/page/views.py:3221
+#: allthethings/page/views.py:3251
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(klik ook op \"GET\" bovenaan de pagina)"
 
-#: allthethings/page/views.py:3145 allthethings/page/views.py:3156
-#: allthethings/page/views.py:3186
+#: allthethings/page/views.py:3210 allthethings/page/views.py:3221
+#: allthethings/page/views.py:3251
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(klik op \"GET\" bovenaan de pagina)"
 
-#: allthethings/page/views.py:3156
+#: allthethings/page/views.py:3221
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Fictie"
 
-#: allthethings/page/views.py:3186
+#: allthethings/page/views.py:3251
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:3189 allthethings/page/views.py:3190
-#: allthethings/page/views.py:3191
+#: allthethings/page/views.py:3254 allthethings/page/views.py:3255
+#: allthethings/page/views.py:3256
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "IPFS-gateway #%(num)d"
 
-#: allthethings/page/views.py:3189
+#: allthethings/page/views.py:3254
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(mogelijk moet je het een paar keer proberen met IPFS)"
 
-#: allthethings/page/views.py:3209
+#: allthethings/page/views.py:3274
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Lenen uit het internetarchief"
 
-#: allthethings/page/views.py:3209
+#: allthethings/page/views.py:3274
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(alleen voor gebruikers met leesbeperkingen)"
 
-#: allthethings/page/views.py:3212
+#: allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(bijbehorende DOI is mogelijk niet beschikbaar in Sci-Hub)"
 
-#: allthethings/page/views.py:3221
+#: allthethings/page/views.py:3286
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Torrentdownloads in bulk"
 
-#: allthethings/page/views.py:3221
+#: allthethings/page/views.py:3286
 msgid "page.md5.box.download.experts_only"
 msgstr "(alleen voor experts)"
 
-#: allthethings/page/views.py:3228
+#: allthethings/page/views.py:3293
 msgid "page.md5.box.download.aa_isbn"
 msgstr "Anna’s Archief doorzoeken op ISBN"
 
-#: allthethings/page/views.py:3229
+#: allthethings/page/views.py:3294
 msgid "page.md5.box.download.other_isbn"
 msgstr "Verschillende andere databases doorzoeken op ISBN"
 
-#: allthethings/page/views.py:3231
+#: allthethings/page/views.py:3296
 msgid "page.md5.box.download.original_isbndb"
 msgstr "Originele vermelding in ISBNdb zoeken"
 
-#: allthethings/page/views.py:3233
+#: allthethings/page/views.py:3298
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Anna’s Archief doorzoeken op Open Library ID"
 
-#: allthethings/page/views.py:3235
+#: allthethings/page/views.py:3300
 msgid "page.md5.box.download.original_openlib"
 msgstr "Originele vermelding in Open Library zoeken"
 
-#: allthethings/page/views.py:3237
+#: allthethings/page/views.py:3302
 msgid "page.md5.box.download.aa_oclc"
 msgstr "Anna’s Archief doorzoeken op OCLC (WorldCat) nummer"
 
-#: allthethings/page/views.py:3238
+#: allthethings/page/views.py:3303
 msgid "page.md5.box.download.original_oclc"
 msgstr "Oorspronkelijke vermelding in WorldCat zoeken"
 
-#: allthethings/page/views.py:3243 allthethings/page/views.py:3244
+#: allthethings/page/views.py:3308 allthethings/page/views.py:3309
 msgid "page.md5.box.download.scidb"
 msgstr "Anna’s Archief 🧬 SciDB"
 
@@ -1503,27 +1593,35 @@ msgid "page.md5.box.download.header_generic"
 msgstr "Downloads"
 
 #: allthethings/page/templates/page/aarecord.html:220
+msgid "page.md5.box.download.convert"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:221
+msgid "page.md5.box.download.kindle"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:222
 msgid "page.md5.box.download.support_authors"
 msgstr "Steun auteurs: Als je dit leuk vindt en je kunt het je veroorloven, overweeg dan om het origineel te kopen of de auteurs rechtstreeks te steunen."
 
-#: allthethings/page/templates/page/aarecord.html:221
+#: allthethings/page/templates/page/aarecord.html:223
 msgid "page.md5.box.download.support_libraries"
 msgstr "Steun bibliotheken: Als dit beschikbaar is in je plaatselijke bibliotheek, overweeg dan om het daar gratis te lenen."
 
-#: allthethings/page/templates/page/aarecord.html:226
+#: allthethings/page/templates/page/aarecord.html:228
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Alle download opties zouden veilig moeten zijn. Dat gezegd hebbende: wees altijd voorzichtig met het downloaden van bestanden van het internet. Zorg bijvoorbeeld altijd dat je apparaat geüpdatet is."
 
-#: allthethings/page/templates/page/aarecord.html:252
+#: allthethings/page/templates/page/aarecord.html:254
 msgid "page.md5.box.download.no_found"
 msgstr "Geen downloads gevonden."
 
-#: allthethings/page/templates/page/aarecord.html:257
-#: allthethings/page/templates/page/aarecord.html:258
-#: allthethings/page/templates/page/aarecord.html:359
-#: allthethings/page/templates/page/aarecord.html:360
-#: allthethings/page/templates/page/aarecord.html:379
-#: allthethings/page/templates/page/aarecord.html:380
+#: allthethings/page/templates/page/aarecord.html:259
+#: allthethings/page/templates/page/aarecord.html:260
+#: allthethings/page/templates/page/aarecord.html:361
+#: allthethings/page/templates/page/aarecord.html:362
+#: allthethings/page/templates/page/aarecord.html:381
+#: allthethings/page/templates/page/aarecord.html:382
 #: allthethings/page/templates/page/about.html:123
 #: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6
@@ -1552,12 +1650,14 @@ msgstr "Geen downloads gevonden."
 #: allthethings/page/templates/page/doi.html:41
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
+#: allthethings/page/templates/page/mirrors.html:7
+#: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/mobile.html:6
 #: allthethings/page/templates/page/mobile.html:7
 #: allthethings/page/templates/page/security.html:6
 #: allthethings/page/templates/page/security.html:7
-#: allthethings/page/templates/page/torrents.html:6
-#: allthethings/page/templates/page/torrents.html:7
+#: allthethings/page/templates/page/torrents.html:22
+#: allthethings/page/templates/page/torrents.html:23
 msgid "common.english_only"
 msgstr "Onderstaande tekst is alleen in het Engels beschikbaar."
 
@@ -1619,7 +1719,7 @@ msgstr "Doorzoek onze catalogus."
 
 #: allthethings/page/templates/page/about.html:79
 #: allthethings/page/templates/page/search.html:53
-#: allthethings/templates/layouts/index.html:414
+#: allthethings/templates/layouts/index.html:441
 msgid "common.search.placeholder"
 msgstr "Zoek op titel, auteur, taal, bestandstype, ISBN, MD5, …"
 
@@ -1777,7 +1877,7 @@ msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
-#: allthethings/templates/layouts/index.html:417
+#: allthethings/templates/layouts/index.html:444
 msgid "layout.index.header.nav.beta"
 msgstr "bèta"
 
@@ -1810,17 +1910,17 @@ msgid "page.home.torrents.body"
 msgstr "Je helpt ons enorm door torrents te seeden. <a %(a_torrents)s>Meer informatie…</a>"
 
 #: allthethings/page/templates/page/home.html:66
-#: allthethings/page/templates/page/torrents.html:41
+#: allthethings/page/templates/page/torrents.html:57
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s seeders"
 
 #: allthethings/page/templates/page/home.html:67
-#: allthethings/page/templates/page/torrents.html:42
+#: allthethings/page/templates/page/torrents.html:58
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s seeders"
 
 #: allthethings/page/templates/page/home.html:68
-#: allthethings/page/templates/page/torrents.html:43
+#: allthethings/page/templates/page/torrents.html:59
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s seeders"
 
@@ -1831,6 +1931,14 @@ msgstr "Trainingsdata voor LLM's"
 #: allthethings/page/templates/page/home.html:75
 msgid "page.home.llm.body"
 msgstr "We hebben 's werelds grootste verzameling tekstgegevens van hoge kwaliteit. <a %(a_llm)s>Meer informatie…</a>"
+
+#: allthethings/page/templates/page/home.html:78
+msgid "page.home.mirrors.header"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:81
+msgid "page.home.mirrors.body"
+msgstr ""
 
 #: allthethings/page/templates/page/login.html:18
 msgid "page.login.continue"
@@ -1869,7 +1977,7 @@ msgid "page.partner_download.bulk_mirroring"
 msgstr "📡 Bekijk de pagina's <a %(a_datasets)s>Datasets</a> en <a %(a_torrents)s>Torrents</a> voor het spiegelen van onze collectie in bulk."
 
 #: allthethings/page/templates/page/scidb.html:13
-#: allthethings/templates/layouts/index.html:273
+#: allthethings/templates/layouts/index.html:297
 msgid "layout.index.header.title"
 msgstr "Anna’s Archief"
 
@@ -1998,6 +2106,10 @@ msgstr "De zoekopdracht duurde te lang. Dit is gebruikelijk bij brede opdrachten
 msgid "page.search.too_inaccurate"
 msgstr "De zoekopdracht duurde te lang. Dit kan betekenen dat je onnauwkeurige resultaten te zien krijgt. Soms helpt het om de pagina te <a %(a_reload)s>herladen</a>."
 
+#: allthethings/page/templates/page/search.html:127
+msgid "page.search.filters.source.scraped"
+msgstr ""
+
 #: allthethings/page/templates/page/search.html:132
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Meest relevant"
@@ -2110,189 +2222,216 @@ msgstr "'s Werelds grootste opensourcebibliotheek met open data. Een spiegeling 
 msgid "layout.index.meta.opensearch"
 msgstr "Anna’s Archief doorzoeken"
 
-#: allthethings/templates/layouts/index.html:195
+#: allthethings/templates/layouts/index.html:213
 msgid "layout.index.header.banner.holiday_gift"
 msgstr "Het redden van menselijke kennis: een geweldig cadeau voor de feestdagen!"
 
-#: allthethings/templates/layouts/index.html:195
+#: allthethings/templates/layouts/index.html:213
 msgid "layout.index.header.banner.surprise"
 msgstr "Verras een dierbare, geef hem of haar een account met lidmaatschap."
 
-#: allthethings/templates/layouts/index.html:195
-#: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:213
+#: allthethings/templates/layouts/index.html:438
+#: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.donate"
 msgstr "Doneren"
 
-#: allthethings/templates/layouts/index.html:211
-msgid "layout.index.header.banner.new_donation_method"
-msgstr "We hebben een nieuwe donatiemogelijkheid: %(method_name)s. Overweeg alsjeblieft te %(donate_link_open_tag)sdoneren</a> — het is niet goedkoop om deze website te draaien en je donatie maakt hierbij echt het verschil. Heel erg bedankt."
-
-#: allthethings/templates/layouts/index.html:218
-msgid "layout.index.banners.comics_fundraiser.text"
-msgstr "We houden een fondsenwerving om <a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">een kopie</a> van 's werelds grootste schaduwbibliotheek voor stripboeken te maken. Bedankt voor je steun! <a href=\"/donate\">Doneren.</a> En als je niet kunt doneren, probeer ons dan te steunen door je vrienden over ons te vertellen en ons te volgen op <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a> of <a href=\"https://t.me/annasarchiveorg\">Telegram</a>."
-
-#: allthethings/templates/layouts/index.html:283
-#: allthethings/templates/layouts/index.html:284
-#: allthethings/templates/layouts/index.html:285
+#: allthethings/templates/layouts/index.html:216
+#: allthethings/templates/layouts/index.html:219
+#: allthethings/templates/layouts/index.html:307
+#: allthethings/templates/layouts/index.html:308
+#: allthethings/templates/layouts/index.html:309
 msgid "layout.index.header.learn_more"
 msgstr "Meer informatie…"
 
-#: allthethings/templates/layouts/index.html:289
+#: allthethings/templates/layouts/index.html:219
+msgid "layout.index.header.banner.valentine_gift"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:219
+msgid "layout.index.header.banner.refer"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:235
+msgid "layout.index.header.banner.new_donation_method"
+msgstr "We hebben een nieuwe donatiemogelijkheid: %(method_name)s. Overweeg alsjeblieft te %(donate_link_open_tag)sdoneren</a> — het is niet goedkoop om deze website te draaien en je donatie maakt hierbij echt het verschil. Heel erg bedankt."
+
+#: allthethings/templates/layouts/index.html:242
+msgid "layout.index.banners.comics_fundraiser.text"
+msgstr "We houden een fondsenwerving om <a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">een kopie</a> van 's werelds grootste schaduwbibliotheek voor stripboeken te maken. Bedankt voor je steun! <a href=\"/donate\">Doneren.</a> En als je niet kunt doneren, probeer ons dan te steunen door je vrienden over ons te vertellen en ons te volgen op <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a> of <a href=\"https://t.me/annasarchiveorg\">Telegram</a>."
+
+#: allthethings/templates/layouts/index.html:313
 msgid "layout.index.header.recent_downloads"
 msgstr "Recente downloads:"
 
-#: allthethings/templates/layouts/index.html:372
-#: allthethings/templates/layouts/index.html:384
-#: allthethings/templates/layouts/index.html:398
-#: allthethings/templates/layouts/index.html:475
+#: allthethings/templates/layouts/index.html:396
+#: allthethings/templates/layouts/index.html:409
+#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:508
 msgid "layout.index.header.nav.search"
 msgstr "Zoeken"
 
-#: allthethings/templates/layouts/index.html:373
-#: allthethings/templates/layouts/index.html:385
-#: allthethings/templates/layouts/index.html:399
-#: allthethings/templates/layouts/index.html:476
+#: allthethings/templates/layouts/index.html:397
+#: allthethings/templates/layouts/index.html:410
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:509
 msgid "layout.index.header.nav.about"
 msgstr "Over"
 
-#: allthethings/templates/layouts/index.html:374
-#: allthethings/templates/layouts/index.html:386
-#: allthethings/templates/layouts/index.html:400
-#: allthethings/templates/layouts/index.html:507
+#: allthethings/templates/layouts/index.html:398
+#: allthethings/templates/layouts/index.html:411
+#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:541
 msgid "layout.index.header.nav.datasets"
 msgstr "Datasets"
 
-#: allthethings/templates/layouts/index.html:375
-#: allthethings/templates/layouts/index.html:387
-#: allthethings/templates/layouts/index.html:401
-#: allthethings/templates/layouts/index.html:508
+#: allthethings/templates/layouts/index.html:399
+#: allthethings/templates/layouts/index.html:412
+#: allthethings/templates/layouts/index.html:427
+#: allthethings/templates/layouts/index.html:542
 msgid "layout.index.header.nav.torrents"
 msgstr "Torrents"
 
-#: allthethings/templates/layouts/index.html:376
-#: allthethings/templates/layouts/index.html:388
-#: allthethings/templates/layouts/index.html:402
-#: allthethings/templates/layouts/index.html:509
+#: allthethings/templates/layouts/index.html:400
+#: allthethings/templates/layouts/index.html:413
+#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:543
+msgid "layout.index.header.nav.mirrors"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:401
+#: allthethings/templates/layouts/index.html:414
+#: allthethings/templates/layouts/index.html:429
+#: allthethings/templates/layouts/index.html:544
 msgid "layout.index.header.nav.llm_data"
 msgstr "LLM-data"
 
-#: allthethings/templates/layouts/index.html:377
-#: allthethings/templates/layouts/index.html:389
-#: allthethings/templates/layouts/index.html:403
-#: allthethings/templates/layouts/index.html:480
+#: allthethings/templates/layouts/index.html:402
+#: allthethings/templates/layouts/index.html:415
+#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:514
 msgid "layout.index.header.nav.mobile"
 msgstr "Mobiele app"
 
-#: allthethings/templates/layouts/index.html:378
-#: allthethings/templates/layouts/index.html:390
-#: allthethings/templates/layouts/index.html:510
+#: allthethings/templates/layouts/index.html:403
+#: allthethings/templates/layouts/index.html:416
+#: allthethings/templates/layouts/index.html:545
 msgid "layout.index.header.nav.security"
 msgstr "Beveiliging"
 
-#: allthethings/templates/layouts/index.html:379
-#: allthethings/templates/layouts/index.html:391
-#: allthethings/templates/layouts/index.html:405
-#: allthethings/templates/layouts/index.html:495
-#: allthethings/templates/layouts/index.html:519
+#: allthethings/templates/layouts/index.html:404
+#: allthethings/templates/layouts/index.html:417
+#: allthethings/templates/layouts/index.html:432
+#: allthethings/templates/layouts/index.html:529
+#: allthethings/templates/layouts/index.html:554
 msgid "layout.index.header.nav.wechat"
 msgstr "Onofficiële WeChat"
 
-#: allthethings/templates/layouts/index.html:380
-#: allthethings/templates/layouts/index.html:392
-#: allthethings/templates/layouts/index.html:397
-#: allthethings/templates/layouts/index.html:474
+#: allthethings/templates/layouts/index.html:405
+#: allthethings/templates/layouts/index.html:418
+#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:507
 msgid "layout.index.header.nav.home"
 msgstr "Startpagina"
 
-#: allthethings/templates/layouts/index.html:407
-#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:434
+#: allthethings/templates/layouts/index.html:530
 msgid "layout.index.header.nav.annasblog"
 msgstr "Anna’s Blog ↗"
 
-#: allthethings/templates/layouts/index.html:408
-#: allthethings/templates/layouts/index.html:497
+#: allthethings/templates/layouts/index.html:435
+#: allthethings/templates/layouts/index.html:531
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Anna’s Software ↗"
 
-#: allthethings/templates/layouts/index.html:409
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:436
+#: allthethings/templates/layouts/index.html:532
 msgid "layout.index.header.nav.translate"
 msgstr "Vertalen ↗"
 
-#: allthethings/templates/layouts/index.html:420
-#: allthethings/templates/layouts/index.html:426
-#: allthethings/templates/layouts/index.html:434
-#: allthethings/templates/layouts/index.html:442
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:462
-#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:454
+#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:472
+#: allthethings/templates/layouts/index.html:482
+#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:512
 msgid "layout.index.header.nav.request"
 msgstr "Boeken aanvragen"
 
-#: allthethings/templates/layouts/index.html:421
-#: allthethings/templates/layouts/index.html:427
-#: allthethings/templates/layouts/index.html:435
-#: allthethings/templates/layouts/index.html:443
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:463
-#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:448
+#: allthethings/templates/layouts/index.html:455
+#: allthethings/templates/layouts/index.html:465
+#: allthethings/templates/layouts/index.html:473
+#: allthethings/templates/layouts/index.html:483
+#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:513
 msgid "layout.index.header.nav.upload"
 msgstr "Uploaden"
 
-#: allthethings/templates/layouts/index.html:422
-#: allthethings/templates/layouts/index.html:428
-#: allthethings/templates/layouts/index.html:433
+#: allthethings/templates/layouts/index.html:449
+#: allthethings/templates/layouts/index.html:456
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:474
+#: allthethings/templates/layouts/index.html:484
+#: allthethings/templates/layouts/index.html:494
+#: allthethings/templates/layouts/index.html:511
+msgid "layout.index.header.nav.refer"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:462
 msgid "layout.index.header.nav.login_register"
 msgstr "Inloggen/registreren"
 
-#: allthethings/templates/layouts/index.html:439
-#: allthethings/templates/layouts/index.html:448
-#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:469
+#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:491
 msgid "layout.index.header.nav.public_profile"
 msgstr "Openbaar profiel"
 
-#: allthethings/templates/layouts/index.html:440
-#: allthethings/templates/layouts/index.html:449
-#: allthethings/templates/layouts/index.html:460
+#: allthethings/templates/layouts/index.html:470
+#: allthethings/templates/layouts/index.html:480
+#: allthethings/templates/layouts/index.html:492
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "Gedownloade bestanden"
 
-#: allthethings/templates/layouts/index.html:441
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:461
+#: allthethings/templates/layouts/index.html:471
+#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:493
 msgid "layout.index.header.nav.my_donations"
 msgstr "Mijn donaties"
 
-#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:490
 msgid "layout.index.header.nav.account"
 msgstr "Account"
 
-#: allthethings/templates/layouts/index.html:473
+#: allthethings/templates/layouts/index.html:506
 msgid "layout.index.footer.list1.header"
 msgstr "Anna’s Archief"
 
-#: allthethings/templates/layouts/index.html:494
+#: allthethings/templates/layouts/index.html:528
 msgid "layout.index.footer.list2.header"
 msgstr "Blijf in contact"
 
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:529
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:529
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:500
+#: allthethings/templates/layouts/index.html:534
 msgid "layout.index.footer.dont_email"
 msgstr "Mail ons niet voor <a %(a_request)s>boekaanvragen</a><br>of kleine (<10k) <a %(a_upload)s>uploads</a>."
 
-#: allthethings/templates/layouts/index.html:501
+#: allthethings/templates/layouts/index.html:535
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA-/auteursrechtclaims"
 
-#: allthethings/templates/layouts/index.html:514
+#: allthethings/templates/layouts/index.html:549
 msgid "layout.index.footer.list3.header"
 msgstr "Alternatieven"
 
@@ -2555,3 +2694,7 @@ msgstr "gekopieerd!"
 
 #~ msgid "page.home.torrents.number"
 #~ msgstr ""
+
+#~ msgid "layout.index.header.tagline_new2"
+#~ msgstr "⭐️&nbsp;Spiegelt %(libraries)s en meer."
+
