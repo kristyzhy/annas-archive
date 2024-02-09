@@ -1,0 +1,41 @@
+{% extends "layouts/index.html" %}
+
+<!-- TODO:TRANSLATE -->
+
+{% block title %}Refer friends to get bonus downloads{% endblock %}
+
+{% block body %}
+  {% from 'macros/copy_button.html' import copy_button %}
+
+  <h2 class="mt-4 mb-4 text-3xl font-bold">Refer friends to get bonus downloads</h2>
+
+  <p class="mb-1">
+    Members can refer friends and earn bonus downloads. For every friend who becomes a member:
+  </p>
+
+  <ul class="list-inside mb-4 ml-1">
+    <li class="list-disc"><strong>They</strong> get 50% bonus downloads on top of regular daily downloads, for the duration of their membership.</li>
+    <li class="list-disc"><strong>You</strong> get the same number of bonus downloads on top of your regular daily downloads, for the same duration as your friend signed up for (up to a total of {{ MEMBERSHIP_MAX_BONUS_DOWNLOADS | numberformat }} total bonus downloads at any given time). You need to maintain an active membership to use your bonus downloads.</li>
+  </ul>
+
+  <p class="mb-1">
+    Example:
+  </p>
+
+  <ul class="list-inside mb-4 ml-1">
+    <li class="list-disc">Your friend uses your referral link to sign up for 3 months “Lucky Librarian” membership, which comes with 50 fast downloads.</li>
+    <li class="list-disc">They receive 25 bonus downloads every day, for all of those 3 months.</li>
+    <li class="list-disc">You also receive 25 bonus downloads every day, for the same 3 months.</li>
+  </ul>
+
+  <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
+    {% if not account_id %}
+      <strong>Referal link:</strong> <a href="/account">Log in</a> and become a member to refer friends.
+    {% elif not account_can_make_referrals %}
+      <strong>Referal link:</strong> <a href="/donate">Become a member</a> to refer friends.
+    {% else %}
+      <strong>Referal link:</strong> <code class="text-sm bg-yellow-100">{{ referral_link }}</code> {{ copy_button(referral_link) }}<br>
+      Or add <code class="text-sm bg-yellow-100">{{ referral_suffix }}</code> {{ copy_button(referral_suffix) }} at the end of any other link, and the referral will be remembered when they become a member.
+    {% endif %}
+  </p>
+{% endblock %}

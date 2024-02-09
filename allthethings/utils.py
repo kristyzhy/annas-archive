@@ -247,6 +247,7 @@ def usd_currency_rates_cached():
 def membership_tier_names(locale):
     with force_locale(locale):
         return { 
+            "1": "Bonus downloads", # TODO:TRANSLATE
             "2": gettext('common.membership.tier_name.2'),
             "3": gettext('common.membership.tier_name.3'),
             "4": gettext('common.membership.tier_name.4'),
@@ -294,10 +295,13 @@ MEMBERSHIP_DURATION_DISCOUNTS = {
     "1": 0, "3": 5, "6": 10, "12": 15, "24": 25,
 }
 MEMBERSHIP_DOWNLOADS_PER_DAY = {
-    "2": 20, "3": 50, "4": 100, "5": 1000,
+    "1": 0, "2": 20, "3": 50, "4": 100, "5": 1000,
+}
+MEMBERSHIP_BONUSDOWNLOADS_PER_DAY = {
+    "1": 0, "2": 10, "3": 25, "4": 50, "5": 500,
 }
 MEMBERSHIP_TELEGRAM_URL = {
-    "2": "", "3": "", "4": MEMBERS_TELEGRAM_URL, "5": MEMBERS_TELEGRAM_URL,
+    "1": "", "2": "", "3": "", "4": MEMBERS_TELEGRAM_URL, "5": MEMBERS_TELEGRAM_URL,
 }
 MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "crypto": 0,
@@ -321,33 +325,56 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "givebutter": 500,
     "hoodpay": 1000,
 }
-
 MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
     # "payment1":  30000,
     "payment1b": 100000,
     "payment1bb": 100000,
     "amazon": 10000,
 }
+MEMBERSHIP_MAX_BONUS_DOWNLOADS = 10000
 
 def get_account_fast_download_info(mariapersist_session, account_id):
     mariapersist_session.connection().connection.ping(reconnect=True)
     cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
-    cursor.execute('SELECT mariapersist_memberships.membership_tier AS membership_tier FROM mariapersist_accounts INNER JOIN mariapersist_memberships USING (account_id) WHERE mariapersist_accounts.account_id = %(account_id)s AND mariapersist_memberships.membership_expiration >= CURDATE()', { 'account_id': account_id })
-    membership_tiers = [row['membership_tier'] for row in cursor.fetchall()]
-    if len(membership_tiers) == 0:
+    cursor.execute('SELECT mariapersist_memberships.membership_tier AS membership_tier, mariapersist_memberships.bonus_downloads AS bonus_downloads FROM mariapersist_accounts INNER JOIN mariapersist_memberships USING (account_id) WHERE mariapersist_accounts.account_id = %(account_id)s AND mariapersist_memberships.membership_expiration >= CURDATE()', { 'account_id': account_id })
+    memberships = cursor.fetchall()
+    if len(memberships) == 0:
         return None
 
     downloads_per_day = 0
-    for membership_tier in membership_tiers:
-        downloads_per_day += MEMBERSHIP_DOWNLOADS_PER_DAY[membership_tier]
+    bonus_downloads = 0
+    for membership in memberships:
+        downloads_per_day += MEMBERSHIP_DOWNLOADS_PER_DAY[membership['membership_tier']]
+        bonus_downloads += membership['bonus_downloads']
+
+    if bonus_downloads > MEMBERSHIP_MAX_BONUS_DOWNLOADS:
+        bonus_downloads = MEMBERSHIP_MAX_BONUS_DOWNLOADS
+    downloads_per_day += bonus_downloads
 
     downloads_left = downloads_per_day
     recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(10000)).scalars()]
     downloads_left -= len(recently_downloaded_md5s)
 
-    max_tier = str(max([int(membership_tier) for membership_tier in membership_tiers]))
+    max_tier = str(max([int(membership['membership_tier']) for membership in memberships]))
 
     return { 'downloads_left': max(0, downloads_left), 'recently_downloaded_md5s': recently_downloaded_md5s, 'downloads_per_day': downloads_per_day, 'telegram_url': MEMBERSHIP_TELEGRAM_URL[max_tier] }
+
+def get_referral_account_id(mariapersist_session, potential_ref_account_id, current_account_id):
+    if potential_ref_account_id is None:
+        return None
+    if potential_ref_account_id == current_account_id:
+        return None
+    if account_can_make_referrals(mariapersist_session, current_account_id):
+        return potential_ref_account_id
+    else:
+        return None
+
+def account_can_make_referrals(mariapersist_session, account_id):
+    mariapersist_session.connection().connection.ping(reconnect=True)
+    cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
+    # Note the mariapersist_memberships.membership_tier >= 2 so we don't count bonus memberships.
+    cursor.execute('SELECT COUNT(*) AS count FROM mariapersist_accounts INNER JOIN mariapersist_memberships USING (account_id) WHERE mariapersist_accounts.account_id = %(account_id)s AND mariapersist_memberships.membership_expiration >= CURDATE() AND mariapersist_memberships.membership_tier >= 2', { 'account_id': account_id })
+    return (cursor.fetchone()['count'] > 0)
 
 def cents_to_usd_str(cents):
     return str(cents)[:-2] + "." + str(cents)[-2:]
@@ -494,8 +521,21 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     datetime_today = datetime.datetime.combine(datetime.datetime.utcnow().date(), datetime.datetime.min.time())
     new_membership_expiration = datetime_today + datetime.timedelta(days=1) + datetime.timedelta(days=31*int(donation_json['duration']))
 
+    ref_account_id = donation_json.get('ref_account_id')
+    ref_account_dict = None
+    bonus_downloads = 0
+    if ref_account_id is not None:
+        cursor.execute('SELECT * FROM mariapersist_accounts WHERE account_id=%(account_id)s LIMIT 1', { 'account_id': ref_account_id })
+        ref_account_dict = cursor.fetchone()
+        if ref_account_dict is None:
+            print(f"Warning: failed {data_key} request because of ref_account_dict not found: {donation_id}")
+            return False
+        bonus_downloads = MEMBERSHIP_BONUSDOWNLOADS_PER_DAY[str(new_tier)]
+
     donation_json[data_key] = data_value
-    cursor.execute('INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration, from_donation_id) VALUES (%(account_id)s, %(membership_tier)s, %(membership_expiration)s, %(donation_id)s)', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'], 'donation_id': donation_id })
+    cursor.execute('INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration, from_donation_id, bonus_downloads) VALUES (%(account_id)s, %(membership_tier)s, %(membership_expiration)s, %(donation_id)s, %(bonus_downloads)s)', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'], 'donation_id': donation_id, 'bonus_downloads': bonus_downloads })
+    if (ref_account_dict is not None) and (bonus_downloads > 0):
+        cursor.execute('INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration, from_donation_id, bonus_downloads) VALUES (%(account_id)s, 1, %(membership_expiration)s, %(donation_id)s, %(bonus_downloads)s)', { 'membership_expiration': new_membership_expiration, 'account_id': ref_account_dict['account_id'], 'donation_id': donation_id, 'bonus_downloads': bonus_downloads })
     cursor.execute('UPDATE mariapersist_donations SET json=%(json)s, processing_status=1, paid_timestamp=NOW() WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
     cursor.execute('COMMIT')
     return True

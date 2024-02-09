@@ -52,16 +52,28 @@ def account_index_page():
 
         mariapersist_session.connection().connection.ping(reconnect=True)
         cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT membership_tier, membership_expiration FROM mariapersist_memberships WHERE account_id = %(account_id)s AND mariapersist_memberships.membership_expiration >= CURDATE()', { 'account_id': account_id })
+        cursor.execute('SELECT membership_tier, membership_expiration, bonus_downloads FROM mariapersist_memberships WHERE account_id = %(account_id)s AND mariapersist_memberships.membership_expiration >= CURDATE()', { 'account_id': account_id })
         memberships = cursor.fetchall()
+
+        membership_tier_names=allthethings.utils.membership_tier_names(get_locale())
+        membership_dicts = []
+        for membership in memberships:
+            membership_tier_str = str(membership['membership_tier'])
+            membership_name = membership_tier_names[membership_tier_str]
+            if membership['bonus_downloads'] > 0:
+                membership_name += f" (+{membership['bonus_downloads']} bonus)" # TODO:TRANSLATE
+
+            membership_dicts.append({
+                **membership,
+                'membership_name': membership_name,
+            })
 
         return render_template(
             "account/index.html",
             header_active="account",
             account_dict=dict(account),
             account_fast_download_info=allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id),
-            membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
-            memberships=[dict(membership) for membership in memberships]
+            memberships=membership_dicts,
         )
 
 
@@ -165,6 +177,30 @@ def request_page():
 def upload_page():
     return render_template("account/upload.html", header_active="account/upload")
 
+@account.get("/refer")
+@allthethings.utils.no_cache()
+def refer_page():
+    with Session(mariapersist_engine) as mariapersist_session:
+        account_id = allthethings.utils.get_account_id(request.cookies)
+        account_can_make_referrals = False
+        referral_suffix = None
+        referral_link = None
+
+        if account_id is not None:
+            account_can_make_referrals = allthethings.utils.account_can_make_referrals(mariapersist_session, account_id)
+            referral_suffix = f"#r={account_id}"
+            referral_link = f"https://{g.base_domain}/donate{referral_suffix}"
+
+        return render_template(
+            "account/refer.html",
+            header_active="account/refer",
+            MEMBERSHIP_MAX_BONUS_DOWNLOADS=allthethings.utils.MEMBERSHIP_MAX_BONUS_DOWNLOADS,
+            account_id=account_id,
+            account_can_make_referrals=account_can_make_referrals,
+            referral_suffix=referral_suffix,
+            referral_link=referral_link,
+        )
+
 
 @account.get("/list/<string:list_id>")
 @allthethings.utils.no_cache()
@@ -231,31 +267,38 @@ def account_profile_page():
 @account.get("/donate")
 @allthethings.utils.no_cache()
 def donate_page():
-    account_id = allthethings.utils.get_account_id(request.cookies)
-    has_made_donations = False
-    existing_unpaid_donation_id = None
-    if account_id is not None:
-        with Session(mariapersist_engine) as mariapersist_session:
+    with Session(mariapersist_engine) as mariapersist_session:
+        account_id = allthethings.utils.get_account_id(request.cookies)
+        has_made_donations = False
+        existing_unpaid_donation_id = None
+        if account_id is not None:
             existing_unpaid_donation_id = mariapersist_session.connection().execute(select(MariapersistDonations.donation_id).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
             previous_donation_id = mariapersist_session.connection().execute(select(MariapersistDonations.donation_id).where((MariapersistDonations.account_id == account_id)).limit(1)).scalar()
             if (existing_unpaid_donation_id is not None) or (previous_donation_id is not None):
                 has_made_donations = True
 
-    return render_template(
-        "account/donate.html", 
-        header_active="donate", 
-        has_made_donations=has_made_donations,
-        existing_unpaid_donation_id=existing_unpaid_donation_id,
-        membership_costs_data=allthethings.utils.membership_costs_data(get_locale()),
-        membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
-        MEMBERSHIP_TIER_COSTS=allthethings.utils.MEMBERSHIP_TIER_COSTS,
-        MEMBERSHIP_METHOD_DISCOUNTS=allthethings.utils.MEMBERSHIP_METHOD_DISCOUNTS,
-        MEMBERSHIP_DURATION_DISCOUNTS=allthethings.utils.MEMBERSHIP_DURATION_DISCOUNTS,
-        MEMBERSHIP_DOWNLOADS_PER_DAY=allthethings.utils.MEMBERSHIP_DOWNLOADS_PER_DAY,
-        MEMBERSHIP_METHOD_MINIMUM_CENTS_USD=allthethings.utils.MEMBERSHIP_METHOD_MINIMUM_CENTS_USD,
-        MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE=allthethings.utils.MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE,
-        days_parity=(datetime.datetime.utcnow() - datetime.datetime(1970,1,1)).days,
-    )
+        ref_account_id = allthethings.utils.get_referral_account_id(mariapersist_session, request.cookies.get('ref_id'), account_id)
+        ref_account_dict = None
+        if ref_account_id is not None:
+            ref_account_dict = dict(mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == ref_account_id).limit(1)).first())
+
+        return render_template(
+            "account/donate.html", 
+            header_active="donate", 
+            has_made_donations=has_made_donations,
+            existing_unpaid_donation_id=existing_unpaid_donation_id,
+            membership_costs_data=allthethings.utils.membership_costs_data(get_locale()),
+            membership_tier_names=allthethings.utils.membership_tier_names(get_locale()),
+            MEMBERSHIP_TIER_COSTS=allthethings.utils.MEMBERSHIP_TIER_COSTS,
+            MEMBERSHIP_METHOD_DISCOUNTS=allthethings.utils.MEMBERSHIP_METHOD_DISCOUNTS,
+            MEMBERSHIP_DURATION_DISCOUNTS=allthethings.utils.MEMBERSHIP_DURATION_DISCOUNTS,
+            MEMBERSHIP_DOWNLOADS_PER_DAY=allthethings.utils.MEMBERSHIP_DOWNLOADS_PER_DAY,
+            MEMBERSHIP_METHOD_MINIMUM_CENTS_USD=allthethings.utils.MEMBERSHIP_METHOD_MINIMUM_CENTS_USD,
+            MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE=allthethings.utils.MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE,
+            MEMBERSHIP_MAX_BONUS_DOWNLOADS=allthethings.utils.MEMBERSHIP_MAX_BONUS_DOWNLOADS,
+            days_parity=(datetime.datetime.utcnow() - datetime.datetime(1970,1,1)).days,
+            ref_account_dict=ref_account_dict,
+        )
 
 
 @account.get("/donation_faq")
@@ -410,6 +453,13 @@ def donation_page(donation_id):
         if donation_json['method'] == 'amazon':
             donation_email = f"giftcards+{donation_dict['receipt_id']}@annas-mail.org"
 
+        # No need to call get_referral_account_id here, because we have already verified, and we don't want to take away their bonus because
+        # the referrer's membership expired.
+        ref_account_id = donation_json.get('ref_account_id')
+        ref_account_dict = None
+        if ref_account_id is not None:
+            ref_account_dict = dict(mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == ref_account_id).limit(1)).first())
+
         return render_template(
             "account/donation.html", 
             header_active="account/donations",
@@ -421,6 +471,7 @@ def donation_page(donation_id):
             donation_time_expired=donation_time_expired,
             donation_pay_amount=donation_pay_amount,
             donation_email=donation_email,
+            ref_account_dict=ref_account_dict,
         )
 
 

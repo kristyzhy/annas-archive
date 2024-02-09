@@ -169,6 +169,24 @@
         };
       })();
     </script>
+    <script>
+      (function() {
+        var pageUrl = new URL(document.location);
+        var hashMatch = pageUrl.hash.match(/r=([a-zA-Z0-9]+)/);
+        if (hashMatch && hashMatch[1].length < 20) {
+          if (!document.cookie.includes('ref_id=' + hashMatch[1])) {
+            if (window.baseDomain) {
+              document.cookie = 'ref_id=' + hashMatch[1] + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT;domain=' + window.baseDomain;
+            } else {
+              document.cookie = 'ref_id=' + hashMatch[1] + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT';
+            }
+            if (pageUrl.pathname == "/donate") {
+              document.location = "/donate";
+            }
+          }
+        }
+      })();
+    </script>
     {% block main %}
       <div class="header" role="navigation">
         <div>
@@ -425,18 +443,21 @@
                 <span class="header-link-normal">
                   {% if header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
                   {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
+                  {% elif header_active == 'account/refer' %}Refer friends<!--TODO:TRANSLATE-->
                   {% else %}{{ gettext('layout.index.header.nav.login_register') }}{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
                 <span class="header-link-bold">
                   {% if header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
                   {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
+                  {% elif header_active == 'account/refer' %}Refer friends<!--TODO:TRANSLATE-->
                   {% else %}{{ gettext('layout.index.header.nav.login_register') }}{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
               </a>
               <div class="absolute right-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-login hidden">
                 <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/login">{{ gettext('layout.index.header.nav.login_register') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'account/refer' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/refer">Refer friends<!--TODO:TRANSLATE--></a>
                 <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a>
               </div>
@@ -447,6 +468,7 @@
                   {% elif header_active == 'account/donations' %}{{ gettext('layout.index.header.nav.my_donations') }}
                   {% elif header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
                   {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
+                  {% elif header_active == 'account/refer' %}Refer friends<!--TODO:TRANSLATE-->
                   {% else %}Account{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
@@ -456,6 +478,7 @@
                   {% elif header_active == 'account/donations' %}{{ gettext('layout.index.header.nav.my_donations') }}
                   {% elif header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
                   {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
+                  {% elif header_active == 'account/refer' %}Refer friends<!--TODO:TRANSLATE-->
                   {% else %}Account{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
@@ -465,6 +488,7 @@
                 <a class="custom-a block py-1 {% if header_active == 'account/profile' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/profile">{{ gettext('layout.index.header.nav.public_profile') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/downloaded' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/downloaded">{{ gettext('layout.index.header.nav.downloaded_files') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/donations' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/donations">{{ gettext('layout.index.header.nav.my_donations') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'account/refer' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/refer">Refer friends<!--TODO:TRANSLATE--></a>
                 <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a>
               </div>
@@ -481,6 +505,7 @@
             <a class="custom-a hover:text-[#333]" href="/search">{{ gettext('layout.index.header.nav.search') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/about">{{ gettext('layout.index.header.nav.about') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/refer">Refer friends<!--TODO:TRANSLATE--></a><br>
             <a class="custom-a hover:text-[#333]" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/mobile">{{ gettext('layout.index.header.nav.mobile') }}</a><br>

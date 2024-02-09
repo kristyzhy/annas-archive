@@ -674,66 +674,68 @@ def account_buy_membership():
     if method in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay']:
         donation_type = 1
 
-    donation_id = shortuuid.uuid()
-    donation_json = {
-        'tier': tier,
-        'method': method,
-        'duration': duration,
-        'monthly_cents': membership_costs['monthly_cents'],
-        'discounts': membership_costs['discounts'],
-    }
-
-    if method == 'hoodpay':
-        payload = {
-            "metadata": { "donation_id": donation_id },
-            "name": "Anna",
-            "currency": "USD",
-            "amount": round(float(membership_costs['cost_cents_usd']) / 100.0, 2),
-            "redirectUrl": "https://annas-archive.org/account",
-            "notifyUrl": f"https://annas-archive.org/dyn/hoodpay_notify/{donation_id}",
+    with Session(mariapersist_engine) as mariapersist_session:
+        donation_id = shortuuid.uuid()
+        donation_json = {
+            'tier': tier,
+            'method': method,
+            'duration': duration,
+            'monthly_cents': membership_costs['monthly_cents'],
+            'discounts': membership_costs['discounts'],
+            'ref_account_id': allthethings.utils.get_referral_account_id(mariapersist_session, request.cookies.get('ref_id'), account_id),
         }
-        response = httpx.post(HOODPAY_URL, json=payload, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES, timeout=10.0)
-        response.raise_for_status()
-        donation_json['hoodpay_request'] = response.json()
 
-    if method in ['payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc']:
-        if method == 'payment2':
-            pay_currency = request.form['pay_currency']
-        elif method == 'payment2paypal':
-            pay_currency = 'pyusd'
-        elif method in ['payment2cc', 'payment2cashapp']:
-            pay_currency = 'btc'
-        if pay_currency not in ['btc','eth','bch','ltc','xmr','ada','bnbbsc','busdbsc','dai','doge','dot','matic','near','pax','pyusd','sol','ton','trx','tusd','usdc','usdterc20','usdttrc20','xrp']:
-            raise Exception(f"Invalid pay_currency: {pay_currency}")
+        if method == 'hoodpay':
+            payload = {
+                "metadata": { "donation_id": donation_id },
+                "name": "Anna",
+                "currency": "USD",
+                "amount": round(float(membership_costs['cost_cents_usd']) / 100.0, 2),
+                "redirectUrl": "https://annas-archive.org/account",
+                "notifyUrl": f"https://annas-archive.org/dyn/hoodpay_notify/{donation_id}",
+            }
+            response = httpx.post(HOODPAY_URL, json=payload, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES, timeout=10.0)
+            response.raise_for_status()
+            donation_json['hoodpay_request'] = response.json()
 
-        price_currency = 'usd'
-        if pay_currency in ['busdbsc','dai','pyusd','tusd','usdc','usdterc20','usdttrc20']:
-            price_currency = pay_currency
+        if method in ['payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc']:
+            if method == 'payment2':
+                pay_currency = request.form['pay_currency']
+            elif method == 'payment2paypal':
+                pay_currency = 'pyusd'
+            elif method in ['payment2cc', 'payment2cashapp']:
+                pay_currency = 'btc'
+            if pay_currency not in ['btc','eth','bch','ltc','xmr','ada','bnbbsc','busdbsc','dai','doge','dot','matic','near','pax','pyusd','sol','ton','trx','tusd','usdc','usdterc20','usdttrc20','xrp']:
+                raise Exception(f"Invalid pay_currency: {pay_currency}")
 
-        response = None
-        try:
-            response = httpx.post(PAYMENT2_URL, headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0, json={
-                "price_amount": round(float(membership_costs['cost_cents_usd']) * (1.03 if price_currency == 'usd' else 1.0) / 100.0, 2),
-                "price_currency": price_currency,
-                "pay_currency": pay_currency,
-                "order_id": donation_id,
-            })
-            donation_json['payment2_request'] = response.json()
-        except httpx.HTTPError as err:
-            return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.try_again') })
-        except Exception as err:
-            print(f"Warning: unknown error in payment2 http request: {repr(err)} /// {traceback.format_exc()}")
-            return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })
+            price_currency = 'usd'
+            if pay_currency in ['busdbsc','dai','pyusd','tusd','usdc','usdterc20','usdttrc20']:
+                price_currency = pay_currency
 
-
-        if 'code' in donation_json['payment2_request']:
-            if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
-                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.minimum') })
-            else:
-                print(f"Warning: unknown error in payment2 with code missing: {donation_json['payment2_request']} /// {curlify2.to_curl(response.request)}")
+            response = None
+            try:
+                response = httpx.post(PAYMENT2_URL, headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0, json={
+                    "price_amount": round(float(membership_costs['cost_cents_usd']) * (1.03 if price_currency == 'usd' else 1.0) / 100.0, 2),
+                    "price_currency": price_currency,
+                    "pay_currency": pay_currency,
+                    "order_id": donation_id,
+                })
+                donation_json['payment2_request'] = response.json()
+            except httpx.HTTPError as err:
+                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.try_again') })
+            except Exception as err:
+                print(f"Warning: unknown error in payment2 http request: {repr(err)} /// {traceback.format_exc()}")
                 return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })
 
-    with Session(mariapersist_engine) as mariapersist_session:
+
+            if 'code' in donation_json['payment2_request']:
+                if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
+                    return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.minimum') })
+                else:
+                    print(f"Warning: unknown error in payment2 with code missing: {donation_json['payment2_request']} /// {curlify2.to_curl(response.request)}")
+                    return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })
+
+        
         # existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
         # if existing_unpaid_donations_counts > 0:
         #     raise Exception(f"Existing unpaid or manualconfirm donations open")

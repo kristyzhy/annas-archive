@@ -16,6 +16,13 @@
         {{ gettext('page.donation.header.total_without_discount', span_details=(' class="text-sm text-gray-500"' | safe),  total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_formal, monthly_amount_usd=donation_dict.monthly_amount_usd, duration=donation_dict.json.duration) }}
       {% endif %}
     </div>
+    {% if ref_account_dict %}
+      <div class="text-sm">
+        {% from 'macros/profile_link.html' import profile_link %}
+        <!-- TODO:TRANSLATE -->
+        🤩 You get 50% bonus downloads for free, because you were referred by user {{ profile_link(ref_account_dict) }}. This applies to the entire membership period.
+      </div>
+    {% endif %}
     <div>{{ gettext('page.donation.header.status', label=order_processing_status_labels[donation_dict.processing_status], span_label=(' class="italic"' | safe)) }}</div>
 
     {% if donation_dict.processing_status in [0, 4] %}
