@@ -19,7 +19,6 @@ DESCRIBE ol_base;
 DESCRIBE ol_isbn13;
 DESCRIBE zlib_book;
 DESCRIBE zlib_isbn;
-DESCRIBE aa_lgli_comics_2022_08_files;
 DESCRIBE aa_ia_2023_06_files;
 DESCRIBE aa_ia_2023_06_metadata;
 DESCRIBE annas_archive_meta__aacid__zlib3_records;

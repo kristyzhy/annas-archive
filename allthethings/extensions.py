@@ -109,9 +109,6 @@ class LibgenrsFictionHashes(Reflected):
 class OlBase(Reflected):
     __tablename__ = "ol_base"
 
-class AaLgliComics202208Files(Reflected):
-    __tablename__ = "aa_lgli_comics_2022_08_files"
-    path = Column(Text, primary_key=True)
 class AaIa202306Metadata(Reflected):
     __tablename__ = "aa_ia_2023_06_metadata"
 class AaIa202306Files(Reflected):
