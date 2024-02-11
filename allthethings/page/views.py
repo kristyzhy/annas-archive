@@ -3170,7 +3170,7 @@ def get_additional_for_aarecord(aarecord):
 
             # TODO: Bring back.
             # add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
-            additional['download_urls'].append(("", "", 'Partner Server downloads temporarily not available for this file.'))
+            additional['download_urls'].append(("", "", gettext('page.md5.box.download.temporarily_unavailable')))
 
             if stripped_path.startswith('comics0/'):
                 additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/comics0__shoutout_to_tosec.torrent"])
@@ -3187,7 +3187,7 @@ def get_additional_for_aarecord(aarecord):
             partner_path = f"a/c_2022_12_thousand_dirs/{stripped_path}"
             # TODO: Bring back.
             # add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
-            additional['download_urls'].append(("", "", 'Partner Server downloads temporarily not available for this file.'))
+            additional['download_urls'].append(("", "", gettext('page.md5.box.download.temporarily_unavailable')))
 
             additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs.torrent"])
         if aarecord['aa_lgli_comics_2022_08_file']['path'].startswith('libgen_magz/repository/'):
@@ -3195,7 +3195,7 @@ def get_additional_for_aarecord(aarecord):
             partner_path = f"a/c_2022_12_thousand_dirs_magz/{stripped_path}"
             # TODO: Bring back.
             # add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
-            additional['download_urls'].append(("", "", 'Partner Server downloads temporarily not available for this file.'))
+            additional['download_urls'].append(("", "", gettext('page.md5.box.download.temporarily_unavailable')))
 
             additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs_magz.torrent"])
     if aarecord.get('lgrsnf_book') is not None:
@@ -3301,7 +3301,6 @@ def get_additional_for_aarecord(aarecord):
     if aarecord_id_split[0] == 'oclc':
         additional['download_urls'].append((gettext('page.md5.box.download.aa_oclc'), f'/search?q="oclc:{aarecord_id_split[1]}"', ""))
         additional['download_urls'].append((gettext('page.md5.box.download.original_oclc'), f"https://worldcat.org/title/{aarecord_id_split[1]}", ""))
-    additional['download_urls'] = additional['slow_partner_urls'] + additional['download_urls']
 
     scidb_info = allthethings.utils.scidb_info(aarecord, additional)
     if scidb_info is not None:

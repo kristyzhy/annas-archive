@@ -1374,7 +1374,7 @@ msgstr "OCLC (WorldCat)"
 msgid "common.md5.servers.fast_partner"
 msgstr "Servidor Rápido de Socio #%(number)s"
 
-#: allthethings/page/views.py:3021 allthethings/page/views.py:3308
+#: allthethings/page/views.py:3021 allthethings/page/views.py:3307
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(no se requiere verificación del navegador)"
 
@@ -1389,6 +1389,11 @@ msgstr "(podría requerir <a %(a_browser)s>verificación del navegador</a> - ¡d
 #: allthethings/page/views.py:3136 allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
+
+#: allthethings/page/views.py:3173 allthethings/page/views.py:3190
+#: allthethings/page/views.py:3198
+msgid "page.md5.box.download.temporarily_unavailable"
+msgstr ""
 
 #: allthethings/page/views.py:3210
 msgid "page.md5.box.download.lgrsnf"
@@ -1469,7 +1474,7 @@ msgstr "Buscar en el Archivo de Anna el número de OCLC (WorldCat)"
 msgid "page.md5.box.download.original_oclc"
 msgstr "Buscar el registro original en WorldCat"
 
-#: allthethings/page/views.py:3308 allthethings/page/views.py:3309
+#: allthethings/page/views.py:3307 allthethings/page/views.py:3308
 msgid "page.md5.box.download.scidb"
 msgstr "Archivo de Anna 🧬 SciDB"
 
@@ -1580,48 +1585,61 @@ msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 Descargas rápidas</strong> Has descargado este archivo recientemente. Los enlaces mantendrán su validez durante un tiempo."
 
 #: allthethings/page/templates/page/aarecord.html:195
-#: allthethings/page/templates/page/aarecord.html:214
+#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:227
 msgid "page.md5.box.download.option"
 msgstr "Opción #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:204
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.header_slow_only"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.trusted_partners"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:217
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 Descargas lentas y externas"
 
-#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:218
+msgid "page.md5.box.download.header_external"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:220
 msgid "page.md5.box.download.header_generic"
 msgstr "Descargas"
 
-#: allthethings/page/templates/page/aarecord.html:220
-msgid "page.md5.box.download.convert"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:221
-msgid "page.md5.box.download.kindle"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:222
-msgid "page.md5.box.download.support_authors"
-msgstr "Apoya a los autores: Si te gusta y puedes costearlo, considera comprar el original, o apoya directamente a los autores."
-
-#: allthethings/page/templates/page/aarecord.html:223
-msgid "page.md5.box.download.support_libraries"
-msgstr "Apoya a las bibliotecas: Si esto está disponible en tu biblioteca local, considera pedirlo prestado gratis allí."
-
-#: allthethings/page/templates/page/aarecord.html:228
-msgid "page.md5.box.download.no_issues_notice"
-msgstr "Todas las opciones de descarga tienen el mismo archivo, y deberían ser seguros de usar. Dicho esto, ten siempre cuidado al descargar archivos de Internet, especialmente desde sitios externos al Archivo de Anna. Por ejemplo, asegúrate de mantener tus dispositivos actualizados."
-
-#: allthethings/page/templates/page/aarecord.html:254
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.no_found"
 msgstr "No se encontró ninguna descarga."
 
-#: allthethings/page/templates/page/aarecord.html:259
-#: allthethings/page/templates/page/aarecord.html:260
-#: allthethings/page/templates/page/aarecord.html:361
-#: allthethings/page/templates/page/aarecord.html:362
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:382
+#: allthethings/page/templates/page/aarecord.html:235
+msgid "page.md5.box.download.convert"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:236
+msgid "page.md5.box.download.kindle"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:237
+msgid "page.md5.box.download.support_authors"
+msgstr "Apoya a los autores: Si te gusta y puedes costearlo, considera comprar el original, o apoya directamente a los autores."
+
+#: allthethings/page/templates/page/aarecord.html:238
+msgid "page.md5.box.download.support_libraries"
+msgstr "Apoya a las bibliotecas: Si esto está disponible en tu biblioteca local, considera pedirlo prestado gratis allí."
+
+#: allthethings/page/templates/page/aarecord.html:243
+msgid "page.md5.box.download.no_issues_notice"
+msgstr "Todas las opciones de descarga tienen el mismo archivo, y deberían ser seguros de usar. Dicho esto, ten siempre cuidado al descargar archivos de Internet, especialmente desde sitios externos al Archivo de Anna. Por ejemplo, asegúrate de mantener tus dispositivos actualizados."
+
+#: allthethings/page/templates/page/aarecord.html:271
+#: allthethings/page/templates/page/aarecord.html:272
+#: allthethings/page/templates/page/aarecord.html:373
+#: allthethings/page/templates/page/aarecord.html:374
+#: allthethings/page/templates/page/aarecord.html:393
+#: allthethings/page/templates/page/aarecord.html:394
 #: allthethings/page/templates/page/about.html:123
 #: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6

@@ -1374,7 +1374,7 @@ msgstr "OCLC (WorldCat)"
 msgid "common.md5.servers.fast_partner"
 msgstr "خادم الشريك السريع #%(number)s"
 
-#: allthethings/page/views.py:3021 allthethings/page/views.py:3308
+#: allthethings/page/views.py:3021 allthethings/page/views.py:3307
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(لا يلزم التحقق من المتصفح)"
 
@@ -1389,6 +1389,11 @@ msgstr "(قد يتطلب <a %(a_browser)s> التحقق من المتصفح </a>
 #: allthethings/page/views.py:3136 allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
+
+#: allthethings/page/views.py:3173 allthethings/page/views.py:3190
+#: allthethings/page/views.py:3198
+msgid "page.md5.box.download.temporarily_unavailable"
+msgstr ""
 
 #: allthethings/page/views.py:3210
 msgid "page.md5.box.download.lgrsnf"
@@ -1469,7 +1474,7 @@ msgstr "ابحث في أرشيف آنا عن رقم OCLC (WorldCat)"
 msgid "page.md5.box.download.original_oclc"
 msgstr "ابحث عن السجل الأصلي في WorldCat"
 
-#: allthethings/page/views.py:3308 allthethings/page/views.py:3309
+#: allthethings/page/views.py:3307 allthethings/page/views.py:3308
 msgid "page.md5.box.download.scidb"
 msgstr "أرشيف آنا 🧬 SciDB"
 
@@ -1580,48 +1585,61 @@ msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong> 🚀 تنزيلات سريعة </strong> لقد نزّلت هذا الملف مؤخرًا. الروابط تبقى صالحة لفترة."
 
 #: allthethings/page/templates/page/aarecord.html:195
-#: allthethings/page/templates/page/aarecord.html:214
+#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:227
 msgid "page.md5.box.download.option"
 msgstr "خيار #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:204
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.header_slow_only"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.trusted_partners"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:217
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 التنزيلات البطيئة والخارجية"
 
-#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:218
+msgid "page.md5.box.download.header_external"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:220
 msgid "page.md5.box.download.header_generic"
 msgstr "التحميلات"
 
-#: allthethings/page/templates/page/aarecord.html:220
-msgid "page.md5.box.download.convert"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:221
-msgid "page.md5.box.download.kindle"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:222
-msgid "page.md5.box.download.support_authors"
-msgstr "دعم المؤلفين: إذا أعجبك هذا وتستطيع تحمله، فكر في شراء النسخة الأصلية، أو دعم المؤلفين مباشرة."
-
-#: allthethings/page/templates/page/aarecord.html:223
-msgid "page.md5.box.download.support_libraries"
-msgstr "دعم المكتبات: إذا كان هذا متاحًا في مكتبتك المحلية، ففكر في استعارته مجانًا هناك."
-
-#: allthethings/page/templates/page/aarecord.html:228
-msgid "page.md5.box.download.no_issues_notice"
-msgstr "جميع خيارات التنزيل لها نفس الملف، ويجب أن تكون آمنة للاستخدام. ومع ذلك، كن حذرًا دائمًا عند تنزيل الملفات من الإنترنت، خاصة من المواقع الخارجية لأرشيف آنا. على سبيل المثال، تأكد من تحديث أجهزتك باستمرار."
-
-#: allthethings/page/templates/page/aarecord.html:254
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.no_found"
 msgstr "لا توجد تنزيلات."
 
-#: allthethings/page/templates/page/aarecord.html:259
-#: allthethings/page/templates/page/aarecord.html:260
-#: allthethings/page/templates/page/aarecord.html:361
-#: allthethings/page/templates/page/aarecord.html:362
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:382
+#: allthethings/page/templates/page/aarecord.html:235
+msgid "page.md5.box.download.convert"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:236
+msgid "page.md5.box.download.kindle"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:237
+msgid "page.md5.box.download.support_authors"
+msgstr "دعم المؤلفين: إذا أعجبك هذا وتستطيع تحمله، فكر في شراء النسخة الأصلية، أو دعم المؤلفين مباشرة."
+
+#: allthethings/page/templates/page/aarecord.html:238
+msgid "page.md5.box.download.support_libraries"
+msgstr "دعم المكتبات: إذا كان هذا متاحًا في مكتبتك المحلية، ففكر في استعارته مجانًا هناك."
+
+#: allthethings/page/templates/page/aarecord.html:243
+msgid "page.md5.box.download.no_issues_notice"
+msgstr "جميع خيارات التنزيل لها نفس الملف، ويجب أن تكون آمنة للاستخدام. ومع ذلك، كن حذرًا دائمًا عند تنزيل الملفات من الإنترنت، خاصة من المواقع الخارجية لأرشيف آنا. على سبيل المثال، تأكد من تحديث أجهزتك باستمرار."
+
+#: allthethings/page/templates/page/aarecord.html:271
+#: allthethings/page/templates/page/aarecord.html:272
+#: allthethings/page/templates/page/aarecord.html:373
+#: allthethings/page/templates/page/aarecord.html:374
+#: allthethings/page/templates/page/aarecord.html:393
+#: allthethings/page/templates/page/aarecord.html:394
 #: allthethings/page/templates/page/about.html:123
 #: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6

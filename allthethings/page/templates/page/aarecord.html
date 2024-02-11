@@ -97,7 +97,7 @@
   {% endif %}
 
   <div class="flex flex-wrap mb-1 text-black/64" role="tablist" aria-label="file tabs">
-    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] in ['md5','doi'] %}{{ gettext('page.md5.tabs.downloads', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] == 'ia' %}{{ gettext('page.md5.tabs.borrow', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc'] %}{{ gettext('page.md5.tabs.explore_metadata', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% endif %}</button>
+    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] in ['md5','doi'] %}{{ gettext('page.md5.tabs.downloads', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] == 'ia' %}{{ gettext('page.md5.tabs.borrow', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc'] %}{{ gettext('page.md5.tabs.explore_metadata', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% endif %}</button>
     {% if aarecord_id_split[0] == 'md5' %}
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">{{ gettext('page.md5.tabs.lists', count=('<span class="js-md5-tab-lists">–</span>' | safe)) }}</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">{{ gettext('page.md5.tabs.stats', count=('<span class="js-md5-tab-stats">–</span>' | safe)) }}</button>
@@ -198,60 +198,72 @@
       </div>
     {% endif %}
 
+    {% if (aarecord.additional.slow_partner_urls | length) > 0 %}
+      <div><span class="font-bold">{{ gettext('page.md5.box.download.header_slow_only') }}</span> {{ gettext('page.md5.box.download.trusted_partners') }}</div>
+      <ul class="mb-4">
+        {% for label, url, extra in aarecord.additional.slow_partner_urls %}
+          {% if label %}
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" ' + (' target="_blank" ' if (not url.startswith("/")) else '') + ' class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
+          {% else %}
+            <li>- {{ extra | safe }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
     <div>
       {% if aarecord_id_split[0] in ['md5','doi'] %}
         {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
-          <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div>
+          <!-- <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div> -->
+          <div class="font-bold">{{ gettext('page.md5.box.download.header_external') }}</div>
         {% else %}
           <div class="font-bold">{{ gettext('page.md5.box.download.header_generic') }}</div>
         {% endif %}
       {% endif %}
 
-      {% if (aarecord.additional.download_urls | length) > 0 %}
-        <ul class="mb-4">
-          {% for label, url, extra in aarecord.additional.download_urls %}
-            {% if label %}
-              <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" ' + (' target="_blank" ' if (not url.startswith("/")) else '') + ' class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
-            {% else %}
-              <li>- {{ extra | safe }}</li>
-            {% endif %}
-          {% endfor %}
-          {% if aarecord_id_split[0] in ['md5','doi'] %}
-            <li>- {{ gettext('page.md5.box.download.convert') }}</li>
-            <li>- {{ gettext('page.md5.box.download.kindle') }}</li>
-            <li>- {{ gettext('page.md5.box.download.support_authors') }}</li>
-            <li>- {{ gettext('page.md5.box.download.support_libraries') }}</li>
+      <ul class="mb-4">
+        {% for label, url, extra in aarecord.additional.download_urls %}
+          {% if label %}
+            <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" ' + (' target="_blank" ' if (not url.startswith("/")) else '') + ' class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
+          {% else %}
+            <li>- {{ extra | safe }}</li>
           {% endif %}
-        </ul>
-        {% if (aarecord.file_unified_data.problems | length) == 0 %}
-          {% if aarecord_id_split[0] in ['md5','doi'] %}
-            <div class="mb-4 text-sm text-gray-500">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
-          {% endif %}
+        {% else %}
+          <li>- {{ gettext('page.md5.box.download.no_found') }}</li>
+        {% endfor %}
+        {% if aarecord_id_split[0] in ['md5','doi'] %}
+          <li>- {{ gettext('page.md5.box.download.convert') }}</li>
+          <li>- {{ gettext('page.md5.box.download.kindle') }}</li>
+          <li>- {{ gettext('page.md5.box.download.support_authors') }}</li>
+          <li>- {{ gettext('page.md5.box.download.support_libraries') }}</li>
         {% endif %}
+      </ul>
+      {% if (aarecord.file_unified_data.problems | length) == 0 %}
+        {% if aarecord_id_split[0] in ['md5','doi'] %}
+          <div class="mb-4 text-sm text-gray-500">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
+        {% endif %}
+      {% endif %}
 
-        {% if aarecord_id_split[0] == 'md5' %}
-          <script>
-            (function() {
-              const md5 = {{ aarecord_id_split[1] | tojson }};
-              for (const el of document.querySelectorAll(".js-download-link")) {
-                // Increase counter when clicked.
-                el.addEventListener("click", function() {
-                  try {
-                    if (window.localStorage['md5_download_counted_' + md5] === "1") {
-                      return;
-                    }
-                    window.localStorage['md5_download_counted_' + md5] = "1";
-                  } catch(e) {
-                    console.error("Error with localStorage: ", e);
+      {% if aarecord_id_split[0] == 'md5' %}
+        <script>
+          (function() {
+            const md5 = {{ aarecord_id_split[1] | tojson }};
+            for (const el of document.querySelectorAll(".js-download-link")) {
+              // Increase counter when clicked.
+              el.addEventListener("click", function() {
+                try {
+                  if (window.localStorage['md5_download_counted_' + md5] === "1") {
+                    return;
                   }
-                  navigator.sendBeacon("/dyn/downloads/increment/" + md5);
-                });
-              }
-            })();
-          </script>
-        {% endif %}
-      {% else %}
-        <p>{{ gettext('page.md5.box.download.no_found') }}</p>
+                  window.localStorage['md5_download_counted_' + md5] = "1";
+                } catch(e) {
+                  console.error("Error with localStorage: ", e);
+                }
+                navigator.sendBeacon("/dyn/downloads/increment/" + md5);
+              });
+            }
+          })();
+        </script>
       {% endif %}
     </div>
 

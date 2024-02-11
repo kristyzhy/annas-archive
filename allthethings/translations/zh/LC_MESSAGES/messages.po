@@ -1374,7 +1374,7 @@ msgstr "OCLC (WorldCat)"
 msgid "common.md5.servers.fast_partner"
 msgstr "高速服务器（合作方提供） #%(number)s"
 
-#: allthethings/page/views.py:3021 allthethings/page/views.py:3308
+#: allthethings/page/views.py:3021 allthethings/page/views.py:3307
 msgid "common.md5.servers.no_browser_verification"
 msgstr "（无需验证浏览器）"
 
@@ -1389,6 +1389,11 @@ msgstr "（可能需要<a %(a_browser)s>验证浏览器</a>——无限次下载
 #: allthethings/page/views.py:3136 allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
+
+#: allthethings/page/views.py:3173 allthethings/page/views.py:3190
+#: allthethings/page/views.py:3198
+msgid "page.md5.box.download.temporarily_unavailable"
+msgstr ""
 
 #: allthethings/page/views.py:3210
 msgid "page.md5.box.download.lgrsnf"
@@ -1469,7 +1474,7 @@ msgstr "在安娜的档案中检索 OCLC (WorldCat) 编号"
 msgid "page.md5.box.download.original_oclc"
 msgstr "在 WorldCat 中查找原始记录"
 
-#: allthethings/page/views.py:3308 allthethings/page/views.py:3309
+#: allthethings/page/views.py:3307 allthethings/page/views.py:3308
 msgid "page.md5.box.download.scidb"
 msgstr "Anna’s Archive 🧬 SciDB"
 
@@ -1580,48 +1585,61 @@ msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 高速下载</strong> 你最近下载过此文件。链接在一段时间内仍然有效。"
 
 #: allthethings/page/templates/page/aarecord.html:195
-#: allthethings/page/templates/page/aarecord.html:214
+#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:227
 msgid "page.md5.box.download.option"
 msgstr "选项 #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:204
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.header_slow_only"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.trusted_partners"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:217
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 低速与外部下载"
 
-#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:218
+msgid "page.md5.box.download.header_external"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:220
 msgid "page.md5.box.download.header_generic"
 msgstr "下载"
 
-#: allthethings/page/templates/page/aarecord.html:220
-msgid "page.md5.box.download.convert"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:221
-msgid "page.md5.box.download.kindle"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:222
-msgid "page.md5.box.download.support_authors"
-msgstr "支持作者：如果你喜欢并且买得起，请考虑购买原版，或直接支持作者。"
-
-#: allthethings/page/templates/page/aarecord.html:223
-msgid "page.md5.box.download.support_libraries"
-msgstr "支持图书馆：如果在你当地图书馆中能找到此书，可以考虑在那边免费借阅。"
-
-#: allthethings/page/templates/page/aarecord.html:228
-msgid "page.md5.box.download.no_issues_notice"
-msgstr "所有选项下载的文件都相同，应该可以安全使用。即使这样，从互联网下载文件时始终要小心。例如，确保您的设备更新及时。"
-
-#: allthethings/page/templates/page/aarecord.html:254
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.no_found"
 msgstr "未找到下载。"
 
-#: allthethings/page/templates/page/aarecord.html:259
-#: allthethings/page/templates/page/aarecord.html:260
-#: allthethings/page/templates/page/aarecord.html:361
-#: allthethings/page/templates/page/aarecord.html:362
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:382
+#: allthethings/page/templates/page/aarecord.html:235
+msgid "page.md5.box.download.convert"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:236
+msgid "page.md5.box.download.kindle"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:237
+msgid "page.md5.box.download.support_authors"
+msgstr "支持作者：如果你喜欢并且买得起，请考虑购买原版，或直接支持作者。"
+
+#: allthethings/page/templates/page/aarecord.html:238
+msgid "page.md5.box.download.support_libraries"
+msgstr "支持图书馆：如果在你当地图书馆中能找到此书，可以考虑在那边免费借阅。"
+
+#: allthethings/page/templates/page/aarecord.html:243
+msgid "page.md5.box.download.no_issues_notice"
+msgstr "所有选项下载的文件都相同，应该可以安全使用。即使这样，从互联网下载文件时始终要小心。例如，确保您的设备更新及时。"
+
+#: allthethings/page/templates/page/aarecord.html:271
+#: allthethings/page/templates/page/aarecord.html:272
+#: allthethings/page/templates/page/aarecord.html:373
+#: allthethings/page/templates/page/aarecord.html:374
+#: allthethings/page/templates/page/aarecord.html:393
+#: allthethings/page/templates/page/aarecord.html:394
 #: allthethings/page/templates/page/about.html:123
 #: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6

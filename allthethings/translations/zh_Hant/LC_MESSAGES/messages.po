@@ -1374,7 +1374,7 @@ msgstr ""
 msgid "common.md5.servers.fast_partner"
 msgstr "合作伙伴快速伺服器 #%(number)s"
 
-#: allthethings/page/views.py:3021 allthethings/page/views.py:3308
+#: allthethings/page/views.py:3021 allthethings/page/views.py:3307
 msgid "common.md5.servers.no_browser_verification"
 msgstr "（無需瀏覽器驗證）"
 
@@ -1389,6 +1389,11 @@ msgstr "（可能需要<a %(a_browser)s>瀏覽器驗證</a> — 無限下載！�
 #: allthethings/page/views.py:3136 allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
+
+#: allthethings/page/views.py:3173 allthethings/page/views.py:3190
+#: allthethings/page/views.py:3198
+msgid "page.md5.box.download.temporarily_unavailable"
+msgstr ""
 
 #: allthethings/page/views.py:3210
 msgid "page.md5.box.download.lgrsnf"
@@ -1469,7 +1474,7 @@ msgstr ""
 msgid "page.md5.box.download.original_oclc"
 msgstr ""
 
-#: allthethings/page/views.py:3308 allthethings/page/views.py:3309
+#: allthethings/page/views.py:3307 allthethings/page/views.py:3308
 msgid "page.md5.box.download.scidb"
 msgstr ""
 
@@ -1580,48 +1585,61 @@ msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 高速下載</strong> 您最近下載了此檔案。連結一段時間内有效。"
 
 #: allthethings/page/templates/page/aarecord.html:195
-#: allthethings/page/templates/page/aarecord.html:214
+#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:227
 msgid "page.md5.box.download.option"
 msgstr "選擇 #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:204
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.header_slow_only"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.trusted_partners"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:217
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 低速及外部下載"
 
-#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:218
+msgid "page.md5.box.download.header_external"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:220
 msgid "page.md5.box.download.header_generic"
 msgstr "下載"
 
-#: allthethings/page/templates/page/aarecord.html:220
-msgid "page.md5.box.download.convert"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:221
-msgid "page.md5.box.download.kindle"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:222
-msgid "page.md5.box.download.support_authors"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:223
-msgid "page.md5.box.download.support_libraries"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:228
-msgid "page.md5.box.download.no_issues_notice"
-msgstr "所有鏡像都提供相同的文件，使用起來應該是安全的。 也就是說，下載文件時始終要小心。 例如，確保您的設備保持更新。"
-
-#: allthethings/page/templates/page/aarecord.html:254
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.no_found"
 msgstr "未找到下載檔案。"
 
-#: allthethings/page/templates/page/aarecord.html:259
-#: allthethings/page/templates/page/aarecord.html:260
-#: allthethings/page/templates/page/aarecord.html:361
-#: allthethings/page/templates/page/aarecord.html:362
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:382
+#: allthethings/page/templates/page/aarecord.html:235
+msgid "page.md5.box.download.convert"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:236
+msgid "page.md5.box.download.kindle"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:237
+msgid "page.md5.box.download.support_authors"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:238
+msgid "page.md5.box.download.support_libraries"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:243
+msgid "page.md5.box.download.no_issues_notice"
+msgstr "所有鏡像都提供相同的文件，使用起來應該是安全的。 也就是說，下載文件時始終要小心。 例如，確保您的設備保持更新。"
+
+#: allthethings/page/templates/page/aarecord.html:271
+#: allthethings/page/templates/page/aarecord.html:272
+#: allthethings/page/templates/page/aarecord.html:373
+#: allthethings/page/templates/page/aarecord.html:374
+#: allthethings/page/templates/page/aarecord.html:393
+#: allthethings/page/templates/page/aarecord.html:394
 #: allthethings/page/templates/page/about.html:123
 #: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6

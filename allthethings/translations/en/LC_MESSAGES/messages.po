@@ -1374,7 +1374,7 @@ msgstr "OCLC (WorldCat)"
 msgid "common.md5.servers.fast_partner"
 msgstr "Fast Partner Server #%(number)s"
 
-#: allthethings/page/views.py:3021 allthethings/page/views.py:3308
+#: allthethings/page/views.py:3021 allthethings/page/views.py:3307
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(no browser verification required)"
 
@@ -1389,6 +1389,11 @@ msgstr "(might require <a %(a_browser)s>browser verification</a> — unlimited d
 #: allthethings/page/views.py:3136 allthethings/page/views.py:3277
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
+
+#: allthethings/page/views.py:3173 allthethings/page/views.py:3190
+#: allthethings/page/views.py:3198
+msgid "page.md5.box.download.temporarily_unavailable"
+msgstr "Partner Server downloads temporarily not available for this file."
 
 #: allthethings/page/views.py:3210
 msgid "page.md5.box.download.lgrsnf"
@@ -1469,7 +1474,7 @@ msgstr "Search Anna’s Archive for OCLC (WorldCat) number"
 msgid "page.md5.box.download.original_oclc"
 msgstr "Find original record in WorldCat"
 
-#: allthethings/page/views.py:3308 allthethings/page/views.py:3309
+#: allthethings/page/views.py:3307 allthethings/page/views.py:3308
 msgid "page.md5.box.download.scidb"
 msgstr "Anna’s Archive 🧬 SciDB"
 
@@ -1580,48 +1585,61 @@ msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 Fast downloads</strong> You downloaded this file recently. Links remain valid for a while."
 
 #: allthethings/page/templates/page/aarecord.html:195
-#: allthethings/page/templates/page/aarecord.html:214
+#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:227
 msgid "page.md5.box.download.option"
 msgstr "Option #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:204
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.header_slow_only"
+msgstr "🐢 Slow downloads"
+
+#: allthethings/page/templates/page/aarecord.html:202
+msgid "page.md5.box.download.trusted_partners"
+msgstr "From trusted partners."
+
+#: allthethings/page/templates/page/aarecord.html:217
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 Slow & external downloads"
 
-#: allthethings/page/templates/page/aarecord.html:206
+#: allthethings/page/templates/page/aarecord.html:218
+msgid "page.md5.box.download.header_external"
+msgstr "External downloads"
+
+#: allthethings/page/templates/page/aarecord.html:220
 msgid "page.md5.box.download.header_generic"
 msgstr "Downloads"
 
-#: allthethings/page/templates/page/aarecord.html:220
-msgid "page.md5.box.download.convert"
-msgstr "Convert: use online tools to convert between formats. For example, to convert between epub and pdf, use <a href=\"https://cloudconvert.com/epub-to-pdf\">CloudConvert</a>."
-
-#: allthethings/page/templates/page/aarecord.html:221
-msgid "page.md5.box.download.kindle"
-msgstr "Kindle: download the file (pdf or epub are supported), then <a href=\"https://www.amazon.com/sendtokindle\">send it to Kindle</a> using web, app, or email."
-
-#: allthethings/page/templates/page/aarecord.html:222
-msgid "page.md5.box.download.support_authors"
-msgstr "Support authors: If you like this and can afford it, consider buying the original, or supporting the authors directly."
-
-#: allthethings/page/templates/page/aarecord.html:223
-msgid "page.md5.box.download.support_libraries"
-msgstr "Support libraries: If this is available at your local library, consider borrowing it for free there."
-
-#: allthethings/page/templates/page/aarecord.html:228
-msgid "page.md5.box.download.no_issues_notice"
-msgstr "All download options have the same file, and should be safe to use. That said, always be cautious when downloading files from the internet, especially from sites external to Anna’s Archive. For example, be sure to keep your devices updated."
-
-#: allthethings/page/templates/page/aarecord.html:254
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.no_found"
 msgstr "No downloads found."
 
-#: allthethings/page/templates/page/aarecord.html:259
-#: allthethings/page/templates/page/aarecord.html:260
-#: allthethings/page/templates/page/aarecord.html:361
-#: allthethings/page/templates/page/aarecord.html:362
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:382
+#: allthethings/page/templates/page/aarecord.html:235
+msgid "page.md5.box.download.convert"
+msgstr "Convert: use online tools to convert between formats. For example, to convert between epub and pdf, use <a href=\"https://cloudconvert.com/epub-to-pdf\">CloudConvert</a>."
+
+#: allthethings/page/templates/page/aarecord.html:236
+msgid "page.md5.box.download.kindle"
+msgstr "Kindle: download the file (pdf or epub are supported), then <a href=\"https://www.amazon.com/sendtokindle\">send it to Kindle</a> using web, app, or email."
+
+#: allthethings/page/templates/page/aarecord.html:237
+msgid "page.md5.box.download.support_authors"
+msgstr "Support authors: If you like this and can afford it, consider buying the original, or supporting the authors directly."
+
+#: allthethings/page/templates/page/aarecord.html:238
+msgid "page.md5.box.download.support_libraries"
+msgstr "Support libraries: If this is available at your local library, consider borrowing it for free there."
+
+#: allthethings/page/templates/page/aarecord.html:243
+msgid "page.md5.box.download.no_issues_notice"
+msgstr "All download options have the same file, and should be safe to use. That said, always be cautious when downloading files from the internet, especially from sites external to Anna’s Archive. For example, be sure to keep your devices updated."
+
+#: allthethings/page/templates/page/aarecord.html:271
+#: allthethings/page/templates/page/aarecord.html:272
+#: allthethings/page/templates/page/aarecord.html:373
+#: allthethings/page/templates/page/aarecord.html:374
+#: allthethings/page/templates/page/aarecord.html:393
+#: allthethings/page/templates/page/aarecord.html:394
 #: allthethings/page/templates/page/about.html:123
 #: allthethings/page/templates/page/about.html:124
 #: allthethings/page/templates/page/copyright.html:6
