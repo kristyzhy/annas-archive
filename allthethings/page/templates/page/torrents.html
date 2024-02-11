@@ -1,7 +1,7 @@
 {% macro small_file_row(small_file, uuid_prefix) -%}
-<tr class="{% if small_file.file_path in torrents_data.obsolete_file_paths %}line-through{% endif %}">
+<tr class="{% if small_file.obsolete %}line-through{% endif %}">
   <td class="pb-1 pr-1 text-xs whitespace-nowrap">{% if small_file.metadata.embargo %}<span title="Torrent under embargo. Download speed extremely limited.">🔒</span> {% endif %}{% if small_file.aa_currently_seeding %}<span title="Seeded by Anna’s Archive">✅</span>{% else %}<span title="Not currently seeded by Anna’s Archive">❌</span>{% endif %}</td>
-  <td class="pb-1 max-md:break-all"><a href="/dyn/small_file/{{ small_file.file_path }}">{{ small_file.file_path_short }}</a><a class="ml-2 text-sm whitespace-nowrap" href="magnet:?xt=urn:btih:{{ small_file.metadata.btih }}&dn={{ small_file.display_name | urlencode }}&tr=udp://tracker.opentrackr.org:1337/announce">magnet</a></td>
+  <td class="pb-1 max-md:break-all"><a href="/dyn/small_file/{{ small_file.file_path }}">{{ small_file.file_path_short }}</a><a class="ml-2 text-sm whitespace-nowrap" href="{{ small_file.magnet_link }}">magnet</a></td>
   <td class="text-sm pb-1 pl-2 max-sm:hidden md:whitespace-nowrap" title="Date added">{{ small_file.created }}</td>
   <td class="text-sm pb-1 pl-2"><span class="whitespace-nowrap" title="Data size">{{ small_file.size_string }}</span><span class="whitespace-nowrap max-md:hidden" title="Number of files (there may be more files inside a .tar or .zip file)"> / {{ small_file.metadata.num_files }}</span></td>
   <td class="text-sm pb-1 pl-2 whitespace-nowrap max-md:hidden" title="Data type">{% if small_file.is_metadata %}metadata{% else %}data{% endif %}</td>
@@ -31,7 +31,7 @@
     </p>
 
     <p class="mb-4">
-      These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://annas-software.org/AnnaArchivist/annas-archive">source code</a>. We also have full lists of torrents, as <a href="/dyn/torrents.txt">text</a> or <a href="/dyn/torrents.json">JSON</a>.
+      These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://annas-software.org/AnnaArchivist/annas-archive">source code</a>. We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
     </p>
 
     <p class="mb-4">
@@ -85,19 +85,32 @@
       });
     </script>
 
-    <div class="mt-8 group"><span class="text-2xl font-bold" id="random_low_seeds">Random torrents with <4 seeders</span> <a href="#random_low_seeds" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+    <div class="mt-8 group"><span class="text-xl font-bold" id="random_low_seeds">Generate torrent list</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
     <p class="mb-4">
-      A random selection of torrents with few seeders. If you want to help, simply pick a few from this list.
+      Generate a list of torrents, sorted by fewest seeders. Specify a maximum TB to store (we simply cut off the list when the max TB is reached).
     </p>
 
-    <table class="w-full">
-      {% for small_file in small_file_sample %}
-        {{ small_file_row(small_file, 'random') }}
-      {% else %}
-        <tr><td class="whitespace-nowrap italic">None found!</td></tr>
-      {% endfor %}
-    </table>
+    <form action="/dyn/generate_torrents" class="flex items-center mb-4">
+      <label class="mr-2 flex items-center">Max TB: <input type="number" step="any" name="max_tb" class="ml-1 bg-black/6.7 px-2 py-1 rounded" placeholder="(empty for no limit)" /></label>
+      <label class="mr-2 flex items-center">Type: <select name="format" class="ml-1 bg-black/6.7 px-2 py-1 rounded"><option value="json">JSON</option><option value="url">URLs</option><option value="magnet">Magnet links</option></select></label>
+      <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white">Generate</button>
+    </form>
+
+    <p class="mb-4">
+      We only show non-obsolete, non-embargoed files with at least one seeder here. For a complete list see the full <a href="/dyn/torrents.json">torrents JSON</a>.
+    </p>
+
+    <div class="mt-8 group"><span class="text-xl font-bold" id="random_low_seeds">Similar lists</span> <a href="#similar_lists" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+
+    <p class="">
+      Similar lists, independently maintained. Note that at the time of this writing, all these lists are included in our list, under <a href="#external">External Collections</a>, similarly to how Anna’s Archive itself is a meta-collection of many external collections.
+    </p>
+
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc"><a href="https://ipdl.cat/">ipdl.cat</a></li>
+      <li class="list-disc"><a href="https://phillm.net/libgen-seeds-needed.php">PhillM's LibGen torrent index</a></li>
+    </ul>
 
     {% for toplevel, groups in torrents_data.small_file_dicts_grouped.items() %}
       {% if toplevel == 'managed_by_aa' %}

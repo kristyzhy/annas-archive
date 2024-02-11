@@ -28,7 +28,7 @@ from flask_babel import format_timedelta, gettext, get_locale
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess, MariapersistSmallFiles
 from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT1B_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
-from allthethings.page.views import get_aarecords_elasticsearch, ES_TIMEOUT_PRIMARY
+from allthethings.page.views import get_aarecords_elasticsearch, ES_TIMEOUT_PRIMARY, get_torrents_data
 
 import allthethings.utils
 
@@ -65,41 +65,77 @@ def databases():
 def make_torrent_url(file_path):
     return f"{g.full_domain}/dyn/small_file/{file_path}"
 
-@dyn.get("/torrents.txt")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
-def torrents_txt_page():
-    with mariapersist_engine.connect() as connection:
-        connection.connection.ping(reconnect=True)
-        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT file_path FROM mariapersist_small_files WHERE file_path LIKE "torrents/managed_by_aa/%" ORDER BY file_path LIMIT 50000')
-        small_files_aa = list(cursor.fetchall())
-        cursor.execute('SELECT file_path FROM mariapersist_small_files WHERE file_path LIKE "torrents/external/%" ORDER BY file_path LIMIT 50000')
-        small_files_external = list(cursor.fetchall())
-        output_text = '\n'.join(make_torrent_url(small_file['file_path']) for small_file in (small_files_aa + small_files_external))
-    return output_text, {'Content-Type': 'text/plain; charset=utf-8'}
-
-def make_torrent_json(small_file):
-    metadata = orjson.loads(small_file['metadata'])
-    return { 
-        'url': make_torrent_url(small_file['file_path']),
-        'btih': metadata['btih'],
-        'torrent_size': metadata['torrent_size'],
-        'num_files': metadata['num_files'],
-        'data_size': metadata['data_size'],
-        'aa_currently_seeding': allthethings.utils.aa_currently_seeding(metadata),
+def make_torrent_json(top_level_group_name, group_name, row):
+    return {
+        'url': make_torrent_url(row['file_path']),
+        'top_level_group_name': top_level_group_name,
+        'group_name': group_name,
+        'display_name': row['display_name'],
+        'added_to_torrents_list_at': row['created'],
+        'is_metadata': row['is_metadata'],
+        'btih': row['metadata']['btih'],
+        'magnet_link': row['magnet_link'],
+        'torrent_size': row['metadata']['torrent_size'],
+        'num_files': row['metadata']['num_files'],
+        'data_size': row['metadata']['data_size'],
+        'aa_currently_seeding': row['aa_currently_seeding'],
+        'obsolete': row['obsolete'],
+        'embargo': (row['metadata'].get('embargo') or False),
+        'seeders': ((row['scrape_metadata'].get('scrape') or {}).get('seeders') or 0),
+        'leechers': ((row['scrape_metadata'].get('scrape') or {}).get('leechers') or 0),
+        'completed': ((row['scrape_metadata'].get('scrape') or {}).get('completed') or 0),
+        'stats_scraped_at': row['scrape_created'],
+        'random': row['temp_uuid'],
     }
 
 @dyn.get("/torrents.json")
 @allthethings.utils.no_cache()
 def torrents_json_page():
-    with mariapersist_engine.connect() as connection:
-        connection.connection.ping(reconnect=True)
-        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT file_path, created, metadata FROM mariapersist_small_files WHERE file_path LIKE "torrents/managed_by_aa/%" ORDER BY file_path LIMIT 50000')
-        small_files_aa = [make_torrent_json(small_file) for small_file in cursor.fetchall()]
-        cursor.execute('SELECT file_path, created, metadata FROM mariapersist_small_files WHERE file_path LIKE "torrents/external/%" ORDER BY file_path LIMIT 50000')
-        small_files_external = [make_torrent_json(small_file) for small_file in cursor.fetchall()]
-        return orjson.dumps(small_files_aa + small_files_external), {'Content-Type': 'text/json; charset=utf-8'}
+    torrents_data = get_torrents_data()
+    output_rows = []
+    for top_level_group_name, small_files_groups in torrents_data['small_file_dicts_grouped'].items():
+        for group_name, small_files in small_files_groups.items():
+            for small_file in small_files:
+                output_rows.append(make_torrent_json(top_level_group_name, group_name, small_file))
+    return orjson.dumps(output_rows), {'Content-Type': 'text/json; charset=utf-8'}
+
+@dyn.get("/generate_torrents")
+@allthethings.utils.no_cache()
+def generate_torrents_page():
+    torrents_data = get_torrents_data()
+    output_rows = []
+    max_tb = 10000000
+    try:
+        max_tb = float(request.args.get('max_tb'))
+    except:
+        pass
+    if max_tb < 0.00001:
+        max_tb = 10000000
+    max_bytes = 1000000000000 * max_tb
+
+    for top_level_group_name, small_files_groups in torrents_data['small_file_dicts_grouped'].items():
+        for group_name, small_files in small_files_groups.items():
+            for small_file in small_files:
+                output_row = make_torrent_json(top_level_group_name, group_name, small_file)
+                if not output_row['embargo'] and not output_row['obsolete'] and output_row['seeders'] > 0:
+                    output_rows.append(output_row)
+    output_rows.sort(key=lambda output_row: (output_row['seeders'], output_row['random']))
+
+    total_bytes = 0
+    filtered_output_rows = []
+    for output_row in output_rows:
+        total_bytes += output_row['data_size']
+        if total_bytes >= max_bytes:
+            break
+        filtered_output_rows.append(output_row)
+
+    output_format = (request.args.get('format') or 'json')
+    if output_format == 'url':
+        return '\n'.join([output_row['url'] for output_row in filtered_output_rows]), {'Content-Type': 'text/json; charset=utf-8'}
+    elif output_format == 'magnet':
+        return '\n'.join([output_row['magnet_link'] for output_row in filtered_output_rows]), {'Content-Type': 'text/json; charset=utf-8'}
+    else:
+        return orjson.dumps(filtered_output_rows), {'Content-Type': 'text/json; charset=utf-8'}
 
 @dyn.get("/torrents/latest_aac_meta/<string:collection>.torrent")
 @allthethings.utils.no_cache()

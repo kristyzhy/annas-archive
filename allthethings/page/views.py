@@ -508,6 +508,7 @@ def get_torrents_data():
                 list_to_add = small_file_dicts_grouped_external[group]
             else:
                 list_to_add = small_file_dicts_grouped_aa[group]
+            display_name = small_file['file_path'].split('/')[-1]
             list_to_add.append({
                 "temp_uuid": shortuuid.uuid(),
                 "created": small_file['created'].strftime("%Y-%m-%d"), # First, so it gets sorted by first. Also, only year-month-day, so it gets secondarily sorted by file path.
@@ -516,10 +517,11 @@ def get_torrents_data():
                 "aa_currently_seeding": allthethings.utils.aa_currently_seeding(metadata),
                 "size_string": format_filesize(metadata['data_size']), 
                 "file_path_short": small_file['file_path'].replace('torrents/managed_by_aa/annas_archive_meta__aacid/', '').replace('torrents/managed_by_aa/annas_archive_data__aacid/', '').replace(f'torrents/managed_by_aa/{group}/', '').replace(f'torrents/external/{group}/', ''),
-                "display_name": small_file['file_path'].split('/')[-1], 
+                "display_name": display_name, 
                 "scrape_metadata": scrape_metadata, 
                 "scrape_created": scrape_created, 
-                "is_metadata": (('annas_archive_meta__' in small_file['file_path']) or ('.sql' in small_file['file_path']) or ('-index-' in small_file['file_path']) or ('-derived' in small_file['file_path']) or ('isbndb' in small_file['file_path']) or ('covers-' in small_file['file_path']) or ('-metadata-' in small_file['file_path']) or ('-thumbs' in small_file['file_path']) or ('.csv' in small_file['file_path']))
+                "is_metadata": (('annas_archive_meta__' in small_file['file_path']) or ('.sql' in small_file['file_path']) or ('-index-' in small_file['file_path']) or ('-derived' in small_file['file_path']) or ('isbndb' in small_file['file_path']) or ('covers-' in small_file['file_path']) or ('-metadata-' in small_file['file_path']) or ('-thumbs' in small_file['file_path']) or ('.csv' in small_file['file_path'])),
+                "magnet_link": f"magnet:?xt=urn:btih:{metadata['btih']}&dn={urllib.parse.quote(display_name)}&tr=udp://tracker.opentrackr.org:1337/announce"
             })
 
         group_size_strings = { group: format_filesize(total) for group, total in group_sizes.items() }
@@ -539,12 +541,16 @@ def get_torrents_data():
         for file_path_list in aac_meta_file_paths_grouped.values():
             obsolete_file_paths += file_path_list[0:-1]
 
+        # Tack on "obsolete" fields, now that we have them
+        for group in list(small_file_dicts_grouped_aa.values()) + list(small_file_dicts_grouped_external.values()):
+            for item in group:
+                item['obsolete'] = (item['file_path'] in obsolete_file_paths)
+
         return {
             'small_file_dicts_grouped': {
                 'managed_by_aa': dict(sorted(small_file_dicts_grouped_aa.items())),
                 'external': dict(sorted(small_file_dicts_grouped_external.items())),
             },
-            'obsolete_file_paths': obsolete_file_paths,
             'group_size_strings': group_size_strings,
             'seeder_counts': seeder_counts,
             'seeder_size_strings': seeder_size_strings,
@@ -685,13 +691,6 @@ def torrents_page():
         cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(mariapersist_torrent_scrapes.seeders < 4, 0, IF(mariapersist_torrent_scrapes.seeders < 11, 1, 2)) AS seeder_group, mariapersist_small_files.data_size / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes FORCE INDEX (created_date_file_path_seeders) JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created_date > NOW() - INTERVAL 60 DAY GROUP BY created_date, file_path) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
 
-        small_files_to_sample_from = []
-        for small_files_group in torrents_data['small_file_dicts_grouped'].values():
-            for small_files in small_files_group.values():
-                for small_file in small_files:
-                    if (small_file['metadata'].get('embargo') or False) == False and small_file['scrape_metadata']['scrape']['seeders'] < 4 and small_file['file_path'] not in torrents_data['obsolete_file_paths']:
-                        small_files_to_sample_from.append(small_file)
-
         show_external = request.args.get("show_external", "").strip() == "1"
         if not show_external:
             torrents_data = {
@@ -708,7 +707,6 @@ def torrents_page():
             torrents_data=torrents_data,
             histogram=histogram,
             show_external=show_external,
-            small_file_sample=random.sample(small_files_to_sample_from, min(30, len(small_files_to_sample_from))),
         )
 
 zlib_book_dict_comments = {
