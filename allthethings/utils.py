@@ -297,6 +297,7 @@ MEMBERSHIP_DURATION_DISCOUNTS = {
 MEMBERSHIP_DOWNLOADS_PER_DAY = {
     "1": 0, "2": 20, "3": 50, "4": 100, "5": 1000,
 }
+# Keep in sync.
 MEMBERSHIP_BONUSDOWNLOADS_PER_DAY = {
     "1": 0, "2": 10, "3": 25, "4": 50, "5": 500,
 }
@@ -489,6 +490,7 @@ def membership_costs_data(locale):
     return data
 
 
+# Keep in sync.
 def confirm_membership(cursor, donation_id, data_key, data_value):
     cursor.execute('SELECT * FROM mariapersist_donations WHERE donation_id=%(donation_id)s LIMIT 1', { 'donation_id': donation_id })
     donation = cursor.fetchone()
