@@ -544,7 +544,16 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
 
 
 def payment2_check(cursor, payment_id):
-    payment2_status = httpx.get(f"{PAYMENT2_URL}{payment_id}", headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0).json()
+    payment2_status = None
+    for attempt in [1,2,3]:
+        try:
+            payment2_request = httpx.get(f"{PAYMENT2_URL}{payment_id}", headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0)
+            payment2_request.raise_for_status()
+            payment2_status = payment2_request.json()
+            break
+        except:
+            if attempt == 3:
+                raise
     if payment2_status['payment_status'] in ['confirmed', 'sending', 'finished']:
         if confirm_membership(cursor, payment2_status['order_id'], 'payment2_status', payment2_status):
             return (payment2_status, True)
@@ -1008,7 +1017,7 @@ SEARCH_INDEX_TO_ES_MAPPING = {
     'aarecords_metadata': es_aux,
 }
 # TODO: Look into https://discuss.elastic.co/t/score-and-relevance-across-the-shards/5371
-ES_VIRTUAL_SHARDS_NUM = 12
+ES_VIRTUAL_SHARDS_NUM = 12 # 32
 def virtshard_for_hashed_aarecord_id(hashed_aarecord_id):
     return int.from_bytes(hashed_aarecord_id, byteorder='big', signed=False) % ES_VIRTUAL_SHARDS_NUM
 def virtshard_for_aarecord_id(aarecord_id):

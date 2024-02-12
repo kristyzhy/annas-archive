@@ -8,15 +8,32 @@ from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.ext.declarative import DeferredReflection
 from elasticsearch import Elasticsearch
 from flask_mail import Mail
-from config.settings import ELASTICSEARCH_HOST, ELASTICSEARCHAUX_HOST
+from config.settings import ELASTICSEARCH_HOST, ELASTICSEARCHAUX_HOST, ELASTICSEARCH_HOST_PREFERRED, ELASTICSEARCHAUX_HOST_PREFERRED
 
 debug_toolbar = DebugToolbarExtension()
 flask_static_digest = FlaskStaticDigest()
 Base = declarative_base()
-es = Elasticsearch(hosts=[ELASTICSEARCH_HOST], max_retries=2, retry_on_timeout=True)
-es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=2, retry_on_timeout=True)
 babel = Babel()
 mail = Mail()
+
+if len(ELASTICSEARCH_HOST_PREFERRED) > 0:
+    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST_PREFERRED,ELASTICSEARCH_HOST], max_retries=2, retry_on_timeout=True)
+else:
+    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST], max_retries=2, retry_on_timeout=True)
+
+class FallbackNodeSelector: # Selects only the first live node
+    def __init__(self, node_configs):
+        self.node_configs = node_configs
+    def select(self, nodes):
+        for node_config in self.node_configs:
+            for node in nodes:
+                if node.config == node_config:
+                    return node
+        raise Exception("No node_config found!")
+if len(ELASTICSEARCHAUX_HOST_PREFERRED) > 0:
+    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST_PREFERRED,ELASTICSEARCHAUX_HOST], node_selector_class=FallbackNodeSelector, max_retries=2, retry_on_timeout=True)
+else:
+    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=2, retry_on_timeout=True)
 
 mariadb_user = os.getenv("MARIADB_USER", "allthethings")
 mariadb_password = os.getenv("MARIADB_PASSWORD", "password")
