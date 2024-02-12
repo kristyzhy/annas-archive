@@ -2199,9 +2199,10 @@ def get_aarecords_elasticsearch(aarecord_ids):
 
     docs_by_es_handle = collections.defaultdict(list)
     for aarecord_id in aarecord_ids:
-        index = allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id.split(':', 1)[0]]
-        es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]
-        docs_by_es_handle[es_handle].append({'_id': aarecord_id, '_index': f'{index}__{allthethings.utils.virtshard_for_aarecord_id(aarecord_id)}' })
+        indexes = allthethings.utils.get_aarecord_search_indexes_for_id_prefix(aarecord_id.split(':', 1)[0])
+        for index in indexes:
+            es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]
+            docs_by_es_handle[es_handle].append({'_id': aarecord_id, '_index': f'{index}__{allthethings.utils.virtshard_for_aarecord_id(aarecord_id)}' })
 
     search_results_raw = []
     for es_handle, docs in docs_by_es_handle.items():
@@ -2317,7 +2318,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
         ])
         # TODO: This `if` is not necessary if we make sure that the fields of the primary records get priority.
-        if aarecord_id_split[0] not in ['isbn', 'ol', 'oclc']:
+        if not allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]):
             for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
                 canonical_isbn13s.append(canonical_isbn13)
             for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('ol') or []):
@@ -2347,12 +2348,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         lgli_single_edition = aarecord['lgli_file']['editions'][0] if len((aarecord.get('lgli_file') or {}).get('editions') or []) == 1 else None
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
-        if aarecord_id_split[0] in allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING:
-            aarecord['indexes'] = [allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id_split[0]]]
-        else:
-            raise Exception(f"Unknown aarecord_id prefix: {aarecord_id}")
-
-        if allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING[aarecord_id_split[0]] != 'aarecords_metadata':
+        if not allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]):
             isbndb_all = []
             existing_isbn13s = set([isbndb['isbn13'] for isbndb in aarecord['isbndb']])
             for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
@@ -2891,7 +2887,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['external_borrow'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['external_borrow_printdisabled'] if (aarecord.get('ia_record') and (aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
-                *(['meta_explore'] if aarecord_id_split[0] in ['isbn', 'ol', 'oclc'] else []),
+                *(['meta_explore'] if allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]) else []),
             ],
             'search_record_sources': list(set([
                 *(['lgrs']      if aarecord['lgrsnf_book'] is not None else []),
@@ -2908,6 +2904,9 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_bulk_torrents': 'has_bulk_torrents' if aarecord['file_unified_data']['has_torrent_paths'] else 'no_bulk_torrents',
         }
 
+        # Once we have the content type.
+        aarecord['indexes'] = [allthethings.utils.get_aarecord_search_index(aarecord_id_split[0], aarecord['search_only_fields']['search_content_type'])]
+        
         # At the very end
         aarecord['search_only_fields']['search_score_base_rank'] = float(aarecord_score_base(aarecord))
 

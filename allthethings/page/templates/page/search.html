@@ -14,6 +14,7 @@
 
     <div class="flex flex-wrap mb-1 text-black/64" role="tablist" aria-label="file tabs">
       <a href="/search" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="{{ 'true' if search_dict.search_index_short == '' else 'false' }}" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = ''; document.querySelector('.js-search-form').submit()">{{ gettext('page.search.tabs.download') }} <span class="js-search-tab-count-aarecords"></span></a>
+      <a href="/search?index=journals" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="{{ 'true' if search_dict.search_index_short == 'journals' else 'false' }}" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'journals'; document.querySelector('.js-search-form').submit()">{{ gettext('page.search.tabs.journals') }} <span class="js-search-tab-count-aarecords_journals"></span></a>
       <a href="/search?index=digital_lending" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="{{ 'true' if search_dict.search_index_short == 'digital_lending' else 'false' }}" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'digital_lending'; document.querySelector('.js-search-form').submit()">{{ gettext('page.search.tabs.digital_lending') }} <span class="js-search-tab-count-aarecords_digital_lending"></span></a>
       <a href="/search?index=meta" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="{{ 'true' if search_dict.search_index_short == 'meta' else 'false' }}" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = 'meta'; document.querySelector('.js-search-form').submit()">{{ gettext('page.search.tabs.metadata') }} <span class="js-search-tab-count-aarecords_metadata"></span></a>
     </div>
@@ -21,10 +22,21 @@
     <script>
       fetch('/dyn/search_counts?q=' + {{ search_input | tojson }}).then(function(response) { return response.json() }).then(function(json) {
         document.querySelector('.js-search-tab-count-aarecords').innerText = json.aarecords.value != -1 ? `(${json.aarecords.timed_out ? '~' : ''}${json.aarecords.value_formatted}${json.aarecords.relation == 'gte' ? '+' : ''})` : '';
+        document.querySelector('.js-search-tab-count-aarecords_journals').innerText = json.aarecords_journals.value != -1 ? `(${json.aarecords_journals.timed_out ? '~' : ''}${json.aarecords_journals.value_formatted}${json.aarecords_journals.relation == 'gte' ? '+' : ''})` : '';
         document.querySelector('.js-search-tab-count-aarecords_digital_lending').innerText = json.aarecords_digital_lending.value != -1 ? `(${json.aarecords_digital_lending.timed_out ? '~' : ''}${json.aarecords_digital_lending.value_formatted}${json.aarecords_digital_lending.relation == 'gte' ? '+' : ''})` : '';
         document.querySelector('.js-search-tab-count-aarecords_metadata').innerText = json.aarecords_metadata.value != -1 ? `(${json.aarecords_metadata.timed_out ? '~' : ''}${json.aarecords_metadata.value_formatted}${json.aarecords_metadata.relation == 'gte' ? '+' : ''})` : '';
 
-        if (json.aarecords_digital_lending.value > 0) {
+        if (json.aarecords_journals.value > 0) {
+          for (el of document.querySelectorAll('.js-not-found-additional')) {
+            el.classList.remove('hidden');
+          }
+          for (el of document.querySelectorAll('.js-not-found-journals')) {
+            el.classList.remove('hidden');
+          }
+          for (el of document.querySelectorAll('.js-not-found-journals-count')) {
+            el.innerText = `${json.aarecords_journals.value_formatted}${json.aarecords_journals.relation == 'gte' ? '+' : ''}`
+          }
+        } else if (json.aarecords_digital_lending.value > 0) {
           for (el of document.querySelectorAll('.js-not-found-additional')) {
             el.classList.remove('hidden');
           }
@@ -181,7 +193,7 @@
 
             {% if search_dict.search_index_short == '' %}
               <div class="mt-4 js-not-found-additional hidden">
-                {{ gettext('page.search.found_matches.main', a_request=('href="/account/request"' | safe), in=((('<a class="hidden js-not-found-digital_lending" href="/search?index=digital_lending" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'digital_lending\'; document.querySelector(\'.js-search-form\').submit()">' | safe) + gettext('page.search.found_matches.digital_lending', count=('<span class="js-not-found-digital_lending-count">1</span>' | safe)) + ('</a><a class="hidden js-not-found-meta" href="/search?index=meta" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'meta\'; document.querySelector(\'.js-search-form\').submit()">') | safe + gettext('page.search.found_matches.metadata', count=('<span class="js-not-found-meta-count">1</span>' | safe)) + ('</a>' | safe)) | safe)) }}
+                {{ gettext('page.search.found_matches.main', a_request=('href="/account/request"' | safe), in=((('<a class="hidden js-not-found-journals" href="/search?index=journals" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'journals\'; document.querySelector(\'.js-search-form\').submit()">' | safe) + gettext('page.search.found_matches.journals', count=('<span class="js-not-found-journals-count">1</span>' | safe)) + ('</a><a class="hidden js-not-found-digital_lending" href="/search?index=digital_lending" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'digital_lending\'; document.querySelector(\'.js-search-form\').submit()">' | safe) + gettext('page.search.found_matches.digital_lending', count=('<span class="js-not-found-digital_lending-count">1</span>' | safe)) + ('</a><a class="hidden js-not-found-meta" href="/search?index=meta" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'meta\'; document.querySelector(\'.js-search-form\').submit()">') | safe + gettext('page.search.found_matches.metadata', count=('<span class="js-not-found-meta-count">1</span>' | safe)) + ('</a>' | safe)) | safe)) }}
               </div>
             {% endif %}
           {% endif %}
@@ -200,7 +212,22 @@
           <div class="sm:mt-6 h-[50vh] sm:px-5 md:px-[60px]">
             {% if search_dict.search_index_short == '' %}
               <p class="mb-4">
-                {{ gettext('page.search.results.search_downloads', count=g.header_stats.total, a_preserve=(' href="/about" ' | safe)) }}
+                {{ gettext('page.search.results.search_downloads', count=g.header_stats.total_without_journals, a_preserve=(' href="/about" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.other_shadow_libs', a_email=(' class="break-all" href="mailto:AnnaArchivist@proton.me" ' | safe)) }}
+                {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
+              </p>
+
+              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
+            {% elif search_dict.search_index_short == 'journals' %}
+              <p class="mb-4">
+                {{ gettext('page.search.results.search_journals', count=g.header_stats.journal_article, a_preserve=(' href="/about" ' | safe)) }}
               </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
@@ -223,6 +250,10 @@
               <p class="mb-4">
                 {{ gettext('page.search.results.digital_lending_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/E-book_lending" ' | safe), a_mobileread=(' href="https://wiki.mobileread.com/wiki/EBook_Lending_Libraries" ' | safe)) }}
               </p>
+
+              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
             {% elif search_dict.search_index_short == 'meta' %}
               <p class="mb-4">
                 {{ gettext('page.search.results.search_metadata', a_request=(' href="/account/request" ' | safe)) }}
@@ -233,9 +264,17 @@
               <p class="mb-4">
                 {{ gettext('page.search.results.metadata_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/Wikipedia:Book_sources" ' | safe)) }}
               </p>
+
+              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
             {% else %}
               <p class="mb-4">
                 {{ gettext('page.search.results.search_generic') }}
+              </p>
+
+              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
               </p>
             {% endif %}
           </div>
