@@ -194,6 +194,7 @@
           {% for label, url, extra in aarecord.additional.fast_partner_urls %}
             <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
           {% endfor %}
+          <li>- {{ gettext('layout.index.header.banner.refer', percentage=50) }} <a href="/refer">{{ gettext('layout.index.header.learn_more') }}</a></li>
         </ul>
       </div>
     {% endif %}
