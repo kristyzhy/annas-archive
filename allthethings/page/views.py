@@ -66,7 +66,7 @@ search_filtered_bad_aarecord_ids = [
 ]
 
 ES_TIMEOUT_PRIMARY = "2s"
-ES_TIMEOUT_ALL_AGG = "10s"
+ES_TIMEOUT_ALL_AGG = "15s"
 ES_TIMEOUT = "500ms"
 
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
@@ -743,7 +743,8 @@ def zlib_add_edition_varia_normalized(zlib_book_dict):
     zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
 def zlib_cover_url_guess(md5):
-    return f"https://static.1lib.sk/covers/books/{md5[0:2]}/{md5[2:4]}/{md5[4:6]}/{md5}.jpg"
+    # return f"https://static.1lib.sk/covers/books/{md5[0:2]}/{md5[2:4]}/{md5[4:6]}/{md5}.jpg"
+    return f""
 
 def get_zlib_book_dicts(session, key, values):
     if len(values) == 0:
@@ -2440,13 +2441,13 @@ def get_aarecords_mysql(session, aarecord_ids):
         if len(aarecord['file_unified_data']['original_filename_additional']) == 0:
             del aarecord['file_unified_data']['original_filename_additional']
 
-        # Select the cover_url_normalized in order of what is likely to be the best one: ia, zlib, lgrsnf, lgrsfic, lgli.
+        # Select the cover_url_normalized in order of what is likely to be the best one: ia, lgrsnf, lgrsfic, lgli, zlib.
         cover_url_multiple = [
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('cover_url') or '').strip(),
-            ((aarecord['zlib_book'] or {}).get('cover_url') or '').strip(),
             ((aarecord['lgrsnf_book'] or {}).get('cover_url_normalized') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('cover_url_normalized') or '').strip(),
             ((aarecord['lgli_file'] or {}).get('cover_url_guess_normalized') or '').strip(),
+            ((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip(),
             *[ol_book_dict['cover_url_normalized'] for ol_book_dict in aarecord['ol']],
             *[(isbndb['json'].get('image') or '').strip() for isbndb in aarecord['isbndb']],
         ]
@@ -3035,6 +3036,14 @@ def get_additional_for_aarecord(aarecord):
 
     md5_content_type_mapping = get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale()))
 
+    cover_url = (aarecord['file_unified_data'].get('cover_url_best', None) or '')
+    if 'zlib' in cover_url or '1lib' in cover_url:
+        non_zlib_covers = [url for url in (aarecord['file_unified_data'].get('cover_url_additional', None) or []) if ('zlib' not in url and '1lib' not in url)]
+        if len(non_zlib_covers) > 0:
+            cover_url = non_zlib_covers[0]
+        else:
+            cover_url = ""
+
     additional['top_box'] = {
         'meta_information': [item for item in [
                 aarecord['file_unified_data'].get('title_best', None) or '',
@@ -3044,7 +3053,7 @@ def get_additional_for_aarecord(aarecord):
                 aarecord['file_unified_data'].get('edition_varia_best', None) or '',
                 aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
             ] if item != ''],
-        'cover_url': (aarecord['file_unified_data'].get('cover_url_best', None) or '').replace('https://covers.zlibcdn2.com/', 'https://static.1lib.sk/'),
+        'cover_url': cover_url,
         'top_row': ", ".join([item for item in [
                 additional['most_likely_language_name'],
                 aarecord['file_unified_data'].get('extension_best', None) or '',
@@ -3841,12 +3850,12 @@ def search_page():
         },
     }
 
-    max_display_results = 200
+    max_display_results = 150
     additional_display_results = 50
 
     es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
 
-    search_names = ['search1_primary', 'search2', 'search3', 'search4']
+    search_names = ['search1_primary']
     search_results_raw = {'responses': [{} for search_name in search_names]}
     try:
         search_results_raw = dict(es_handle.msearch(
@@ -3864,35 +3873,6 @@ def search_page():
                     "track_total_hits": False,
                     "timeout": ES_TIMEOUT_PRIMARY,
                 },
-                # For partial matches, first try our original query again but this time without filters.
-                { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
-                {
-                    "size": additional_display_results,
-                    "query": search_query,
-                    "sort": custom_search_sorting+['_score'],
-                    "track_total_hits": False,
-                    "timeout": ES_TIMEOUT,
-                },
-                # Then do an "OR" query, but this time with the filters again.
-                { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
-                {
-                    "size": additional_display_results,
-                    # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                    "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
-                    "sort": custom_search_sorting+['_score'],
-                    "track_total_hits": False,
-                    "timeout": ES_TIMEOUT,
-                },
-                # If we still don't have enough, do another OR query but this time without filters.
-                { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
-                {
-                    "size": additional_display_results,
-                    # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                    "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
-                    "sort": custom_search_sorting+['_score'],
-                    "track_total_hits": False,
-                    "timeout": ES_TIMEOUT,
-                },
             ]
         ))
     except Exception as err:
@@ -3900,10 +3880,9 @@ def search_page():
         had_primary_es_timeout = True
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
-        if response.get('timed_out'):
+        if response.get('timed_out') or (response == {}):
             had_es_timeout = True
-    if search_results_raw['responses'][0].get('timed_out'):
-        had_primary_es_timeout = True
+            had_primary_es_timeout = True
     primary_response_raw = search_results_raw['responses'][0]
 
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
@@ -3976,20 +3955,66 @@ def search_page():
 
     additional_search_aarecords = []
     if len(search_aarecords) < max_display_results:
+        search_names2 = ['search2', 'search3', 'search4']
+        search_results_raw2 = {'responses': [{} for search_name in search_names2]}
+        try:
+            search_results_raw2 = dict(es_handle.msearch(
+                request_timeout=1,
+                max_concurrent_searches=64,
+                max_concurrent_shard_requests=64,
+                searches=[
+                    # For partial matches, first try our original query again but this time without filters.
+                    { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                    {
+                        "size": additional_display_results,
+                        "query": search_query,
+                        "sort": custom_search_sorting+['_score'],
+                        "track_total_hits": False,
+                        "timeout": ES_TIMEOUT,
+                    },
+                    # Then do an "OR" query, but this time with the filters again.
+                    { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                    {
+                        "size": additional_display_results,
+                        # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                        "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
+                        "sort": custom_search_sorting+['_score'],
+                        "track_total_hits": False,
+                        "timeout": ES_TIMEOUT,
+                    },
+                    # If we still don't have enough, do another OR query but this time without filters.
+                    { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                    {
+                        "size": additional_display_results,
+                        # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                        "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
+                        "sort": custom_search_sorting+['_score'],
+                        "track_total_hits": False,
+                        "timeout": ES_TIMEOUT,
+                    },
+                ]
+            ))
+        except Exception as err:
+            had_es_timeout = True
+        for num, response in enumerate(search_results_raw2['responses']):
+            es_stats.append({ 'name': search_names2[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
+            if response.get('timed_out'):
+                had_es_timeout = True
+
         seen_ids = set([aarecord['id'] for aarecord in search_aarecords])
-        search_result2_raw = search_results_raw['responses'][1]
+        search_result2_raw = search_results_raw2['responses'][0]
         if 'hits' in search_result2_raw:
             additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result2_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
         if len(additional_search_aarecords) < additional_display_results:
             seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
-            search_result3_raw = search_results_raw['responses'][2]
+            search_result3_raw = search_results_raw2['responses'][1]
             if 'hits' in search_result3_raw:
                 additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result3_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
             if len(additional_search_aarecords) < additional_display_results:
                 seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
-                search_result4_raw = search_results_raw['responses'][3]
+                search_result4_raw = search_results_raw2['responses'][2]
                 if 'hits' in search_result4_raw:
                     additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result4_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
