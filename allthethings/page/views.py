@@ -3846,7 +3846,8 @@ def search_page():
 
     es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
 
-    search_results_raw = {}
+    search_names = ['search1_primary', 'search2', 'search3', 'search4']
+    search_results_raw = {'responses': [{} for search_name in search_names]}
     try:
         search_results_raw = dict(es_handle.msearch(
             request_timeout=5,
@@ -3897,7 +3898,6 @@ def search_page():
     except Exception as err:
         had_es_timeout = True
         had_primary_es_timeout = True
-    search_names = ['search1_primary', 'search2', 'search3', 'search4']
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
         if response.get('timed_out'):
