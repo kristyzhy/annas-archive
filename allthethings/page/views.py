@@ -30,6 +30,7 @@ import hashlib
 import shortuuid
 import pymysql.cursors
 import cachetools
+import time
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
 from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaIa202306Metadata, AaIa202306Files, Ia2Records, Ia2AcsmpdfFiles, MariapersistSmallFiles
@@ -64,9 +65,9 @@ search_filtered_bad_aarecord_ids = [
     "md5:ca10d6b2ee5c758955ff468591ad67d9",
 ]
 
-ES_TIMEOUT_PRIMARY = "3s"
+ES_TIMEOUT_PRIMARY = "2s"
 ES_TIMEOUT_ALL_AGG = "10s"
-ES_TIMEOUT = "300ms"
+ES_TIMEOUT = "500ms"
 
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
 # because https://openlibrary.org/languages.json doesn't seem to give a complete list? (And ?limit=.. doesn't seem to work.)
@@ -3738,6 +3739,7 @@ def all_search_aggs(display_lang, search_index_long):
 @page.get("/search")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def search_page():
+    search_page_timer = time.perf_counter()
     had_es_timeout = False
     had_primary_es_timeout = False
     es_stats = []
@@ -3840,29 +3842,69 @@ def search_page():
     }
 
     max_display_results = 200
-    max_additional_display_results = 50
+    additional_display_results = 50
 
     es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
-    
+
     search_results_raw = {}
     try:
-        search_results_raw = es_handle.search(
-            index=allthethings.utils.all_virtshards_for_index(search_index_long),
-            size=max_display_results, 
-            query=search_query,
-            aggs=search_query_aggs(search_index_long),
-            post_filter={ "bool": { "filter": post_filter } },
-            sort=custom_search_sorting+['_score'],
-            track_total_hits=False,
-            timeout=ES_TIMEOUT_PRIMARY,
-        )
+        search_results_raw = dict(es_handle.msearch(
+            request_timeout=5,
+            max_concurrent_searches=64,
+            max_concurrent_shard_requests=64,
+            searches=[
+                { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                {
+                    "size": max_display_results, 
+                    "query": search_query,
+                    "aggs": search_query_aggs(search_index_long),
+                    "post_filter": { "bool": { "filter": post_filter } },
+                    "sort": custom_search_sorting+['_score'],
+                    "track_total_hits": False,
+                    "timeout": ES_TIMEOUT_PRIMARY,
+                },
+                # For partial matches, first try our original query again but this time without filters.
+                { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                {
+                    "size": additional_display_results,
+                    "query": search_query,
+                    "sort": custom_search_sorting+['_score'],
+                    "track_total_hits": False,
+                    "timeout": ES_TIMEOUT,
+                },
+                # Then do an "OR" query, but this time with the filters again.
+                { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                {
+                    "size": additional_display_results,
+                    # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                    "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
+                    "sort": custom_search_sorting+['_score'],
+                    "track_total_hits": False,
+                    "timeout": ES_TIMEOUT,
+                },
+                # If we still don't have enough, do another OR query but this time without filters.
+                { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                {
+                    "size": additional_display_results,
+                    # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                    "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
+                    "sort": custom_search_sorting+['_score'],
+                    "track_total_hits": False,
+                    "timeout": ES_TIMEOUT,
+                },
+            ]
+        ))
     except Exception as err:
         had_es_timeout = True
         had_primary_es_timeout = True
-    if search_results_raw.get('timed_out'):
-        had_es_timeout = True
+    search_names = ['search1_primary', 'search2', 'search3', 'search4']
+    for num, response in enumerate(search_results_raw['responses']):
+        es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
+        if response.get('timed_out'):
+            had_es_timeout = True
+    if search_results_raw['responses'][0].get('timed_out'):
         had_primary_es_timeout = True
-    es_stats.append({ 'name': 'search1_primary', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
+    primary_response_raw = search_results_raw['responses'][0]
 
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
     all_aggregations, all_aggregations_es_stat = all_search_aggs(display_lang, search_index_long)
@@ -3885,17 +3927,17 @@ def search_page():
             doc_counts['search_access_types'][bucket['key']] = bucket['doc_count']
         for bucket in all_aggregations['search_record_sources']:
             doc_counts['search_record_sources'][bucket['key']] = bucket['doc_count']
-    elif 'aggregations' in search_results_raw:
-        if 'search_most_likely_language_code' in search_results_raw['aggregations']:
-            for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
+    elif 'aggregations' in primary_response_raw:
+        if 'search_most_likely_language_code' in primary_response_raw['aggregations']:
+            for bucket in primary_response_raw['aggregations']['search_most_likely_language_code']['buckets']:
                 doc_counts['search_most_likely_language_code'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
-        for bucket in search_results_raw['aggregations']['search_content_type']['buckets']:
+        for bucket in primary_response_raw['aggregations']['search_content_type']['buckets']:
             doc_counts['search_content_type'][bucket['key']] = bucket['doc_count']
-        for bucket in search_results_raw['aggregations']['search_extension']['buckets']:
+        for bucket in primary_response_raw['aggregations']['search_extension']['buckets']:
             doc_counts['search_extension'][bucket['key'] if bucket['key'] != '' else '_empty'] = bucket['doc_count']
-        for bucket in search_results_raw['aggregations']['search_access_types']['buckets']:
+        for bucket in primary_response_raw['aggregations']['search_access_types']['buckets']:
             doc_counts['search_access_types'][bucket['key']] = bucket['doc_count']
-        for bucket in search_results_raw['aggregations']['search_record_sources']['buckets']:
+        for bucket in primary_response_raw['aggregations']['search_record_sources']['buckets']:
             doc_counts['search_record_sources'][bucket['key']] = bucket['doc_count']
 
     aggregations = {}
@@ -3929,93 +3971,37 @@ def search_page():
     aggregations['search_most_likely_language_code'] = sorted(aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
 
     search_aarecords = []
-    if 'hits' in search_results_raw:
-        search_aarecords = [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+    if 'hits' in primary_response_raw:
+        search_aarecords = [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in primary_response_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
-    max_search_aarecords_reached = False
-    max_additional_search_aarecords_reached = False
     additional_search_aarecords = []
-
-    if (len(search_aarecords) < max_display_results) and (not had_es_timeout):
-        # For partial matches, first try our original query again but this time without filters.
+    if len(search_aarecords) < max_display_results:
         seen_ids = set([aarecord['id'] for aarecord in search_aarecords])
-        search_results_raw = {}
-        try:
-            search_results_raw = es_handle.search(
-                index=allthethings.utils.all_virtshards_for_index(search_index_long), 
-                size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already., 
-                query=search_query,
-                sort=custom_search_sorting+['_score'],
-                track_total_hits=False,
-                timeout=ES_TIMEOUT,
-            )
-        except Exception as err:
-            had_es_timeout = True
-        if search_results_raw.get('timed_out'):
-            had_es_timeout = True
-        es_stats.append({ 'name': 'search2', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
-        if 'hits' in search_results_raw:
-            if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
-                max_additional_search_aarecords_reached = True
-            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+        search_result2_raw = search_results_raw['responses'][1]
+        if 'hits' in search_result2_raw:
+            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result2_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
-        # Then do an "OR" query, but this time with the filters again.
-        if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and (not had_es_timeout):
+        if len(additional_search_aarecords) < additional_display_results:
             seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
-            search_results_raw = {}
-            try:
-                search_results_raw = es_handle.search(
-                    index=allthethings.utils.all_virtshards_for_index(search_index_long),
-                    size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
-                    # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                    query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
-                    sort=custom_search_sorting+['_score'],
-                    track_total_hits=False,
-                    timeout=ES_TIMEOUT,
-                )
-            except Exception as err:
-                had_es_timeout = True
-            if search_results_raw.get('timed_out'):
-                had_es_timeout = True
-            es_stats.append({ 'name': 'search3', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
-            if 'hits' in search_results_raw:
-                if len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results:
-                    max_additional_search_aarecords_reached = True
-                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+            search_result3_raw = search_results_raw['responses'][2]
+            if 'hits' in search_result3_raw:
+                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result3_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
-            # If we still don't have enough, do another OR query but this time without filters.
-            if (len(search_aarecords) + len(additional_search_aarecords) < max_display_results) and not had_es_timeout:
+            if len(additional_search_aarecords) < additional_display_results:
                 seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
-                search_results_raw = {}
-                try:
-                    search_results_raw = es_handle.search(
-                        index=allthethings.utils.all_virtshards_for_index(search_index_long),
-                        size=len(seen_ids)+max_additional_display_results, # This way, we'll never filter out more than "max_display_results" results because we have seen them already.
-                        # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                        query={"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
-                        sort=custom_search_sorting+['_score'],
-                        track_total_hits=False,
-                        timeout=ES_TIMEOUT,
-                    )
-                except Exception as err:
-                    had_es_timeout = True
-                if search_results_raw.get('timed_out'):
-                    had_es_timeout = True
-                es_stats.append({ 'name': 'search4', 'took': search_results_raw.get('took'), 'timed_out': search_results_raw.get('timed_out') })
-                if 'hits' in search_results_raw:
-                    if (len(seen_ids)+len(search_results_raw['hits']['hits']) >= max_additional_display_results) and (not had_es_timeout):
-                        max_additional_search_aarecords_reached = True
-                    additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
-    else:
-        max_search_aarecords_reached = True
+                search_result4_raw = search_results_raw['responses'][3]
+                if 'hits' in search_result4_raw:
+                    additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result4_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
     # had_fatal_es_timeout = had_es_timeout and len(search_aarecords) == 0
+
+    es_stats.append({ 'name': 'search_page_timer', 'took': (time.perf_counter() - search_page_timer) * 1000, 'timed_out': False })
     
     search_dict = {}
     search_dict['search_aarecords'] = search_aarecords[0:max_display_results]
-    search_dict['additional_search_aarecords'] = additional_search_aarecords[0:max_additional_display_results]
-    search_dict['max_search_aarecords_reached'] = max_search_aarecords_reached
-    search_dict['max_additional_search_aarecords_reached'] = max_additional_search_aarecords_reached
+    search_dict['additional_search_aarecords'] = additional_search_aarecords[0:additional_display_results]
+    search_dict['max_search_aarecords_reached'] = (len(search_aarecords) >= max_display_results)
+    search_dict['max_additional_search_aarecords_reached'] = (len(additional_search_aarecords) >= additional_display_results)
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
     search_dict['search_index_short'] = search_index_short

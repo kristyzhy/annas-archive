@@ -1,4 +1,5 @@
 import os
+import random
 
 from flask_babel import Babel
 from flask_debugtoolbar import DebugToolbarExtension
@@ -16,24 +17,30 @@ Base = declarative_base()
 babel = Babel()
 mail = Mail()
 
-if len(ELASTICSEARCH_HOST_PREFERRED) > 0:
-    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST_PREFERRED,ELASTICSEARCH_HOST], max_retries=2, retry_on_timeout=True)
-else:
-    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST], max_retries=2, retry_on_timeout=True)
-
 class FallbackNodeSelector: # Selects only the first live node
     def __init__(self, node_configs):
         self.node_configs = node_configs
     def select(self, nodes):
-        for node_config in self.node_configs:
+        node_configs = list(self.node_configs)
+        reverse = (random.randint(0, 100) < 5)
+        if reverse:
+            node_configs.reverse() # Occasionally pick the fallback to check it.
+        for node_config in node_configs:
             for node in nodes:
                 if node.config == node_config:
+                    if node_config != self.node_configs[0]:
+                        print(f"FallbackNodeSelector warning: using fallback node! {reverse=} {node_config=}")
                     return node
         raise Exception("No node_config found!")
-if len(ELASTICSEARCHAUX_HOST_PREFERRED) > 0:
-    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST_PREFERRED,ELASTICSEARCHAUX_HOST], node_selector_class=FallbackNodeSelector, max_retries=2, retry_on_timeout=True)
+
+if len(ELASTICSEARCH_HOST_PREFERRED) > 0:
+    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST_PREFERRED,ELASTICSEARCH_HOST], node_selector_class=FallbackNodeSelector, max_retries=2, retry_on_timeout=True, http_compress=True, randomize_hosts=False)
 else:
-    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=2, retry_on_timeout=True)
+    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST], max_retries=2, retry_on_timeout=True, http_compress=False, randomize_hosts=False)
+if len(ELASTICSEARCHAUX_HOST_PREFERRED) > 0:
+    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST_PREFERRED,ELASTICSEARCHAUX_HOST], node_selector_class=FallbackNodeSelector, max_retries=2, retry_on_timeout=True, http_compress=True, randomize_hosts=False)
+else:
+    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=2, retry_on_timeout=True, http_compress=False, randomize_hosts=False)
 
 mariadb_user = os.getenv("MARIADB_USER", "allthethings")
 mariadb_password = os.getenv("MARIADB_PASSWORD", "password")

@@ -1017,7 +1017,7 @@ SEARCH_INDEX_TO_ES_MAPPING = {
     'aarecords_metadata': es_aux,
 }
 # TODO: Look into https://discuss.elastic.co/t/score-and-relevance-across-the-shards/5371
-ES_VIRTUAL_SHARDS_NUM = 12 # 32
+ES_VIRTUAL_SHARDS_NUM = 12
 def virtshard_for_hashed_aarecord_id(hashed_aarecord_id):
     return int.from_bytes(hashed_aarecord_id, byteorder='big', signed=False) % ES_VIRTUAL_SHARDS_NUM
 def virtshard_for_aarecord_id(aarecord_id):
