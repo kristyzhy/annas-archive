@@ -3842,9 +3842,11 @@ def search_page():
     max_display_results = 200
     max_additional_display_results = 50
 
+    es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
+    
     search_results_raw = {}
     try:
-        search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(
+        search_results_raw = es_handle.search(
             index=allthethings.utils.all_virtshards_for_index(search_index_long),
             size=max_display_results, 
             query=search_query,
@@ -3865,7 +3867,6 @@ def search_page():
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
     all_aggregations, all_aggregations_es_stat = all_search_aggs(display_lang, search_index_long)
     es_stats.append(all_aggregations_es_stat)
-    es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
 
     doc_counts = {}
     doc_counts['search_most_likely_language_code'] = {}
