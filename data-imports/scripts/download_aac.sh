@@ -14,9 +14,11 @@ curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/zlib3_record
 curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/zlib3_files.torrent
 curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/ia2_records.torrent
 curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/ia2_acsmpdf_files.torrent
+curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/duxiu_records.torrent
 
 # Tried ctorrent and aria2, but webtorrent seems to work best overall.
 webtorrent download zlib3_records.torrent
 webtorrent download zlib3_files.torrent
 webtorrent download ia2_records.torrent
 webtorrent download ia2_acsmpdf_files.torrent
+webtorrent download duxiu_records.torrent
