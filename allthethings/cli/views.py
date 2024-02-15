@@ -638,12 +638,12 @@ def elastic_build_aarecords_oclc_internal():
                         os._exit(1)
                 if len(batch) == 0:
                     break
+                if total >= MAX_WORLDCAT:
+                    break
                 print(f"Processing with {THREADS=} {len(batch)=} aarecords from oclc (worldcat) file ( starting oclc_id: {batch[0][0]} )...")
                 last_map = executor.map_async(elastic_build_aarecords_job_oclc, more_itertools.ichunked(batch, CHUNK_SIZE))
                 pbar.update(len(batch))
                 total += len(batch)
-                if total >= MAX_WORLDCAT:
-                    break
     print(f"Done with WorldCat!")
 
 #################################################################################################
