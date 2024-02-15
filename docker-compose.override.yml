@@ -33,6 +33,7 @@ services:
       - "mynetwork"
     volumes:
       - "./annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.small.seekable.zst:/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst"
+      - "../annas-archive-dev--temp-dir:/temp-dir"
 
   elasticsearch:
     # ports:
