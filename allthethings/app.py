@@ -238,8 +238,10 @@ def extensions(app):
 
         g.last_data_refresh_date = last_data_refresh_date()
         doc_counts = {content_type['key']: content_type['doc_count'] for content_type in all_search_aggs('en', 'aarecords')[0]['search_content_type']}
-        doc_counts['total'] = sum(doc_counts.values())
-        doc_counts['journal_article'] = doc_counts.get('journal_article') or 0
+        doc_counts_journals = {content_type['key']: content_type['doc_count'] for content_type in all_search_aggs('en', 'aarecords_journals')[0]['search_content_type']}
+        doc_counts['total_without_journals'] = sum(doc_counts.values())
+        doc_counts['journal_article'] = doc_counts_journals.get('journal_article') or 0
+        doc_counts['total'] = doc_counts['total_without_journals'] + doc_counts['journal_article']
         doc_counts['book_comic'] = doc_counts.get('book_comic') or 0
         doc_counts['magazine'] = doc_counts.get('magazine') or 0
         doc_counts['book_any'] = (doc_counts.get('book_unknown') or 0) + (doc_counts.get('book_fiction') or 0) + (doc_counts.get('book_nonfiction') or 0)

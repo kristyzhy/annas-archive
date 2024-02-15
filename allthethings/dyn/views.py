@@ -652,7 +652,8 @@ def search_counts_page():
         }
 
     multi_searches_by_es_handle = collections.defaultdict(list)
-    for search_index in list(set(allthethings.utils.AARECORD_PREFIX_SEARCH_INDEX_MAPPING.values())):
+    indexes = list(allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values())
+    for search_index in indexes:
         multi_searches = multi_searches_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index]]
         multi_searches.append({ "index": allthethings.utils.all_virtshards_for_index(search_index) })
         if search_query is None:
@@ -660,7 +661,6 @@ def search_counts_page():
         else:
             multi_searches.append({ "size": 0, "query": search_query, "track_total_hits": 100, "timeout": ES_TIMEOUT_PRIMARY })
 
-    indexes = list(allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING.values())
     total_by_index_long = {index: {'value': -1, 'relation': ''} for index in indexes}
     any_timeout = False
     try:

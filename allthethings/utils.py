@@ -1000,19 +1000,36 @@ def merge_unified_fields(list_of_fields_unified):
 
 SEARCH_INDEX_SHORT_LONG_MAPPING = {
     '': 'aarecords',
+    'journals': 'aarecords_journals',
     'digital_lending': 'aarecords_digital_lending',
     'meta': 'aarecords_metadata',
 }
-AARECORD_PREFIX_SEARCH_INDEX_MAPPING = {
-    'md5': 'aarecords',
-    'doi': 'aarecords',
-    'ia': 'aarecords_digital_lending',
-    'isbn': 'aarecords_metadata',
-    'ol': 'aarecords_metadata',
-    'oclc': 'aarecords_metadata',
-}
+def get_aarecord_id_prefix_is_metadata(id_prefix):
+    return (id_prefix in ['isbn', 'ol', 'oclc'])
+def get_aarecord_search_indexes_for_id_prefix(id_prefix):
+    if get_aarecord_id_prefix_is_metadata(id_prefix):
+        return ['aarecords_metadata']
+    elif id_prefix == 'ia':
+        return ['aarecords_digital_lending']
+    elif id_prefix in ['md5', 'doi']:
+        return ['aarecords', 'aarecords_journals']
+    else:
+        raise Exception(f"Unknown aarecord_id prefix: {aarecord_id}")
+def get_aarecord_search_index(id_prefix, content_type):
+    if get_aarecord_id_prefix_is_metadata(id_prefix):
+        return 'aarecords_metadata'
+    elif id_prefix == 'ia':
+        return 'aarecords_digital_lending'
+    elif id_prefix in ['md5', 'doi']:
+        if content_type == 'journal_article':
+            return 'aarecords_journals'
+        else:
+            return 'aarecords'
+    else:
+        raise Exception(f"Unknown aarecord_id prefix: {aarecord_id}")
 SEARCH_INDEX_TO_ES_MAPPING = {
     'aarecords': es,
+    'aarecords_journals': es,
     'aarecords_digital_lending': es_aux,
     'aarecords_metadata': es_aux,
 }
