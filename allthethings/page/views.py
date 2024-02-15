@@ -344,8 +344,8 @@ def get_stats_data():
             max_concurrent_searches=10,
             max_concurrent_shard_requests=10,
             searches=[
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
-                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals") },
                 { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
                 # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
                 { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
@@ -353,7 +353,6 @@ def get_stats_data():
                     "track_total_hits": True,
                     "timeout": "20s",
                     "size": 0,
-                    "query": { "bool": { "must_not": [{ "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } }] } },
                     "aggs": {
                         "search_record_sources": {
                             "terms": { "field": "search_only_fields.search_record_sources" },
@@ -364,26 +363,24 @@ def get_stats_data():
                         },
                     },
                 },
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
-                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals") },
                 {
                     "track_total_hits": True,
                     "timeout": "20s",
                     "size": 0,
-                    "query": { "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } },
                     "aggs": { "search_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } },
                 },
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
-                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals") },
                 {
                     "track_total_hits": True,
                     "timeout": "20s",
                     "size": 0,
-                    "query": { "term": { "search_only_fields.search_content_type": { "value": "journal_article" } } },
                     "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
                 },
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
-                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
+                # { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals") },
                 {
                     "track_total_hits": True,
                     "timeout": "20s",
@@ -3476,7 +3473,7 @@ def scidb_page(doi_input):
     with Session(engine) as session:
         try:
             search_results_raw = es.search(
-                index=allthethings.utils.all_virtshards_for_index("aarecords"),
+                index=allthethings.utils.all_virtshards_for_index("aarecords") + allthethings.utils.all_virtshards_for_index("aarecords_journals"),
                 size=50,
                 query={ "term": { "search_only_fields.search_doi": doi_input } },
                 timeout=ES_TIMEOUT_PRIMARY,
