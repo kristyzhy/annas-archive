@@ -87,6 +87,7 @@ services:
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     stop_grace_period: "3s"
     command: "--init-file /etc/mysql/conf.d/init.sql"
+    # command: "--init-file /etc/mysql/conf.d/init.sql --tc-heuristic-recover=ROLLBACK"
     # entrypoint: mysqld_safe --skip-grant-tables --user=mysql
     volumes:
       - "../allthethings-mariapersist-data:/var/lib/mysql/"

@@ -686,7 +686,7 @@ def torrents_page():
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(mariapersist_torrent_scrapes.seeders < 4, 0, IF(mariapersist_torrent_scrapes.seeders < 11, 1, 2)) AS seeder_group, mariapersist_small_files.data_size / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes FORCE INDEX (created_date_file_path_seeders) JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created_date > NOW() - INTERVAL 60 DAY GROUP BY created_date, file_path) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
+        cursor.execute('SELECT * FROM mariapersist_torrent_scrapes_histogram WHERE day > DATE_FORMAT(NOW() - INTERVAL 60 DAY, "%Y-%m-%d") ORDER BY day, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
 
         show_external = request.args.get("show_external", "").strip() == "1"
@@ -3874,6 +3874,7 @@ def search_page():
     except Exception as err:
         had_es_timeout = True
         had_primary_es_timeout = True
+        print(f"Exception during primary ES search: ///// {repr(err)} ///// {traceback.format_exc()}\n")
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
         if response.get('timed_out') or (response == {}):
@@ -3992,6 +3993,7 @@ def search_page():
             ))
         except Exception as err:
             had_es_timeout = True
+            print(f"Exception during secondary ES search: ///// {repr(err)} ///// {traceback.format_exc()}\n")
         for num, response in enumerate(search_results_raw2['responses']):
             es_stats.append({ 'name': search_names2[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
             if response.get('timed_out'):

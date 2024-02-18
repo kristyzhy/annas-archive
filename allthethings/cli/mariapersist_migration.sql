@@ -185,6 +185,25 @@ ALTER TABLE mariapersist_torrent_scrapes ADD INDEX `created_date_file_path_seede
 INSERT INTO `mariapersist_torrent_scrapes` (file_path, created, created_date, metadata) VALUES
 ('torrents/managed_by_aa/libgenli_comics/aa_lgli_comics_2022_08_files.sql.gz.torrent','2023-07-17 22:52:47','2023-07-17','{"scrape":{"seeders":2,"completed":75,"leechers":1}}');
 
+CREATE TABLE mariapersist_torrent_scrapes_histogram (
+    `day` CHAR(20) NOT NULL,
+    `seeder_group` TINYINT NOT NULL,
+    `total_tb` DOUBLE NOT NULL,
+    PRIMARY KEY (`day`, `seeder_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin (SELECT 
+    DATE_FORMAT(created_date, "%Y-%m-%d") AS day, 
+    seeder_group, 
+    SUM(size_tb) AS total_tb FROM (
+        SELECT file_path,
+        IF(mariapersist_torrent_scrapes.seeders < 4, 0, IF(mariapersist_torrent_scrapes.seeders < 11, 1, 2)) AS seeder_group, 
+        mariapersist_small_files.data_size / 1000000000000 AS size_tb, 
+        created_date 
+        FROM mariapersist_torrent_scrapes FORCE INDEX (created_date_file_path_seeders)
+        JOIN mariapersist_small_files USING (file_path) 
+        GROUP BY created_date, file_path
+    ) s 
+    GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 5000);
+
 -- CREATE TABLE mariapersist_searches (
 --     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 --     `search_input` BINARY(100) NOT NULL,
