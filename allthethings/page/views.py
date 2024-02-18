@@ -3874,7 +3874,7 @@ def search_page():
     except Exception as err:
         had_es_timeout = True
         had_primary_es_timeout = True
-        print(f"Exception during primary ES search: ///// {repr(err)} ///// {traceback.format_exc()}\n")
+        print(f"Exception during primary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
         if response.get('timed_out') or (response == {}):
@@ -3956,7 +3956,7 @@ def search_page():
         search_results_raw2 = {'responses': [{} for search_name in search_names2]}
         try:
             search_results_raw2 = dict(es_handle.msearch(
-                request_timeout=1,
+                request_timeout=3,
                 max_concurrent_searches=64,
                 max_concurrent_shard_requests=64,
                 searches=[
@@ -3993,7 +3993,7 @@ def search_page():
             ))
         except Exception as err:
             had_es_timeout = True
-            print(f"Exception during secondary ES search: ///// {repr(err)} ///// {traceback.format_exc()}\n")
+            print(f"Exception during secondary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
         for num, response in enumerate(search_results_raw2['responses']):
             es_stats.append({ 'name': search_names2[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
             if response.get('timed_out'):
@@ -4030,6 +4030,7 @@ def search_page():
     search_dict['search_index_short'] = search_index_short
     search_dict['es_stats'] = es_stats
     search_dict['had_primary_es_timeout'] = had_primary_es_timeout
+    search_dict['had_es_timeout'] = had_es_timeout
     # search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
 
     # status = 404 if had_fatal_es_timeout else 200 # So we don't cache
@@ -4046,6 +4047,6 @@ def search_page():
                 'isbn_page': isbn_page,
             }
         ), status))
-    if had_primary_es_timeout:
+    if had_es_timeout:
         r.headers.add('Cache-Control', 'no-cache')
     return r
