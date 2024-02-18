@@ -3742,7 +3742,7 @@ def all_search_aggs(display_lang, search_index_long):
 
 
 @page.get("/search")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def search_page():
     search_page_timer = time.perf_counter()
     had_es_timeout = False
