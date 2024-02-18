@@ -2160,6 +2160,84 @@ def oclc_oclc_json(oclc):
             return "{}", 404
         return nice_json(oclc_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
+def get_duxiu_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+    if key != 'duxiu_ssid':
+        raise Exception(f"Unexpected 'key' in get_duxiu_dicts: '{key}'")
+
+    aac_records_by_primary_id = collections.defaultdict(list)
+    try:
+        session.connection().connection.ping(reconnect=True)
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(f'SELECT * FROM annas_archive_meta__aacid__duxiu_records WHERE primary_id IN %(values)s', { "values": [f'duxiu_ssid_{value}' for value in values] })
+        for aac_record in cursor.fetchall():
+            aac_records_by_primary_id[aac_record['primary_id']].append({
+                **aac_record,
+                "metadata": orjson.loads(aac_record['metadata']),
+            })
+    except Exception as err:
+        print(f"Error in get_duxiu_dicts when querying {key}; {values}")
+        print(repr(err))
+        traceback.print_tb(err.__traceback__)
+
+    duxiu_dicts = []
+    for primary_id, aac_records in aac_records_by_primary_id.items():
+        if any([record['metadata']['type'] == 'dx_20240122__books' for record in aac_records]) and not any([record['metadata']['type'] == '512w_final_csv' for record in aac_records]):
+            # 512w_final_csv has a bunch of incorrect records from dx_20240122__books deleted.
+            continue
+
+        duxiu_dict = {}
+        duxiu_dict['duxiu_ssid'] = primary_id.replace('duxiu_ssid', '')
+        duxiu_dict['aa_duxiu_derived'] = {}
+        duxiu_dict['aa_duxiu_derived']['source_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['title_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['author_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['publisher_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['year_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['isbn_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['issn_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['csbn_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['dxid_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['md5_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['filepath_multiple'] = []
+        duxiu_dict['aac_records'] = aac_records
+
+        for aac_record in aac_records:
+            if aac_record['metadata']['type'] == 'dx_20240122__books':
+                duxiu_dict['aa_duxiu_derived']['source_multiple'].append(aac_record['metadata']['record']['source'])
+
+        # original_filename
+        duxiu_dict_comments = {
+            **allthethings.utils.COMMON_DICT_COMMENTS,
+            "duxiu_ssid": ("before", ["This is a DuXiu metadata record.",
+                                "More details at https://annas-archive.org/datasets/duxiu",
+                                allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+        }
+        duxiu_dicts.append(add_comments_to_dict(duxiu_dict, duxiu_dict_comments))
+    return duxiu_dicts
+
+# Good examples:
+# select primary_id, count(*) as c, group_concat(json_extract(metadata, '$.type')) as type from annas_archive_meta__aacid__duxiu_records group by primary_id order by c desc limit 100;
+# duxiu_ssid_10000431    |        3 | "dx_20240122__books","dx_20240122__remote_files","512w_final_csv"
+# cadal_ssno_06G48911    |        2 | "cadal_table__site_journal_items","cadal_table__sa_newspaper_items"
+# cadal_ssno_01000257    |        2 | "cadal_table__site_book_collection_items","cadal_table__sa_collection_items"
+# cadal_ssno_06G48910    |        2 | "cadal_table__sa_newspaper_items","cadal_table__site_journal_items"
+# cadal_ssno_ZY297043388 |        2 | "cadal_table__sa_collection_items","cadal_table__books_aggregation"
+# cadal_ssno_01000001    |        2 | "cadal_table__books_solr","cadal_table__books_detail"
+# duxiu_ssid_11454502    |        1 | "dx_toc_db__dx_toc"
+# 
+@page.get("/db/duxiu/<path:duxiu_ssid>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def duxiu_ssid_json(duxiu_ssid):
+    with Session(engine) as session:
+        duxiu_dicts = get_duxiu_dicts(session, 'duxiu_ssid', [duxiu_ssid])
+        if len(duxiu_dicts) == 0:
+            return "{}", 404
+        return nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+
 def is_string_subsequence(needle, haystack):
     i_needle = 0
     i_haystack = 0
