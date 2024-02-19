@@ -101,16 +101,14 @@
 
           <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4" type="submit">{{ gettext('page.search.submit') }}</button>
 
-          {% if search_dict.had_primary_es_timeout %}
-            {% if search_dict.max_search_aarecords_reached %}
-              <div class="mb-4 text-xs text-gray-500">
-                {{ gettext('page.search.too_long_broad_query') }}
-              </div>
-            {% else %}
-              <div class="mb-4 text-xs text-gray-500 max-sm:hidden">
-                {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
-              </div>
-            {% endif %}
+          {% if search_dict.had_primary_es_timeout and search_dict.max_search_aarecords_reached %}
+            <div class="mb-4 text-xs text-gray-500">
+              {{ gettext('page.search.too_long_broad_query') }}
+            </div>
+          {% elif search_dict.had_es_timeout %}
+            <div class="mb-4 text-xs text-gray-500 max-sm:hidden">
+              {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
+            </div>
           {% endif %}
 
           <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
@@ -182,7 +180,7 @@
             <p class="my-4">That looks like it might be an Open Library Edition ID. <a href="/ol/{{ redirect_pages.ol_page | urlencode }}">View our Open Library data page for “{{ redirect_pages.ol_page }}”.</a></p>
           {% endif %} -->
 
-          {% if search_dict.had_primary_es_timeout and (not search_dict.max_search_aarecords_reached) %}
+          {% if search_dict.had_es_timeout and (not search_dict.max_search_aarecords_reached) %}
             <div class="mt-4 text-sm text-gray-500 sm:hidden">
               {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
             </div>

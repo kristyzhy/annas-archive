@@ -686,7 +686,7 @@ def torrents_page():
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT DATE_FORMAT(created_date, "%Y-%m-%d") AS day, seeder_group, SUM(size_tb) AS total_tb FROM (SELECT file_path, IF(mariapersist_torrent_scrapes.seeders < 4, 0, IF(mariapersist_torrent_scrapes.seeders < 11, 1, 2)) AS seeder_group, mariapersist_small_files.data_size / 1000000000000 AS size_tb, created_date FROM mariapersist_torrent_scrapes FORCE INDEX (created_date_file_path_seeders) JOIN mariapersist_small_files USING (file_path) WHERE mariapersist_torrent_scrapes.created_date > NOW() - INTERVAL 60 DAY GROUP BY created_date, file_path) s GROUP BY created_date, seeder_group ORDER BY created_date, seeder_group LIMIT 500')
+        cursor.execute('SELECT * FROM mariapersist_torrent_scrapes_histogram WHERE day > DATE_FORMAT(NOW() - INTERVAL 60 DAY, "%Y-%m-%d") ORDER BY day, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
 
         show_external = request.args.get("show_external", "").strip() == "1"
@@ -3820,7 +3820,7 @@ def all_search_aggs(display_lang, search_index_long):
 
 
 @page.get("/search")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def search_page():
     search_page_timer = time.perf_counter()
     had_es_timeout = False
@@ -3952,6 +3952,7 @@ def search_page():
     except Exception as err:
         had_es_timeout = True
         had_primary_es_timeout = True
+        print(f"Exception during primary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
         if response.get('timed_out') or (response == {}):
@@ -4033,7 +4034,7 @@ def search_page():
         search_results_raw2 = {'responses': [{} for search_name in search_names2]}
         try:
             search_results_raw2 = dict(es_handle.msearch(
-                request_timeout=1,
+                request_timeout=3,
                 max_concurrent_searches=64,
                 max_concurrent_shard_requests=64,
                 searches=[
@@ -4070,6 +4071,7 @@ def search_page():
             ))
         except Exception as err:
             had_es_timeout = True
+            print(f"Exception during secondary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
         for num, response in enumerate(search_results_raw2['responses']):
             es_stats.append({ 'name': search_names2[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
             if response.get('timed_out'):
@@ -4106,6 +4108,7 @@ def search_page():
     search_dict['search_index_short'] = search_index_short
     search_dict['es_stats'] = es_stats
     search_dict['had_primary_es_timeout'] = had_primary_es_timeout
+    search_dict['had_es_timeout'] = had_es_timeout
     # search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
 
     # status = 404 if had_fatal_es_timeout else 200 # So we don't cache
@@ -4122,6 +4125,6 @@ def search_page():
                 'isbn_page': isbn_page,
             }
         ), status))
-    if had_primary_es_timeout:
+    if had_es_timeout:
         r.headers.add('Cache-Control', 'no-cache')
     return r
