@@ -49,12 +49,15 @@ def validate_ol_editions(ol_editions):
 def validate_oclc_ids(oclc_ids):
     return all([str(oclc_id).isdigit() for oclc_id in oclc_ids])
 
+def validate_duxiu_ssids(duxiu_ssids):
+    return all([str(duxiu_ssid).isdigit() for duxiu_ssid in duxiu_ssids])
+
 def validate_aarecord_ids(aarecord_ids):
     try:
         split_ids = split_aarecord_ids(aarecord_ids)
     except:
         return False
-    return validate_canonical_md5s(split_ids['md5']) and validate_ol_editions(split_ids['ol']) and validate_oclc_ids(split_ids['oclc'])
+    return validate_canonical_md5s(split_ids['md5']) and validate_ol_editions(split_ids['ol']) and validate_oclc_ids(split_ids['oclc']) and validate_duxiu_ssids(split_ids['duxiu_ssid'])
 
 def split_aarecord_ids(aarecord_ids):
     ret = {
@@ -64,6 +67,7 @@ def split_aarecord_ids(aarecord_ids):
         'ol': [],
         'doi': [],
         'oclc': [],
+        'duxiu_ssid': [],
     }
     for aarecord_id in aarecord_ids:
         split_aarecord_id = aarecord_id.split(':', 1)
@@ -763,6 +767,11 @@ UNIFIED_IDENTIFIERS = {
     "lgrsfic": { "label": "Libgen.rs Fiction", "url": "https://libgen.rs/fiction/", "description": "" },
     "lgli": { "label": "Libgen.li File", "url": "https://libgen.li/file.php?id=%s", "description": "" },
     "zlib": { "label": "Z-Library", "url": "https://1lib.sk", "description": "" },
+    # TODO: Add URL/description for these.
+    "csbn": { "label": "CSBN", "url": "", "description": "" },
+    "ean13": { "label": "EAN-13", "url": "", "description": "" },
+    "duxiu_ssid": { "label": "DuXiu SSID", "url": "", "description": "" },
+    "duxiu_dxid": { "label": "DuXiu DXID", "url": "", "description": "" },
     **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }
@@ -1005,7 +1014,7 @@ SEARCH_INDEX_SHORT_LONG_MAPPING = {
     'meta': 'aarecords_metadata',
 }
 def get_aarecord_id_prefix_is_metadata(id_prefix):
-    return (id_prefix in ['isbn', 'ol', 'oclc'])
+    return (id_prefix in ['isbn', 'ol', 'oclc', 'duxiu_ssid'])
 def get_aarecord_search_indexes_for_id_prefix(id_prefix):
     if get_aarecord_id_prefix_is_metadata(id_prefix):
         return ['aarecords_metadata']

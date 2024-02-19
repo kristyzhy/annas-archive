@@ -2188,16 +2188,18 @@ def get_duxiu_dicts(session, key, values):
             continue
 
         duxiu_dict = {}
-        duxiu_dict['duxiu_ssid'] = primary_id.replace('duxiu_ssid', '')
+        duxiu_dict['duxiu_ssid'] = primary_id.replace('duxiu_ssid_', '')
         duxiu_dict['aa_duxiu_derived'] = {}
         duxiu_dict['aa_duxiu_derived']['source_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['title_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['author_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['publisher_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['year_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['pages_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['isbn_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['issn_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['csbn_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['ean13_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['dxid_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['md5_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = []
@@ -2207,9 +2209,84 @@ def get_duxiu_dicts(session, key, values):
 
         for aac_record in aac_records:
             if aac_record['metadata']['type'] == 'dx_20240122__books':
-                duxiu_dict['aa_duxiu_derived']['source_multiple'].append(aac_record['metadata']['record']['source'])
+                if len(aac_record['metadata']['record'].get('source') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['dx_20240122__books', aac_record['metadata']['record']['source']])
+            elif aac_record['metadata']['type'] in ['512w_final_csv', 'DX_corrections240209_csv']:
+                if aac_record['metadata']['type'] == '512w_final_csv' and any([record['metadata']['type'] == 'DX_corrections240209_csv' for record in aac_records]):
+                    # Skip if there is also a correction.
+                    pass
 
-        # original_filename
+                if len(aac_record['metadata']['record'].get('title') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['title_multiple'].append(aac_record['metadata']['record']['title'])
+                if len(aac_record['metadata']['record'].get('author') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['author_multiple'].append(aac_record['metadata']['record']['author'])
+                if len(aac_record['metadata']['record'].get('publisher') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['publisher_multiple'].append(aac_record['metadata']['record']['publisher'])
+                if len(aac_record['metadata']['record'].get('year') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['year_multiple'].append(aac_record['metadata']['record']['year'])
+                if len(aac_record['metadata']['record'].get('pages') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['pages_multiple'].append(aac_record['metadata']['record']['pages'])
+                if len(aac_record['metadata']['record'].get('dx_id') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['dxid_multiple'].append(aac_record['metadata']['record']['dx_id'])
+
+                if len(aac_record['metadata']['record'].get('isbn') or '') > 0:    
+                    if aac_record['metadata']['record']['isbn_type'] in ['ISBN-13', 'ISBN-10']:
+                        duxiu_dict['aa_duxiu_derived']['isbn_multiple'].append(aac_record['metadata']['record']['isbn'])
+                    elif aac_record['metadata']['record']['isbn_type'] in ['ISSN-13', 'ISSN-8']:
+                        duxiu_dict['aa_duxiu_derived']['issn_multiple'].append(aac_record['metadata']['record']['isbn'])
+                    elif aac_record['metadata']['record']['isbn_type'] == 'CSBN':
+                        duxiu_dict['aa_duxiu_derived']['csbn_multiple'].append(aac_record['metadata']['record']['isbn'])
+                    elif aac_record['metadata']['record']['isbn_type'] == 'EAN-13':
+                        duxiu_dict['aa_duxiu_derived']['ean13_multiple'].append(aac_record['metadata']['record']['isbn'])
+                    elif aac_record['metadata']['record']['isbn_type'] == 'unknown':
+                        pass
+                    else:
+                        raise Exception(f"Unknown type of duxiu 512w_final_csv isbn_type {aac_record['metadata']['record']['isbn_type']=}")
+            elif aac_record['metadata']['type'] == 'dx_20240122__remote_files':
+                if len(aac_record['metadata']['record'].get('source') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['dx_20240122__remote_files', aac_record['metadata']['record']['source']])
+                if len(aac_record['metadata']['record'].get('dx_id') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['dxid_multiple'].append(aac_record['metadata']['record']['dx_id'])
+                if len(aac_record['metadata']['record'].get('md5') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['md5_multiple'].append(aac_record['metadata']['record']['md5'])
+                if (aac_record['metadata']['record'].get('size') or 0) > 0:
+                    duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(aac_record['metadata']['record']['size'])
+
+                filepath_components = []
+                if len(aac_record['metadata']['record'].get('path') or '') > 0:
+                    filepath_components.append(aac_record['metadata']['record']['path'])
+                    if not aac_record['metadata']['record']['path'].endswith('/'):
+                        filepath_components.append('/')
+                if len(aac_record['metadata']['record'].get('filename') or '') > 0:
+                    filepath_components.append(aac_record['metadata']['record']['filename'])
+                if len(filepath_components) > 0:
+                    duxiu_dict['aa_duxiu_derived']['filepath_multiple'].append(''.join(filepath_components))
+
+                if (len(aac_record['metadata']['record'].get('md5') or '') > 0) and ((aac_record['metadata']['record'].get('size') or 0) > 0) and (len(aac_record['metadata']['record'].get('filename') or '') > 0):
+                    miaochuan_link_parts = []
+                    miaochuan_link_parts.append(aac_record['metadata']['record']['md5'])
+                    if len(aac_record['metadata']['record'].get('header_md5') or '') > 0:
+                        miaochuan_link_parts.append(aac_record['metadata']['record']['header_md5'])
+                    miaochuan_link_parts.append(str(aac_record['metadata']['record']['size']))
+                    miaochuan_link_parts.append(aac_record['metadata']['record']['filename'])
+                    duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'].append('#'.join(miaochuan_link_parts))
+            elif aac_record['metadata']['type'] == 'dx_toc_db__dx_toc':
+                pass
+            else:
+                raise Exception(f"Unknown type of duxiu metadata type {aac_record['metadata']['type']=}")
+
+        allthethings.utils.init_identifiers_and_classification_unified(duxiu_dict['aa_duxiu_derived'])
+        allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'duxiu_ssid', duxiu_dict['duxiu_ssid'])
+        allthethings.utils.add_isbns_unified(duxiu_dict['aa_duxiu_derived'], duxiu_dict['aa_duxiu_derived']['isbn_multiple'])
+        for issn in duxiu_dict['aa_duxiu_derived']['issn_multiple']:
+            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'issn', issn)
+        for csbn in duxiu_dict['aa_duxiu_derived']['csbn_multiple']:
+            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'csbn', csbn)
+        for ean13 in duxiu_dict['aa_duxiu_derived']['ean13_multiple']:
+            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'ean13', ean13)
+        for dxid in duxiu_dict['aa_duxiu_derived']['dxid_multiple']:
+            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'duxiu_dxid', dxid)
+
         duxiu_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "duxiu_ssid": ("before", ["This is a DuXiu metadata record.",
@@ -2217,6 +2294,11 @@ def get_duxiu_dicts(session, key, values):
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
         duxiu_dicts.append(add_comments_to_dict(duxiu_dict, duxiu_dict_comments))
+
+    # TODO: Look at more ways of associating remote files besides SSID.
+    # TODO: Parse TOCs.
+    # TODO: Book covers.
+
     return duxiu_dicts
 
 # Good examples:
@@ -2228,6 +2310,9 @@ def get_duxiu_dicts(session, key, values):
 # cadal_ssno_ZY297043388 |        2 | "cadal_table__sa_collection_items","cadal_table__books_aggregation"
 # cadal_ssno_01000001    |        2 | "cadal_table__books_solr","cadal_table__books_detail"
 # duxiu_ssid_11454502    |        1 | "dx_toc_db__dx_toc"
+# duxiu_ssid_10002062    |        1 | "DX_corrections240209_csv"
+# 
+# duxiu_ssid_14084714 has Miaochuan link.
 # 
 @page.get("/db/duxiu/<path:duxiu_ssid>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
@@ -2270,7 +2355,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
 
     # Uncomment the following lines to use MySQL directly; useful for local development.
     # with Session(engine) as session:
-    #     return [add_additional_to_aarecord(aarecord) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
+    #     return [add_additional_to_aarecord({ '_source': aarecord }) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
     docs_by_es_handle = collections.defaultdict(list)
     for aarecord_id in aarecord_ids:
@@ -2352,6 +2437,7 @@ def get_aarecords_mysql(session, aarecord_ids):
     ol_book_dicts = {('ol:' + item['ol_edition']): [item] for item in get_ol_book_dicts(session, 'ol_edition', split_ids['ol'])}
     scihub_doi_dicts = {('doi:' + item['doi']): [item] for item in get_scihub_doi_dicts(session, 'doi', split_ids['doi'])}
     oclc_dicts = {('oclc:' + item['oclc_id']): [item] for item in get_oclc_dicts(session, 'oclc', split_ids['oclc'])}
+    duxiu_dicts = {('duxiu_ssid:' + item['duxiu_ssid']): item for item in get_duxiu_dicts(session, 'duxiu_ssid', split_ids['duxiu_ssid'])}
 
     # First pass, so we can fetch more dependencies.
     aarecords = []
@@ -2375,6 +2461,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['ol'] = list(ol_book_dicts.get(aarecord_id) or [])
         aarecord['scihub_doi'] = list(scihub_doi_dicts.get(aarecord_id) or [])
         aarecord['oclc'] = list(oclc_dicts.get(aarecord_id) or [])
+        aarecord['duxiu'] = duxiu_dicts.get(aarecord_id)
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -2391,6 +2478,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
+            (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('identifiers_unified') or {}),
         ])
         # TODO: This `if` is not necessary if we make sure that the fields of the primary records get priority.
         if not allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]):
@@ -2500,6 +2588,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[filename.strip() for filename in (((aarecord['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename') or [])],
             ((aarecord['lgli_file'] or {}).get('scimag_archive_path_decoded') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('original_filename') or '').strip(),
+            *[filepath for filepath in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_multiple') or [])],
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
@@ -2560,6 +2649,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             (aarecord['lgrsnf_book'] or {}).get('filesize') or 0,
             (aarecord['lgrsfic_book'] or {}).get('filesize') or 0,
             (aarecord['lgli_file'] or {}).get('filesize') or 0,
+            *[filesize for filesize in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filesize_multiple') or [])],
         ]
         aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
         if aarecord['ia_record'] is not None and len(aarecord['ia_record']['json']['aa_shorter_files']) > 0:
@@ -2580,6 +2670,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((lgli_single_edition or {}).get('title') or '').strip(),
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('title') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('title') or '').strip(),
+            *[title for title in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('title_multiple') or [])],
         ]
         aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
@@ -2601,6 +2692,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             (lgli_single_edition or {}).get('authors_normalized', '').strip(),
             (aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('author', '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('author') or '').strip(),
+            *[author for author in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('author_multiple') or [])],
         ]
         aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
@@ -2620,6 +2712,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((lgli_single_edition or {}).get('publisher_normalized') or '').strip(),
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('publisher') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('publisher') or '').strip(),
+            *[publisher for publisher in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('publisher_multiple') or [])],
         ]
         aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
@@ -2639,6 +2732,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((lgli_single_edition or {}).get('edition_varia_normalized') or '').strip(),
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('edition_varia_normalized') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('edition_varia_normalized') or '').strip(),
+            *[year for year in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('year_multiple') or [])],
         ]
         aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
@@ -2658,6 +2752,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((lgli_single_edition or {}).get('issue_year_number') or '').strip(),
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('year') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('year') or '').strip(),
+            *[year for year in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('year_multiple') or [])],
         ]
         # Filter out years in for which we surely don't have books (famous last words..)
         year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple_raw]
@@ -2781,6 +2876,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
+            (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('identifiers_unified') or {}),
         ])
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
@@ -2919,6 +3015,13 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['oclc'][index] = {
                 'oclc_id': aarecord['oclc'][index]['oclc_id'],
             }
+        if aarecord['duxiu'] is not None:
+            aarecord['duxiu'] = {
+                'duxiu_ssid': aarecord['duxiu']['duxiu_ssid'],
+                'aa_duxiu_derived': {
+                    'miaochuan_links_multiple': aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple'],
+                }
+            }
 
         # Even though `additional` is only for computing real-time stuff,
         # we'd like to cache some fields for in the search results.
@@ -2975,6 +3078,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['isbndb']    if (aarecord_id_split[0] == 'isbn' and len(aarecord['isbndb'] or []) > 0) else []),
                 *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
                 *(['oclc']      if (aarecord_id_split[0] == 'oclc' and len(aarecord['oclc'] or []) > 0) else []),
+                *(['duxiu']     if aarecord['duxiu'] is not None else []),
             ])),
             'search_bulk_torrents': 'has_bulk_torrents' if aarecord['file_unified_data']['has_torrent_paths'] else 'no_bulk_torrents',
         }
@@ -3031,6 +3135,7 @@ def get_record_sources_mapping(display_lang):
             "ol": gettext("common.record_sources_mapping.ol"),
             "scihub": gettext("common.record_sources_mapping.scihub"),
             "oclc": gettext("common.record_sources_mapping.oclc"),
+            "duxiu": "DuXiu 读秀", # TODO:TRANSLATE
         }
 
 def format_filesize(num):
@@ -3105,7 +3210,7 @@ def get_additional_for_aarecord(aarecord):
                 'type': 'classification',
                 'info': allthethings.utils.UNIFIED_CLASSIFICATIONS.get(key) or {},
             })
-    CODES_PRIORITY = ['isbn13', 'isbn10', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin']
+    CODES_PRIORITY = ['isbn13', 'isbn10', 'csbn', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin', 'duxiu_ssid']
     additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100))
 
     md5_content_type_mapping = get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale()))
@@ -3137,6 +3242,7 @@ def get_additional_for_aarecord(aarecord):
                 aarecord_id_split[1] if aarecord_id_split[0] in ['ia', 'ol'] else '',
                 f"ISBNdb {aarecord_id_split[1]}" if aarecord_id_split[0] == 'isbn' else '',
                 f"OCLC {aarecord_id_split[1]}" if aarecord_id_split[0] == 'oclc' else '',
+                f"DuXiu SSID {aarecord_id_split[1]}" if aarecord_id_split[0] == 'duxiu_ssid' else '',
             ] if item != '']),
         'title': aarecord['file_unified_data'].get('title_best', None) or '',
         'publisher_and_edition': ", ".join([item for item in [
@@ -3434,6 +3540,16 @@ def get_additional_for_aarecord(aarecord):
     if aarecord_id_split[0] == 'oclc':
         additional['download_urls'].append((gettext('page.md5.box.download.aa_oclc'), f'/search?q="oclc:{aarecord_id_split[1]}"', ""))
         additional['download_urls'].append((gettext('page.md5.box.download.original_oclc'), f"https://worldcat.org/title/{aarecord_id_split[1]}", ""))
+    if aarecord_id_split[0] == 'duxiu_ssid':
+        # TODO:TRANSLATE
+        additional['download_urls'].append(('Search Anna’s Archive for DuXiu SSID number', f'/search?q="duxiu_ssid:{aarecord_id_split[1]}"', ""))
+        if 'duxiu_dxid' in aarecord['file_unified_data']['identifiers_unified']:
+            for duxiu_dxid in aarecord['file_unified_data']['identifiers_unified']['duxiu_dxid']:
+                additional['download_urls'].append(('Search Anna’s Archive for DuXiu DXID number', f'/search?q="duxiu_dxid:{duxiu_dxid}"', ""))
+        additional['download_urls'].append(('Search manually on DuXiu', f'https://www.duxiu.com/bottom/about.html', ""))
+        if aarecord.get('duxiu') is not None and len(aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']) > 0:
+            for miaochuan_link in aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']:
+                additional['download_urls'].append(('', '', f"Miaochuan link 秒传: {miaochuan_link} (for use with BaiduYun)"))
 
     scidb_info = allthethings.utils.scidb_info(aarecord, additional)
     if scidb_info is not None:
@@ -3489,6 +3605,11 @@ def doi_page(doi_input):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def oclc_page(oclc_input):
     return render_aarecord(f"oclc:{oclc_input}")
+
+@page.get("/duxiu_ssid/<path:duxiu_ssid_input>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def duxiu_ssid_page(duxiu_ssid_input):
+    return render_aarecord(f"duxiu_ssid:{duxiu_ssid_input}")
 
 def render_aarecord(record_id):
     with Session(engine) as session:
@@ -3616,6 +3737,8 @@ def md5_json(aarecord_id):
                 "isbndb": ("before", ["Source data at: https://annas-archive.org/db/isbndb/<isbn13>.json"]),
                 "ol": ("before", ["Source data at: https://annas-archive.org/db/ol/<ol_edition>.json"]),
                 "scihub_doi": ("before", ["Source data at: https://annas-archive.org/db/scihub_doi/<doi>.json"]),
+                "oclc": ("before", ["Source data at: https://annas-archive.org/db/oclc/<oclc>.json"]),
+                "duxiu": ("before", ["Source data at: https://annas-archive.org/db/duxiu_ssid/<duxiu_ssid>.json"]),
                 "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
                 "ipfs_infos": ("before", ["Data about the IPFS files."]),
                 "search_only_fields": ("before", ["Data that is used during searching."]),
