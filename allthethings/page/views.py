@@ -2163,14 +2163,16 @@ def oclc_oclc_json(oclc):
 def get_duxiu_dicts(session, key, values):
     if len(values) == 0:
         return []
-    if key != 'duxiu_ssid':
+    if key not in ['duxiu_ssid', 'cadal_ssno']:
         raise Exception(f"Unexpected 'key' in get_duxiu_dicts: '{key}'")
+
+    primary_id_prefix = f"{key}_"
 
     aac_records_by_primary_id = collections.defaultdict(list)
     try:
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(f'SELECT * FROM annas_archive_meta__aacid__duxiu_records WHERE primary_id IN %(values)s', { "values": [f'duxiu_ssid_{value}' for value in values] })
+        cursor.execute(f'SELECT * FROM annas_archive_meta__aacid__duxiu_records WHERE primary_id IN %(values)s', { "values": [f'{primary_id_prefix}{value}' for value in values] })
         for aac_record in cursor.fetchall():
             aac_records_by_primary_id[aac_record['primary_id']].append({
                 **aac_record,
@@ -2188,7 +2190,11 @@ def get_duxiu_dicts(session, key, values):
             continue
 
         duxiu_dict = {}
-        duxiu_dict['duxiu_ssid'] = primary_id.replace('duxiu_ssid_', '')
+
+        if key == 'duxiu_ssid':
+            duxiu_dict['duxiu_ssid'] = primary_id.replace('duxiu_ssid_', '')
+        elif key == 'cadal_ssno':
+            duxiu_dict['cadal_ssno'] = primary_id.replace('cadal_ssno_', '')
         duxiu_dict['aa_duxiu_derived'] = {}
         duxiu_dict['aa_duxiu_derived']['source_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['title_multiple'] = []
@@ -2198,13 +2204,13 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict['aa_duxiu_derived']['pages_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['isbn_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['issn_multiple'] = []
-        duxiu_dict['aa_duxiu_derived']['csbn_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['ean13_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['dxid_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['md5_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['filepath_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['description_cumulative'] = []
         duxiu_dict['aac_records'] = aac_records
 
         for aac_record in aac_records:
@@ -2230,12 +2236,10 @@ def get_duxiu_dicts(session, key, values):
                     duxiu_dict['aa_duxiu_derived']['dxid_multiple'].append(aac_record['metadata']['record']['dx_id'])
 
                 if len(aac_record['metadata']['record'].get('isbn') or '') > 0:    
-                    if aac_record['metadata']['record']['isbn_type'] in ['ISBN-13', 'ISBN-10']:
+                    if aac_record['metadata']['record']['isbn_type'] in ['ISBN-13', 'ISBN-10', 'CSBN']:
                         duxiu_dict['aa_duxiu_derived']['isbn_multiple'].append(aac_record['metadata']['record']['isbn'])
                     elif aac_record['metadata']['record']['isbn_type'] in ['ISSN-13', 'ISSN-8']:
                         duxiu_dict['aa_duxiu_derived']['issn_multiple'].append(aac_record['metadata']['record']['isbn'])
-                    elif aac_record['metadata']['record']['isbn_type'] == 'CSBN':
-                        duxiu_dict['aa_duxiu_derived']['csbn_multiple'].append(aac_record['metadata']['record']['isbn'])
                     elif aac_record['metadata']['record']['isbn_type'] == 'EAN-13':
                         duxiu_dict['aa_duxiu_derived']['ean13_multiple'].append(aac_record['metadata']['record']['isbn'])
                     elif aac_record['metadata']['record']['isbn_type'] == 'unknown':
@@ -2272,16 +2276,97 @@ def get_duxiu_dicts(session, key, values):
                     duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'].append('#'.join(miaochuan_link_parts))
             elif aac_record['metadata']['type'] == 'dx_toc_db__dx_toc':
                 pass
+            elif aac_record['metadata']['type'] == 'cadal_table__books_detail':
+                if len(aac_record['metadata']['record'].get('title') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['title_multiple'].append(aac_record['metadata']['record']['title'])
+                if len(aac_record['metadata']['record'].get('creator') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['author_multiple'].append(aac_record['metadata']['record']['creator'])
+                if len(aac_record['metadata']['record'].get('publisher') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['publisher_multiple'].append(aac_record['metadata']['record']['publisher'])
+                if len(aac_record['metadata']['record'].get('isbn') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['isbn_multiple'].append(aac_record['metadata']['record']['isbn'])
+                if len(aac_record['metadata']['record'].get('date') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['year_multiple'].append(aac_record['metadata']['record']['date'])
+                if len(aac_record['metadata']['record'].get('page_num') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['pages_multiple'].append(aac_record['metadata']['record']['page_num'])
+                if len(aac_record['metadata']['record'].get('common_title') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['common_title'])
+                if len(aac_record['metadata']['record'].get('topic') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['topic'])
+                if len(aac_record['metadata']['record'].get('tags') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['tags'])
+                if len(aac_record['metadata']['record'].get('period') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['period'])
+                if len(aac_record['metadata']['record'].get('period_year') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['period_year'])
+                if len(aac_record['metadata']['record'].get('publication_place') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['publication_place'])
+                if len(aac_record['metadata']['record'].get('common_title') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['common_title'])
+                if len(aac_record['metadata']['record'].get('type') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['type'])
+            elif aac_record['metadata']['type'] == 'cadal_table__books_solr':
+                if len(aac_record['metadata']['record'].get('Title') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['title_multiple'].append(aac_record['metadata']['record']['Title'])
+                if len(aac_record['metadata']['record'].get('CreateDate') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['year_multiple'].append(aac_record['metadata']['record']['CreateDate'])
+                if len(aac_record['metadata']['record'].get('ISBN') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['isbn_multiple'].append(aac_record['metadata']['record']['ISBN'])
+                if len(aac_record['metadata']['record'].get('Creator') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['author_multiple'].append(aac_record['metadata']['record']['Creator'])
+                if len(aac_record['metadata']['record'].get('Publisher') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['publisher_multiple'].append(aac_record['metadata']['record']['Publisher'])
+                if len(aac_record['metadata']['record'].get('Page') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['pages_multiple'].append(aac_record['metadata']['record']['Page'])
+                if len(aac_record['metadata']['record'].get('Description') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['Description'])
+                if len(aac_record['metadata']['record'].get('Subject') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['Subject'])
+                if len(aac_record['metadata']['record'].get('theme') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['theme'])
+                if len(aac_record['metadata']['record'].get('label') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['label'])
+                if len(aac_record['metadata']['record'].get('HostID') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['HostID'])
+                if len(aac_record['metadata']['record'].get('Contributor') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['Contributor'])
+                if len(aac_record['metadata']['record'].get('Relation') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['Relation'])
+                if len(aac_record['metadata']['record'].get('Rights') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['Rights'])
+                if len(aac_record['metadata']['record'].get('Format') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['Format'])
+                if len(aac_record['metadata']['record'].get('Type') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['Type'])
+                if len(aac_record['metadata']['record'].get('BookType') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['BookType'])
+                if len(aac_record['metadata']['record'].get('Coverage') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['description_cumulative'].append(aac_record['metadata']['record']['Coverage'])
+            elif aac_record['metadata']['type'] == 'cadal_table__site_journal_items':
+                if len(aac_record['metadata']['record'].get('date_year') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['year_multiple'].append(aac_record['metadata']['record']['date_year'])
+                # TODO
+            elif aac_record['metadata']['type'] == 'cadal_table__sa_newspaper_items':
+                if len(aac_record['metadata']['record'].get('date_year') or '') > 0:
+                    duxiu_dict['aa_duxiu_derived']['year_multiple'].append(aac_record['metadata']['record']['date_year'])
+                # TODO
+            elif aac_record['metadata']['type'] == 'cadal_table__site_book_collection_items':
+                pass
+            elif aac_record['metadata']['type'] == 'cadal_table__sa_collection_items':
+                pass
+            elif aac_record['metadata']['type'] == 'cadal_table__books_aggregation':
+                pass
             else:
                 raise Exception(f"Unknown type of duxiu metadata type {aac_record['metadata']['type']=}")
 
         allthethings.utils.init_identifiers_and_classification_unified(duxiu_dict['aa_duxiu_derived'])
-        allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'duxiu_ssid', duxiu_dict['duxiu_ssid'])
+        if key == 'duxiu_ssid':
+            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'duxiu_ssid', duxiu_dict['duxiu_ssid'])
+        elif key == 'cadal_ssno':
+            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'cadal_ssno', duxiu_dict['cadal_ssno'])
         allthethings.utils.add_isbns_unified(duxiu_dict['aa_duxiu_derived'], duxiu_dict['aa_duxiu_derived']['isbn_multiple'])
         for issn in duxiu_dict['aa_duxiu_derived']['issn_multiple']:
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'issn', issn)
-        for csbn in duxiu_dict['aa_duxiu_derived']['csbn_multiple']:
-            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'csbn', csbn)
         for ean13 in duxiu_dict['aa_duxiu_derived']['ean13_multiple']:
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'ean13', ean13)
         for dxid in duxiu_dict['aa_duxiu_derived']['dxid_multiple']:
@@ -2292,12 +2377,18 @@ def get_duxiu_dicts(session, key, values):
             "duxiu_ssid": ("before", ["This is a DuXiu metadata record.",
                                 "More details at https://annas-archive.org/datasets/duxiu",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "cadal_ssno": ("before", ["This is a CADAL metadata record.",
+                                "More details at https://annas-archive.org/datasets/duxiu",
+                                allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
         duxiu_dicts.append(add_comments_to_dict(duxiu_dict, duxiu_dict_comments))
 
     # TODO: Look at more ways of associating remote files besides SSID.
     # TODO: Parse TOCs.
     # TODO: Book covers.
+    # TODO: DuXiu book types mostly (even only?) non-fiction?
+    # TODO: Mostly Chinese, detect non-Chinese based on English text or chars in title?
+    # TODO: Determine which CADAL tables to focus on.
 
     return duxiu_dicts
 
@@ -2314,11 +2405,20 @@ def get_duxiu_dicts(session, key, values):
 # 
 # duxiu_ssid_14084714 has Miaochuan link.
 # 
-@page.get("/db/duxiu/<path:duxiu_ssid>.json")
+@page.get("/db/duxiu_ssid/<path:duxiu_ssid>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def duxiu_ssid_json(duxiu_ssid):
     with Session(engine) as session:
         duxiu_dicts = get_duxiu_dicts(session, 'duxiu_ssid', [duxiu_ssid])
+        if len(duxiu_dicts) == 0:
+            return "{}", 404
+        return nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+
+@page.get("/db/cadal_ssno/<path:cadal_ssno>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def cadal_ssno_json(cadal_ssno):
+    with Session(engine) as session:
+        duxiu_dicts = get_duxiu_dicts(session, 'cadal_ssno', [cadal_ssno])
         if len(duxiu_dicts) == 0:
             return "{}", 404
         return nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}

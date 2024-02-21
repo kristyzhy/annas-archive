@@ -772,6 +772,7 @@ UNIFIED_IDENTIFIERS = {
     "ean13": { "label": "EAN-13", "url": "", "description": "" },
     "duxiu_ssid": { "label": "DuXiu SSID", "url": "", "description": "" },
     "duxiu_dxid": { "label": "DuXiu DXID", "url": "", "description": "" },
+    "cadal_ssno": { "label": "CADAL SSNO", "url": "", "description": "" },
     **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }
@@ -985,17 +986,23 @@ def normalize_isbn(string):
 def add_isbns_unified(output_dict, potential_isbns):
     isbn10s = set()
     isbn13s = set()
+    csbns = set()
     for potential_isbn in potential_isbns:
-        isbn13 = normalize_isbn(potential_isbn)
-        if isbn13 != '':
-            isbn13s.add(isbn13)
-            isbn10 = isbnlib.to_isbn10(isbn13)
-            if isbnlib.is_isbn10(isbn10 or ''):
-                isbn10s.add(isbn10)
+        if '·' in potential_isbn:
+            csbns.add(potential_isbn)
+        else:
+            isbn13 = normalize_isbn(potential_isbn)
+            if isbn13 != '':
+                isbn13s.add(isbn13)
+                isbn10 = isbnlib.to_isbn10(isbn13)
+                if isbnlib.is_isbn10(isbn10 or ''):
+                    isbn10s.add(isbn10)
     for isbn10 in isbn10s:
         add_identifier_unified(output_dict, 'isbn10', isbn10)
     for isbn13 in isbn13s:
         add_identifier_unified(output_dict, 'isbn13', isbn13)
+    for csbn in csbns:
+        add_identifier_unified(output_dict, 'csbn', csbn)
 
 def merge_unified_fields(list_of_fields_unified):
     merged_sets = {}
