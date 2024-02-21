@@ -189,20 +189,49 @@ def nice_json(some_dict):
     # Triple-slashes means it shouldn't be put on the previous line.
     return re.sub(r'[ \n]*"//(?!/)', ' "//', json_str, flags=re.MULTILINE)
 
+
+# A mapping of countries to languages, for those countries that have a clear single spoken language.
+# Courtesy of a friendly LLM.. beware of hallucinations!
+country_lang_mapping = { "Albania": "Albanian", "Algeria": "Arabic", "Andorra": "Catalan", "Argentina": "Spanish", "Armenia": "Armenian", 
+"Azerbaijan": "Azerbaijani", "Bahrain": "Arabic", "Bangladesh": "Bangla", "Belarus": "Belorussian", "Benin": "French", 
+"Bhutan": "Dzongkha", "Brazil": "Portuguese", "Brunei Darussalam": "Malay", "Bulgaria": "Bulgarian", "Cambodia": "Khmer", 
+"Caribbean Community": "English", "Chile": "Spanish", "China": "Mandarin", "Colombia": "Spanish", "Costa Rica": "Spanish", 
+"Croatia": "Croatian", "Cuba": "Spanish", "Cur": "Papiamento", "Cyprus": "Greek", "Denmark": "Danish", 
+"Dominican Republic": "Spanish", "Ecuador": "Spanish", "Egypt": "Arabic", "El Salvador": "Spanish", "Estonia": "Estonian", 
+"Finland": "Finnish", "France": "French", "Gambia": "English", "Georgia": "Georgian", "Ghana": "English", "Greece": "Greek", 
+"Guatemala": "Spanish", "Honduras": "Spanish", "Hungary": "Hungarian", "Iceland": "Icelandic", "Indonesia": "Bahasa Indonesia", 
+"Iran": "Persian", "Iraq": "Arabic", "Israel": "Hebrew", "Italy": "Italian", "Japan": "Japanese", "Jordan": "Arabic", 
+"Kazakhstan": "Kazak", "Kuwait": "Arabic", "Latvia": "Latvian", "Lebanon": "Arabic", "Libya": "Arabic", "Lithuania": "Lithuanian", 
+"Malaysia": "Malay", "Maldives": "Dhivehi", "Mexico": "Spanish", "Moldova": "Moldovan", "Mongolia": "Mongolian", 
+"Myanmar": "Burmese", "Namibia": "English", "Nepal": "Nepali", "Netherlands": "Dutch", "Nicaragua": "Spanish", 
+"North Macedonia": "Macedonian", "Norway": "Norwegian", "Oman": "Arabic", "Pakistan": "Urdu", "Palestine": "Arabic", 
+"Panama": "Spanish", "Paraguay": "Spanish", "Peru": "Spanish", "Philippines": "Filipino", "Poland": "Polish", "Portugal": "Portuguese", 
+"Qatar": "Arabic", "Romania": "Romanian", "Saudi Arabia": "Arabic", "Slovenia": "Slovenian", "South Pacific": "English", "Spain": "Spanish", 
+"Srpska": "Serbian", "Sweden": "Swedish", "Thailand": "Thai", "Turkey": "Turkish", "Ukraine": "Ukrainian", 
+"United Arab Emirates": "Arabic", "United States": "English", "Uruguay": "Spanish", "Venezuela": "Spanish", "Vietnam": "Vietnamese" }
+
 @functools.cache
 def get_bcp47_lang_codes_parse_substr(substr):
     lang = ''
     try:
-        lang = str(langcodes.get(substr))
+        lang = str(langcodes.standardize_tag(langcodes.get(substr)), macro=True)
     except:
-        try:
-            lang = str(langcodes.find(substr))
-        except:
-            # In rare cases, disambiguate by saying that `substr` is written in English
+        for country_name, language_name in country_lang_mapping.items():
+            if country_name.lower() in substr.lower():
+                try:
+                    lang = str(langcodes.standardize_tag(langcodes.find(language_name)), macro=True)
+                except:
+                    pass
+                break
+        if lang == '':
             try:
-                lang = str(langcodes.find(substr, language='en'))
+                lang = str(langcodes.standardize_tag(langcodes.find(substr)), macro=True)
             except:
-                lang = ''
+                # In rare cases, disambiguate by saying that `substr` is written in English
+                try:
+                    lang = str(langcodes.standardize_tag(langcodes.find(substr, language='en')), macro=True)
+                except:
+                    lang = ''
     # We have a bunch of weird data that gets interpreted as "Egyptian Sign Language" when it's
     # clearly all just Spanish..
     if lang == "esl":
@@ -2213,6 +2242,8 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['filepath_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['description_cumulative'] = []
+        duxiu_dict['aa_duxiu_derived']['debug_language_codes'] = {}
+        duxiu_dict['aa_duxiu_derived']['language_codes'] = []
         duxiu_dict['aac_records'] = aac_records
 
         for aac_record in aac_records:
@@ -2352,12 +2383,14 @@ def get_duxiu_dicts(session, key, values):
                 if len(aac_record['metadata']['record'].get('date_year') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['year_multiple'].append(aac_record['metadata']['record']['date_year'])
                 # TODO
+            elif aac_record['metadata']['type'] == 'cadal_table__books_search':
+                pass # TODO
             elif aac_record['metadata']['type'] == 'cadal_table__site_book_collection_items':
-                pass
+                pass # TODO
             elif aac_record['metadata']['type'] == 'cadal_table__sa_collection_items':
-                pass
+                pass # TODO
             elif aac_record['metadata']['type'] == 'cadal_table__books_aggregation':
-                pass
+                pass # TODO
             else:
                 raise Exception(f"Unknown type of duxiu metadata type {aac_record['metadata']['type']=}")
 
@@ -2373,6 +2406,23 @@ def get_duxiu_dicts(session, key, values):
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'ean13', ean13)
         for dxid in duxiu_dict['aa_duxiu_derived']['dxid_multiple']:
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'duxiu_dxid', dxid)
+
+        # We know this collection is mostly Chinese language, so mark as Chinese if any of these (lightweight) tests pass.
+        if 'isbn13' in duxiu_dict['aa_duxiu_derived']['identifiers_unified']:
+            isbnlib_info = isbnlib.info(duxiu_dict['aa_duxiu_derived']['identifiers_unified']['isbn13'][0])
+            if 'china' in isbnlib_info.lower():
+                duxiu_dict['aa_duxiu_derived']['language_codes'] = ['zh']
+        else: # If there is an isbn13 and it's not from China, then there's a good chance it's a foreign work, so don't do the language detect in that case.
+            language_detect_string = " ".join(list(dict.fromkeys(duxiu_dict['aa_duxiu_derived']['title_multiple'] + duxiu_dict['aa_duxiu_derived']['author_multiple'] + duxiu_dict['aa_duxiu_derived']['publisher_multiple'])))
+            langdetect_response = {}
+            try:
+                langdetect_response = ftlangdetect.detect(language_detect_string)
+            except:
+                pass
+            duxiu_dict['aa_duxiu_derived']['debug_language_codes'] = { 'langdetect_response': langdetect_response }
+
+            if langdetect_response['lang'] in ['zh', 'ja', 'ko'] and langdetect_response['score'] > 0.5: # Somewhat arbitrary cutoff for any CYK lang.
+                duxiu_dict['aa_duxiu_derived']['language_codes'] = ['zh']
 
         duxiu_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
@@ -2390,7 +2440,7 @@ def get_duxiu_dicts(session, key, values):
     # TODO: Book covers.
     # TODO: DuXiu book types mostly (even only?) non-fiction?
     # TODO: Mostly Chinese, detect non-Chinese based on English text or chars in title?
-    # TODO: Determine which CADAL tables to focus on.
+    # TODO: Pull in more CADAL fields.
 
     return duxiu_dicts
 
@@ -2406,6 +2456,7 @@ def get_duxiu_dicts(session, key, values):
 # duxiu_ssid_10002062    |        1 | "DX_corrections240209_csv"
 # 
 # duxiu_ssid_14084714 has Miaochuan link.
+# cadal_ssno_44517971 has some <font>s.
 # 
 @page.get("/db/duxiu_ssid/<path:duxiu_ssid>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
@@ -2540,6 +2591,7 @@ def get_aarecords_mysql(session, aarecord_ids):
     scihub_doi_dicts = {('doi:' + item['doi']): [item] for item in get_scihub_doi_dicts(session, 'doi', split_ids['doi'])}
     oclc_dicts = {('oclc:' + item['oclc_id']): [item] for item in get_oclc_dicts(session, 'oclc', split_ids['oclc'])}
     duxiu_dicts = {('duxiu_ssid:' + item['duxiu_ssid']): item for item in get_duxiu_dicts(session, 'duxiu_ssid', split_ids['duxiu_ssid'])}
+    duxiu_dicts2 = {('cadal_ssno:' + item['cadal_ssno']): item for item in get_duxiu_dicts(session, 'cadal_ssno', split_ids['cadal_ssno'])}
 
     # First pass, so we can fetch more dependencies.
     aarecords = []
@@ -2563,7 +2615,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['ol'] = list(ol_book_dicts.get(aarecord_id) or [])
         aarecord['scihub_doi'] = list(scihub_doi_dicts.get(aarecord_id) or [])
         aarecord['oclc'] = list(oclc_dicts.get(aarecord_id) or [])
-        aarecord['duxiu'] = duxiu_dicts.get(aarecord_id)
+        aarecord['duxiu'] = duxiu_dicts.get(aarecord_id) or duxiu_dicts2.get(aarecord_id)
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -2931,6 +2983,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((lgli_single_edition or {}).get('language_codes') or []),
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('language_codes') or []),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('language_codes') or []),
+            (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('language_codes') or []),
         ])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
@@ -3119,11 +3172,16 @@ def get_aarecords_mysql(session, aarecord_ids):
             }
         if aarecord['duxiu'] is not None:
             aarecord['duxiu'] = {
-                'duxiu_ssid': aarecord['duxiu']['duxiu_ssid'],
+                'duxiu_ssid': aarecord['duxiu'].get('duxiu_ssid'),
+                'cadal_ssno': aarecord['duxiu'].get('cadal_ssno'),
                 'aa_duxiu_derived': {
                     'miaochuan_links_multiple': aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple'],
                 }
             }
+            if aarecord['duxiu']['duxiu_ssid'] is None:
+                del aarecord['duxiu']['duxiu_ssid']
+            if aarecord['duxiu']['cadal_ssno'] is None:
+                del aarecord['duxiu']['cadal_ssno']
 
         # Even though `additional` is only for computing real-time stuff,
         # we'd like to cache some fields for in the search results.
@@ -3312,7 +3370,7 @@ def get_additional_for_aarecord(aarecord):
                 'type': 'classification',
                 'info': allthethings.utils.UNIFIED_CLASSIFICATIONS.get(key) or {},
             })
-    CODES_PRIORITY = ['isbn13', 'isbn10', 'csbn', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin', 'duxiu_ssid']
+    CODES_PRIORITY = ['isbn13', 'isbn10', 'csbn', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin', 'duxiu_ssid', 'cadal_ssno']
     additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100))
 
     md5_content_type_mapping = get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale()))
@@ -3345,6 +3403,7 @@ def get_additional_for_aarecord(aarecord):
                 f"ISBNdb {aarecord_id_split[1]}" if aarecord_id_split[0] == 'isbn' else '',
                 f"OCLC {aarecord_id_split[1]}" if aarecord_id_split[0] == 'oclc' else '',
                 f"DuXiu SSID {aarecord_id_split[1]}" if aarecord_id_split[0] == 'duxiu_ssid' else '',
+                f"CADAL SSNO {aarecord_id_split[1]}" if aarecord_id_split[0] == 'cadal_ssno' else '',
             ] if item != '']),
         'title': aarecord['file_unified_data'].get('title_best', None) or '',
         'publisher_and_edition': ", ".join([item for item in [
@@ -3645,10 +3704,15 @@ def get_additional_for_aarecord(aarecord):
     if aarecord_id_split[0] == 'duxiu_ssid':
         # TODO:TRANSLATE
         additional['download_urls'].append(('Search Anna’s Archive for DuXiu SSID number', f'/search?q="duxiu_ssid:{aarecord_id_split[1]}"', ""))
+        additional['download_urls'].append(('Search manually on DuXiu', f'https://www.duxiu.com/bottom/about.html', ""))
+    if aarecord_id_split[0] == 'cadal_ssno':
+        # TODO:TRANSLATE
+        additional['download_urls'].append(('Search Anna’s Archive for CADAL SSNO number', f'/search?q="cadal_ssno:{aarecord_id_split[1]}"', ""))
+        additional['download_urls'].append(('Find original record in CADAL', f'https://cadal.edu.cn/cardpage/bookCardPage?ssno={aarecord_id_split[1]}', ""))
+    if aarecord_id_split[0] in ['duxiu_ssid', 'cadal_ssno']:
         if 'duxiu_dxid' in aarecord['file_unified_data']['identifiers_unified']:
             for duxiu_dxid in aarecord['file_unified_data']['identifiers_unified']['duxiu_dxid']:
                 additional['download_urls'].append(('Search Anna’s Archive for DuXiu DXID number', f'/search?q="duxiu_dxid:{duxiu_dxid}"', ""))
-        additional['download_urls'].append(('Search manually on DuXiu', f'https://www.duxiu.com/bottom/about.html', ""))
         if aarecord.get('duxiu') is not None and len(aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']) > 0:
             for miaochuan_link in aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']:
                 additional['download_urls'].append(('', '', f"Miaochuan link 秒传: {miaochuan_link} (for use with BaiduYun)"))
@@ -3712,6 +3776,11 @@ def oclc_page(oclc_input):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def duxiu_ssid_page(duxiu_ssid_input):
     return render_aarecord(f"duxiu_ssid:{duxiu_ssid_input}")
+
+@page.get("/cadal_ssno/<path:cadal_ssno_input>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def cadal_ssno_page(cadal_ssno_input):
+    return render_aarecord(f"cadal_ssno:{cadal_ssno_input}")
 
 def render_aarecord(record_id):
     with Session(engine) as session:
@@ -3840,7 +3909,7 @@ def md5_json(aarecord_id):
                 "ol": ("before", ["Source data at: https://annas-archive.org/db/ol/<ol_edition>.json"]),
                 "scihub_doi": ("before", ["Source data at: https://annas-archive.org/db/scihub_doi/<doi>.json"]),
                 "oclc": ("before", ["Source data at: https://annas-archive.org/db/oclc/<oclc>.json"]),
-                "duxiu": ("before", ["Source data at: https://annas-archive.org/db/duxiu_ssid/<duxiu_ssid>.json"]),
+                "duxiu": ("before", ["Source data at: https://annas-archive.org/db/duxiu_ssid/<duxiu_ssid>.json or https://annas-archive.org/db/cadal_ssno/<cadal_ssno>.json"]),
                 "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
                 "ipfs_infos": ("before", ["Data about the IPFS files."]),
                 "search_only_fields": ("before", ["Data that is used during searching."]),
@@ -3974,15 +4043,13 @@ def md5_slow_download(md5_input, path_index, domain_index):
             )
 
 def search_query_aggs(search_index_long):
-    aggs = {
+    return {
         "search_content_type": { "terms": { "field": "search_only_fields.search_content_type", "size": 200 } },
         "search_extension": { "terms": { "field": "search_only_fields.search_extension", "size": 9 } },
         "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "size": 100 } },
-        "search_record_sources": { "terms": { "field": "search_only_fields.search_record_sources", "size": 100 } }
+        "search_record_sources": { "terms": { "field": "search_only_fields.search_record_sources", "size": 100 } },
+        "search_most_likely_language_code": { "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 50 } },
     }
-    if search_index_long != "aarecords_metadata":
-        aggs["search_most_likely_language_code"] = { "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 50 } }
-    return aggs
 
 @cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=24*60*60))
 def all_search_aggs(display_lang, search_index_long):
@@ -3995,13 +4062,12 @@ def all_search_aggs(display_lang, search_index_long):
     all_aggregations = {}
     # Unfortunately we have to special case the "unknown language", which is currently represented with an empty string `bucket['key'] != ''`, otherwise this gives too much trouble in the UI.
     all_aggregations['search_most_likely_language_code'] = []
-    if 'search_most_likely_language_code' in search_results_raw['aggregations']:
-        for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
-            if bucket['key'] == '':
-                all_aggregations['search_most_likely_language_code'].append({ 'key': '_empty', 'label': get_display_name_for_lang('', display_lang), 'doc_count': bucket['doc_count'] })
-            else:
-                all_aggregations['search_most_likely_language_code'].append({ 'key': bucket['key'], 'label': get_display_name_for_lang(bucket['key'], display_lang), 'doc_count': bucket['doc_count'] })
-        all_aggregations['search_most_likely_language_code'].sort(key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
+    for bucket in search_results_raw['aggregations']['search_most_likely_language_code']['buckets']:
+        if bucket['key'] == '':
+            all_aggregations['search_most_likely_language_code'].append({ 'key': '_empty', 'label': get_display_name_for_lang('', display_lang), 'doc_count': bucket['doc_count'] })
+        else:
+            all_aggregations['search_most_likely_language_code'].append({ 'key': bucket['key'], 'label': get_display_name_for_lang(bucket['key'], display_lang), 'doc_count': bucket['doc_count'] })
+    all_aggregations['search_most_likely_language_code'].sort(key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
 
     content_type_buckets = list(search_results_raw['aggregations']['search_content_type']['buckets'])
     md5_content_type_mapping = get_md5_content_type_mapping(display_lang)

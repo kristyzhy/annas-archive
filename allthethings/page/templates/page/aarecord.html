@@ -29,6 +29,12 @@
         {{ gettext('page.md5.header.meta_openlib', id=aarecord_id_split[1]) }}
       {% elif aarecord_id_split[0] == 'oclc' %}
         {{ gettext('page.md5.header.meta_oclc', id=aarecord_id_split[1]) }}
+      {% elif aarecord_id_split[0] == 'duxiu_ssid' %}
+        <!-- TODO:TRANSLATE -->
+        DuXiu SSID {{ aarecord_id_split[1] }} metadata record
+      {% elif aarecord_id_split[0] == 'cadal_ssno' %}
+        <!-- TODO:TRANSLATE -->
+        CADAL SSNO {{ aarecord_id_split[1] }} metadata record
       {% endif %}
     </div>
     <p class="mb-4">
@@ -97,7 +103,7 @@
   {% endif %}
 
   <div class="flex flex-wrap mb-1 text-black/64" role="tablist" aria-label="file tabs">
-    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] in ['md5','doi'] %}{{ gettext('page.md5.tabs.downloads', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] == 'ia' %}{{ gettext('page.md5.tabs.borrow', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc'] %}{{ gettext('page.md5.tabs.explore_metadata', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% endif %}</button>
+    <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] in ['md5','doi'] %}{{ gettext('page.md5.tabs.downloads', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] == 'ia' %}{{ gettext('page.md5.tabs.borrow', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc', 'duxiu_ssid', 'cadal_ssno'] %}{{ gettext('page.md5.tabs.explore_metadata', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% endif %}</button>
     {% if aarecord_id_split[0] == 'md5' %}
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-lists" aria-controls="md5-panel-lists" tabindex="0">{{ gettext('page.md5.tabs.lists', count=('<span class="js-md5-tab-lists">–</span>' | safe)) }}</button>
       <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="false" id="md5-tab-stats" aria-controls="md5-panel-stats" tabindex="0">{{ gettext('page.md5.tabs.stats', count=('<span class="js-md5-tab-stats">–</span>' | safe)) }}</button>

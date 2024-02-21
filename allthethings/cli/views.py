@@ -424,7 +424,7 @@ def elastic_build_aarecords_all_internal():
     elastic_build_aarecords_ia_internal()
     elastic_build_aarecords_isbndb_internal()
     elastic_build_aarecords_ol_internal()
-    elastic_build_aarecords_duxiu_ssid_internal()
+    elastic_build_aarecords_duxiu_internal()
     elastic_build_aarecords_oclc_internal()
     elastic_build_aarecords_main_internal()
 
@@ -572,12 +572,12 @@ def elastic_build_aarecords_ol_internal():
         print(f"Done with OpenLib!")
 
 #################################################################################################
-# ./run flask cli elastic_build_aarecords_duxiu_ssid
-@cli.cli.command('elastic_build_aarecords_duxiu_ssid')
-def elastic_build_aarecords_duxiu_ssid():
-    elastic_build_aarecords_duxiu_ssid_internal()
+# ./run flask cli elastic_build_aarecords_duxiu
+@cli.cli.command('elastic_build_aarecords_duxiu')
+def elastic_build_aarecords_duxiu():
+    elastic_build_aarecords_duxiu_internal()
 
-def elastic_build_aarecords_duxiu_ssid_internal():
+def elastic_build_aarecords_duxiu_internal():
     before_first_primary_id = ''
     # before_first_primary_id = 'duxiu_ssid_10000431'
     print("Do a dummy detect of language so that we're sure the model is downloaded")
@@ -587,7 +587,7 @@ def elastic_build_aarecords_duxiu_ssid_internal():
         print("Processing from annas_archive_meta__aacid__duxiu_records")
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        cursor.execute('SELECT COUNT(primary_id) AS count FROM annas_archive_meta__aacid__duxiu_records WHERE primary_id LIKE "duxiu_ssid_%%" AND primary_id > %(from)s ORDER BY primary_id LIMIT 1', { "from": before_first_primary_id })
+        cursor.execute('SELECT COUNT(primary_id) AS count FROM annas_archive_meta__aacid__duxiu_records WHERE (primary_id LIKE "duxiu_ssid_%%" OR primary_id LIKE "cadal_ssno_%%") AND primary_id > %(from)s ORDER BY primary_id LIMIT 1', { "from": before_first_primary_id })
         total = list(cursor.fetchall())[0]['count']
         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
             with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
@@ -596,7 +596,7 @@ def elastic_build_aarecords_duxiu_ssid_internal():
                 while True:
                     connection.connection.ping(reconnect=True)
                     cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                    cursor.execute('SELECT primary_id FROM annas_archive_meta__aacid__duxiu_records WHERE primary_id LIKE "duxiu_ssid_%%" AND primary_id > %(from)s ORDER BY primary_id LIMIT %(limit)s', { "from": current_primary_id, "limit": BATCH_SIZE })
+                    cursor.execute('SELECT primary_id FROM annas_archive_meta__aacid__duxiu_records WHERE (primary_id LIKE "duxiu_ssid_%%" OR primary_id LIKE "cadal_ssno_%%") AND primary_id > %(from)s ORDER BY primary_id LIMIT %(limit)s', { "from": current_primary_id, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
                         if any(last_map.get()):
@@ -605,7 +605,7 @@ def elastic_build_aarecords_duxiu_ssid_internal():
                     if len(batch) == 0:
                         break
                     print(f"Processing with {THREADS=} {len(batch)=} aarecords from annas_archive_meta__aacid__duxiu_records ( starting primary_id: {batch[0]['primary_id']} , ending primary_id: {batch[-1]['primary_id']} )...")
-                    last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([item['primary_id'].replace('duxiu_ssid_','duxiu_ssid:') for item in batch if item['primary_id'] != 'duxiu_ssid_-1'], CHUNK_SIZE))
+                    last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([item['primary_id'].replace('duxiu_ssid_','duxiu_ssid:').replace('cadal_ssno_','cadal_ssno:') for item in batch if item['primary_id'] != 'duxiu_ssid_-1' and (not item['primary_id'].startswith('cadal_ssno_hj'))], CHUNK_SIZE))
                     pbar.update(len(batch))
                     current_primary_id = batch[-1]['primary_id']
         print(f"Done with annas_archive_meta__aacid__duxiu_records!")
