@@ -17,8 +17,19 @@ curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/ia2_acsmpdf_
 curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/duxiu_records.torrent
 
 # Tried ctorrent and aria2, but webtorrent seems to work best overall.
-webtorrent download zlib3_records.torrent
-webtorrent download zlib3_files.torrent
-webtorrent download ia2_records.torrent
-webtorrent download ia2_acsmpdf_files.torrent
-webtorrent download duxiu_records.torrent
+webtorrent download zlib3_records.torrent &
+job1pid=$!
+webtorrent download zlib3_files.torrent &
+job2pid=$!
+webtorrent download ia2_records.torrent &
+job3pid=$!
+webtorrent download ia2_acsmpdf_files.torrent &
+job4pid=$!
+webtorrent download duxiu_records.torrent &
+job5pid=$!
+
+wait $job1pid
+wait $job2pid
+wait $job3pid
+wait $job4pid
+wait $job5pid
