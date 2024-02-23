@@ -483,7 +483,7 @@ def torrent_group_data_from_file_path(file_path):
         group = file_path[len(aac_data_prefix):].split('__', 1)[0]
     if 'zlib3' in file_path:
         group = 'zlib'
-    if 'ia2_acsmpdf_files' in file_path:
+    if '_ia2_' in file_path:
         group = 'ia'
     if 'duxiu' in file_path:
         group = 'duxiu'
@@ -2268,17 +2268,26 @@ def get_duxiu_dicts(session, key, values):
                 if len(aac_record['metadata']['record'].get('dx_id') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['dxid_multiple'].append(aac_record['metadata']['record']['dx_id'])
 
-                if len(aac_record['metadata']['record'].get('isbn') or '') > 0:    
-                    if aac_record['metadata']['record']['isbn_type'] in ['ISBN-13', 'ISBN-10', 'CSBN']:
-                        duxiu_dict['aa_duxiu_derived']['isbn_multiple'].append(aac_record['metadata']['record']['isbn'])
-                    elif aac_record['metadata']['record']['isbn_type'] in ['ISSN-13', 'ISSN-8']:
-                        duxiu_dict['aa_duxiu_derived']['issn_multiple'].append(aac_record['metadata']['record']['isbn'])
-                    elif aac_record['metadata']['record']['isbn_type'] == 'EAN-13':
-                        duxiu_dict['aa_duxiu_derived']['ean13_multiple'].append(aac_record['metadata']['record']['isbn'])
-                    elif aac_record['metadata']['record']['isbn_type'] == 'unknown':
-                        pass
-                    else:
-                        raise Exception(f"Unknown type of duxiu 512w_final_csv isbn_type {aac_record['metadata']['record']['isbn_type']=}")
+                if len(aac_record['metadata']['record'].get('isbn') or '') > 0:
+                    identifiers = []
+                    if aac_record['metadata']['record']['isbn_type'].startswith('multiple('):
+                        identifier_values = aac_record['metadata']['record']['isbn'].split('_')
+                        for index, identifier_type in enumerate(aac_record['metadata']['record']['isbn_type'][len('multiple('):-len(')')].split(',')):
+                            identifiers.append({ 'type': identifier_type, 'value': identifier_values[index] })
+                    elif aac_record['metadata']['record']['isbn_type'] != 'none':
+                        identifiers.append({ 'type': aac_record['metadata']['record']['isbn_type'], 'value': aac_record['metadata']['record']['isbn'] })
+
+                    for identifier in identifiers:
+                        if identifier['type'] in ['ISBN-13', 'ISBN-10', 'CSBN']:
+                            duxiu_dict['aa_duxiu_derived']['isbn_multiple'].append(identifier['value'])
+                        elif identifier['type'] in ['ISSN-13', 'ISSN-8']:
+                            duxiu_dict['aa_duxiu_derived']['issn_multiple'].append(identifier['value'])
+                        elif identifier['type'] == 'EAN-13':
+                            duxiu_dict['aa_duxiu_derived']['ean13_multiple'].append(identifier['value'])
+                        elif identifier['type'] == 'unknown':
+                            pass
+                        else:
+                            raise Exception(f"Unknown type of duxiu 512w_final_csv isbn_type {identifier_type=}")
             elif aac_record['metadata']['type'] == 'dx_20240122__remote_files':
                 if len(aac_record['metadata']['record'].get('source') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['dx_20240122__remote_files', aac_record['metadata']['record']['source']])

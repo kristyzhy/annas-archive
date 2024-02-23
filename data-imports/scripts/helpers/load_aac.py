@@ -56,7 +56,11 @@ with open(filepath, 'rb') as fh:
         insert_data = [build_insert_data(line) for line in lines]
         total += len(insert_data)
         print(f"[{collection}] Processed {len(insert_data)} lines ({total} lines total)")
-        cursor.executemany(f'INSERT INTO {table_name} (aacid, primary_id, md5, data_folder, metadata) VALUES (%(aacid)s, %(primary_id)s, %(md5)s, %(data_folder)s, %(metadata)s)', insert_data)
+        action = 'INSERT'
+        if collection == 'duxiu_records':
+            # This collection inadvertently has a bunch of exact duplicate lines.
+            action = 'REPLACE'
+        cursor.executemany(f'{action} INTO {table_name} (aacid, primary_id, md5, data_folder, metadata) VALUES (%(aacid)s, %(primary_id)s, %(md5)s, %(data_folder)s, %(metadata)s)', insert_data)
 print(f"[{collection}] Building indexes..")
 cursor.execute(f"ALTER TABLE {table_name} ADD INDEX `primary_id` (`primary_id`), ADD INDEX `md5` (`md5`)")
 db.ping(reconnect=True)
