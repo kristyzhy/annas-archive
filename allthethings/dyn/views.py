@@ -119,7 +119,7 @@ def generate_torrents_page():
                 output_row = make_torrent_json(top_level_group_name, group_name, small_file)
                 if not output_row['embargo'] and not output_row['obsolete'] and output_row['seeders'] > 0:
                     output_rows.append(output_row)
-    output_rows.sort(key=lambda output_row: (output_row['seeders'], output_row['random']))
+    output_rows.sort(key=lambda output_row: (output_row['seeders'] + 0.1 * output_row['leechers'], output_row['random']))
 
     total_bytes = 0
     filtered_output_rows = []

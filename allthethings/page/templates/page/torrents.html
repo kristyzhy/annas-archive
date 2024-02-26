@@ -99,7 +99,7 @@
     <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list">Generate Torrent List</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
     <p class="mb-4">
-      Generate a list of torrents, sorted by fewest seeders. Specify a maximum TB to store (we simply cut off the list when the max TB is reached).
+      Generate a list of torrents, sorted by <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/157">seeders + 0.1*leechers</a>, ascending. Specify a maximum TB to store (we simply cut off the list when the max TB is reached).
     </p>
 
     <form action="/dyn/generate_torrents" class="flex items-center mb-4">

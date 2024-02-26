@@ -2284,7 +2284,7 @@ def get_duxiu_dicts(session, key, values):
                             duxiu_dict['aa_duxiu_derived']['issn_multiple'].append(identifier['value'])
                         elif identifier['type'] == 'EAN-13':
                             duxiu_dict['aa_duxiu_derived']['ean13_multiple'].append(identifier['value'])
-                        elif identifier['type'] == 'unknown':
+                        elif identifier['type'] in ['unknown', 'unknow']:
                             pass
                         else:
                             raise Exception(f"Unknown type of duxiu 512w_final_csv isbn_type {identifier_type=}")
