@@ -4125,6 +4125,7 @@ def search_page():
     search_page_timer = time.perf_counter()
     had_es_timeout = False
     had_primary_es_timeout = False
+    had_fatal_es_timeout = False
     es_stats = []
 
     search_input = request.args.get("q", "").strip()
@@ -4252,6 +4253,7 @@ def search_page():
     except Exception as err:
         had_es_timeout = True
         had_primary_es_timeout = True
+        had_fatal_es_timeout = True
         print(f"Exception during primary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
@@ -4394,8 +4396,6 @@ def search_page():
                 if 'hits' in search_result4_raw:
                     additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result4_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
-    # had_fatal_es_timeout = had_es_timeout and len(search_aarecords) == 0
-
     es_stats.append({ 'name': 'search_page_timer', 'took': (time.perf_counter() - search_page_timer) * 1000, 'timed_out': False })
     
     search_dict = {}
@@ -4409,10 +4409,7 @@ def search_page():
     search_dict['es_stats'] = es_stats
     search_dict['had_primary_es_timeout'] = had_primary_es_timeout
     search_dict['had_es_timeout'] = had_es_timeout
-    # search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
-
-    # status = 404 if had_fatal_es_timeout else 200 # So we don't cache
-    status = 200
+    search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
 
     r = make_response((render_template(
             "page/search.html",
@@ -4424,7 +4421,7 @@ def search_page():
                 'doi_page': doi_page,
                 'isbn_page': isbn_page,
             }
-        ), status))
+        ), 200))
     if had_es_timeout:
         r.headers.add('Cache-Control', 'no-cache')
     return r
