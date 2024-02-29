@@ -34,14 +34,14 @@ class FallbackNodeSelector: # Selects only the first live node
         raise Exception("No node_config found!")
 
 if len(ELASTICSEARCH_HOST_PREFERRED) > 0:
-    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST_PREFERRED,ELASTICSEARCH_HOST], node_selector_class=FallbackNodeSelector, max_retries=2, retry_on_timeout=True, http_compress=True, randomize_hosts=False)
+    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST_PREFERRED,ELASTICSEARCH_HOST], node_selector_class=FallbackNodeSelector, max_retries=1, retry_on_timeout=False, http_compress=True, randomize_hosts=False)
 else:
-    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST], max_retries=2, retry_on_timeout=True, http_compress=False, randomize_hosts=False)
+    es = Elasticsearch(hosts=[ELASTICSEARCH_HOST], max_retries=1, retry_on_timeout=False, http_compress=False, randomize_hosts=False)
 if len(ELASTICSEARCHAUX_HOST_PREFERRED) > 0:
     # Let's not fall back here, because ELASTICSEARCHAUX_HOST is just so slow..
-    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST_PREFERRED], max_retries=2, retry_on_timeout=True, http_compress=True, randomize_hosts=False)
+    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST_PREFERRED], max_retries=1, retry_on_timeout=False, http_compress=True, randomize_hosts=False)
 else:
-    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=2, retry_on_timeout=True, http_compress=False, randomize_hosts=False)
+    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=1, retry_on_timeout=False, http_compress=False, randomize_hosts=False)
 
 mariadb_user = os.getenv("MARIADB_USER", "allthethings")
 mariadb_password = os.getenv("MARIADB_PASSWORD", "password")

@@ -236,5 +236,5 @@ CREATE TABLE mariapersist_memberships (
     CONSTRAINT `mariapersist_memberships_account_id` FOREIGN KEY (`account_id`) REFERENCES `mariapersist_accounts` (`account_id`),
     CONSTRAINT `mariapersist_memberships_from_donation_id` FOREIGN KEY (`from_donation_id`) REFERENCES `mariapersist_donations` (`donation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT account_id, membership_tier, membership_expiration FROM mariapersist_accounts WHERE membership_expiration IS NOT NULL;
-ALTER TABLE mariapersist_memberships ADD COLUMN `bonus_downloads` INT NOT NULL DEFAULT 0;
-ALTER TABLE mariapersist_memberships DROP INDEX `from_donation_id`, ADD INDEX `from_donation_id` (`from_donation_id`);
+-- ALTER TABLE mariapersist_memberships ADD COLUMN `bonus_downloads` INT NOT NULL DEFAULT 0;
+-- ALTER TABLE mariapersist_memberships DROP INDEX `from_donation_id`, ADD INDEX `from_donation_id` (`from_donation_id`);
