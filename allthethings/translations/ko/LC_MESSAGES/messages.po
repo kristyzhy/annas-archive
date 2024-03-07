@@ -1,7 +1,21 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-19 13:05+0000\n"
+"PO-Revision-Date: 2024-02-25 16:05+0000\n"
+"Last-Translator: 이주원 <juwonlee1206@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.3.1\n"
+
 #: allthethings/app.py:203
-#, fuzzy
 msgid "layout.index.invalid_request"
-msgstr "잘못된 요청입니다, 웹사이트를 다시 방문해 주세요"
+msgstr "잘못된 요청입니다. 방문%(websites)s."
 
 #: allthethings/app.py:250
 msgid "layout.index.header.tagline_scihub"
@@ -9,7 +23,7 @@ msgstr "Sci-Hub"
 
 #: allthethings/app.py:251
 msgid "layout.index.header.tagline_libgen"
-msgstr "LibGen"
+msgstr "<a href=https://www.libgen.is>LibGen(라이브러리 제네시스)</a>"
 
 #: allthethings/app.py:252
 msgid "layout.index.header.tagline_zlib"
@@ -17,7 +31,7 @@ msgstr "Z-Lib"
 
 #: allthethings/app.py:253
 msgid "layout.index.header.tagline_openlib"
-msgstr "OpenLib"
+msgstr "<a href=https://github.com/dstark5/Openlib?tab=readme-ov-file>OpenLib(오픈 라이브러리)</a>"
 
 #: allthethings/app.py:254
 msgid "layout.index.header.tagline_duxiu"
@@ -25,7 +39,7 @@ msgstr "DuXiu"
 
 #: allthethings/app.py:255
 msgid "layout.index.header.tagline_separator"
-msgstr ""
+msgstr ", "
 
 #: allthethings/app.py:256
 msgid "layout.index.header.tagline_and"
@@ -445,7 +459,11 @@ msgstr "24개월"
 
 #: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>after <span %(span_discount)s></span> discounts</div><div %(div_total)s></div><div %(div_duration)s></div>"
+msgstr ""
+"<div %(div_monthly_cost)s>\n"
+"</div><div %(div_after)s>after <span %(span_discount)s></span>\n"
+"discounts</div><div %(div_total)s>\n"
+"</div><div %(div_duration)s></div>"
 
 #: allthethings/account/templates/account/donate.html:295
 msgid "page.donate.payment.minimum_method"
@@ -546,7 +564,9 @@ msgstr "날짜: %(date)s"
 
 #: allthethings/account/templates/account/donation.html:14
 msgid "page.donation.header.total_including_discount"
-msgstr "총합: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / 개월 %(duration)s 개월 동안, %(discounts)s%% 의 할인 포함)</span>"
+msgstr ""
+"총합: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / 개월\n"
+"%(duration)s 개월 동안, %(discounts)s%% 의 할인 포함)</span>"
 
 #: allthethings/account/templates/account/donation.html:16
 msgid "page.donation.header.total_without_discount"
@@ -2301,14 +2321,14 @@ msgstr "토렌트(torrent)"
 #: allthethings/templates/layouts/index.html:428
 #: allthethings/templates/layouts/index.html:543
 msgid "layout.index.header.nav.mirrors"
-msgstr ""
+msgstr "미러사이트들: 자원봉사자들 부탁"
 
 #: allthethings/templates/layouts/index.html:401
 #: allthethings/templates/layouts/index.html:414
 #: allthethings/templates/layouts/index.html:429
 #: allthethings/templates/layouts/index.html:544
 msgid "layout.index.header.nav.llm_data"
-msgstr ""
+msgstr "LLM data"
 
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:415
@@ -2329,7 +2349,7 @@ msgstr "보안"
 #: allthethings/templates/layouts/index.html:529
 #: allthethings/templates/layouts/index.html:554
 msgid "layout.index.header.nav.wechat"
-msgstr "비공식 위챗"
+msgstr "비공식 WeChat"
 
 #: allthethings/templates/layouts/index.html:405
 #: allthethings/templates/layouts/index.html:418
@@ -2381,13 +2401,13 @@ msgstr "업로드"
 #: allthethings/templates/layouts/index.html:494
 #: allthethings/templates/layouts/index.html:511
 msgid "layout.index.header.nav.refer"
-msgstr ""
+msgstr "친구 추천"
 
 #: allthethings/templates/layouts/index.html:450
 #: allthethings/templates/layouts/index.html:457
 #: allthethings/templates/layouts/index.html:462
 msgid "layout.index.header.nav.login_register"
-msgstr "로그인 / 회원가입"
+msgstr "“로그인 / 회원가입"
 
 #: allthethings/templates/layouts/index.html:469
 #: allthethings/templates/layouts/index.html:479
@@ -2413,7 +2433,7 @@ msgstr "계정"
 
 #: allthethings/templates/layouts/index.html:506
 msgid "layout.index.footer.list1.header"
-msgstr "안나의 아카이브"
+msgstr "Anna’s Archive"
 
 #: allthethings/templates/layouts/index.html:528
 msgid "layout.index.footer.list2.header"
@@ -2605,4 +2625,3 @@ msgstr "복사했습니다!"
 
 #~ msgid "page.doi.results.none"
 #~ msgstr ""
-
