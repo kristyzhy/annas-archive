@@ -28,7 +28,13 @@ def build_insert_data(line):
     data_folder = matches[3]
     primary_id = str(matches[4].replace('"', ''))
     md5 = matches[6]
-    if md5 is None:
+    if ('duxiu_files' in collection and '"original_md5"' in line):
+        # For duxiu_files, md5 is the primary id, so we stick original_md5 in the md5 column so we can query that as well.
+        original_md5_matches = re.search(r'"original_md5":"([^"]+)"', line)
+        if original_md5_matches is None:
+            raise Exception(f"'original_md5' found, but not in an expected format! '{line}'")
+        md5 = original_md5_matches[1]
+    elif md5 is None:
         if '"md5_reported"' in line:
             md5_reported_matches = re.search(r'"md5_reported":"([^"]+)"', line)
             if md5_reported_matches is None:

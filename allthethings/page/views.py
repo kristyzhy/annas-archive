@@ -796,6 +796,8 @@ def get_zlib_book_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(zlib_book_dict)
         allthethings.utils.add_identifier_unified(zlib_book_dict, 'zlib', zlib_book_dict['zlibrary_id'])
+        allthethings.utils.add_identifier_unified(zlib_book_dict, 'md5', zlib_book_dict['md5'])
+        allthethings.utils.add_identifier_unified(zlib_book_dict, 'md5', zlib_book_dict['md5_reported'])
         allthethings.utils.add_isbns_unified(zlib_book_dict, [record.isbn for record in zlib_book.isbns])
 
         zlib_book_dicts.append(add_comments_to_dict(zlib_book_dict, zlib_book_dict_comments))
@@ -856,6 +858,8 @@ def get_aac_zlib3_book_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(aac_zlib3_book_dict)
         allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'zlib', aac_zlib3_book_dict['zlibrary_id'])
+        allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'md5', aac_zlib3_book_dict['md5'])
+        allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'md5', aac_zlib3_book_dict['md5_reported'])
         allthethings.utils.add_isbns_unified(aac_zlib3_book_dict, aac_zlib3_book_dict['isbns'])
 
         aac_zlib3_book_dicts.append(add_comments_to_dict(aac_zlib3_book_dict, zlib_book_dict_comments))
@@ -1006,6 +1010,10 @@ def get_ia_record_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(ia_record_dict['aa_ia_derived'])
         allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ocaid', ia_record_dict['ia_id'])
+        if ia_record_dict['libgen_md5'] is not None:
+            allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'md5', ia_record_dict['libgen_md5'])
+        if ia_record_dict['aa_ia_file'] is not None:
+            allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'md5', ia_record_dict['aa_ia_file']['md5'])
         for item in (extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_work')):
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ol', item)
         for item in extract_list_from_ia_json_field(ia_record_dict, 'item'):
@@ -1412,6 +1420,7 @@ def get_lgrsnf_book_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsnf', lgrs_book_dict['id'])
+        allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'])
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsnf_book.Identifier.split(",") + lgrsnf_book.IdentifierWODash.split(","))
         for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
             if name in lgrs_book_dict:
@@ -1469,6 +1478,7 @@ def get_lgrsfic_book_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsfic', lgrs_book_dict['id'])
+        allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'])
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsfic_book.Identifier.split(","))
         for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
             if name in lgrs_book_dict:
@@ -1752,6 +1762,7 @@ def get_lgli_file_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(lgli_file_dict)
         allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli', lgli_file_dict['f_id'])
+        allthethings.utils.add_identifier_unified(lgli_file_dict, 'md5', lgli_file_dict['md5'])
         lgli_file_dict['scimag_archive_path_decoded'] = urllib.parse.unquote(lgli_file_dict['scimag_archive_path'].replace('\\', '/'))
         potential_doi_scimag_archive_path = lgli_file_dict['scimag_archive_path_decoded']
         if potential_doi_scimag_archive_path.endswith('.pdf'):
@@ -2415,6 +2426,8 @@ def get_duxiu_dicts(session, key, values):
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'ean13', ean13)
         for dxid in duxiu_dict['aa_duxiu_derived']['dxid_multiple']:
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'duxiu_dxid', dxid)
+        for md5 in duxiu_dict['aa_duxiu_derived']['md5_multiple']:
+            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'md5', md5)
 
         # We know this collection is mostly Chinese language, so mark as Chinese if any of these (lightweight) tests pass.
         if 'isbn13' in duxiu_dict['aa_duxiu_derived']['identifiers_unified']:
@@ -3722,9 +3735,10 @@ def get_additional_for_aarecord(aarecord):
         if 'duxiu_dxid' in aarecord['file_unified_data']['identifiers_unified']:
             for duxiu_dxid in aarecord['file_unified_data']['identifiers_unified']['duxiu_dxid']:
                 additional['download_urls'].append(('Search Anna’s Archive for DuXiu DXID number', f'/search?q="duxiu_dxid:{duxiu_dxid}"', ""))
-        if aarecord.get('duxiu') is not None and len(aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']) > 0:
-            for miaochuan_link in aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']:
-                additional['download_urls'].append(('', '', f"Miaochuan link 秒传: {miaochuan_link} (for use with BaiduYun)"))
+        # Not supported by BaiduYun anymore.
+        # if aarecord.get('duxiu') is not None and len(aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']) > 0:
+        #     for miaochuan_link in aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']:
+        #         additional['download_urls'].append(('', '', f"Miaochuan link 秒传: {miaochuan_link} (for use with BaiduYun)"))
 
     scidb_info = allthethings.utils.scidb_info(aarecord, additional)
     if scidb_info is not None:

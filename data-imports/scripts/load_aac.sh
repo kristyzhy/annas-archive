@@ -18,9 +18,12 @@ PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/aac/
 job4pid=$!
 PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/aac/annas_archive_meta__aacid__duxiu_records* &
 job5pid=$!
+PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aac.py /temp-dir/aac/annas_archive_meta__aacid__duxiu_files* &
+job6pid=$!
 
 wait $job1pid
 wait $job2pid
 wait $job3pid
 wait $job4pid
 wait $job5pid
+wait $job6pid

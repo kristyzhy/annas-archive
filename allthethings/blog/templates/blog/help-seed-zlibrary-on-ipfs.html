@@ -48,7 +48,7 @@ ipfs config --json Peering.Peers '[{"ID": "QmcFf2FH3CEgTNHeMRGhN7HNHU1EXAxoEk6EF
   </p>
 
   <ol>
-    <li>Get the data from BitTorrent (we have many more seeders there currently, and it is faster because of fewer individual files than in IPFS). We don’t link to it from here, but just Google for “Pirate Library Mirror” (EDIT: moved to Anna’s Archive).</li>
+    <li>Get the data from BitTorrent (we have many more seeders there currently, and it is faster because of fewer individual files than in IPFS). We don’t link to it from here, but just Google for “Pirate Library Mirror” (EDIT: moved to <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a>).</li>
     <li>For data in the second release, mount the TAR files using <a href="https://github.com/mxmlnkn/ratarmount">ratarmount</a>, as described in our <a href="putting-5,998,794-books-on-ipfs.html">previous blog post</a>. We have also published the SQLite metadata in a separate torrent, for your convenience. Just put those files next to the TAR files.</li>
     <li>Launch one or multiple IPFS servers (see previous blog post; we currently use 4 servers in Docker). We recommend the configuration from above, but at a minimum make sure to enable <code>Experimental.FilestoreEnabled</code>. Be sure to put it behind a VPN or use a server that cannot be traced to you personally.</li>
     <li>Run something like <code>ipfs add --nocopy --recursive --hash=blake2b-256 --chunker=size-1048576 data-directory/</code>. Be sure to use these exact <code>hash</code> and <code>chunker</code> values, otherwise you will get a different CID! It might be good to do a quick test run and make sure your CIDs match with ours (we also posted a CSV file with our CIDs in one of the torrents). This can take a long time — multiple weeks for everything, if you use a single IPFS instance!</li>
@@ -60,7 +60,7 @@ ipfs config --json Peering.Peers '[{"ID": "QmcFf2FH3CEgTNHeMRGhN7HNHU1EXAxoEk6EF
   <ol>
     <li>Use a VPN.</li>
     <li>Install an <a href="https://docs.ipfs.io/install/">IPFS client</a>.</li>
-    <li>Google the “Pirate Library Mirror” (EDIT: moved to Anna’s Archive), go to “The Z-Library Collection”, and find a list of directory CIDs at the bottom of the page.</li>
+    <li>Google the “Pirate Library Mirror” (EDIT: moved to <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a>), go to “The Z-Library Collection”, and find a list of directory CIDs at the bottom of the page.</li>
     <li>Pin one or more of these CIDs. It will automatically start downloading and seeding. You might need to open a port in your router for optimal performance</li>
     <li>If you have any more questions, be sure to check out the <a href="https://freeread.org/ipfs/">Library Genesis IPFS guide</a>.</li>
   </ol>

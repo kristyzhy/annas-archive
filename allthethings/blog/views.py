@@ -9,69 +9,69 @@ import allthethings.utils
 blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blog")
 
 @blog.get("/")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def index():
     return render_template("blog/index.html")
 
 @blog.get("/duxiu-exclusive.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def duxiu_exclusive():
     return render_template("blog/duxiu-exclusive.html")
 @blog.get("/duxiu-exclusive-chinese.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def duxiu_exclusive_chinese():
     return render_template("blog/duxiu-exclusive-chinese.html")
 @blog.get("/worldcat-scrape.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def worldcat_scrape():
     return render_template("blog/worldcat-scrape.html")
 @blog.get("/annas-archive-containers.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def aac():
     return render_template("blog/annas-archive-containers.html")
 @blog.get("/backed-up-the-worlds-largest-comics-shadow-lib.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def comics():
     return render_template("blog/backed-up-the-worlds-largest-comics-shadow-lib.html")
 @blog.get("/how-to-run-a-shadow-library.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def how_to_run_a_shadow_library():
     return render_template("blog/how-to-run-a-shadow-library.html")
 @blog.get("/it-how-to-run-a-shadow-library.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def it_how_to_run_a_shadow_library():
     return render_template("blog/it-how-to-run-a-shadow-library.html")
 @blog.get("/annas-update-open-source-elasticsearch-covers.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def annas_update_open_source_elasticsearch_covers():
     return render_template("blog/annas-update-open-source-elasticsearch-covers.html")
 @blog.get("/help-seed-zlibrary-on-ipfs.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def help_seed_zlibrary_on_ipfs():
     return render_template("blog/help-seed-zlibrary-on-ipfs.html")
 @blog.get("/putting-5,998,794-books-on-ipfs.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def putting_5998794_books_on_ipfs():
     return render_template("blog/putting-5,998,794-books-on-ipfs.html")
 @blog.get("/blog-isbndb-dump-how-many-books-are-preserved-forever.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def blog_isbndb_dump_how_many_books_are_preserved_forever():
     return render_template("blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html")
 @blog.get("/blog-how-to-become-a-pirate-archivist.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def blog_how_to_become_a_pirate_archivist():
     return render_template("blog/blog-how-to-become-a-pirate-archivist.html")
 @blog.get("/blog-3x-new-books.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def blog_3x_new_books():
     return render_template("blog/blog-3x-new-books.html")
 @blog.get("/blog-introducing.html")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def blog_introducing():
     return render_template("blog/blog-introducing.html")
 
 @blog.get("/rss.xml")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24*7)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def rss_xml():
     items = [
         Item(

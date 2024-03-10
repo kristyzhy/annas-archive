@@ -596,7 +596,7 @@ def elastic_build_aarecords_duxiu_internal():
                 while True:
                     connection.connection.ping(reconnect=True)
                     cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                    cursor.execute('SELECT primary_id FROM annas_archive_meta__aacid__duxiu_records WHERE (primary_id LIKE "duxiu_ssid_%%" OR primary_id LIKE "cadal_ssno_%%") AND primary_id > %(from)s ORDER BY primary_id LIMIT %(limit)s', { "from": current_primary_id, "limit": BATCH_SIZE })
+                    cursor.execute('SELECT primary_id, metadata FROM annas_archive_meta__aacid__duxiu_records WHERE (primary_id LIKE "duxiu_ssid_%%" OR primary_id LIKE "cadal_ssno_%%") AND primary_id > %(from)s ORDER BY primary_id LIMIT %(limit)s', { "from": current_primary_id, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
                         if any(last_map.get()):
@@ -605,7 +605,24 @@ def elastic_build_aarecords_duxiu_internal():
                     if len(batch) == 0:
                         break
                     print(f"Processing with {THREADS=} {len(batch)=} aarecords from annas_archive_meta__aacid__duxiu_records ( starting primary_id: {batch[0]['primary_id']} , ending primary_id: {batch[-1]['primary_id']} )...")
-                    last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([item['primary_id'].replace('duxiu_ssid_','duxiu_ssid:').replace('cadal_ssno_','cadal_ssno:') for item in batch if item['primary_id'] != 'duxiu_ssid_-1' and (not item['primary_id'].startswith('cadal_ssno_hj'))], CHUNK_SIZE))
+
+                    ids = []
+                    for item in batch:
+                        if item['primary_id'] == 'duxiu_ssid_-1':
+                            continue
+                        if item['primary_id'].startswith('cadal_ssno_hj'):
+                            # These are collections.
+                            continue
+                        if 'dx_20240122__remote_files' in item['metadata']:
+                            # Skip for now because a lot of the DuXiu SSIDs are actual CADAL SSNOs, and stand-alone records from
+                            # remote_files are not useful anyway since they lack metadata like title, author, etc.
+                            continue
+                        ids.append(item['primary_id'].replace('duxiu_ssid_','duxiu_ssid:').replace('cadal_ssno_','cadal_ssno:'))
+                    # Deduping at this level leads to some duplicates at the edges, but thats okay because aarecord
+                    # generation is idempotent.
+                    ids = list(set(ids))
+
+                    last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked(ids, CHUNK_SIZE))
                     pbar.update(len(batch))
                     current_primary_id = batch[-1]['primary_id']
         print(f"Done with annas_archive_meta__aacid__duxiu_records!")

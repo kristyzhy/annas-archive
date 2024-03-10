@@ -761,6 +761,7 @@ LGRS_TO_UNIFIED_CLASSIFICATIONS_MAPPING = {
 }
 
 UNIFIED_IDENTIFIERS = {
+    "md5": { "label": "MD5", "website": "https://en.wikipedia.org/wiki/MD5", "description": "" },
     "isbn10": { "label": "ISBN-10", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": "" },
     "isbn13": { "label": "ISBN-13", "url": "https://en.wikipedia.org/wiki/Special:BookSources?isbn=%s", "description": "" },
     "doi": { "label": "DOI", "url": "https://doi.org/%s", "description": "Digital Object Identifier" },
