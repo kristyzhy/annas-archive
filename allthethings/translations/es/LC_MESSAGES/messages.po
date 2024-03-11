@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-08 11:05+0000\n"
-"PO-Revision-Date: 2024-03-09 17:06+0000\n"
+"PO-Revision-Date: 2024-03-12 19:06+0000\n"
 "Last-Translator: Aitor Arana <aitoraranavaz@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -140,7 +140,7 @@ msgstr " (+%(num)s adicionales)"
 
 #: allthethings/account/views.py:313
 msgid "common.donation.order_processing_status_labels.0"
-msgstr "Sin pagar"
+msgstr "sin pagar"
 
 #: allthethings/account/views.py:314
 msgid "common.donation.order_processing_status_labels.1"
@@ -186,7 +186,7 @@ msgstr "Para más información, revisa la sección <a href=\"/donation_faq\">Pre
 #: allthethings/account/templates/account/donate.html:27
 #: allthethings/account/templates/account/donation.html:23
 msgid "page.donate.bonus_downloads.main"
-msgstr "Obtienes %(percentage)s%% descargas rápidas adicionales porque fuiste referido por el usuario %(profile_link)s."
+msgstr "Obtienes un %(percentage)s%% de descargas rápidas adicionales porque fuiste referido por el usuario %(profile_link)s."
 
 #: allthethings/account/templates/account/donate.html:28
 #: allthethings/account/templates/account/donation.html:24
@@ -227,7 +227,7 @@ msgstr "Artículos SciDB <strong>ilimitados</strong> sin verificación"
 
 #: allthethings/account/templates/account/donate.html:45
 msgid "page.donate.perks.refer"
-msgstr ""
+msgstr "Gana un <strong>%(percentage)s%% de descargas adicionales</strong> <a href=\"/refer\">refiriendo a amigos</a>."
 
 #: allthethings/account/templates/account/donate.html:46
 msgid "page.donate.perks.credits"
@@ -245,7 +245,7 @@ msgstr "Acceso anticipado a nuevas funciones"
 
 #: allthethings/account/templates/account/donate.html:74
 msgid "page.donate.perks.exclusive_telegram"
-msgstr "Telegram exclusivo con acceso al \"detrás de escena\""
+msgstr "Telegram exclusivo con acceso al \"detrás de cámaras\""
 
 #: allthethings/account/templates/account/donate.html:88
 msgid "page.donate.perks.adopt"
@@ -271,7 +271,7 @@ msgstr "Acceso <strong>ilimitado</strong>de alta velocidad"
 
 #: allthethings/account/templates/account/donate.html:102
 msgid "page.donate.expert.direct_sftp"
-msgstr "Directa <strong>SFTP</strong> servidoras"
+msgstr "Servidores <strong>SFTP</strong> directos"
 
 #: allthethings/account/templates/account/donate.html:105
 msgid "page.donate.expert.enterprise_donation"
@@ -368,7 +368,7 @@ msgstr "(no disponible temporalmente)"
 
 #: allthethings/account/templates/account/donate.html:183
 msgid "page.donate.payment.desc.crypto"
-msgstr "Con criptomonedas puedes donar con BTC, ETH, XMR, y SOL. Usa esta opción si ya conoces las criptomonedas."
+msgstr "Con criptomonedas puedes donar con BTC, ETH, XMR, y SOL. Usa esta opción si estás familiarizado con las criptomonedas."
 
 #: allthethings/account/templates/account/donate.html:189
 msgid "page.donate.payment.desc.crypto2"
@@ -1164,11 +1164,11 @@ msgstr "Crea una lista nueva localizando un archivo y abriendo la pestaña \"Lis
 #: allthethings/account/templates/account/refer.html:3
 #: allthethings/account/templates/account/refer.html:8
 msgid "page.refer.title"
-msgstr ""
+msgstr "Refiere a amigos para obtener descargas rápidas adicionales"
 
 #: allthethings/account/templates/account/refer.html:11
 msgid "page.refer.section1.intro"
-msgstr ""
+msgstr "Los miembros pueden referir a amigos y ganar descargas adicionales."
 
 #: allthethings/account/templates/account/refer.html:12
 msgid "page.refer.section1.list_start"
@@ -1188,7 +1188,7 @@ msgstr "Ejemplo:"
 
 #: allthethings/account/templates/account/refer.html:25
 msgid "page.refer.section2.list_1"
-msgstr ""
+msgstr "Tu amigo usa tu enlace de referido para activar la membresía de \"Bibliotecario Afortunado\" por 3 meses, que viene con %(num)s descargas rápidas."
 
 #: allthethings/account/templates/account/refer.html:26
 msgid "page.refer.section2.list_2"
@@ -1200,19 +1200,19 @@ msgstr "Tú también recibes %(num)s descargas adicionales cada día durante los
 
 #: allthethings/account/templates/account/refer.html:31
 msgid "page.refer.linkbox.header"
-msgstr ""
+msgstr "<strong>Enlace de referido:</strong> "
 
 #: allthethings/account/templates/account/refer.html:33
 msgid "page.refer.linkbox.login"
-msgstr ""
+msgstr "<a %(a_account)s>Inicia sesión</a> y hazte miembro para referir a amigos."
 
 #: allthethings/account/templates/account/refer.html:35
 msgid "page.refer.linkbox.donate"
-msgstr ""
+msgstr "<a %(a_donate)s>Hazte miembro</a> para referir a amigos."
 
 #: allthethings/account/templates/account/refer.html:38
 msgid "page.refer.linkbox.remember"
-msgstr ""
+msgstr "O añade %(referral_suffix)s al final de cualquier enlace, y el referid se recordará cuando se haga miembro."
 
 #: allthethings/account/templates/account/request.html:3
 #: allthethings/account/templates/account/request.html:6
@@ -1606,7 +1606,7 @@ msgstr "Opción #%(num)d: %(link)s %(extra)s"
 #: allthethings/page/templates/page/aarecord.html:203
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.refer"
-msgstr ""
+msgstr "Refiere a un amigo, ¡y ambos obtenéis %(percentage)s%% descargas rápidas adicionales!"
 
 #: allthethings/page/templates/page/aarecord.html:203
 #: allthethings/templates/layouts/index.html:216
@@ -2395,7 +2395,7 @@ msgstr "Subir"
 #: allthethings/templates/layouts/index.html:494
 #: allthethings/templates/layouts/index.html:511
 msgid "layout.index.header.nav.refer"
-msgstr ""
+msgstr "Referir a amigos"
 
 #: allthethings/templates/layouts/index.html:450
 #: allthethings/templates/layouts/index.html:457
