@@ -505,7 +505,6 @@ def get_torrents_data():
         small_file_dicts_grouped_aa = collections.defaultdict(list)
         small_file_dicts_grouped_external = collections.defaultdict(list)
         aac_meta_file_paths_grouped = collections.defaultdict(list)
-        seeder_counts = collections.defaultdict(int)
         seeder_sizes = collections.defaultdict(int)
         for small_file in small_files:
             metadata = orjson.loads(small_file['metadata'])
@@ -522,15 +521,13 @@ def get_torrents_data():
             if scrape_row is not None:
                 scrape_created = scrape_row['created']
                 scrape_metadata = orjson.loads(scrape_row['metadata'])
-                if scrape_metadata['scrape']['seeders'] < 4:
-                    seeder_counts[0] += 1
-                    seeder_sizes[0] += metadata['data_size']
-                elif scrape_metadata['scrape']['seeders'] < 11:
-                    seeder_counts[1] += 1
-                    seeder_sizes[1] += metadata['data_size']
-                else:
-                    seeder_counts[2] += 1
-                    seeder_sizes[2] += metadata['data_size']
+                if (metadata.get('embargo') or False) == False:
+                    if scrape_metadata['scrape']['seeders'] < 4:
+                        seeder_sizes[0] += metadata['data_size']
+                    elif scrape_metadata['scrape']['seeders'] < 11:
+                        seeder_sizes[1] += metadata['data_size']
+                    else:
+                        seeder_sizes[2] += metadata['data_size']
 
             group_sizes[group] += metadata['data_size']
             if toplevel == 'external':
@@ -581,7 +578,6 @@ def get_torrents_data():
                 'external': dict(sorted(small_file_dicts_grouped_external.items())),
             },
             'group_size_strings': group_size_strings,
-            'seeder_counts': seeder_counts,
             'seeder_size_strings': seeder_size_strings,
         }
 
@@ -3262,6 +3258,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['oclc']      if (aarecord_id_split[0] == 'oclc' and len(aarecord['oclc'] or []) > 0) else []),
                 *(['duxiu']     if aarecord['duxiu'] is not None else []),
             ])),
+            # Used in external system, check before changing.
             'search_bulk_torrents': 'has_bulk_torrents' if aarecord['file_unified_data']['has_torrent_paths'] else 'no_bulk_torrents',
         }
 
