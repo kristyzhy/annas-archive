@@ -989,7 +989,7 @@ def gc_notify():
             print(error)
             return "", 404
 
-        potential_money = re.search(r"\$([0123456789.]+) Amazon gift card", message_body)
+        potential_money = re.search(r"\$([0123456789]+\.[0123456789]{2})", message_body)
         if potential_money is None:
             error = f"Warning: gc_notify message '{message['X-Original-To']}' with no matches for potential_money"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
