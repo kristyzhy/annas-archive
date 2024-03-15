@@ -255,7 +255,7 @@ def elastic_reset_aarecords_internal():
                         "search_most_likely_language_code": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                         "search_isbn13": { "type": "keyword", "index": True, "doc_values": True },
                         "search_doi": { "type": "keyword", "index": True, "doc_values": True },
-                        "search_text": { "type": "text", "index": True, "analyzer": "icu_analyzer" },
+                        "search_text": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
                         "search_score_base_rank": { "type": "rank_feature" },
                         "search_access_types": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                         "search_record_sources": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
@@ -265,10 +265,22 @@ def elastic_reset_aarecords_internal():
             },
         },
         "settings": {
-            "index.number_of_replicas": 0,
-            "index.search.slowlog.threshold.query.warn": "4s",
-            "index.store.preload": ["nvd", "dvd", "tim", "doc", "dim"],
-            "index.codec": "best_compression",
+            "index": {
+                "number_of_replicas": 0,
+                "search.slowlog.threshold.query.warn": "4s",
+                "store.preload": ["nvd", "dvd", "tim", "doc", "dim"],
+                "codec": "best_compression",
+                "analysis": {
+                    "analyzer": {
+                        "custom_icu_analyzer": {
+                            "tokenizer": "icu_tokenizer",
+                            "char_filter": ["icu_normalizer"],
+                            "filter": ["t2s", "icu_folding"],
+                        },
+                    },
+                    "filter": { "t2s": { "type": "icu_transform", "id": "Traditional-Simplified" } },
+                },
+            },
         },
     }
     print("Creating ES indices")
