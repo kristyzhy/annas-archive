@@ -58,8 +58,8 @@ def databases():
         mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))
     if not es.ping():
         raise Exception("es.ping failed!")
-    if not es_aux.ping():
-        raise Exception("es_aux.ping failed!")
+    # if not es_aux.ping():
+    #     raise Exception("es_aux.ping failed!")
     return ""
 
 def make_torrent_url(file_path):
@@ -767,6 +767,9 @@ def account_buy_membership():
             if 'code' in donation_json['payment2_request']:
                 if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
                     return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.minimum') })
+                elif donation_json['payment2_request']['code'] == 'INTERNAL_ERROR':
+                    # TODO:TRANSLATE
+                    return orjson.dumps({ 'error': "Error in payment processing. Please wait a moment and try again. If the issue persists for more than 24 hours, please contact us at AnnaArchivist@proton.me with a screenshot." })
                 else:
                     print(f"Warning: unknown error in payment2 with code missing: {donation_json['payment2_request']} /// {curlify2.to_curl(response.request)}")
                     return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })

@@ -792,8 +792,10 @@ def get_zlib_book_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(zlib_book_dict)
         allthethings.utils.add_identifier_unified(zlib_book_dict, 'zlib', zlib_book_dict['zlibrary_id'])
-        allthethings.utils.add_identifier_unified(zlib_book_dict, 'md5', zlib_book_dict['md5'])
-        allthethings.utils.add_identifier_unified(zlib_book_dict, 'md5', zlib_book_dict['md5_reported'])
+        if zlib_book_dict['md5'] is not None:
+            allthethings.utils.add_identifier_unified(zlib_book_dict, 'md5', zlib_book_dict['md5'])
+        if zlib_book_dict['md5_reported'] is not None:
+            allthethings.utils.add_identifier_unified(zlib_book_dict, 'md5', zlib_book_dict['md5_reported'])
         allthethings.utils.add_isbns_unified(zlib_book_dict, [record.isbn for record in zlib_book.isbns])
 
         zlib_book_dicts.append(add_comments_to_dict(zlib_book_dict, zlib_book_dict_comments))
@@ -854,8 +856,10 @@ def get_aac_zlib3_book_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(aac_zlib3_book_dict)
         allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'zlib', aac_zlib3_book_dict['zlibrary_id'])
-        allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'md5', aac_zlib3_book_dict['md5'])
-        allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'md5', aac_zlib3_book_dict['md5_reported'])
+        if aac_zlib3_book_dict['md5'] is not None:
+            allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'md5', aac_zlib3_book_dict['md5'])
+        if aac_zlib3_book_dict['md5_reported'] is not None:
+            allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'md5', aac_zlib3_book_dict['md5_reported'])
         allthethings.utils.add_isbns_unified(aac_zlib3_book_dict, aac_zlib3_book_dict['isbns'])
 
         aac_zlib3_book_dicts.append(add_comments_to_dict(aac_zlib3_book_dict, zlib_book_dict_comments))
@@ -2247,7 +2251,12 @@ def get_duxiu_dicts(session, key, values):
                         if line_value.strip() != '':
                             if line_key not in new_aac_record["metadata"]["record"]["aa_derived_ini_values"]:
                                 new_aac_record["metadata"]["record"]["aa_derived_ini_values"][line_key] = []
-                            new_aac_record["metadata"]["record"]["aa_derived_ini_values"][line_key].append({ "filename": serialized_file["filename"], "key": line_key, "value": line_value })
+                            new_aac_record["metadata"]["record"]["aa_derived_ini_values"][line_key].append({ 
+                                "aacid": new_aac_record["aacid"],
+                                "filename": serialized_file["filename"], 
+                                "key": line_key, 
+                                "value": line_value,
+                            })
 
             if 'SS号' in new_aac_record["metadata"]["record"]["aa_derived_ini_values"]:
                 new_aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"] = new_aac_record["metadata"]["record"]["aa_derived_ini_values"]["SS号"][0]["value"]
@@ -2487,13 +2496,16 @@ def get_duxiu_dicts(session, key, values):
                         "filesize": aac_record['generated_file_metadata']['filesize'],
                         "extension": 'pdf',
                     }
-                    duxiu_dict['aa_duxiu_derived']['md5_multiple'].append(aac_record['generated_file_metadata']['md5'])
-                    duxiu_dict['aa_duxiu_derived']['md5_multiple'].append(aac_record['generated_file_metadata']['original_md5'])
-                    duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(int(aac_record['generated_file_metadata']['filesize']))
+                    # Make sure to prepend these, in case there is another 'aa_catalog_files' entry without a generated_file.
+                    duxiu_dict['aa_duxiu_derived']['md5_multiple'] = [aac_record['generated_file_metadata']['md5']] + duxiu_dict['aa_duxiu_derived']['md5_multiple']
+                    duxiu_dict['aa_duxiu_derived']['md5_multiple'] = [aac_record['generated_file_metadata']['original_md5']] + duxiu_dict['aa_duxiu_derived']['md5_multiple']
+                    duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = [int(aac_record['generated_file_metadata']['filesize'])] + duxiu_dict['aa_duxiu_derived']['filesize_multiple']
 
                 duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['aa_catalog_files'])
 
                 aa_derived_ini_values = aac_record['metadata']['record']['aa_derived_ini_values']
+                for aa_derived_ini_values_list in aa_derived_ini_values.values():
+                    duxiu_dict['aa_duxiu_derived']['ini_values_multiple'] += aa_derived_ini_values_list
                 for ini_value in ((aa_derived_ini_values.get('Title') or []) + (aa_derived_ini_values.get('书名') or [])):
                     duxiu_dict['aa_duxiu_derived']['title_multiple'].append(ini_value['value'])
                 for ini_value in ((aa_derived_ini_values.get('Author') or []) + (aa_derived_ini_values.get('作者') or [])):
@@ -2572,7 +2584,7 @@ def get_duxiu_dicts(session, key, values):
                 pass
             duxiu_dict['aa_duxiu_derived']['debug_language_codes'] = { 'langdetect_response': langdetect_response }
 
-            if langdetect_response['lang'] in ['zh', 'ja', 'ko'] and langdetect_response['score'] > 0.5: # Somewhat arbitrary cutoff for any CYK lang.
+            if langdetect_response['lang'] in ['zh', 'ja', 'ko'] and langdetect_response['score'] > 0.5: # Somewhat arbitrary cutoff for any CJK lang.
                 duxiu_dict['aa_duxiu_derived']['language_codes'] = ['zh']
 
         duxiu_dict['aa_duxiu_derived']['title_best'] = next(iter(duxiu_dict['aa_duxiu_derived']['title_multiple']), '')
@@ -2594,6 +2606,25 @@ def get_duxiu_dicts(session, key, values):
             next(iter(duxiu_dict['aa_duxiu_derived']['year_multiple']), ''),
         ]))))
 
+
+        duxiu_dict_derived_comments = {
+            **allthethings.utils.COMMON_DICT_COMMENTS,
+            "source_multiple": ("before", ["Sources of the metadata."]),
+            "md5_multiple": ("before", ["Includes both our generated MD5, and the original file MD5."]),
+            "filesize_multiple": ("before", ["Includes both our generated file’s size, and the original filesize.",
+                                "Our generated filesize should be the first listed."]),
+            "miaochuan_links_multiple": ("before", ["For use with BaiDu Yun, though apparently now discontinued."]),
+            "filepath_multiple": ("before", ["Original filenames."]),
+            "ini_values_multiple": ("before", ["Extracted .ini-style entries from serialized_files."]),
+            "language_codes": ("before", ["Our inferred language codes (BCP 47).",
+                                "Gets set to 'zh' if the ISBN is Chinese, or if the language detection finds a CJK lang."]),
+            "duxiu_ssid_multiple": ("before", ["Duxiu SSID, often extracted from .ini-style values or filename (8 digits)."
+                                "This is then used to bring in more metadata."]),
+            "title_best": ("before", ["For the DuXiu collection, these 'best' fields pick the first value from the '_multiple' fields."
+                                "The first values are metadata taken directly from the files, followed by metadata from associated DuXiu SSID records."]),
+        }
+        duxiu_dict['aa_duxiu_derived'] = add_comments_to_dict(duxiu_dict['aa_duxiu_derived'], duxiu_dict_derived_comments)
+
         duxiu_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "duxiu_ssid": ("before", ["This is a DuXiu metadata record.",
@@ -2602,6 +2633,12 @@ def get_duxiu_dicts(session, key, values):
             "cadal_ssno": ("before", ["This is a CADAL metadata record.",
                                 "More details at https://annas-archive.org/datasets/duxiu",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "md5": ("before", ["This is a DuXiu/related metadata record.",
+                                "More details at https://annas-archive.org/datasets/duxiu",
+                                allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "duxiu_file": ("before", ["Information on the actual file in our collection (see torrents)."]),
+            "aa_duxiu_derived": ("before", "Derived metadata."),
+            "aac_records": ("before", "Metadata records from the 'duxiu_records' file, which is a compilation of metadata from various sources."),
         }
         duxiu_dicts.append(add_comments_to_dict(duxiu_dict, duxiu_dict_comments))
 

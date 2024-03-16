@@ -22,6 +22,7 @@ import pymysql
 import httpx
 import indexed_zstd
 import threading
+import traceback
 
 from flask_babel import gettext, get_babel, force_locale
 
@@ -941,7 +942,7 @@ def init_identifiers_and_classification_unified(output_dict):
 
 def add_identifier_unified(output_dict, name, value):
     if value is None:
-        print(f"Warning: 'None' found for add_identifier_unified {name}")
+        print(f"Warning: 'None' found for add_identifier_unified {name}.. {traceback.format_exc()}")
         return
     name = name.strip()
     value = str(value).strip()
