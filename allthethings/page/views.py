@@ -3452,6 +3452,11 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_most_likely_language_code': aarecord['file_unified_data']['most_likely_language_code'],
             'search_isbn13': (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []),
             'search_doi': (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []),
+            'search_title': aarecord['file_unified_data']['title_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+            'search_author': aarecord['file_unified_data']['author_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+            'search_publisher': aarecord['file_unified_data']['publisher_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+            'search_edition_varia': aarecord['file_unified_data']['edition_varia_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+            'search_original_filename': aarecord['file_unified_data']['original_filename_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
             'search_text': search_text,
             'search_access_types': [
                 *(['external_download'] if any([((aarecord.get(field) is not None) and (type(aarecord[field]) != list or len(aarecord[field]) > 0)) for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book', 'scihub_doi']]) else []),
@@ -4427,11 +4432,12 @@ def search_page():
                 {
                     "bool": {
                         "should": [
-                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 10000.0 } },
+                            # The 3.0 is from the 3x "boost" of title/author/etc in search_text.
+                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 3.0*10000.0 } },
                             { 
                                 "constant_score": {
                                     "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
-                                    "boost": 50000.0,
+                                    "boost": 3.0*50000.0,
                                 },
                             },
                         ],
@@ -4445,11 +4451,11 @@ def search_page():
                 {
                     "bool": {
                         "should": [
-                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 10000.0/100000.0 } },
+                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 3.0*10000.0/100000.0 } },
                             {
                                 "constant_score": {
                                     "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
-                                    "boost": 50000.0/100000.0,
+                                    "boost": 3.0*50000.0/100000.0,
                                 },
                             },
                         ],
@@ -4458,7 +4464,7 @@ def search_page():
                                 "simple_query_string": {
                                     "query": search_input, "fields": ["search_only_fields.search_text"],
                                     "default_operator": "and",
-                                    "boost": 1/100000.0,
+                                    "boost": 1.0/100000.0,
                                 },
                             },
                         ],
