@@ -38,8 +38,7 @@ if len(ELASTICSEARCH_HOST_PREFERRED) > 0:
 else:
     es = Elasticsearch(hosts=[ELASTICSEARCH_HOST], max_retries=1, retry_on_timeout=False, http_compress=False, randomize_hosts=False)
 if len(ELASTICSEARCHAUX_HOST_PREFERRED) > 0:
-    # Let's not fall back here, because ELASTICSEARCHAUX_HOST is just so slow..
-    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST_PREFERRED], max_retries=1, retry_on_timeout=False, http_compress=True, randomize_hosts=False)
+    es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST_PREFERRED,ELASTICSEARCHAUX_HOST], node_selector_class=FallbackNodeSelector, max_retries=1, retry_on_timeout=False, http_compress=True, randomize_hosts=False)
 else:
     es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=1, retry_on_timeout=False, http_compress=False, randomize_hosts=False)
 

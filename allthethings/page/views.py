@@ -716,23 +716,34 @@ def torrents_page():
         cursor.execute('SELECT * FROM mariapersist_torrent_scrapes_histogram WHERE day > DATE_FORMAT(NOW() - INTERVAL 60 DAY, "%Y-%m-%d") ORDER BY day, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
 
-        show_external = request.args.get("show_external", "").strip() == "1"
-        if not show_external:
-            torrents_data = {
-                **torrents_data,
-                "small_file_dicts_grouped": {
-                    **torrents_data["small_file_dicts_grouped"],
-                    "external": {}
-                }
-            }
-
         return render_template(
             "page/torrents.html",
             header_active="home/torrents",
             torrents_data=torrents_data,
             histogram=histogram,
-            show_external=show_external,
+            detailview=False,
         )
+
+@page.get("/torrents/<string:group>")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+def torrents_group_page(group):
+    torrents_data = get_torrents_data()
+
+    group_found = False
+    for top_level in torrents_data['small_file_dicts_grouped'].keys():
+        if group in torrents_data['small_file_dicts_grouped'][top_level]:
+            torrents_data['small_file_dicts_grouped'] = { top_level: { group: torrents_data['small_file_dicts_grouped'][top_level][group] } }
+            group_found = True
+            break
+    if not group_found:
+        return "", 404
+
+    return render_template(
+        "page/torrents.html",
+        header_active="home/torrents",
+        torrents_data=torrents_data,
+        detailview=True,
+    )
 
 zlib_book_dict_comments = {
     **allthethings.utils.COMMON_DICT_COMMENTS,
@@ -2736,7 +2747,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
     search_results_raw = []
     for es_handle, docs in docs_by_es_handle.items():
         search_results_raw += es_handle.mget(docs=docs)['docs']
-    return [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw if aarecord_raw['found'] and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
+    return [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw if aarecord_raw.get('found') and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
 def aarecord_score_base(aarecord):
@@ -3936,8 +3947,6 @@ def get_additional_for_aarecord(aarecord):
     if aarecord_id_split[0] == 'md5':
         for torrent_paths in additional['torrent_paths']:
             # path = "/torrents"
-            # if any(torrent_path.startswith('external/') for torrent_path in torrent_paths):
-            #     path = "/torrents?show_external=1"
             # group = torrent_group_data_from_file_path(f"torrents/{torrent_paths[0]}")['group']
             # path += f"#{group}"
             files_html = " or ".join([f'<a href="/dyn/small_file/torrents/{torrent_path}">file</a>' for torrent_path in torrent_paths])

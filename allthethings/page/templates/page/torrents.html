@@ -24,137 +24,136 @@
   {% endif %}
 
   <div lang="en">
-    <h2 class="mt-4 mb-1 text-3xl font-bold">Torrents</h2>
+    {% if detailview %}
+      <p class="mb-4">
+        <a href="/torrents">&lt;&lt; Full torrents list</a>
+      </p>
+    {% else %}
+      <h2 class="mt-4 mb-1 text-3xl font-bold">Torrents</h2>
 
-    <p class="mb-4">
-      These torrents represent the vast majority of human knowledge that can be mirrored in bulk. By seeding these torrents, you help preserve humanity’s legacy.
-    </p>
+      <p class="mb-4">
+        These torrents represent the vast majority of human knowledge that can be mirrored in bulk. By seeding these torrents, you help preserve humanity’s legacy.
+      </p>
 
-    <p class="mb-4">
-      These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://annas-software.org/AnnaArchivist/annas-archive">source code</a>. We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
-    </p>
+      <p class="mb-4">
+        These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://annas-software.org/AnnaArchivist/annas-archive">source code</a>. We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
+      </p>
 
-    <p class="mb-4">
-      The list of torrents is split in two parts:<br>
-      1. The first part is managed and released by Anna’s Archive. These include books, papers, and magazines from websites such as Z-Library and Internet Archive. It also includes metadata records from websites such as WorldCat and ISBNdb.<br>
-      2. The second part is managed and released by others, such as Library Genesis and Sci-Hub. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.<br>
-      For more information about the different collections, see the <a href="/datasets">Datasets</a> page.
-    </p>
+      <p class="mb-4">
+        The list of torrents is split in two parts:<br>
+        1. The first part is managed and released by Anna’s Archive. These include books, papers, and magazines from websites such as Z-Library and Internet Archive. It also includes metadata records from websites such as WorldCat and ISBNdb.<br>
+        2. The second part is managed and released by others, such as Library Genesis and Sci-Hub. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.<br>
+        For more information about the different collections, see the <a href="/datasets">Datasets</a> page.
+      </p>
 
-    <p class="mb-4">
-      We try to keep minimal duplication or overlap between the torrents in this list. Some torrents get temporarily embargoed (🔒) upon release, for various reasons (e.g. protecting our scraping methods). An embargo means very slow initial seeding speeds. They get lifted within a year.
-    </p>
+      <p class="mb-4">
+        We try to keep minimal duplication or overlap between the torrents in this list. Some torrents get temporarily embargoed (🔒) upon release, for various reasons (e.g. protecting our scraping methods). An embargo means very slow initial seeding speeds. They get lifted within a year.
+      </p>
 
-    <p class="mb-4">
-      <strong>IMPORTANT:</strong> If you seed large amounts of our collection (50TB or more), please contact us at <a class="" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a> so we can let you know when we deprecate any large torrents.
-    </p>
+      <p class="mb-4">
+        <strong>IMPORTANT:</strong> If you seed large amounts of our collection (50TB or more), please contact us at <a class="" href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a> so we can let you know when we deprecate any large torrents.
+      </p>
 
-    <p class="mb-1">
-      You can help out enormously by seeding torrents that are low on seeders. If everyone who reads this chips in, we can preserve these collections forever. This is the current breakdown, excluding embargoed torrents, but including external torrents:
-    </p>
+      <p class="mb-1">
+        You can help out enormously by seeding torrents that are low on seeders. If everyone who reads this chips in, we can preserve these collections forever. This is the current breakdown, excluding embargoed torrents, but including external torrents:
+      </p>
 
-    <table class="mb-2">
-      <tr><td>🔴 {{ torrents_data.seeder_size_strings[0] }}</td><td class="text-sm text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_less', count=4) }}</td></tr>
-      <tr><td>🟡 {{ torrents_data.seeder_size_strings[1] }}</td><td class="text-sm text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_range', count_min=4, count_max=10) }}</td></tr>
-      <tr><td>🟢 {{ torrents_data.seeder_size_strings[2] }}</td><td class="text-sm text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_greater', count=10) }}</td></tr>
-    </table>
+      <table class="mb-2">
+        <tr><td>🔴 {{ torrents_data.seeder_size_strings[0] }}</td><td class="text-sm text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_less', count=4) }}</td></tr>
+        <tr><td>🟡 {{ torrents_data.seeder_size_strings[1] }}</td><td class="text-sm text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_range', count_min=4, count_max=10) }}</td></tr>
+        <tr><td>🟢 {{ torrents_data.seeder_size_strings[2] }}</td><td class="text-sm text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_greater', count=10) }}</td></tr>
+      </table>
 
-    <div class="js-torrents-chart h-[300px]"></div>
-    <div class="mb-1 text-xs text-gray-500">Scraped from <a href="https://opentrackr.org">opentrackr.org</a>.</div>
+      <div class="js-torrents-chart h-[300px]"></div>
+      <div class="mb-1 text-xs text-gray-500">Scraped from <a href="https://opentrackr.org">opentrackr.org</a>.</div>
 
-    <script>
-      new Promise((resolve, reject) => document.addEventListener("DOMContentLoaded", () => { resolve () })).then(() => {
-        const seedingHistogram = {{ histogram | tojson }};
+      <script>
+        new Promise((resolve, reject) => document.addEventListener("DOMContentLoaded", () => { resolve () })).then(() => {
+          const seedingHistogram = {{ histogram | tojson }};
 
-        const colorsBySeederGroup = ['rgb(240,85,79)', 'rgb(255,218,1)', 'rgb(1,180,1)'];
+          const colorsBySeederGroup = ['rgb(240,85,79)', 'rgb(255,218,1)', 'rgb(1,180,1)'];
 
-        Plotly.newPlot(document.querySelector(".js-torrents-chart"), [2,1,0].map((seederGroup) => {
-          const seederGroupData = seedingHistogram.filter((item) => item.seeder_group === seederGroup);
-          return {
-            type: "scatter",
-            x: seederGroupData.map((item) => item.day),
-            y: seederGroupData.map((item) => item.total_tb),
-            marker: {color: colorsBySeederGroup[seederGroup]},
-            stackgroup: 'one',
-          };
-        }), {
-          margin: { l: 50, r: 16, b: 50, t: 0, pad: 4 },
-          showlegend: false,
-              yaxis: { ticksuffix: "TB" },
-        }, {staticPlot: true});
-      });
-    </script>
+          Plotly.newPlot(document.querySelector(".js-torrents-chart"), [2,1,0].map((seederGroup) => {
+            const seederGroupData = seedingHistogram.filter((item) => item.seeder_group === seederGroup);
+            return {
+              type: "scatter",
+              x: seederGroupData.map((item) => item.day),
+              y: seederGroupData.map((item) => item.total_tb),
+              marker: {color: colorsBySeederGroup[seederGroup]},
+              stackgroup: 'one',
+            };
+          }), {
+            margin: { l: 50, r: 16, b: 50, t: 0, pad: 4 },
+            showlegend: false,
+                yaxis: { ticksuffix: "TB" },
+          }, {staticPlot: true});
+        });
+      </script>
 
-    <div class="mt-8 group"><span class="text-xl font-bold" id="long_term_seeders">Long Term Seeders</span> <a href="#long_term_seeders" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+      <div class="mt-8 group"><span class="text-xl font-bold" id="long_term_seeders">Long Term Seeders</span> <a href="#long_term_seeders" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
-    <p class="mb-4">
-      List of heroes who are committed to long term seeding of all or large parts of this torrent list. These people help preserve humanity’s knowledge and culture, and we are deeply grateful for that. Contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a> if you wish to be added. We’ll give you Amazing Archivist-level membership if you seed 100TB+. IP addresses are required to supply so we can verify if you’re still seeding.
-    </p>
+      <p class="mb-4">
+        List of heroes who are committed to long term seeding of all or large parts of this torrent list. These people help preserve humanity’s knowledge and culture, and we are deeply grateful for that. Contact us at <a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a> if you wish to be added. We’ll give you Amazing Archivist-level membership if you seed 100TB+. IP addresses are required to supply so we can verify if you’re still seeding.
+      </p>
 
-    <table>
-      <tr><th class="text-left pr-4">Username</th><th class="text-left pr-4">Contact</th><th class="text-left pr-4">IPs</th><th class="text-left pr-4">Notes</th></tr>
-      <tr><td class="pr-4"><a href="/profile/Anna000">AnnaArchivist #Anna000</a></td><td class="pr-4"><a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a></td><td class="pr-4">95.214.235.224</td><td class="pr-4">Anna’s Archive is committed to seeding all the torrents in this list for as long as possible.</td></tr>
-    </table>
+      <table>
+        <tr><th class="text-left pr-4">Username</th><th class="text-left pr-4">Contact</th><th class="text-left pr-4">IPs</th><th class="text-left pr-4">Notes</th></tr>
+        <tr><td class="pr-4"><a href="/profile/Anna000">AnnaArchivist #Anna000</a></td><td class="pr-4"><a href="mailto:AnnaArchivist@proton.me">AnnaArchivist@proton.me</a></td><td class="pr-4">95.214.235.224</td><td class="pr-4">Anna’s Archive is committed to seeding all the torrents in this list for as long as possible.</td></tr>
+      </table>
 
-    <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list">Generate Torrent List</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+      <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list">Generate Torrent List</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
-    <p class="mb-4">
-      Generate a list of torrents, sorted by <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/157">seeders + 0.1*leechers</a>, ascending. Specify a maximum TB to store (we simply cut off the list when the max TB is reached).
-    </p>
+      <p class="mb-4">
+        Generate a list of torrents, sorted by <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/157">seeders + 0.1*leechers</a>, ascending. Specify a maximum TB to store (we simply cut off the list when the max TB is reached).
+      </p>
 
-    <form action="/dyn/generate_torrents" class="flex items-center mb-4">
-      <label class="mr-2 flex items-center">Max TB: <input type="number" step="any" name="max_tb" class="ml-1 bg-black/6.7 px-2 py-1 rounded" placeholder="(empty for no limit)" /></label>
-      <label class="mr-2 flex items-center">Type: <select name="format" class="ml-1 bg-black/6.7 px-2 py-1 rounded"><option value="json">JSON</option><option value="url">URLs</option><option value="magnet">Magnet links</option></select></label>
-      <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white">Generate</button>
-    </form>
+      <form action="/dyn/generate_torrents" class="flex items-center mb-4">
+        <label class="mr-2 flex items-center">Max TB: <input type="number" step="any" name="max_tb" class="ml-1 bg-black/6.7 px-2 py-1 rounded" placeholder="(empty for no limit)" /></label>
+        <label class="mr-2 flex items-center">Type: <select name="format" class="ml-1 bg-black/6.7 px-2 py-1 rounded"><option value="json">JSON</option><option value="url">URLs</option><option value="magnet">Magnet links</option></select></label>
+        <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white">Generate</button>
+      </form>
 
-    <p class="mb-4">
-      We only show non-obsolete, non-embargoed files with at least one seeder here. For a complete list see the full <a href="/dyn/torrents.json">torrents JSON</a>.
-    </p>
+      <p class="mb-4">
+        We only show non-obsolete, non-embargoed files with at least one seeder here. For a complete list see the full <a href="/dyn/torrents.json">torrents JSON</a>.
+      </p>
 
-    <div class="mt-8 group"><span class="text-xl font-bold" id="similar_lists">Similar Lists</span> <a href="#similar_lists" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+      <div class="mt-8 group"><span class="text-xl font-bold" id="similar_lists">Similar Lists</span> <a href="#similar_lists" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
-    <p class="">
-      Similar lists, independently maintained. Note that at the time of this writing, all these lists are included in our list, under <a href="#external">External Collections</a>, similarly to how Anna’s Archive itself is a meta-collection of many external collections.
-    </p>
+      <p class="">
+        Similar lists, independently maintained. Note that at the time of this writing, all these lists are included in our list, under <a href="#external">External Collections</a>, similarly to how Anna’s Archive itself is a meta-collection of many external collections.
+      </p>
 
-    <ul class="list-inside mb-4 ml-1">
-      <li class="list-disc"><a href="https://ipdl.cat/">ipdl.cat</a></li>
-      <li class="list-disc"><a href="https://phillm.net/libgen-seeds-needed.php">PhillM's LibGen torrent index</a></li>
-    </ul>
+      <ul class="list-inside mb-4 ml-1">
+        <li class="list-disc"><a href="https://ipdl.cat/">ipdl.cat</a></li>
+        <li class="list-disc"><a href="https://phillm.net/libgen-seeds-needed.php">PhillM's LibGen torrent index</a></li>
+      </ul>
+    {% endif %}
 
     {% for toplevel, groups in torrents_data.small_file_dicts_grouped.items() %}
-      {% if toplevel == 'managed_by_aa' %}
-        <div class="mt-8 group"><span class="text-2xl font-bold" id="managed_by_aa">Managed by Anna’s Archive</span> <a href="#managed_by_aa" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+      {% if not detailview %}
+        {% if toplevel == 'managed_by_aa' %}
+          <div class="mt-8 group"><span class="text-2xl font-bold" id="managed_by_aa">Managed by Anna’s Archive</span> <a href="#managed_by_aa" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
-        <p class="mb-4">
-          These torrents are managed and released by Anna’s Archive.
-        </p>
+          <p class="mb-4">
+            These torrents are managed and released by Anna’s Archive.
+          </p>
 
-        <p class="mb-0">
-          Torrents with “aac” in the filename use the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents. Some torrents that have messages in their filename are “adopted torrents”, which is a perk of our top tier <a href="/donate">“Amazing Archivist” membership</a>.
-        </p>
-      {% else %}
-        <div class="mt-8 group"><span class="text-2xl font-bold" id="external">External Collections</span> <a href="#external" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+          <p class="mb-0">
+            Torrents with “aac” in the filename use the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents. Some torrents that have messages in their filename are “adopted torrents”, which is a perk of our top tier <a href="/donate">“Amazing Archivist” membership</a>.
+          </p>
+        {% else %}
+          <div class="mt-8 group"><span class="text-2xl font-bold" id="external">External Collections</span> <a href="#external" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
-        <p class="mb-4">
-          These torrents are managed and released by others. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.
-        </p>
-
-        <p class="mb-0">
-          This list is very long, so we hide it by default. 
-          {% if show_external %}
-            <a href="/torrents#external">Hide external torrents.</a>
-          {% else %}
-            <a href="/torrents?show_external=1#external">Show external torrents.</a>
-          {% endif %}
-        </p>
+          <p class="mb-4">
+            These torrents are managed and released by others. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.
+          </p>
+        {% endif %}
       {% endif %}
 
       <div class="overflow-hidden max-w-full">
         <table>
           {% for group, small_files in groups.items() %}
-            <tr><td colspan="100" class="pt-4"><span class="text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }}</span> <span class="text-xs text-gray-500">{{ torrents_data.group_size_strings[group] }}</span> <a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [td:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a>
+            <tr><td colspan="100" class="pt-4"><span class="text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }}</span> <span class="text-xs text-gray-500">{{ torrents_data.group_size_strings[group] }} / {{ small_files | length }} {{ 'torrent' if (small_files | length == 1) else 'torrents' }}</span> {% if not detailview %}<a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [td:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a>{% endif %}
 
               {% if group == 'libgenli_comics' %}
                 <div class="mb-1 text-sm">Comics and magazines from Libgen.li. <a href="/datasets/libgen_li">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html">blog</a>. <strong>NOTE:</strong> we are working on splitting these comics/magazines torrents into smaller torrents. This will happen soon. In the meantime we have disabled seeding these torrents, since there were very few seeders anyway. Stay tuned!</div>
@@ -181,9 +180,16 @@
               {% endif %}
             </td></tr>
 
-            {% for small_file in small_files %}
-              {{ small_file_row(small_file, 'regular') }}
-            {% endfor %}
+            {% if detailview %}
+              {% for small_file in small_files %}
+                {{ small_file_row(small_file, 'regular') }}
+              {% endfor %}
+            {% else %}
+              {% for small_file in small_files[0:20] %}
+                {{ small_file_row(small_file, 'regular') }}
+              {% endfor %}
+              <td colspan="100" class=""><a class="text-sm" href="/torrents/{{ group }}">full list for “{{ group }}” ({{ small_files | length }} {{ 'torrent' if (small_files | length == 1) else 'torrents' }})</a>
+            {% endif %}
           {% endfor %}
         </table>
       </div>

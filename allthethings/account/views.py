@@ -390,7 +390,7 @@ def donation_page(donation_id):
                 "pid": PAYMENT1_ID,
                 "return_url": "https://annas-archive.se/account/",
                 "sitename": "Anna’s Archive",
-                "type": "wechat",
+                "type": "wxpay",
             }
             sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1_KEY
             sign = hashlib.md5((sign_str).encode()).hexdigest()
