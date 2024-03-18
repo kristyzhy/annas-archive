@@ -121,12 +121,15 @@ def strip_jwt_prefix(jwt_payload):
 
 def get_account_id(cookies):
     if len(cookies.get(ACCOUNT_COOKIE_NAME, "")) > 0:
-        account_data = jwt.decode(
-            jwt=JWT_PREFIX + cookies[ACCOUNT_COOKIE_NAME],
-            key=SECRET_KEY,
-            algorithms=["HS256"],
-            options={ "verify_signature": True, "require": ["iat"], "verify_iat": True }
-        )
+        try:
+            account_data = jwt.decode(
+                jwt=JWT_PREFIX + cookies[ACCOUNT_COOKIE_NAME],
+                key=SECRET_KEY,
+                algorithms=["HS256"],
+                options={ "verify_signature": True, "require": ["iat"], "verify_iat": True }
+            )
+        except jwt.exceptions.InvalidTokenError:
+            return None
         return account_data["a"]
     return None
 
@@ -551,14 +554,14 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
 
 def payment2_check(cursor, payment_id):
     payment2_status = None
-    for attempt in [1,2,3]:
+    for attempt in [1,2,3,4,5]:
         try:
             payment2_request = httpx.get(f"{PAYMENT2_URL}{payment_id}", headers={'x-api-key': PAYMENT2_API_KEY}, proxies=PAYMENT2_PROXIES, timeout=10.0)
             payment2_request.raise_for_status()
             payment2_status = payment2_request.json()
             break
         except:
-            if attempt == 3:
+            if attempt == 5:
                 raise
     if payment2_status['payment_status'] in ['confirmed', 'sending', 'finished']:
         if confirm_membership(cursor, payment2_status['order_id'], 'payment2_status', payment2_status):
