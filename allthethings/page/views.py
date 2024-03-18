@@ -466,6 +466,7 @@ def get_stats_data():
         'openlib_date': openlib_date,
         'zlib_date': zlib_date,
         'ia_date': ia_date,
+        'duxiu_date': '2023',
         'isbndb_date': '2022-09-01',
         'isbn_country_date': '2022-02-11',
         'oclc_date': '2023-10-01',
@@ -598,6 +599,17 @@ def datasets_ia_page():
     try:
         stats_data = get_stats_data()
         return render_template("page/datasets_ia.html", header_active="home/datasets", stats_data=stats_data)
+    except Exception as e:
+        if 'timed out' in str(e):
+            return "Error with datasets page, please try again.", 503
+        raise
+
+@page.get("/datasets/duxiu")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def datasets_duxiu_page():
+    try:
+        stats_data = get_stats_data()
+        return render_template("page/datasets_duxiu.html", header_active="home/datasets", stats_data=stats_data)
     except Exception as e:
         if 'timed out' in str(e):
             return "Error with datasets page, please try again.", 503
@@ -3444,9 +3456,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['id'][:1000],
-            # TODO: Enable and see how big the index gets.
-            # aarecord['file_unified_data']['stripped_description_best'][:5000],
-            # ('\n'.join(aarecord['file_unified_data'].get('comments_multiple') or ''))[:5000],
+            aarecord['file_unified_data']['stripped_description_best'][:5000],
+            ('\n'.join(aarecord['file_unified_data'].get('comments_multiple') or ''))[:5000],
         ])))
         split_search_text = set(initial_search_text.split())
         normalized_search_terms = initial_search_text.replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' ')

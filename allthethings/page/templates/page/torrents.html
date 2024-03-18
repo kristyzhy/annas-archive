@@ -25,8 +25,8 @@
 
   <div lang="en">
     {% if detailview %}
-      <p class="mb-4">
-        <a href="/torrents">&lt;&lt; Full torrents list</a>
+      <p class="">
+        {% if detailview %}<a href="/torrents">Torrents</a> ▶ {{ ((torrents_data.small_file_dicts_grouped.values() | list)[0].keys() | list)[0] }}{% endif %}
       </p>
     {% else %}
       <h2 class="mt-4 mb-1 text-3xl font-bold">Torrents</h2>
