@@ -768,8 +768,7 @@ def account_buy_membership():
                 if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
                     return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.minimum') })
                 elif donation_json['payment2_request']['code'] == 'INTERNAL_ERROR':
-                    # TODO:TRANSLATE
-                    return orjson.dumps({ 'error': "Error in payment processing. Please wait a moment and try again. If the issue persists for more than 24 hours, please contact us at AnnaArchivist@proton.me with a screenshot." })
+                    return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.wait') })
                 else:
                     print(f"Warning: unknown error in payment2 with code missing: {donation_json['payment2_request']} /// {curlify2.to_curl(response.request)}")
                     return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })

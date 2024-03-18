@@ -982,91 +982,108 @@ msgid "page.account.logged_in.title"
 msgstr "Compte"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:46
 msgid "page.account.logged_out.title"
 msgstr "Se connecter / S'inscrire"
+
+#: allthethings/account/templates/account/index.html:18
+msgid "page.account.logged_in.account_id"
+msgstr ""
 
 #: allthethings/account/templates/account/index.html:19
 msgid "page.account.logged_in.public_profile"
 msgstr "Profil publique : %(profile_link)s"
 
-#: allthethings/account/templates/account/index.html:24
+#: allthethings/account/templates/account/index.html:22
 msgid "page.account.logged_in.membership_none"
 msgstr "Adhésion : <strong>Aucune</strong> <a %(a_become)s>(devenir membre)</a>"
 
-#: allthethings/account/templates/account/index.html:27
+#: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_has_some"
 msgstr "Adhésion : <strong>%(tier_name)s</strong> jusqu'au%(until_date)s <a %(a_extend)s>(prolonger)</a>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:27
 msgid "page.account.logged_in.membership_fast_downloads_used"
 msgstr "Téléchargements rapides utilisées (dernières 24 heures) : <strong>%(used)s / %(total)s</strong>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:27
 msgid "page.account.logged_in.which_downloads"
 msgstr "quels téléchargements ?"
 
-#: allthethings/account/templates/account/index.html:35
+#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:31
+msgid "page.account.logged_in.telegram_group_wrapper"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:29
+msgid "page.account.logged_in.telegram_group_join"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:31
+msgid "page.account.logged_in.telegram_group_upgrade"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:33
 msgid "page.account.logged_in.membership_upgrade"
 msgstr "Contactez Anna à l'adresse AnnaArchivist@proton.me si vous souhaitez souscrire à une adhésion de rang supérieur."
 
-#: allthethings/account/templates/account/index.html:36
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Vous pouvez combiner plusieurs adhésions (les téléchargements rapides par 24 heures seront additionnés)."
 
-#: allthethings/account/templates/account/index.html:41
+#: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.button"
 msgstr "Se déconnecter"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:42
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Vous êtes désormais déconnecté. Rafraîchissez la page pour vous connecter à nouveau."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Une erreur a eu lieu. Veuillez rafraîchir la page et essayer à nouveau."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:49
 msgid "page.account.logged_out.registered.text1"
 msgstr "Vous êtes bien inscrit ! Votre clé secrète est : <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_out.registered.text2"
 msgstr "Conservez cette clé soigneusement. En la perdant, vous perdez l'accès à votre compte."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:56
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Page en favori.</strong> Vous pouvez ajouter cette page à vos favoris afin de conserver votre clé.</li><li %(li_item)s><strong>Téléchargement.</strong> Cliquez sur <a %(a_download)s>ce lien</a> pour télécharger votre clé.</li><li %(li_item)s><strong>Gestionnaire de mots de passe.</strong> Utilisez un gestionnaire de mots de passe pour enregistrer la clé lorsque vous la saisissez ci-dessous.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.text"
 msgstr "Entrez votre clé secrète pour vous connecter :"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Clé secrète"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.key_form.button"
 msgstr "Se connecter"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:66
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Clé secrète invalide. Vérifiez votre clé et essayez à nouveau, ou créez un nouveau compte ci-dessous."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Ne perdez pas votre clé !"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:73
 msgid "page.account.logged_out.register.header"
 msgstr "Vous n'avez pas encore de compte ?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.register.button"
 msgstr "Créer un nouveau compte"
 
-#: allthethings/account/templates/account/index.html:81
+#: allthethings/account/templates/account/index.html:79
 msgid "page.account.logged_out.old_email.button"
 msgstr "Compte enregistré avec un ancien email ? Entrez votre <a %(a_open)s>email ici</a>."
 
@@ -1204,19 +1221,31 @@ msgstr ""
 msgid "page.request.title"
 msgstr "Demander un livre"
 
-#: allthethings/account/templates/account/request.html:19
+#: allthethings/account/templates/account/request.html:9
+msgid "page.request.cannot_accomodate"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:10
+msgid "page.request.forums"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:14
+msgid "page.request.dont_email"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:18
 msgid "page.request.text1"
 msgstr "Pour le moment, pouvez-vous faire vos demandes d'eBooks sur le forum de <a %(a_forum)s>Libgen.rs ? Vous pouvez y créer un compte et poster dans l'un de ces fils de discussion :"
 
-#: allthethings/account/templates/account/request.html:23
+#: allthethings/account/templates/account/request.html:22
 msgid "page.request.text2"
 msgstr "<li %(li_item)s>Pour les eBooks, veuillez utiliser<a %(a_ebook)s>ce fil de discussion</a>.</li><li %(li_item)s>Pour les livres n'existant pas en eBook, veuillez utiliser <a %(a_regular)s>ce fil de discussion</a>.</li>"
 
-#: allthethings/account/templates/account/request.html:27
+#: allthethings/account/templates/account/request.html:26
 msgid "page.request.text3"
 msgstr "Dans les deux cas, veillez à suivre les règles mentionnées dans les fils de discussion."
 
-#: allthethings/account/templates/account/request.html:31
+#: allthethings/account/templates/account/request.html:30
 #: allthethings/account/templates/account/upload.html:15
 msgid "common.libgen.email"
 msgstr "Si votre adresse email ne fonctionne pas sur les forums de Libgen, nous vous conseillons d'utiliser <a %(a_mail)s>Proton Mail</a> (gratuit). Vous pouvez aussi <a %(a_manual)s>demander manuellement</a> que votre compte soit activé."
@@ -1254,13 +1283,17 @@ msgstr ""
 msgid "dyn.buy_membership.error.try_again"
 msgstr "La demande n'a pas pu être complétée. Veuillez réessayer dans quelques minutes, et si le problème persiste, contactez-nous à l'adresse AnnaArchivist@proton.me avec une capture d'écran."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:775
+#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Une erreur inconnue s'est produite. Veuillez nous contacter à AnnaArchivist@proton.me avec une capture d'écran."
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Cette cryptomonnaie exige un montant minimum plus haut que la normale. Veuillez choisir un abonnement ou une cryptomonnaie différente."
+
+#: allthethings/dyn/views.py:771
+msgid "dyn.buy_membership.error.wait"
+msgstr ""
 
 #: allthethings/page/views.py:3508
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1370,11 +1403,15 @@ msgstr "Sci-Hub"
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
+#: allthethings/page/views.py:3550
+msgid "common.record_sources_mapping.duxiu"
+msgstr ""
+
 #: allthethings/page/views.py:3575
 msgid "common.md5.servers.fast_partner"
 msgstr "Serveur Partenaire Rapide #%(number)s"
 
-#: allthethings/page/views.py:3575 allthethings/page/views.py:3990
+#: allthethings/page/views.py:3575 allthethings/page/views.py:3988
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(aucune vérification de navigateur requise)"
 
@@ -1473,7 +1510,27 @@ msgstr "Rechercher dans les archives d'Anna le numéro OCLC (WorldCat)"
 msgid "page.md5.box.download.original_oclc"
 msgstr "Rechercher la notice originale dans WorldCat"
 
-#: allthethings/page/views.py:3990 allthethings/page/views.py:3991
+#: allthethings/page/views.py:3972
+msgid "page.md5.box.download.aa_duxiu"
+msgstr ""
+
+#: allthethings/page/views.py:3973
+msgid "page.md5.box.download.original_duxiu"
+msgstr ""
+
+#: allthethings/page/views.py:3975
+msgid "page.md5.box.download.aa_cadal"
+msgstr ""
+
+#: allthethings/page/views.py:3976
+msgid "page.md5.box.download.original_cadal"
+msgstr ""
+
+#: allthethings/page/views.py:3980
+msgid "page.md5.box.download.aa_dxid"
+msgstr ""
+
+#: allthethings/page/views.py:3988 allthethings/page/views.py:3989
 msgid "page.md5.box.download.scidb"
 msgstr "Anna’s Archive 🧬 SciDB"
 
@@ -1490,7 +1547,7 @@ msgid "page.md5.header.ia_desc"
 msgstr "Ceci est l'archive d'un fichier provenant de l'Internet Archive, pas un fichier en téléchargement direct. Vous pouvez essayer d'emprunter ce livre (lien ci-dessous), ou utiliser cet URL pour <a %(a_request)s>demander un fichier</a>."
 
 #: allthethings/page/templates/page/aarecord.html:22
-#: allthethings/page/templates/page/aarecord.html:42
+#: allthethings/page/templates/page/aarecord.html:40
 msgid "page.md5.header.consider_upload"
 msgstr ""
 
@@ -1506,94 +1563,102 @@ msgstr "Métadonnées de l'archive Open Library %(id)s"
 msgid "page.md5.header.meta_oclc"
 msgstr "Numéro OCLC (WorldCat) %(id)s entrée de métadonnées"
 
-#: allthethings/page/templates/page/aarecord.html:41
+#: allthethings/page/templates/page/aarecord.html:33
+msgid "page.md5.header.meta_duxiu_ssid"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:35
+msgid "page.md5.header.meta_cadal_ssno"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:39
 msgid "page.md5.header.meta_desc"
 msgstr "Ceci est une archive de métadonnées, pas un fichier téléchargeable. Vous pouvez utiliser cet URL lorsque vous <a %(a_request)s>faites une demande pour un fichier</a>."
 
-#: allthethings/page/templates/page/aarecord.html:56
+#: allthethings/page/templates/page/aarecord.html:54
 msgid "page.md5.box.descr_read_more"
 msgstr "Lire plus…"
 
-#: allthethings/page/templates/page/aarecord.html:77
+#: allthethings/page/templates/page/aarecord.html:75
 msgid "page.md5.codes.url"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:78
+#: allthethings/page/templates/page/aarecord.html:76
 msgid "page.md5.codes.website"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:79
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.aa_abbr"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:79
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.aa_search"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.downloads"
 msgstr "Téléchargement (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.borrow"
 msgstr "Emprunter (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.explore_metadata"
 msgstr "Explorer les métadonnées (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:108
+#: allthethings/page/templates/page/aarecord.html:106
 msgid "page.md5.tabs.lists"
 msgstr "Listes (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:109
+#: allthethings/page/templates/page/aarecord.html:107
 msgid "page.md5.tabs.stats"
 msgstr "Statistiques (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:111
+#: allthethings/page/templates/page/aarecord.html:109
 msgid "common.tech_details"
 msgstr "Afficher les détails techniques"
 
-#: allthethings/page/templates/page/aarecord.html:179
+#: allthethings/page/templates/page/aarecord.html:177
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ Ce fichier semble avoir un problème et a été supprimé de la bibliothèque. </span> Parfois, c'est à la demande d'un détenteur de droits d'auteur, parfois, c'est parce qu'une meilleure alternative est disponible ou encore, parce que le fichier est corrompu. Il est possible que vous puissiez tout de même le télécharger, mais nous vous recommandons de rechercher d'abord un autre fichier. Plus de détails :"
 
-#: allthethings/page/templates/page/aarecord.html:184
+#: allthethings/page/templates/page/aarecord.html:182
 msgid "page.md5.box.download.better_file"
 msgstr "Une meilleure version de ce fichier est peut-être disponible sur %(link)s"
 
-#: allthethings/page/templates/page/aarecord.html:189
+#: allthethings/page/templates/page/aarecord.html:187
 msgid "page.md5.box.issues.text2"
 msgstr "Si vous voulez toujours télécharger le fichier, soyez sûr d'utiliser un logiciel de confiance et mis à jour pour l'ouvrir."
 
-#: allthethings/page/templates/page/aarecord.html:194
+#: allthethings/page/templates/page/aarecord.html:192
 msgid "page.md5.box.download.header_fast_no_member"
 msgstr "<strong>🚀 Téléchargements rapides</strong> Devenez <a %(a_membership)s>membre</a> pour soutenir la préservation à long terme des livres, des documents, etc. Pour vous remercier de votre soutien, vous bénéficiez de téléchargements rapides. ❤️"
 
-#: allthethings/page/templates/page/aarecord.html:195
+#: allthethings/page/templates/page/aarecord.html:193
 msgid "page.md5.box.download.header_fast_member"
 msgstr "<strong>🚀 Téléchargements rapides</strong> Il vous en reste %(remaining)s aujourd'hui. Merci d'être un membre ! ❤️"
 
-#: allthethings/page/templates/page/aarecord.html:196
+#: allthethings/page/templates/page/aarecord.html:194
 msgid "page.md5.box.download.header_fast_member_no_remaining"
 msgstr "<strong>🚀 Téléchargements rapides</strong> Vous avez épuisé vos téléchargements rapides pour aujourd'hui. Veuillez contacter Anna à l'adresse AnnaArchivist@proton.me si vous souhaitez augmenter votre adhésion."
 
-#: allthethings/page/templates/page/aarecord.html:197
+#: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 Téléchargements rapides</strong> Vous avez téléchargé ce fichier récemment. Les liens restent valides pendant un moment."
 
-#: allthethings/page/templates/page/aarecord.html:201
-#: allthethings/page/templates/page/aarecord.html:213
-#: allthethings/page/templates/page/aarecord.html:234
+#: allthethings/page/templates/page/aarecord.html:199
+#: allthethings/page/templates/page/aarecord.html:211
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.option"
 msgstr "Option #%(num)d : %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:201
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.refer"
 msgstr "Parrainez un ami, et bénéficiez tous les deux de %(percentage)s%% de téléchargements rapides en plus !"
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:201
 #: allthethings/templates/layouts/index.html:216
 #: allthethings/templates/layouts/index.html:219
 #: allthethings/templates/layouts/index.html:307
@@ -1602,56 +1667,56 @@ msgstr "Parrainez un ami, et bénéficiez tous les deux de %(percentage)s%% de t
 msgid "layout.index.header.learn_more"
 msgstr "En savoir plus…"
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:207
 msgid "page.md5.box.download.header_slow_only"
 msgstr "🐢 Téléchargements lents"
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:207
 msgid "page.md5.box.download.trusted_partners"
 msgstr "Depuis nos partenaires de confiance."
 
-#: allthethings/page/templates/page/aarecord.html:224
+#: allthethings/page/templates/page/aarecord.html:222
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 Téléchargements lents et externes"
 
-#: allthethings/page/templates/page/aarecord.html:225
+#: allthethings/page/templates/page/aarecord.html:223
 msgid "page.md5.box.download.header_external"
 msgstr "Téléchargements externes"
 
-#: allthethings/page/templates/page/aarecord.html:227
+#: allthethings/page/templates/page/aarecord.html:225
 msgid "page.md5.box.download.header_generic"
 msgstr "Téléchargements"
 
-#: allthethings/page/templates/page/aarecord.html:239
+#: allthethings/page/templates/page/aarecord.html:237
 msgid "page.md5.box.download.no_found"
 msgstr "Aucun téléchargement trouvé."
 
-#: allthethings/page/templates/page/aarecord.html:242
+#: allthethings/page/templates/page/aarecord.html:240
 msgid "page.md5.box.download.convert"
 msgstr "Conversion : utilisez des outils en ligne pour convertir les fichiers d'un format à l'autre. Par exemple, pour convertir un epub en pdf, utilisez <a href=\"https://cloudconvert.com/epub-to-pdf\">CloudConverter</a>."
 
-#: allthethings/page/templates/page/aarecord.html:243
+#: allthethings/page/templates/page/aarecord.html:241
 msgid "page.md5.box.download.kindle"
 msgstr "Kindle: téléchargez le fichier (en format pdf ou epub), puis <a href=\"https://www.amazon.com/sendtokindle\">transférez-le sur votre Kindle</a> via web, application ou mail."
 
-#: allthethings/page/templates/page/aarecord.html:244
+#: allthethings/page/templates/page/aarecord.html:242
 msgid "page.md5.box.download.support_authors"
 msgstr "Auteurs de soutien: Si vous aimez cela et que vous pouvez vous le permettre, envisagez d'acheter l'original ou de soutenir directement les auteurs."
 
-#: allthethings/page/templates/page/aarecord.html:245
+#: allthethings/page/templates/page/aarecord.html:243
 msgid "page.md5.box.download.support_libraries"
 msgstr "Bibliothèques de support: si ce document est disponible dans votre bibliothèque locale, envisagez de l'emprunter gratuitement sur place."
 
-#: allthethings/page/templates/page/aarecord.html:250
+#: allthethings/page/templates/page/aarecord.html:248
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Toutes les options de téléchargement devraient pouvoir être utilisées en toute sécurité. Cela dit, soyez toujours prudent lorsque vous téléchargez des fichiers depuis l'internet. Par exemple, veillez à maintenir vos appareils à jour."
 
-#: allthethings/page/templates/page/aarecord.html:278
-#: allthethings/page/templates/page/aarecord.html:279
-#: allthethings/page/templates/page/aarecord.html:380
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:400
-#: allthethings/page/templates/page/aarecord.html:401
+#: allthethings/page/templates/page/aarecord.html:276
+#: allthethings/page/templates/page/aarecord.html:277
+#: allthethings/page/templates/page/aarecord.html:378
+#: allthethings/page/templates/page/aarecord.html:379
+#: allthethings/page/templates/page/aarecord.html:398
+#: allthethings/page/templates/page/aarecord.html:399
 #: allthethings/page/templates/page/about.html:125
 #: allthethings/page/templates/page/about.html:126
 #: allthethings/page/templates/page/copyright.html:6
@@ -1892,6 +1957,10 @@ msgstr "Ouvrir"
 #: allthethings/page/templates/page/home.html:27
 msgid "page.home.scidb.browser_verification"
 msgstr "Si vous êtes <a %(a_member)s>membre</a>, la vérification navigateur n'est pas nécessaire."
+
+#: allthethings/page/templates/page/home.html:46
+msgid "page.home.payment_processor.body"
+msgstr ""
 
 #: allthethings/page/templates/page/home.html:56
 msgid "page.home.archive.header"
@@ -2250,6 +2319,10 @@ msgstr "Surprenez un proche, offrez-lui un compte avec adhésion."
 #: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.donate"
 msgstr "Faire un don"
+
+#: allthethings/templates/layouts/index.html:216
+msgid "layout.index.header.banner.mirrors"
+msgstr ""
 
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.valentine_gift"

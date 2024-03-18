@@ -21,7 +21,7 @@
       {{ gettext('page.md5.header.ia_desc', a_request=(' href="/account/request" ' | safe)) }}
       {{ gettext('page.md5.header.consider_upload', a_request=(' href="/account/upload" ' | safe)) }}
     </p>
-  {% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc'] %}
+  {% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc', 'duxiu_ssid', 'cadal_ssno'] %}
     <div class="text-xl mb-1 font-bold">
       {% if aarecord_id_split[0] == 'isbn' %}
         {{ gettext('page.md5.header.meta_isbn', id=aarecord_id_split[1]) }}
@@ -30,11 +30,9 @@
       {% elif aarecord_id_split[0] == 'oclc' %}
         {{ gettext('page.md5.header.meta_oclc', id=aarecord_id_split[1]) }}
       {% elif aarecord_id_split[0] == 'duxiu_ssid' %}
-        <!-- TODO:TRANSLATE -->
-        DuXiu SSID {{ aarecord_id_split[1] }} metadata record
+        {{ gettext('page.md5.header.meta_duxiu_ssid', id=aarecord_id_split[1]) }}
       {% elif aarecord_id_split[0] == 'cadal_ssno' %}
-        <!-- TODO:TRANSLATE -->
-        CADAL SSNO {{ aarecord_id_split[1] }} metadata record
+        {{ gettext('page.md5.header.meta_cadal_ssno', id=aarecord_id_split[1]) }}
       {% endif %}
     </div>
     <p class="mb-4">

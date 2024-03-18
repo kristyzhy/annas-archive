@@ -982,91 +982,108 @@ msgid "page.account.logged_in.title"
 msgstr "Акаунт"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:46
 msgid "page.account.logged_out.title"
 msgstr "Вход / Регистриране"
+
+#: allthethings/account/templates/account/index.html:18
+msgid "page.account.logged_in.account_id"
+msgstr ""
 
 #: allthethings/account/templates/account/index.html:19
 msgid "page.account.logged_in.public_profile"
 msgstr "Публичен профил: %(profile_link)s"
 
-#: allthethings/account/templates/account/index.html:24
+#: allthethings/account/templates/account/index.html:22
 msgid "page.account.logged_in.membership_none"
 msgstr "Членство: <strong>Няма</strong> <a %(a_become)s>(станете член)</a>"
 
-#: allthethings/account/templates/account/index.html:27
+#: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_has_some"
 msgstr "Членство: <strong>%(tier_name)s</strong> до %(until_date)s <a %(a_extend)s>(удължаване)</a>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:27
 msgid "page.account.logged_in.membership_fast_downloads_used"
 msgstr "Използвани са бързи изтегляния (последните 24 часа): <strong>%(used)s / %(total)s</strong>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:27
 msgid "page.account.logged_in.which_downloads"
 msgstr "кои изтегляния?"
 
-#: allthethings/account/templates/account/index.html:35
+#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:31
+msgid "page.account.logged_in.telegram_group_wrapper"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:29
+msgid "page.account.logged_in.telegram_group_join"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:31
+msgid "page.account.logged_in.telegram_group_upgrade"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:33
 msgid "page.account.logged_in.membership_upgrade"
 msgstr "Свържете се с Anna на AnnaArchivist@proton.me, ако се интересувате от надграждане на членството си до по-високо ниво."
 
-#: allthethings/account/templates/account/index.html:36
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Можете да комбинирате няколко членства (бързите изтегляния за 24 часа ще бъдат добавени заедно)."
 
-#: allthethings/account/templates/account/index.html:41
+#: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.button"
 msgstr "Излизане"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:42
 msgid "page.account.logged_in.logout.success"
 msgstr "✅Вече сте излезли. Презаредете страницата, за да влезете отново."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Нещо се обърка. Моля, презаредете страницата и опитайте отново."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:49
 msgid "page.account.logged_out.registered.text1"
 msgstr "Успешна регистрация! Тайният Ви ключ е <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_out.registered.text2"
 msgstr "Внимателно запаметете този ключ. Ако го изгубите, ще загубите достъп до профила си."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:56
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Отметка.</strong> Може да добавите отметка за тази препратка, за да намерите ключа си по-лесно.</li><li %(li_item)s><strong>Изтегли.</strong> Натиснете <a %(a_download)s>тази препратка</a>, за да изтеглите ключа си.</li><li %(li_item)s><strong>Управление на пароли.</strong> Използвайте софтуер за управление на пароли, за да запазите ключа, когато го въведете долу.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.text"
 msgstr "Въведете тайния си ключ, за да влезете в системата:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Таен ключ"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.key_form.button"
 msgstr "Вход"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:66
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Невалиден таен ключ. Проверете ключа си и опитайте отново или регистрирайте нов акаунт по-долу."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Не губете ключа си!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:73
 msgid "page.account.logged_out.register.header"
 msgstr "Още нямате акаунт?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.register.button"
 msgstr "Регистрирайте нов акаунт"
 
-#: allthethings/account/templates/account/index.html:81
+#: allthethings/account/templates/account/index.html:79
 msgid "page.account.logged_out.old_email.button"
 msgstr "Имате стар акаунт, базиран на имейл? Въведете <a %(a_open)s>имейла си тук</a>."
 
@@ -1204,19 +1221,31 @@ msgstr ""
 msgid "page.request.title"
 msgstr "Направете заявка за книги"
 
-#: allthethings/account/templates/account/request.html:19
+#: allthethings/account/templates/account/request.html:9
+msgid "page.request.cannot_accomodate"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:10
+msgid "page.request.forums"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:14
+msgid "page.request.dont_email"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:18
 msgid "page.request.text1"
 msgstr "Засега можете ли да отправяте запитвания за електронни книги във форума <a %(a_forum)s>Libgen.rs</a>? Можете да създадете акаунт там и да публикувате в някоя от тези теми:"
 
-#: allthethings/account/templates/account/request.html:23
+#: allthethings/account/templates/account/request.html:22
 msgid "page.request.text2"
 msgstr "<li %(li_item)s>За електронни книги, използвайте <a %(a_ebook)s>тази тема</a>.</li><li %(li_item)s>За книгите, които не са достъпни като електронни книги използвайте <a %(a_regular)s>тази тема</a>.</li>"
 
-#: allthethings/account/templates/account/request.html:27
+#: allthethings/account/templates/account/request.html:26
 msgid "page.request.text3"
 msgstr "И в двата случая не забравяйте да спазвате правилата, посочени в темите."
 
-#: allthethings/account/templates/account/request.html:31
+#: allthethings/account/templates/account/request.html:30
 #: allthethings/account/templates/account/upload.html:15
 msgid "common.libgen.email"
 msgstr "Ако имейл адресът Ви не работи във форумите на Libgen, препоръчваме да използвате <a %(a_mail)s>Proton Mail</a> (безплатно). Можете също така да <a %(a_manual)s>поискате активация</a> за акаунта Ви."
@@ -1254,13 +1283,17 @@ msgstr ""
 msgid "dyn.buy_membership.error.try_again"
 msgstr "Заявката не можа да бъде изпълнена. Опитайте отново след няколко минути и ако това продължи да се случва, свържете се с нас на AnnaArchivist@proton.me с екранна снимка."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:775
+#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Възникна непозната грешка. Свържете се с нас на AnnaArchivist@proton.me с екранна снимка."
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Тази монета има по-висока стойност от обичайния минимум. Моля, изберете различна продължителност или друга монета."
+
+#: allthethings/dyn/views.py:771
+msgid "dyn.buy_membership.error.wait"
+msgstr ""
 
 #: allthethings/page/views.py:3508
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1370,11 +1403,15 @@ msgstr "Sci-Hub - библиотека в сянка, с безплатен до
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat) - е най-изчерпателната в света база данни с информация за библиотечните колекции"
 
+#: allthethings/page/views.py:3550
+msgid "common.record_sources_mapping.duxiu"
+msgstr ""
+
 #: allthethings/page/views.py:3575
 msgid "common.md5.servers.fast_partner"
 msgstr "Върз сървър в партньорство с нас №%(number)s"
 
-#: allthethings/page/views.py:3575 allthethings/page/views.py:3990
+#: allthethings/page/views.py:3575 allthethings/page/views.py:3988
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(не се изисква проверка на браузъра)"
 
@@ -1473,7 +1510,27 @@ msgstr "Потърсете в архива на Анна номера на OCLC 
 msgid "page.md5.box.download.original_oclc"
 msgstr "Намерете оригинален запис в WorldCat"
 
-#: allthethings/page/views.py:3990 allthethings/page/views.py:3991
+#: allthethings/page/views.py:3972
+msgid "page.md5.box.download.aa_duxiu"
+msgstr ""
+
+#: allthethings/page/views.py:3973
+msgid "page.md5.box.download.original_duxiu"
+msgstr ""
+
+#: allthethings/page/views.py:3975
+msgid "page.md5.box.download.aa_cadal"
+msgstr ""
+
+#: allthethings/page/views.py:3976
+msgid "page.md5.box.download.original_cadal"
+msgstr ""
+
+#: allthethings/page/views.py:3980
+msgid "page.md5.box.download.aa_dxid"
+msgstr ""
+
+#: allthethings/page/views.py:3988 allthethings/page/views.py:3989
 msgid "page.md5.box.download.scidb"
 msgstr "Ана Архив 🧬 SciDB"
 
@@ -1490,7 +1547,7 @@ msgid "page.md5.header.ia_desc"
 msgstr "Това е запис на файл от Интернет архива, а не файл за директно изтегляне. Можете да опитате да заемете книгата (връзка по-долу) или да използвате този адрес, когато <a %(a_request)s>искате файла</a>."
 
 #: allthethings/page/templates/page/aarecord.html:22
-#: allthethings/page/templates/page/aarecord.html:42
+#: allthethings/page/templates/page/aarecord.html:40
 msgid "page.md5.header.consider_upload"
 msgstr ""
 
@@ -1506,94 +1563,102 @@ msgstr "Open Library %(id)s запис на метаданни"
 msgid "page.md5.header.meta_oclc"
 msgstr "OCLC (WorldCat) номер %(id)s запис на метаданни"
 
-#: allthethings/page/templates/page/aarecord.html:41
+#: allthethings/page/templates/page/aarecord.html:33
+msgid "page.md5.header.meta_duxiu_ssid"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:35
+msgid "page.md5.header.meta_cadal_ssno"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:39
 msgid "page.md5.header.meta_desc"
 msgstr "Това е запис на метаданни, а не файл за изтегляне. Можете да използвате този адрес, когато <a %(a_request)s>искате файла</a>."
 
-#: allthethings/page/templates/page/aarecord.html:56
+#: allthethings/page/templates/page/aarecord.html:54
 msgid "page.md5.box.descr_read_more"
 msgstr "Прочетете още…"
 
-#: allthethings/page/templates/page/aarecord.html:77
+#: allthethings/page/templates/page/aarecord.html:75
 msgid "page.md5.codes.url"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:78
+#: allthethings/page/templates/page/aarecord.html:76
 msgid "page.md5.codes.website"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:79
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.aa_abbr"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:79
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.aa_search"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.downloads"
 msgstr "Изтегляния (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.borrow"
 msgstr "Взимам на заем (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.explore_metadata"
 msgstr "Разглеждане на метаданните (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:108
+#: allthethings/page/templates/page/aarecord.html:106
 msgid "page.md5.tabs.lists"
 msgstr "Списъци (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:109
+#: allthethings/page/templates/page/aarecord.html:107
 msgid "page.md5.tabs.stats"
 msgstr "Статистика (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:111
+#: allthethings/page/templates/page/aarecord.html:109
 msgid "common.tech_details"
 msgstr "Покажи техническите детайли (на Английски)"
 
-#: allthethings/page/templates/page/aarecord.html:179
+#: allthethings/page/templates/page/aarecord.html:177
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ Този файл може да има проблеми и е скрит от библиотека източник.</span> Понякога това е по искане на притежател на авторски права, понякога е защото е налична по-добра алтернатива, но понякога се дължи на проблем със самия файл. Все още може да е добре за изтегляне, но препоръчваме първо да потърсите алтернативен файл. Повече информация:"
 
-#: allthethings/page/templates/page/aarecord.html:184
+#: allthethings/page/templates/page/aarecord.html:182
 msgid "page.md5.box.download.better_file"
 msgstr "По-добра версия на този файл може да е достъпна на %(link)s"
 
-#: allthethings/page/templates/page/aarecord.html:189
+#: allthethings/page/templates/page/aarecord.html:187
 msgid "page.md5.box.issues.text2"
 msgstr "Ако все пак искате да изтеглите този файл, уверете се, че използвате само надежден, актуализиран софтуер, за да го отворите."
 
-#: allthethings/page/templates/page/aarecord.html:194
+#: allthethings/page/templates/page/aarecord.html:192
 msgid "page.md5.box.download.header_fast_no_member"
 msgstr "<strong>🚀 Бързи изтелгяния</strong> Станете <a %(a_membership)s>член</a>, за да подкрепите дългосрочното съхранение на книги, документи и др. В знак на благодарност за Вашата подкрепа получавате бързи изтегляния. ❤️"
 
-#: allthethings/page/templates/page/aarecord.html:195
+#: allthethings/page/templates/page/aarecord.html:193
 msgid "page.md5.box.download.header_fast_member"
 msgstr "<strong>🚀 Бързи изтелгяния</strong> Остават ви %(remaining)s за днес. Благодарим Ви, че сте член! ❤️"
 
-#: allthethings/page/templates/page/aarecord.html:196
+#: allthethings/page/templates/page/aarecord.html:194
 msgid "page.md5.box.download.header_fast_member_no_remaining"
 msgstr "<strong>🚀 Бързи изтелгяния</strong> Броят на бързите изтегляния за днес е изчерпан. Моля, свържете се с Анна чрез AnnaArchivist@proton.me, ако се интересувате от надграждане на членството Ви."
 
-#: allthethings/page/templates/page/aarecord.html:197
+#: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 Бързи изтелгяния</strong> Изтеглили сте този файл наскоро. Връзките остават валидни за известно време."
 
-#: allthethings/page/templates/page/aarecord.html:201
-#: allthethings/page/templates/page/aarecord.html:213
-#: allthethings/page/templates/page/aarecord.html:234
+#: allthethings/page/templates/page/aarecord.html:199
+#: allthethings/page/templates/page/aarecord.html:211
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.option"
 msgstr "Опция №%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:201
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.refer"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:201
 #: allthethings/templates/layouts/index.html:216
 #: allthethings/templates/layouts/index.html:219
 #: allthethings/templates/layouts/index.html:307
@@ -1602,56 +1667,56 @@ msgstr ""
 msgid "layout.index.header.learn_more"
 msgstr "Научете повече…"
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:207
 msgid "page.md5.box.download.header_slow_only"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:207
 msgid "page.md5.box.download.trusted_partners"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:224
+#: allthethings/page/templates/page/aarecord.html:222
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 Бавни и външни изтегляния"
 
-#: allthethings/page/templates/page/aarecord.html:225
+#: allthethings/page/templates/page/aarecord.html:223
 msgid "page.md5.box.download.header_external"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:227
+#: allthethings/page/templates/page/aarecord.html:225
 msgid "page.md5.box.download.header_generic"
 msgstr "Изтегляния"
 
-#: allthethings/page/templates/page/aarecord.html:239
+#: allthethings/page/templates/page/aarecord.html:237
 msgid "page.md5.box.download.no_found"
 msgstr "Няма намерени изтегляния."
 
-#: allthethings/page/templates/page/aarecord.html:242
+#: allthethings/page/templates/page/aarecord.html:240
 msgid "page.md5.box.download.convert"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:243
+#: allthethings/page/templates/page/aarecord.html:241
 msgid "page.md5.box.download.kindle"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:244
+#: allthethings/page/templates/page/aarecord.html:242
 msgid "page.md5.box.download.support_authors"
 msgstr "Подкрепете авторите: Ако харесвате това и можете да си го позволите, помислете за закупуване на оригинала или за подкрепа на авторите директно."
 
-#: allthethings/page/templates/page/aarecord.html:245
+#: allthethings/page/templates/page/aarecord.html:243
 msgid "page.md5.box.download.support_libraries"
 msgstr "Поддържайте библиотеките: Ако това е налично във вашата местна библиотека, помислете дали да не го заемете безплатно от там."
 
-#: allthethings/page/templates/page/aarecord.html:250
+#: allthethings/page/templates/page/aarecord.html:248
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Всички сървъри огледало обслужват един и същ файл и трябва да са безопасни за използване. Въпреки това винаги бъдете внимателни, когато изтегляте файлове от интернет. Например, не забравяйте да актуализирате устройствата си."
 
-#: allthethings/page/templates/page/aarecord.html:278
-#: allthethings/page/templates/page/aarecord.html:279
-#: allthethings/page/templates/page/aarecord.html:380
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:400
-#: allthethings/page/templates/page/aarecord.html:401
+#: allthethings/page/templates/page/aarecord.html:276
+#: allthethings/page/templates/page/aarecord.html:277
+#: allthethings/page/templates/page/aarecord.html:378
+#: allthethings/page/templates/page/aarecord.html:379
+#: allthethings/page/templates/page/aarecord.html:398
+#: allthethings/page/templates/page/aarecord.html:399
 #: allthethings/page/templates/page/about.html:125
 #: allthethings/page/templates/page/about.html:126
 #: allthethings/page/templates/page/copyright.html:6
@@ -1892,6 +1957,10 @@ msgstr "Отворено"
 #: allthethings/page/templates/page/home.html:27
 msgid "page.home.scidb.browser_verification"
 msgstr "Ако сте <a %(a_member)s>член</a>, не е необходима проверка в браузъра."
+
+#: allthethings/page/templates/page/home.html:46
+msgid "page.home.payment_processor.body"
+msgstr ""
 
 #: allthethings/page/templates/page/home.html:56
 msgid "page.home.archive.header"
@@ -2250,6 +2319,10 @@ msgstr "Изненадайте любим човек, подарете му ак
 #: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.donate"
 msgstr "Дари"
+
+#: allthethings/templates/layouts/index.html:216
+msgid "layout.index.header.banner.mirrors"
+msgstr ""
 
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.valentine_gift"

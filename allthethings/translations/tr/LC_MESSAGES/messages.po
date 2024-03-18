@@ -989,91 +989,108 @@ msgid "page.account.logged_in.title"
 msgstr "Hesap"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:46
 msgid "page.account.logged_out.title"
 msgstr "Giriş yap / Kayıt ol"
+
+#: allthethings/account/templates/account/index.html:18
+msgid "page.account.logged_in.account_id"
+msgstr ""
 
 #: allthethings/account/templates/account/index.html:19
 msgid "page.account.logged_in.public_profile"
 msgstr "Gösterilen profil: %(profile_link)s"
 
-#: allthethings/account/templates/account/index.html:24
+#: allthethings/account/templates/account/index.html:22
 msgid "page.account.logged_in.membership_none"
 msgstr "Üyelik: <strong>Hiçbiri</strong> <a %(a_become)s>(üye ol)</a>"
 
-#: allthethings/account/templates/account/index.html:27
+#: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_has_some"
 msgstr "Üyelik: <strong>%(tier_name)s</strong> %(until_date)s'a kadar <a %(a_extend)s>(extend)</a>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:27
 msgid "page.account.logged_in.membership_fast_downloads_used"
 msgstr "Kullanılan hızlı indirmeler (son 24 saatte): <strong>%(used)s / %(total)s</strong>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:27
 msgid "page.account.logged_in.which_downloads"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:35
+#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:31
+msgid "page.account.logged_in.telegram_group_wrapper"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:29
+msgid "page.account.logged_in.telegram_group_join"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:31
+msgid "page.account.logged_in.telegram_group_upgrade"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:33
 msgid "page.account.logged_in.membership_upgrade"
 msgstr "Eğer üyeliğinizi daha yüksek bir kademeye yükseltmekle ilgileniyorsanız Anna ile AnnaArchivist@proton.me adresinde iletişime geçin."
 
-#: allthethings/account/templates/account/index.html:36
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.membership_multiple"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:41
+#: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.button"
 msgstr "Çıkış"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:42
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Başarıyla çıkış yaptınız. Yeniden giriş yapmak için sayfayı yenileyin."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Bir şeyler yanlış gitti. Lütfen sayfayı yenileyin ve tekrar deneyin."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:49
 msgid "page.account.logged_out.registered.text1"
 msgstr "Kayıt başarılı! Özel anahtarınız: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_out.registered.text2"
 msgstr "Bu anahtarı dikkatlice saklayın. Eğer kaybederseniz, hesabınıza erişimi kaybedersiniz."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:56
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Yer işaretlerine ekleyin.</strong>Anahtarınızı hatırlamak için bu sayfayı yer işaretlerine ekleyebilirsiniz.</li><li %(li_item)s><strong>İndir.</strong> Anahtarınızı indirmek için <a %(a_download)s>bu linke</a> tıklayın.</li><li %(li_item)s><strong>Şifre yöneticisi.</strong> Kendi kolaylığınız için, anahtar aşağıda önceden doldurulmuş biçimde bulunur, bunun aracılığıyla giriş yapınca şifre yöneticinize kaydedebilirsiniz.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.text"
 msgstr "Giriş yapmak için özel anahtarınızı girin:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Özel anahtar"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.key_form.button"
 msgstr "Giriş yap"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:66
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Geçersiz özel anahtar. Anahtarınızı doğrulayın ve tekrar deneyin, ya da alternatif olarak aşağıda yeni hesap ile kaydolun."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:73
 msgid "page.account.logged_out.register.header"
 msgstr "Henüz hesabınız yok mu?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.register.button"
 msgstr "Yeni hesap oluştur"
 
-#: allthethings/account/templates/account/index.html:81
+#: allthethings/account/templates/account/index.html:79
 msgid "page.account.logged_out.old_email.button"
 msgstr "Eski e-posta tabanlı hesap mı? E-postanı %(a_open)s>buraya gir</a>."
 
@@ -1211,19 +1228,31 @@ msgstr ""
 msgid "page.request.title"
 msgstr "Kitap talep et"
 
-#: allthethings/account/templates/account/request.html:19
+#: allthethings/account/templates/account/request.html:9
+msgid "page.request.cannot_accomodate"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:10
+msgid "page.request.forums"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:14
+msgid "page.request.dont_email"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:18
 msgid "page.request.text1"
 msgstr "Şimdilik, lütfen eKitapları <a %(a_forum)s>Libgen.rs forumunda</a> talep edebilir misin? Orada hesap oluşturup bu başlıkların altında paylaşabilirsiniz:"
 
-#: allthethings/account/templates/account/request.html:23
+#: allthethings/account/templates/account/request.html:22
 msgid "page.request.text2"
 msgstr "<li %(li_item)s>eKitaplar için, <a %(a_ebook)s>bu başlığı</a> kullanın.</li><li %(li_item)s>eKitap olarak mevcut olmayan kitaplar için, <a %(a_regular)s>bu başlığı</a> kullanın.</li>"
 
-#: allthethings/account/templates/account/request.html:27
+#: allthethings/account/templates/account/request.html:26
 msgid "page.request.text3"
 msgstr "Her iki durumda, başlıklarda bahsedilen kurallara uyduğunuzdan emin olun."
 
-#: allthethings/account/templates/account/request.html:31
+#: allthethings/account/templates/account/request.html:30
 #: allthethings/account/templates/account/upload.html:15
 msgid "common.libgen.email"
 msgstr "Eğer e-posta adresiniz Libgen forumlarında çalışmazsa, <a %(a_mail)s>Proton Mail</a> (ücretsiz) kullanmanızı öneriyoruz. Ayrıca hesabınızın aktifleştirilmesini <a %(a_manual)s>bizzat talep edebilirsiniz</a>."
@@ -1261,12 +1290,16 @@ msgstr ""
 msgid "dyn.buy_membership.error.try_again"
 msgstr ""
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:775
+#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
 msgstr ""
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
+msgstr ""
+
+#: allthethings/dyn/views.py:771
+msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
 #: allthethings/page/views.py:3508
@@ -1377,11 +1410,15 @@ msgstr "Sci-Hub"
 msgid "common.record_sources_mapping.oclc"
 msgstr ""
 
+#: allthethings/page/views.py:3550
+msgid "common.record_sources_mapping.duxiu"
+msgstr ""
+
 #: allthethings/page/views.py:3575
 msgid "common.md5.servers.fast_partner"
 msgstr "Hızlı Ortak Sunucu #%(number)s"
 
-#: allthethings/page/views.py:3575 allthethings/page/views.py:3990
+#: allthethings/page/views.py:3575 allthethings/page/views.py:3988
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(tarayıcı doğrulama gerekmez)"
 
@@ -1480,7 +1517,27 @@ msgstr ""
 msgid "page.md5.box.download.original_oclc"
 msgstr ""
 
-#: allthethings/page/views.py:3990 allthethings/page/views.py:3991
+#: allthethings/page/views.py:3972
+msgid "page.md5.box.download.aa_duxiu"
+msgstr ""
+
+#: allthethings/page/views.py:3973
+msgid "page.md5.box.download.original_duxiu"
+msgstr ""
+
+#: allthethings/page/views.py:3975
+msgid "page.md5.box.download.aa_cadal"
+msgstr ""
+
+#: allthethings/page/views.py:3976
+msgid "page.md5.box.download.original_cadal"
+msgstr ""
+
+#: allthethings/page/views.py:3980
+msgid "page.md5.box.download.aa_dxid"
+msgstr ""
+
+#: allthethings/page/views.py:3988 allthethings/page/views.py:3989
 msgid "page.md5.box.download.scidb"
 msgstr "Anna'nın Arşivi 🧬 SciDB"
 
@@ -1497,7 +1554,7 @@ msgid "page.md5.header.ia_desc"
 msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:22
-#: allthethings/page/templates/page/aarecord.html:42
+#: allthethings/page/templates/page/aarecord.html:40
 msgid "page.md5.header.consider_upload"
 msgstr ""
 
@@ -1513,94 +1570,102 @@ msgstr ""
 msgid "page.md5.header.meta_oclc"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:41
+#: allthethings/page/templates/page/aarecord.html:33
+msgid "page.md5.header.meta_duxiu_ssid"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:35
+msgid "page.md5.header.meta_cadal_ssno"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:39
 msgid "page.md5.header.meta_desc"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:56
+#: allthethings/page/templates/page/aarecord.html:54
 msgid "page.md5.box.descr_read_more"
 msgstr "Daha fazla…"
 
-#: allthethings/page/templates/page/aarecord.html:77
+#: allthethings/page/templates/page/aarecord.html:75
 msgid "page.md5.codes.url"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:78
+#: allthethings/page/templates/page/aarecord.html:76
 msgid "page.md5.codes.website"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:79
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.aa_abbr"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:79
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.aa_search"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.downloads"
 msgstr "İndirmeler (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.borrow"
 msgstr "Ödünç Al (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.explore_metadata"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:108
+#: allthethings/page/templates/page/aarecord.html:106
 msgid "page.md5.tabs.lists"
 msgstr "Listeler (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:109
+#: allthethings/page/templates/page/aarecord.html:107
 msgid "page.md5.tabs.stats"
 msgstr "İstatistikler (%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:111
+#: allthethings/page/templates/page/aarecord.html:109
 msgid "common.tech_details"
 msgstr "Teknik ayrıntılar"
 
-#: allthethings/page/templates/page/aarecord.html:179
+#: allthethings/page/templates/page/aarecord.html:177
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ Bu dosya sorunlar içerebilir ve kaynak kütüphanesinden gizlenmiştir.</span> Bu bazen telif hakkı sahibi tarafından istenir, bazen daha iyi bir alternatif mevcutsa, bazen de dosyanın kendisiyle ilgili bir sorun nedeniyle olur. İndirmek hala uygun olabilir ancak öncelikle alternatif bir dosya aramayı öneririz. Daha fazla ayrıntı için:"
 
-#: allthethings/page/templates/page/aarecord.html:184
+#: allthethings/page/templates/page/aarecord.html:182
 msgid "page.md5.box.download.better_file"
 msgstr "%(link)s adresinde bu dosyanın daha iyi bir versiyonu olabilir"
 
-#: allthethings/page/templates/page/aarecord.html:189
+#: allthethings/page/templates/page/aarecord.html:187
 msgid "page.md5.box.issues.text2"
 msgstr "Eğer hala bu dosyayı indirmek istiyorsanız, dosyayı açmak için güvenilir ve güncel yazılımları kullanmaya dikkat edin."
 
-#: allthethings/page/templates/page/aarecord.html:194
+#: allthethings/page/templates/page/aarecord.html:192
 msgid "page.md5.box.download.header_fast_no_member"
 msgstr "<strong>🚀 Hızlı indirmeler</strong> Kitapların, makalelerin ve daha fazlasının uzun zamanlı saklanmasını desteklemek için bir <a %(a_membership)s>üye</a> olun. Desteğiniz için şükranlarımızı göstermek için karşılığında hızlı indirmeleri veriyoruz. ❤️"
 
-#: allthethings/page/templates/page/aarecord.html:195
+#: allthethings/page/templates/page/aarecord.html:193
 msgid "page.md5.box.download.header_fast_member"
 msgstr "<strong>🚀 Hızlı indirmeler</strong> Bugünlük %(remaining)s kaldı. Üye olduğunuz için teşekkürler! ❤️"
 
-#: allthethings/page/templates/page/aarecord.html:196
+#: allthethings/page/templates/page/aarecord.html:194
 msgid "page.md5.box.download.header_fast_member_no_remaining"
 msgstr "<strong>🚀 Hızlı indirmeler</strong> Bugünlük hızlı indirmeleri tükettiniz. Eğer üyeliğinizi yükseltmekle ilgileniyorsanız AnnaArchivist@proton.me adresinden Anna ile iletişime geçin."
 
-#: allthethings/page/templates/page/aarecord.html:197
+#: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 Hızlı indirmeler</strong> Bu dosyayı yakın bir zamanda indirdiniz. Bağlantılar bir süreliğine geçerli kalır."
 
-#: allthethings/page/templates/page/aarecord.html:201
-#: allthethings/page/templates/page/aarecord.html:213
-#: allthethings/page/templates/page/aarecord.html:234
+#: allthethings/page/templates/page/aarecord.html:199
+#: allthethings/page/templates/page/aarecord.html:211
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.option"
 msgstr "Seçenek #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:201
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.refer"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:201
 #: allthethings/templates/layouts/index.html:216
 #: allthethings/templates/layouts/index.html:219
 #: allthethings/templates/layouts/index.html:307
@@ -1609,56 +1674,56 @@ msgstr ""
 msgid "layout.index.header.learn_more"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:207
 msgid "page.md5.box.download.header_slow_only"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:207
 msgid "page.md5.box.download.trusted_partners"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:224
+#: allthethings/page/templates/page/aarecord.html:222
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 Yavaş ve dış indirmeler"
 
-#: allthethings/page/templates/page/aarecord.html:225
+#: allthethings/page/templates/page/aarecord.html:223
 msgid "page.md5.box.download.header_external"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:227
+#: allthethings/page/templates/page/aarecord.html:225
 msgid "page.md5.box.download.header_generic"
 msgstr "İndirmeler"
 
-#: allthethings/page/templates/page/aarecord.html:239
+#: allthethings/page/templates/page/aarecord.html:237
 msgid "page.md5.box.download.no_found"
 msgstr "İndirme bulunamadı."
 
-#: allthethings/page/templates/page/aarecord.html:242
+#: allthethings/page/templates/page/aarecord.html:240
 msgid "page.md5.box.download.convert"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:243
+#: allthethings/page/templates/page/aarecord.html:241
 msgid "page.md5.box.download.kindle"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:244
+#: allthethings/page/templates/page/aarecord.html:242
 msgid "page.md5.box.download.support_authors"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:245
+#: allthethings/page/templates/page/aarecord.html:243
 msgid "page.md5.box.download.support_libraries"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:250
+#: allthethings/page/templates/page/aarecord.html:248
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "Tüm aynalarda aynı dosya vardır ve kullanımları güvenli olmalıdır. Bununla birlikte, internetten dosya indirirken her zaman dikkatli olun. Örneğin, cihazlarınızı güncel tuttuğunuzdan emin olun."
 
-#: allthethings/page/templates/page/aarecord.html:278
-#: allthethings/page/templates/page/aarecord.html:279
-#: allthethings/page/templates/page/aarecord.html:380
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:400
-#: allthethings/page/templates/page/aarecord.html:401
+#: allthethings/page/templates/page/aarecord.html:276
+#: allthethings/page/templates/page/aarecord.html:277
+#: allthethings/page/templates/page/aarecord.html:378
+#: allthethings/page/templates/page/aarecord.html:379
+#: allthethings/page/templates/page/aarecord.html:398
+#: allthethings/page/templates/page/aarecord.html:399
 #: allthethings/page/templates/page/about.html:125
 #: allthethings/page/templates/page/about.html:126
 #: allthethings/page/templates/page/copyright.html:6
@@ -1898,6 +1963,10 @@ msgstr "Aç"
 
 #: allthethings/page/templates/page/home.html:27
 msgid "page.home.scidb.browser_verification"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:46
+msgid "page.home.payment_processor.body"
 msgstr ""
 
 #: allthethings/page/templates/page/home.html:56
@@ -2257,6 +2326,10 @@ msgstr "Sevdiklerinize sürpriz yapın, ona üyelikli bir hesap verin."
 #: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.donate"
 msgstr "Bağış yapın"
+
+#: allthethings/templates/layouts/index.html:216
+msgid "layout.index.header.banner.mirrors"
+msgstr ""
 
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.valentine_gift"

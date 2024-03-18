@@ -2607,11 +2607,11 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict['aa_duxiu_derived']['filesize_best'] = next(iter(duxiu_dict['aa_duxiu_derived']['filesize_multiple']), 0)
         duxiu_dict['aa_duxiu_derived']['filepath_best'] = next(iter(duxiu_dict['aa_duxiu_derived']['filepath_multiple']), '')
         duxiu_dict['aa_duxiu_derived']['description_best'] = '\n\n'.join(list(dict.fromkeys(duxiu_dict['aa_duxiu_derived']['description_cumulative'])))
-        duxiu_dict['aa_duxiu_derived']['combined_comments'] = list(dict.fromkeys(duxiu_dict['aa_duxiu_derived']['comments_cumulative'] + [
-            # TODO:TRANSLATE
-            f"sources: {duxiu_dict['aa_duxiu_derived']['source_multiple']}",
-            f"original file paths: {duxiu_dict['aa_duxiu_derived']['filepath_multiple']}",
-        ]))
+        duxiu_dict['aa_duxiu_derived']['combined_comments'] = list(dict.fromkeys(filter(len, duxiu_dict['aa_duxiu_derived']['comments_cumulative'] + [
+            # TODO: pass through comments metadata in a structured way so we can add proper translations.
+            f"sources: {duxiu_dict['aa_duxiu_derived']['source_multiple']}" if len(duxiu_dict['aa_duxiu_derived']['source_multiple']) > 0 else "",
+            f"original file paths: {duxiu_dict['aa_duxiu_derived']['filepath_multiple']}" if len(duxiu_dict['aa_duxiu_derived']['filepath_multiple']) > 0 else "",
+        ])))
         duxiu_dict['aa_duxiu_derived']['edition_varia_normalized'] = ', '.join(list(dict.fromkeys(filter(len, [
             next(iter(duxiu_dict['aa_duxiu_derived']['series_multiple']), ''),
             next(iter(duxiu_dict['aa_duxiu_derived']['year_multiple']), ''),
@@ -3547,7 +3547,7 @@ def get_record_sources_mapping(display_lang):
             "ol": gettext("common.record_sources_mapping.ol"),
             "scihub": gettext("common.record_sources_mapping.scihub"),
             "oclc": gettext("common.record_sources_mapping.oclc"),
-            "duxiu": "DuXiu 读秀", # TODO:TRANSLATE
+            "duxiu": gettext("common.record_sources_mapping.duxiu"),
         }
 
 def format_filesize(num):
@@ -3969,17 +3969,15 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.aa_oclc'), f'/search?q="oclc:{aarecord_id_split[1]}"', ""))
         additional['download_urls'].append((gettext('page.md5.box.download.original_oclc'), f"https://worldcat.org/title/{aarecord_id_split[1]}", ""))
     if aarecord_id_split[0] == 'duxiu_ssid':
-        # TODO:TRANSLATE
-        additional['download_urls'].append(('Search Anna’s Archive for DuXiu SSID number', f'/search?q="duxiu_ssid:{aarecord_id_split[1]}"', ""))
-        additional['download_urls'].append(('Search manually on DuXiu', f'https://www.duxiu.com/bottom/about.html', ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.aa_duxiu'), f'/search?q="duxiu_ssid:{aarecord_id_split[1]}"', ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.original_duxiu'), f'https://www.duxiu.com/bottom/about.html', ""))
     if aarecord_id_split[0] == 'cadal_ssno':
-        # TODO:TRANSLATE
-        additional['download_urls'].append(('Search Anna’s Archive for CADAL SSNO number', f'/search?q="cadal_ssno:{aarecord_id_split[1]}"', ""))
-        additional['download_urls'].append(('Find original record in CADAL', f'https://cadal.edu.cn/cardpage/bookCardPage?ssno={aarecord_id_split[1]}', ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.aa_cadal'), f'/search?q="cadal_ssno:{aarecord_id_split[1]}"', ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.original_cadal'), f'https://cadal.edu.cn/cardpage/bookCardPage?ssno={aarecord_id_split[1]}', ""))
     if aarecord_id_split[0] in ['duxiu_ssid', 'cadal_ssno']:
         if 'duxiu_dxid' in aarecord['file_unified_data']['identifiers_unified']:
             for duxiu_dxid in aarecord['file_unified_data']['identifiers_unified']['duxiu_dxid']:
-                additional['download_urls'].append(('Search Anna’s Archive for DuXiu DXID number', f'/search?q="duxiu_dxid:{duxiu_dxid}"', ""))
+                additional['download_urls'].append((gettext('page.md5.box.download.aa_dxid'), f'/search?q="duxiu_dxid:{duxiu_dxid}"', ""))
         # Not supported by BaiduYun anymore.
         # if aarecord.get('duxiu') is not None and len(aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']) > 0:
         #     for miaochuan_link in aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']:

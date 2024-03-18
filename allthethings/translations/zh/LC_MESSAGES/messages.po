@@ -983,91 +983,108 @@ msgid "page.account.logged_in.title"
 msgstr "账号"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:46
 msgid "page.account.logged_out.title"
 msgstr "登录 / 注册"
+
+#: allthethings/account/templates/account/index.html:18
+msgid "page.account.logged_in.account_id"
+msgstr ""
 
 #: allthethings/account/templates/account/index.html:19
 msgid "page.account.logged_in.public_profile"
 msgstr "公开个人资料：%(profile_link)s"
 
-#: allthethings/account/templates/account/index.html:24
+#: allthethings/account/templates/account/index.html:22
 msgid "page.account.logged_in.membership_none"
 msgstr "会员：<strong>无</strong> <a %(a_become)s>（成为会员）</a>"
 
-#: allthethings/account/templates/account/index.html:27
+#: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_has_some"
 msgstr "会员：<strong>%(tier_name)s</strong>，%(until_date)s 到期<a %(a_extend)s>（续期）</a>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:27
 msgid "page.account.logged_in.membership_fast_downloads_used"
 msgstr "高速下载使用量（最近24小时）：<strong>%(used)s / %(total)s</strong>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:27
 msgid "page.account.logged_in.which_downloads"
 msgstr "下载过什么？"
 
-#: allthethings/account/templates/account/index.html:35
+#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:31
+msgid "page.account.logged_in.telegram_group_wrapper"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:29
+msgid "page.account.logged_in.telegram_group_join"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:31
+msgid "page.account.logged_in.telegram_group_upgrade"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:33
 msgid "page.account.logged_in.membership_upgrade"
 msgstr "如欲提升会员级别，请联系安娜：AnnaArchivist@proton.me。"
 
-#: allthethings/account/templates/account/index.html:36
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.membership_multiple"
 msgstr "您可以合并多个会员资格 (每 24 小时的快速下载将被累加在一起)。"
 
-#: allthethings/account/templates/account/index.html:41
+#: allthethings/account/templates/account/index.html:39
 msgid "page.account.logged_in.logout.button"
 msgstr "退出登录"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:42
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ 账号已退出，刷新页面以重新登录。"
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:43
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ 出错了，请刷新页面重试。"
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:49
 msgid "page.account.logged_out.registered.text1"
 msgstr "注册成功！您的密钥为：<span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_out.registered.text2"
 msgstr "请小心保存此密钥。如果您丢失了它，您将失去访问您的帐户的权限。"
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:56
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>加入书签。</strong>你可以在浏览器中收藏此页面以保存你的密钥。</li><li %(li_item)s><strong>下载。</strong> 点击<a %(a_download)s>此链接</a>下载你的密钥。</li><li %(li_item)s><strong>密码管理器。</strong>为方便起见，下面已经填充了你的密钥。这样当你登录时，你可以在密码管理器中保存密钥。</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.key_form.text"
 msgstr "输入密钥以登录："
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:63
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "密钥"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.key_form.button"
 msgstr "登录"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:66
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "密钥无效。请检查密钥并再次尝试，或者在下方注册一个新账号。"
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "不要弄丢你的密钥！"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:73
 msgid "page.account.logged_out.register.header"
 msgstr "还没有账号？"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.register.button"
 msgstr "注册新账号"
 
-#: allthethings/account/templates/account/index.html:81
+#: allthethings/account/templates/account/index.html:79
 msgid "page.account.logged_out.old_email.button"
 msgstr "旧的电子邮件账户？在这里输入您的<a %(a_open)s>电子邮件地址</a>。"
 
@@ -1205,19 +1222,31 @@ msgstr ""
 msgid "page.request.title"
 msgstr "需要书籍"
 
-#: allthethings/account/templates/account/request.html:19
+#: allthethings/account/templates/account/request.html:9
+msgid "page.request.cannot_accomodate"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:10
+msgid "page.request.forums"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:14
+msgid "page.request.dont_email"
+msgstr ""
+
+#: allthethings/account/templates/account/request.html:18
 msgid "page.request.text1"
 msgstr "目前，请你暂时先在 <a %(a_forum)s>Libgen.rs 论坛</a>上请求电子书。你可以在那边创建一个账号，然后在下列主题中发帖："
 
-#: allthethings/account/templates/account/request.html:23
+#: allthethings/account/templates/account/request.html:22
 msgid "page.request.text2"
 msgstr "<li %(li_item)s>电子书，在<a %(a_ebook)s>这个主题</a>下跟帖。</li><li %(li_item)s>没有电子版的书籍，在<a %(a_regular)s>这个主题</a>下跟帖。</li>"
 
-#: allthethings/account/templates/account/request.html:27
+#: allthethings/account/templates/account/request.html:26
 msgid "page.request.text3"
 msgstr "无论是哪种情况，一定要遵守这些主题中的规定。"
 
-#: allthethings/account/templates/account/request.html:31
+#: allthethings/account/templates/account/request.html:30
 #: allthethings/account/templates/account/upload.html:15
 msgid "common.libgen.email"
 msgstr "如果你的电子邮件地址无法在 Libgen 论坛上使用，我们推荐使用 <a %(a_mail)s>Proton Mail</a>（免费）。你也可以<a %(a_manual)s>手动申请</a>激活你的账号。"
@@ -1255,13 +1284,17 @@ msgstr "对于不被 Libgen 或 Z-Library 接受的大量上传（超过10000个
 msgid "dyn.buy_membership.error.try_again"
 msgstr "无法完成请求。请在几分钟之后重试，如果一直这样，请带上截图联系我们：AnnaArchivist@proton.me。"
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:775
+#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
 msgstr "发生了未知错误。请通过 AnnaArchivist@proton.me 联系我们，并附上截图。"
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
 msgstr "这种币的最低金额比其他的要高。请选择其他订阅时长或换一种支付方式。"
+
+#: allthethings/dyn/views.py:771
+msgid "dyn.buy_membership.error.wait"
+msgstr ""
 
 #: allthethings/page/views.py:3508
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1371,11 +1404,15 @@ msgstr "Sci-Hub"
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
+#: allthethings/page/views.py:3550
+msgid "common.record_sources_mapping.duxiu"
+msgstr ""
+
 #: allthethings/page/views.py:3575
 msgid "common.md5.servers.fast_partner"
 msgstr "高速服务器（合作方提供） #%(number)s"
 
-#: allthethings/page/views.py:3575 allthethings/page/views.py:3990
+#: allthethings/page/views.py:3575 allthethings/page/views.py:3988
 msgid "common.md5.servers.no_browser_verification"
 msgstr "（无需验证浏览器）"
 
@@ -1474,7 +1511,27 @@ msgstr "在安娜的档案中检索 OCLC (WorldCat) 编号"
 msgid "page.md5.box.download.original_oclc"
 msgstr "在 WorldCat 中查找原始记录"
 
-#: allthethings/page/views.py:3990 allthethings/page/views.py:3991
+#: allthethings/page/views.py:3972
+msgid "page.md5.box.download.aa_duxiu"
+msgstr ""
+
+#: allthethings/page/views.py:3973
+msgid "page.md5.box.download.original_duxiu"
+msgstr ""
+
+#: allthethings/page/views.py:3975
+msgid "page.md5.box.download.aa_cadal"
+msgstr ""
+
+#: allthethings/page/views.py:3976
+msgid "page.md5.box.download.original_cadal"
+msgstr ""
+
+#: allthethings/page/views.py:3980
+msgid "page.md5.box.download.aa_dxid"
+msgstr ""
+
+#: allthethings/page/views.py:3988 allthethings/page/views.py:3989
 msgid "page.md5.box.download.scidb"
 msgstr "Anna’s Archive 🧬 SciDB"
 
@@ -1491,7 +1548,7 @@ msgid "page.md5.header.ia_desc"
 msgstr "这是一条互联网档案馆文件的记录，不是直接可以下载的文件。你可以尝试借阅此书（链接如下），或用该网址<a %(a_request)s>请求一份文件</a>。"
 
 #: allthethings/page/templates/page/aarecord.html:22
-#: allthethings/page/templates/page/aarecord.html:42
+#: allthethings/page/templates/page/aarecord.html:40
 msgid "page.md5.header.consider_upload"
 msgstr "如果你手中的文件没有被安娜的档案收录，那么你可以考虑<a %(a_request)s>上传</a>它。"
 
@@ -1507,94 +1564,102 @@ msgstr "Open Library %(id)s 元数据记录"
 msgid "page.md5.header.meta_oclc"
 msgstr "OCLC (WorldCat) 编号 %(id)s 元数据记录"
 
-#: allthethings/page/templates/page/aarecord.html:41
+#: allthethings/page/templates/page/aarecord.html:33
+msgid "page.md5.header.meta_duxiu_ssid"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:35
+msgid "page.md5.header.meta_cadal_ssno"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:39
 msgid "page.md5.header.meta_desc"
 msgstr "这是元数据记录，而非可下载的文件。你可以使用这个链接来<a %(a_request)s>请求文件</a>。"
 
-#: allthethings/page/templates/page/aarecord.html:56
+#: allthethings/page/templates/page/aarecord.html:54
 msgid "page.md5.box.descr_read_more"
 msgstr "更多信息……"
 
-#: allthethings/page/templates/page/aarecord.html:77
+#: allthethings/page/templates/page/aarecord.html:75
 msgid "page.md5.codes.url"
 msgstr "URL:"
 
-#: allthethings/page/templates/page/aarecord.html:78
+#: allthethings/page/templates/page/aarecord.html:76
 msgid "page.md5.codes.website"
 msgstr "Website:"
 
-#: allthethings/page/templates/page/aarecord.html:79
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.aa_abbr"
 msgstr "AA:"
 
-#: allthethings/page/templates/page/aarecord.html:79
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.aa_search"
 msgstr "在安娜的档案中搜索“%(name)s”"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.downloads"
 msgstr "下载（%(count)s）"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.borrow"
 msgstr "借阅（%(count)s）"
 
-#: allthethings/page/templates/page/aarecord.html:106
+#: allthethings/page/templates/page/aarecord.html:104
 msgid "page.md5.tabs.explore_metadata"
 msgstr "查阅元数据（%(count)s）"
 
-#: allthethings/page/templates/page/aarecord.html:108
+#: allthethings/page/templates/page/aarecord.html:106
 msgid "page.md5.tabs.lists"
 msgstr "列表（%(count)s）"
 
-#: allthethings/page/templates/page/aarecord.html:109
+#: allthethings/page/templates/page/aarecord.html:107
 msgid "page.md5.tabs.stats"
 msgstr "统计（%(count)s）"
 
-#: allthethings/page/templates/page/aarecord.html:111
+#: allthethings/page/templates/page/aarecord.html:109
 msgid "common.tech_details"
 msgstr "技术细节"
 
-#: allthethings/page/templates/page/aarecord.html:179
+#: allthethings/page/templates/page/aarecord.html:177
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ 此文件可能有问题，已从源库中隐藏。</span> 有时这是应版权所有者的要求，有时是因为有更好的选择， 但有时是因为文件本身有问题。 下载可能仍然没问题，但我们建议先搜索替代文件。 更多细节："
 
-#: allthethings/page/templates/page/aarecord.html:184
+#: allthethings/page/templates/page/aarecord.html:182
 msgid "page.md5.box.download.better_file"
 msgstr "此文件可能有更好的版本，位于 %(link)s"
 
-#: allthethings/page/templates/page/aarecord.html:189
+#: allthethings/page/templates/page/aarecord.html:187
 msgid "page.md5.box.issues.text2"
 msgstr "如果您仍想下载此文件，请确保仅使用受信任的最新软件打开它。"
 
-#: allthethings/page/templates/page/aarecord.html:194
+#: allthethings/page/templates/page/aarecord.html:192
 msgid "page.md5.box.download.header_fast_no_member"
 msgstr "<strong>🚀高速下载</strong> 成为<a %(a_membership)s>会员</a>以支持书籍、论文等的长期保存。为了感谢您对我们的支持，您将获得高速下载权益。❤️"
 
-#: allthethings/page/templates/page/aarecord.html:195
+#: allthethings/page/templates/page/aarecord.html:193
 msgid "page.md5.box.download.header_fast_member"
 msgstr "<strong>🚀 高速下载</strong> 今日还剩 %(remaining)s 次。感谢您成为会员！❤️"
 
-#: allthethings/page/templates/page/aarecord.html:196
+#: allthethings/page/templates/page/aarecord.html:194
 msgid "page.md5.box.download.header_fast_member_no_remaining"
 msgstr "<strong>🚀 高速下载</strong> 今日高速下载次数已经用完了。若想升级会员资格，请联系安娜：AnnaArchivist@proton.me。"
 
-#: allthethings/page/templates/page/aarecord.html:197
+#: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀 高速下载</strong> 你最近下载过此文件。链接在一段时间内仍然有效。"
 
-#: allthethings/page/templates/page/aarecord.html:201
-#: allthethings/page/templates/page/aarecord.html:213
-#: allthethings/page/templates/page/aarecord.html:234
+#: allthethings/page/templates/page/aarecord.html:199
+#: allthethings/page/templates/page/aarecord.html:211
+#: allthethings/page/templates/page/aarecord.html:232
 msgid "page.md5.box.download.option"
 msgstr "选项 #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:201
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.refer"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:201
 #: allthethings/templates/layouts/index.html:216
 #: allthethings/templates/layouts/index.html:219
 #: allthethings/templates/layouts/index.html:307
@@ -1603,56 +1668,56 @@ msgstr ""
 msgid "layout.index.header.learn_more"
 msgstr "了解更多……"
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:207
 msgid "page.md5.box.download.header_slow_only"
 msgstr "🐢 低速下载"
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:207
 msgid "page.md5.box.download.trusted_partners"
 msgstr "由可信的合作方提供。"
 
-#: allthethings/page/templates/page/aarecord.html:224
+#: allthethings/page/templates/page/aarecord.html:222
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 低速与外部下载"
 
-#: allthethings/page/templates/page/aarecord.html:225
+#: allthethings/page/templates/page/aarecord.html:223
 msgid "page.md5.box.download.header_external"
 msgstr "外部下载"
 
-#: allthethings/page/templates/page/aarecord.html:227
+#: allthethings/page/templates/page/aarecord.html:225
 msgid "page.md5.box.download.header_generic"
 msgstr "下载"
 
-#: allthethings/page/templates/page/aarecord.html:239
+#: allthethings/page/templates/page/aarecord.html:237
 msgid "page.md5.box.download.no_found"
 msgstr "未找到下载。"
 
-#: allthethings/page/templates/page/aarecord.html:242
+#: allthethings/page/templates/page/aarecord.html:240
 msgid "page.md5.box.download.convert"
 msgstr "转换：可以使用在线工具转换格式。例如，可以用 <a href=\"https://cloudconvert.com/epub-to-pdf\">CloudConvert</a> 将 EPUB 转为 PDF。"
 
-#: allthethings/page/templates/page/aarecord.html:243
+#: allthethings/page/templates/page/aarecord.html:241
 msgid "page.md5.box.download.kindle"
 msgstr "Kindle：先下载文件（支持 PDF 和 EPUB），再用网页、App 或电子邮件<a href=\"https://www.amazon.com/sendtokindle\">传送至 Kindle</a>。"
 
-#: allthethings/page/templates/page/aarecord.html:244
+#: allthethings/page/templates/page/aarecord.html:242
 msgid "page.md5.box.download.support_authors"
 msgstr "支持作者：如果你喜欢并且买得起，请考虑购买原版，或直接支持作者。"
 
-#: allthethings/page/templates/page/aarecord.html:245
+#: allthethings/page/templates/page/aarecord.html:243
 msgid "page.md5.box.download.support_libraries"
 msgstr "支持图书馆：如果在你当地图书馆中能找到此书，可以考虑在那边免费借阅。"
 
-#: allthethings/page/templates/page/aarecord.html:250
+#: allthethings/page/templates/page/aarecord.html:248
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "所有选项下载的文件都相同，应该可以安全使用。即使这样，从互联网下载文件时始终要小心。例如，确保您的设备更新及时。"
 
-#: allthethings/page/templates/page/aarecord.html:278
-#: allthethings/page/templates/page/aarecord.html:279
-#: allthethings/page/templates/page/aarecord.html:380
-#: allthethings/page/templates/page/aarecord.html:381
-#: allthethings/page/templates/page/aarecord.html:400
-#: allthethings/page/templates/page/aarecord.html:401
+#: allthethings/page/templates/page/aarecord.html:276
+#: allthethings/page/templates/page/aarecord.html:277
+#: allthethings/page/templates/page/aarecord.html:378
+#: allthethings/page/templates/page/aarecord.html:379
+#: allthethings/page/templates/page/aarecord.html:398
+#: allthethings/page/templates/page/aarecord.html:399
 #: allthethings/page/templates/page/about.html:125
 #: allthethings/page/templates/page/about.html:126
 #: allthethings/page/templates/page/copyright.html:6
@@ -1893,6 +1958,10 @@ msgstr "打开"
 #: allthethings/page/templates/page/home.html:27
 msgid "page.home.scidb.browser_verification"
 msgstr "如果你是<a %(a_member)s>会员</a>，无需浏览器验证。"
+
+#: allthethings/page/templates/page/home.html:46
+msgid "page.home.payment_processor.body"
+msgstr ""
 
 #: allthethings/page/templates/page/home.html:56
 msgid "page.home.archive.header"
@@ -2251,6 +2320,10 @@ msgstr "给你所爱的人一个惊喜，给他们一个会员帐户。"
 #: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.donate"
 msgstr "捐赠"
+
+#: allthethings/templates/layouts/index.html:216
+msgid "layout.index.header.banner.mirrors"
+msgstr ""
 
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.valentine_gift"

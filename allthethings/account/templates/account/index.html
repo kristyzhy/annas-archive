@@ -15,10 +15,8 @@
     <script>window.globalUpdateAaLoggedIn(1);</script>
     
     {% from 'macros/profile_link.html' import profile_link %}
-    <div class="">Account ID: #{{ account_dict.account_id }}</div>
+    <div class="">{{ gettext('page.account.logged_in.account_id', account_id=account_dict.account_id) }}</div>
     <div class="mb-4">{{ gettext('page.account.logged_in.public_profile', profile_link=profile_link(account_dict, account_dict.account_id)) }}</div>
-
-    <!-- TODO:TRANSATE - still need to translate various strings below -->
     
     {% if not account_fast_download_info %}
       <div class="mb-4">{{ gettext('page.account.logged_in.membership_none', a_become=(' href="/donate"' | safe)) }}</div>
@@ -28,9 +26,9 @@
       {% endfor %}
       <div class="">{{ gettext('page.account.logged_in.membership_fast_downloads_used', used=(account_fast_download_info.downloads_per_day-account_fast_download_info.downloads_left), total=account_fast_download_info.downloads_per_day ) }} <a class="text-sm" href="/account/downloaded">{{ gettext('page.account.logged_in.which_downloads') }}</a></div>
       {% if account_fast_download_info.telegram_url %}
-        <div class="my-4">Exclusive Telegram group: <a href="{{ account_fast_download_info.telegram_url }}">Join us here!</a></div>
+        <div class="my-4">{{ gettext('page.account.logged_in.telegram_group_wrapper', link=('<a href="' + account_fast_download_info.telegram_url + '">' + gettext('page.account.logged_in.telegram_group_join') + '</a>')) }}</div>
       {% else %}
-        <div class="my-4">Exclusive Telegram group: <em>Upgrade to a <a href="/donate">higher tier</a> to join our group</em>.</div>
+        <div class="my-4">{{ gettext('page.account.logged_in.telegram_group_wrapper', link=(('<em>' | safe) + gettext('page.account.logged_in.telegram_group_upgrade', a_tier=('href="/donate"' | safe)) + ('</em>' | safe))) }}
       {% endif %}
       <!-- <div class="mb-4">{{ gettext('page.account.logged_in.membership_upgrade') }}</div> -->
       <div class="mb-4">{{ gettext('page.account.logged_in.membership_multiple') }}</div>
