@@ -732,7 +732,10 @@ def torrents_group_page(group):
     group_found = False
     for top_level in torrents_data['small_file_dicts_grouped'].keys():
         if group in torrents_data['small_file_dicts_grouped'][top_level]:
-            torrents_data['small_file_dicts_grouped'] = { top_level: { group: torrents_data['small_file_dicts_grouped'][top_level][group] } }
+            torrents_data = {
+                **torrents_data,
+                'small_file_dicts_grouped': { top_level: { group: torrents_data['small_file_dicts_grouped'][top_level][group] } }
+            }
             group_found = True
             break
     if not group_found:
