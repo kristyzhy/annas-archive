@@ -63,7 +63,7 @@
     <div class="flex mb-2 items-center">
       <a href="#" class="custom-a sm:hidden text-lg mr-2 opacity-50 hover:opacity-100" alt="Filter settings" title="Filter settings" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="icon-[mingcute--settings-6-line]"></span></a>
       <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %} title="Focus: '/' Scroll search results: 'j', 'k'">
-      <button class="sm:hidden text-[#777] hover:text-[#333]" type="submit">{{ gettext('common.search.submit') }}</button>
+      <button class="sm:hidden px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('common.search.submit') }}</button>
     </div>
 
     <div class="text-xs flex flex-wrap mb-4 sm:hidden">
@@ -99,7 +99,7 @@
             </div>
           </div>
 
-          <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-4" type="submit">{{ gettext('page.search.submit') }}</button>
+          <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 mb-4" type="submit">{{ gettext('page.search.submit') }}</button>
 
           {% if search_dict.had_primary_es_timeout and search_dict.max_search_aarecords_reached %}
             <div class="mb-4 text-xs text-gray-500">
@@ -156,7 +156,8 @@
               {% endif %}
             </div>
           {% endif %}
-          <button class="bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow mb-2" type="submit">{{ gettext('page.search.submit') }}</button>
+          
+          <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 mb-2" type="submit">{{ gettext('page.search.submit') }}</button>
 
           {% if g.last_data_refresh_date %}
             <div class="mt-4 mb-2" style="font-size: 90%; color: #555">{{ gettext('page.search.header.update_info', last_data_refresh_date=(g.last_data_refresh_date | dateformat('long')), link_open_tag=('<a href="/datasets">' | safe)) }}</div>

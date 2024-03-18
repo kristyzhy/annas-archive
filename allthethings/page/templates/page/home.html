@@ -12,17 +12,17 @@
       <div class="mb-1 text-sm text-gray-500">{{ gettext('page.home.full_database.subtitle') }}</div>
       <div class="flex max-w-[600px]">
         <input name="q" type="search" placeholder="" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded">
-        <button class="text-[#777] hover:text-[#333]" type="submit">{{ gettext('page.home.full_database.search') }}</button>
+        <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('page.home.full_database.search') }}</button>
       </div>
     </form>
 
-    <h2 class="mt-8 text-xl font-bold">🧬 {{ gettext('page.home.scidb.header') }} <span class="mr-1 bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 align-[2px] rounded">{{ gettext('layout.index.header.nav.beta') }}</span></h2>
+    <h2 class="mt-8 text-xl font-bold">🧬 {{ gettext('page.home.scidb.header') }} <span class="mr-1 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 align-[2px] rounded">{{ gettext('layout.index.header.nav.beta') }}</span></h2>
 
     <form action="/scidb/" method="get" onsubmit='window.location="/scidb/" + new FormData(event.currentTarget).get("doi"); event.preventDefault(); return false'>
       <div class="mb-1 text-sm text-gray-500">{{ gettext('page.home.scidb.subtitle', count=g.header_stats.journal_article) }}</div>
       <div class="flex max-w-[600px]">
         <input required pattern=".*10\..+" name="doi" type="search" placeholder="{{ gettext('page.home.scidb.placeholder_doi') }}" class="grow bg-black/6.7 px-2 py-1 mr-2 rounded">
-        <button class="text-[#777] hover:text-[#333]" type="submit">{{ gettext('page.home.scidb.open') }}</button>
+        <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('page.home.scidb.open') }}</button>
       </div>
       <div class="mb-1 text-sm text-gray-500">{{ gettext('page.home.scidb.browser_verification', a_member=(' href="/donate" ' | safe)) }}</div>
     </form>

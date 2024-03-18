@@ -78,7 +78,7 @@
 
       <!-- <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.crypto.top_header') }}</h2>
 
-      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.crypto.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.crypto.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
 
       <p class="">
         {{ gettext('page.donation.payment.crypto.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
@@ -89,13 +89,13 @@
         {{ gettext('page.donation.expired') }}
       </p>
 
-      <!-- <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Buy Bitcoin on Binance</p>
+      <!-- <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Buy Bitcoin on Binance</p>
 
       <p class="mb-4">
         Create an account on <a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a> and buy Bitcoin (BTC). Use this <a href="https://www.binance.com/en/how-to-buy/bitcoin" rel="noopener noreferrer nofollow" target="_blank">extensive guide</a> if you get stuck.
       </p>
 
-      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">2</span>Transfer the Bitcoin to our address</p>
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">2</span>Transfer the Bitcoin to our address</p>
 
       <p class="mb-4">
         Go to Withdraw -> BTC.
@@ -110,7 +110,7 @@
         {{ gettext('page.donation.expired') }}
       </p>
 
-      <!-- <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
+      <!-- <p class="mb-4 mt-6 font-bold">{{ gettext('page.donate.submit.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donate.one_time_payment.paypal.text2') }}
@@ -120,7 +120,7 @@
         {{ gettext('page.donation.payment.paypal.text3', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
       </p>
 
-      <p class="mb-4 mt-8 font-bold">{{ gettext('page.donate.submit.header2', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
+      <p class="mb-4 mt-8 font-bold">{{ gettext('page.donate.submit.header2', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donate.one_time_payment.paypal.text4', transfer_icon=('<span class="icon-[cil--transfer] align-middle"></span>' | safe)) }}
@@ -133,7 +133,7 @@
     {% elif donation_dict.json.method == 'hoodpay' %}
       <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.credit_debit_card_instructions') }}</h2>
 
-      <!-- <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>{{ gettext('page.donation.credit_debit_card_our_page') }}</p> -->
+      <!-- <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>{{ gettext('page.donation.credit_debit_card_our_page') }}</p> -->
 
       <p class="mb-4">
         {{ gettext('page.donation.donate_on_this_page', amount=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_page=((' href="' + donation_dict.json.hoodpay_request.data.url + '" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank" ') | safe)) }} {{ gettext('page.donation.stepbystep_below') }}
@@ -149,7 +149,7 @@
       </p>
 
       <p class="mb-4">
-        <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
+        <button onclick="window.location.reload()" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
       </p>
 
       <p class="mb-4">
@@ -161,7 +161,7 @@
           {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>{{ gettext('page.donation.buy_pyusd') }}</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>{{ gettext('page.donation.buy_pyusd') }}</p>
 
         <p class="mb-4">
           {{ gettext('page.donate.one_time_payment.paypal.text2') }}
@@ -172,7 +172,7 @@
           {{ gettext('page.donation.pyusd.more', more='$4', amount=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
         </p>
 
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">2</span>Transfer the PYUSD to our address</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">2</span>Transfer the PYUSD to our address</p>
 
         <p class="mb-4">
           {{ gettext('page.donation.pyusd.transfer', icon=('<span class="icon-[cil--transfer] align-middle"></span>' | safe)) }}
@@ -192,7 +192,7 @@
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
+          <button onclick="window.location.reload()" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'payment2cashapp' %}
@@ -201,7 +201,7 @@
           {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Buy Bitcoin (BTC) on Cash App</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Buy Bitcoin (BTC) on Cash App</p>
 
         <p class="mb-4">
           Go to the “Bitcoin” (BTC) page in Cash App.
@@ -211,7 +211,7 @@
           Buy a bit more (we recommend $4 more) than the amount that you’re donating ({{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }}), to cover transaction fees. You will keep anything left over.
         </p>
 
-        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">2</span>Transfer the Bitcoin to our address</p>
+        <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">2</span>Transfer the Bitcoin to our address</p>
 
         <p class="mb-4">
           Click the “Send bitcoin” button to make a “withdrawal”. Switch from dollars to BTC by pressing the <span class="icon-[cil--transfer] align-middle"></span> icon. Enter the BTC amount below and click “Send”.
@@ -235,7 +235,7 @@
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
+          <button onclick="window.location.reload()" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'payment2cc' %}
@@ -276,7 +276,7 @@
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
+          <button onclick="window.location.reload()" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'payment2' %}
@@ -305,7 +305,7 @@
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
+          <button onclick="window.location.reload()" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
     {% elif donation_dict.json.method == 'amazon' %}
@@ -331,7 +331,7 @@
         </p>
 
         <p class="mb-4">
-          <button onclick="window.location.reload()" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
+          <button onclick="window.location.reload()" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
 
         <p class="mb-4">
@@ -351,7 +351,7 @@
 
       <!-- <h2 class="mt-4 mb-4 text-xl font-bold">PayPal (regular) instructions</h2>
 
-      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Donate on PayPal</p>
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Donate on PayPal</p>
 
       <p class="mb-4">
         Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on PayPal to the following email address:
@@ -368,7 +368,7 @@
       <!--
         <h2 class="mt-4 mb-4 text-xl font-bold">“Buy Me a Coffee” instructions</h2>
 
-        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Donate through our “Buy Me a Coffee” page</p>
+        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Donate through our “Buy Me a Coffee” page</p>
 
         <p class="mb-4">
           Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://gotopaypay.top/Home/pay?method=paypal" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
@@ -385,7 +385,7 @@
     
       <!-- <h2 class="mt-4 mb-4 text-xl font-bold">“Card / PayPal / Venmo” instructions</h2>
 
-      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Donate through our “Card / PayPal / Venmo” page</p>
+      <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Donate through our “Card / PayPal / Venmo” page</p>
 
       <p class="mb-4">
         Donate {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} on <a href="https://givebutter.com/donate-annas-archive" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this page</a>.
@@ -401,7 +401,7 @@
 
       <!-- <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.alipay.top_header') }}</h2>
 
-      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donation.payment.alipay.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=(' href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
@@ -417,7 +417,7 @@
 
       <!-- <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.pix.top_header') }}</h2>
 
-      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.pix.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
+      <p class="mb-4 font-bold">{{ gettext('page.donation.payment.pix.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
 
       <p class="mb-4">
         {{ gettext('page.donation.payment.pix.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=(' href="https://gotopaypay.top/Home/pay?method=pix" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
@@ -429,7 +429,7 @@
     {% endif %}
 
     {% if donation_dict.json.method not in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay'] %}
-      <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0095ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
+      <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
 
       <p class="mb-4">
         {% if donation_dict.json.method == 'paypalreg' %}
@@ -460,7 +460,7 @@
           <input type="hidden" name="method" value="">
           <input type="hidden" name="duration" value="">
           <input type="hidden" name="totalCentsVerification" value="">
-          <button type="submit" class="bg-[#0095ff] hover:bg-[#007ed8] px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.footer.button') }}</button>
+          <button type="submit" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.footer.button') }}</button>
           <span class="js-spinner invisible mb-[-3px] text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
         </fieldset>
         <div class="hidden js-success">{{ gettext('page.donation.footer.success') }}</div>

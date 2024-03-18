@@ -1,49 +1,79 @@
 # Anna’s Archive
 
-This is the code hosts annas-archive.org, the search engine for books, papers, comics, magazines, and more.
+Welcome to the Code repository for Anna's Archive, the comprehensive search engine for books, papers, comics, magazines, and more. This repository contains all the code necessary to run annas-archive.org locally or deploy it to a production environment.
 
-## Running locally
+## Quick Start
 
-In one terminal window, run:
+To get Anna's Archive running locally:
 
-```bash
-cp .env.dev .env
-docker compose up --build
-```
+1. **Initial Setup**
 
-It might take a while for everything to settle, so wait a minute until there are no more logs changing. The errors that you get from the `web` container are normal during this first setup.
+   In a terminal, clone the repository and set up your environment:
+   ```bash
+   git clone https://annas-software.org/AnnaArchivist/annas-archive.git
+   cd annas-archive
+   cp .env.dev .env
+   ```
 
-When everything is settled, in another terminal window, run:
+2. **Build and Start the Application**
 
-```bash
-./run flask cli dbreset
-```
+   Use Docker Compose to build and start the application:
+   ```bash
+   docker compose up --build
+   ```
+   Wait a few minutes for the setup to complete. It's normal to see some errors from the `web` container during the first setup.
 
-Now restart the `docker compose up` from above, and things should work.
+3. **Database Initialization**
 
-Common issues:
-* Funky permissions on ElasticSearch data: `sudo chmod 0777 -R ../allthethings-elastic-data/ ../allthethings-elasticsearchaux-data/`
-* MariaDB wants too much RAM: comment out `key_buffer_size` in `mariadb-conf/my.cnf`
-* Note that the example data is pretty funky / weird because of some joined tables not lining up nicely when only exporting a small number of records.
-* You might need to adjust the size of ElasticSearch's heap size, by changing `ES_JAVA_OPTS` in `docker-compose.yml`.
+   In a new terminal window, initialize the database:
+   ```bash
+   ./run flask cli dbreset
+   ```
 
-Notes:
-* This repo is based on [docker-flask-example](https://github.com/nickjj/docker-flask-example).
+4. **Restart the Application**
 
-## Architecture
+   Once the database is initialized, restart the Docker Compose process:
+   ```bash
+   docker compose down
+   docker compose up
+   ```
 
-This is roughly the structure:
-* 1+ web servers
-* Heavy caching in front of web servers (e.g. Cloudflare)
-* 1+ read-only MariaDB db with MyISAM tables of data ("mariadb")
-* 1 read/write MariaDB db for persistent data ("mariapersist")
-* 1 persistent data replica ("mariapersistreplica") set up with backups ("mariabackup").
+5. **Visit Anna's Archive**
 
-Practically, you also want proxy servers in front of the web servers, so you can control who gets DMCA notices.
+   Open your browser and visit [http://localhost:8000](http://localhost:8000) to access the application.
 
-## Importing all data
+## Common Issues and Solutions
 
-See [data-imports/README.md](data-imports/README.md).
+- **ElasticSearch Permission Issues**
+
+  If you encounter permission errors related to ElasticSearch data, modify the permissions of the ElasticSearch data directories:
+  ```bash
+  sudo chmod 0777 -R ../allthethings-elastic-data/ ../allthethings-elasticsearchaux-data/
+  ```
+  This command grants read, write, and execute permissions to all users for the specified directories, addressing potential startup issues with Elasticsearch.
+
+- **MariaDB Memory Consumption**
+
+  If MariaDB is consuming too much RAM, you might need to adjust its configuration. To do so, comment out the `key_buffer_size` option in `mariadb-conf/my.cnf`.
+
+- **ElasticSearch Heap Size**
+
+  Adjust the size of the ElasticSearch heap by modifying `ES_JAVA_OPTS` in `docker-compose.yml` according to your system's available memory.
+
+## Architecture Overview
+
+Anna’s Archive is built on a scalable architecture designed to support a large volume of data and users:
+
+- **Web Servers:** One or more servers handling web requests, with heavy caching (e.g., Cloudflare) to optimize performance.
+- **Database Servers:** 
+  - MariaDB for read-only data with MyISAM tables ("mariadb").
+  - A separate MariaDB instance for read/write operations ("mariapersist").
+  - A persistent data replica ("mariapersistreplica") for backups and redundancy.
+- **Caching and Proxy Servers:** Recommended setup includes proxy servers (e.g., nginx) in front of the web servers for added control and security (DMCA notices).
+
+## Importing Data
+
+To import all necessary data into Anna’s Archive, refer to the detailed instructions in [data-imports/README.md](data-imports/README.md).
 
 ## Translations
 
@@ -77,15 +107,16 @@ rsync --exclude=.git --exclude=.env --exclude=.DS_Store --exclude=docker-compose
 ```
 
 To set up mariapersistreplica and mariabackup, check out `mariapersistreplica-conf/README.txt`.
-
-## Contribute
+    
+## Contributing
 
 To report bugs or suggest new ideas, please file an ["issue"](https://annas-software.org/AnnaArchivist/annas-archive/-/issues).
 
 To contribute code, also file an [issue](https://annas-software.org/AnnaArchivist/annas-archive/-/issues), and include your `git diff` inline (you can use \`\`\`diff to get some syntax highlighting on the diff). Merge requests are currently disabled for security purposes — if you make consistently useful contributions you might get access.
 
 For larger projects, please contact Anna first on [Reddit](https://www.reddit.com/r/Annas_Archive/).
-
 ## License
 
+
 Released in the public domain under the terms of [CC0](./LICENSE). By contributing you agree to license your code under the same license.
+

@@ -441,7 +441,7 @@
               <input class="js-slash-focus rounded" name="q" type="search" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" title="Focus: '/' Scroll search results: 'j', 'k'">
             </form>
             <div class="header-links header-links-right relative z-10 ml-auto items-center">
-              <!-- <div class="mr-1 bg-[#0095ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('layout.index.header.nav.beta') }}</div> -->
+              <!-- <div class="mr-1 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('layout.index.header.nav.beta') }}</div> -->
               <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-login')" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html.aa-logged-in_&]:hidden">
                 <span class="header-link-normal">
                   {% if header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
