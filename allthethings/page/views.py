@@ -214,23 +214,23 @@ country_lang_mapping = { "Albania": "Albanian", "Algeria": "Arabic", "Andorra": 
 def get_bcp47_lang_codes_parse_substr(substr):
     lang = ''
     try:
-        lang = str(langcodes.standardize_tag(langcodes.get(substr)), macro=True)
-    except:
+        lang = str(langcodes.standardize_tag(langcodes.get(substr), macro=True))
+    except langcodes.tag_parser.LanguageTagError:
         for country_name, language_name in country_lang_mapping.items():
             if country_name.lower() in substr.lower():
                 try:
-                    lang = str(langcodes.standardize_tag(langcodes.find(language_name)), macro=True)
-                except:
+                    lang = str(langcodes.standardize_tag(langcodes.find(language_name), macro=True))
+                except LookupError:
                     pass
                 break
         if lang == '':
             try:
-                lang = str(langcodes.standardize_tag(langcodes.find(substr)), macro=True)
-            except:
+                lang = str(langcodes.standardize_tag(langcodes.find(substr), macro=True))
+            except LookupError:
                 # In rare cases, disambiguate by saying that `substr` is written in English
                 try:
-                    lang = str(langcodes.standardize_tag(langcodes.find(substr, language='en')), macro=True)
-                except:
+                    lang = str(langcodes.standardize_tag(langcodes.find(substr, language='en'), macro=True))
+                except LookupError:
                     lang = ''
     # We have a bunch of weird data that gets interpreted as "Egyptian Sign Language" when it's
     # clearly all just Spanish..
@@ -2639,7 +2639,7 @@ def get_duxiu_dicts(session, key, values):
             "md5_multiple": ("before", ["Includes both our generated MD5, and the original file MD5."]),
             "filesize_multiple": ("before", ["Includes both our generated file’s size, and the original filesize.",
                                 "Our generated filesize should be the first listed."]),
-            "miaochuan_links_multiple": ("before", ["For use with BaiDu Yun, though apparently now discontinued."]),
+            "miaochuan_links_multiple": ("before", ["For use with BaiduYun, though apparently now discontinued."]),
             "filepath_multiple": ("before", ["Original filenames."]),
             "ini_values_multiple": ("before", ["Extracted .ini-style entries from serialized_files."]),
             "language_codes": ("before", ["Our inferred language codes (BCP 47).",
@@ -3442,6 +3442,11 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
             aarecord['file_unified_data']['has_torrent_paths'] = (1 if (len(additional['torrent_paths']) > 0) else 0)
 
+        search_content_type = aarecord['file_unified_data']['content_type']
+        # Once we have the content type.
+        aarecord['indexes'] = [allthethings.utils.get_aarecord_search_index(aarecord_id_split[0], search_content_type)]
+
+        # TODO: don't deduplicate, we need the duplication for weighing.
         initial_search_text = "\n".join(list(dict.fromkeys([
             aarecord['file_unified_data']['title_best'][:1000],
             aarecord['file_unified_data']['title_best'][:1000],
@@ -3456,8 +3461,9 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['id'][:1000],
-            aarecord['file_unified_data']['stripped_description_best'][:5000],
-            ('\n'.join(aarecord['file_unified_data'].get('comments_multiple') or ''))[:5000],
+            # For now, only include description and comments for "aarecords" index.
+            aarecord['file_unified_data']['stripped_description_best'][:5000] if 'aarecords' in aarecord['indexes'] else '',
+            ('\n'.join(aarecord['file_unified_data'].get('comments_multiple') or ''))[:5000]  if 'aarecords' in aarecord['indexes'] else '',
         ])))
         split_search_text = set(initial_search_text.split())
         normalized_search_terms = initial_search_text.replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' ')
@@ -3474,7 +3480,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_filesize': aarecord['file_unified_data']['filesize_best'],
             'search_year': aarecord['file_unified_data']['year_best'],
             'search_extension': aarecord['file_unified_data']['extension_best'],
-            'search_content_type': aarecord['file_unified_data']['content_type'],
+            'search_content_type': search_content_type,
             'search_most_likely_language_code': aarecord['file_unified_data']['most_likely_language_code'],
             'search_isbn13': (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []),
             'search_doi': (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []),
@@ -3508,9 +3514,6 @@ def get_aarecords_mysql(session, aarecord_ids):
             # Used in external system, check before changing.
             'search_bulk_torrents': 'has_bulk_torrents' if aarecord['file_unified_data']['has_torrent_paths'] else 'no_bulk_torrents',
         }
-
-        # Once we have the content type.
-        aarecord['indexes'] = [allthethings.utils.get_aarecord_search_index(aarecord_id_split[0], aarecord['search_only_fields']['search_content_type'])]
         
         # At the very end
         aarecord['search_only_fields']['search_score_base_rank'] = float(aarecord_score_base(aarecord))
@@ -3663,10 +3666,10 @@ def get_additional_for_aarecord(aarecord):
         'cover_url': cover_url,
         'top_row': ", ".join([item for item in [
                 additional['most_likely_language_name'],
-                aarecord['file_unified_data'].get('extension_best', None) or '',
+                f".{aarecord['file_unified_data']['extension_best']}" if len(aarecord['file_unified_data']['extension_best']) > 0 else '',
                 format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0) if aarecord['file_unified_data'].get('filesize_best', None) else '',
                 md5_content_type_mapping[aarecord['file_unified_data']['content_type']],
-                aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
+                (aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '').rsplit('.', 1)[0],
                 aarecord_id_split[1] if aarecord_id_split[0] in ['ia', 'ol'] else '',
                 f"ISBNdb {aarecord_id_split[1]}" if aarecord_id_split[0] == 'isbn' else '',
                 f"OCLC {aarecord_id_split[1]}" if aarecord_id_split[0] == 'oclc' else '',
@@ -3752,7 +3755,8 @@ def get_additional_for_aarecord(aarecord):
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if (aarecord.get('duxiu') is not None) and (aarecord['duxiu'].get('duxiu_file') is not None):
         data_folder = aarecord['duxiu']['duxiu_file']['data_folder']
-        additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{data_folder}.torrent"])
+        # TODO: Add back when releasing DuXiu torrents.
+        # additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{data_folder}.torrent"])
         server = 'x'
         if data_folder <= 'annas_archive_data__aacid__duxiu_files__20240312T070549Z--20240312T070550Z':
             server = 'v'

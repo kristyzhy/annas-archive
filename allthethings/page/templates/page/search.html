@@ -147,6 +147,7 @@
           </select>
           {% if (search_dict.aggregations.search_most_likely_language_code | length) > 0 %}
             <div class="font-bold mb-1">{{ gettext('page.search.filters.language.header') }}</div>
+            <div class="text-xs text-gray-500 mt-[-4px] mb-1">Language filters are temporarily broken. We’ll fix them as soon as possible.</div>
             <div class="mb-4">
               {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
                 <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %} {% if loop.index > 10 %}hidden js-language-hidden{% endif %}"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-0.5 text-sm sm:text-xs text-gray-500">{% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}</span></label>

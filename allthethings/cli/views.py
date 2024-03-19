@@ -268,6 +268,7 @@ def elastic_reset_aarecords_internal():
                     },
                 },
             },
+            "_source": { "excludes": ["search_only_fields.*"] },
         },
         "settings": {
             "index": {
