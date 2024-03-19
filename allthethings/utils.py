@@ -278,13 +278,13 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # "payment2cashapp": 20,
 
     "crypto": 0,
-    "payment2": 0,
+    "payment2": 10,
     # "cc":     0,
     "binance": 0,
     "paypal": 0,
     "payment2paypal": 0,
     "payment2cc": 0,
-    "payment2cashapp": 0,
+    "payment2cashapp": 10,
 
     "paypalreg": 0,
     "amazon": 0,
@@ -315,12 +315,12 @@ MEMBERSHIP_TELEGRAM_URL = {
 }
 MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "crypto": 0,
-    "payment2": 0,
+    "payment2": 1000,
     # "cc":     20,
     "binance": 0,
     "paypal": 3500,
     "payment2paypal": 1500,
-    "payment2cashapp": 0,
+    "payment2cashapp": 1000,
     "payment2cc": 0,
     "paypalreg": 0,
     "amazon": 1000,

@@ -3473,6 +3473,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['stripped_description_best'][:5000],
             ('\n'.join(aarecord['file_unified_data'].get('comments_multiple') or ''))[:5000],
         ])
+        # Duplicate search terms that contain punctuation, in *addition* to the original search terms (so precise matches still work).
         split_search_text = set(initial_search_text.split())
         normalized_search_terms = initial_search_text.replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' ')
         filtered_normalized_search_terms = ' '.join([term for term in normalized_search_terms.split() if term not in split_search_text])
