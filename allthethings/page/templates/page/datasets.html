@@ -5,7 +5,7 @@
 {% macro stats_row(label, dict, updated, mirrored_note) -%}
   <td class="p-2 align-top">{{ label }}</td>
   <td class="p-2 align-top">{{ dict.count | numberformat }} files<br>{{ dict.filesize | filesizeformat }}</td>
-  <td class="p-2 align-top whitespace-nowrap">{{ (dict.aa_count/dict.count*100.0) | decimalformat }}%{% if mirrored_note %}<div class="text-sm text-gray-500 whitespace-normal font-normal">{{ mirrored_note }}</div>{% endif %}</td>
+  <td class="p-2 align-top whitespace-nowrap">{{ (dict.aa_count/dict.count*100.0) | decimalformat }}% / {{ (dict.torrent_count/dict.count*100.0) | decimalformat }}%{% if mirrored_note %}<div class="text-sm text-gray-500 whitespace-normal font-normal">{{ mirrored_note }}</div>{% endif %}</td>
   <td class="p-2 align-top whitespace-nowrap">{{ updated }}</td>
 {%- endmacro %}
 
@@ -25,6 +25,14 @@
       Our mission is to archive all the books in the world (as well as papers, magazines, etc), and make them widely accessible. We believe that all books should be mirrored far and wide, to ensure redundancy and resiliency. This is why we’re pooling together files from a variety of sources. Some sources are completely open and can be mirrored in bulk (such as Sci-Hub). Others are closed and protective, so we try to scrape them in order to “liberate” their books. Yet others fall somewhere in between.
     </p>
 
+    <h3 class="mt-4 mb-1 text-xl font-bold">Updates</h3>
+
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc"><strong>2024-03-18</strong> Added DuXiu collection. Added notes on Libgen.rs torrents being behind, Libgen.li fiction torrents behind+overlap clarification, Libgen.li remaking comics+magazines torrents, IA torrent embargo.</li>
+    </ul>
+
+    <h3 class="mt-4 mb-1 text-xl font-bold">Overview</h3>
+
     <p class="mb-4">
       Below is a quick overview of the sources of the files on Anna’s Archive.
     </p>
@@ -33,16 +41,16 @@
       <tr class="even:bg-[#f2f2f2]">
         <th class="p-2 align-bottom text-left" width="28%">Source</th>
         <th class="p-2 align-bottom text-left" width="20%">Size</th>
-        <th class="p-2 align-bottom text-left" width="20%">Mirrored and seeded by <div class="inline sm:block">Anna’s Archive</div></th>
+        <th class="p-2 align-bottom text-left" width="20%">Mirrored by AA / torrents available<div class="font-normal text-sm text-gray-500">Percentages of number of files</div></th>
         <th class="p-2 align-bottom text-left" width="22%">Last updated</th>
       </tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_rs">Libgen.rs</a><div class="text-sm text-gray-500">Non-Fiction and Fiction</div>' | safe, stats_data.stats_by_group.lgrs, stats_data.libgenrs_date) }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/scihub">Sci-Hub</a><div class="text-sm text-gray-500">Via Libgen.li “scimag”</div>' | safe, stats_data.stats_by_group.journals, '<div class="text-sm text-gray-500 whitespace-normal">Sci-Hub: frozen since 2021<div>Libgen.li: minor additions since then</div></div>' | safe) }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">Libgen.li</a><div class="text-sm text-gray-500">Excluding “scimag”</div>' | safe, stats_data.stats_by_group.lgli, stats_data.libgenli_date, 'Direct downloads; fiction torrents are behind') }}</tr>
+      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_rs">Libgen.rs</a><div class="text-sm text-gray-500">Non-Fiction and Fiction</div>' | safe, stats_data.stats_by_group.lgrs, stats_data.libgenrs_date, 'AA is catching up with mirroring by leeching torrents. Torrent releases by Libgen are a few months behind.') }}</tr>
+      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/scihub">Sci-Hub</a><div class="text-sm text-gray-500">Via Libgen.li “scimag”</div>' | safe, stats_data.stats_by_group.journals, '<div class="text-sm text-gray-500 whitespace-normal">Sci-Hub: frozen since 2021; most available through torrents<div>Libgen.li: minor additions since then</div></div>' | safe) }}</tr>
+      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">Libgen.li</a><div class="text-sm text-gray-500">Excluding “scimag”</div>' | safe, stats_data.stats_by_group.lgli, stats_data.libgenli_date, 'Fiction torrents are behind (though IDs ~4-6M not torrented since they overlap with our Zlib torrents). Comics+magazine torrents being remade.') }}</tr>
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/zlib">Z-Library</a>' | safe, stats_data.stats_by_group.zlib, stats_data.zlib_date) }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/ia">Internet Archive Controlled Digital Lending</a>' | safe, stats_data.stats_by_group.ia, stats_data.ia_date, '98%+ of files are searchable') }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">DuXiu 读秀</a>' | safe, stats_data.stats_by_group.duxiu, stats_data.duxiu_date) }}</tr>
-      <tr class="even:bg-[#f2f2f2] font-bold">{{ stats_row('Total<div class="text-sm font-normal text-gray-500">Excluding duplicates</div>' | safe, stats_data.stats_by_group.total, '', 'Not all mirrored files are necessarily torrented yet') }}</tr>
+      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/ia">Internet Archive Controlled Digital Lending</a>' | safe, stats_data.stats_by_group.ia, stats_data.ia_date, '98%+ of files are searchable. Torrents partly under embargo (still counted).') }}</tr>
+      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">DuXiu 读秀</a>' | safe, stats_data.stats_by_group.duxiu, stats_data.duxiu_date, 'No torrents released yet.') }}</tr>
+      <tr class="even:bg-[#f2f2f2] font-bold">{{ stats_row('Total<div class="text-sm font-normal text-gray-500">Excluding duplicates</div>' | safe, stats_data.stats_by_group.total, '', '') }}</tr>
     </table>
 
     <p class="mb-4">
@@ -52,6 +60,8 @@
     <p class="mb-4">
       The “mirrored and seeded by Anna’s Archive” percentage shows how many files we mirror ourselves. We seed those files in bulk through torrents, and make them available for direct download through partner websites.
     </p>
+
+    <h3 class="mt-4 mb-1 text-xl font-bold">Source libraries</h3>
 
     <p class="mb-4">
       Some source libraries promote the bulk sharing of their data through torrents, while others do not readily share their collection. In the latter case, Anna’s Archive tries to scrape their collections, and make them available (see our <a href="/torrents">Torrents</a> page). There are also in-between situations, for example, where source libraries are willing to share, but don’t have the resources to do so. In those cases, we also try to help out.
@@ -138,6 +148,8 @@
       </tr>
     </table>
 
+    <h3 class="mt-4 mb-1 text-xl font-bold">Metadata-only sources</h3>
+
     <p class="mb-4">
       We also enrich our collection with metadata-only sources, which we can match to files, e.g. using ISBN numbers or other fields. Below is an overview of those. Again, some of these sources are completely open, while for others we have to scrape them.
     </p>
@@ -179,6 +191,8 @@
         <td class="p-2 align-middle">{{ stats_data.isbn_country_date }}</td>
       </tr> -->
     </table>
+
+    <h3 class="mt-4 mb-1 text-xl font-bold">Unified database</h3>
 
     <p class="mb-4">
       We combine all the above sources into one unified database that we use to serve this website. This unified database is not available directly, but since Anna’s Archive is fully open source, it can be fairly easily <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">reconstructed</a>. The scripts on that page will automatically download all the requisite metadata from the sources mentioned above.

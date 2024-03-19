@@ -388,6 +388,7 @@ def get_stats_data():
                             "aggs": {
                                 "search_filesize": { "sum": { "field": "search_only_fields.search_filesize" } },
                                 "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } },
+                                "search_bulk_torrents": { "terms": { "field": "search_only_fields.search_bulk_torrents", "include": "has_bulk_torrents" } },
                             },
                         },
                     },
@@ -406,7 +407,10 @@ def get_stats_data():
                     "track_total_hits": True,
                     "timeout": "20s",
                     "size": 0,
-                    "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
+                    "aggs": {
+                        "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } },
+                        "search_bulk_torrents": { "terms": { "field": "search_only_fields.search_bulk_torrents", "include": "has_bulk_torrents" } },
+                    },
                 },
                 # { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
                 { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals") },
@@ -414,7 +418,10 @@ def get_stats_data():
                     "track_total_hits": True,
                     "timeout": "20s",
                     "size": 0,
-                    "aggs": { "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } } },
+                    "aggs": {
+                        "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } },
+                        "search_bulk_torrents": { "terms": { "field": "search_only_fields.search_bulk_torrents", "include": "has_bulk_torrents" } },
+                    },
                 },
             ],
         ))
@@ -443,16 +450,19 @@ def get_stats_data():
                 'count': bucket['doc_count'],
                 'filesize': bucket['search_filesize']['value'],
                 'aa_count': bucket['search_access_types']['buckets'][0]['doc_count'],
+                'torrent_count': bucket['search_bulk_torrents']['buckets'][0]['doc_count'] if len(bucket['search_bulk_torrents']['buckets']) > 0 else 0,
             }
         stats_by_group['journals'] = {
             'count': stats_data_es['responses'][2]['hits']['total']['value'],
             'filesize': stats_data_es['responses'][2]['aggregations']['search_filesize']['value'],
             'aa_count': stats_data_es['responses'][3]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
+            'torrent_count': stats_data_es['responses'][3]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count'] if len(stats_data_es['responses'][3]['aggregations']['search_bulk_torrents']['buckets']) > 0 else 0,
         }
         stats_by_group['total'] = {
             'count': stats_data_es['responses'][0]['hits']['total']['value'],
             'filesize': stats_data_es['responses'][0]['aggregations']['total_filesize']['value'],
             'aa_count': stats_data_es['responses'][4]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
+            'torrent_count': stats_data_es['responses'][4]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count'] if len(stats_data_es['responses'][4]['aggregations']['search_bulk_torrents']['buckets']) > 0 else 0,
         }
         stats_by_group['ia']['count'] += stats_data_es_aux['responses'][0]['hits']['total']['value']
         stats_by_group['total']['count'] += stats_data_es_aux['responses'][0]['hits']['total']['value']
@@ -466,7 +476,7 @@ def get_stats_data():
         'openlib_date': openlib_date,
         'zlib_date': zlib_date,
         'ia_date': ia_date,
-        'duxiu_date': '2023',
+        'duxiu_date': '~2023',
         'isbndb_date': '2022-09-01',
         'isbn_country_date': '2022-02-11',
         'oclc_date': '2023-10-01',
@@ -3446,8 +3456,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         # Once we have the content type.
         aarecord['indexes'] = [allthethings.utils.get_aarecord_search_index(aarecord_id_split[0], search_content_type)]
 
-        # TODO: don't deduplicate, we need the duplication for weighing.
-        initial_search_text = "\n".join(list(dict.fromkeys([
+        initial_search_text = "\n".join([
             aarecord['file_unified_data']['title_best'][:1000],
             aarecord['file_unified_data']['title_best'][:1000],
             aarecord['file_unified_data']['title_best'][:1000],
@@ -3461,10 +3470,9 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['id'][:1000],
-            # For now, only include description and comments for "aarecords" index.
-            aarecord['file_unified_data']['stripped_description_best'][:5000] if 'aarecords' in aarecord['indexes'] else '',
-            ('\n'.join(aarecord['file_unified_data'].get('comments_multiple') or ''))[:5000]  if 'aarecords' in aarecord['indexes'] else '',
-        ])))
+            aarecord['file_unified_data']['stripped_description_best'][:5000],
+            ('\n'.join(aarecord['file_unified_data'].get('comments_multiple') or ''))[:5000],
+        ])
         split_search_text = set(initial_search_text.split())
         normalized_search_terms = initial_search_text.replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' ')
         filtered_normalized_search_terms = ' '.join([term for term in normalized_search_terms.split() if term not in split_search_text])
@@ -3927,7 +3935,7 @@ def get_additional_for_aarecord(aarecord):
                 # additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs.torrent"])
 
         lglimagz_id = aarecord['lgli_file']['magz_id']
-        if lglimagz_id > 0 and lglimagz_id < 1092000:
+        if lglimagz_id > 0 and lglimagz_id < 1363000:
             lglimagz_thousands_dir = (lglimagz_id // 1000) * 1000
             lglimagz_path = f"y/magz/{lglimagz_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
             add_partner_servers(lglimagz_path, '', aarecord, additional)
