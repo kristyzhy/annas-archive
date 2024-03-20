@@ -31,6 +31,8 @@ import shortuuid
 import pymysql.cursors
 import cachetools
 import time
+import sentence_transformers
+import struct
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
 from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaIa202306Metadata, AaIa202306Files, Ia2Records, Ia2AcsmpdfFiles, MariapersistSmallFiles
@@ -209,6 +211,10 @@ country_lang_mapping = { "Albania": "Albanian", "Algeria": "Arabic", "Andorra": 
 "Qatar": "Arabic", "Romania": "Romanian", "Saudi Arabia": "Arabic", "Slovenia": "Slovenian", "South Pacific": "English", "Spain": "Spanish", 
 "Srpska": "Serbian", "Sweden": "Swedish", "Thailand": "Thai", "Turkey": "Turkish", "Ukraine": "Ukrainian", 
 "United Arab Emirates": "Arabic", "United States": "English", "Uruguay": "Spanish", "Venezuela": "Spanish", "Vietnam": "Vietnamese" }
+
+@functools.cache
+def get_e5_small_model():
+    return sentence_transformers.SentenceTransformer("intfloat/multilingual-e5-small")
 
 @functools.cache
 def get_bcp47_lang_codes_parse_substr(substr):
@@ -1021,7 +1027,7 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict['aa_ia_derived']['subjects'] = '\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'subject') + extract_list_from_ia_json_field(ia_record_dict, 'level_subject'))
         ia_record_dict['aa_ia_derived']['stripped_description_and_references'] = strip_description('\n\n'.join(extract_list_from_ia_json_field(ia_record_dict, 'description') + extract_list_from_ia_json_field(ia_record_dict, 'references')))
         ia_record_dict['aa_ia_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(lang) for lang in (extract_list_from_ia_json_field(ia_record_dict, 'language') + extract_list_from_ia_json_field(ia_record_dict, 'ocr_detected_lang'))])
-        ia_record_dict['aa_ia_derived']['all_dates'] = list(set(extract_list_from_ia_json_field(ia_record_dict, 'year') + extract_list_from_ia_json_field(ia_record_dict, 'date') + extract_list_from_ia_json_field(ia_record_dict, 'range')))
+        ia_record_dict['aa_ia_derived']['all_dates'] = list(dict.fromkeys(extract_list_from_ia_json_field(ia_record_dict, 'year') + extract_list_from_ia_json_field(ia_record_dict, 'date') + extract_list_from_ia_json_field(ia_record_dict, 'range')))
         ia_record_dict['aa_ia_derived']['longest_date_field'] = max([''] + ia_record_dict['aa_ia_derived']['all_dates'])
         ia_record_dict['aa_ia_derived']['year'] = ''
         for date in ([ia_record_dict['aa_ia_derived']['longest_date_field']] + ia_record_dict['aa_ia_derived']['all_dates']):
@@ -1158,7 +1164,7 @@ def get_ol_book_dicts(session, key, values):
                 key = ol_book_dict['edition']['json']['works'][0]['key']
                 works_ol_keys.append(key)
         if len(works_ol_keys) > 0:
-            ol_works_by_key = {ol_work.ol_key: ol_work for ol_work in conn.execute(select(OlBase).where(OlBase.ol_key.in_(list(set(works_ol_keys))))).all()}
+            ol_works_by_key = {ol_work.ol_key: ol_work for ol_work in conn.execute(select(OlBase).where(OlBase.ol_key.in_(list(dict.fromkeys(works_ol_keys))))).all()}
             for ol_book_dict in ol_book_dicts:
                 ol_book_dict['work'] = None
                 if 'works' in ol_book_dict['edition']['json'] and len(ol_book_dict['edition']['json']['works']) > 0:
@@ -1186,7 +1192,7 @@ def get_ol_book_dicts(session, key, values):
             ol_book_dict['authors'] = []
 
         if len(author_keys) > 0:
-            author_keys = list(set(author_keys))
+            author_keys = list(dict.fromkeys(author_keys))
             unredirected_ol_authors = {ol_author.ol_key: ol_author for ol_author in conn.execute(select(OlBase).where(OlBase.ol_key.in_(author_keys))).all()}
             author_redirect_mapping = {}
             for unredirected_ol_author in list(unredirected_ol_authors.values()):
@@ -1881,7 +1887,7 @@ def get_isbndb_dicts(session, canonical_isbn13s):
 
         for index, isbndb_dict in enumerate(isbn_dict['isbndb']):
             isbndb_dict['language_codes'] = get_bcp47_lang_codes(isbndb_dict['json'].get('language') or '')
-            isbndb_dict['edition_varia_normalized'] = ", ".join(list(set([item for item in [
+            isbndb_dict['edition_varia_normalized'] = ", ".join(list(dict.fromkeys([item for item in [
                 str(isbndb_dict['json'].get('edition') or '').strip(),
                 str(isbndb_dict['json'].get('date_published') or '').split('T')[0].strip(),
             ] if item != ''])))
@@ -2728,6 +2734,51 @@ def duxiu_md5_json(md5):
             return "{}", 404
         return nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
+def get_embeddings_for_aarecords(session, aarecords):
+    aarecord_ids = [aarecord['id'] for aarecord in aarecords]
+    hashed_aarecord_ids = [hashlib.md5(aarecord['id'].encode()).digest() for aarecord in aarecords]
+
+    embedding_text_by_aarecord_id = { aarecord['id']: (' '.join([
+            *f"Title: '{aarecord['file_unified_data']['title_best']}'".split(' '),
+            *f"Author: '{aarecord['file_unified_data']['author_best']}'".split(' '),
+            *f"Edition: '{aarecord['file_unified_data']['edition_varia_best']}'".split(' '),
+            *f"Publisher: '{aarecord['file_unified_data']['publisher_best']}'".split(' '),
+            *f"Filename: '{aarecord['file_unified_data']['original_filename_best_name_only']}'".split(' '),
+            *f"Description: '{aarecord['file_unified_data']['stripped_description_best']}'".split(' '),
+        ][0:500])) for aarecord in aarecords }
+
+    session.connection().connection.ping(reconnect=True)
+    cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+    cursor.execute(f'SELECT * FROM model_cache WHERE model_name = "e5_small_query" AND hashed_aarecord_id IN %(hashed_aarecord_ids)s', { "hashed_aarecord_ids": hashed_aarecord_ids })
+    rows_by_aarecord_id = { row['aarecord_id']: row for row in cursor.fetchall() }
+
+    embeddings = []
+    insert_data_e5_small_query = []
+    for aarecord_id in aarecord_ids:
+        embedding_text = embedding_text_by_aarecord_id[aarecord_id]
+        if aarecord_id in rows_by_aarecord_id:
+            if rows_by_aarecord_id[aarecord_id]['embedding_text'] != embedding_text:
+                print(f"WARNING! embedding_text has changed for e5_small_query: {aarecord_id=} {rows_by_aarecord_id[aarecord_id]['embedding_text']=} {embedding_text=}")
+            embeddings.append({ 'e5_small_query': list(struct.unpack(f"{len(rows_by_aarecord_id[aarecord_id]['embedding'])//4}f", rows_by_aarecord_id[aarecord_id]['embedding'])) })
+        else:
+            e5_small_query = list(map(float, get_e5_small_model().encode(f"query: {embedding_text}", normalize_embeddings=True)))
+            embeddings.append({ 'e5_small_query': e5_small_query })
+            insert_data_e5_small_query.append({
+                'hashed_aarecord_id': hashlib.md5(aarecord_id.encode()).digest(),
+                'aarecord_id': aarecord_id,
+                'model_name': 'e5_small_query',
+                'embedding_text': embedding_text,
+                'embedding': struct.pack(f'{len(e5_small_query)}f', *e5_small_query),
+            })
+
+    if len(insert_data_e5_small_query) > 0:
+        session.connection().connection.ping(reconnect=True)
+        cursor.executemany(f"REPLACE INTO model_cache (hashed_aarecord_id, aarecord_id, model_name, embedding_text, embedding) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(model_name)s, %(embedding_text)s, %(embedding)s)", insert_data_e5_small_query)
+        cursor.execute("COMMIT")
+
+    return embeddings
+
+
 def is_string_subsequence(needle, haystack):
     i_needle = 0
     i_haystack = 0
@@ -2826,7 +2877,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         raise Exception("Invalid aarecord_ids")
 
     # Filter out bad data
-    aarecord_ids = list(set([val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]))
+    aarecord_ids = list(dict.fromkeys([val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]))
 
     split_ids = allthethings.utils.split_aarecord_ids(aarecord_ids)
     lgrsnf_book_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_lgrsnf_book_dicts(session, "MD5", split_ids['md5']))
@@ -2901,15 +2952,15 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         aarecords.append(aarecord)
 
-    isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(set(canonical_isbn13s)))}
-    ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(set(ol_editions)))}
-    ol_book_dicts2_for_isbn13 = get_ol_book_dicts_by_isbn13(session, list(set(canonical_isbn13s)))
-    scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(set(dois)))}
+    isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(dict.fromkeys(canonical_isbn13s)))}
+    ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(dict.fromkeys(ol_editions)))}
+    ol_book_dicts2_for_isbn13 = get_ol_book_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
+    scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(dict.fromkeys(dois)))}
 
     # Too expensive.. TODO: enable combining results from ES?
-    # oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(set(oclc_ids)))}
-    # oclc_dicts2_for_isbn13 = get_oclc_dicts_by_isbn13(session, list(set(canonical_isbn13s)))
-    oclc_id_by_isbn13 = get_oclc_id_by_isbn13(session, list(set(canonical_isbn13s)))
+    # oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(dict.fromkeys(oclc_ids)))}
+    # oclc_dicts2_for_isbn13 = get_oclc_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
+    oclc_id_by_isbn13 = get_oclc_id_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
 
     # Second pass
     for aarecord in aarecords:
@@ -3486,6 +3537,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         search_text = f"{initial_search_text}\n\n{filtered_normalized_search_terms}\n\n{more_search_text}"
 
         aarecord['search_only_fields'] = {
+            # 'search_e5_small_query': embeddings['e5_small_query'],
             'search_filesize': aarecord['file_unified_data']['filesize_best'],
             'search_year': aarecord['file_unified_data']['year_best'],
             'search_extension': aarecord['file_unified_data']['extension_best'],
@@ -3493,12 +3545,11 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_most_likely_language_code': aarecord['file_unified_data']['most_likely_language_code'],
             'search_isbn13': (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []),
             'search_doi': (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []),
-            # TODO: Enable and see how big the index gets.
-            # 'search_title': aarecord['file_unified_data']['title_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-            # 'search_author': aarecord['file_unified_data']['author_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-            # 'search_publisher': aarecord['file_unified_data']['publisher_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-            # 'search_edition_varia': aarecord['file_unified_data']['edition_varia_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
-            # 'search_original_filename': aarecord['file_unified_data']['original_filename_best'].replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('/', ' ').replace('\\', ' '),
+            'search_title': aarecord['file_unified_data']['title_best'],
+            'search_author': aarecord['file_unified_data']['author_best'],
+            'search_publisher': aarecord['file_unified_data']['publisher_best'],
+            'search_edition_varia': aarecord['file_unified_data']['edition_varia_best'],
+            'search_original_filename': aarecord['file_unified_data']['original_filename_best'],
             'search_text': search_text,
             'search_access_types': [
                 *(['external_download'] if any([((aarecord.get(field) is not None) and (type(aarecord[field]) != list or len(aarecord[field]) > 0)) for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book', 'scihub_doi']]) else []),
@@ -3507,7 +3558,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
                 *(['meta_explore'] if allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]) else []),
             ],
-            'search_record_sources': list(set([
+            'search_record_sources': list(dict.fromkeys([
                 *(['lgrs']      if aarecord['lgrsnf_book'] is not None else []),
                 *(['lgrs']      if aarecord['lgrsfic_book'] is not None else []),
                 *(['lgli']      if aarecord['lgli_file'] is not None else []),
@@ -3527,6 +3578,10 @@ def get_aarecords_mysql(session, aarecord_ids):
         # At the very end
         aarecord['search_only_fields']['search_score_base_rank'] = float(aarecord_score_base(aarecord))
 
+    # embeddings = get_embeddings_for_aarecords(session, aarecords)
+    # for embedding, aarecord in zip(embeddings, aarecords):
+    #     aarecord['search_only_fields']['search_e5_small_query'] = embedding['e5_small_query']
+    
     return aarecords
 
 def get_md5_problem_type_mapping():
@@ -4532,6 +4587,7 @@ def search_page():
                     "sort": custom_search_sorting+['_score'],
                     "track_total_hits": False,
                     "timeout": ES_TIMEOUT_PRIMARY,
+                    # "knn": { "field": "search_only_fields.search_e5_small_query", "query_vector": list(map(float, get_e5_small_model().encode(f"query: {search_input}", normalize_embeddings=True))), "k": 10, "num_candidates": 1000 },
                 },
             ]
         ))

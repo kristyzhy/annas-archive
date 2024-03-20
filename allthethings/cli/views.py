@@ -265,6 +265,7 @@ def elastic_reset_aarecords_internal():
                         "search_access_types": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                         "search_record_sources": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                         "search_bulk_torrents": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                        "search_e5_small_query": {"type": "dense_vector", "dims": 384, "index": True, "similarity": "dot_product"},
                     },
                 },
             },
@@ -302,6 +303,7 @@ def elastic_reset_aarecords_internal():
         cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13')
         cursor.execute('CREATE TABLE aarecords_isbn13 (isbn13 CHAR(13) NOT NULL, hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, PRIMARY KEY (isbn13, hashed_aarecord_id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
 def elastic_build_aarecords_job_init_pool():
@@ -342,7 +344,12 @@ def elastic_build_aarecords_job(aarecord_ids):
                         'hashed_aarecord_id': hashed_aarecord_id,
                         'aarecord_id': aarecord['id'],
                         'md5': bytes.fromhex(aarecord['id'].split(':', 1)[1]) if aarecord['id'].startswith('md5:') else None,
-                        'json_compressed': elastic_build_aarecords_compressor.compress(orjson.dumps(aarecord)),
+                        'json_compressed': elastic_build_aarecords_compressor.compress(orjson.dumps({
+                            # Note: used in external code.
+                            'search_only_fields': {
+                                'search_bulk_torrents': aarecord['search_only_fields']['search_bulk_torrents'],
+                            }
+                        })),
                     })
                     for index in aarecord['indexes']:
                         virtshard = allthethings.utils.virtshard_for_hashed_aarecord_id(hashed_aarecord_id)
@@ -458,9 +465,6 @@ def elastic_build_aarecords_ia():
     elastic_build_aarecords_ia_internal()
 
 def elastic_build_aarecords_ia_internal():
-    print("Do a dummy detect of language so that we're sure the model is downloaded")
-    ftlangdetect.detect('dummy')
-
     before_first_ia_id = ''
 
     if len(before_first_ia_id) > 0:
@@ -511,9 +515,6 @@ def elastic_build_aarecords_isbndb():
     elastic_build_aarecords_isbndb_internal()
 
 def elastic_build_aarecords_isbndb_internal():
-    print("Do a dummy detect of language so that we're sure the model is downloaded")
-    ftlangdetect.detect('dummy')
-
     before_first_isbn13 = ''
 
     if len(before_first_isbn13) > 0:
@@ -563,9 +564,6 @@ def elastic_build_aarecords_ol():
 def elastic_build_aarecords_ol_internal():
     before_first_ol_key = ''
     # before_first_ol_key = '/books/OL5624024M'
-    print("Do a dummy detect of language so that we're sure the model is downloaded")
-    ftlangdetect.detect('dummy')
-
     with engine.connect() as connection:
         print("Processing from ol_base")
         connection.connection.ping(reconnect=True)
@@ -602,9 +600,6 @@ def elastic_build_aarecords_duxiu():
 def elastic_build_aarecords_duxiu_internal():
     before_first_primary_id = ''
     # before_first_primary_id = 'duxiu_ssid_10000431'
-    print("Do a dummy detect of language so that we're sure the model is downloaded")
-    ftlangdetect.detect('dummy')
-
     with engine.connect() as connection:
         print("Processing from annas_archive_meta__aacid__duxiu_records")
         connection.connection.ping(reconnect=True)
@@ -656,9 +651,6 @@ def elastic_build_aarecords_oclc():
     elastic_build_aarecords_oclc_internal()
 
 def elastic_build_aarecords_oclc_internal():
-    print("Do a dummy detect of language so that we're sure the model is downloaded")
-    ftlangdetect.detect('dummy')
-
     MAX_WORLDCAT = 999999999999999
     if SLOW_DATA_IMPORTS:
         MAX_WORLDCAT = 1000
@@ -736,9 +728,6 @@ def elastic_build_aarecords_main_internal():
     # before_first_md5 = 'aaa5a4759e87b0192c1ecde213535ba1'
     before_first_doi = ''
     # before_first_doi = ''
-
-    print("Do a dummy detect of language so that we're sure the model is downloaded")
-    ftlangdetect.detect('dummy')
 
     if len(before_first_md5) > 0:
         print(f'WARNING!!!!! before_first_md5 is set to {before_first_md5}')
