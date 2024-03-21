@@ -61,6 +61,10 @@ COPY bin/ ./bin
 
 RUN chmod 0755 bin/* && bin/pip3-install
 
+# Download models
+RUN echo 'import ftlangdetect; ftlangdetect.detect("dummy")' | python3
+RUN echo 'import sentence_transformers; sentence_transformers.SentenceTransformer("intfloat/multilingual-e5-small")' | python3
+
 ARG FLASK_DEBUG="false"
 ENV FLASK_DEBUG="${FLASK_DEBUG}" \
     FLASK_APP="allthethings.app" \
@@ -70,10 +74,6 @@ ENV FLASK_DEBUG="${FLASK_DEBUG}" \
 
 COPY --from=assets /app/public /public
 COPY . .
-
-# Download models
-RUN echo 'import ftlangdetect; ftlangdetect.detect("dummy")' | python3
-RUN echo 'import sentence_transformers; sentence_transformers.SentenceTransformer("intfloat/multilingual-e5-small")' | python3
 
 # RUN if [ "${FLASK_DEBUG}" != "true" ]; then \
 #   ln -s /public /app/public && flask digest compile && rm -rf /app/public; fi

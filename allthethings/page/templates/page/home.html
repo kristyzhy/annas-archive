@@ -16,7 +16,7 @@
       </div>
     </form>
 
-    <h2 class="mt-8 text-xl font-bold">🧬 {{ gettext('page.home.scidb.header') }} <span class="mr-1 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 align-[2px] rounded">{{ gettext('layout.index.header.nav.beta') }}</span></h2>
+    <h2 class="mt-8 text-xl font-bold">🧬 {{ gettext('page.home.scidb.header') }}<!-- <span class="mr-1 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 align-[2px] rounded">{{ gettext('layout.index.header.nav.beta') }}</span>--></h2>
 
     <form action="/scidb/" method="get" onsubmit='window.location="/scidb/" + new FormData(event.currentTarget).get("doi"); event.preventDefault(); return false'>
       <div class="mb-1 text-sm text-gray-500">{{ gettext('page.home.scidb.subtitle', count=g.header_stats.journal_article) }}</div>

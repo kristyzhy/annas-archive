@@ -222,6 +222,55 @@ def mysql_build_computed_all_md5s_internal():
     # cursor.execute('CREATE TABLE computed_all_md5s (md5 CHAR(32) NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE ascii_bin ROW_FORMAT=FIXED IGNORE SELECT DISTINCT md5 AS md5 FROM libgenli_files UNION DISTINCT (SELECT DISTINCT md5_reported AS md5 FROM zlib_book WHERE md5_reported != "") UNION DISTINCT (SELECT DISTINCT md5 AS md5 FROM zlib_book WHERE md5 != "") UNION DISTINCT (SELECT DISTINCT LOWER(libgenrs_fiction.MD5) AS md5 FROM libgenrs_fiction) UNION DISTINCT (SELECT DISTINCT MD5 AS md5 FROM libgenrs_updated) UNION DISTINCT (SELECT DISTINCT md5 AS md5 FROM aa_ia_2023_06_files LEFT JOIN aa_ia_2023_06_metadata USING (ia_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NULL) UNION DISTINCT (SELECT DISTINCT md5 AS md5 FROM annas_archive_meta__aacid__zlib3_records WHERE md5 IS NOT NULL) UNION DISTINCT (SELECT DISTINCT md5 AS md5 FROM annas_archive_meta__aacid__zlib3_files WHERE md5 IS NOT NULL)')
     # cursor.close()
 
+es_create_index_body = {
+    "mappings": {
+        "dynamic": False,
+        "properties": {
+            "search_only_fields": {
+                "properties": {
+                    "search_filesize": { "type": "long", "index": False, "doc_values": True },
+                    "search_year": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                    "search_extension": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                    "search_content_type": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                    "search_most_likely_language_code": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                    "search_isbn13": { "type": "keyword", "index": True, "doc_values": True },
+                    "search_doi": { "type": "keyword", "index": True, "doc_values": True },
+                    "search_title": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
+                    "search_author": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
+                    "search_publisher": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
+                    "search_edition_varia": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
+                    "search_original_filename": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
+                    "search_description_comments": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
+                    "search_text": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
+                    "search_score_base_rank": { "type": "rank_feature" },
+                    "search_access_types": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                    "search_record_sources": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                    "search_bulk_torrents": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
+                    "search_e5_small_query": {"type": "dense_vector", "dims": 384, "index": True, "similarity": "dot_product"},
+                },
+            },
+        },
+        "_source": { "excludes": ["search_only_fields.*"] },
+    },
+    "settings": {
+        "index": {
+            "number_of_replicas": 0,
+            "search.slowlog.threshold.query.warn": "4s",
+            "store.preload": ["nvd", "dvd", "tim", "doc", "dim"],
+            "codec": "best_compression",
+            "analysis": {
+                "analyzer": {
+                    "custom_icu_analyzer": {
+                        "tokenizer": "icu_tokenizer",
+                        "char_filter": ["icu_normalizer"],
+                        "filter": ["t2s", "icu_folding"],
+                    },
+                },
+                "filter": { "t2s": { "type": "icu_transform", "id": "Traditional-Simplified" } },
+            },
+        },
+    },
+}
 
 #################################################################################################
 # Recreate "aarecords" index in ElasticSearch, without filling it with data yet.
@@ -242,59 +291,11 @@ def elastic_reset_aarecords_internal():
         es_handle.options(ignore_status=[400,404]).indices.delete(index=index_name) # Old
         for virtshard in range(0, 100): # Out of abundance, delete up to a large number
             es_handle.options(ignore_status=[400,404]).indices.delete(index=f'{index_name}__{virtshard}')
-    body = {
-        "mappings": {
-            "dynamic": False,
-            "properties": {
-                "search_only_fields": {
-                    "properties": {
-                        "search_filesize": { "type": "long", "index": False, "doc_values": True },
-                        "search_year": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
-                        "search_extension": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
-                        "search_content_type": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
-                        "search_most_likely_language_code": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
-                        "search_isbn13": { "type": "keyword", "index": True, "doc_values": True },
-                        "search_doi": { "type": "keyword", "index": True, "doc_values": True },
-                        "search_title": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
-                        "search_author": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
-                        "search_publisher": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
-                        "search_edition_varia": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
-                        "search_original_filename": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
-                        "search_text": { "type": "text", "index": True, "analyzer": "custom_icu_analyzer" },
-                        "search_score_base_rank": { "type": "rank_feature" },
-                        "search_access_types": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
-                        "search_record_sources": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
-                        "search_bulk_torrents": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
-                        "search_e5_small_query": {"type": "dense_vector", "dims": 384, "index": True, "similarity": "dot_product"},
-                    },
-                },
-            },
-            "_source": { "excludes": ["search_only_fields.*"] },
-        },
-        "settings": {
-            "index": {
-                "number_of_replicas": 0,
-                "search.slowlog.threshold.query.warn": "4s",
-                "store.preload": ["nvd", "dvd", "tim", "doc", "dim"],
-                "codec": "best_compression",
-                "analysis": {
-                    "analyzer": {
-                        "custom_icu_analyzer": {
-                            "tokenizer": "icu_tokenizer",
-                            "char_filter": ["icu_normalizer"],
-                            "filter": ["t2s", "icu_folding"],
-                        },
-                    },
-                    "filter": { "t2s": { "type": "icu_transform", "id": "Traditional-Simplified" } },
-                },
-            },
-        },
-    }
     print("Creating ES indices")
-
     for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
         for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
-            es_handle.indices.create(index=full_index_name, body=body)
+            es_handle.indices.create(index=full_index_name, body=es_create_index_body)
+
     print("Creating MySQL aarecords tables")
     with Session(engine) as session:
         session.connection().connection.ping(reconnect=True)
@@ -305,6 +306,16 @@ def elastic_reset_aarecords_internal():
         cursor.execute('CREATE TABLE aarecords_isbn13 (isbn13 CHAR(13) NOT NULL, hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, PRIMARY KEY (isbn13, hashed_aarecord_id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
+
+#################################################################################################
+# ./run flask cli update_aarecords_index_mappings
+@cli.cli.command('update_aarecords_index_mappings')
+def update_aarecords_index_mappings():
+    print("Updating ES indices")
+    for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+        for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
+            es_handle.indices.put_mapping(body=es_create_index_body['mappings'], index=full_index_name)
+    print("Done!")
 
 def elastic_build_aarecords_job_init_pool():
     global elastic_build_aarecords_job_app

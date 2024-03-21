@@ -184,7 +184,7 @@ def make_temp_anon_aac_path(prefix, file_aac_id, data_folder):
     return f"{prefix}/{date}/{data_folder}/{file_aac_id}"
 
 def strip_description(description):
-    return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n'))).strip()
+    return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n').replace('.', '. ').replace(',', ', '))).strip()
 
 def nice_json(some_dict):
     json_str = orjson.dumps(some_dict, option=orjson.OPT_INDENT_2 | orjson.OPT_NON_STR_KEYS, default=str).decode('utf-8')
@@ -3521,8 +3521,6 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['file_unified_data']['original_filename_best_name_only'][:1000],
             aarecord['id'][:1000],
-            aarecord['file_unified_data']['stripped_description_best'][:5000],
-            ('\n'.join(aarecord['file_unified_data'].get('comments_multiple') or ''))[:5000],
         ])
         # Duplicate search terms that contain punctuation, in *addition* to the original search terms (so precise matches still work).
         split_search_text = set(initial_search_text.split())
@@ -3550,6 +3548,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_publisher': aarecord['file_unified_data']['publisher_best'],
             'search_edition_varia': aarecord['file_unified_data']['edition_varia_best'],
             'search_original_filename': aarecord['file_unified_data']['original_filename_best'],
+            'search_description_comments': ('\n'.join([aarecord['file_unified_data']['stripped_description_best']] + (aarecord['file_unified_data'].get('comments_multiple') or [])))[:10000],
             'search_text': search_text,
             'search_access_types': [
                 *(['external_download'] if any([((aarecord.get(field) is not None) and (type(aarecord[field]) != list or len(aarecord[field]) > 0)) for field in ['lgrsnf_book', 'lgrsfic_book', 'lgli_file', 'zlib_book', 'aac_zlib3_book', 'scihub_doi']]) else []),
