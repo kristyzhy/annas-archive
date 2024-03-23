@@ -513,7 +513,8 @@ def get_torrents_data():
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         # cursor.execute('SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 50000')
-        cursor.execute('SELECT created, file_path, metadata FROM mariapersist_small_files WHERE mariapersist_small_files.file_path LIKE "torrents/%" ORDER BY created, file_path LIMIT 50000')
+        # Sorting by created only "year-month-day", so it gets secondarily sorted by file path.
+        cursor.execute('SELECT DATE_FORMAT(created, "%Y-%m-%d") AS created_date, file_path, metadata FROM mariapersist_small_files WHERE mariapersist_small_files.file_path LIKE "torrents/%" ORDER BY created_date, file_path LIMIT 50000')
         small_files = cursor.fetchall()
         cursor.execute('SELECT * FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)')
         scrapes_by_file_path = { row['file_path']: row for row in cursor.fetchall() }
@@ -553,7 +554,7 @@ def get_torrents_data():
                 list_to_add = small_file_dicts_grouped_aa[group]
             display_name = small_file['file_path'].split('/')[-1]
             list_to_add.append({
-                "created": small_file['created'].strftime("%Y-%m-%d"), # First, so it gets sorted by first. Also, only year-month-day, so it gets secondarily sorted by file path.
+                "created": small_file['created_date'],
                 "file_path": small_file['file_path'],
                 "metadata": metadata, 
                 "aa_currently_seeding": allthethings.utils.aa_currently_seeding(metadata),
