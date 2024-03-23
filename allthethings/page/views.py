@@ -513,7 +513,7 @@ def get_torrents_data():
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         # cursor.execute('SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 50000')
-        cursor.execute('SELECT created, file_path, metadata FROM mariapersist_small_files WHERE mariapersist_small_files.file_path LIKE "torrents/%" ORDER BY created ASC LIMIT 50000')
+        cursor.execute('SELECT created, file_path, metadata FROM mariapersist_small_files WHERE mariapersist_small_files.file_path LIKE "torrents/%" ORDER BY created, file_path LIMIT 50000')
         small_files = cursor.fetchall()
         cursor.execute('SELECT * FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)')
         scrapes_by_file_path = { row['file_path']: row for row in cursor.fetchall() }
@@ -553,7 +553,6 @@ def get_torrents_data():
                 list_to_add = small_file_dicts_grouped_aa[group]
             display_name = small_file['file_path'].split('/')[-1]
             list_to_add.append({
-                "temp_uuid": shortuuid.uuid(),
                 "created": small_file['created'].strftime("%Y-%m-%d"), # First, so it gets sorted by first. Also, only year-month-day, so it gets secondarily sorted by file path.
                 "file_path": small_file['file_path'],
                 "metadata": metadata, 
@@ -564,11 +563,9 @@ def get_torrents_data():
                 "scrape_metadata": scrape_metadata, 
                 "scrape_created": scrape_created, 
                 "is_metadata": (('annas_archive_meta__' in small_file['file_path']) or ('.sql' in small_file['file_path']) or ('-index-' in small_file['file_path']) or ('-derived' in small_file['file_path']) or ('isbndb' in small_file['file_path']) or ('covers-' in small_file['file_path']) or ('-metadata-' in small_file['file_path']) or ('-thumbs' in small_file['file_path']) or ('.csv' in small_file['file_path'])),
-                "magnet_link": f"magnet:?xt=urn:btih:{metadata['btih']}&dn={urllib.parse.quote(display_name)}&tr=udp://tracker.opentrackr.org:1337/announce"
+                "magnet_link": f"magnet:?xt=urn:btih:{metadata['btih']}&dn={urllib.parse.quote(display_name)}&tr=udp://tracker.opentrackr.org:1337/announce",
+                "temp_uuid": shortuuid.uuid(),
             })
-
-        group_size_strings = { group: format_filesize(total) for group, total in group_sizes.items() }
-        seeder_size_strings = { index: format_filesize(seeder_sizes[index]) for index in [0,1,2] }
 
         obsolete_file_paths = [
             'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent',
@@ -588,6 +585,10 @@ def get_torrents_data():
         for group in list(small_file_dicts_grouped_aa.values()) + list(small_file_dicts_grouped_external.values()):
             for item in group:
                 item['obsolete'] = (item['file_path'] in obsolete_file_paths)
+
+        # TODO: exclude obsolete
+        group_size_strings = { group: format_filesize(total) for group, total in group_sizes.items() }
+        seeder_size_strings = { index: format_filesize(seeder_sizes[index]) for index in [0,1,2] }
 
         return {
             'small_file_dicts_grouped': {
