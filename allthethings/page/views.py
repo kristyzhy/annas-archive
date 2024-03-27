@@ -33,6 +33,7 @@ import cachetools
 import time
 import sentence_transformers
 import struct
+import natsort
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
 from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaIa202306Metadata, AaIa202306Files, Ia2Records, Ia2AcsmpdfFiles, MariapersistSmallFiles
@@ -238,13 +239,21 @@ def get_bcp47_lang_codes_parse_substr(substr):
                     lang = str(langcodes.standardize_tag(langcodes.find(substr, language='en'), macro=True))
                 except LookupError:
                     lang = ''
+    # Further specification is unnecessary for most languages, except Traditional Chinese.
+    if ('-' in lang) and (lang != 'zh-Hant'):
+        lang = lang.split('-', 1)[0]
     # We have a bunch of weird data that gets interpreted as "Egyptian Sign Language" when it's
     # clearly all just Spanish..
-    if lang == "esl":
-        lang = "es"
-    # Further specification of English is unnecessary.
-    if lang.startswith("en-"):
-        lang = "en"
+    if lang == 'esl':
+        lang = 'es'
+    # Seems present within ISBNdb, and just means "en".
+    if lang == 'us':
+        lang = 'en'
+    # "urdu" not being converted to "ur" seems to be a bug in langcodes?
+    if lang == 'urdu':
+        lang = 'ur'
+    if lang in ['und', 'mul']:
+        lang = ''
     return lang
 
 @functools.cache
@@ -513,8 +522,7 @@ def get_torrents_data():
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         # cursor.execute('SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 50000')
-        # Sorting by created only "year-month-day", so it gets secondarily sorted by file path.
-        cursor.execute('SELECT DATE_FORMAT(created, "%Y-%m-%d") AS created_date, file_path, metadata FROM mariapersist_small_files WHERE mariapersist_small_files.file_path LIKE "torrents/%" ORDER BY created_date, file_path LIMIT 50000')
+        cursor.execute('SELECT created, file_path, metadata FROM mariapersist_small_files WHERE mariapersist_small_files.file_path LIKE "torrents/%" ORDER BY created, file_path LIMIT 50000')
         small_files = cursor.fetchall()
         cursor.execute('SELECT * FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)')
         scrapes_by_file_path = { row['file_path']: row for row in cursor.fetchall() }
@@ -554,7 +562,7 @@ def get_torrents_data():
                 list_to_add = small_file_dicts_grouped_aa[group]
             display_name = small_file['file_path'].split('/')[-1]
             list_to_add.append({
-                "created": small_file['created_date'],
+                "created": small_file['created'].strftime("%Y-%m-%d"), # First, so it gets sorted by first. Also, only year-month-day, so it gets secondarily sorted by file path.
                 "file_path": small_file['file_path'],
                 "metadata": metadata, 
                 "aa_currently_seeding": allthethings.utils.aa_currently_seeding(metadata),
@@ -567,6 +575,11 @@ def get_torrents_data():
                 "magnet_link": f"magnet:?xt=urn:btih:{metadata['btih']}&dn={urllib.parse.quote(display_name)}&tr=udp://tracker.opentrackr.org:1337/announce",
                 "temp_uuid": shortuuid.uuid(),
             })
+
+        for key in small_file_dicts_grouped_external:
+            small_file_dicts_grouped_external[key] = natsort.natsorted(small_file_dicts_grouped_external[key], key=lambda x: list(x.values()))
+        for key in small_file_dicts_grouped_aa:
+            small_file_dicts_grouped_aa[key] = natsort.natsorted(small_file_dicts_grouped_aa[key], key=lambda x: list(x.values()))
 
         obsolete_file_paths = [
             'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent',
@@ -4573,30 +4586,36 @@ def search_page():
 
     search_names = ['search1_primary']
     search_results_raw = {'responses': [{} for search_name in search_names]}
-    try:
-        search_results_raw = dict(es_handle.msearch(
-            request_timeout=5,
-            max_concurrent_searches=64,
-            max_concurrent_shard_requests=64,
-            searches=[
-                { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
-                {
-                    "size": max_display_results, 
-                    "query": search_query,
-                    "aggs": search_query_aggs(search_index_long),
-                    "post_filter": { "bool": { "filter": post_filter } },
-                    "sort": custom_search_sorting+['_score'],
-                    "track_total_hits": False,
-                    "timeout": ES_TIMEOUT_PRIMARY,
-                    # "knn": { "field": "search_only_fields.search_e5_small_query", "query_vector": list(map(float, get_e5_small_model().encode(f"query: {search_input}", normalize_embeddings=True))), "k": 10, "num_candidates": 1000 },
-                },
-            ]
-        ))
-    except Exception as err:
-        had_es_timeout = True
-        had_primary_es_timeout = True
-        had_fatal_es_timeout = True
-        print(f"Exception during primary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
+    for attempt in [1, 2]:
+        try:
+            search_results_raw = dict(es_handle.msearch(
+                request_timeout=5,
+                max_concurrent_searches=64,
+                max_concurrent_shard_requests=64,
+                searches=[
+                    { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                    {
+                        "size": max_display_results, 
+                        "query": search_query,
+                        "aggs": search_query_aggs(search_index_long),
+                        "post_filter": { "bool": { "filter": post_filter } },
+                        "sort": custom_search_sorting+['_score'],
+                        "track_total_hits": False,
+                        "timeout": ES_TIMEOUT_PRIMARY,
+                        # "knn": { "field": "search_only_fields.search_e5_small_query", "query_vector": list(map(float, get_e5_small_model().encode(f"query: {search_input}", normalize_embeddings=True))), "k": 10, "num_candidates": 1000 },
+                    },
+                ]
+            ))
+            break
+        except Exception as err:
+            if attempt < 2:
+                print(f"Warning: another attempt during primary ES search {search_input=}")
+            else:
+                had_es_timeout = True
+                had_primary_es_timeout = True
+                had_fatal_es_timeout = True
+                print(f"Exception during primary ES search {attempt=} {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
+                break
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
         if response.get('timed_out') or (response == {}):

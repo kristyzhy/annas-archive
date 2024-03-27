@@ -358,6 +358,8 @@ def elastic_build_aarecords_job(aarecord_ids):
                         'json_compressed': elastic_build_aarecords_compressor.compress(orjson.dumps({
                             # Note: used in external code.
                             'search_only_fields': {
+                                'search_access_types': aarecord['search_only_fields']['search_access_types'],
+                                'search_record_sources': aarecord['search_only_fields']['search_record_sources'],
                                 'search_bulk_torrents': aarecord['search_only_fields']['search_bulk_torrents'],
                             }
                         })),
