@@ -21,8 +21,7 @@
   </p>
 
   <p class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    To get even more downloads, <a href="/refer">refer your friends</a>!
+    {{ gettext('page.donate.refer.text1', a_refer=(' href="/refer" ' | safe)) }}
   </p>
 
   {% if ref_account_dict %}

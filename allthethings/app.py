@@ -251,8 +251,7 @@ def extensions(app):
         new_header_tagline_libgen = gettext('layout.index.header.tagline_libgen')
         new_header_tagline_zlib = gettext('layout.index.header.tagline_zlib')
         new_header_tagline_openlib = gettext('layout.index.header.tagline_openlib')
-        # TODO:TRANSLATE
-        new_header_tagline_ia = "Internet Archive Lending Library"
+        new_header_tagline_ia = gettext('layout.index.header.tagline_ia')
         new_header_tagline_duxiu = gettext('layout.index.header.tagline_duxiu')
         new_header_tagline_separator = gettext('layout.index.header.tagline_separator')
         new_header_tagline_and = gettext('layout.index.header.tagline_and')
