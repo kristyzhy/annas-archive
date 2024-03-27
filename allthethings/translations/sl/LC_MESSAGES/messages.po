@@ -18,44 +18,48 @@ msgstr "Z-Lib"
 msgid "layout.index.header.tagline_openlib"
 msgstr "OpenLib"
 
-#: allthethings/app.py:256
+#: allthethings/app.py:254
+msgid "layout.index.header.tagline_ia"
+msgstr ""
+
+#: allthethings/app.py:255
 msgid "layout.index.header.tagline_duxiu"
 msgstr "DuXiu"
 
-#: allthethings/app.py:257
+#: allthethings/app.py:256
 msgid "layout.index.header.tagline_separator"
 msgstr ", "
 
-#: allthethings/app.py:258
+#: allthethings/app.py:257
 msgid "layout.index.header.tagline_and"
 msgstr " in "
 
-#: allthethings/app.py:259
+#: allthethings/app.py:258
 msgid "layout.index.header.tagline_and_more"
 msgstr "in več"
 
-#: allthethings/app.py:267
+#: allthethings/app.py:266
 msgid "layout.index.header.tagline_newnew2a"
 msgstr "⭐️&nbsp; Preslikujemo %(libraries)s."
 
-#: allthethings/app.py:268
+#: allthethings/app.py:267
 msgid "layout.index.header.tagline_newnew2b"
 msgstr "Preslikujemo in odpiramo %(scraped)s."
 
-#: allthethings/app.py:269 allthethings/app.py:271 allthethings/app.py:272
-#: allthethings/app.py:275
+#: allthethings/app.py:268 allthethings/app.py:270 allthethings/app.py:271
+#: allthethings/app.py:274
 msgid "layout.index.header.tagline_new1"
 msgstr "📚&nbsp;Največja odprta knjižnica v zgodovini človeštva."
 
-#: allthethings/app.py:269 allthethings/app.py:271 allthethings/app.py:275
+#: allthethings/app.py:268 allthethings/app.py:270 allthethings/app.py:274
 msgid "layout.index.header.tagline_new3"
 msgstr "📈&nbsp;%(book_count)s&nbsp;knjig, %(paper_count)s&nbsp;člankov — ohranjenih za vedno."
 
-#: allthethings/app.py:277 allthethings/app.py:278
+#: allthethings/app.py:276 allthethings/app.py:277
 msgid "layout.index.header.tagline"
 msgstr "📚 Največja odprtokodna knjižnica na svetu. ⭐️ Preslikava strani Sci-Hub, Library Genesis, Z-Library in drugih. 📈 %(book_any)s knjig, %(journal_article)s člankov, %(book_comic)s stripov, %(magazine)s revij — ohranjeno za vedno."
 
-#: allthethings/app.py:279
+#: allthethings/app.py:278
 msgid "layout.index.header.tagline_short"
 msgstr "📚 Največja svetovna odprtokodna in odprtopodatkovna knjižnica.<br>⭐️ Preslikava Scihub, Libgen, Zlib, in druge."
 
@@ -168,365 +172,369 @@ msgstr "Annin arhiv je neprofitni, odprtokodni projekt z javno dostopnimi podatk
 msgid "page.donate.header.text2"
 msgstr "Za več informacij si oglejte <a href=\"/donation_faq\">pogosta vprašanja o donacijah</a>."
 
-#: allthethings/account/templates/account/donate.html:32
+#: allthethings/account/templates/account/donate.html:24
+msgid "page.donate.refer.text1"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:31
 #: allthethings/account/templates/account/donation.html:23
 msgid "page.donate.bonus_downloads.main"
 msgstr "Dobili ste %(percentage)s%% bonusa hitrih prenosov, ker vas je priporočil uporabnik %(profile_link)s."
 
-#: allthethings/account/templates/account/donate.html:33
+#: allthethings/account/templates/account/donate.html:32
 #: allthethings/account/templates/account/donation.html:24
 msgid "page.donate.bonus_downloads.period"
 msgstr "To velja za celotno obdobje članstva."
+
+#: allthethings/account/templates/account/donate.html:42
+#: allthethings/account/templates/account/donate.html:57
+#: allthethings/account/templates/account/donate.html:71
+#: allthethings/account/templates/account/donate.html:85
+msgid "page.donate.buttons.join"
+msgstr "Pridruži se"
 
 #: allthethings/account/templates/account/donate.html:43
 #: allthethings/account/templates/account/donate.html:58
 #: allthethings/account/templates/account/donate.html:72
 #: allthethings/account/templates/account/donate.html:86
-msgid "page.donate.buttons.join"
-msgstr "Pridruži se"
-
-#: allthethings/account/templates/account/donate.html:44
-#: allthethings/account/templates/account/donate.html:59
-#: allthethings/account/templates/account/donate.html:73
-#: allthethings/account/templates/account/donate.html:87
 msgid "page.donate.buttons.selected"
 msgstr "Izbrano"
 
-#: allthethings/account/templates/account/donate.html:46
-#: allthethings/account/templates/account/donate.html:61
-#: allthethings/account/templates/account/donate.html:75
-#: allthethings/account/templates/account/donate.html:89
+#: allthethings/account/templates/account/donate.html:45
+#: allthethings/account/templates/account/donate.html:60
+#: allthethings/account/templates/account/donate.html:74
+#: allthethings/account/templates/account/donate.html:88
 msgid "page.donate.buttons.up_to_discounts"
 msgstr "do %(percentage)s%% popustov"
 
-#: allthethings/account/templates/account/donate.html:48
-#: allthethings/account/templates/account/donate.html:64
-#: allthethings/account/templates/account/donate.html:78
-#: allthethings/account/templates/account/donate.html:92
-msgid "page.donate.perks.fast_downloads"
-msgstr "%(number)s hitrih prenosov na dan"
-
-#: allthethings/account/templates/account/donate.html:49
-msgid "page.donate.perks.scidb"
-msgstr "<strong>Neomejeni</strong> dokumenti SciDB brez preverjanja"
-
-#: allthethings/account/templates/account/donate.html:50
-msgid "page.donate.perks.refer"
-msgstr "Zaslužite <strong>%(percentage)s%% dodatnih prenosov</strong> z <a href=\"/refer\">priporočanjem prijateljev</a>."
-
-#: allthethings/account/templates/account/donate.html:51
-msgid "page.donate.perks.credits"
-msgstr "Vaše uporabniško ime ali anonimna omemba v zaslugah"
-
+#: allthethings/account/templates/account/donate.html:47
 #: allthethings/account/templates/account/donate.html:63
 #: allthethings/account/templates/account/donate.html:77
 #: allthethings/account/templates/account/donate.html:91
+msgid "page.donate.perks.fast_downloads"
+msgstr "%(number)s hitrih prenosov na dan"
+
+#: allthethings/account/templates/account/donate.html:48
+msgid "page.donate.perks.scidb"
+msgstr "<strong>Neomejeni</strong> dokumenti SciDB brez preverjanja"
+
+#: allthethings/account/templates/account/donate.html:49
+msgid "page.donate.perks.refer"
+msgstr "Zaslužite <strong>%(percentage)s%% dodatnih prenosov</strong> z <a href=\"/refer\">priporočanjem prijateljev</a>."
+
+#: allthethings/account/templates/account/donate.html:50
+msgid "page.donate.perks.credits"
+msgstr "Vaše uporabniško ime ali anonimna omemba v zaslugah"
+
+#: allthethings/account/templates/account/donate.html:62
+#: allthethings/account/templates/account/donate.html:76
+#: allthethings/account/templates/account/donate.html:90
 msgid "page.donate.perks.previous_plus"
 msgstr "Prejšnje ugodnosti, plus:"
 
-#: allthethings/account/templates/account/donate.html:65
+#: allthethings/account/templates/account/donate.html:64
 msgid "page.donate.perks.early_access"
 msgstr "Zgodnji dostop do novih funkcij"
 
-#: allthethings/account/templates/account/donate.html:79
+#: allthethings/account/templates/account/donate.html:78
 msgid "page.donate.perks.exclusive_telegram"
 msgstr "Ekskluzivni Telegram z informacijami iz zakulisja"
 
-#: allthethings/account/templates/account/donate.html:93
+#: allthethings/account/templates/account/donate.html:92
 msgid "page.donate.perks.adopt"
 msgstr "»Posvojite torrent«: vaše uporabniško ime ali sporočilo v imenu datoteke torrent <div %(div_months)s>enkrat na vsakih 12 mesecev članstva</div>"
 
-#: allthethings/account/templates/account/donate.html:94
+#: allthethings/account/templates/account/donate.html:93
 msgid "page.donate.perks.legendary"
 msgstr "Legendarni status pri ohranjanju znanja in kulture človeštva"
 
-#: allthethings/account/templates/account/donate.html:101
+#: allthethings/account/templates/account/donate.html:100
 msgid "page.donate.expert.title"
 msgstr "Strokovni dostop"
 
-#: allthethings/account/templates/account/donate.html:103
+#: allthethings/account/templates/account/donate.html:102
 #: allthethings/account/templates/account/donation.html:510
 #: allthethings/templates/layouts/index.html:534
 msgid "page.donate.small_team"
 msgstr "Smo majhna ekipa prostovoljcev. Morda bomo potrebovali 1-2 tedna, da odgovorimo."
 
-#: allthethings/account/templates/account/donate.html:106
+#: allthethings/account/templates/account/donate.html:105
 msgid "page.donate.expert.unlimited_access"
 msgstr "<strong>Neomejen</strong> hitri dostop"
 
-#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:106
 msgid "page.donate.expert.direct_sftp"
 msgstr "Neposredni <strong>SFTP</strong> strežniki"
 
-#: allthethings/account/templates/account/donate.html:110
+#: allthethings/account/templates/account/donate.html:109
 msgid "page.donate.expert.enterprise_donation"
 msgstr "Donacija na ravni podjetja ali zamenjava za nove zbirke (npr. novi skeni, OCR-ani nabori podatkov)."
 
-#: allthethings/account/templates/account/donate.html:115
+#: allthethings/account/templates/account/donate.html:114
 msgid "page.donate.header.large_donations_wealthy"
 msgstr "Pozdravljamo velike donacije premožnih posameznikov ali ustanov. "
 
-#: allthethings/account/templates/account/donate.html:116
+#: allthethings/account/templates/account/donate.html:115
 msgid "page.donate.header.large_donations"
 msgstr "Za donacije nad 5000 USD nas kontaktirajte neposredno na <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@proton.me</a>."
 
-#: allthethings/account/templates/account/donate.html:122
+#: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.intro"
 msgstr "Izberite možnost plačila. Dajemo popuste za kripto plačila %(bitcoin_icon)s, ker imamo (veliko) manj stroškov."
 
-#: allthethings/account/templates/account/donate.html:123
+#: allthethings/account/templates/account/donate.html:122
 msgid "page.donate.payment.intro2"
 msgstr "Izberite možnost plačila. Trenutno so na voljo le kripto-osnovana plačila %(bitcoin_icon)s, ker tradicionalni plačilni procesorji nočejo sodelovati z nami."
 
-#: allthethings/account/templates/account/donate.html:125
+#: allthethings/account/templates/account/donate.html:124
 msgid "page.donate.payment.select_method"
 msgstr "Prosim izberite način plačila."
 
-#: allthethings/account/templates/account/donate.html:129
-#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:128
+#: allthethings/account/templates/account/donate.html:139
 msgid "page.donate.payment.buttons.crypto"
 msgstr "Kripto %(bitcoin_icon)s"
 
+#: allthethings/account/templates/account/donate.html:128
 #: allthethings/account/templates/account/donate.html:129
 #: allthethings/account/templates/account/donate.html:130
-#: allthethings/account/templates/account/donate.html:131
+#: allthethings/account/templates/account/donate.html:139
 #: allthethings/account/templates/account/donate.html:140
-#: allthethings/account/templates/account/donate.html:141
+#: allthethings/account/templates/account/donate.html:144
 #: allthethings/account/templates/account/donate.html:145
-#: allthethings/account/templates/account/donate.html:146
-#: allthethings/account/templates/account/donate.html:148
-#: allthethings/account/templates/account/donate.html:151
+#: allthethings/account/templates/account/donate.html:147
+#: allthethings/account/templates/account/donate.html:150
+#: allthethings/account/templates/account/donate.html:290
 #: allthethings/account/templates/account/donate.html:291
 #: allthethings/account/templates/account/donate.html:292
 #: allthethings/account/templates/account/donate.html:293
-#: allthethings/account/templates/account/donate.html:294
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:131
+#: allthethings/account/templates/account/donate.html:130
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal (ZDA) %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:135
+#: allthethings/account/templates/account/donate.html:134
 msgid "page.donate.payment.buttons.amazon"
 msgstr "Amazonova darilna kartica"
 
-#: allthethings/account/templates/account/donate.html:138
-#: allthethings/account/templates/account/donate.html:155
+#: allthethings/account/templates/account/donate.html:137
+#: allthethings/account/templates/account/donate.html:154
 msgid "page.donate.payment.buttons.alipay"
 msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:139
+#: allthethings/account/templates/account/donate.html:138
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix (Brazilija)"
 
-#: allthethings/account/templates/account/donate.html:145
+#: allthethings/account/templates/account/donate.html:144
 msgid "page.donate.payment.buttons.paypal_plain"
 msgstr "PayPal"
 
-#: allthethings/account/templates/account/donate.html:146
+#: allthethings/account/templates/account/donate.html:145
 msgid "page.donate.payment.buttons.cashapp"
 msgstr "Cash App"
 
-#: allthethings/account/templates/account/donate.html:147
+#: allthethings/account/templates/account/donate.html:146
 msgid "page.donate.payment.buttons.credit_debit"
 msgstr "Kreditna/debetna kartica"
 
-#: allthethings/account/templates/account/donate.html:148
+#: allthethings/account/templates/account/donate.html:147
 msgid "page.donate.payment.buttons.credit_debit2"
 msgstr "Kreditna/debetna kartica 2"
 
-#: allthethings/account/templates/account/donate.html:156
+#: allthethings/account/templates/account/donate.html:155
 msgid "page.donate.payment.buttons.wechat"
 msgstr "WeChat"
 
-#: allthethings/account/templates/account/donate.html:157
-#: allthethings/account/templates/account/donate.html:166
-#: allthethings/account/templates/account/donate.html:174
-#: allthethings/account/templates/account/donate.html:181
+#: allthethings/account/templates/account/donate.html:156
+#: allthethings/account/templates/account/donate.html:165
+#: allthethings/account/templates/account/donate.html:173
+#: allthethings/account/templates/account/donate.html:180
 msgid "page.donate.payment.buttons.alipay_wechat"
 msgstr "Alipay 支付宝 / WeChat 微信"
 
-#: allthethings/account/templates/account/donate.html:181
+#: allthethings/account/templates/account/donate.html:180
 msgid "page.donate.payment.buttons.temporarily_unavailable"
 msgstr "(začasno nedosegljivo)"
 
-#: allthethings/account/templates/account/donate.html:188
+#: allthethings/account/templates/account/donate.html:187
 msgid "page.donate.payment.desc.crypto"
 msgstr "S kriptovalutami lahko donirate z uporabo BTC, ETH, XMR in SOL. Uporabite to možnost, če ste že seznanjeni s kriptovalutami."
 
-#: allthethings/account/templates/account/donate.html:194
+#: allthethings/account/templates/account/donate.html:193
 msgid "page.donate.payment.desc.crypto2"
 msgstr "S kriptovalutami lahko donirate z uporabo valut BTC, ETH, XMR in drugimi."
 
-#: allthethings/account/templates/account/donate.html:198
+#: allthethings/account/templates/account/donate.html:197
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr "Če prvič uporabljate kriptovalute, predlagamo, da uporabite %(option1)s, %(option2)s ali %(option3)s za nakup in donacijo Bitcoin-ov (prvotna in najpogosteje uporabljena kriptovaluta)."
 
-#: allthethings/account/templates/account/donate.html:204
+#: allthethings/account/templates/account/donate.html:203
 msgid "page.donate.payment.desc.paypal"
 msgstr "Za doniranje s PayPal US bomo uporabili PayPal Crypto, ki nam omogoča, da ostanemo anonimni. Cenimo, da ste si vzeli čas in se naučili darovati s to metodo, saj nam zelo pomaga."
 
-#: allthethings/account/templates/account/donate.html:205
+#: allthethings/account/templates/account/donate.html:204
 msgid "page.donate.payment.desc.paypal_short"
 msgstr "Donirajte z uporabo PayPala."
 
-#: allthethings/account/templates/account/donate.html:211
+#: allthethings/account/templates/account/donate.html:210
 msgid "page.donate.payment.desc.cashapp"
 msgstr "Donirajte z aplikacijo Cash App."
 
-#: allthethings/account/templates/account/donate.html:211
+#: allthethings/account/templates/account/donate.html:210
 msgid "page.donate.payment.desc.cashapp_easy"
 msgstr "Če imate aplikacijo Cash App, je to najlažji način za doniranje!"
 
-#: allthethings/account/templates/account/donate.html:214
+#: allthethings/account/templates/account/donate.html:213
 msgid "page.donate.payment.desc.cashapp_fee"
 msgstr "Upoštevajte, da lahko aplikacija Cash App za transakcije pod %(amount)s zaračuna provizijo %(fee)s. Za %(amount)s ali več je brezplačno!"
 
-#: allthethings/account/templates/account/donate.html:220
-#: allthethings/account/templates/account/donate.html:274
+#: allthethings/account/templates/account/donate.html:219
+#: allthethings/account/templates/account/donate.html:273
 msgid "page.donate.payment.desc.credit_debit"
 msgstr "Donirajte s kreditno ali debetno kartico."
 
-#: allthethings/account/templates/account/donate.html:221
+#: allthethings/account/templates/account/donate.html:220
 msgid "page.donate.payment.desc.google_apple"
 msgstr "Morda bosta delovala tudi Google Pay in Apple Pay."
 
-#: allthethings/account/templates/account/donate.html:222
+#: allthethings/account/templates/account/donate.html:221
 msgid "page.donate.payment.desc.elimate_discount"
 msgstr "Upoštevajte, da lahko provizija kreditne kartice za majhne donacije izniči naš %(discount)s%% popust, zato priporočamo naročnino za daljši čas."
 
-#: allthethings/account/templates/account/donate.html:223
+#: allthethings/account/templates/account/donate.html:222
 msgid "page.donate.payment.desc.longer_subs"
 msgstr "Upoštevajte, da so provizije za majhne donacije visoke, zato priporočamo daljše naročnine."
 
-#: allthethings/account/templates/account/donate.html:245
-#: allthethings/account/templates/account/donate.html:251
+#: allthethings/account/templates/account/donate.html:244
+#: allthethings/account/templates/account/donate.html:250
 msgid "page.donate.payment.desc.alipay_wechat"
 msgstr "Donirajte z Alipay ali WeChat. Med njimi lahko izbirate na naslednji strani."
 
-#: allthethings/account/templates/account/donate.html:263
+#: allthethings/account/templates/account/donate.html:262
 msgid "page.donate.payment.desc.amazon"
 msgstr "Donirajte z darilno kartico Amazon."
 
-#: allthethings/account/templates/account/donate.html:264
+#: allthethings/account/templates/account/donate.html:263
 msgid "page.donate.payment.desc.amazon_round"
 msgstr "Upoštevajte, da moramo zaokrožiti na zneske, ki jih sprejemajo naši prodajalci (najmanj %(minimum)s)."
 
-#: allthethings/account/templates/account/donate.html:268
+#: allthethings/account/templates/account/donate.html:267
 #: allthethings/account/templates/account/donation.html:320
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>POMEMBNO:</strong> Podpiramo samo Amazon.com, ne pa drugih spletnih mest Amazon. Na primer, .de, .co.uk, .ca NISO podprti."
 
-#: allthethings/account/templates/account/donate.html:285
+#: allthethings/account/templates/account/donate.html:284
 msgid "page.donate.duration.intro"
 msgstr "Izberite, za koliko časa se želite naročiti."
 
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.duration.1_mo"
 msgstr "1 mesec"
 
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.duration.3_mo"
 msgstr "3 mesece"
 
-#: allthethings/account/templates/account/donate.html:292
+#: allthethings/account/templates/account/donate.html:291
 msgid "page.donate.duration.6_mo"
 msgstr "6 mesecev"
 
-#: allthethings/account/templates/account/donate.html:293
+#: allthethings/account/templates/account/donate.html:292
 msgid "page.donate.duration.12_mo"
 msgstr "12 mesecev"
 
-#: allthethings/account/templates/account/donate.html:294
+#: allthethings/account/templates/account/donate.html:293
 msgid "page.donate.duration.24_mo"
 msgstr "24 mesecev"
 
-#: allthethings/account/templates/account/donate.html:297
+#: allthethings/account/templates/account/donate.html:296
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>po <span %(span_discount)s></span> popustih</div><div %(div_total)s></div> <div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:303
+#: allthethings/account/templates/account/donate.html:302
 msgid "page.donate.payment.minimum_method"
 msgstr "Ta način plačila zahteva najmanj %(amount)s. Izberite drugo obdobje trajanja ali način plačila."
 
-#: allthethings/account/templates/account/donate.html:304
+#: allthethings/account/templates/account/donate.html:303
 msgid "page.donate.payment.maximum_method"
 msgstr "Ta način plačila omogoča le največ %(amount)s. Izberite drugo obdobje trajanja ali način plačila."
 
-#: allthethings/account/templates/account/donate.html:309
+#: allthethings/account/templates/account/donate.html:308
 msgid "page.donate.login2"
 msgstr "Če želite postati član, se <a %(a_login)s>prijavite ali registrirajte</a>. Hvala za podporo!"
 
-#: allthethings/account/templates/account/donate.html:316
+#: allthethings/account/templates/account/donate.html:315
 msgid "page.donate.payment.crypto_select"
 msgstr "Izberite želeni kripto kovanec:"
 
-#: allthethings/account/templates/account/donate.html:348
+#: allthethings/account/templates/account/donate.html:347
 msgid "page.donate.submit.confirm"
 msgstr "Kliknite gumb doniraj, da potrdite to donacijo."
 
-#: allthethings/account/templates/account/donate.html:356
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.submit.button"
 msgstr "Donirajte <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:361
+#: allthethings/account/templates/account/donate.html:360
 msgid "page.donate.submit.cancel_note"
 msgstr "Donacijo lahko še vedno prekličete postopkom."
 
-#: allthethings/account/templates/account/donate.html:365
+#: allthethings/account/templates/account/donate.html:364
 msgid "page.donate.submit.success"
 msgstr "✅ Preusmeritev na stran za donacije…"
 
-#: allthethings/account/templates/account/donate.html:366
+#: allthethings/account/templates/account/donate.html:365
 msgid "page.donate.submit.failure"
 msgstr "❌ Nekaj je šlo narobe. Prosimo ponovno naložite stran in poskusite znova."
 
-#: allthethings/account/templates/account/donate.html:423
+#: allthethings/account/templates/account/donate.html:422
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:424
+#: allthethings/account/templates/account/donate.html:423
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s/mesec"
 
-#: allthethings/account/templates/account/donate.html:427
+#: allthethings/account/templates/account/donate.html:426
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "za 1 mesec"
 
-#: allthethings/account/templates/account/donate.html:428
+#: allthethings/account/templates/account/donate.html:427
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "za 3 mesece"
 
-#: allthethings/account/templates/account/donate.html:429
+#: allthethings/account/templates/account/donate.html:428
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "za 6 mesecev"
 
-#: allthethings/account/templates/account/donate.html:430
+#: allthethings/account/templates/account/donate.html:429
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "za 12 mesecev"
 
-#: allthethings/account/templates/account/donate.html:431
+#: allthethings/account/templates/account/donate.html:430
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "za 24 mesecev"
 
-#: allthethings/account/templates/account/donate.html:435
+#: allthethings/account/templates/account/donate.html:434
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "za 1 mesec »%(tier_name)s«"
 
-#: allthethings/account/templates/account/donate.html:436
+#: allthethings/account/templates/account/donate.html:435
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "za 3 mesece »%(tier_name)s«"
 
-#: allthethings/account/templates/account/donate.html:437
+#: allthethings/account/templates/account/donate.html:436
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "za 6 mesecev »%(tier_name)s«"
 
-#: allthethings/account/templates/account/donate.html:438
+#: allthethings/account/templates/account/donate.html:437
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "za 12 mesecev »%(tier_name)s«"
 
-#: allthethings/account/templates/account/donate.html:439
+#: allthethings/account/templates/account/donate.html:438
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "za 24 mesecev »%(tier_name)s«"
 
