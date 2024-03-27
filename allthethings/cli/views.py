@@ -247,6 +247,7 @@ es_create_index_body = {
                     "search_record_sources": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                     "search_bulk_torrents": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                     "search_e5_small_query": {"type": "dense_vector", "dims": 384, "index": True, "similarity": "dot_product"},
+                    "search_added_date": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                 },
             },
         },

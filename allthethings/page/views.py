@@ -104,60 +104,60 @@ for language in ol_languages_json:
 # * http://localhost:8000/ol/OL2862972M
 # * http://localhost:8000/ol/OL24764643M
 # * http://localhost:8000/ol/OL7002375M
-# * http://localhost:8000/db/lgrs/nf/288054.json
-# * http://localhost:8000/db/lgrs/nf/3175616.json
-# * http://localhost:8000/db/lgrs/nf/2933905.json
-# * http://localhost:8000/db/lgrs/nf/1125703.json
-# * http://localhost:8000/db/lgrs/nf/59.json
-# * http://localhost:8000/db/lgrs/nf/1195487.json
-# * http://localhost:8000/db/lgrs/nf/1360257.json
-# * http://localhost:8000/db/lgrs/nf/357571.json
-# * http://localhost:8000/db/lgrs/nf/2425562.json
-# * http://localhost:8000/db/lgrs/nf/3354081.json
-# * http://localhost:8000/db/lgrs/nf/3357578.json
-# * http://localhost:8000/db/lgrs/nf/3357145.json
-# * http://localhost:8000/db/lgrs/nf/2040423.json
-# * http://localhost:8000/db/lgrs/fic/1314135.json
-# * http://localhost:8000/db/lgrs/fic/25761.json
-# * http://localhost:8000/db/lgrs/fic/2443846.json
-# * http://localhost:8000/db/lgrs/fic/2473252.json
-# * http://localhost:8000/db/lgrs/fic/2340232.json
-# * http://localhost:8000/db/lgrs/fic/1122239.json
-# * http://localhost:8000/db/lgrs/fic/6862.json
-# * http://localhost:8000/db/lgli/file/100.json
-# * http://localhost:8000/db/lgli/file/1635550.json
-# * http://localhost:8000/db/lgli/file/94069002.json
-# * http://localhost:8000/db/lgli/file/40122.json
-# * http://localhost:8000/db/lgli/file/21174.json
-# * http://localhost:8000/db/lgli/file/91051161.json
-# * http://localhost:8000/db/lgli/file/733269.json
-# * http://localhost:8000/db/lgli/file/156965.json
-# * http://localhost:8000/db/lgli/file/10000000.json
-# * http://localhost:8000/db/lgli/file/933304.json
-# * http://localhost:8000/db/lgli/file/97559799.json
-# * http://localhost:8000/db/lgli/file/3756440.json
-# * http://localhost:8000/db/lgli/file/91128129.json
-# * http://localhost:8000/db/lgli/file/44109.json
-# * http://localhost:8000/db/lgli/file/2264591.json
-# * http://localhost:8000/db/lgli/file/151611.json
-# * http://localhost:8000/db/lgli/file/1868248.json
-# * http://localhost:8000/db/lgli/file/1761341.json
-# * http://localhost:8000/db/lgli/file/4031847.json
-# * http://localhost:8000/db/lgli/file/2827612.json
-# * http://localhost:8000/db/lgli/file/2096298.json
-# * http://localhost:8000/db/lgli/file/96751802.json
-# * http://localhost:8000/db/lgli/file/5064830.json
-# * http://localhost:8000/db/lgli/file/1747221.json
-# * http://localhost:8000/db/lgli/file/1833886.json
-# * http://localhost:8000/db/lgli/file/3908879.json
-# * http://localhost:8000/db/lgli/file/41752.json
-# * http://localhost:8000/db/lgli/file/97768237.json
-# * http://localhost:8000/db/lgli/file/4031335.json
-# * http://localhost:8000/db/lgli/file/1842179.json
-# * http://localhost:8000/db/lgli/file/97562793.json
-# * http://localhost:8000/db/lgli/file/4029864.json
-# * http://localhost:8000/db/lgli/file/2834701.json
-# * http://localhost:8000/db/lgli/file/97562143.json
+# * http://localhost:8000/db/lgrsnf/288054.json
+# * http://localhost:8000/db/lgrsnf/3175616.json
+# * http://localhost:8000/db/lgrsnf/2933905.json
+# * http://localhost:8000/db/lgrsnf/1125703.json
+# * http://localhost:8000/db/lgrsnf/59.json
+# * http://localhost:8000/db/lgrsnf/1195487.json
+# * http://localhost:8000/db/lgrsnf/1360257.json
+# * http://localhost:8000/db/lgrsnf/357571.json
+# * http://localhost:8000/db/lgrsnf/2425562.json
+# * http://localhost:8000/db/lgrsnf/3354081.json
+# * http://localhost:8000/db/lgrsnf/3357578.json
+# * http://localhost:8000/db/lgrsnf/3357145.json
+# * http://localhost:8000/db/lgrsnf/2040423.json
+# * http://localhost:8000/db/lgrsfic/1314135.json
+# * http://localhost:8000/db/lgrsfic/25761.json
+# * http://localhost:8000/db/lgrsfic/2443846.json
+# * http://localhost:8000/db/lgrsfic/2473252.json
+# * http://localhost:8000/db/lgrsfic/2340232.json
+# * http://localhost:8000/db/lgrsfic/1122239.json
+# * http://localhost:8000/db/lgrsfic/6862.json
+# * http://localhost:8000/db/lgli/100.json
+# * http://localhost:8000/db/lgli/1635550.json
+# * http://localhost:8000/db/lgli/94069002.json
+# * http://localhost:8000/db/lgli/40122.json
+# * http://localhost:8000/db/lgli/21174.json
+# * http://localhost:8000/db/lgli/91051161.json
+# * http://localhost:8000/db/lgli/733269.json
+# * http://localhost:8000/db/lgli/156965.json
+# * http://localhost:8000/db/lgli/10000000.json
+# * http://localhost:8000/db/lgli/933304.json
+# * http://localhost:8000/db/lgli/97559799.json
+# * http://localhost:8000/db/lgli/3756440.json
+# * http://localhost:8000/db/lgli/91128129.json
+# * http://localhost:8000/db/lgli/44109.json
+# * http://localhost:8000/db/lgli/2264591.json
+# * http://localhost:8000/db/lgli/151611.json
+# * http://localhost:8000/db/lgli/1868248.json
+# * http://localhost:8000/db/lgli/1761341.json
+# * http://localhost:8000/db/lgli/4031847.json
+# * http://localhost:8000/db/lgli/2827612.json
+# * http://localhost:8000/db/lgli/2096298.json
+# * http://localhost:8000/db/lgli/96751802.json
+# * http://localhost:8000/db/lgli/5064830.json
+# * http://localhost:8000/db/lgli/1747221.json
+# * http://localhost:8000/db/lgli/1833886.json
+# * http://localhost:8000/db/lgli/3908879.json
+# * http://localhost:8000/db/lgli/41752.json
+# * http://localhost:8000/db/lgli/97768237.json
+# * http://localhost:8000/db/lgli/4031335.json
+# * http://localhost:8000/db/lgli/1842179.json
+# * http://localhost:8000/db/lgli/97562793.json
+# * http://localhost:8000/db/lgli/4029864.json
+# * http://localhost:8000/db/lgli/2834701.json
+# * http://localhost:8000/db/lgli/97562143.json
 # * http://localhost:8000/isbndb/9789514596933
 # * http://localhost:8000/isbndb/9780000000439
 # * http://localhost:8000/isbndb/9780001055506
@@ -845,6 +845,7 @@ def get_zlib_book_dicts(session, key, values):
         zlib_book_dict['stripped_description'] = strip_description(zlib_book_dict['description'])
         zlib_book_dict['language_codes'] = get_bcp47_lang_codes(zlib_book_dict['language'] or '')
         zlib_book_dict['cover_url_guess'] = zlib_cover_url_guess(zlib_book_dict['md5_reported'])
+        zlib_book_dict['added_date_unified'] = { "zlib_source": zlib_book_dict['date_added'] }
         zlib_add_edition_varia_normalized(zlib_book_dict)
 
         allthethings.utils.init_identifiers_and_classification_unified(zlib_book_dict)
@@ -909,6 +910,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
         aac_zlib3_book_dict['stripped_description'] = strip_description(aac_zlib3_book_dict['description'])
         aac_zlib3_book_dict['language_codes'] = get_bcp47_lang_codes(aac_zlib3_book_dict['language'] or '')
         aac_zlib3_book_dict['cover_url_guess'] = zlib_cover_url_guess(aac_zlib3_book_dict['md5_reported'])
+        aac_zlib3_book_dict['added_date_unified'] = { "zlib_source": aac_zlib3_book_dict['date_added'] }
         zlib_add_edition_varia_normalized(aac_zlib3_book_dict)
 
         allthethings.utils.init_identifiers_and_classification_unified(aac_zlib3_book_dict)
@@ -1014,10 +1016,12 @@ def get_ia_record_dicts(session, key, values):
         seen_ia_ids.add(ia_record_dict['ia_id'])
 
         ia_record_dict['aa_ia_file'] = None
+        added_date_unified_file = {}
         if ia_record_dict['libgen_md5'] is None: # If there's a Libgen MD5, then we do NOT serve our IA file.
             if ia_file is not None:
                 ia_record_dict['aa_ia_file'] = ia_file.to_dict()
                 ia_record_dict['aa_ia_file']['extension'] = 'pdf'
+                added_date_unified_file = { "ia_file_scrape": "2023-06-28" }
             elif ia2_acsmpdf_file is not None:
                 ia2_acsmpdf_file_dict = ia2_acsmpdf_file.to_dict()
                 ia2_acsmpdf_file_metadata = orjson.loads(ia2_acsmpdf_file_dict['metadata'])
@@ -1030,6 +1034,7 @@ def get_ia_record_dicts(session, key, values):
                     'aacid': ia2_acsmpdf_file_dict['aacid'],
                     'data_folder': ia2_acsmpdf_file_dict['data_folder'],
                 }
+                added_date_unified_file = { "ia_file_scrape": datetime.datetime.strptime(ia2_acsmpdf_file_dict['aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat() }
 
         ia_record_dict['aa_ia_derived'] = {}
         ia_record_dict['aa_ia_derived']['printdisabled_only'] = 'inlibrary' not in ((ia_record_dict['json'].get('metadata') or {}).get('collection') or [])
@@ -1050,6 +1055,8 @@ def get_ia_record_dicts(session, key, values):
             if potential_year is not None:
                 ia_record_dict['aa_ia_derived']['year'] = potential_year[0]
                 break
+
+        ia_record_dict['aa_ia_derived']['added_date_unified'] = { **added_date_unified_file, "ia_source": datetime.datetime.strptime(ia_record_dict['json']['metadata']['publicdate'], "%Y-%m-%d %H:%M:%S").isoformat() }
 
         ia_record_dict['aa_ia_derived']['content_type'] = 'book_unknown'
         if ia_record_dict['ia_id'].split('_', 1)[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_record_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
@@ -1389,6 +1396,15 @@ def get_ol_book_dicts(session, key, values):
                 extract_ol_str_field(((ol_book_dict.get('work') or {}).get('json') or {}).get('notes') or ''),
             ] if item and item.strip() != '']
 
+            created_normalized = ''
+            if len(created_normalized) == 0 and 'created' in ol_book_dict['edition']['json']:
+                created_normalized = extract_ol_str_field(ol_book_dict['edition']['json']['created']).strip()
+            if len(created_normalized) == 0 and ol_book_dict['work'] and 'created' in ol_book_dict['work']['json']:
+                created_normalized = extract_ol_str_field(ol_book_dict['work']['json']['created']).strip()
+            ol_book_dict['added_date_unified'] = {}
+            if len(created_normalized) > 0:
+                ol_book_dict['added_date_unified'] = { 'ol_source': datetime.datetime.strptime(created_normalized, '%Y-%m-%dT%H:%M:%S.%f') }
+
             # {% for source_record in ol_book_dict.json.source_records %}
             #   <div class="flex odd:bg-black/5 hover:bg-black/64">
             #     <div class="flex-none w-[150] px-2 py-1">{{ 'Source records' if loop.index0 == 0 else ' ' }}&nbsp;</div>
@@ -1461,6 +1477,7 @@ def get_lgrsnf_book_dicts(session, key, values):
         lgrs_book_dict['stripped_description'] = strip_description(lgrs_book_dict.get('descr') or '')
         lgrs_book_dict['language_codes'] = get_bcp47_lang_codes(lgrs_book_dict.get('language') or '')
         lgrs_book_dict['cover_url_normalized'] = f"https://libgen.rs/covers/{lgrs_book_dict['coverurl']}" if len(lgrs_book_dict.get('coverurl') or '') > 0 else ''
+        lgrs_book_dict['added_date_unified'] = { 'lgrsnf_source': lgrs_book_dict['timeadded'].isoformat() }
 
         edition_varia_normalized = []
         if len((lgrs_book_dict.get('series') or '').strip()) > 0:
@@ -1474,6 +1491,7 @@ def get_lgrsnf_book_dicts(session, key, values):
         if len((lgrs_book_dict.get('year') or '').strip()) > 0:
             edition_varia_normalized.append(lgrs_book_dict['year'].strip())
         lgrs_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
+
 
         allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsnf', lgrs_book_dict['id'])
@@ -1523,6 +1541,7 @@ def get_lgrsfic_book_dicts(session, key, values):
         lgrs_book_dict['stripped_description'] = strip_description(lgrs_book_dict.get('descr') or '')
         lgrs_book_dict['language_codes'] = get_bcp47_lang_codes(lgrs_book_dict.get('language') or '')
         lgrs_book_dict['cover_url_normalized'] = f"https://libgen.rs/fictioncovers/{lgrs_book_dict['coverurl']}" if len(lgrs_book_dict.get('coverurl') or '') > 0 else ''
+        lgrs_book_dict['added_date_unified'] = { 'lgrsfic_source': lgrs_book_dict['timeadded'].isoformat() }
 
         edition_varia_normalized = []
         if len((lgrs_book_dict.get('series') or '').strip()) > 0:
@@ -1556,8 +1575,16 @@ def get_lgrsfic_book_dicts(session, key, values):
 
     return lgrs_book_dicts
 
-
 @page.get("/db/lgrs/nf/<int:lgrsnf_book_id>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def lgrsnf_book_json_redirect(lgrsnf_book_id):
+    return redirect(f"/db/lgrsnf/{lgrsnf_book_id}.json", code=301)
+@page.get("/db/lgrs/fic/<int:lgrsfic_book_id>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def lgrsfic_book_json_redirect(lgrsfic_book_id):
+    return redirect(f"/db/lgrsfic/{lgrsfic_book_id}.json", code=301)
+
+@page.get("/db/lgrsnf/<int:lgrsnf_book_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def lgrsnf_book_json(lgrsnf_book_id):
     with Session(engine) as session:
@@ -1565,7 +1592,7 @@ def lgrsnf_book_json(lgrsnf_book_id):
         if len(lgrs_book_dicts) == 0:
             return "{}", 404
         return nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
-@page.get("/db/lgrs/fic/<int:lgrsfic_book_id>.json")
+@page.get("/db/lgrsfic/<int:lgrsfic_book_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def lgrsfic_book_json(lgrsfic_book_id):
     with Session(engine) as session:
@@ -1828,6 +1855,7 @@ def get_lgli_file_dicts(session, key, values):
         if potential_doi_scimag_archive_path != '':
             allthethings.utils.add_identifier_unified(lgli_file_dict, 'doi', potential_doi_scimag_archive_path)
 
+        lgli_file_dict['added_date_unified'] = { 'lgli_source': lgli_file_dict['time_added'].isoformat() }
 
         lgli_file_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
@@ -1846,10 +1874,14 @@ def get_lgli_file_dicts(session, key, values):
 
     return lgli_file_dicts
 
-
 @page.get("/db/lgli/file/<int:lgli_file_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def lgli_file_json(lgli_file_id):
+    return redirect(f"/db/lgli/{lgli_file_id}.json", code=301)
+
+@page.get("/db/lgli/<int:lgli_file_id>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def lgli_json(lgli_file_id):
     with Session(engine) as session:
         lgli_file_dicts = get_lgli_file_dicts(session, "f_id", [lgli_file_id])
         if len(lgli_file_dicts) == 0:
@@ -1878,6 +1910,7 @@ def get_isbndb_dicts(session, canonical_isbn13s):
         isbn_dict = {
             "ean13": isbnlib.ean13(canonical_isbn13),
             "isbn10": isbnlib.to_isbn10(canonical_isbn13),
+            "added_date_unified": { "isbndb_scrape": "2022-09-01" },
         }
 
         isbndb_books = {}
@@ -1913,6 +1946,7 @@ def get_isbndb_dicts(session, canonical_isbn13s):
                 isbndb_dict['year_normalized'] = potential_year[0]
             # There is often also isbndb_dict['json']['image'], but sometimes images get added later, so we can make a guess ourselves.
             isbndb_dict['cover_url_guess'] = f"https://images.isbndb.com/covers/{isbndb_dict['isbn13'][-4:-2]}/{isbndb_dict['isbn13'][-2:]}/{isbndb_dict['isbn13']}.jpg"
+            isbndb_dict['added_date_unified'] = { "isbndb_scrape": "2022-09-01" }
 
             allthethings.utils.init_identifiers_and_classification_unified(isbndb_dict)
             allthethings.utils.add_isbns_unified(isbndb_dict, [canonical_isbn13])
@@ -2201,6 +2235,8 @@ def get_oclc_dicts(session, key, values):
         for doi in oclc_dict['aa_oclc_derived']['doi_multiple']:
             allthethings.utils.add_identifier_unified(oclc_dict['aa_oclc_derived'], 'doi', doi)
 
+        oclc_dict['aa_oclc_derived']["added_date_unified"] = { "oclc_scrape": "2023-10-01" }
+
         # TODO:
         # * cover_url
         # * comments
@@ -2378,6 +2414,7 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict['aa_duxiu_derived']['comments_cumulative'] = []
         duxiu_dict['aa_duxiu_derived']['debug_language_codes'] = {}
         duxiu_dict['aa_duxiu_derived']['language_codes'] = []
+        duxiu_dict['aa_duxiu_derived']['added_date_unified'] = {}
         duxiu_dict['aac_records'] = aac_records
 
         if key == 'duxiu_ssid':
@@ -2388,6 +2425,8 @@ def get_duxiu_dicts(session, key, values):
             duxiu_dict['aa_duxiu_derived']['md5_multiple'].append(duxiu_dict['md5'])
 
         for aac_record in aac_records:
+            duxiu_dict['aa_duxiu_derived']['added_date_unified']['duxiu_meta_scrape'] = max(duxiu_dict['aa_duxiu_derived']['added_date_unified'].get('duxiu_meta_scrape') or '', datetime.datetime.strptime(aac_record['aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat())
+
             if aac_record['metadata']['type'] == 'dx_20240122__books':
                 if len(aac_record['metadata']['record'].get('source') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['dx_20240122__books', aac_record['metadata']['record']['source']])
@@ -2557,6 +2596,7 @@ def get_duxiu_dicts(session, key, values):
                     duxiu_dict['aa_duxiu_derived']['md5_multiple'] = [aac_record['generated_file_metadata']['md5']] + duxiu_dict['aa_duxiu_derived']['md5_multiple']
                     duxiu_dict['aa_duxiu_derived']['md5_multiple'] = [aac_record['generated_file_metadata']['original_md5']] + duxiu_dict['aa_duxiu_derived']['md5_multiple']
                     duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = [int(aac_record['generated_file_metadata']['filesize'])] + duxiu_dict['aa_duxiu_derived']['filesize_multiple']
+                    duxiu_dict['aa_duxiu_derived']['added_date_unified']['duxiu_filegen'] = datetime.datetime.strptime(aac_record['generated_file_aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat()
 
                 duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['aa_catalog_files'])
 
@@ -3369,6 +3409,53 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[scihub_doi['classifications_unified'] for scihub_doi in aarecord['scihub_doi']],
         ])
 
+        aarecord['file_unified_data']['added_date_unified'] = dict(collections.ChainMap(*[
+            ((aarecord['lgrsnf_book'] or {}).get('added_date_unified') or {}),
+            ((aarecord['lgrsfic_book'] or {}).get('added_date_unified') or {}),
+            ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('added_date_unified') or {}),
+            ((aarecord['lgli_file'] or {}).get('added_date_unified') or {}),
+            (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('added_date_unified') or {}),
+            *[isbndb['added_date_unified'] for isbndb in aarecord['isbndb']],
+            *[ol_book_dict['added_date_unified'] for ol_book_dict in aarecord['ol']],
+            *[oclc['aa_oclc_derived']['added_date_unified'] for oclc in aarecord['oclc']],
+            (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('added_date_unified') or {}),
+        ]))
+
+        aarecord['file_unified_data']['added_date_best'] = ''
+        if aarecord_id_split[0] == 'md5':
+            potential_dates = list(filter(len, [
+                (aarecord['file_unified_data']['added_date_unified'].get('duxiu_filegen') or ''),
+                (aarecord['file_unified_data']['added_date_unified'].get('ia_file_scrape') or ''),
+                (aarecord['file_unified_data']['added_date_unified'].get('lgli_source') or ''),
+                (aarecord['file_unified_data']['added_date_unified'].get('lgrsfic_source') or ''),
+                (aarecord['file_unified_data']['added_date_unified'].get('lgrsnf_source') or ''),
+                (aarecord['file_unified_data']['added_date_unified'].get('zlib_source') or ''),
+            ]))
+            if len(potential_dates) > 0:
+                aarecord['file_unified_data']['added_date_best'] = min(potential_dates)
+        elif aarecord_id_split[0] == 'ia':
+            if 'ia_source' in aarecord['file_unified_data']['added_date_unified']:
+                aarecord['file_unified_data']['added_date_best'] = aarecord['file_unified_data']['added_date_unified']['ia_source']
+        elif aarecord_id_split[0] == 'isbn':
+            if 'isbndb_scrape' in aarecord['file_unified_data']['added_date_unified']:
+                aarecord['file_unified_data']['added_date_best'] = aarecord['file_unified_data']['added_date_unified']['isbndb_scrape']
+        elif aarecord_id_split[0] == 'ol':
+            if 'ol_source' in aarecord['file_unified_data']['added_date_unified']:
+                aarecord['file_unified_data']['added_date_best'] = aarecord['file_unified_data']['added_date_unified']['ol_source']
+        elif aarecord_id_split[0] == 'doi':
+            pass # We don't have the information of when this was added to scihub sadly.
+        elif aarecord_id_split[0] == 'oclc':
+            if 'oclc_scrape' in aarecord['file_unified_data']['added_date_unified']:
+                aarecord['file_unified_data']['added_date_best'] = aarecord['file_unified_data']['added_date_unified']['oclc_scrape']
+        elif aarecord_id_split[0] == 'duxiu_ssid':
+            if 'duxiu_meta_scrape' in aarecord['file_unified_data']['added_date_unified']:
+                aarecord['file_unified_data']['added_date_best'] = aarecord['file_unified_data']['added_date_unified']['duxiu_meta_scrape']
+        elif aarecord_id_split[0] == 'cadal_ssno':
+            if 'duxiu_meta_scrape' in aarecord['file_unified_data']['added_date_unified']:
+                aarecord['file_unified_data']['added_date_best'] = aarecord['file_unified_data']['added_date_unified']['duxiu_meta_scrape']
+        else:
+            raise Exception(f"Unknown {aarecord_id_split[0]=}")
+
         aarecord['file_unified_data']['problems'] = []
         if ((aarecord['lgrsnf_book'] or {}).get('visible') or '') != '':
             aarecord['file_unified_data']['problems'].append({ 'type': 'lgrsnf_visible', 'descr': ((aarecord['lgrsnf_book'] or {}).get('visible') or ''), 'better_md5': ((aarecord['lgrsnf_book'] or {}).get('generic') or '').lower() })
@@ -3563,6 +3650,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_publisher': aarecord['file_unified_data']['publisher_best'],
             'search_edition_varia': aarecord['file_unified_data']['edition_varia_best'],
             'search_original_filename': aarecord['file_unified_data']['original_filename_best'],
+            'search_added_date': aarecord['file_unified_data']['added_date_best'],
             'search_description_comments': ('\n'.join([aarecord['file_unified_data']['stripped_description_best']] + (aarecord['file_unified_data'].get('comments_multiple') or [])))[:10000],
             'search_text': search_text,
             'search_access_types': [
@@ -4261,9 +4349,9 @@ def md5_json(aarecord_id):
                 "id": ("before", ["File from the combined collections of Anna's Archive.",
                                    "More details at https://annas-archive.org/datasets",
                                    allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
-                "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/nf/<id>.json"]),
-                "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrs/fic/<id>.json"]),
-                "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/file/<f_id>.json"]),
+                "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrsnf/<id>.json"]),
+                "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrsfic/<id>.json"]),
+                "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/<f_id>.json"]),
                 "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
                 "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
                 "ia_record": ("before", ["Source data at: https://annas-archive.org/db/ia/<ia_id>.json"]),

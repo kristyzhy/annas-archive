@@ -611,6 +611,7 @@ COMMON_DICT_COMMENTS = {
                                        "The names themselves are taken from `name_en` in the corresponding `elem_descr` entry (lowercased, whitespace removed), with `name_add{1,2,3}_en` to create the compound keys, such as `isbn_isbnnotes`."]),
     "identifiers_unified": ("before", ["Anna's Archive version of various identity-related fields."]),
     "classifications_unified": ("before", ["Anna's Archive version of various classification-related fields."]),
+    "added_date_unified": ("before", ["Anna's Archive notion of when records were added to the source library, or when they were scraped."]),
 }
 
 # Hardcoded from the `descr_elems` table.
