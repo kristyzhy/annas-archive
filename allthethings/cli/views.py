@@ -392,7 +392,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # TODO: Replace with aarecords_isbn13
                 if len(isbn13_oclc_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
-                    cursor.executemany(f"INSERT INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s) ON DUPLICATE KEY UPDATE isbn13=isbn13", isbn13_oclc_insert_data)
+                    cursor.executemany(f"INSERT INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s) ON DUPLICATE KEY UPDATE isbn13=VALUES(isbn13)", isbn13_oclc_insert_data)
                     cursor.execute('COMMIT')
 
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job processed incidental inserts")
@@ -419,12 +419,12 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into ES")
 
                 session.connection().connection.ping(reconnect=True)
-                cursor.executemany(f'INSERT INTO aarecords_all (hashed_aarecord_id, aarecord_id, md5, json_compressed) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(md5)s, %(json_compressed)s) ON DUPLICATE KEY UPDATE json_compressed=json_compressed', aarecords_all_insert_data)
+                cursor.executemany(f'INSERT INTO aarecords_all (hashed_aarecord_id, aarecord_id, md5, json_compressed) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(md5)s, %(json_compressed)s) ON DUPLICATE KEY UPDATE json_compressed=VALUES(json_compressed)', aarecords_all_insert_data)
                 cursor.execute('COMMIT')
 
                 if len(aarecords_isbn13_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
-                    cursor.executemany(f"INSERT INTO aarecords_isbn13 (isbn13, hashed_aarecord_id, aarecord_id) VALUES (%(isbn13)s, %(hashed_aarecord_id)s, %(aarecord_id)s) ON DUPLICATE KEY UPDATE isbn13=isbn13", aarecords_isbn13_insert_data)
+                    cursor.executemany(f"INSERT INTO aarecords_isbn13 (isbn13, hashed_aarecord_id, aarecord_id) VALUES (%(isbn13)s, %(hashed_aarecord_id)s, %(aarecord_id)s) ON DUPLICATE KEY UPDATE isbn13=VALUES(isbn13)", aarecords_isbn13_insert_data)
                     cursor.execute('COMMIT')
 
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into aarecords_all")

@@ -1056,7 +1056,9 @@ def get_ia_record_dicts(session, key, values):
                 ia_record_dict['aa_ia_derived']['year'] = potential_year[0]
                 break
 
-        ia_record_dict['aa_ia_derived']['added_date_unified'] = { **added_date_unified_file, "ia_source": datetime.datetime.strptime(ia_record_dict['json']['metadata']['publicdate'], "%Y-%m-%d %H:%M:%S").isoformat() }
+        publicdate = extract_list_from_ia_json_field(ia_record_dict, 'publicdate')
+        if len(publicdate) > 0:
+            ia_record_dict['aa_ia_derived']['added_date_unified'] = { **added_date_unified_file, "ia_source": datetime.datetime.strptime(publicdate[0], "%Y-%m-%d %H:%M:%S").isoformat() }
 
         ia_record_dict['aa_ia_derived']['content_type'] = 'book_unknown'
         if ia_record_dict['ia_id'].split('_', 1)[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_record_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
@@ -1403,7 +1405,10 @@ def get_ol_book_dicts(session, key, values):
                 created_normalized = extract_ol_str_field(ol_book_dict['work']['json']['created']).strip()
             ol_book_dict['added_date_unified'] = {}
             if len(created_normalized) > 0:
-                ol_book_dict['added_date_unified'] = { 'ol_source': datetime.datetime.strptime(created_normalized, '%Y-%m-%dT%H:%M:%S.%f') }
+                if '.' in created_normalized:
+                    ol_book_dict['added_date_unified'] = { 'ol_source': datetime.datetime.strptime(created_normalized, '%Y-%m-%dT%H:%M:%S.%f').isoformat() }
+                else:
+                    ol_book_dict['added_date_unified'] = { 'ol_source': datetime.datetime.strptime(created_normalized, '%Y-%m-%dT%H:%M:%S').isoformat() }
 
             # {% for source_record in ol_book_dict.json.source_records %}
             #   <div class="flex odd:bg-black/5 hover:bg-black/64">
@@ -1477,7 +1482,12 @@ def get_lgrsnf_book_dicts(session, key, values):
         lgrs_book_dict['stripped_description'] = strip_description(lgrs_book_dict.get('descr') or '')
         lgrs_book_dict['language_codes'] = get_bcp47_lang_codes(lgrs_book_dict.get('language') or '')
         lgrs_book_dict['cover_url_normalized'] = f"https://libgen.rs/covers/{lgrs_book_dict['coverurl']}" if len(lgrs_book_dict.get('coverurl') or '') > 0 else ''
-        lgrs_book_dict['added_date_unified'] = { 'lgrsnf_source': lgrs_book_dict['timeadded'].isoformat() }
+
+        lgrs_book_dict['added_date_unified'] = {}
+        if lgrs_book_dict['timeadded'] != '0000-00-00 00:00:00':
+            if not isinstance(lgrs_book_dict['timeadded'], datetime.datetime):
+                raise Exception(f"Unexpected {lgrs_book_dict['timeadded']=} for {lgrs_book_dict=}")
+            lgrs_book_dict['added_date_unified'] = { 'lgrsnf_source': lgrs_book_dict['timeadded'].isoformat() }
 
         edition_varia_normalized = []
         if len((lgrs_book_dict.get('series') or '').strip()) > 0:
@@ -1541,7 +1551,12 @@ def get_lgrsfic_book_dicts(session, key, values):
         lgrs_book_dict['stripped_description'] = strip_description(lgrs_book_dict.get('descr') or '')
         lgrs_book_dict['language_codes'] = get_bcp47_lang_codes(lgrs_book_dict.get('language') or '')
         lgrs_book_dict['cover_url_normalized'] = f"https://libgen.rs/fictioncovers/{lgrs_book_dict['coverurl']}" if len(lgrs_book_dict.get('coverurl') or '') > 0 else ''
-        lgrs_book_dict['added_date_unified'] = { 'lgrsfic_source': lgrs_book_dict['timeadded'].isoformat() }
+        
+        lgrs_book_dict['added_date_unified'] = {}
+        if lgrs_book_dict['timeadded'] != '0000-00-00 00:00:00':
+            if not isinstance(lgrs_book_dict['timeadded'], datetime.datetime):
+                raise Exception(f"Unexpected {lgrs_book_dict['timeadded']=} for {lgrs_book_dict=}")
+            lgrs_book_dict['added_date_unified'] = { 'lgrsfic_source': lgrs_book_dict['timeadded'].isoformat() }
 
         edition_varia_normalized = []
         if len((lgrs_book_dict.get('series') or '').strip()) > 0:
@@ -1855,7 +1870,11 @@ def get_lgli_file_dicts(session, key, values):
         if potential_doi_scimag_archive_path != '':
             allthethings.utils.add_identifier_unified(lgli_file_dict, 'doi', potential_doi_scimag_archive_path)
 
-        lgli_file_dict['added_date_unified'] = { 'lgli_source': lgli_file_dict['time_added'].isoformat() }
+        lgli_file_dict['added_date_unified'] = {}
+        if lgli_file_dict['time_added'] != '0000-00-00 00:00:00':
+            if not isinstance(lgli_file_dict['time_added'], datetime.datetime):
+                raise Exception(f"Unexpected {lgli_file_dict['time_added']=} for {lgli_file_dict=}")
+            lgli_file_dict['added_date_unified'] = { 'lgli_source': lgli_file_dict['time_added'].isoformat() }
 
         lgli_file_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
@@ -4783,46 +4802,50 @@ def search_page():
     if len(search_aarecords) < max_display_results:
         search_names2 = ['search2', 'search3', 'search4']
         search_results_raw2 = {'responses': [{} for search_name in search_names2]}
-        try:
-            search_results_raw2 = dict(es_handle.msearch(
-                request_timeout=3,
-                max_concurrent_searches=64,
-                max_concurrent_shard_requests=64,
-                searches=[
-                    # For partial matches, first try our original query again but this time without filters.
-                    { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
-                    {
-                        "size": additional_display_results,
-                        "query": search_query,
-                        "sort": custom_search_sorting+['_score'],
-                        "track_total_hits": False,
-                        "timeout": ES_TIMEOUT,
-                    },
-                    # Then do an "OR" query, but this time with the filters again.
-                    { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
-                    {
-                        "size": additional_display_results,
-                        # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                        "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
-                        "sort": custom_search_sorting+['_score'],
-                        "track_total_hits": False,
-                        "timeout": ES_TIMEOUT,
-                    },
-                    # If we still don't have enough, do another OR query but this time without filters.
-                    { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
-                    {
-                        "size": additional_display_results,
-                        # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                        "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
-                        "sort": custom_search_sorting+['_score'],
-                        "track_total_hits": False,
-                        "timeout": ES_TIMEOUT,
-                    },
-                ]
-            ))
-        except Exception as err:
-            had_es_timeout = True
-            print(f"Exception during secondary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
+        for attempt in [1, 2]:
+            try:
+                search_results_raw2 = dict(es_handle.msearch(
+                    request_timeout=3,
+                    max_concurrent_searches=64,
+                    max_concurrent_shard_requests=64,
+                    searches=[
+                        # For partial matches, first try our original query again but this time without filters.
+                        { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                        {
+                            "size": additional_display_results,
+                            "query": search_query,
+                            "sort": custom_search_sorting+['_score'],
+                            "track_total_hits": False,
+                            "timeout": ES_TIMEOUT,
+                        },
+                        # Then do an "OR" query, but this time with the filters again.
+                        { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                        {
+                            "size": additional_display_results,
+                            # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                            "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
+                            "sort": custom_search_sorting+['_score'],
+                            "track_total_hits": False,
+                            "timeout": ES_TIMEOUT,
+                        },
+                        # If we still don't have enough, do another OR query but this time without filters.
+                        { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+                        {
+                            "size": additional_display_results,
+                            # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
+                            "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
+                            "sort": custom_search_sorting+['_score'],
+                            "track_total_hits": False,
+                            "timeout": ES_TIMEOUT,
+                        },
+                    ]
+                ))
+            except Exception as err:
+                if attempt < 2:
+                    print(f"Warning: another attempt during secondary ES search {search_input=}")
+                else:
+                    had_es_timeout = True
+                    print(f"Exception during secondary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
         for num, response in enumerate(search_results_raw2['responses']):
             es_stats.append({ 'name': search_names2[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
             if response.get('timed_out'):
