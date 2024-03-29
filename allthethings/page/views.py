@@ -734,9 +734,20 @@ def datasets_worldcat_page():
 #     return render_template("page/datasets_isbn_ranges.html", header_active="home/datasets", stats_data=stats_data)
 
 @page.get("/copyright")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.no_cache()
 def copyright_page():
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return render_template("page/login_to_view.html", header_active="")
     return render_template("page/copyright.html", header_active="")
+
+@page.get("/contact")
+@allthethings.utils.no_cache()
+def contact_page():
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return render_template("page/login_to_view.html", header_active="")
+    return render_template("page/contact.html", header_active="")
 
 @page.get("/fast_download_no_more")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)

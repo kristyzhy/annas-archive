@@ -1,0 +1,12 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}{{ gettext('page.account.logged_out.title') }}{% endblock %}
+
+{% block body %}
+  <div lang="en">
+    <p class="mb-4">
+      <!-- TODO:TRANSLATE -->
+      Please <a href="/account">login</a> to view this page.</a>
+    </p>
+  </div>
+{% endblock %}
