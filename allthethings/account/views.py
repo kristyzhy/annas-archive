@@ -471,6 +471,7 @@ def donation_page(donation_id):
             donation_time_expired=donation_time_expired,
             donation_pay_amount=donation_pay_amount,
             donation_email=donation_email,
+            account_secret_key=allthethings.utils.secret_key_from_account_id(account_id),
             # ref_account_dict=ref_account_dict,
         )
 

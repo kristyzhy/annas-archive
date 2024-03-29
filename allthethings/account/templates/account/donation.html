@@ -56,11 +56,17 @@
         {{ gettext('page.donation.thank_you_donation') }}
       </p>
 
-      <p class="mb-4">
-        {{ gettext('page.donation.old_instructions.intro_outdated') }}
-      </p>
+      <div class="mb-4">
+        <!-- TODO:TRANSLATE -->
+        If you haven’t already, write down your secret key for logging in:
+        <div><span class="font-bold underline">{{ account_secret_key }}</span> {{ copy_button(account_secret_key) }}</div>
+        <div class="">Otherwise you might get locked out of this account!</div>
+      </div>
 
-      <a href="#" onclick="document.querySelector('.js-donation-instructions').classList.remove('hidden'); document.querySelector('.js-donation-instructions-hidden').classList.add('hidden')">{{ gettext('page.donation.old_instructions.show_button') }}</a>
+      <p class="mb-4 text-sm text-gray-500">
+        {{ gettext('page.donation.old_instructions.intro_outdated') }}
+        <a href="#" onclick="document.querySelector('.js-donation-instructions').classList.remove('hidden'); document.querySelector('.js-donation-instructions-hidden').classList.add('hidden')">{{ gettext('page.donation.old_instructions.show_button') }}</a>
+      </p>
     </div>
   {% endif %}
 
@@ -507,7 +513,10 @@
     {% endif %}
 
     <p class="mb-4">
-      {{ gettext('page.donation.footer.issues_contact', email=(('<a class="break-all" href="mailto:' + donation_email + '">' + donation_email + '</a>') | safe)) }} <span class="text-sm text-gray-500">{{ gettext('page.donate.small_team') }} {{ gettext('page.donate.mistake') }}</span>
+      {{ gettext('page.donation.footer.issues_contact', email=(('<a class="break-all" href="mailto:' + donation_email + '">' + donation_email + '</a>') | safe)) }}
+      <!-- TODO:TRANSLATE -->
+      Please wait at least <strong>two hours</strong> (and refresh this page) before contacting us.
+      <span class="text-sm text-gray-500">{{ gettext('page.donate.small_team') }} {{ gettext('page.donate.mistake') }}</span>
     </p>
   </div>
 {% endblock %}
