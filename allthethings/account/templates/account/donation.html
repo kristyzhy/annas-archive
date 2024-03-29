@@ -57,10 +57,9 @@
       </p>
 
       <div class="mb-4">
-        <!-- TODO:TRANSLATE -->
-        If you haven’t already, write down your secret key for logging in:
+        {{ gettext('page.donation.thank_you.secret_key') }}
         <div><span class="font-bold underline">{{ account_secret_key }}</span> {{ copy_button(account_secret_key) }}</div>
-        <div class="">Otherwise you might get locked out of this account!</div>
+        <div class="">{{ gettext('page.donation.thank_you.locked_out') }}</div>
       </div>
 
       <p class="mb-4 text-sm text-gray-500">
@@ -514,8 +513,7 @@
 
     <p class="mb-4">
       {{ gettext('page.donation.footer.issues_contact', email=(('<a class="break-all" href="mailto:' + donation_email + '">' + donation_email + '</a>') | safe)) }}
-      <!-- TODO:TRANSLATE -->
-      Please wait at least <strong>two hours</strong> (and refresh this page) before contacting us.
+      {{ gettext('page.donate.wait', span_hours=(' class="font-bold" ' | safe)) }}
       <span class="text-sm text-gray-500">{{ gettext('page.donate.small_team') }} {{ gettext('page.donate.mistake') }}</span>
     </p>
   </div>
