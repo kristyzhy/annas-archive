@@ -41,6 +41,7 @@ from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
 from flask_babel import gettext, ngettext, force_locale, get_locale
+from config.settings import AA_EMAIL
 
 import allthethings.utils
 
@@ -747,7 +748,7 @@ def contact_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
         return render_template("page/login_to_view.html", header_active="")
-    return render_template("page/contact.html", header_active="")
+    return render_template("page/contact.html", header_active="", AA_EMAIL=AA_EMAIL)
 
 @page.get("/fast_download_no_more")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)

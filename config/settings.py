@@ -19,6 +19,7 @@ HOODPAY_URL = os.getenv("HOODPAY_URL", None)
 HOODPAY_AUTH = os.getenv("HOODPAY_AUTH", None)
 FAST_PARTNER_SERVER1 = os.getenv("FAST_PARTNER_SERVER1", None)
 X_AA_SECRET = os.getenv("X_AA_SECRET", None)
+AA_EMAIL = os.getenv("AA_EMAIL", "")
 
 # Redis.
 # REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
