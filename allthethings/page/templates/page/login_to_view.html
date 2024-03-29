@@ -5,8 +5,7 @@
 {% block body %}
   <div lang="en">
     <p class="mb-4">
-      <!-- TODO:TRANSLATE -->
-      Please <a href="/account">login</a> to view this page.</a>
+      {{ gettext('page.login.please', a_account=(' href="/account" ' | safe)) }}
     </p>
   </div>
 {% endblock %}
