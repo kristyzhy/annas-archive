@@ -298,6 +298,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     "payment1bb": 0,
     "givebutter": 0,
     "hoodpay": 0,
+    "ccexp": 0,
 }
 MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
@@ -334,6 +335,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "payment1bb": 1000,
     "givebutter": 500,
     "hoodpay": 1000,
+    "ccexp": 99999999,
 }
 MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
     # "payment1":  30000,

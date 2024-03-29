@@ -143,6 +143,7 @@
       <!-- Actually used PayPal -->
       <!-- <button class="js-membership-method js-membership-method-payment2paypal self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('payment2paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.paypal_plain') }} <span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="hidden absolute left-1/2 -top-3.5 -translate-x-1/2 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button> -->
       <button class="js-membership-method js-membership-method-payment2cashapp self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('payment2cashapp')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.cashapp') }} <span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-1/2 -top-3.5 -translate-x-1/2 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=10) }}</span></button>
+      <button class="js-membership-method js-membership-method-ccexp self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('ccexp')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.credit_debit') }}</button>
       <!-- <button class="js-membership-method js-membership-method-hoodpay self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('hoodpay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.credit_debit') }}</button> -->
       <!-- <button class="js-membership-method js-membership-method-payment2cc self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('payment2cc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.credit_debit2') }} <span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="hidden absolute left-1/2 -top-3.5 -translate-x-1/2 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=20) }}</span></button> -->
 
@@ -274,12 +275,31 @@
       </p>
     </div>
 
+    <div class="js-membership-descr js-membership-descr-ccexp">
+      <p class="mb-4">
+        We can’t support credit/debit cards directly, because banks don’t want to work with us. :(
+      </p>
+
+      <p class="mb-4">
+        However, there are several ways to use credit/debit cards anyway, using our other payment methods:
+      </p>
+
+      <ol class="list-decimal list-inside mb-4">
+        <!-- TODO:TRANSLATE -->
+        <li><strong>{{ gettext('page.donate.payment.buttons.amazon') }}</strong>: send us Amazon.com gift cards using your credit/debit card.</li>
+        <li><strong>{{ gettext('page.donate.payment.buttons.wechat') }}</strong>: WeChat (Weixin Pay) supports international credit/debit cards. In the WeChat app, go to “Me => Services => Wallet => Add a Card”. If you don’t see that, enable it using “Me => Settings => General => Tools => Weixin Pay => Enable”.</li>
+        <li><strong>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}</strong>: You can buy crypto using credit/debit cards. {{ gettext('page.donate.payment.desc.crypto_suggestion', option1=('<a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a>' | safe), option2=('<a href="https://www.coinbase.com" rel="noopener noreferrer nofollow" target="_blank">Coinbase</a>' | safe), option3=('<a href="https://www.kraken.com" rel="noopener noreferrer nofollow" target="_blank">Kraken</a>' | safe)) }}</li>
+      </ol>
+    </div>
+
     <!-- <div class="js-membership-descr js-membership-descr-bmc">
       <p class="mb-4">
         For credit cards, debit cards, Apple Pay, and Google Pay, we use “Buy Me a Coffee” (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>). In their system, one “coffee” is equal to $5, so your donation will be rounded to the nearest multiple of 5.
       </p>
     </div> -->
+  </div>
 
+  <div class="hidden js-membership-section-duration-selector">
     <p class="mb-4">
       {{ gettext('page.donate.duration.intro') }}
     </p>
@@ -383,7 +403,7 @@
 
       function updatePageFromUrl() {
         document.querySelectorAll('.js-membership-tier, .js-membership-method, .js-membership-duration').forEach((el) => el.setAttribute('aria-selected', 'false'));
-        document.querySelectorAll('.js-membership-section-method, .js-membership-section-duration, .js-membership-descr, .js-membership-section-one-time').forEach((el) => el.classList.add("hidden"));
+        document.querySelectorAll('.js-membership-section-method, .js-membership-section-duration, .js-membership-section-duration-selector, .js-membership-descr, .js-membership-section-one-time').forEach((el) => el.classList.add("hidden"));
 
         const membershipParams = getMembershipParams();
         // console.log("updatePageFromUrl", membershipParams);
@@ -401,6 +421,9 @@
           document.querySelectorAll(`.js-membership-descr-${membershipParams.method}`).forEach(el => el.classList.remove("hidden"));
           if (Object.keys(MEMBERSHIP_TIER_COSTS).includes(membershipParams.tier)) {
             document.querySelector('.js-membership-section-duration').classList.remove("hidden");
+            if (membershipParams.method != 'ccexp') {
+              document.querySelector('.js-membership-section-duration-selector').classList.remove("hidden");
+            }
           }
         }
 
