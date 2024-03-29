@@ -177,29 +177,29 @@ def request_page():
 def upload_page():
     return render_template("account/upload.html", header_active="account/upload")
 
-@account.get("/refer")
-@allthethings.utils.no_cache()
-def refer_page():
-    with Session(mariapersist_engine) as mariapersist_session:
-        account_id = allthethings.utils.get_account_id(request.cookies)
-        account_can_make_referrals = False
-        referral_suffix = None
-        referral_link = None
+# @account.get("/refer")
+# @allthethings.utils.no_cache()
+# def refer_page():
+#     with Session(mariapersist_engine) as mariapersist_session:
+#         account_id = allthethings.utils.get_account_id(request.cookies)
+#         account_can_make_referrals = False
+#         referral_suffix = None
+#         referral_link = None
 
-        if account_id is not None:
-            account_can_make_referrals = allthethings.utils.account_can_make_referrals(mariapersist_session, account_id)
-            referral_suffix = f"#r={account_id}"
-            referral_link = f"https://{g.base_domain}/donate{referral_suffix}"
+#         if account_id is not None:
+#             account_can_make_referrals = allthethings.utils.account_can_make_referrals(mariapersist_session, account_id)
+#             referral_suffix = f"#r={account_id}"
+#             referral_link = f"https://{g.base_domain}/donate{referral_suffix}"
 
-        return render_template(
-            "account/refer.html",
-            header_active="account/refer",
-            MEMBERSHIP_MAX_BONUS_DOWNLOADS=allthethings.utils.MEMBERSHIP_MAX_BONUS_DOWNLOADS,
-            account_id=account_id,
-            account_can_make_referrals=account_can_make_referrals,
-            referral_suffix=referral_suffix,
-            referral_link=referral_link,
-        )
+#         return render_template(
+#             "account/refer.html",
+#             header_active="account/refer",
+#             MEMBERSHIP_MAX_BONUS_DOWNLOADS=allthethings.utils.MEMBERSHIP_MAX_BONUS_DOWNLOADS,
+#             account_id=account_id,
+#             account_can_make_referrals=account_can_make_referrals,
+#             referral_suffix=referral_suffix,
+#             referral_link=referral_link,
+#         )
 
 
 @account.get("/list/<string:list_id>")
@@ -277,10 +277,10 @@ def donate_page():
             if (existing_unpaid_donation_id is not None) or (previous_donation_id is not None):
                 has_made_donations = True
 
-        ref_account_id = allthethings.utils.get_referral_account_id(mariapersist_session, request.cookies.get('ref_id'), account_id)
-        ref_account_dict = None
-        if ref_account_id is not None:
-            ref_account_dict = dict(mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == ref_account_id).limit(1)).first())
+        # ref_account_id = allthethings.utils.get_referral_account_id(mariapersist_session, request.cookies.get('ref_id'), account_id)
+        # ref_account_dict = None
+        # if ref_account_id is not None:
+        #     ref_account_dict = dict(mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == ref_account_id).limit(1)).first())
 
         return render_template(
             "account/donate.html", 
@@ -297,7 +297,7 @@ def donate_page():
             MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE=allthethings.utils.MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE,
             MEMBERSHIP_MAX_BONUS_DOWNLOADS=allthethings.utils.MEMBERSHIP_MAX_BONUS_DOWNLOADS,
             days_parity=(datetime.datetime.utcnow() - datetime.datetime(1970,1,1)).days,
-            ref_account_dict=ref_account_dict,
+            # ref_account_dict=ref_account_dict,
         )
 
 
@@ -453,12 +453,12 @@ def donation_page(donation_id):
         if donation_json['method'] == 'amazon':
             donation_email = f"giftcards+{donation_dict['receipt_id']}@annas-mail.org"
 
-        # No need to call get_referral_account_id here, because we have already verified, and we don't want to take away their bonus because
-        # the referrer's membership expired.
-        ref_account_id = donation_json.get('ref_account_id')
-        ref_account_dict = None
-        if ref_account_id is not None:
-            ref_account_dict = dict(mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == ref_account_id).limit(1)).first())
+        # # No need to call get_referral_account_id here, because we have already verified, and we don't want to take away their bonus because
+        # # the referrer's membership expired.
+        # ref_account_id = donation_json.get('ref_account_id')
+        # ref_account_dict = None
+        # if ref_account_id is not None:
+        #     ref_account_dict = dict(mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == ref_account_id).limit(1)).first())
 
         return render_template(
             "account/donation.html", 
@@ -471,7 +471,7 @@ def donation_page(donation_id):
             donation_time_expired=donation_time_expired,
             donation_pay_amount=donation_pay_amount,
             donation_email=donation_email,
-            ref_account_dict=ref_account_dict,
+            # ref_account_dict=ref_account_dict,
         )
 
 

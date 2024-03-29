@@ -17,12 +17,12 @@
       {% endif %}
     </div>
     {% if ref_account_dict %}
-      <div class="text-sm">
+      <!-- <div class="text-sm">
         {% from 'macros/profile_link.html' import profile_link %}
         🤩
         {{ gettext('page.donate.bonus_downloads.main', percentage=50, profile_link=profile_link(ref_account_dict)) }}
         {{ gettext('page.donate.bonus_downloads.period') }}
-      </div>
+      </div> -->
     {% endif %}
     <div>{{ gettext('page.donation.header.status', label=order_processing_status_labels[donation_dict.processing_status], span_label=(' class="italic"' | safe)) }}</div>
 

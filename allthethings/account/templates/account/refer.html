@@ -5,7 +5,7 @@
 {% block body %}
   {% from 'macros/copy_button.html' import copy_button %}
 
-  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.refer.title') }}</h2>
+  <!-- <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.refer.title') }}</h2>
 
   <p class="mb-1">
     {{ gettext('page.refer.section1.intro') }}
@@ -37,5 +37,5 @@
       <code class="text-sm bg-yellow-100">{{ referral_link }}</code> {{ copy_button(referral_link) }}<br>
       {{ gettext('page.refer.linkbox.remember', referral_suffix=((('<code class="text-sm bg-yellow-100">' + referral_suffix + '</code> ') | safe) + copy_button(referral_suffix) + '&nbsp;' | safe)) }}
     {% endif %}
-  </p>
+  </p> -->
 {% endblock %}

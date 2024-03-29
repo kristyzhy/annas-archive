@@ -20,17 +20,17 @@
     {{ gettext('page.donate.header.text1') }} {{ gettext('page.donate.header.text2') }}
   </p>
 
-  <p class="mb-4">
+  <!-- <p class="mb-4">
     {{ gettext('page.donate.refer.text1', a_refer=(' href="/refer" ' | safe)) }}
-  </p>
+  </p> -->
 
   {% if ref_account_dict %}
-    <div class="mb-4 p-4 overflow-hidden bg-yellow-200 break-words rounded">
+    <!-- <div class="mb-4 p-4 overflow-hidden bg-yellow-200 break-words rounded">
       {% from 'macros/profile_link.html' import profile_link %}
       🤩
       {{ gettext('page.donate.bonus_downloads.main', percentage=50, profile_link=profile_link(ref_account_dict)) }}
       {{ gettext('page.donate.bonus_downloads.period') }}
-    </div>
+    </div> -->
   {% endif %}
 
   <div class="js-membership-section-tier">
