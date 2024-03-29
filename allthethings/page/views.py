@@ -874,7 +874,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
     try:
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata, annas_archive_meta__aacid__zlib3_records.primary_id AS primary_id FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s', { "values": [str(value) for value in values] })
+        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata, annas_archive_meta__aacid__zlib3_records.primary_id AS primary_id FROM annas_archive_meta__aacid__zlib3_records LEFT JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s ORDER BY record_aacid', { "values": [str(value) for value in values] })
         aac_zlib3_books_by_primary_id = collections.defaultdict(dict)
         # Merge different iterations of books, so even when a book gets "missing":1 later, we still use old
         # metadata where available (note: depends on `ORDER BY record_aacid` above).
@@ -897,10 +897,13 @@ def get_aac_zlib3_book_dicts(session, key, values):
     aac_zlib3_book_dicts = []
     for zlib_book in aac_zlib3_books:
         aac_zlib3_book_dict = zlib_book['record_metadata']
-        file_metadata = orjson.loads(zlib_book['file_metadata'])
-        aac_zlib3_book_dict['md5'] = file_metadata['md5']
-        if 'filesize' in file_metadata:
-            aac_zlib3_book_dict['filesize'] = file_metadata['filesize']
+        if zlib_book['file_metadata'] is not None:
+            file_metadata = orjson.loads(zlib_book['file_metadata'])
+            aac_zlib3_book_dict['md5'] = file_metadata['md5']
+            if 'filesize' in file_metadata:
+                aac_zlib3_book_dict['filesize'] = file_metadata['filesize']
+        else:
+            aac_zlib3_book_dict['md5'] = None
         aac_zlib3_book_dict['record_aacid'] = zlib_book['record_aacid']
         aac_zlib3_book_dict['file_aacid'] = zlib_book['file_aacid']
         aac_zlib3_book_dict['file_data_folder'] = zlib_book['file_data_folder']
@@ -1056,9 +1059,13 @@ def get_ia_record_dicts(session, key, values):
                 ia_record_dict['aa_ia_derived']['year'] = potential_year[0]
                 break
 
+        ia_record_dict['aa_ia_derived']['added_date_unified'] = {}
         publicdate = extract_list_from_ia_json_field(ia_record_dict, 'publicdate')
         if len(publicdate) > 0:
-            ia_record_dict['aa_ia_derived']['added_date_unified'] = { **added_date_unified_file, "ia_source": datetime.datetime.strptime(publicdate[0], "%Y-%m-%d %H:%M:%S").isoformat() }
+            if publicdate[0].encode('ascii', 'ignore').decode() != publicdate[0]:
+                print(f"Warning: {publicdate[0]=} is not ASCII; skipping!")
+            else:
+                ia_record_dict['aa_ia_derived']['added_date_unified'] = { **added_date_unified_file, "ia_source": datetime.datetime.strptime(publicdate[0], "%Y-%m-%d %H:%M:%S").isoformat() }
 
         ia_record_dict['aa_ia_derived']['content_type'] = 'book_unknown'
         if ia_record_dict['ia_id'].split('_', 1)[0] in ['sim', 'per'] or extract_list_from_ia_json_field(ia_record_dict, 'pub_type') in ["Government Documents", "Historical Journals", "Law Journals", "Magazine", "Magazines", "Newspaper", "Scholarly Journals", "Trade Journals"]:
@@ -3178,6 +3185,7 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         filesize_multiple = [
             ((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('filesize') or 0,
+            (aarecord['aac_zlib3_book'] or {}).get('filesize') or 0,
             (aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('filesize_reported') or 0,
             (aarecord['zlib_book'] or {}).get('filesize') or 0,
             (aarecord['lgrsnf_book'] or {}).get('filesize') or 0,
@@ -3766,9 +3774,9 @@ def format_filesize(num):
 
 def add_partner_servers(path, modifier, aarecord, additional):
     additional['has_aa_downloads'] = 1
-    targeted_seconds = 90
+    targeted_seconds = 200
     if modifier == 'aa_exclusive':
-        targeted_seconds = 180
+        targeted_seconds = 300
         additional['has_aa_exclusive_downloads'] = 1
     if modifier == 'scimag':
         targeted_seconds = 10
@@ -4130,7 +4138,7 @@ def get_additional_for_aarecord(aarecord):
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
         additional['torrent_paths'].append([f"managed_by_aa/zlib/{aarecord['zlib_book']['pilimi_torrent']}"])
-    if aarecord.get('aac_zlib3_book') is not None:
+    if (aarecord.get('aac_zlib3_book') is not None) and (aarecord['aac_zlib3_book']['file_aacid'] is not None):
         zlib_path = make_temp_anon_aac_path("o/zlib3_files", aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
         additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{aarecord['aac_zlib3_book']['file_data_folder']}.torrent"])
@@ -4474,8 +4482,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
             # download_count_from_ip = cursor.fetchone()['count']
             # minimum = 10
             # maximum = 100
-            minimum = 100
-            maximum = 200
+            minimum = 10
+            maximum = 300
             targeted_seconds_multiplier = 1.0
             warning = False
             # if download_count_from_ip > 500:
@@ -4805,7 +4813,7 @@ def search_page():
         for attempt in [1, 2]:
             try:
                 search_results_raw2 = dict(es_handle.msearch(
-                    request_timeout=3,
+                    request_timeout=4,
                     max_concurrent_searches=64,
                     max_concurrent_shard_requests=64,
                     searches=[
@@ -4840,6 +4848,7 @@ def search_page():
                         },
                     ]
                 ))
+                break
             except Exception as err:
                 if attempt < 2:
                     print(f"Warning: another attempt during secondary ES search {search_input=}")
