@@ -252,9 +252,13 @@ msgstr ""
 msgid "page.donate.expert.title"
 msgstr "Szakértői hozzáférés"
 
+#: allthethings/account/templates/account/donate.html:101
+msgid "page.donate.expert.contact_us"
+msgstr ""
+
 #: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donation.html:519
-#: allthethings/page/templates/page/contact.html:20
+#: allthethings/account/templates/account/donation.html:517
+#: allthethings/page/templates/page/contact.html:22
 #: allthethings/templates/layouts/index.html:533
 msgid "page.donate.small_team"
 msgstr ""
@@ -423,7 +427,7 @@ msgid "page.donate.payment.desc.amazon_round"
 msgstr "Vedd figyelembe, hogy a viszonteladóink által elfogadott összegekre kell kerekítenünk (minimum %(minimum)s)."
 
 #: allthethings/account/templates/account/donate.html:267
-#: allthethings/account/templates/account/donation.html:326
+#: allthethings/account/templates/account/donation.html:325
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>FONTOS:</strong> Csak az Amazon.com-ot támogatjuk, más Amazon-weboldalakat nem. Például a .de, .co.uk, .ca oldalakat NEM támogatjuk."
 
@@ -597,7 +601,7 @@ msgid "page.donation.old_instructions.intro_paid"
 msgstr "Már fizettél. Ha mégis át szeretnéd nézni a fizetési utasításokat, kattints ide:"
 
 #: allthethings/account/templates/account/donation.html:51
-#: allthethings/account/templates/account/donation.html:68
+#: allthethings/account/templates/account/donation.html:67
 msgid "page.donation.old_instructions.show_button"
 msgstr "Régi fizetési utasítások megjelenítése"
 
@@ -605,308 +609,320 @@ msgstr "Régi fizetési utasítások megjelenítése"
 msgid "page.donation.thank_you_donation"
 msgstr "Köszönjük az adományodat!"
 
-#: allthethings/account/templates/account/donation.html:67
+#: allthethings/account/templates/account/donation.html:60
+msgid "page.donation.thank_you.secret_key"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:62
+msgid "page.donation.thank_you.locked_out"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:66
 msgid "page.donation.old_instructions.intro_outdated"
 msgstr "A fizetési utasítások már elavultak. Ha újabb adományt szeretnél tenni, használd a fenti \"Újrarendelés\" gombot."
 
-#: allthethings/account/templates/account/donation.html:76
+#: allthethings/account/templates/account/donation.html:75
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>Fontos megjegyzés:</strong> A kriptodevizák árai erősen ingadozhatnak, akár 20%%-ot is változhatnak néhány perc alatt. Ez még mindig kevesebb, mint a díjak, amelyeket számos fizetési szolgáltatóval kell fizetnünk, akik gyakran 50-60%%-ot számítanak fel a hozzánk hasonló “árnyék jótékonysági szervezetekkel” való együttműködésért. <u>Ha a nyugtát az eredeti árral együtt küldöd el nekünk, akkor is jóváírjuk a fiókodon a választott tagságodat.</u> (amennyiben a nyugta nem régebb néhány óránál). Nagyra értékeljük, hogy hajlandó vagy eltűrni az ilyen dolgokat, hogy támogass minket! ❤️"
 
-#: allthethings/account/templates/account/donation.html:82
-#: allthethings/account/templates/account/donation.html:95
-#: allthethings/account/templates/account/donation.html:116
-#: allthethings/account/templates/account/donation.html:167
-#: allthethings/account/templates/account/donation.html:207
-#: allthethings/account/templates/account/donation.html:252
-#: allthethings/account/templates/account/donation.html:293
-#: allthethings/account/templates/account/donation.html:355
-#: allthethings/account/templates/account/donation.html:371
-#: allthethings/account/templates/account/donation.html:389
-#: allthethings/account/templates/account/donation.html:405
-#: allthethings/account/templates/account/donation.html:421
+#: allthethings/account/templates/account/donation.html:81
+#: allthethings/account/templates/account/donation.html:94
+#: allthethings/account/templates/account/donation.html:115
+#: allthethings/account/templates/account/donation.html:166
+#: allthethings/account/templates/account/donation.html:206
+#: allthethings/account/templates/account/donation.html:251
+#: allthethings/account/templates/account/donation.html:292
+#: allthethings/account/templates/account/donation.html:354
+#: allthethings/account/templates/account/donation.html:370
+#: allthethings/account/templates/account/donation.html:388
+#: allthethings/account/templates/account/donation.html:404
+#: allthethings/account/templates/account/donation.html:420
 msgid "page.donation.expired"
 msgstr "Ez az adomány lejárt. Kérjük, töröld és hozz létre egy újat."
 
-#: allthethings/account/templates/account/donation.html:85
+#: allthethings/account/templates/account/donation.html:84
 msgid "page.donation.payment.crypto.top_header"
 msgstr "Kripto utasítások"
 
-#: allthethings/account/templates/account/donation.html:87
+#: allthethings/account/templates/account/donation.html:86
 msgid "page.donation.payment.crypto.header1"
 msgstr "<span %(span_circle)s>1</span>Átutalás kriptószámláink egyikére"
 
-#: allthethings/account/templates/account/donation.html:90
+#: allthethings/account/templates/account/donation.html:89
 msgid "page.donation.payment.crypto.text1"
 msgstr "Adományozd a teljes %(total)s értékű összeget ezen címek egyikére:"
 
-#: allthethings/account/templates/account/donation.html:119
+#: allthethings/account/templates/account/donation.html:118
 msgid "page.donate.submit.header1"
 msgstr "<span %(span_circle)s>1</span>Bitcoin vásárlása Paypalon"
 
-#: allthethings/account/templates/account/donation.html:122
-#: allthethings/account/templates/account/donation.html:173
+#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:172
 msgid "page.donate.one_time_payment.paypal.text2"
 msgstr "Találd meg a “Crypto” oldalt a PayPal alkalmazásban vagy a PayPal weboldalon. Ez általában a “Pénzügyek” alatt található."
 
-#: allthethings/account/templates/account/donation.html:126
+#: allthethings/account/templates/account/donation.html:125
 msgid "page.donation.payment.paypal.text3"
 msgstr "Kövesd az utasításokat a Bitcoin (BTC) vásárlásához. Csak annyit kell vásárolnod, amennyit adományozni szeretnél, %(total)s."
 
-#: allthethings/account/templates/account/donation.html:129
+#: allthethings/account/templates/account/donation.html:128
 msgid "page.donate.submit.header2"
 msgstr "<span %(span_circle)s>2</span>A Bitcoin átutalása a címünkre"
 
-#: allthethings/account/templates/account/donation.html:132
+#: allthethings/account/templates/account/donation.html:131
 msgid "page.donate.one_time_payment.paypal.text4"
 msgstr "Menj a “Bitcoin” lapra a PayPal alkalmazásban vagy a weboldalon. Nyomd meg az “Átutalás” gombot %(transfer_icon)s, majd “Küldés” gombot."
 
-#: allthethings/account/templates/account/donation.html:136
+#: allthethings/account/templates/account/donation.html:135
 msgid "page.donation.payment.paypal.text5"
 msgstr "Add meg a Bitcoin (BTC) címünket címzettként, és kövesd az utasításokat a(z) %(total)s értékű adomány elküldéséhez:"
 
-#: allthethings/account/templates/account/donation.html:140
-#: allthethings/account/templates/account/donation.html:248
+#: allthethings/account/templates/account/donation.html:139
+#: allthethings/account/templates/account/donation.html:247
 msgid "page.donation.credit_debit_card_instructions"
 msgstr "Hitelkártya / bankkártya utasítások"
 
-#: allthethings/account/templates/account/donation.html:142
+#: allthethings/account/templates/account/donation.html:141
 msgid "page.donation.credit_debit_card_our_page"
 msgstr "Adományozás a hitelkártya / bankkártya oldalunkon keresztül"
 
-#: allthethings/account/templates/account/donation.html:145
+#: allthethings/account/templates/account/donation.html:144
 msgid "page.donation.donate_on_this_page"
 msgstr "%(amount)s adományozása <a %(a_page)s>ezen az oidalon</a>."
 
-#: allthethings/account/templates/account/donation.html:145
+#: allthethings/account/templates/account/donation.html:144
 msgid "page.donation.stepbystep_below"
 msgstr "Lásd az alábbi lépésről-lépésre útmutatót."
 
-#: allthethings/account/templates/account/donation.html:149
-#: allthethings/account/templates/account/donation.html:192
-#: allthethings/account/templates/account/donation.html:235
-#: allthethings/account/templates/account/donation.html:276
-#: allthethings/account/templates/account/donation.html:305
-#: allthethings/account/templates/account/donation.html:336
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+#: allthethings/account/templates/account/donation.html:335
 msgid "page.donation.status_header"
 msgstr "Állapot:"
 
-#: allthethings/account/templates/account/donation.html:149
-#: allthethings/account/templates/account/donation.html:192
-#: allthethings/account/templates/account/donation.html:235
-#: allthethings/account/templates/account/donation.html:276
-#: allthethings/account/templates/account/donation.html:305
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
 msgid "page.donation.waiting_for_confirmation_refresh"
 msgstr "Megerősítésre vár (frissítsd az oldalt, hogy ellenőrizd)…"
 
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+msgid "page.donation.waiting_for_transfer_refresh"
+msgstr "Átvitelre vár ( frissítsd az oldalt, hogy ellenőrizd)…"
+
 #: allthethings/account/templates/account/donation.html:149
 #: allthethings/account/templates/account/donation.html:192
 #: allthethings/account/templates/account/donation.html:235
 #: allthethings/account/templates/account/donation.html:276
 #: allthethings/account/templates/account/donation.html:305
-msgid "page.donation.waiting_for_transfer_refresh"
-msgstr "Átvitelre vár ( frissítsd az oldalt, hogy ellenőrizd)…"
-
-#: allthethings/account/templates/account/donation.html:150
-#: allthethings/account/templates/account/donation.html:193
-#: allthethings/account/templates/account/donation.html:236
-#: allthethings/account/templates/account/donation.html:277
-#: allthethings/account/templates/account/donation.html:306
 msgid "page.donation.time_left_header"
 msgstr "Hátramaradt idő:"
 
-#: allthethings/account/templates/account/donation.html:150
-#: allthethings/account/templates/account/donation.html:193
-#: allthethings/account/templates/account/donation.html:236
-#: allthethings/account/templates/account/donation.html:277
-#: allthethings/account/templates/account/donation.html:306
+#: allthethings/account/templates/account/donation.html:149
+#: allthethings/account/templates/account/donation.html:192
+#: allthethings/account/templates/account/donation.html:235
+#: allthethings/account/templates/account/donation.html:276
+#: allthethings/account/templates/account/donation.html:305
 msgid "page.donation.might_want_to_cancel"
 msgstr "(lehet, hogy törölnöd kell és létre kell hoznod egy új adományt)"
 
-#: allthethings/account/templates/account/donation.html:154
-#: allthethings/account/templates/account/donation.html:197
-#: allthethings/account/templates/account/donation.html:240
-#: allthethings/account/templates/account/donation.html:281
-#: allthethings/account/templates/account/donation.html:310
+#: allthethings/account/templates/account/donation.html:153
+#: allthethings/account/templates/account/donation.html:196
+#: allthethings/account/templates/account/donation.html:239
+#: allthethings/account/templates/account/donation.html:280
+#: allthethings/account/templates/account/donation.html:309
 msgid "page.donation.reset_timer"
 msgstr "Az időzítő visszaállításához egyszerűen hozz létre egy új adományt."
 
-#: allthethings/account/templates/account/donation.html:158
-#: allthethings/account/templates/account/donation.html:201
-#: allthethings/account/templates/account/donation.html:244
-#: allthethings/account/templates/account/donation.html:285
-#: allthethings/account/templates/account/donation.html:314
-#: allthethings/account/templates/account/donation.html:340
+#: allthethings/account/templates/account/donation.html:157
+#: allthethings/account/templates/account/donation.html:200
+#: allthethings/account/templates/account/donation.html:243
+#: allthethings/account/templates/account/donation.html:284
+#: allthethings/account/templates/account/donation.html:313
+#: allthethings/account/templates/account/donation.html:339
 msgid "page.donation.refresh_status"
 msgstr "Állapot frissítése"
 
-#: allthethings/account/templates/account/donation.html:162
-#: allthethings/account/templates/account/donation.html:516
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:515
 msgid "page.donation.footer.issues_contact"
 msgstr "Ha bármilyen problémába ütköznél, kérjük, lépj velünk kapcsolatba a(z) %(email)s címen, és adj meg minél több információt (például képernyőképeket)."
 
-#: allthethings/account/templates/account/donation.html:170
+#: allthethings/account/templates/account/donation.html:169
 msgid "page.donation.buy_pyusd"
 msgstr "Vásárolj PYUSD érmét PayPal-on"
 
-#: allthethings/account/templates/account/donation.html:177
+#: allthethings/account/templates/account/donation.html:176
 msgid "page.donation.pyusd.instructions"
 msgstr "Kövesd az utasításokat a PYUSD érme vásárlásához (PayPal USD)."
 
-#: allthethings/account/templates/account/donation.html:178
+#: allthethings/account/templates/account/donation.html:177
 msgid "page.donation.pyusd.more"
 msgstr "Vásárolj egy kicsit többet (javasoljuk, hogy %(more)s-al többet), mint az adományozandó összeg (%(amount)s), a tranzakciós díjak fedezésére. A maradékot megtartod."
 
-#: allthethings/account/templates/account/donation.html:184
+#: allthethings/account/templates/account/donation.html:183
 msgid "page.donation.pyusd.transfer"
 msgstr "Menj a \"PYUSD\" oldalra a PayPal alkalmazásban vagy a weboldalon. Nyomd meg az \"Átutalás\" gombot %(icon)s, majd a \"Küldés\" gombot."
 
-#: allthethings/account/templates/account/donation.html:188
-#: allthethings/account/templates/account/donation.html:227
-#: allthethings/account/templates/account/donation.html:297
+#: allthethings/account/templates/account/donation.html:187
+#: allthethings/account/templates/account/donation.html:226
+#: allthethings/account/templates/account/donation.html:296
 msgid "page.donation.transfer_amount_to"
 msgstr "%(amount)s átutalása a fiókba: %(account)s"
 
-#: allthethings/account/templates/account/donation.html:289
+#: allthethings/account/templates/account/donation.html:288
 msgid "page.donation.crypto_instructions"
 msgstr "%(coin_name)s instrukciók"
 
-#: allthethings/account/templates/account/donation.html:301
+#: allthethings/account/templates/account/donation.html:300
 msgid "page.donation.crypto_standard"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:318
+#: allthethings/account/templates/account/donation.html:317
 msgid "page.donation.amazon.header"
 msgstr "Amazon ajándékkártya"
 
-#: allthethings/account/templates/account/donation.html:321
+#: allthethings/account/templates/account/donation.html:320
 msgid "page.donation.amazon.form_instructions"
 msgstr "Kérjük, használd a <a %(a_form)s>hivatalos Amazon.com űrlapot</a>, hogy küldj nekünk egy %(amount)s értékű ajándékkártyát az alábbi e-mail címre."
 
-#: allthethings/account/templates/account/donation.html:322
+#: allthethings/account/templates/account/donation.html:321
 msgid "page.donation.amazon.only_official"
 msgstr "Más ajándékkártyákat nem tudunk elfogadni, <strong>csak közvetlenül az Amazon.com hivatalos űrlapjáról</strong> küldött ajándékkártyákat. Nem tudjuk visszaküldeni az ajándékkártyát, ha nem ezt az űrlapot használja."
 
-#: allthethings/account/templates/account/donation.html:327
+#: allthethings/account/templates/account/donation.html:326
 msgid "page.donate.payment.desc.amazon_message"
 msgstr "Kérem, NE írja meg saját üzenetét."
 
-#: allthethings/account/templates/account/donation.html:331
+#: allthethings/account/templates/account/donation.html:330
 msgid "page.donation.amazon.form_to"
 msgstr "“To” címzett e-mail címe az űrlapon:"
 
-#: allthethings/account/templates/account/donation.html:332
+#: allthethings/account/templates/account/donation.html:331
 msgid "page.donation.amazon.unique"
 msgstr "Egyedi a fiókodhoz, ne oszd meg."
 
-#: allthethings/account/templates/account/donation.html:336
+#: allthethings/account/templates/account/donation.html:335
 msgid "page.donation.amazon.waiting_gift_card"
 msgstr "Várakozás az ajándékkártyára... (frissítsd az oldalt az ellenőrzéshez)"
 
-#: allthethings/account/templates/account/donation.html:344
+#: allthethings/account/templates/account/donation.html:343
 msgid "page.donation.amazon.confirm_automated"
 msgstr "Az ajándékkártya elküldése után automatizált rendszerünk néhány percen belül visszaigazolja azt. Ha ez nem működik, próbáld meg újra elküldeni az ajándékkártyát (<a %(a_instr)s>utasítások</a>)."
 
-#: allthethings/account/templates/account/donation.html:345
+#: allthethings/account/templates/account/donation.html:344
 msgid "page.donation.amazon.doesnt_work"
 msgstr "Ha még ez sem működik, írj nekünk egy e-mailt, és Anna kézzel átnézi (ez eltarthat néhány napig), és feltétlenül említsd meg, ha már próbáltad újra elküldeni."
 
-#: allthethings/account/templates/account/donation.html:348
+#: allthethings/account/templates/account/donation.html:347
 msgid "page.donation.amazon.example"
 msgstr "Például:"
 
-#: allthethings/account/templates/account/donation.html:384
-#: allthethings/account/templates/account/donation.html:401
-#: allthethings/account/templates/account/donation.html:417
-#: allthethings/account/templates/account/donation.html:433
+#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:400
+#: allthethings/account/templates/account/donation.html:416
+#: allthethings/account/templates/account/donation.html:432
 msgid "page.donate.strange_account"
 msgstr "Lehet hogy az account neve vagy a kép az oldalon furán néz majd ki. Ne aggódj! Ezeket az accountokat az adományozási partnereink kezelik. Az accountjainkat nem törték fel."
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:407
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Alipay utasítások"
 
-#: allthethings/account/templates/account/donation.html:410
+#: allthethings/account/templates/account/donation.html:409
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Adományozás Alipayen"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:412
 msgid "page.donation.payment.alipay.text1"
 msgstr "Adományozd a teljes %(total)s értékű összeget <a %(a_account)s> ezt az Alipay fiókot használva"
 
-#: allthethings/account/templates/account/donation.html:424
+#: allthethings/account/templates/account/donation.html:423
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pix utasítások"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:425
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Adományozás Pixen"
 
-#: allthethings/account/templates/account/donation.html:429
+#: allthethings/account/templates/account/donation.html:428
 msgid "page.donation.payment.pix.text1"
 msgstr "Adományozd a teljes %(total)s értékű összeget <a %(a_account)s> ezt a Pix fiókot használva"
 
-#: allthethings/account/templates/account/donation.html:438
+#: allthethings/account/templates/account/donation.html:437
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Küldd el nekünk e-mailben a nyugtát"
 
-#: allthethings/account/templates/account/donation.html:444
+#: allthethings/account/templates/account/donation.html:443
 msgid "page.donation.footer.text1"
 msgstr "Küldd el a nyugtát vagy képernyőképet a személyes ellenőrző címedre:"
 
-#: allthethings/account/templates/account/donation.html:454
+#: allthethings/account/templates/account/donation.html:453
 msgid "page.donation.footer.crypto_note"
 msgstr "Ha a kriptovaluta árfolyama a tranzakció során ingadozott, mindenképpen mellékeld a nyugtát, amelyen az eredeti árfolyam szerepel. Nagyra értékeljük, hogy veszed a fáradtságot a kripto használatára, ez sokat segít nekünk!"
 
-#: allthethings/account/templates/account/donation.html:459
+#: allthethings/account/templates/account/donation.html:458
 msgid "page.donation.footer.text2"
 msgstr "Ha elküldted e-mailben a nyugtát, kattints erre a gombra, hogy Anna manuálisan átnézhesse azt (ez eltarthat néhány napig):"
 
-#: allthethings/account/templates/account/donation.html:469
+#: allthethings/account/templates/account/donation.html:468
 msgid "page.donation.footer.button"
 msgstr "Igen, elküldtem a nyugtát e-mailben"
 
-#: allthethings/account/templates/account/donation.html:472
+#: allthethings/account/templates/account/donation.html:471
 msgid "page.donation.footer.success"
 msgstr "✅ Köszönjük az adományt! Anna néhány napon belül manuálisan aktiválja a tagságodat."
 
-#: allthethings/account/templates/account/donation.html:473
+#: allthethings/account/templates/account/donation.html:472
 msgid "page.donation.footer.failure"
 msgstr "❌ Valami rosszul sikerült. Töltsd újra az oldalt, és próbáld meg újra."
 
-#: allthethings/account/templates/account/donation.html:478
+#: allthethings/account/templates/account/donation.html:477
 msgid "page.donation.stepbystep"
 msgstr "Lépésről-lépésre útmutató"
 
-#: allthethings/account/templates/account/donation.html:480
+#: allthethings/account/templates/account/donation.html:479
 msgid "page.donation.crypto_dont_worry"
 msgstr "A lépések egy része kriptotárcákat említ, de ne aggódj, ehhez nem kell semmit sem tanulnod a kriptovalutáról."
 
-#: allthethings/account/templates/account/donation.html:482
+#: allthethings/account/templates/account/donation.html:481
 msgid "page.donation.hoodpay.step1"
 msgstr "1. Add meg az e-mailed."
 
-#: allthethings/account/templates/account/donation.html:488
+#: allthethings/account/templates/account/donation.html:487
 msgid "page.donation.hoodpay.step2"
 msgstr "2. Válaszd ki a fizetési módot."
 
-#: allthethings/account/templates/account/donation.html:494
+#: allthethings/account/templates/account/donation.html:493
 msgid "page.donation.hoodpay.step3"
 msgstr "3. Ismét válaszd ki a fizetési módot."
 
-#: allthethings/account/templates/account/donation.html:500
+#: allthethings/account/templates/account/donation.html:499
 msgid "page.donation.hoodpay.step4"
 msgstr "Válaszd a “Self-hosted” pénztárcát."
 
-#: allthethings/account/templates/account/donation.html:506
+#: allthethings/account/templates/account/donation.html:505
 msgid "page.donation.hoodpay.step5"
 msgstr "5. Kattints a \"Megerősítem a tulajdonjogot\" gombra."
 
-#: allthethings/account/templates/account/donation.html:512
+#: allthethings/account/templates/account/donation.html:511
 msgid "page.donation.hoodpay.step6"
 msgstr "6. Kapni fogsz egy e-mailes átvételi elismervényt. Kérjük, küldd el nekünk, és mi a lehető leghamarabb visszaigazoljuk adományodat."
 
-#: allthethings/account/templates/account/donation.html:519
+#: allthethings/account/templates/account/donation.html:516
+msgid "page.donate.wait"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:517
 msgid "page.donate.mistake"
 msgstr ""
 
@@ -1925,10 +1941,39 @@ msgstr "Ha végtelen ciklusba kerülsz, javasoljuk a <a href=\"https://privacypa
 msgid "page.login.text3"
 msgstr "Az is segíthet, ha kikapcsolja a hirdetésblokkolókat és más böngészőbővítményeket."
 
-#: allthethings/page/templates/page/contact.html:19
+#: allthethings/page/templates/page/contact.html:3
+#: allthethings/page/templates/page/contact.html:8
+msgid "page.contact.title"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:11
+msgid "page.contact.dmca.form"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:12
+msgid "page.contact.dmca.delete"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:17
+msgid "page.contact.checkboxes.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:18
+msgid "page.contact.checkboxes.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:20
+msgid "page.contact.checkboxes.copyright"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:21
 #: allthethings/templates/layouts/index.html:533
 msgid "layout.index.footer.dont_email"
 msgstr "Ne írjon nekünk e-mailt <a %(a_request)s>kérjen könyveket</a><br>vagy kis fájl (<10k)<a %(a_upload)s>feltöltések</a>."
+
+#: allthethings/page/templates/page/contact.html:23
+msgid "page.contact.checkboxes.show_email_button"
+msgstr ""
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more_new"

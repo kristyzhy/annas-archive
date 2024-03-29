@@ -252,9 +252,13 @@ msgstr "Een legendarische status bij het behoud van de kennis en cultuur van de 
 msgid "page.donate.expert.title"
 msgstr "Toegang voor experts"
 
+#: allthethings/account/templates/account/donate.html:101
+msgid "page.donate.expert.contact_us"
+msgstr ""
+
 #: allthethings/account/templates/account/donate.html:102
-#: allthethings/account/templates/account/donation.html:519
-#: allthethings/page/templates/page/contact.html:20
+#: allthethings/account/templates/account/donation.html:517
+#: allthethings/page/templates/page/contact.html:22
 #: allthethings/templates/layouts/index.html:533
 msgid "page.donate.small_team"
 msgstr "We zijn een klein team dat bestaat uit vrijwilligers. Het kan 1-2 weken duren voordat je antwoord van ons krijgt."
@@ -423,7 +427,7 @@ msgid "page.donate.payment.desc.amazon_round"
 msgstr "Houd er rekening mee dat we moeten afronden naar bedragen die door onze wederverkopers worden geaccepteerd (minimaal %(minimum)s)."
 
 #: allthethings/account/templates/account/donate.html:267
-#: allthethings/account/templates/account/donation.html:326
+#: allthethings/account/templates/account/donation.html:325
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>BELANGRIJK:</strong> We ondersteunen alleen Amazon.com, geen andere websites van Amazon. Lokale winkels zoals .nl, .de en .co.uk worden níét ondersteund."
 
@@ -597,7 +601,7 @@ msgid "page.donation.old_instructions.intro_paid"
 msgstr "Je hebt al betaald. Klik hier als je de betaalinstructies toch wilt bekijken:"
 
 #: allthethings/account/templates/account/donation.html:51
-#: allthethings/account/templates/account/donation.html:68
+#: allthethings/account/templates/account/donation.html:67
 msgid "page.donation.old_instructions.show_button"
 msgstr "Oude betaalinstructies tonen"
 
@@ -605,308 +609,320 @@ msgstr "Oude betaalinstructies tonen"
 msgid "page.donation.thank_you_donation"
 msgstr "Bedankt voor je donatie!"
 
-#: allthethings/account/templates/account/donation.html:67
+#: allthethings/account/templates/account/donation.html:60
+msgid "page.donation.thank_you.secret_key"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:62
+msgid "page.donation.thank_you.locked_out"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:66
 msgid "page.donation.old_instructions.intro_outdated"
 msgstr "De betaalinstructies zijn nu verouderd. Gebruik de knop 'Opnieuw bestellen' hierboven als je een andere donatie wil doen."
 
-#: allthethings/account/templates/account/donation.html:76
+#: allthethings/account/templates/account/donation.html:75
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>Belangrijke opmerking:</strong> Cryptoprijzen kunnen enorm fluctueren; soms wel 20%% in een paar minuten. Dit is nog steeds minder dan de kosten die we bij veel betalingsaanbieders oplopen. Deze vragen vaak 50-60%% om met een 'grijze' liefdadigheidsinstelling als wij te werken. <u>Als je ons een afschrift stuurt met de oorspronkelijke prijs die je hebt betaald, dan schrijven we je account alsnog het gekozen lidmaatschap bij</u> (zolang het afschrift niet ouder dan een paar uur is). We waarderen het enorm dat je dit soort dingen verdraagt om ons te steunen! ❤️"
 
-#: allthethings/account/templates/account/donation.html:82
-#: allthethings/account/templates/account/donation.html:95
-#: allthethings/account/templates/account/donation.html:116
-#: allthethings/account/templates/account/donation.html:167
-#: allthethings/account/templates/account/donation.html:207
-#: allthethings/account/templates/account/donation.html:252
-#: allthethings/account/templates/account/donation.html:293
-#: allthethings/account/templates/account/donation.html:355
-#: allthethings/account/templates/account/donation.html:371
-#: allthethings/account/templates/account/donation.html:389
-#: allthethings/account/templates/account/donation.html:405
-#: allthethings/account/templates/account/donation.html:421
+#: allthethings/account/templates/account/donation.html:81
+#: allthethings/account/templates/account/donation.html:94
+#: allthethings/account/templates/account/donation.html:115
+#: allthethings/account/templates/account/donation.html:166
+#: allthethings/account/templates/account/donation.html:206
+#: allthethings/account/templates/account/donation.html:251
+#: allthethings/account/templates/account/donation.html:292
+#: allthethings/account/templates/account/donation.html:354
+#: allthethings/account/templates/account/donation.html:370
+#: allthethings/account/templates/account/donation.html:388
+#: allthethings/account/templates/account/donation.html:404
+#: allthethings/account/templates/account/donation.html:420
 msgid "page.donation.expired"
 msgstr "Deze donatie is verlopen. Annuleer 'm en start een nieuwe."
 
-#: allthethings/account/templates/account/donation.html:85
+#: allthethings/account/templates/account/donation.html:84
 msgid "page.donation.payment.crypto.top_header"
 msgstr "Instructies voor crypto"
 
-#: allthethings/account/templates/account/donation.html:87
+#: allthethings/account/templates/account/donation.html:86
 msgid "page.donation.payment.crypto.header1"
 msgstr "<span %(span_circle)s>1</span>Maak over naar een van onze cryptorekeningen"
 
-#: allthethings/account/templates/account/donation.html:90
+#: allthethings/account/templates/account/donation.html:89
 msgid "page.donation.payment.crypto.text1"
 msgstr "Doneer het totaalbedrag van %(total)s naar een van de volgende adressen:"
 
-#: allthethings/account/templates/account/donation.html:119
+#: allthethings/account/templates/account/donation.html:118
 msgid "page.donate.submit.header1"
 msgstr "<span %(span_circle)s>1</span>Bitcoin op PayPal kopen"
 
-#: allthethings/account/templates/account/donation.html:122
-#: allthethings/account/templates/account/donation.html:173
+#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:172
 msgid "page.donate.one_time_payment.paypal.text2"
 msgstr "Zoek de pagina Crypto in de PayPal-app of -website. Deze vind je vaak onder Financiën."
 
-#: allthethings/account/templates/account/donation.html:126
+#: allthethings/account/templates/account/donation.html:125
 msgid "page.donation.payment.paypal.text3"
 msgstr "Volg de instructies om Bitcoin (BTC) te kopen. Je hoeft alleen het bedrag te kopen dat je wil doneren, %(total)s."
 
-#: allthethings/account/templates/account/donation.html:129
+#: allthethings/account/templates/account/donation.html:128
 msgid "page.donate.submit.header2"
 msgstr "<span %(span_circle)s>2</span>Bitcoin naar ons adres versturen"
 
-#: allthethings/account/templates/account/donation.html:132
+#: allthethings/account/templates/account/donation.html:131
 msgid "page.donate.one_time_payment.paypal.text4"
 msgstr "Ga naar de Bitcoin-pagina in de PayPal-app of -website. Druk op de knop Versturen %(transfer_icon)s en daarna op Verzenden."
 
-#: allthethings/account/templates/account/donation.html:136
+#: allthethings/account/templates/account/donation.html:135
 msgid "page.donation.payment.paypal.text5"
 msgstr "Voer ons Bitcoin (BTC)-adres in als ontvanger en volg de instructies om je donatie van %(total)s te doen:"
 
-#: allthethings/account/templates/account/donation.html:140
-#: allthethings/account/templates/account/donation.html:248
+#: allthethings/account/templates/account/donation.html:139
+#: allthethings/account/templates/account/donation.html:247
 msgid "page.donation.credit_debit_card_instructions"
 msgstr "Instructies voor creditcard/betaalpas"
 
-#: allthethings/account/templates/account/donation.html:142
+#: allthethings/account/templates/account/donation.html:141
 msgid "page.donation.credit_debit_card_our_page"
 msgstr "Doneren via onze pagina voor creditcards/betaalpassen"
 
-#: allthethings/account/templates/account/donation.html:145
+#: allthethings/account/templates/account/donation.html:144
 msgid "page.donation.donate_on_this_page"
 msgstr "Doneer %(amount)s op <a %(a_page)s>deze pagina</a>."
 
-#: allthethings/account/templates/account/donation.html:145
+#: allthethings/account/templates/account/donation.html:144
 msgid "page.donation.stepbystep_below"
 msgstr "Raadpleeg de stapsgewijze handleiding hierboven."
 
-#: allthethings/account/templates/account/donation.html:149
-#: allthethings/account/templates/account/donation.html:192
-#: allthethings/account/templates/account/donation.html:235
-#: allthethings/account/templates/account/donation.html:276
-#: allthethings/account/templates/account/donation.html:305
-#: allthethings/account/templates/account/donation.html:336
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+#: allthethings/account/templates/account/donation.html:335
 msgid "page.donation.status_header"
 msgstr "Status:"
 
-#: allthethings/account/templates/account/donation.html:149
-#: allthethings/account/templates/account/donation.html:192
-#: allthethings/account/templates/account/donation.html:235
-#: allthethings/account/templates/account/donation.html:276
-#: allthethings/account/templates/account/donation.html:305
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
 msgid "page.donation.waiting_for_confirmation_refresh"
 msgstr "Wachten op bevestiging (vernieuw de pagina om te controleren)…"
 
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+msgid "page.donation.waiting_for_transfer_refresh"
+msgstr "Wachten op transactie (vernieuw de pagina om te controleren)…"
+
 #: allthethings/account/templates/account/donation.html:149
 #: allthethings/account/templates/account/donation.html:192
 #: allthethings/account/templates/account/donation.html:235
 #: allthethings/account/templates/account/donation.html:276
 #: allthethings/account/templates/account/donation.html:305
-msgid "page.donation.waiting_for_transfer_refresh"
-msgstr "Wachten op transactie (vernieuw de pagina om te controleren)…"
-
-#: allthethings/account/templates/account/donation.html:150
-#: allthethings/account/templates/account/donation.html:193
-#: allthethings/account/templates/account/donation.html:236
-#: allthethings/account/templates/account/donation.html:277
-#: allthethings/account/templates/account/donation.html:306
 msgid "page.donation.time_left_header"
 msgstr "Tijd resterend:"
 
-#: allthethings/account/templates/account/donation.html:150
-#: allthethings/account/templates/account/donation.html:193
-#: allthethings/account/templates/account/donation.html:236
-#: allthethings/account/templates/account/donation.html:277
-#: allthethings/account/templates/account/donation.html:306
+#: allthethings/account/templates/account/donation.html:149
+#: allthethings/account/templates/account/donation.html:192
+#: allthethings/account/templates/account/donation.html:235
+#: allthethings/account/templates/account/donation.html:276
+#: allthethings/account/templates/account/donation.html:305
 msgid "page.donation.might_want_to_cancel"
 msgstr "(het kan handig zijn om te annuleren en een nieuwe donatie te starten)"
 
-#: allthethings/account/templates/account/donation.html:154
-#: allthethings/account/templates/account/donation.html:197
-#: allthethings/account/templates/account/donation.html:240
-#: allthethings/account/templates/account/donation.html:281
-#: allthethings/account/templates/account/donation.html:310
+#: allthethings/account/templates/account/donation.html:153
+#: allthethings/account/templates/account/donation.html:196
+#: allthethings/account/templates/account/donation.html:239
+#: allthethings/account/templates/account/donation.html:280
+#: allthethings/account/templates/account/donation.html:309
 msgid "page.donation.reset_timer"
 msgstr "Start een nieuwe donatie om de teller terug te zetten."
 
-#: allthethings/account/templates/account/donation.html:158
-#: allthethings/account/templates/account/donation.html:201
-#: allthethings/account/templates/account/donation.html:244
-#: allthethings/account/templates/account/donation.html:285
-#: allthethings/account/templates/account/donation.html:314
-#: allthethings/account/templates/account/donation.html:340
+#: allthethings/account/templates/account/donation.html:157
+#: allthethings/account/templates/account/donation.html:200
+#: allthethings/account/templates/account/donation.html:243
+#: allthethings/account/templates/account/donation.html:284
+#: allthethings/account/templates/account/donation.html:313
+#: allthethings/account/templates/account/donation.html:339
 msgid "page.donation.refresh_status"
 msgstr "Status bijwerken"
 
-#: allthethings/account/templates/account/donation.html:162
-#: allthethings/account/templates/account/donation.html:516
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:515
 msgid "page.donation.footer.issues_contact"
 msgstr "Neem contact met ons op via %(email)s als je problemen ondervindt. Voeg zo veel mogelijk informatie toe (zoals screenshots)."
 
-#: allthethings/account/templates/account/donation.html:170
+#: allthethings/account/templates/account/donation.html:169
 msgid "page.donation.buy_pyusd"
 msgstr "Koop PYUSD op PayPal"
 
-#: allthethings/account/templates/account/donation.html:177
+#: allthethings/account/templates/account/donation.html:176
 msgid "page.donation.pyusd.instructions"
 msgstr "Volg de instructies om PYUSD (PayPal USD) te kopen."
 
-#: allthethings/account/templates/account/donation.html:178
+#: allthethings/account/templates/account/donation.html:177
 msgid "page.donation.pyusd.more"
 msgstr "Koop iets meer (we raden %(more)s extra aan) dan het bedrag dat je wilt doneren (%(amount)s) om de transactiekosten te dekken. Wat overblijft, kun je houden."
 
-#: allthethings/account/templates/account/donation.html:184
+#: allthethings/account/templates/account/donation.html:183
 msgid "page.donation.pyusd.transfer"
 msgstr "Ga naar de pagina 'PYUSD' in de app of op de website van PayPal. Druk op de knop 'Transfer' %(icon)s en vervolgens op 'Send'."
 
-#: allthethings/account/templates/account/donation.html:188
-#: allthethings/account/templates/account/donation.html:227
-#: allthethings/account/templates/account/donation.html:297
+#: allthethings/account/templates/account/donation.html:187
+#: allthethings/account/templates/account/donation.html:226
+#: allthethings/account/templates/account/donation.html:296
 msgid "page.donation.transfer_amount_to"
 msgstr "Maak %(amount)s over naar %(account)s"
 
-#: allthethings/account/templates/account/donation.html:289
+#: allthethings/account/templates/account/donation.html:288
 msgid "page.donation.crypto_instructions"
 msgstr "Instructies voor %(coin_name)s"
 
-#: allthethings/account/templates/account/donation.html:301
+#: allthethings/account/templates/account/donation.html:300
 msgid "page.donation.crypto_standard"
 msgstr "We ondersteunen alleen de standaardversie van cryptomunten, dus geen exotische netwerken of versies van munten. Afhankelijk van de munt kan het een uur duren om transacties te bevestigen."
 
-#: allthethings/account/templates/account/donation.html:318
+#: allthethings/account/templates/account/donation.html:317
 msgid "page.donation.amazon.header"
 msgstr "Amazon-cadeaubon"
 
-#: allthethings/account/templates/account/donation.html:321
+#: allthethings/account/templates/account/donation.html:320
 msgid "page.donation.amazon.form_instructions"
 msgstr "Gebruik het <a %(a_form)s>officiële formulier van Amazon.com</a> om ons een cadeaubon van %(amount)s te sturen naar onderstaand e-mailadres."
 
-#: allthethings/account/templates/account/donation.html:322
+#: allthethings/account/templates/account/donation.html:321
 msgid "page.donation.amazon.only_official"
 msgstr "We accepteren geen andere methodes voor cadeaubonnen, <strong>alleen die rechtstreeks via het officiële formulier op Amazon.com worden verzonden</strong>. We kunnen je cadeaubon niet retourneren als je dit formulier niet gebruikt."
 
-#: allthethings/account/templates/account/donation.html:327
+#: allthethings/account/templates/account/donation.html:326
 msgid "page.donate.payment.desc.amazon_message"
 msgstr "Schrijf NIET je eigen bericht."
 
-#: allthethings/account/templates/account/donation.html:331
+#: allthethings/account/templates/account/donation.html:330
 msgid "page.donation.amazon.form_to"
 msgstr "Geadresseerde 'Aan' in het formulier:"
 
-#: allthethings/account/templates/account/donation.html:332
+#: allthethings/account/templates/account/donation.html:331
 msgid "page.donation.amazon.unique"
 msgstr "Uniek voor jouw account; niet delen."
 
-#: allthethings/account/templates/account/donation.html:336
+#: allthethings/account/templates/account/donation.html:335
 msgid "page.donation.amazon.waiting_gift_card"
 msgstr "Wachten op cadeaubon (vernieuw de pagina om te controleren)…"
 
-#: allthethings/account/templates/account/donation.html:344
+#: allthethings/account/templates/account/donation.html:343
 msgid "page.donation.amazon.confirm_automated"
 msgstr "Nadat je je cadeaubon hebt verzonden, bevestigt ons geautomatiseerde systeem dit binnen een paar minuten. Probeer je cadeaubon opnieuw te verzenden als dit niet werkt (<a %(a_instr)s>instructies</a>)."
 
-#: allthethings/account/templates/account/donation.html:345
+#: allthethings/account/templates/account/donation.html:344
 msgid "page.donation.amazon.doesnt_work"
 msgstr "Als dat nog steeds niet werkt, stuur ons dan een e-mail. Anna controleert het vervolgens handmatig (dit kan een paar dagen duren). Vermeld daarbij of je al opnieuw hebt geprobeerd te verzenden."
 
-#: allthethings/account/templates/account/donation.html:348
+#: allthethings/account/templates/account/donation.html:347
 msgid "page.donation.amazon.example"
 msgstr "Voorbeeld:"
 
-#: allthethings/account/templates/account/donation.html:384
-#: allthethings/account/templates/account/donation.html:401
-#: allthethings/account/templates/account/donation.html:417
-#: allthethings/account/templates/account/donation.html:433
+#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:400
+#: allthethings/account/templates/account/donation.html:416
+#: allthethings/account/templates/account/donation.html:432
 msgid "page.donate.strange_account"
 msgstr "Let op dat je accountnaam of profielfoto er vreemd uit kan zien. Geen zorgen! Deze accounts worden beheerd door onze donatiepartners. Onze accounts zijn niet gehackt."
 
-#: allthethings/account/templates/account/donation.html:408
+#: allthethings/account/templates/account/donation.html:407
 msgid "page.donation.payment.alipay.top_header"
 msgstr "Instructies voor Alipay"
 
-#: allthethings/account/templates/account/donation.html:410
+#: allthethings/account/templates/account/donation.html:409
 msgid "page.donation.payment.alipay.header1"
 msgstr "<span %(span_circle)s>1</span>Doneren met Alipay"
 
-#: allthethings/account/templates/account/donation.html:413
+#: allthethings/account/templates/account/donation.html:412
 msgid "page.donation.payment.alipay.text1"
 msgstr "Doneer het totaalbedrag van %(total)s aan <a %(a_account)s>dit Alipay-account"
 
-#: allthethings/account/templates/account/donation.html:424
+#: allthethings/account/templates/account/donation.html:423
 msgid "page.donation.payment.pix.top_header"
 msgstr "Instructies voor Pix"
 
-#: allthethings/account/templates/account/donation.html:426
+#: allthethings/account/templates/account/donation.html:425
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Doneren met Pix"
 
-#: allthethings/account/templates/account/donation.html:429
+#: allthethings/account/templates/account/donation.html:428
 msgid "page.donation.payment.pix.text1"
 msgstr "Doneer het totaalbedrag van %(total)s aan <a %(a_account)s>dit Pix-account"
 
-#: allthethings/account/templates/account/donation.html:438
+#: allthethings/account/templates/account/donation.html:437
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>Mail ons het ontvangstbewijs"
 
-#: allthethings/account/templates/account/donation.html:444
+#: allthethings/account/templates/account/donation.html:443
 msgid "page.donation.footer.text1"
 msgstr "Stuur een ontvangstbewijs of schermafbeelding naar je persoonlijke verificatieadres:"
 
-#: allthethings/account/templates/account/donation.html:454
+#: allthethings/account/templates/account/donation.html:453
 msgid "page.donation.footer.crypto_note"
 msgstr "Als de koers op de cryptobeurs tijdens de transactie fluctueerde, zorg er dan voor dat je het afschrift met de oorspronkelijke wisselkoers bijvoegt. We waarderen het dat je de moeite neemt om crypto te gebruiken. Dat helpt ons enorm!"
 
-#: allthethings/account/templates/account/donation.html:459
+#: allthethings/account/templates/account/donation.html:458
 msgid "page.donation.footer.text2"
 msgstr "Klik op deze knop als je je ontvangstbewijs hebt gemaild, zodat Anna dat handmatig kan controleren (dit kan een paar dagen duren):"
 
-#: allthethings/account/templates/account/donation.html:469
+#: allthethings/account/templates/account/donation.html:468
 msgid "page.donation.footer.button"
 msgstr "Ja, ik heb mijn ontvangstbewijs gemaild"
 
-#: allthethings/account/templates/account/donation.html:472
+#: allthethings/account/templates/account/donation.html:471
 msgid "page.donation.footer.success"
 msgstr "✅ Bedankt voor je donatie! Anna activeert je lidmaatschap handmatig binnen een paar dagen."
 
-#: allthethings/account/templates/account/donation.html:473
+#: allthethings/account/templates/account/donation.html:472
 msgid "page.donation.footer.failure"
 msgstr "❌ Er ging iets mis. Vernieuw de pagina en probeer het opnieuw."
 
-#: allthethings/account/templates/account/donation.html:478
+#: allthethings/account/templates/account/donation.html:477
 msgid "page.donation.stepbystep"
 msgstr "Stapsgewijze handleiding"
 
-#: allthethings/account/templates/account/donation.html:480
+#: allthethings/account/templates/account/donation.html:479
 msgid "page.donation.crypto_dont_worry"
 msgstr "Sommige stappen benoemen 'cryptowallets'. Geen zorgen: je hoeft niets over crypto te leren."
 
-#: allthethings/account/templates/account/donation.html:482
+#: allthethings/account/templates/account/donation.html:481
 msgid "page.donation.hoodpay.step1"
 msgstr "1. Voer je e-mailadres in."
 
-#: allthethings/account/templates/account/donation.html:488
+#: allthethings/account/templates/account/donation.html:487
 msgid "page.donation.hoodpay.step2"
 msgstr "2. Selecteer de betaalmethode."
 
-#: allthethings/account/templates/account/donation.html:494
+#: allthethings/account/templates/account/donation.html:493
 msgid "page.donation.hoodpay.step3"
 msgstr "3. Selecteer de betaalmethode opnieuw."
 
-#: allthethings/account/templates/account/donation.html:500
+#: allthethings/account/templates/account/donation.html:499
 msgid "page.donation.hoodpay.step4"
 msgstr "4. Selecteer de wallet 'Self-hosted'."
 
-#: allthethings/account/templates/account/donation.html:506
+#: allthethings/account/templates/account/donation.html:505
 msgid "page.donation.hoodpay.step5"
 msgstr "5. Klik op 'I confirm ownership'."
 
-#: allthethings/account/templates/account/donation.html:512
+#: allthethings/account/templates/account/donation.html:511
 msgid "page.donation.hoodpay.step6"
 msgstr "6. Je ontvangt een afschrift. Stuur dat naar ons. Wij bevestigen je donatie zo snel mogelijk."
 
-#: allthethings/account/templates/account/donation.html:519
+#: allthethings/account/templates/account/donation.html:516
+msgid "page.donate.wait"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:517
 msgid "page.donate.mistake"
 msgstr "Als je tijdens het betalen een fout hebt gemaakt, kunnen we je niet terugbetalen. We doen dan ons best om het te corrigeren."
 
@@ -1925,10 +1941,39 @@ msgstr "Als je in een oneindige lus belandt, raden we je aan om <a href=\"https:
 msgid "page.login.text3"
 msgstr "Het kan ook helpen om advertentieblokkers en andere browserextensies uit te schakelen."
 
-#: allthethings/page/templates/page/contact.html:19
+#: allthethings/page/templates/page/contact.html:3
+#: allthethings/page/templates/page/contact.html:8
+msgid "page.contact.title"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:11
+msgid "page.contact.dmca.form"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:12
+msgid "page.contact.dmca.delete"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:17
+msgid "page.contact.checkboxes.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:18
+msgid "page.contact.checkboxes.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:20
+msgid "page.contact.checkboxes.copyright"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:21
 #: allthethings/templates/layouts/index.html:533
 msgid "layout.index.footer.dont_email"
 msgstr "Mail ons niet voor <a %(a_request)s>boekaanvragen</a><br>of kleine (<10k) <a %(a_upload)s>uploads</a>."
+
+#: allthethings/page/templates/page/contact.html:23
+msgid "page.contact.checkboxes.show_email_button"
+msgstr ""
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more_new"
