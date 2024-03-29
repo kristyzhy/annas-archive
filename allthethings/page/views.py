@@ -3888,12 +3888,8 @@ def get_additional_for_aarecord(aarecord):
                 aarecord['file_unified_data'].get('edition_varia_best', None) or '',
             ] if item != '']),
         'author': aarecord['file_unified_data'].get('author_best', None) or '',
-        # TODO: Split out comments and style them better.
-        'description': '\n\n'.join([item for item in [
-                aarecord['file_unified_data'].get('stripped_description_best', None) or '',
-                # TODO:TRANSLATE
-                f"Metadata comments: {comments_multiple}" if (comments_multiple != '') else '',
-            ] if item != ''])
+        'description': aarecord['file_unified_data'].get('stripped_description_best', None) or '',
+        'metadata_comments': comments_multiple,
     }
 
     filename_info = [item for item in [
