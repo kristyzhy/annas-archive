@@ -3868,6 +3868,7 @@ def get_additional_for_aarecord(aarecord):
                 aarecord['file_unified_data'].get('edition_varia_best', None) or '',
                 aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '',
             ] if item != ''],
+        'cover_missing_hue_deg': int(hashlib.md5(aarecord['id'].encode()).hexdigest(), 16) % 360,
         'cover_url': cover_url,
         'top_row': ", ".join([item for item in [
                 additional['most_likely_language_name'],
