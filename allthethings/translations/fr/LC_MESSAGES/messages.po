@@ -277,7 +277,7 @@ msgstr "Nous acceptons les larges dons provenant d'individus fortunés ou d'inst
 
 #: allthethings/account/templates/account/donate.html:115
 msgid "page.donate.header.large_donations"
-msgstr "Pour les dons supérieurs à 5000 $, veuillez nous contacter directement à <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
+msgstr "Pour les dons supérieurs à 5000 $, veuillez nous contacter directement à %(email)s."
 
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.intro"
@@ -1035,7 +1035,7 @@ msgstr "Adhérez à un <a %(a_tier)s>rang supérieur</a> pour rejoindre notre gr
 
 #: allthethings/account/templates/account/index.html:35
 msgid "page.account.logged_in.membership_upgrade"
-msgstr "Contactez Anna à l'adresse AnnaArchivist@proton.me si vous souhaitez souscrire à une adhésion de rang supérieur."
+msgstr "Contactez Anna à l'adresse %(email)s si vous souhaitez souscrire à une adhésion de rang supérieur."
 
 #: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.membership_multiple"
@@ -1291,11 +1291,11 @@ msgstr "Pour les gros téléversements (plus de 10000 fichiers) qui ne sont pas 
 
 #: allthethings/dyn/views.py:761
 msgid "dyn.buy_membership.error.try_again"
-msgstr "La demande n'a pas pu être complétée. Veuillez réessayer dans quelques minutes, et si le problème persiste, contactez-nous à l'adresse AnnaArchivist@proton.me avec une capture d'écran."
+msgstr "La demande n'a pas pu être complétée. Veuillez réessayer dans quelques minutes, et si le problème persiste, contactez-nous à l'adresse %(email)s avec une capture d'écran."
 
 #: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
-msgstr "Une erreur inconnue s'est produite. Veuillez nous contacter à AnnaArchivist@proton.me avec une capture d'écran."
+msgstr "Une erreur inconnue s'est produite. Veuillez nous contacter à %(email)s avec une capture d'écran."
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
@@ -1303,7 +1303,7 @@ msgstr "Cette cryptomonnaie exige un montant minimum plus haut que la normale. V
 
 #: allthethings/dyn/views.py:771
 msgid "dyn.buy_membership.error.wait"
-msgstr "Erreur dans le processus de paiement. Merci d'attendre un moment puis d'essayer à nouveau. Si le problème persiste pendant plus de 24 heures, merci de nous contacter à AnnaArchivist@proton.me avec une capture d'écran."
+msgstr "Erreur dans le processus de paiement. Merci d'attendre un moment puis d'essayer à nouveau. Si le problème persiste pendant plus de 24 heures, merci de nous contacter à %(email)s avec une capture d'écran."
 
 #: allthethings/page/views.py:3729
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1651,7 +1651,7 @@ msgstr "<strong>🚀 Téléchargements rapides</strong> Il vous en reste %(remai
 
 #: allthethings/page/templates/page/aarecord.html:194
 msgid "page.md5.box.download.header_fast_member_no_remaining"
-msgstr "<strong>🚀 Téléchargements rapides</strong> Vous avez épuisé vos téléchargements rapides pour aujourd'hui. Veuillez contacter Anna à l'adresse AnnaArchivist@proton.me si vous souhaitez augmenter votre adhésion."
+msgstr "<strong>🚀 Téléchargements rapides</strong> Vous avez épuisé vos téléchargements rapides pour aujourd'hui. Veuillez contacter Anna à l'adresse %(email)s si vous souhaitez augmenter votre adhésion."
 
 #: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
@@ -1932,7 +1932,7 @@ msgstr "Ne nous envoyez pas d'e-mail pour une <a %(a_request)s>demande de livre<
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more"
-msgstr "Vous avez utilisé tous vos téléchargements rapides pour aujourd'hui. Contactez Anna à l'adresse AnnaArchivist@proton.me si vous souhaitez augmenter votre adhésion."
+msgstr "Vous avez utilisé tous vos téléchargements rapides pour aujourd'hui. Contactez Anna à l'adresse %(email)s si vous souhaitez augmenter votre adhésion."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
@@ -2256,7 +2256,7 @@ msgstr "Ce catalogue ouvert de livres, articles, et autres œuvres écrites que 
 #: allthethings/page/templates/page/search.html:220
 #: allthethings/page/templates/page/search.html:235
 msgid "page.search.results.other_shadow_libs"
-msgstr "Si vous découvrez d'autres bibliothèques fantôme (\"shadow librairies\") dont nous devrions faire la reproduction, ou si vous avez une quelconque question, merci de nous contacter à l'adresse <a %(a_email)s>AnnaArchivist@proton.me</a>."
+msgstr "Si vous découvrez d'autres bibliothèques fantôme (\"shadow librairies\") dont nous devrions faire la reproduction, ou si vous avez une quelconque question, merci de nous contacter à l'adresse %(email)s."
 
 #: allthethings/page/templates/page/search.html:221
 #: allthethings/page/templates/page/search.html:236

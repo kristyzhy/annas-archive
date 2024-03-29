@@ -277,7 +277,7 @@ msgstr ""
 
 #: allthethings/account/templates/account/donate.html:115
 msgid "page.donate.header.large_donations"
-msgstr "$5000 feletti adományok esetén lépj velünk közvetlenül kapcsolatba a következő címen: <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
+msgstr "$5000 feletti adományok esetén lépj velünk közvetlenül kapcsolatba a következő címen: %(email)s."
 
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.intro"
@@ -1035,7 +1035,7 @@ msgstr ""
 
 #: allthethings/account/templates/account/index.html:35
 msgid "page.account.logged_in.membership_upgrade"
-msgstr "Lépj kapcsolatba Annával az AnnaArchivist@proton.me e-mail címen, ha szeretnéd magasabb szintre emelni a tagságodat."
+msgstr "Lépj kapcsolatba Annával az %(email)s e-mail címen, ha szeretnéd magasabb szintre emelni a tagságodat."
 
 #: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.membership_multiple"
@@ -1291,11 +1291,11 @@ msgstr ""
 
 #: allthethings/dyn/views.py:761
 msgid "dyn.buy_membership.error.try_again"
-msgstr "A kérést nem sikerült teljesíteni. Kérjük, próbálja újra néhány perc múlva, és ha ez továbbra is megtörténik, forduljon hozzánk a AnnaArchivist@proton.me képernyőképpel."
+msgstr "A kérést nem sikerült teljesíteni. Kérjük, próbálja újra néhány perc múlva, és ha ez továbbra is megtörténik, forduljon hozzánk a %(email)s képernyőképpel."
 
 #: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
-msgstr "Ismeretlen hiba történt. Kérjük, lépj kapcsolatba velünk a AnnaArchivist@proton.me címen egy képernyőképpel."
+msgstr "Ismeretlen hiba történt. Kérjük, lépj kapcsolatba velünk a %(email)s címen egy képernyőképpel."
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
@@ -1651,7 +1651,7 @@ msgstr "<strong>🚀 Gyors letöltések</strong> Ma még %(remaining)s van hátr
 
 #: allthethings/page/templates/page/aarecord.html:194
 msgid "page.md5.box.download.header_fast_member_no_remaining"
-msgstr "<strong>🚀 Gyors letlöltések</strong> Mára kifogytál a gyors letöltésekből. Kérlek, vedd fel a kapcsolatot Annával a AnnaArchivist@proton.me e-mail címen, ha szeretnél tagságot szerezni."
+msgstr "<strong>🚀 Gyors letlöltések</strong> Mára kifogytál a gyors letöltésekből. Kérlek, vedd fel a kapcsolatot Annával a %(email)s e-mail címen, ha szeretnél tagságot szerezni."
 
 #: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
@@ -1932,7 +1932,7 @@ msgstr "Ne írjon nekünk e-mailt <a %(a_request)s>kérjen könyveket</a><br>vag
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more"
-msgstr "Kifogytál a gyors letöltésekből mára. Lépj kapcsolatba Annával a AnnaArchivist@proton.me e-mail címen, ha szeretnél tagságot frissíteni."
+msgstr "Kifogytál a gyors letöltésekből mára. Lépj kapcsolatba Annával a %(email)s e-mail címen, ha szeretnél tagságot frissíteni."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
@@ -2256,7 +2256,7 @@ msgstr "Jelenleg mi rendelkezünk a világ legátfogóbb nyitott katalógusával
 #: allthethings/page/templates/page/search.html:220
 #: allthethings/page/templates/page/search.html:235
 msgid "page.search.results.other_shadow_libs"
-msgstr "Ha további \"árnyékkönyvtárakat\" találsz, amelyeket tükröznünk kellene, vagy ha bármilyen kérdésed van, lépj velünk kapcsolatba az <a %(a_email)s>AnnaArchivist@proton.me</a> címen."
+msgstr "Ha további \"árnyékkönyvtárakat\" találsz, amelyeket tükröznünk kellene, vagy ha bármilyen kérdésed van, lépj velünk kapcsolatba az %(email)s címen."
 
 #: allthethings/page/templates/page/search.html:221
 #: allthethings/page/templates/page/search.html:236

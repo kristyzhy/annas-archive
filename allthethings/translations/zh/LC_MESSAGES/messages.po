@@ -278,7 +278,7 @@ msgstr "我们欢迎富裕的个人和机构提供大额捐赠。 "
 
 #: allthethings/account/templates/account/donate.html:115
 msgid "page.donate.header.large_donations"
-msgstr "超过$5000的捐赠请直接通过<a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>联系我们。"
+msgstr "超过$5000的捐赠请直接通过%(email)s联系我们。"
 
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.intro"
@@ -1036,7 +1036,7 @@ msgstr ""
 
 #: allthethings/account/templates/account/index.html:35
 msgid "page.account.logged_in.membership_upgrade"
-msgstr "如欲提升会员级别，请联系安娜：AnnaArchivist@proton.me。"
+msgstr "如欲提升会员级别，请联系安娜：%(email)s。"
 
 #: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.membership_multiple"
@@ -1292,11 +1292,11 @@ msgstr "对于不被 Libgen 或 Z-Library 接受的大量上传（超过10000个
 
 #: allthethings/dyn/views.py:761
 msgid "dyn.buy_membership.error.try_again"
-msgstr "无法完成请求。请在几分钟之后重试，如果一直这样，请带上截图联系我们：AnnaArchivist@proton.me。"
+msgstr "无法完成请求。请在几分钟之后重试，如果一直这样，请带上截图联系我们：%(email)s。"
 
 #: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
-msgstr "发生了未知错误。请通过 AnnaArchivist@proton.me 联系我们，并附上截图。"
+msgstr "发生了未知错误。请通过 %(email)s 联系我们，并附上截图。"
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
@@ -1652,7 +1652,7 @@ msgstr "<strong>🚀 高速下载</strong> 今日还剩 %(remaining)s 次。感�
 
 #: allthethings/page/templates/page/aarecord.html:194
 msgid "page.md5.box.download.header_fast_member_no_remaining"
-msgstr "<strong>🚀 高速下载</strong> 今日高速下载次数已经用完了。若想升级会员资格，请联系安娜：AnnaArchivist@proton.me。"
+msgstr "<strong>🚀 高速下载</strong> 今日高速下载次数已经用完了。若想升级会员资格，请联系安娜：%(email)s。"
 
 #: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
@@ -1933,7 +1933,7 @@ msgstr "不要给我们发邮件来<a %(a_request)s>请求图书</a><br>或提�
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more"
-msgstr "您今天的高速下载次数已经用完了。如果你有兴趣升级会员，请联系安娜，邮箱地址为 AnnaArchivist@proton.me。"
+msgstr "您今天的高速下载次数已经用完了。如果你有兴趣升级会员，请联系安娜，邮箱地址为 %(email)s。"
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
@@ -2257,7 +2257,7 @@ msgstr "我们有目前世界上最完整的图书、论文和其他书面文献
 #: allthethings/page/templates/page/search.html:220
 #: allthethings/page/templates/page/search.html:235
 msgid "page.search.results.other_shadow_libs"
-msgstr "如果你还知道其他我们应该镜像的“影子图书馆”，或者你有任何问题，请联系我们：<a %(a_email)s>AnnaArchivist@proton.me</a>。"
+msgstr "如果你还知道其他我们应该镜像的“影子图书馆”，或者你有任何问题，请联系我们：%(email)s。"
 
 #: allthethings/page/templates/page/search.html:221
 #: allthethings/page/templates/page/search.html:236

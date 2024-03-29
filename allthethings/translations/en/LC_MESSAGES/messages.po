@@ -277,7 +277,7 @@ msgstr "We welcome large donations from wealthy individuals or institutions. "
 
 #: allthethings/account/templates/account/donate.html:115
 msgid "page.donate.header.large_donations"
-msgstr "For donations over $5000 please contact us directly at <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
+msgstr "For donations over $5000 please contact us directly at %(email)s."
 
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.intro"
@@ -1036,7 +1036,7 @@ msgstr "Upgrade to a <a %(a_tier)s>higher tier</a> to join our group."
 
 #: allthethings/account/templates/account/index.html:35
 msgid "page.account.logged_in.membership_upgrade"
-msgstr "Contact Anna at AnnaArchivist@proton.me if you’re interested in upgrading your membership to a higher tier."
+msgstr "Contact Anna at %(email)s if you’re interested in upgrading your membership to a higher tier."
 
 #: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.membership_multiple"
@@ -1294,11 +1294,11 @@ msgstr "For large uploads (over 10,000 files) that don’t get accepted by Libge
 
 #: allthethings/dyn/views.py:761
 msgid "dyn.buy_membership.error.try_again"
-msgstr "Request could not be completed. Please try again in a few minutes, and if it keeps happening contact us at AnnaArchivist@proton.me with a screenshot."
+msgstr "Request could not be completed. Please try again in a few minutes, and if it keeps happening contact us at %(email)s with a screenshot."
 
 #: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
-msgstr "An unknown error occurred. Please contact us at AnnaArchivist@proton.me with a screenshot."
+msgstr "An unknown error occurred. Please contact us at %(email)s with a screenshot."
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
@@ -1306,7 +1306,7 @@ msgstr "This coin has a higher than usual minimum. Please select a different dur
 
 #: allthethings/dyn/views.py:771
 msgid "dyn.buy_membership.error.wait"
-msgstr "Error in payment processing. Please wait a moment and try again. If the issue persists for more than 24 hours, please contact us at AnnaArchivist@proton.me with a screenshot."
+msgstr "Error in payment processing. Please wait a moment and try again. If the issue persists for more than 24 hours, please contact us at %(email)s with a screenshot."
 
 #: allthethings/page/views.py:3729
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1654,8 +1654,8 @@ msgid "page.md5.box.download.header_fast_member"
 msgstr "<strong>🚀 Fast downloads</strong> You have %(remaining)s left today. Thanks for being a member! ❤️"
 
 #: allthethings/page/templates/page/aarecord.html:194
-msgid "page.md5.box.download.header_fast_member_no_remaining"
-msgstr "<strong>🚀 Fast downloads</strong> You’ve run out of fast downloads for today. Please contact Anna at AnnaArchivist@proton.me if you’re interested in upgrading your membership."
+msgid "page.md5.box.download.header_fast_member_no_remaining_new"
+msgstr "<strong>🚀 Fast downloads</strong> You’ve run out of fast downloads for today."
 
 #: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
@@ -1935,8 +1935,8 @@ msgid "layout.index.footer.dont_email"
 msgstr "Don’t email us to <a %(a_request)s>request books</a><br>or small (<10k) <a %(a_upload)s>uploads</a>."
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
-msgid "page.fast_downloads.no_more"
-msgstr "You’ve run out of fast downloads today. Contact Anna at AnnaArchivist@proton.me if you’re interested in upgrading your membership."
+msgid "page.fast_downloads.no_more_new"
+msgstr "You’ve run out of fast downloads today."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
@@ -2261,7 +2261,7 @@ msgstr "We currently have the world’s most comprehensive open catalog of books
 #: allthethings/page/templates/page/search.html:220
 #: allthethings/page/templates/page/search.html:235
 msgid "page.search.results.other_shadow_libs"
-msgstr "If you find other “shadow libraries” that we should mirror, or if you have any questions, please contact us at <a %(a_email)s>AnnaArchivist@proton.me</a>."
+msgstr "If you find other “shadow libraries” that we should mirror, or if you have any questions, please contact us at %(email)s."
 
 #: allthethings/page/templates/page/search.html:221
 #: allthethings/page/templates/page/search.html:236
@@ -2698,4 +2698,10 @@ msgstr "copied!"
 
 #~ msgid "page.doi.results.none"
 #~ msgstr "No matching files found in our database."
+
+#~ msgid "page.md5.box.download.header_fast_member_no_remaining"
+#~ msgstr "<strong>🚀 Fast downloads</strong> You’ve run out of fast downloads for today. Please contact Anna at %(email)s if you’re interested in upgrading your membership."
+
+#~ msgid "page.fast_downloads.no_more"
+#~ msgstr "You’ve run out of fast downloads today. Contact Anna at %(email)s if you’re interested in upgrading your membership."
 

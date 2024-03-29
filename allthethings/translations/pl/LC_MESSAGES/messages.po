@@ -277,7 +277,7 @@ msgstr ""
 
 #: allthethings/account/templates/account/donate.html:115
 msgid "page.donate.header.large_donations"
-msgstr "Przy chęci wsparcia projektu kwotą powyżej 5000$, prosimy o kontakt pod adresem <a href=\"mailto:AnnaArchivist@proton.me\">AnnaArchivist@&#8203;proton.&#8203;me</a>."
+msgstr "Przy chęci wsparcia projektu kwotą powyżej 5000$, prosimy o kontakt pod adresem %(email)s."
 
 #: allthethings/account/templates/account/donate.html:121
 msgid "page.donate.payment.intro"
@@ -1035,7 +1035,7 @@ msgstr ""
 
 #: allthethings/account/templates/account/index.html:35
 msgid "page.account.logged_in.membership_upgrade"
-msgstr "Skontaktuj się z Anną pod AnnaArchivist@proton.me, w przypadku chęci zmiany progu członkostwa na wyższy."
+msgstr "Skontaktuj się z Anną pod %(email)s, w przypadku chęci zmiany progu członkostwa na wyższy."
 
 #: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.membership_multiple"
@@ -1291,11 +1291,11 @@ msgstr "Dla dużych wrzutów (ponad 10,000 plików) które nie zostały zaakcept
 
 #: allthethings/dyn/views.py:761
 msgid "dyn.buy_membership.error.try_again"
-msgstr "Żądanie nie mogło zostać ukończone. Spróbuj ponownie za kilka minut, a jeśli nadal będzie się to powtarzać, skontaktuj się z nami pod adresem AnnaArchivist@proton.me załączając zrzut ekranu."
+msgstr "Żądanie nie mogło zostać ukończone. Spróbuj ponownie za kilka minut, a jeśli nadal będzie się to powtarzać, skontaktuj się z nami pod adresem %(email)s załączając zrzut ekranu."
 
 #: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
 msgid "dyn.buy_membership.error.unknown"
-msgstr "Wystąpił nieznany błąd. Prosimy o kontakt pod adresem AnnaArchivist@proton.me i załączenie zrzutu ekranu."
+msgstr "Wystąpił nieznany błąd. Prosimy o kontakt pod adresem %(email)s i załączenie zrzutu ekranu."
 
 #: allthethings/dyn/views.py:769
 msgid "dyn.buy_membership.error.minimum"
@@ -1651,7 +1651,7 @@ msgstr "<strong> 🚀 Szybkie pobieranie</strong> Pozostało Ci %(remaining)s w 
 
 #: allthethings/page/templates/page/aarecord.html:194
 msgid "page.md5.box.download.header_fast_member_no_remaining"
-msgstr "<strong>🚀 Szybkie pobieranie</strong> Wyczerpano wszystkie dostępne szybkie pobrania na dziś. Skontaktuj się z Anną pod AnnaArchivist@proton.me, jeżeli potrzebujesz zmienić próg swojego członkostwa."
+msgstr "<strong>🚀 Szybkie pobieranie</strong> Wyczerpano wszystkie dostępne szybkie pobrania na dziś. Skontaktuj się z Anną pod %(email)s, jeżeli potrzebujesz zmienić próg swojego członkostwa."
 
 #: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.download.header_fast_member_valid_for"
@@ -1932,7 +1932,7 @@ msgstr "Nie wysyłaj do nas e-maili z prośbą o przesłanie <a %(a_request)s>ks
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more"
-msgstr "Wykorzystano limit szybkich pobierań w dniu dzisiejszym. Skontaktuj się z Anną pod AnnaArchivist@proton.me, jeżeli potrzebujesz zmienić próg swojego członkostwa."
+msgstr "Wykorzystano limit szybkich pobierań w dniu dzisiejszym. Skontaktuj się z Anną pod %(email)s, jeżeli potrzebujesz zmienić próg swojego członkostwa."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
@@ -2256,7 +2256,7 @@ msgstr "Posiadamy największy na świecie otwarty katalog książek, prac naukow
 #: allthethings/page/templates/page/search.html:220
 #: allthethings/page/templates/page/search.html:235
 msgid "page.search.results.other_shadow_libs"
-msgstr "Jeśli znasz inne \"ukryte biblioteki\", które powinniśmy skopiować, lub jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem <a %(a_email)s>AnnaArchivist@proton.me</a>."
+msgstr "Jeśli znasz inne \"ukryte biblioteki\", które powinniśmy skopiować, lub jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem %(email)s."
 
 #: allthethings/page/templates/page/search.html:221
 #: allthethings/page/templates/page/search.html:236

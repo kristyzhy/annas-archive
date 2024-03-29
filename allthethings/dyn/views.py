@@ -758,20 +758,20 @@ def account_buy_membership():
                 })
                 donation_json['payment2_request'] = response.json()
             except httpx.HTTPError as err:
-                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.try_again') })
+                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.try_again', email="https://annas-archive.org/contact") })
             except Exception as err:
                 print(f"Warning: unknown error in payment2 http request: {repr(err)} /// {traceback.format_exc()}")
-                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })
+                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown', email="https://annas-archive.org/contact") })
 
 
             if 'code' in donation_json['payment2_request']:
                 if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
                     return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.minimum') })
                 elif donation_json['payment2_request']['code'] == 'INTERNAL_ERROR':
-                    return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.wait') })
+                    return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.wait', email="https://annas-archive.org/contact") })
                 else:
                     print(f"Warning: unknown error in payment2 with code missing: {donation_json['payment2_request']} /// {curlify2.to_curl(response.request)}")
-                    return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown') })
+                    return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown', email="https://annas-archive.org/contact") })
 
         
         # existing_unpaid_donations_counts = mariapersist_session.connection().execute(select(func.count(MariapersistDonations.donation_id)).where((MariapersistDonations.account_id == account_id) & ((MariapersistDonations.processing_status == 0) | (MariapersistDonations.processing_status == 4))).limit(1)).scalar()
