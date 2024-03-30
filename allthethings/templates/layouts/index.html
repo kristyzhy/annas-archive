@@ -420,6 +420,7 @@
                 <a class="custom-a block py-1 {% if header_active == 'home/datasets' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/torrents' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/mirrors' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/mirrors">{{ gettext('layout.index.header.nav.mirrors') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/llm' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://annas-blog.org" target="_blank">{{ gettext('layout.index.header.nav.annasblog') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.annassoftware') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://translate.annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.translate') }}</a>
@@ -503,6 +504,7 @@
 
           <div class="mr-4 mb-4 grow">
             <strong class="font-bold text-black">Advanced</strong><br>
+            <a class="custom-a hover:text-[#333]" href="/faq"><!--TODO:TRANSLATE-->FAQ</a><br>
             <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/mirrors">{{ gettext('layout.index.header.nav.mirrors') }}</a><br>
