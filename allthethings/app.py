@@ -221,7 +221,6 @@ def extensions(app):
                 break
 
         g.domain_lang_code = allthethings.utils.get_domain_lang_code(get_locale())
-        g.show_wechat_in_layout = g.domain_lang_code in ['zh', 'tw']
         g.full_lang_code = allthethings.utils.get_full_lang_code(get_locale())
 
         g.secure_domain = g.base_domain not in ['localtest.me:8000', 'localhost:8000']

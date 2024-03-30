@@ -32,7 +32,7 @@
       {% else %}
         <div class="my-4">{{ gettext('page.account.logged_in.telegram_group_wrapper', link=(('<em>' | safe) + gettext('page.account.logged_in.telegram_group_upgrade', a_tier=('href="/donate"' | safe)) + ('</em>' | safe))) }}
       {% endif %}
-      <!-- <div class="mb-4">{{ gettext('page.account.logged_in.membership_upgrade', email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}</div> -->
+      <!-- <div class="mb-4">{{ gettext('page.account.logged_in.membership_upgrade', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}</div> -->
       <div class="mb-4">{{ gettext('page.account.logged_in.membership_multiple') }}</div>
     {% endif %}
 

@@ -112,7 +112,7 @@
 
     <p class="mb-4 text-sm text-gray-500 text-center">
       {{ gettext('page.donate.header.large_donations_wealthy') }}
-      {{ gettext('page.donate.header.large_donations', email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
+      {{ gettext('page.donate.header.large_donations', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
     </p>
   </div>
 

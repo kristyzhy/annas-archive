@@ -304,9 +304,9 @@
           </div>
 
           <div class="mb-1.5">
-            <div class="max-md:hidden">{{ g.header_tagline | safe }} <a class="text-xs" href="/about">{{ gettext('layout.index.header.learn_more') }}</a></div>
-            <div class="max-sm:hidden md:hidden">{{ g.header_tagline_mid | safe }} <a class="text-xs" href="/about">{{ gettext('layout.index.header.learn_more') }}</a></div>
-            <div class="sm:hidden text-sm">{{ g.header_tagline_short | safe }} <a class="text-xs" href="/about">{{ gettext('layout.index.header.learn_more') }}</a></div>
+            <div class="max-md:hidden">{{ g.header_tagline | safe }} <a class="text-xs" href="/faq">{{ gettext('layout.index.header.learn_more') }}</a></div>
+            <div class="max-sm:hidden md:hidden">{{ g.header_tagline_mid | safe }} <a class="text-xs" href="/faq">{{ gettext('layout.index.header.learn_more') }}</a></div>
+            <div class="sm:hidden text-sm">{{ g.header_tagline_short | safe }} <a class="text-xs" href="/faq">{{ gettext('layout.index.header.learn_more') }}</a></div>
           </div>
 
           <div class="hidden sm:flex text-xs mb-1" aria-hidden="true">
@@ -394,27 +394,21 @@
               <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="header-link-first {{ 'header-link-active' if header_active.startswith('home') }}" style="margin-right: 24px;">
                 <span class="header-link-normal">
                   {% if header_active == 'home/search' %}{{ gettext('layout.index.header.nav.search') }}
-                  {% elif header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
+                  {% elif header_active == 'home/faq' %}<!--TODO:TRANSLATE-->FAQ
                   {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                   {% elif header_active == 'home/torrents' %}{{ gettext('layout.index.header.nav.torrents') }}
                   {% elif header_active == 'home/mirrors' %}{{ gettext('layout.index.header.nav.mirrors') }}
                   {% elif header_active == 'home/llm' %}{{ gettext('layout.index.header.nav.llm_data') }}
-                  {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
-                  {% elif header_active == 'home/security' %}{{ gettext('layout.index.header.nav.security') }}
-                  {% elif header_active == 'home/wechat' %}<!-- {{ gettext('layout.index.header.nav.wechat') }} -->
                   {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
                 <span class="header-link-bold">
                   {% if header_active == 'home/search' %}{{ gettext('layout.index.header.nav.search') }}
-                  {% elif header_active == 'home/about' %}{{ gettext('layout.index.header.nav.about') }}
+                  {% elif header_active == 'home/faq' %}<!--TODO:TRANSLATE-->FAQ
                   {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                   {% elif header_active == 'home/torrents' %}{{ gettext('layout.index.header.nav.torrents') }}
                   {% elif header_active == 'home/mirrors' %}{{ gettext('layout.index.header.nav.mirrors') }}
                   {% elif header_active == 'home/llm' %}{{ gettext('layout.index.header.nav.llm_data') }}
-                  {% elif header_active == 'home/mobile' %}{{ gettext('layout.index.header.nav.mobile') }}
-                  {% elif header_active == 'home/security' %}{{ gettext('layout.index.header.nav.security') }}
-                  {% elif header_active == 'home/wechat' %}<!-- {{ gettext('layout.index.header.nav.wechat') }} -->
                   {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
@@ -422,15 +416,10 @@
               <div class="absolute left-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
                 <a class="custom-a block py-1 {% if header_active == 'home/home'     %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/search'   %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/search">{{ gettext('layout.index.header.nav.search') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/about'    %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/about">{{ gettext('layout.index.header.nav.about') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/faq'      %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/faq"><!--TODO:TRANSLATE-->FAQ</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/datasets' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/torrents' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/mirrors' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/mirrors">{{ gettext('layout.index.header.nav.mirrors') }}</a>
-                <!-- <a class="custom-a block py-1 {% if header_active == 'home/llm' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a> -->
-                <a class="custom-a block py-1 {% if header_active == 'home/mobile' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/mobile">{{ gettext('layout.index.header.nav.mobile') }}</a>
-                {% if g.show_wechat_in_layout %}
-                  <!-- <a class="custom-a block py-1 {% if header_active == 'home/wechat' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a> -->
-                {% endif %}
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://annas-blog.org" target="_blank">{{ gettext('layout.index.header.nav.annasblog') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.annassoftware') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://translate.annas-software.org" target="_blank">{{ gettext('layout.index.header.nav.translate') }}</a>
@@ -444,31 +433,22 @@
               <!-- <div class="mr-1 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('layout.index.header.nav.beta') }}</div> -->
               <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-login')" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html.aa-logged-in_&]:hidden">
                 <span class="header-link-normal">
-                  {% if header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
-                  {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
-                  {% else %}{{ gettext('layout.index.header.nav.login_register') }}{% endif %}
+                  {{ gettext('layout.index.header.nav.login_register') }}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
                 <span class="header-link-bold">
-                  {% if header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
-                  {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
-                  {% else %}{{ gettext('layout.index.header.nav.login_register') }}{% endif %}
+                  {{ gettext('layout.index.header.nav.login_register') }}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
               </a>
               <div class="absolute right-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-login hidden">
                 <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/login">{{ gettext('layout.index.header.nav.login_register') }}</a>
-                <!-- <a class="custom-a block py-1 {% if header_active == 'account/refer' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/refer">{{ gettext('layout.index.header.nav.refer') }}</a> -->
-                <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a>
               </div>
               <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-account')" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html:not(.aa-logged-in)_&]:hidden" style="margin-right: 8px;">
                 <span class="header-link-normal">
                   {% if header_active == 'account/profile' %}{{ gettext('layout.index.header.nav.public_profile') }}
                   {% elif header_active == 'account/downloaded' %}{{ gettext('layout.index.header.nav.downloaded_files') }}
                   {% elif header_active == 'account/donations' %}{{ gettext('layout.index.header.nav.my_donations') }}
-                  {% elif header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
-                  {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
                   {% else %}Account{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
@@ -476,8 +456,6 @@
                   {% if header_active == 'account/profile' %}{{ gettext('layout.index.header.nav.public_profile') }}
                   {% elif header_active == 'account/downloaded' %}{{ gettext('layout.index.header.nav.downloaded_files') }}
                   {% elif header_active == 'account/donations' %}{{ gettext('layout.index.header.nav.my_donations') }}
-                  {% elif header_active == 'account/request' %}{{ gettext('layout.index.header.nav.request') }}
-                  {% elif header_active == 'account/upload' %}{{ gettext('layout.index.header.nav.upload') }}
                   {% else %}Account{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
@@ -487,9 +465,6 @@
                 <a class="custom-a block py-1 {% if header_active == 'account/profile' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/profile">{{ gettext('layout.index.header.nav.public_profile') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/downloaded' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/downloaded">{{ gettext('layout.index.header.nav.downloaded_files') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/donations' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/donations">{{ gettext('layout.index.header.nav.my_donations') }}</a>
-                <!-- <a class="custom-a block py-1 {% if header_active == 'account/refer' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/refer">{{ gettext('layout.index.header.nav.refer') }}</a> -->
-                <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a>
               </div>
             </div>
           </div>
@@ -502,12 +477,8 @@
             <strong class="font-bold text-black">{{ gettext('layout.index.footer.list1.header') }}</strong><br>
             <a class="custom-a hover:text-[#333]" href="/">{{ gettext('layout.index.header.nav.home') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/search">{{ gettext('layout.index.header.nav.search') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/about">{{ gettext('layout.index.header.nav.about') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/faq"><!--TODO:TRANSLATE-->FAQ</a><br>
             <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a><br>
-            <!-- <a class="custom-a hover:text-[#333]" href="/refer">{{ gettext('layout.index.header.nav.refer') }}</a><br> -->
-            <a class="custom-a hover:text-[#333]" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/mobile">{{ gettext('layout.index.header.nav.mobile') }}</a><br>
             <select class="p-1 rounded text-gray-500 mt-1 max-w-[110px]" onchange="handleChangeLang(event)">
               {% for lang_code, lang_name in g.languages %}
                 {% if g.domain_lang_code == lang_code %}
@@ -524,12 +495,10 @@
             <strong class="font-bold text-black">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
             <a class="custom-a hover:text-[#333]" href="/contact">{{ gettext('page.contact.title') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/copyright">{{ gettext('layout.index.footer.list2.dmca_copyright') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://t.me/annasarchiveorg">{{ gettext('layout.index.footer.list2.telegram') }}</a><!-- {% if not g.show_wechat_in_layout %} / <a class="custom-a hover:text-[#333]" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a>{% endif %}--><br>
+            <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://t.me/annasarchiveorg">{{ gettext('layout.index.footer.list2.telegram') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="https://annas-blog.org">{{ gettext('layout.index.header.nav.annasblog') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.header.nav.annassoftware') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="https://translate.annas-software.org">{{ gettext('layout.index.header.nav.translate') }}</a><br>
-            <!-- <div class="text-xs text-gray-500 mb-1 max-w-[200px]">{{ gettext('layout.index.footer.dont_email', a_request=('href="/account/request"' | safe), a_upload=('href="/account/upload"' | safe)) }} {{ gettext('page.donate.small_team') }}</div> -->
-            <!-- <a class="custom-a hover:text-[#333]" href="mailto:AnnaDMCA@proton.me">AnnaDMCA@proton.me</a><br> -->
           </div>
 
           <div class="mr-4 mb-4 grow">
@@ -538,7 +507,7 @@
             <a class="custom-a hover:text-[#333]" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/mirrors">{{ gettext('layout.index.header.nav.mirrors') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/security">{{ gettext('layout.index.header.nav.security') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/faq#security">{{ gettext('layout.index.header.nav.security') }}</a><br>
           </div>
 
           <div class="grow">
@@ -546,10 +515,6 @@
             <a class="custom-a hover:text-[#333] js-annas-archive-org" href="https://annas-archive.org">annas-archive.org</a></a><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-gs" href="https://annas-archive.gs">annas-archive.gs</a><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-se" href="https://annas-archive.se">annas-archive.se</a><br>
-            {% if g.show_wechat_in_layout %}
-              <!-- <a class="custom-a hover:text-[#333]" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a><br>
-              <div class="bg-white p-2 max-w-[130px]"><img class="w-full" src="/images/wechat.jpg"></div> -->
-            {% endif %}
           </div>
         </div>
       </footer>

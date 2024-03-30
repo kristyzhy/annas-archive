@@ -317,17 +317,16 @@ def login_page():
 @page.get("/about")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def about_page():
+    return redirect(f"/faq", code=301)
+
+@page.get("/faq")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def faq_page():
     popular_ids = [
         "md5:8336332bf5877e3adbfb60ac70720cd5", # Against intellectual monopoly
-        "md5:f0a0beca050610397b9a1c2604c1a472", # Harry Potter
         "md5:61a1797d76fc9a511fb4326f265c957b", # Cryptonomicon
-        "md5:4b3cd128c0cc11c1223911336f948523", # Subtle art of not giving a f*ck
-        "md5:6d6a96f761636b11f7e397b451c62506", # Game of thrones
         "md5:0d9b713d0dcda4c9832fcb056f3e4102", # Aaron Swartz
-        "md5:45126b536bbdd32c0484bd3899e10d39", # Three-body problem
         "md5:6963187473f4f037a28e2fe1153ca793", # How music got free
-        "md5:6db7e0c1efc227bc4a11fac3caff619b", # It ends with us
-        "md5:7849ad74f44619db11c17b85f1a7f5c8", # Lord of the rings
         "md5:6ed2d768ec1668c73e4fa742e3df78d6", # Physics
     ]
     with Session(engine) as session:
@@ -335,25 +334,20 @@ def about_page():
         aarecords.sort(key=lambda aarecord: popular_ids.index(aarecord['id']))
 
         return render_template(
-            "page/about.html",
-            header_active="home/about",
+            "page/faq.html",
+            header_active="home/faq",
             aarecords=aarecords,
         )
 
 @page.get("/security")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def security_page():
-    return render_template("page/security.html", header_active="home/security")
+    return redirect(f"/faq#security", code=301)
 
 @page.get("/mobile")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def mobile_page():
-    return render_template("page/mobile.html", header_active="home/mobile")
-
-# @page.get("/wechat")
-# @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
-# def wechat_page():
-#     return render_template("page/wechat.html", header_active="home/wechat")
+    return redirect(f"/faq#mobile", code=301)
 
 @page.get("/llm")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
@@ -4204,7 +4198,7 @@ def get_additional_for_aarecord(aarecord):
             additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only') + f' <span class="text-sm text-gray-500">{files_html}</em></span>'))
         if len(additional['torrent_paths']) == 0:
             if additional['has_aa_downloads'] == 0:
-                additional['download_urls'].append(("", "", 'Bulk torrents not yet available for this file. If you have this file, help out by <a href="/account/upload">uploading</a>.'))
+                additional['download_urls'].append(("", "", 'Bulk torrents not yet available for this file. If you have this file, help out by <a href="/faq#upload">uploading</a>.'))
             else:
                 additional['download_urls'].append(("", "", 'Bulk torrents not yet available for this file.'))
     if aarecord_id_split[0] == 'isbn':

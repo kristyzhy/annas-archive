@@ -232,13 +232,13 @@
           <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
             {% if search_dict.search_index_short == '' %}
               <p class="mb-4">
-                {{ gettext('page.search.results.search_downloads', count=g.header_stats.total_without_journals, a_preserve=(' href="/about" ' | safe)) }}
+                {{ gettext('page.search.results.search_downloads', count=g.header_stats.total_without_journals, a_preserve=(' href="/faq#what" ' | safe)) }}
               </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
               <p class="mb-4">
-                {{ gettext('page.search.results.other_shadow_libs', email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
+                {{ gettext('page.search.results.other_shadow_libs', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
                 {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
               </p>
 
@@ -247,13 +247,13 @@
               </p>
             {% elif search_dict.search_index_short == 'journals' %}
               <p class="mb-4">
-                {{ gettext('page.search.results.search_journals', count=g.header_stats.journal_article, a_preserve=(' href="/about" ' | safe)) }}
+                {{ gettext('page.search.results.search_journals', count=g.header_stats.journal_article, a_preserve=(' href="/faq#what" ' | safe)) }}
               </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
               <p class="mb-4">
-                {{ gettext('page.search.results.other_shadow_libs', email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
+                {{ gettext('page.search.results.other_shadow_libs', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
                 {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
               </p>
 
@@ -276,7 +276,7 @@
               </p>
             {% elif search_dict.search_index_short == 'meta' %}
               <p class="mb-4">
-                {{ gettext('page.search.results.search_metadata', a_request=(' href="/account/request" ' | safe)) }}
+                {{ gettext('page.search.results.search_metadata', a_request=(' href="/faq#request" ' | safe)) }}
               </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }}
@@ -306,7 +306,7 @@
         {% if search_dict.had_fatal_es_timeout %}
           <p class="mt-4 font-bold">{{ gettext('page.search.results.error.header') }}</p>
 
-          <p class="mt-4">{{ gettext('page.search.results.error.unknown', a_reload=(' href="javascript:location.reload()" ' | safe), email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}</p>
+          <p class="mt-4">{{ gettext('page.search.results.error.unknown', a_reload=(' href="javascript:location.reload()" ' | safe), email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}</p>
         {% else %}
           {% if search_dict.had_es_timeout and (not search_dict.max_search_aarecords_reached) %}
             <div class="mt-4 text-sm text-gray-500 sm:hidden">
@@ -319,7 +319,7 @@
 
             {% if search_dict.search_index_short == '' %}
               <div class="mt-4 js-not-found-additional hidden">
-                {{ gettext('page.search.found_matches.main', a_request=('href="/account/request"' | safe), in=((('<a class="hidden js-not-found-journals" href="/search?index=journals" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'journals\'; document.querySelector(\'.js-search-form\').submit()">' | safe) + gettext('page.search.found_matches.journals', count=('<span class="js-not-found-journals-count">1</span>' | safe)) + ('</a><a class="hidden js-not-found-digital_lending" href="/search?index=digital_lending" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'digital_lending\'; document.querySelector(\'.js-search-form\').submit()">' | safe) + gettext('page.search.found_matches.digital_lending', count=('<span class="js-not-found-digital_lending-count">1</span>' | safe)) + ('</a><a class="hidden js-not-found-meta" href="/search?index=meta" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'meta\'; document.querySelector(\'.js-search-form\').submit()">') | safe + gettext('page.search.found_matches.metadata', count=('<span class="js-not-found-meta-count">1</span>' | safe)) + ('</a>' | safe)) | safe)) }}
+                {{ gettext('page.search.found_matches.main', a_request=('href="/faq#request"' | safe), in=((('<a class="hidden js-not-found-journals" href="/search?index=journals" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'journals\'; document.querySelector(\'.js-search-form\').submit()">' | safe) + gettext('page.search.found_matches.journals', count=('<span class="js-not-found-journals-count">1</span>' | safe)) + ('</a><a class="hidden js-not-found-digital_lending" href="/search?index=digital_lending" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'digital_lending\'; document.querySelector(\'.js-search-form\').submit()">' | safe) + gettext('page.search.found_matches.digital_lending', count=('<span class="js-not-found-digital_lending-count">1</span>' | safe)) + ('</a><a class="hidden js-not-found-meta" href="/search?index=meta" onclick="event.preventDefault(); document.querySelector(\'.js-search-form-index\').value = \'meta\'; document.querySelector(\'.js-search-form\').submit()">') | safe + gettext('page.search.found_matches.metadata', count=('<span class="js-not-found-meta-count">1</span>' | safe)) + ('</a>' | safe)) | safe)) }}
               </div>
             {% endif %}
           {% endif %}

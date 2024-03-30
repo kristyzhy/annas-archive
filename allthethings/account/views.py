@@ -169,13 +169,13 @@ def account_register_page():
 @account.get("/account/request")
 @allthethings.utils.no_cache()
 def request_page():
-    return render_template("account/request.html", header_active="account/request")
+    return redirect(f"/faq#request", code=301)
 
 
 @account.get("/account/upload")
 @allthethings.utils.no_cache()
 def upload_page():
-    return render_template("account/upload.html", header_active="account/upload")
+    return redirect(f"/faq#upload", code=301)
 
 # @account.get("/refer")
 # @allthethings.utils.no_cache()
@@ -304,7 +304,7 @@ def donate_page():
 @account.get("/donation_faq")
 @allthethings.utils.no_cache()
 def donation_faq_page():
-    return render_template("account/donation_faq.html", header_active="donate")
+    return redirect(f"/faq#donate", code=301)
 
 @functools.cache
 def get_order_processing_status_labels(locale):
