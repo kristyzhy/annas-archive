@@ -1,0 +1,35 @@
+{% macro pagination(pagination_pages_with_dots, pagination_base_url, page_value, large) -%}
+  <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm {% if large %}text-sm{% else %}text-xs{% endif %}" aria-label="Pagination">
+    {% if page_value > 1 %}
+      <a href="{{ pagination_base_url }}{{ page_value-1 }}" class="custom-a relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+        <span class="sr-only"><!--TODO:TRANSLATE-->Previous</span>
+        <span class="icon-[mingcute--left-line]" aria-hidden="true"></span>
+      </a>
+    {% else %}
+      <span class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300">
+        <span class="sr-only"><!--TODO:TRANSLATE-->Previous</span>
+        <span class="icon-[mingcute--left-line]" aria-hidden="true"></span>
+      </span>
+    {% endif %}
+    {% for page in pagination_pages_with_dots %}
+      {% if page == page_value %}
+        <a href="{{ pagination_base_url }}{{ page }}" aria-current="page" class="custom-a relative z-10 inline-flex items-center bg-[#0195ff] {% if large %}px-4{% else %}px-2{% endif %} py-2 font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0195ff]">{{ page }}</a>
+      {% elif page == '…' %}
+        <span class="relative inline-flex items-center {% if large %}px-4{% else %}px-2{% endif %} py-2 font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0"><!--TODO:TRANSLATE-->…</span>
+      {% else %}
+        <a href="{{ pagination_base_url }}{{ page }}" class="custom-a relative inline-flex items-center {% if large %}px-4{% else %}px-2{% endif %} py-2 font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">{{ page }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if page_value < (pagination_pages_with_dots[-1] | int) %}
+      <a href="{{ pagination_base_url }}{{ page_value+1 }}" class="custom-a relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+        <span class="sr-only"><!--TODO:TRANSLATE-->Next</span>
+        <span class="icon-[mingcute--right-line]" aria-hidden="true" />
+      </a>
+    {% else %}
+      <span class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300">
+        <span class="sr-only"><!--TODO:TRANSLATE-->Next</span>
+        <span class="icon-[mingcute--right-line]" aria-hidden="true" />
+      </span>
+    {% endif %}
+  </nav>
+{%- endmacro %}

@@ -4618,6 +4618,12 @@ def search_page():
         'search_access_types': [val.strip()[0:50] for val in request.args.getlist("acc")],
         'search_record_sources': [val.strip()[0:20] for val in request.args.getlist("src")],
     }
+    page_value_str = request.args.get("page", "").strip()
+    page_value = 1
+    try:
+        page_value = int(page_value_str)
+    except:
+        pass
     sort_value = request.args.get("sort", "").strip()
     search_index_short = request.args.get("index", "").strip()
     if search_index_short not in allthethings.utils.SEARCH_INDEX_SHORT_LONG_MAPPING:
@@ -4708,8 +4714,7 @@ def search_page():
         },
     }
 
-    max_display_results = 150
-    additional_display_results = 50
+    max_display_results = 100
 
     es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
 
@@ -4725,11 +4730,12 @@ def search_page():
                     { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
                     {
                         "size": max_display_results, 
+                        "from": (page_value-1)*max_display_results,
                         "query": search_query,
                         "aggs": search_query_aggs(search_index_long),
                         "post_filter": { "bool": { "filter": post_filter } },
                         "sort": custom_search_sorting+['_score'],
-                        "track_total_hits": False,
+                        # "track_total_hits": False, # Set to default
                         "timeout": ES_TIMEOUT_PRIMARY,
                         # "knn": { "field": "search_only_fields.search_e5_small_query", "query_vector": list(map(float, get_e5_small_model().encode(f"query: {search_input}", normalize_embeddings=True))), "k": 10, "num_candidates": 1000 },
                     },
@@ -4817,11 +4823,14 @@ def search_page():
     aggregations['search_most_likely_language_code'] = sorted(aggregations['search_most_likely_language_code'], key=lambda bucket: bucket['doc_count'] + (1000000000 if bucket['key'] == display_lang else 0), reverse=True)
 
     search_aarecords = []
+    primary_hits_total_obj = { 'value': 0, 'relation': 'eq' }
     if 'hits' in primary_response_raw:
         search_aarecords = [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in primary_response_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+        primary_hits_total_obj = primary_response_raw['hits']['total']
 
     additional_search_aarecords = []
-    if len(search_aarecords) < max_display_results:
+    additional_display_results = max(0, max_display_results-len(search_aarecords))
+    if (page_value == 1) and (additional_display_results > 0):
         search_names2 = ['search2', 'search3', 'search4']
         search_results_raw2 = {'responses': [{} for search_name in search_names2]}
         for attempt in [1, 2]:
@@ -4891,8 +4900,13 @@ def search_page():
                 if 'hits' in search_result4_raw:
                     additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result4_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
+
+    print(f"{len(additional_search_aarecords)=} {additional_display_results=}")
+
     es_stats.append({ 'name': 'search_page_timer', 'took': (time.perf_counter() - search_page_timer) * 1000, 'timed_out': False })
-    
+
+    primary_hits_pages = 1 + (max(0, primary_hits_total_obj['value'] - 1) // max_display_results)
+
     search_dict = {}
     search_dict['search_aarecords'] = search_aarecords[0:max_display_results]
     search_dict['additional_search_aarecords'] = additional_search_aarecords[0:additional_display_results]
@@ -4905,6 +4919,12 @@ def search_page():
     search_dict['had_primary_es_timeout'] = had_primary_es_timeout
     search_dict['had_es_timeout'] = had_es_timeout
     search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
+    search_dict['page_value'] = page_value
+    search_dict['primary_hits_pages'] = primary_hits_pages
+    search_dict['pagination_pages_with_dots_large'] = allthethings.utils.build_pagination_pages_with_dots(primary_hits_pages, page_value, True)
+    search_dict['pagination_pages_with_dots_small'] = allthethings.utils.build_pagination_pages_with_dots(primary_hits_pages, page_value, False)
+    search_dict['pagination_base_url'] = request.path + '?' + urllib.parse.urlencode([(k,v) for k,v in request.args.items() if k != 'page'] + [('page', '')])
+    search_dict['primary_hits_total_obj'] = primary_hits_total_obj
 
     r = make_response((render_template(
             "page/search.html",

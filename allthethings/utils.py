@@ -1550,7 +1550,16 @@ def get_torrents_json_aa_currently_seeding_by_torrent_path():
         cursor.execute('SELECT json FROM torrents_json LIMIT 1')
         return { row['url'].split('dyn/small_file/torrents/', 1)[1]: row['aa_currently_seeding'] for row in orjson.loads(cursor.fetchone()['json']) }
 
-
+def build_pagination_pages_with_dots(primary_hits_pages, page_value, large):
+    pagination_pages_with_dots = []
+    for page in sorted(set(list(range(1,min(primary_hits_pages+1, (4 if large else 3)))) + list(range(max(1,page_value-1),min(page_value+2,primary_hits_pages+1))) + list(range(max(1,primary_hits_pages-(2 if large else 0)),primary_hits_pages+1)))):
+        if (len(pagination_pages_with_dots) > 0) and (pagination_pages_with_dots[-1] != (page-1)):
+            pagination_pages_with_dots.append('…')
+        pagination_pages_with_dots.append(page)
+    if len(pagination_pages_with_dots) == 0:
+        return [1]
+    else:
+        return pagination_pages_with_dots
 
 
 

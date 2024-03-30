@@ -11,6 +11,7 @@
 {% block body %}
   <form action="/search" method="get" role="search" class="js-search-form">
     <input type="hidden" name="index" value="{{ search_dict.search_index_short }}" class="js-search-form-index">
+    <input type="hidden" name="page" value="1">
 
     <div class="flex flex-wrap mb-1 text-black/64" role="tablist" aria-label="file tabs">
       <a href="/search" class="custom-a mr-4 mb-2 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold" aria-selected="{{ 'true' if search_dict.search_index_short == '' else 'false' }}" tabindex="0" onclick="event.preventDefault(); document.querySelector('.js-search-form-index').value = ''; document.querySelector('.js-search-form').submit()">{{ gettext('page.search.tabs.download') }} <span class="js-search-tab-count-aarecords"></span></a>
@@ -197,16 +198,37 @@
             {% endif %}
           {% endif %}
 
+          {% if (search_dict.search_aarecords | length) > 0 %}
+            <div class="mt-4 uppercase text-xs text-gray-500">
+              <!-- TODO:TRANSLATE -->
+              Page {{ search_dict.page_value }} of {{ search_dict.primary_hits_pages }} ({{ search_dict.primary_hits_total_obj.value }}{% if search_dict.primary_hits_total_obj.relation == 'gte' %}+{% endif %} results)
+            </div>
+          {% endif %}
+
           <div class="mb-4">
             {% from 'macros/aarecord_list.html' import aarecord_list %}
             {{ aarecord_list(search_dict.search_aarecords) }}
 
-            {% if search_dict.additional_search_aarecords | length > 0 %}
-              <div class="italic mt-8">{% if search_dict.max_additional_search_aarecords_reached %}{{ gettext('page.search.results.partial_more', num=(search_dict.additional_search_aarecords | length)) }}{% else %}{{ gettext('page.search.results.partial', num=(search_dict.additional_search_aarecords | length)) }}{% endif %}</div>
+            {% if (search_dict.additional_search_aarecords | length) > 0 %}
+              <div class="mt-8">
+                <div class="bg-gray-100 mx-[-10px] px-[10px] overflow-hidden">
+                  <div class="italic mt-2">{% if search_dict.max_additional_search_aarecords_reached %}{{ gettext('page.search.results.partial_more', num=(search_dict.additional_search_aarecords | length)) }}{% else %}{{ gettext('page.search.results.partial', num=(search_dict.additional_search_aarecords | length)) }}{% endif %}</div>
 
-              {{ aarecord_list(search_dict.additional_search_aarecords, max_show_immediately=0) }}
+                  {{ aarecord_list(search_dict.additional_search_aarecords, max_show_immediately=0) }}
+                </div>
+              </div>
             {% endif %}
           </div>
+
+          {% if (search_dict.search_aarecords | length) > 0 %}
+            {% from 'macros/pagination.html' import pagination %}
+            <div class="mt-2 text-center hidden md:block">
+              {{ pagination(search_dict.pagination_pages_with_dots_large, search_dict.pagination_base_url, search_dict.page_value, True) }}
+            </div>
+            <div class="mt-2 text-center md:hidden">
+              {{ pagination(search_dict.pagination_pages_with_dots_small, search_dict.pagination_base_url, search_dict.page_value, False) }}
+            </div>
+          {% endif %}
         {% else %}
           <div class="sm:mt-6 h-[50vh] sm:px-5 md:px-[60px]">
             {% if search_dict.search_index_short == '' %}
