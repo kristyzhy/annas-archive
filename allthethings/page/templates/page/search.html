@@ -63,11 +63,20 @@
 
     <div class="flex mb-2 items-center">
       <a href="#" class="custom-a sm:hidden text-lg mr-2 opacity-50 hover:opacity-100" alt="Filter settings" title="Filter settings" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="icon-[mingcute--settings-6-line]"></span></a>
+      <!-- TODO:TRANSLATE title text -->
       <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %} title="Focus: '/' Scroll search results: 'j', 'k'">
       <button class="sm:hidden px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('common.search.submit') }}</button>
     </div>
 
     <div class="text-xs flex flex-wrap mb-4 sm:hidden">
+      {% if search_dict.search_desc %}
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab py-0.5 bg-[#ccc] px-1" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><!--TODO:TRANSLATE-->Search descriptions and metadata comments</span></a>
+      {% endif %}
+
+      {% for term_type, term_val in search_dict.specific_search_fields %}
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-0.5 bg-[#ccc] mr-1 px-1">{{ term_type }}</span><span class="py-0.5">{{ term_val }}</span></a>
+      {% endfor %}
+
       {% if (search_dict.aggregations.search_content_type | selectattr("selected") | list | length) > 0 %}
         <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-0.5 bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.content.header') }}</span><span class="py-0.5">{% for bucket in search_dict.aggregations.search_content_type | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
       {% endif %}
@@ -87,10 +96,6 @@
       {% endif %}
       {% if (search_dict.aggregations.search_most_likely_language_code | selectattr("selected") | list | length) > 0 %}
         <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-0.5 bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.language.header') }}</span><span class="py-0.5">{% for bucket in search_dict.aggregations.search_most_likely_language_code | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
-      {% endif %}
-
-      {% if search_dict.search_desc %}
-        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab py-0.5 bg-[#ccc] px-1" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><!--TODO:TRANSLATE-->Search descriptions and metadata comments</span></a>
       {% endif %}
     </div>
 
@@ -115,6 +120,58 @@
               {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
             </div>
           {% endif %}
+
+          <div class="font-bold mb-1"><!--TODO:TRANSLATE-->Advanced</div>
+          <div class="mb-4">
+            <label class="flex cursor-pointer items-start mb-2"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="desc" value="1" {% if search_dict.search_desc %}checked{% endif %}><span class="mr-1 flex-grow"><!--TODO:TRANSLATE-->Search descriptions and metadata comments</span></label>
+
+            <div class="js-specific-terms-list"></div>
+
+            <button class="text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white mr-1 js-specific-terms-add"><!--TODO:TRANSLATE-->Add specific search field</button>
+
+            <script>
+              (function() {
+                let specificTermsNumber = 1;
+                const queryParams = Object.fromEntries(new URLSearchParams(location.search));
+
+                function makeSpecificTermsTemplate(number) {
+                  const termType = queryParams['termtype_' + number] || '';
+                  const termVal = queryParams['termval_' + number] || '';
+
+                  const newDiv = document.createElement('div');
+                  // TODO:TRANSLATE
+                  newDiv.innerHTML = '<div class="mb-2 flex items-center"><div>' + number + '.&nbsp;</div><div><select class="bg-black/6.7 px-2 py-1 rounded mb-1 w-full" name="termtype_' + number + '"><option value="">(search specific field)</option><option value="title"' + (termType == 'title' ? ' selected' : '') +'>title</option><option value="author"' + (termType == 'author' ? ' selected' : '') +'>author</option><option value="publisher"' + (termType == 'publisher' ? ' selected' : '') +'>publisher</option><option value="edition_varia"' + (termType == 'edition_varia' ? ' selected' : '') +'>edition_varia</option><option value="original_filename"' + (termType == 'original_filename' ? ' selected' : '') +'>original_filename</option><option value="description_comments"' + (termType == 'description_comments' ? ' selected' : '') +'>description_comments</option></select><input type="field" name="termval_' + number + '" placeholder="Search terms for field" class="w-full bg-black/6.7 px-2 py-1 mr-2 rounded"></div></div>';
+                  newDiv.querySelector('input').value = termVal;
+                  return newDiv;
+                }
+
+                function createNewSpecificTermsItem() {
+                  if (specificTermsNumber >= 10) {
+                    return;
+                  }
+                  document.querySelector('.js-specific-terms-list').appendChild(makeSpecificTermsTemplate(specificTermsNumber));
+                  specificTermsNumber++;
+                }
+
+                let highestNumber = 0;
+                for (let number=9; number>=1; number--) {
+                  if (queryParams['termtype_' + number] || queryParams['termval_' + number]) {
+                    highestNumber = number;
+                    break;
+                  }
+                }
+                while (specificTermsNumber <= highestNumber) {
+                  createNewSpecificTermsItem();
+                }
+
+                document.querySelector('.js-specific-terms-add').addEventListener('click', function(event) {
+                  event.preventDefault();
+                  createNewSpecificTermsItem();
+                  return false;
+                });
+              })();
+            </script>
+          </div>
 
           <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
           <div class="mb-4">
@@ -163,11 +220,6 @@
               {% endif %}
             </div>
           {% endif %}
-
-          <div class="font-bold mb-1"><!--TODO:TRANSLATE-->Advanced</div>
-          <div class="mb-4">
-            <label class="flex cursor-pointer items-start"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="desc" value="1" {% if search_dict.search_desc %}checked{% endif %}><span class="mr-1 flex-grow"><!--TODO:TRANSLATE-->Search descriptions and metadata comments</span></label>
-          </div>
           
           <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 mb-2" type="submit">{{ gettext('page.search.submit') }}</button>
 
@@ -178,7 +230,7 @@
       </div>
 
       <div class="min-w-[0] w-full">
-        {% if (search_input | length) == 0 %}
+        {% if ((search_input | length) == 0) and ((search_dict.specific_search_fields | length) == 0) %}
           <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
             {% if search_dict.search_index_short == '' %}
               <p class="mb-4">

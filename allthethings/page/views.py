@@ -4672,11 +4672,20 @@ def search_page():
     if sort_value == "oldest_added":
         custom_search_sorting = [{ "search_only_fields.search_added_date": "asc" }, '_score']
 
-    search_fields = ['search_only_fields.search_text']
-    if search_desc:
-        search_fields.append('search_only_fields.search_description_comments')
+    main_search_fields = []
+    if len(search_input) > 0:
+        main_search_fields.append(('search_only_fields.search_text', search_input))
+        if search_desc:
+            main_search_fields.append(('search_only_fields.search_description_comments', search_input))
 
-    if search_input == '':
+    specific_search_fields = []
+    for number in range(1,10):
+        term_type = request.args.get(f"termtype_{number}") or ""
+        term_val = request.args.get(f"termval_{number}") or ""
+        if (len(term_val) > 0) and (term_type in ['title', 'author', 'publisher', 'edition_varia', 'original_filename', 'description_comments']):
+            specific_search_fields.append((term_type, term_val))
+
+    if (len(main_search_fields) == 0) and (len(specific_search_fields) == 0):
         search_query = { "match_all": {} }
         if custom_search_sorting == ['_score']:
             custom_search_sorting = [{ "search_only_fields.search_added_date": "desc" }, '_score']
@@ -4699,7 +4708,14 @@ def search_page():
                             "must": [
                                 { 
                                     "bool": {
-                                        "should": [{ "match_phrase": { field_name: { "query": search_input } } } for field_name in search_fields]
+                                        "must": [
+                                            {
+                                                "bool": {
+                                                    "should": [{ "match_phrase": { field_name: { "query": field_value } } } for field_name, field_value in main_search_fields ],
+                                                },
+                                            },
+                                            *[{ "match_phrase": { f'search_only_fields.search_{field_name}': { "query": field_value } } } for field_name, field_value in specific_search_fields ],
+                                        ],
                                     },
                                 },
                             ],
@@ -4720,10 +4736,15 @@ def search_page():
                             ],
                             "must": [
                                 {
-                                    "simple_query_string": {
-                                        "query": search_input,
-                                        "fields": search_fields,
-                                        "default_operator": "and",
+                                    "bool": {
+                                        "must": [
+                                            {
+                                                "bool": {
+                                                    "should": [{ "simple_query_string": { "query": field_value, "fields": [field_name], "default_operator": "and" } } for field_name, field_value in main_search_fields ],
+                                                },
+                                            },
+                                            *[{ "simple_query_string": { "query": field_value, "fields": [f'search_only_fields.search_{field_name}'], "default_operator": "and" } } for field_name, field_value in specific_search_fields ],
+                                        ],
                                         "boost": 1.0/100000.0,
                                     },
                                 },
@@ -4850,7 +4871,7 @@ def search_page():
 
     additional_search_aarecords = []
     additional_display_results = max(0, max_display_results-len(search_aarecords))
-    if (page_value == 1) and (additional_display_results > 0):
+    if (page_value == 1) and (additional_display_results > 0) and (len(specific_search_fields) == 0):
         search_names2 = ['search2', 'search3', 'search4']
         search_results_raw2 = {'responses': [{} for search_name in search_names2]}
         for attempt in [1, 2]:
@@ -4873,7 +4894,7 @@ def search_page():
                         { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
                         {
                             "size": additional_display_results,
-                            "query": {"bool": { "must": { "multi_match": { "query": search_input, "fields": search_fields }  }, "filter": post_filter } },
+                            "query": {"bool": { "must": { "multi_match": { "query": search_input, "fields": "search_only_fields.search_text" }  }, "filter": post_filter } },
                             # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                             "sort": ['_score'],
                             "track_total_hits": False,
@@ -4883,7 +4904,7 @@ def search_page():
                         { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
                         {
                             "size": additional_display_results,
-                            "query": {"bool": { "must": { "multi_match": { "query": search_input, "fields": search_fields }  } } },
+                            "query": {"bool": { "must": { "multi_match": { "query": search_input, "fields": "search_only_fields.search_text" }  } } },
                             # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                             "sort": ['_score'],
                             "track_total_hits": False,
@@ -4944,6 +4965,7 @@ def search_page():
     search_dict['primary_hits_total_obj'] = primary_hits_total_obj
     search_dict['max_display_results'] = max_display_results
     search_dict['search_desc'] = search_desc
+    search_dict['specific_search_fields'] = specific_search_fields
 
     r = make_response((render_template(
             "page/search.html",
