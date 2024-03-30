@@ -4620,7 +4620,7 @@ def all_search_aggs(display_lang, search_index_long):
 
     return (all_aggregations, es_stat)
 
-
+number_of_search_primary_exceptions = 0
 @page.get("/search")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def search_page():
@@ -4789,6 +4789,7 @@ def search_page():
                     },
                 ]
             ))
+            number_of_search_primary_exceptions = 0
             break
         except Exception as err:
             if attempt < 2:
@@ -4797,7 +4798,10 @@ def search_page():
                 had_es_timeout = True
                 had_primary_es_timeout = True
                 had_fatal_es_timeout = True
-                print(f"Exception during primary ES search {attempt=} {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
+
+                number_of_search_primary_exceptions += 1
+                if number_of_search_primary_exceptions > 5:
+                    print(f"Exception during primary ES search {attempt=} {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
                 break
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
@@ -4925,7 +4929,7 @@ def search_page():
                     print(f"Warning: another attempt during secondary ES search {search_input=}")
                 else:
                     had_es_timeout = True
-                    print(f"Exception during secondary ES search {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
+                    print(f"Warning: issue during secondary ES search {search_input=}")
         for num, response in enumerate(search_results_raw2['responses']):
             es_stats.append({ 'name': search_names2[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
             if response.get('timed_out'):

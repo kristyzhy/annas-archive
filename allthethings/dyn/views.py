@@ -48,18 +48,25 @@ def index():
     aa_logged_in = 0 if account_id is None else 1
     return orjson.dumps({ "aa_logged_in": aa_logged_in })
 
-
+number_of_db_exceptions = 0
 @dyn.get("/up/databases/")
 @allthethings.utils.no_cache()
 def databases():
-    with engine.connect() as conn:
-        conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))
-    with mariapersist_engine.connect() as mariapersist_conn:
-        mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))
-    if not es.ping():
-        raise Exception("es.ping failed!")
-    # if not es_aux.ping():
-    #     raise Exception("es_aux.ping failed!")
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))
+        with mariapersist_engine.connect() as mariapersist_conn:
+            mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))
+        if not es.ping():
+            raise Exception("es.ping failed!")
+        if not es_aux.ping():
+            raise Exception("es_aux.ping failed!")
+    except:
+        number_of_db_exceptions += 1
+        if number_of_db_exceptions > 10:
+            raise
+        return "", 500
+    number_of_db_exceptions = 0
     return ""
 
 def make_torrent_url(file_path):
