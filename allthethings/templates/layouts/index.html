@@ -458,7 +458,7 @@
               </a>
               <div class="absolute right-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-login hidden">
                 <a class="custom-a block py-1 {% if header_active == 'account' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/login">{{ gettext('layout.index.header.nav.login_register') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'account/refer' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/refer">{{ gettext('layout.index.header.nav.refer') }}</a>
+                <!-- <a class="custom-a block py-1 {% if header_active == 'account/refer' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/refer">{{ gettext('layout.index.header.nav.refer') }}</a> -->
                 <a class="custom-a block py-1 {% if header_active == 'account/request' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/request">{{ gettext('layout.index.header.nav.request') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'account/upload' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/account/upload">{{ gettext('layout.index.header.nav.upload') }}</a>
               </div>
@@ -522,14 +522,14 @@
 
           <div class="mr-4 mb-4 grow grow">
             <strong class="font-bold text-black">{{ gettext('layout.index.footer.list2.header') }}</strong><br>
+            <a class="custom-a hover:text-[#333]" href="/contact">{{ gettext('page.contact.title') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/copyright">{{ gettext('layout.index.footer.list2.dmca_copyright') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="https://www.reddit.com/r/Annas_Archive">{{ gettext('layout.index.footer.list2.reddit') }}</a> / <a class="custom-a hover:text-[#333]" href="https://t.me/annasarchiveorg">{{ gettext('layout.index.footer.list2.telegram') }}</a><!-- {% if not g.show_wechat_in_layout %} / <a class="custom-a hover:text-[#333]" href="/wechat">{{ gettext('layout.index.header.nav.wechat') }}</a>{% endif %}--><br>
             <a class="custom-a hover:text-[#333]" href="https://annas-blog.org">{{ gettext('layout.index.header.nav.annasblog') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="https://annas-software.org">{{ gettext('layout.index.header.nav.annassoftware') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="https://translate.annas-software.org">{{ gettext('layout.index.header.nav.translate') }}</a><br>
             <!-- <div class="text-xs text-gray-500 mb-1 max-w-[200px]">{{ gettext('layout.index.footer.dont_email', a_request=('href="/account/request"' | safe), a_upload=('href="/account/upload"' | safe)) }} {{ gettext('page.donate.small_team') }}</div> -->
-            <a class="custom-a hover:text-[#333]" href="/copyright">{{ gettext('layout.index.footer.list2.dmca_copyright') }}</a><br>
             <!-- <a class="custom-a hover:text-[#333]" href="mailto:AnnaDMCA@proton.me">AnnaDMCA@proton.me</a><br> -->
-            <a class="custom-a hover:text-[#333]" href="/contact">{{ gettext('page.contact.title') }}</a><br>
           </div>
 
           <div class="mr-4 mb-4 grow">
