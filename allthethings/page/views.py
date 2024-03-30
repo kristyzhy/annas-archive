@@ -253,7 +253,13 @@ def get_bcp47_lang_codes_parse_substr(substr):
     # "urdu" not being converted to "ur" seems to be a bug in langcodes?
     if lang == 'urdu':
         lang = 'ur'
-    if lang in ['und', 'mul']:
+    # Same
+    if lang == 'thai':
+        lang = 'ur'
+    # Same
+    if lang == 'esp':
+        lang = 'eo'
+    if lang in ['und', 'mul', 'mis']:
         lang = ''
     return lang
 
@@ -3826,6 +3832,15 @@ def get_additional_for_aarecord(aarecord):
     additional['path'] = '/' + aarecord_id_split[0].replace('/isbn/', '/isbndb/') + '/' + aarecord_id_split[1]
     additional['most_likely_language_name'] = (get_display_name_for_lang(aarecord['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if aarecord['file_unified_data'].get('most_likely_language_code', None) else '')
 
+    additional['added_date_best'] = ''
+    added_date_best = aarecord['file_unified_data'].get('added_date_best') or ''
+    if len(added_date_best) > 0:
+        additional['added_date_best'] = added_date_best.split('T', 1)[0]
+    added_date_unified = aarecord['file_unified_data'].get('added_date_unified') or {}
+    if (len(added_date_unified) > 0) and (len(additional['added_date_best']) > 0):
+        additional['added_date_best'] += ' (' + ', '.join([label + ': ' + date.split('T', 1)[0] for label, date in added_date_unified.items()]) + ')'
+
+
     additional['codes'] = []
     for key, values in aarecord['file_unified_data'].get('identifiers_unified', {}).items():
         for value in values:
@@ -4651,9 +4666,15 @@ def search_page():
         custom_search_sorting = [{ "search_only_fields.search_filesize": "desc" }, '_score']
     if sort_value == "smallest":
         custom_search_sorting = [{ "search_only_fields.search_filesize": "asc" }, '_score']
+    if sort_value == "newest_added":
+        custom_search_sorting = [{ "search_only_fields.search_added_date": "desc" }, '_score']
+    if sort_value == "oldest_added":
+        custom_search_sorting = [{ "search_only_fields.search_added_date": "asc" }, '_score']
 
     if search_input == '':
-        search_query = { "bool": { "should": [{ "rank_feature": { "field": "search_only_fields.search_score_base_rank" } } ] } }
+        search_query = { "match_all": {} }
+        if custom_search_sorting == ['_score']:
+            custom_search_sorting = [{ "search_only_fields.search_added_date": "desc" }, '_score']
     else:
         search_query = {
             "bool": {
