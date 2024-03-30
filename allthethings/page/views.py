@@ -3782,6 +3782,17 @@ def get_record_sources_mapping(display_lang):
             "duxiu": gettext("common.record_sources_mapping.duxiu"),
         }
 
+def get_specific_search_fields_mapping(display_lang):
+    with force_locale(display_lang):
+        return {
+            'title': gettext('common.specific_search_fields.title'),
+            'author': gettext('common.specific_search_fields.author'),
+            'publisher': gettext('common.specific_search_fields.publisher'),
+            'edition_varia': gettext('common.specific_search_fields.edition_varia'),
+            'original_filename': gettext('common.specific_search_fields.original_filename'),
+            'description_comments': gettext('common.specific_search_fields.description_comments'),
+        }
+
 def format_filesize(num):
     if num < 100000:
         return f"0.1MB"
@@ -4678,11 +4689,13 @@ def search_page():
         if search_desc:
             main_search_fields.append(('search_only_fields.search_description_comments', search_input))
 
+    specific_search_fields_mapping = get_specific_search_fields_mapping(get_locale())
+
     specific_search_fields = []
     for number in range(1,10):
         term_type = request.args.get(f"termtype_{number}") or ""
         term_val = request.args.get(f"termval_{number}") or ""
-        if (len(term_val) > 0) and (term_type in ['title', 'author', 'publisher', 'edition_varia', 'original_filename', 'description_comments']):
+        if (len(term_val) > 0) and (term_type in specific_search_fields_mapping):
             specific_search_fields.append((term_type, term_val))
 
     if (len(main_search_fields) == 0) and (len(specific_search_fields) == 0):
@@ -4966,6 +4979,7 @@ def search_page():
     search_dict['max_display_results'] = max_display_results
     search_dict['search_desc'] = search_desc
     search_dict['specific_search_fields'] = specific_search_fields
+    search_dict['specific_search_fields_mapping'] = specific_search_fields_mapping
 
     r = make_response((render_template(
             "page/search.html",
