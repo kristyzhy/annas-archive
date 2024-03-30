@@ -2965,6 +2965,22 @@ def aarecord_score_base(aarecord):
         score += 3.0
     return score
 
+def aarecord_sources(aarecord):
+    aarecord_id_split = aarecord['id'].split(':', 1)
+    return list(dict.fromkeys([
+        *(['duxiu']     if aarecord['duxiu'] is not None else []),
+        *(['ia']        if aarecord['ia_record'] is not None else []),
+        *(['isbndb']    if (aarecord_id_split[0] == 'isbn' and len(aarecord['isbndb'] or []) > 0) else []),
+        *(['lgli']      if aarecord['lgli_file'] is not None else []),
+        *(['lgrs']      if aarecord['lgrsfic_book'] is not None else []),
+        *(['lgrs']      if aarecord['lgrsnf_book'] is not None else []),
+        *(['oclc']      if (aarecord_id_split[0] == 'oclc' and len(aarecord['oclc'] or []) > 0) else []),
+        *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
+        *(['scihub']    if len(aarecord['scihub_doi']) > 0 else []),
+        *(['zlib']      if aarecord['aac_zlib3_book'] is not None else []),
+        *(['zlib']      if aarecord['zlib_book'] is not None else []),
+    ]))
+
 def get_aarecords_mysql(session, aarecord_ids):
     if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
         raise Exception("Invalid aarecord_ids")
@@ -3699,19 +3715,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
                 *(['meta_explore'] if allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]) else []),
             ],
-            'search_record_sources': list(dict.fromkeys([
-                *(['lgrs']      if aarecord['lgrsnf_book'] is not None else []),
-                *(['lgrs']      if aarecord['lgrsfic_book'] is not None else []),
-                *(['lgli']      if aarecord['lgli_file'] is not None else []),
-                *(['zlib']      if aarecord['zlib_book'] is not None else []),
-                *(['zlib']      if aarecord['aac_zlib3_book'] is not None else []),
-                *(['ia']        if aarecord['ia_record'] is not None else []),
-                *(['scihub']    if len(aarecord['scihub_doi']) > 0 else []),
-                *(['isbndb']    if (aarecord_id_split[0] == 'isbn' and len(aarecord['isbndb'] or []) > 0) else []),
-                *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
-                *(['oclc']      if (aarecord_id_split[0] == 'oclc' and len(aarecord['oclc'] or []) > 0) else []),
-                *(['duxiu']     if aarecord['duxiu'] is not None else []),
-            ])),
+            'search_record_sources': aarecord_sources(aarecord),
             # Used in external system, check before changing.
             'search_bulk_torrents': 'has_bulk_torrents' if aarecord['file_unified_data']['has_torrent_paths'] else 'no_bulk_torrents',
         }
@@ -3873,6 +3877,7 @@ def get_additional_for_aarecord(aarecord):
         'top_row': ", ".join([item for item in [
                 additional['most_likely_language_name'],
                 f".{aarecord['file_unified_data']['extension_best']}" if len(aarecord['file_unified_data']['extension_best']) > 0 else '',
+                "/".join(filter(len,["🚀" if (aarecord['file_unified_data']['has_aa_downloads'] == 1) else "", *aarecord_sources(aarecord)])),
                 format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0) if aarecord['file_unified_data'].get('filesize_best', None) else '',
                 md5_content_type_mapping[aarecord['file_unified_data']['content_type']],
                 (aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '').rsplit('.', 1)[0],
