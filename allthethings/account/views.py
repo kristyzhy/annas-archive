@@ -177,31 +177,6 @@ def request_page():
 def upload_page():
     return redirect(f"/faq#upload", code=301)
 
-# @account.get("/refer")
-# @allthethings.utils.no_cache()
-# def refer_page():
-#     with Session(mariapersist_engine) as mariapersist_session:
-#         account_id = allthethings.utils.get_account_id(request.cookies)
-#         account_can_make_referrals = False
-#         referral_suffix = None
-#         referral_link = None
-
-#         if account_id is not None:
-#             account_can_make_referrals = allthethings.utils.account_can_make_referrals(mariapersist_session, account_id)
-#             referral_suffix = f"#r={account_id}"
-#             referral_link = f"https://{g.base_domain}/donate{referral_suffix}"
-
-#         return render_template(
-#             "account/refer.html",
-#             header_active="account/refer",
-#             MEMBERSHIP_MAX_BONUS_DOWNLOADS=allthethings.utils.MEMBERSHIP_MAX_BONUS_DOWNLOADS,
-#             account_id=account_id,
-#             account_can_make_referrals=account_can_make_referrals,
-#             referral_suffix=referral_suffix,
-#             referral_link=referral_link,
-#         )
-
-
 @account.get("/list/<string:list_id>")
 @allthethings.utils.no_cache()
 def list_page(list_id):
