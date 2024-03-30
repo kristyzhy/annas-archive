@@ -294,9 +294,9 @@ msgstr "Для пожертвований выше $5,000 свяжитесь, п
 #: allthethings/page/templates/page/home.html:33
 #: allthethings/page/templates/page/home.html:38
 #: allthethings/page/templates/page/home.html:46
-#: allthethings/page/templates/page/search.html:187
-#: allthethings/page/templates/page/search.html:202
+#: allthethings/page/templates/page/search.html:241
 #: allthethings/page/templates/page/search.html:256
+#: allthethings/page/templates/page/search.html:309
 #: allthethings/templates/layouts/index.html:200
 msgid "page.contact.title"
 msgstr ""
@@ -315,7 +315,7 @@ msgstr "Пожалуйста, выберите метод оплаты."
 
 #: allthethings/account/templates/account/donate.html:128
 #: allthethings/account/templates/account/donate.html:139
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.payment.buttons.crypto"
 msgstr "Криптовалюта %(bitcoin_icon)s"
 
@@ -328,10 +328,10 @@ msgstr "Криптовалюта %(bitcoin_icon)s"
 #: allthethings/account/templates/account/donate.html:145
 #: allthethings/account/templates/account/donate.html:148
 #: allthethings/account/templates/account/donate.html:151
+#: allthethings/account/templates/account/donate.html:309
 #: allthethings/account/templates/account/donate.html:310
 #: allthethings/account/templates/account/donate.html:311
 #: allthethings/account/templates/account/donate.html:312
-#: allthethings/account/templates/account/donate.html:313
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
@@ -340,7 +340,7 @@ msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal (США) %(bitcoin_icon)s"
 
 #: allthethings/account/templates/account/donate.html:134
-#: allthethings/account/templates/account/donate.html:289
+#: allthethings/account/templates/account/donate.html:288
 msgid "page.donate.payment.buttons.amazon"
 msgstr "Подарочная Карта Amazon"
 
@@ -371,7 +371,7 @@ msgid "page.donate.payment.buttons.credit_debit2"
 msgstr "Кредитная/дебетовая карта 2"
 
 #: allthethings/account/templates/account/donate.html:156
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.payment.buttons.wechat"
 msgstr "WeChat"
 
@@ -395,7 +395,7 @@ msgid "page.donate.payment.desc.crypto2"
 msgstr "Вы можете сделать пожертвование через криптовалюту, с помощью BTC, ETH, XMR и других."
 
 #: allthethings/account/templates/account/donate.html:198
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr "Если вы пользуетесь криптовалютой в первый раз, мы советуем использовать %(option1)s, %(option2)s или %(option3)s, чтобы купить и пожертвовать Биткоины (первая и самая часто используемая криптовалюта)."
 
@@ -454,115 +454,127 @@ msgstr "Заметим, что мы вынуждены округлять до �
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>ВАЖНО:</strong> поддерживается только Amazon.com, а не другие веб-сайты Amazon. Например .de, .co.uk, .ca НЕ поддерживаются."
 
-#: allthethings/account/templates/account/donate.html:304
+#: allthethings/account/templates/account/donate.html:288
+msgid "page.donate.ccexp.amazon_com"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:289
+msgid "page.donate.ccexp.wechat"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.ccexp.crypto"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:303
 msgid "page.donate.duration.intro"
 msgstr "Выберите, на какой период вы хотите подписаться."
 
-#: allthethings/account/templates/account/donate.html:309
+#: allthethings/account/templates/account/donate.html:308
 msgid "page.donate.duration.1_mo"
 msgstr "1 месяц"
 
-#: allthethings/account/templates/account/donate.html:310
+#: allthethings/account/templates/account/donate.html:309
 msgid "page.donate.duration.3_mo"
 msgstr "3 месяца"
 
-#: allthethings/account/templates/account/donate.html:311
+#: allthethings/account/templates/account/donate.html:310
 msgid "page.donate.duration.6_mo"
 msgstr "6 месяцев"
 
-#: allthethings/account/templates/account/donate.html:312
+#: allthethings/account/templates/account/donate.html:311
 msgid "page.donate.duration.12_mo"
 msgstr "12 месяцев"
 
-#: allthethings/account/templates/account/donate.html:313
+#: allthethings/account/templates/account/donate.html:312
 msgid "page.donate.duration.24_mo"
 msgstr "24 месяца"
 
-#: allthethings/account/templates/account/donate.html:316
+#: allthethings/account/templates/account/donate.html:315
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>после <span %(span_discount)s></span> скидок</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:322
+#: allthethings/account/templates/account/donate.html:321
 msgid "page.donate.payment.minimum_method"
 msgstr "Этот метод оплаты требует как минимум %(amount)s. Просим выбрать другую длительность либо другой метод."
 
-#: allthethings/account/templates/account/donate.html:323
+#: allthethings/account/templates/account/donate.html:322
 msgid "page.donate.payment.maximum_method"
 msgstr "Этот метод оплаты позволяет внести максимум %(amount)s. Просим выбрать другую длительность либо другой метод."
 
-#: allthethings/account/templates/account/donate.html:328
+#: allthethings/account/templates/account/donate.html:327
 msgid "page.donate.login2"
 msgstr "Чтобы стать участником, пожалуйста, <a %(a_login)s>войдите или зарегистрируйтесь</a>. Благодарим за поддержку!"
 
-#: allthethings/account/templates/account/donate.html:335
+#: allthethings/account/templates/account/donate.html:334
 msgid "page.donate.payment.crypto_select"
 msgstr "Выберите любимую криптовалюту:"
 
-#: allthethings/account/templates/account/donate.html:367
+#: allthethings/account/templates/account/donate.html:366
 msgid "page.donate.submit.confirm"
 msgstr "Нажмите на кнопку пожертвования, чтобы подтвердить данное пожертвование."
 
-#: allthethings/account/templates/account/donate.html:375
+#: allthethings/account/templates/account/donate.html:374
 msgid "page.donate.submit.button"
 msgstr "Пожертвовать <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:380
+#: allthethings/account/templates/account/donate.html:379
 msgid "page.donate.submit.cancel_note"
 msgstr "Вы всё ещё можете отменить пожертвование во время оплаты."
 
-#: allthethings/account/templates/account/donate.html:384
+#: allthethings/account/templates/account/donate.html:383
 msgid "page.donate.submit.success"
 msgstr "✅ Перенаправление на страницу пожертвований…"
 
-#: allthethings/account/templates/account/donate.html:385
+#: allthethings/account/templates/account/donate.html:384
 msgid "page.donate.submit.failure"
 msgstr "❌ Что-то пошло не так. Пожалуйста, обновите страницу, и попробуйте ещё раз."
 
-#: allthethings/account/templates/account/donate.html:445
+#: allthethings/account/templates/account/donate.html:444
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s"
 
-#: allthethings/account/templates/account/donate.html:446
+#: allthethings/account/templates/account/donate.html:445
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / месяц"
 
-#: allthethings/account/templates/account/donate.html:449
+#: allthethings/account/templates/account/donate.html:448
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "на 1 месяц"
 
-#: allthethings/account/templates/account/donate.html:450
+#: allthethings/account/templates/account/donate.html:449
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "на 3 месяца"
 
-#: allthethings/account/templates/account/donate.html:451
+#: allthethings/account/templates/account/donate.html:450
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "на 6 месяцев"
 
-#: allthethings/account/templates/account/donate.html:452
+#: allthethings/account/templates/account/donate.html:451
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "на 12 месяцев"
 
-#: allthethings/account/templates/account/donate.html:453
+#: allthethings/account/templates/account/donate.html:452
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "на 24 месяца"
 
-#: allthethings/account/templates/account/donate.html:457
+#: allthethings/account/templates/account/donate.html:456
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "на 1 месяц “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:458
+#: allthethings/account/templates/account/donate.html:457
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "на 3 месяца “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:459
+#: allthethings/account/templates/account/donate.html:458
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "на 6 месяцев “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:460
+#: allthethings/account/templates/account/donate.html:459
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "на 12 месяцев “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:461
+#: allthethings/account/templates/account/donate.html:460
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "на 24 месяца “%(tier_name)s”"
 
@@ -1456,130 +1468,154 @@ msgstr "OCLC (WorldCat)"
 msgid "common.record_sources_mapping.duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:3807
+#: allthethings/page/views.py:3788
+msgid "common.specific_search_fields.title"
+msgstr ""
+
+#: allthethings/page/views.py:3789
+msgid "common.specific_search_fields.author"
+msgstr ""
+
+#: allthethings/page/views.py:3790
+msgid "common.specific_search_fields.publisher"
+msgstr ""
+
+#: allthethings/page/views.py:3791
+msgid "common.specific_search_fields.edition_varia"
+msgstr ""
+
+#: allthethings/page/views.py:3792
+msgid "common.specific_search_fields.original_filename"
+msgstr ""
+
+#: allthethings/page/views.py:3793
+msgid "common.specific_search_fields.description_comments"
+msgstr ""
+
+#: allthethings/page/views.py:3818
 msgid "common.md5.servers.fast_partner"
 msgstr "Быстрый Сервер Партнёра №%(number)s"
 
-#: allthethings/page/views.py:3807 allthethings/page/views.py:4228
+#: allthethings/page/views.py:3818 allthethings/page/views.py:4239
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(не требуется браузерная верификация)"
 
-#: allthethings/page/views.py:3809
+#: allthethings/page/views.py:3820
 msgid "common.md5.servers.slow_partner"
 msgstr "Медленный Сервер Партнёра №%(number)s"
 
-#: allthethings/page/views.py:3809
+#: allthethings/page/views.py:3820
 msgid "common.md5.servers.browser_verification_unlimited"
 msgstr "(может потребоваться <a %(a_browser)s>браузерная верификация</a> — неограниченные загрузки!)"
 
-#: allthethings/page/views.py:3944
+#: allthethings/page/views.py:3955
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "Загрузка с Сервера Партнёра временно недоступна для этого файла."
 
-#: allthethings/page/views.py:3948 allthethings/page/views.py:4186
+#: allthethings/page/views.py:3959 allthethings/page/views.py:4197
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:3998
+#: allthethings/page/views.py:4009
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Библиотека Genesis \".rs-fork\" Документальная Литература"
 
-#: allthethings/page/views.py:3998 allthethings/page/views.py:4009
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4009 allthethings/page/views.py:4020
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(также нажмите \"GET\" вверху)"
 
-#: allthethings/page/views.py:3998 allthethings/page/views.py:4009
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4009 allthethings/page/views.py:4020
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(нажмите \"GET\" вверху)"
 
-#: allthethings/page/views.py:4009
+#: allthethings/page/views.py:4020
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Библиотека Genesis \".rs-fork\" Художественная Литература"
 
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.lgli"
 msgstr "Библиотека Genesis \".li-fork\""
 
-#: allthethings/page/views.py:4163 allthethings/page/views.py:4164
-#: allthethings/page/views.py:4165
+#: allthethings/page/views.py:4174 allthethings/page/views.py:4175
+#: allthethings/page/views.py:4176
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "IPFS-портал №%(num)d"
 
-#: allthethings/page/views.py:4163
+#: allthethings/page/views.py:4174
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(вам может потребоваться несколько попыток для загрузки, используя протокол IPFS)"
 
-#: allthethings/page/views.py:4183
+#: allthethings/page/views.py:4194
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Заём с Internet Archive"
 
-#: allthethings/page/views.py:4183
+#: allthethings/page/views.py:4194
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(печать отключена, только для патронов)"
 
-#: allthethings/page/views.py:4186
+#: allthethings/page/views.py:4197
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(соответствующий цифровой идентификатор объекта (DOI) может быть недоступен на Sci-Hub - интернет-ресурсе, предоставляющем автоматический и бесплатный доступ к полным текстам научных работ)"
 
-#: allthethings/page/views.py:4193
+#: allthethings/page/views.py:4204
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Массовая загрузка торрентов"
 
-#: allthethings/page/views.py:4193
+#: allthethings/page/views.py:4204
 msgid "page.md5.box.download.experts_only"
 msgstr "(только для экспертов)"
 
-#: allthethings/page/views.py:4200
+#: allthethings/page/views.py:4211
 msgid "page.md5.box.download.aa_isbn"
 msgstr "Поиск в Архиве Анны по ISBN"
 
-#: allthethings/page/views.py:4201
+#: allthethings/page/views.py:4212
 msgid "page.md5.box.download.other_isbn"
 msgstr "Поиск в разных других базах данных по ISBN"
 
-#: allthethings/page/views.py:4203
+#: allthethings/page/views.py:4214
 msgid "page.md5.box.download.original_isbndb"
 msgstr "Найти оригинальную запись в ISBNdb"
 
-#: allthethings/page/views.py:4205
+#: allthethings/page/views.py:4216
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Поиск в Архиве Анны по Open Library ID"
 
-#: allthethings/page/views.py:4207
+#: allthethings/page/views.py:4218
 msgid "page.md5.box.download.original_openlib"
 msgstr "Найти оригинальную запись в Open Library"
 
-#: allthethings/page/views.py:4209
+#: allthethings/page/views.py:4220
 msgid "page.md5.box.download.aa_oclc"
 msgstr "Поиск в Архиве Анны по номеру OCLC (WorldCat)"
 
-#: allthethings/page/views.py:4210
+#: allthethings/page/views.py:4221
 msgid "page.md5.box.download.original_oclc"
 msgstr "Найти оригинальную запись в WorldCat"
 
-#: allthethings/page/views.py:4212
+#: allthethings/page/views.py:4223
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "Искать в Архиве Анны по DuXiu SSID номеру"
 
-#: allthethings/page/views.py:4213
+#: allthethings/page/views.py:4224
 msgid "page.md5.box.download.original_duxiu"
 msgstr "Искать на DuXiu вручную"
 
-#: allthethings/page/views.py:4215
+#: allthethings/page/views.py:4226
 msgid "page.md5.box.download.aa_cadal"
 msgstr "Искать в Архиве Анны по CADAL SSNO номеру"
 
-#: allthethings/page/views.py:4216
+#: allthethings/page/views.py:4227
 msgid "page.md5.box.download.original_cadal"
 msgstr "Найти оригинальную запись в CADAL"
 
-#: allthethings/page/views.py:4220
+#: allthethings/page/views.py:4231
 msgid "page.md5.box.download.aa_dxid"
 msgstr "Искать в Архиве Анны по DuXiu DXID номеру"
 
-#: allthethings/page/views.py:4228 allthethings/page/views.py:4229
+#: allthethings/page/views.py:4239 allthethings/page/views.py:4240
 msgid "page.md5.box.download.scidb"
 msgstr "Архив Анны 🧬 SciDB"
 
@@ -1623,6 +1659,18 @@ msgstr "Запись метаданных CADAL SSNO %(id)s"
 #: allthethings/page/templates/page/aarecord.html:39
 msgid "page.md5.header.meta_desc"
 msgstr "Это запись метаданных, а не напрямую загружаемый файл. Вы можете использовать этот URL-адрес, когда <a %(a_request)s>запрашиваете книгу</a>."
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.descr_title"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.metadata_comments_title"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.date_open_sourced_title"
+msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:54
 msgid "page.md5.box.descr_read_more"
@@ -2179,196 +2227,227 @@ msgid "page.search.tabs.metadata"
 msgstr "Метаданные"
 
 #: allthethings/page/templates/page/search.html:72
-#: allthethings/page/templates/page/search.html:120
+#: allthethings/page/templates/page/search.html:125
+msgid "page.search.advanced.description_comments"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:80
+#: allthethings/page/templates/page/search.html:174
 msgid "page.search.filters.content.header"
 msgstr "Содержание"
 
-#: allthethings/page/templates/page/search.html:76
-#: allthethings/page/templates/page/search.html:127
+#: allthethings/page/templates/page/search.html:84
+#: allthethings/page/templates/page/search.html:181
 msgid "page.search.filters.filetype.header"
 msgstr "Тип файла"
 
-#: allthethings/page/templates/page/search.html:80
-#: allthethings/page/templates/page/search.html:134
+#: allthethings/page/templates/page/search.html:88
+#: allthethings/page/templates/page/search.html:188
 msgid "page.search.filters.access.header"
 msgstr "Доступ"
 
-#: allthethings/page/templates/page/search.html:83
-#: allthethings/page/templates/page/search.html:140
+#: allthethings/page/templates/page/search.html:91
+#: allthethings/page/templates/page/search.html:194
 msgid "page.search.filters.source.header"
 msgstr "Источник"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:146
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:200
 msgid "page.search.filters.order_by.header"
 msgstr "Сортировать по"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:149
-#: allthethings/page/templates/page/search.html:153
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:207
 msgid "page.search.filters.sorting.newest"
 msgstr "Новейшие"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:149
-#: allthethings/page/templates/page/search.html:150
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:204
 msgid "page.search.filters.sorting.note_publication_year"
 msgstr "(год публикации)"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:150
-#: allthethings/page/templates/page/search.html:154
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:204
+#: allthethings/page/templates/page/search.html:208
 msgid "page.search.filters.sorting.oldest"
 msgstr "Самый старый"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:151
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:205
 msgid "page.search.filters.sorting.largest"
 msgstr "Наибольшой"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:151
-#: allthethings/page/templates/page/search.html:152
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:205
+#: allthethings/page/templates/page/search.html:206
 msgid "page.search.filters.sorting.note_filesize"
 msgstr "(размер файла)"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:152
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:206
 msgid "page.search.filters.sorting.smallest"
 msgstr "Наименьший"
 
-#: allthethings/page/templates/page/search.html:89
-#: allthethings/page/templates/page/search.html:157
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:207
+#: allthethings/page/templates/page/search.html:208
+msgid "page.search.filters.sorting.note_open_sourced"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:97
+#: allthethings/page/templates/page/search.html:211
 msgid "page.search.filters.language.header"
 msgstr "Язык"
 
-#: allthethings/page/templates/page/search.html:94
-#: allthethings/page/templates/page/search.html:97
+#: allthethings/page/templates/page/search.html:102
+#: allthethings/page/templates/page/search.html:105
 msgid "page.search.search_settings"
 msgstr "Настройки поиска"
 
-#: allthethings/page/templates/page/search.html:103
-#: allthethings/page/templates/page/search.html:168
+#: allthethings/page/templates/page/search.html:111
+#: allthethings/page/templates/page/search.html:222
 msgid "page.search.submit"
 msgstr "Поиск"
 
-#: allthethings/page/templates/page/search.html:107
+#: allthethings/page/templates/page/search.html:115
 msgid "page.search.too_long_broad_query"
 msgstr "Поиск занял слишком много времени, что характерно для широких запросов. Количество фильтров может быть неточным."
 
-#: allthethings/page/templates/page/search.html:111
-#: allthethings/page/templates/page/search.html:260
+#: allthethings/page/templates/page/search.html:119
+#: allthethings/page/templates/page/search.html:313
 msgid "page.search.too_inaccurate"
 msgstr "Поиск занял слишком много времени, поэтому вы можете увидеть неточные результаты. Попробуйте <a %(a_reload)s>перезагрузить</a> страницу."
 
-#: allthethings/page/templates/page/search.html:143
+#: allthethings/page/templates/page/search.html:123
+msgid "page.search.advanced.header"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:129
+msgid "page.search.advanced.add_specific"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:141
+msgid "common.specific_search_fields.select"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:197
 msgid "page.search.filters.source.scraped"
 msgstr "собрано и выложено в открытый доступ АА"
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:202
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Наиболее актуальными"
 
-#: allthethings/page/templates/page/search.html:163
+#: allthethings/page/templates/page/search.html:217
 msgid "page.search.more"
 msgstr "больше…"
 
-#: allthethings/page/templates/page/search.html:171
+#: allthethings/page/templates/page/search.html:225
 msgid "page.search.header.update_info"
 msgstr "Поисковый индекс обновляется ежемесячно. В настоящее время он включает в себя записи до %(last_data_refresh_date)s. Для получения более подробной технической информации перейдите на страницу %(link_open_tag)sнаборов данных</a>."
 
-#: allthethings/page/templates/page/search.html:181
+#: allthethings/page/templates/page/search.html:235
 msgid "page.search.results.search_downloads"
 msgstr "Напишите в поле для поиска по нашему каталогу из %(count)s напрямую загружаемых файлов, которые мы <a%(a_preserve)s>сохраняем навсегда</a>."
 
-#: allthethings/page/templates/page/search.html:184
-#: allthethings/page/templates/page/search.html:199
+#: allthethings/page/templates/page/search.html:238
+#: allthethings/page/templates/page/search.html:253
 msgid "page.search.results.most_comprehensive"
 msgstr "В настоящее время мы располагаем самым полным в мире открытым каталогом книг, работ и других письменных произведений. Мы являемся зеркалами Sci-Hub, Library Genesis и Z-Library, <a %(a_datasets)s>и больше</a>."
 
-#: allthethings/page/templates/page/search.html:187
-#: allthethings/page/templates/page/search.html:202
+#: allthethings/page/templates/page/search.html:241
+#: allthethings/page/templates/page/search.html:256
 msgid "page.search.results.other_shadow_libs"
 msgstr "Если вы найдете другие «теневые библиотеки», которые мы должны зеркалить, или у вас возникнут вопросы, пожалуйста, свяжитесь с нами по адресу %(email)s."
 
-#: allthethings/page/templates/page/search.html:188
-#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:242
+#: allthethings/page/templates/page/search.html:257
 msgid "page.search.results.dmca"
 msgstr "Для DMCA / претензий по авторским правам <a %(a_copyright)s>нажмите здесь</a>."
 
-#: allthethings/page/templates/page/search.html:192
-#: allthethings/page/templates/page/search.html:207
-#: allthethings/page/templates/page/search.html:221
-#: allthethings/page/templates/page/search.html:239
-#: allthethings/page/templates/page/search.html:247
+#: allthethings/page/templates/page/search.html:246
+#: allthethings/page/templates/page/search.html:261
+#: allthethings/page/templates/page/search.html:275
+#: allthethings/page/templates/page/search.html:292
+#: allthethings/page/templates/page/search.html:300
 msgid "page.search.results.shortcuts"
 msgstr "Подсказка: используйте горячие клавиши „/“ (фокус на поиск), „enter“ (поиск), „j“ (вверх), „k“ (вниз) для быстрой навигации."
 
-#: allthethings/page/templates/page/search.html:196
+#: allthethings/page/templates/page/search.html:250
 msgid "page.search.results.search_journals"
 msgstr "Введите текст в строку для поиска в нашем каталоге из %(count)s научных работ и журнальных статей, которые мы <a %(a_preserve)s>сохраняем навсегда</a>."
 
-#: allthethings/page/templates/page/search.html:211
+#: allthethings/page/templates/page/search.html:265
 msgid "page.search.results.search_digital_lending"
 msgstr "Напишите в поле для поиска файлов из библиотек цифровой выдачи."
 
-#: allthethings/page/templates/page/search.html:214
+#: allthethings/page/templates/page/search.html:268
 msgid "page.search.results.digital_lending_info"
 msgstr "В настоящее время этот поисковый индекс включает метаданные из Контролируемой цифровой выдачи (CDL) Internet Archive. <a %(a_datasets)s>Больше о наших наборах данных</a>."
 
-#: allthethings/page/templates/page/search.html:217
+#: allthethings/page/templates/page/search.html:271
 msgid "page.search.results.digital_lending_info_more"
 msgstr "О других электронных библиотеках смотрите <a %(a_wikipedia)s>Википедию</a> и <a %(a_mobileread)s>MobileRead Wiki</a>."
 
-#: allthethings/page/templates/page/search.html:225
+#: allthethings/page/templates/page/search.html:279
 msgid "page.search.results.search_metadata"
 msgstr "Введите запрос для поиска метаданных из библиотек. Это может быть полезно при <a %(a_request)s>запросе файла</a>."
 
-#: allthethings/page/templates/page/search.html:228
+#: allthethings/page/templates/page/search.html:282
 msgid "page.search.results.metadata_info"
 msgstr "В настоящее время этот поисковый индекс включает метаданные из различных источников метаданных.<a %(a_datasets)s>Подробнее о наших базах данных</a>."
 
-#: allthethings/page/templates/page/search.html:235
+#: allthethings/page/templates/page/search.html:285
+msgid "page.search.results.metadata_no_merging"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:288
 msgid "page.search.results.metadata_info_more"
 msgstr "В мире существует много, очень много источников метаданных для письменных произведений. <a %(a_wikipedia)s>Эта страница Википедии</a> — хорошее начало, но если вы знаете другие хорошие списки, пожалуйста, сообщите нам."
 
-#: allthethings/page/templates/page/search.html:243
+#: allthethings/page/templates/page/search.html:296
 msgid "page.search.results.search_generic"
 msgstr "Введите в поле для поиска."
 
-#: allthethings/page/templates/page/search.html:254
+#: allthethings/page/templates/page/search.html:307
 msgid "page.search.results.error.header"
 msgstr "Ошибка во время поиска."
 
-#: allthethings/page/templates/page/search.html:256
+#: allthethings/page/templates/page/search.html:309
 msgid "page.search.results.error.unknown"
 msgstr "Попробуйте <a %(a_reload)s>перезагрузить страницу</a>. Если проблема сохраняется, напишите нам по адресу %(email)s."
 
-#: allthethings/page/templates/page/search.html:265
+#: allthethings/page/templates/page/search.html:318
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Файлы не найдены.</span> Попробуйте изменить запрос или фильтры."
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.main"
 msgstr "Мы нашли совпадения в: %(in)s. Вы можете ссылаться на найденный там URL-адрес когда <a %(a_request)s>запрашиваете файл</a>."
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.journals"
 msgstr "(%(count)s) Журнальных Статей"
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.digital_lending"
 msgstr "Цифровая выдача (%(count)s)"
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.metadata"
 msgstr "Метаданные (%(count)s)"
 
-#: allthethings/page/templates/page/search.html:288
+#: allthethings/page/templates/page/search.html:329
+msgid "page.search.results.numbers_pages"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:340
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ частичное совпадение"
 
-#: allthethings/page/templates/page/search.html:288
+#: allthethings/page/templates/page/search.html:340
 msgid "page.search.results.partial"
 msgstr "%(num)d частичные совпадения"
 
@@ -2608,6 +2687,20 @@ msgstr "копировать"
 #: allthethings/templates/macros/copy_button.html:2
 msgid "page.donate.copied"
 msgstr "скопировано!"
+
+#: allthethings/templates/macros/pagination.html:24
+#: allthethings/templates/macros/pagination.html:29
+msgid "page.search.pagination.prev"
+msgstr ""
+
+#: allthethings/templates/macros/pagination.html:37
+msgid "page.search.pagination.numbers_spacing"
+msgstr ""
+
+#: allthethings/templates/macros/pagination.html:44
+#: allthethings/templates/macros/pagination.html:49
+msgid "page.search.pagination.next"
+msgstr ""
 
 #~ msgid "page.md5.box.download.mirror"
 #~ msgstr "Зеркало №%(num)d: %(link)s %(extra)s"

@@ -294,9 +294,9 @@ msgstr "Para doações de mais de 5000 dólares, entre em contato diretamente no
 #: allthethings/page/templates/page/home.html:33
 #: allthethings/page/templates/page/home.html:38
 #: allthethings/page/templates/page/home.html:46
-#: allthethings/page/templates/page/search.html:187
-#: allthethings/page/templates/page/search.html:202
+#: allthethings/page/templates/page/search.html:241
 #: allthethings/page/templates/page/search.html:256
+#: allthethings/page/templates/page/search.html:309
 #: allthethings/templates/layouts/index.html:200
 msgid "page.contact.title"
 msgstr ""
@@ -315,7 +315,7 @@ msgstr "Por favor, selecione um método de pagamento."
 
 #: allthethings/account/templates/account/donate.html:128
 #: allthethings/account/templates/account/donate.html:139
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.payment.buttons.crypto"
 msgstr "Cripto %(bitcoin_icon)s"
 
@@ -328,10 +328,10 @@ msgstr "Cripto %(bitcoin_icon)s"
 #: allthethings/account/templates/account/donate.html:145
 #: allthethings/account/templates/account/donate.html:148
 #: allthethings/account/templates/account/donate.html:151
+#: allthethings/account/templates/account/donate.html:309
 #: allthethings/account/templates/account/donate.html:310
 #: allthethings/account/templates/account/donate.html:311
 #: allthethings/account/templates/account/donate.html:312
-#: allthethings/account/templates/account/donate.html:313
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
@@ -340,7 +340,7 @@ msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal %(bitcoin_icon)s"
 
 #: allthethings/account/templates/account/donate.html:134
-#: allthethings/account/templates/account/donate.html:289
+#: allthethings/account/templates/account/donate.html:288
 msgid "page.donate.payment.buttons.amazon"
 msgstr "Cartão Presente Amazon"
 
@@ -371,7 +371,7 @@ msgid "page.donate.payment.buttons.credit_debit2"
 msgstr "Cartão de crédito/débito 2"
 
 #: allthethings/account/templates/account/donate.html:156
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.payment.buttons.wechat"
 msgstr "NósConversamos"
 
@@ -395,7 +395,7 @@ msgid "page.donate.payment.desc.crypto2"
 msgstr "Com as criptomoedas, você pode doar usando BTC, ETH, XMR e muito mais."
 
 #: allthethings/account/templates/account/donate.html:198
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr "Se estiver usando criptomoedas pela primeira vez, sugerimos usar %(option1)s, %(option2)s ou %(option3)s para comprar e doar Bitcoin (a criptomoeda original e mais usada)."
 
@@ -454,115 +454,127 @@ msgstr "Observe que precisamos arredondar para valores aceitos por nossos revend
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>IMPORTANTE:</strong> Oferecemos suporte apenas para Amazon.com, e não outros sites da Amazon. Por exemplo, .de, .co.uk e .ca NÃO são suportados."
 
-#: allthethings/account/templates/account/donate.html:304
+#: allthethings/account/templates/account/donate.html:288
+msgid "page.donate.ccexp.amazon_com"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:289
+msgid "page.donate.ccexp.wechat"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.ccexp.crypto"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:303
 msgid "page.donate.duration.intro"
 msgstr "Selecione por quanto tempo você quer assinar."
 
-#: allthethings/account/templates/account/donate.html:309
+#: allthethings/account/templates/account/donate.html:308
 msgid "page.donate.duration.1_mo"
 msgstr "1 mês"
 
-#: allthethings/account/templates/account/donate.html:310
+#: allthethings/account/templates/account/donate.html:309
 msgid "page.donate.duration.3_mo"
 msgstr "3 meses"
 
-#: allthethings/account/templates/account/donate.html:311
+#: allthethings/account/templates/account/donate.html:310
 msgid "page.donate.duration.6_mo"
 msgstr "6 meses"
 
-#: allthethings/account/templates/account/donate.html:312
+#: allthethings/account/templates/account/donate.html:311
 msgid "page.donate.duration.12_mo"
 msgstr "12 meses"
 
-#: allthethings/account/templates/account/donate.html:313
+#: allthethings/account/templates/account/donate.html:312
 msgid "page.donate.duration.24_mo"
 msgstr "24 meses"
 
-#: allthethings/account/templates/account/donate.html:316
+#: allthethings/account/templates/account/donate.html:315
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>depois de <span %(span_discount)s></span> de desconto</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:322
+#: allthethings/account/templates/account/donate.html:321
 msgid "page.donate.payment.minimum_method"
 msgstr "Este método de pagamento requer um mínimo de %(amount)s. Por favor, selecione uma duração ou método de pagamento diferente."
 
-#: allthethings/account/templates/account/donate.html:323
+#: allthethings/account/templates/account/donate.html:322
 msgid "page.donate.payment.maximum_method"
 msgstr "Este método de pagamento apenas permite um máximo de %(amount)s. Por favor selecione um método ou duração diferentes."
 
-#: allthethings/account/templates/account/donate.html:328
+#: allthethings/account/templates/account/donate.html:327
 msgid "page.donate.login2"
 msgstr "Para se tornar um membro, por favor <a %(a_login)s>Faça Log in ou Registre-se</a>. Obrigado pelo seu suporte!"
 
-#: allthethings/account/templates/account/donate.html:335
+#: allthethings/account/templates/account/donate.html:334
 msgid "page.donate.payment.crypto_select"
 msgstr "Selecione a criptomoeda desejada:"
 
-#: allthethings/account/templates/account/donate.html:367
+#: allthethings/account/templates/account/donate.html:366
 msgid "page.donate.submit.confirm"
 msgstr "Clique no botão doar para confirmar esta doação."
 
-#: allthethings/account/templates/account/donate.html:375
+#: allthethings/account/templates/account/donate.html:374
 msgid "page.donate.submit.button"
 msgstr "Doar <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:380
+#: allthethings/account/templates/account/donate.html:379
 msgid "page.donate.submit.cancel_note"
 msgstr "Você ainda pode cancelar a doação até a última etapa."
 
-#: allthethings/account/templates/account/donate.html:384
+#: allthethings/account/templates/account/donate.html:383
 msgid "page.donate.submit.success"
 msgstr "✅ Redirecionando para a página de doação…"
 
-#: allthethings/account/templates/account/donate.html:385
+#: allthethings/account/templates/account/donate.html:384
 msgid "page.donate.submit.failure"
 msgstr "❌ Algo deu errado. Por favor, atualize a página e tente mais uma vez."
 
-#: allthethings/account/templates/account/donate.html:445
+#: allthethings/account/templates/account/donate.html:444
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:446
+#: allthethings/account/templates/account/donate.html:445
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / mês"
 
-#: allthethings/account/templates/account/donate.html:449
+#: allthethings/account/templates/account/donate.html:448
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "Por 1 mês"
 
-#: allthethings/account/templates/account/donate.html:450
+#: allthethings/account/templates/account/donate.html:449
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "por 3 meses"
 
-#: allthethings/account/templates/account/donate.html:451
+#: allthethings/account/templates/account/donate.html:450
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "por 6 meses"
 
-#: allthethings/account/templates/account/donate.html:452
+#: allthethings/account/templates/account/donate.html:451
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "por 12 meses"
 
-#: allthethings/account/templates/account/donate.html:453
+#: allthethings/account/templates/account/donate.html:452
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "por 24 meses"
 
-#: allthethings/account/templates/account/donate.html:457
+#: allthethings/account/templates/account/donate.html:456
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "por 1 mês “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:458
+#: allthethings/account/templates/account/donate.html:457
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "por 3 meses “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:459
+#: allthethings/account/templates/account/donate.html:458
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "por 6 meses “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:460
+#: allthethings/account/templates/account/donate.html:459
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "por 12 meses “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:461
+#: allthethings/account/templates/account/donate.html:460
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "por 24 meses “%(tier_name)s”"
 
@@ -1456,130 +1468,154 @@ msgstr "OCLC (WorldCat)"
 msgid "common.record_sources_mapping.duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:3807
+#: allthethings/page/views.py:3788
+msgid "common.specific_search_fields.title"
+msgstr ""
+
+#: allthethings/page/views.py:3789
+msgid "common.specific_search_fields.author"
+msgstr ""
+
+#: allthethings/page/views.py:3790
+msgid "common.specific_search_fields.publisher"
+msgstr ""
+
+#: allthethings/page/views.py:3791
+msgid "common.specific_search_fields.edition_varia"
+msgstr ""
+
+#: allthethings/page/views.py:3792
+msgid "common.specific_search_fields.original_filename"
+msgstr ""
+
+#: allthethings/page/views.py:3793
+msgid "common.specific_search_fields.description_comments"
+msgstr ""
+
+#: allthethings/page/views.py:3818
 msgid "common.md5.servers.fast_partner"
 msgstr "Servidor Parceiro Rápido #%(number)s"
 
-#: allthethings/page/views.py:3807 allthethings/page/views.py:4228
+#: allthethings/page/views.py:3818 allthethings/page/views.py:4239
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(não é necessária a verificação do browser)"
 
-#: allthethings/page/views.py:3809
+#: allthethings/page/views.py:3820
 msgid "common.md5.servers.slow_partner"
 msgstr "Servidor Parceiro Lento #%(number)s"
 
-#: allthethings/page/views.py:3809
+#: allthethings/page/views.py:3820
 msgid "common.md5.servers.browser_verification_unlimited"
 msgstr "(pode exigir <a %(a_browser)s>verificação do browser</a> — downloads ilimitados!)"
 
-#: allthethings/page/views.py:3944
+#: allthethings/page/views.py:3955
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "Downloads do servidor parceiro temporariamente indisponíveis para este arquivo."
 
-#: allthethings/page/views.py:3948 allthethings/page/views.py:4186
+#: allthethings/page/views.py:3959 allthethings/page/views.py:4197
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:3998
+#: allthethings/page/views.py:4009
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Não ficção"
 
-#: allthethings/page/views.py:3998 allthethings/page/views.py:4009
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4009 allthethings/page/views.py:4020
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(clique também em “GET” no topo)"
 
-#: allthethings/page/views.py:3998 allthethings/page/views.py:4009
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4009 allthethings/page/views.py:4020
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(clique em “GET” no topo)"
 
-#: allthethings/page/views.py:4009
+#: allthethings/page/views.py:4020
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Ficção"
 
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:4163 allthethings/page/views.py:4164
-#: allthethings/page/views.py:4165
+#: allthethings/page/views.py:4174 allthethings/page/views.py:4175
+#: allthethings/page/views.py:4176
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "Gateway IPFS #%(num)d"
 
-#: allthethings/page/views.py:4163
+#: allthethings/page/views.py:4174
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(talvez seja necessário tentar várias vezes com IPFS)"
 
-#: allthethings/page/views.py:4183
+#: allthethings/page/views.py:4194
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Emprestar do Internet Archive"
 
-#: allthethings/page/views.py:4183
+#: allthethings/page/views.py:4194
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(impressão desabilitada, somente para patronos)"
 
-#: allthethings/page/views.py:4186
+#: allthethings/page/views.py:4197
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(o DOI associado pode não estar disponível no Sci-Hub)"
 
-#: allthethings/page/views.py:4193
+#: allthethings/page/views.py:4204
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Downloads torrent em massa"
 
-#: allthethings/page/views.py:4193
+#: allthethings/page/views.py:4204
 msgid "page.md5.box.download.experts_only"
 msgstr "(apenas especialistas)"
 
-#: allthethings/page/views.py:4200
+#: allthethings/page/views.py:4211
 msgid "page.md5.box.download.aa_isbn"
 msgstr "Procure pelo ISBN no Arquivo da Anna"
 
-#: allthethings/page/views.py:4201
+#: allthethings/page/views.py:4212
 msgid "page.md5.box.download.other_isbn"
 msgstr "Procure em vários outros bancos de dados pelo ISBN"
 
-#: allthethings/page/views.py:4203
+#: allthethings/page/views.py:4214
 msgid "page.md5.box.download.original_isbndb"
 msgstr "Encontre o registro original em ISBNdb"
 
-#: allthethings/page/views.py:4205
+#: allthethings/page/views.py:4216
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Procure pelo ID da Open Library no Arquivo da Anna"
 
-#: allthethings/page/views.py:4207
+#: allthethings/page/views.py:4218
 msgid "page.md5.box.download.original_openlib"
 msgstr "Encontre o registro original na Open Library"
 
-#: allthethings/page/views.py:4209
+#: allthethings/page/views.py:4220
 msgid "page.md5.box.download.aa_oclc"
 msgstr "Pesquise no Arquivo de Anna pelo número OCLC (WorldCat)"
 
-#: allthethings/page/views.py:4210
+#: allthethings/page/views.py:4221
 msgid "page.md5.box.download.original_oclc"
 msgstr "Procurar o registro original no WorldCat"
 
-#: allthethings/page/views.py:4212
+#: allthethings/page/views.py:4223
 msgid "page.md5.box.download.aa_duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:4213
+#: allthethings/page/views.py:4224
 msgid "page.md5.box.download.original_duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:4215
+#: allthethings/page/views.py:4226
 msgid "page.md5.box.download.aa_cadal"
 msgstr ""
 
-#: allthethings/page/views.py:4216
+#: allthethings/page/views.py:4227
 msgid "page.md5.box.download.original_cadal"
 msgstr ""
 
-#: allthethings/page/views.py:4220
+#: allthethings/page/views.py:4231
 msgid "page.md5.box.download.aa_dxid"
 msgstr ""
 
-#: allthethings/page/views.py:4228 allthethings/page/views.py:4229
+#: allthethings/page/views.py:4239 allthethings/page/views.py:4240
 msgid "page.md5.box.download.scidb"
 msgstr "Arquivo da Anna 🧬 SciDB"
 
@@ -1623,6 +1659,18 @@ msgstr ""
 #: allthethings/page/templates/page/aarecord.html:39
 msgid "page.md5.header.meta_desc"
 msgstr "Esse é um registro de metadados, não um arquivo disponível para download. Você pode usar essa URL quando <a %(a_request)s> pedir por um arquivo</a>."
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.descr_title"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.metadata_comments_title"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.date_open_sourced_title"
+msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:54
 msgid "page.md5.box.descr_read_more"
@@ -2179,196 +2227,227 @@ msgid "page.search.tabs.metadata"
 msgstr "Metadados"
 
 #: allthethings/page/templates/page/search.html:72
-#: allthethings/page/templates/page/search.html:120
+#: allthethings/page/templates/page/search.html:125
+msgid "page.search.advanced.description_comments"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:80
+#: allthethings/page/templates/page/search.html:174
 msgid "page.search.filters.content.header"
 msgstr "Conteúdo"
 
-#: allthethings/page/templates/page/search.html:76
-#: allthethings/page/templates/page/search.html:127
+#: allthethings/page/templates/page/search.html:84
+#: allthethings/page/templates/page/search.html:181
 msgid "page.search.filters.filetype.header"
 msgstr "Tipo de arquivo"
 
-#: allthethings/page/templates/page/search.html:80
-#: allthethings/page/templates/page/search.html:134
+#: allthethings/page/templates/page/search.html:88
+#: allthethings/page/templates/page/search.html:188
 msgid "page.search.filters.access.header"
 msgstr "Acesso"
 
-#: allthethings/page/templates/page/search.html:83
-#: allthethings/page/templates/page/search.html:140
+#: allthethings/page/templates/page/search.html:91
+#: allthethings/page/templates/page/search.html:194
 msgid "page.search.filters.source.header"
 msgstr "Fonte"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:146
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:200
 msgid "page.search.filters.order_by.header"
 msgstr "Ordene por"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:149
-#: allthethings/page/templates/page/search.html:153
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:207
 msgid "page.search.filters.sorting.newest"
 msgstr "Mais recente"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:149
-#: allthethings/page/templates/page/search.html:150
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:204
 msgid "page.search.filters.sorting.note_publication_year"
 msgstr "(ano de publicação)"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:150
-#: allthethings/page/templates/page/search.html:154
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:204
+#: allthethings/page/templates/page/search.html:208
 msgid "page.search.filters.sorting.oldest"
 msgstr "Mais antigo"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:151
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:205
 msgid "page.search.filters.sorting.largest"
 msgstr "Maior"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:151
-#: allthethings/page/templates/page/search.html:152
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:205
+#: allthethings/page/templates/page/search.html:206
 msgid "page.search.filters.sorting.note_filesize"
 msgstr "(tamanho do arquivo)"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:152
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:206
 msgid "page.search.filters.sorting.smallest"
 msgstr "Menor"
 
-#: allthethings/page/templates/page/search.html:89
-#: allthethings/page/templates/page/search.html:157
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:207
+#: allthethings/page/templates/page/search.html:208
+msgid "page.search.filters.sorting.note_open_sourced"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:97
+#: allthethings/page/templates/page/search.html:211
 msgid "page.search.filters.language.header"
 msgstr "Idioma"
 
-#: allthethings/page/templates/page/search.html:94
-#: allthethings/page/templates/page/search.html:97
+#: allthethings/page/templates/page/search.html:102
+#: allthethings/page/templates/page/search.html:105
 msgid "page.search.search_settings"
 msgstr "Configurações de busca"
 
-#: allthethings/page/templates/page/search.html:103
-#: allthethings/page/templates/page/search.html:168
+#: allthethings/page/templates/page/search.html:111
+#: allthethings/page/templates/page/search.html:222
 msgid "page.search.submit"
 msgstr "Buscar"
 
-#: allthethings/page/templates/page/search.html:107
+#: allthethings/page/templates/page/search.html:115
 msgid "page.search.too_long_broad_query"
 msgstr "A pesquisa demorou muito, o que é comum em consultas amplas. As contagens do filtro podem não ser precisas."
 
-#: allthethings/page/templates/page/search.html:111
-#: allthethings/page/templates/page/search.html:260
+#: allthethings/page/templates/page/search.html:119
+#: allthethings/page/templates/page/search.html:313
 msgid "page.search.too_inaccurate"
 msgstr "A pesquisa demorou muito, o que significa que você poderá ver resultados imprecisos. Às vezes, <a %(a_reload)s>recarregar</a> a página ajuda."
 
-#: allthethings/page/templates/page/search.html:143
+#: allthethings/page/templates/page/search.html:123
+msgid "page.search.advanced.header"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:129
+msgid "page.search.advanced.add_specific"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:141
+msgid "common.specific_search_fields.select"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:197
 msgid "page.search.filters.source.scraped"
 msgstr "raspado e de código aberto por AA"
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:202
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Mais relevante"
 
-#: allthethings/page/templates/page/search.html:163
+#: allthethings/page/templates/page/search.html:217
 msgid "page.search.more"
 msgstr "mais…"
 
-#: allthethings/page/templates/page/search.html:171
+#: allthethings/page/templates/page/search.html:225
 msgid "page.search.header.update_info"
 msgstr "O índice de busca é atualizado mensalmente. Atualmente, ele possui arquivos até %(last_data_refresh_date)s. Para informações mais técnicas, veja a página do %(link_open_tag)sdatasets</a>."
 
-#: allthethings/page/templates/page/search.html:181
+#: allthethings/page/templates/page/search.html:235
 msgid "page.search.results.search_downloads"
 msgstr "Digite na caixa para procurar em nosso catálogo de %(count)s arquivos de download direto, os quais nós <a %(a_preserve)s>preservamos para sempre</a>."
 
-#: allthethings/page/templates/page/search.html:184
-#: allthethings/page/templates/page/search.html:199
+#: allthethings/page/templates/page/search.html:238
+#: allthethings/page/templates/page/search.html:253
 msgid "page.search.results.most_comprehensive"
 msgstr "Nós atualmente temos o catálogo aberto de livros, artigos e outros trabalhos escritos mais completo do mundo. Nós espalhamos Sci-Hub, Library Genesis, Z-Library, <a %(a_datasets)s>e mais</a>."
 
-#: allthethings/page/templates/page/search.html:187
-#: allthethings/page/templates/page/search.html:202
+#: allthethings/page/templates/page/search.html:241
+#: allthethings/page/templates/page/search.html:256
 msgid "page.search.results.other_shadow_libs"
 msgstr "Caso você encontre outras \"shadow libraries\" que devemos espelhar, ou caso tenha qualquer dúvida, por favor nos contate em %(email)s."
 
-#: allthethings/page/templates/page/search.html:188
-#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:242
+#: allthethings/page/templates/page/search.html:257
 msgid "page.search.results.dmca"
 msgstr "Para reclamações de direitos autorais / DMCA <a %(a_copyright)s>clique aqui</a>."
 
-#: allthethings/page/templates/page/search.html:192
-#: allthethings/page/templates/page/search.html:207
-#: allthethings/page/templates/page/search.html:221
-#: allthethings/page/templates/page/search.html:239
-#: allthethings/page/templates/page/search.html:247
+#: allthethings/page/templates/page/search.html:246
+#: allthethings/page/templates/page/search.html:261
+#: allthethings/page/templates/page/search.html:275
+#: allthethings/page/templates/page/search.html:292
+#: allthethings/page/templates/page/search.html:300
 msgid "page.search.results.shortcuts"
 msgstr "Dica: use atalhos do teclado \"/\" (foco na busca), \"enter\" (buscar), \"j\" (para cima), \"k\"(para baixo) para uma navegação mais rápida."
 
-#: allthethings/page/templates/page/search.html:196
+#: allthethings/page/templates/page/search.html:250
 msgid "page.search.results.search_journals"
 msgstr "Digite na caixa para buscar em nosso catálogo de %(count)s trabalhos acadêmicos e artigos de jornal, os quais nós <a %(a_preserve)s>preservamos para sempre</a>."
 
-#: allthethings/page/templates/page/search.html:211
+#: allthethings/page/templates/page/search.html:265
 msgid "page.search.results.search_digital_lending"
 msgstr "Digite na caixa para procurar por arquivos em bibliotecas de empréstimo digital."
 
-#: allthethings/page/templates/page/search.html:214
+#: allthethings/page/templates/page/search.html:268
 msgid "page.search.results.digital_lending_info"
 msgstr "Esse index de busca atualmente inclui metadados da biblioteca de empréstimo digital do Internet Archive. <a %(a_datasets)s>Mais sobre nossos bancos de dados</a>."
 
-#: allthethings/page/templates/page/search.html:217
+#: allthethings/page/templates/page/search.html:271
 msgid "page.search.results.digital_lending_info_more"
 msgstr "Para mais bibliotecas de empréstimo digital, veja <a %(a_wikipedia)s>Wikipedia</a> e a <a %(a_mobileread)s>Wiki do MobileRead</a>."
 
-#: allthethings/page/templates/page/search.html:225
+#: allthethings/page/templates/page/search.html:279
 msgid "page.search.results.search_metadata"
 msgstr "Digite na caixa para procurar por metadados de bibliotecas. Isso pode ser útil quando estiver <a %(a_request)s>solicitando um arquivo</a>."
 
-#: allthethings/page/templates/page/search.html:228
+#: allthethings/page/templates/page/search.html:282
 msgid "page.search.results.metadata_info"
 msgstr "Esse index de procura atualmente inclui metadados do ISBNdb e Open Library. <a %(a_datasets)s>Mais sobre nossos bancos de dados</a>."
 
-#: allthethings/page/templates/page/search.html:235
+#: allthethings/page/templates/page/search.html:285
+msgid "page.search.results.metadata_no_merging"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:288
 msgid "page.search.results.metadata_info_more"
 msgstr "Tem muitas, muitas fontes de metadados para obras escritas ao redor do mundo. <a %(a_wikipedia)s>Essa página da Wikipedia</a> é um bom começo, mas se você quiser conhecer outras boas listas, por favor nos deixe saber."
 
-#: allthethings/page/templates/page/search.html:243
+#: allthethings/page/templates/page/search.html:296
 msgid "page.search.results.search_generic"
 msgstr "Digite na caixa para buscar."
 
-#: allthethings/page/templates/page/search.html:254
+#: allthethings/page/templates/page/search.html:307
 msgid "page.search.results.error.header"
 msgstr "Erro durante a pesquisa."
 
-#: allthethings/page/templates/page/search.html:256
+#: allthethings/page/templates/page/search.html:309
 msgid "page.search.results.error.unknown"
 msgstr "Tente <a %(a_reload)s>atualizar a página</a>. Caso o problema persista, por favor nos envie um email em %(email)s."
 
-#: allthethings/page/templates/page/search.html:265
+#: allthethings/page/templates/page/search.html:318
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Nenhum arquivo encontrado.</span> Tente usar menos termos ou termos diferentes na busca e nos filtros."
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.main"
 msgstr "Encontramos correspondências em: %(in)s. Você pode consultar a URL encontrada lá ao <a %(a_request)s>solicitar um arquivo</a>."
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.journals"
 msgstr "Artigos de Jornal (%(count)s)"
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.digital_lending"
 msgstr "Empréstimo digital (%(count)s)"
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.metadata"
 msgstr "Metadados (%(count)s)"
 
-#: allthethings/page/templates/page/search.html:288
+#: allthethings/page/templates/page/search.html:329
+msgid "page.search.results.numbers_pages"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:340
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ correspondências parciais"
 
-#: allthethings/page/templates/page/search.html:288
+#: allthethings/page/templates/page/search.html:340
 msgid "page.search.results.partial"
 msgstr "%(num)d correspondências parciais"
 
@@ -2608,6 +2687,20 @@ msgstr "copiar"
 #: allthethings/templates/macros/copy_button.html:2
 msgid "page.donate.copied"
 msgstr "copiado!"
+
+#: allthethings/templates/macros/pagination.html:24
+#: allthethings/templates/macros/pagination.html:29
+msgid "page.search.pagination.prev"
+msgstr ""
+
+#: allthethings/templates/macros/pagination.html:37
+msgid "page.search.pagination.numbers_spacing"
+msgstr ""
+
+#: allthethings/templates/macros/pagination.html:44
+#: allthethings/templates/macros/pagination.html:49
+msgid "page.search.pagination.next"
+msgstr ""
 
 #~ msgid "page.md5.box.download.mirror"
 #~ msgstr "Espelho #%(num)d: %(link)s %(extra)s"

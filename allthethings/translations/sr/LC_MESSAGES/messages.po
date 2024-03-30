@@ -294,9 +294,9 @@ msgstr "За донације преко 5000 долара молимо конт
 #: allthethings/page/templates/page/home.html:33
 #: allthethings/page/templates/page/home.html:38
 #: allthethings/page/templates/page/home.html:46
-#: allthethings/page/templates/page/search.html:187
-#: allthethings/page/templates/page/search.html:202
+#: allthethings/page/templates/page/search.html:241
 #: allthethings/page/templates/page/search.html:256
+#: allthethings/page/templates/page/search.html:309
 #: allthethings/templates/layouts/index.html:200
 msgid "page.contact.title"
 msgstr ""
@@ -315,7 +315,7 @@ msgstr "Молимо одаберите начин плаћања."
 
 #: allthethings/account/templates/account/donate.html:128
 #: allthethings/account/templates/account/donate.html:139
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.payment.buttons.crypto"
 msgstr "Крипто %(bitcoin_icon)s"
 
@@ -328,10 +328,10 @@ msgstr "Крипто %(bitcoin_icon)s"
 #: allthethings/account/templates/account/donate.html:145
 #: allthethings/account/templates/account/donate.html:148
 #: allthethings/account/templates/account/donate.html:151
+#: allthethings/account/templates/account/donate.html:309
 #: allthethings/account/templates/account/donate.html:310
 #: allthethings/account/templates/account/donate.html:311
 #: allthethings/account/templates/account/donate.html:312
-#: allthethings/account/templates/account/donate.html:313
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
@@ -340,7 +340,7 @@ msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal (US) %(bitcoin_icon)s"
 
 #: allthethings/account/templates/account/donate.html:134
-#: allthethings/account/templates/account/donate.html:289
+#: allthethings/account/templates/account/donate.html:288
 msgid "page.donate.payment.buttons.amazon"
 msgstr "Амазон поклон картица"
 
@@ -371,7 +371,7 @@ msgid "page.donate.payment.buttons.credit_debit2"
 msgstr "Кредитна / дебитна картица 2"
 
 #: allthethings/account/templates/account/donate.html:156
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.payment.buttons.wechat"
 msgstr "WeChat"
 
@@ -395,7 +395,7 @@ msgid "page.donate.payment.desc.crypto2"
 msgstr "Помоћу криптовалута можете донирати користећи BTC, ETH, XMR, и још много тога."
 
 #: allthethings/account/templates/account/donate.html:198
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr "Ако користите криптовалуте први пут, предлажемо да користите %(option1)s, %(option2)s, или%(option3)s да купите и донирате Биткоин (оригинална и најчешће коришћена криптовалута)."
 
@@ -454,115 +454,127 @@ msgstr "Имајте на уму да морамо да заокружимо и�
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>ВАЖНО:</strong> Подржавамо само Amazon.com, не друге Amazon интернет странице. На пример .de, .co.uk, .ca, НИСУ подржани."
 
-#: allthethings/account/templates/account/donate.html:304
+#: allthethings/account/templates/account/donate.html:288
+msgid "page.donate.ccexp.amazon_com"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:289
+msgid "page.donate.ccexp.wechat"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:290
+msgid "page.donate.ccexp.crypto"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:303
 msgid "page.donate.duration.intro"
 msgstr "Одаберите колико дуго желите да будете претплаћени."
 
-#: allthethings/account/templates/account/donate.html:309
+#: allthethings/account/templates/account/donate.html:308
 msgid "page.donate.duration.1_mo"
 msgstr "1 месец"
 
-#: allthethings/account/templates/account/donate.html:310
+#: allthethings/account/templates/account/donate.html:309
 msgid "page.donate.duration.3_mo"
 msgstr "3 месеца"
 
-#: allthethings/account/templates/account/donate.html:311
+#: allthethings/account/templates/account/donate.html:310
 msgid "page.donate.duration.6_mo"
 msgstr "6 месеци"
 
-#: allthethings/account/templates/account/donate.html:312
+#: allthethings/account/templates/account/donate.html:311
 msgid "page.donate.duration.12_mo"
 msgstr "12 месеци"
 
-#: allthethings/account/templates/account/donate.html:313
+#: allthethings/account/templates/account/donate.html:312
 msgid "page.donate.duration.24_mo"
 msgstr "24 месеца"
 
-#: allthethings/account/templates/account/donate.html:316
+#: allthethings/account/templates/account/donate.html:315
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>после <span %(span_discount)s></span> попуста</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:322
+#: allthethings/account/templates/account/donate.html:321
 msgid "page.donate.payment.minimum_method"
 msgstr "Овај начин плаћања захтева минимум од %(amount)s. Молимо одаберите друго трајање или начин плаћања."
 
-#: allthethings/account/templates/account/donate.html:323
+#: allthethings/account/templates/account/donate.html:322
 msgid "page.donate.payment.maximum_method"
 msgstr "Овај начин плаћања дозвољава само максимум од %(amount)s. Молимо одаберите друго трајање или начин плаћања."
 
-#: allthethings/account/templates/account/donate.html:328
+#: allthethings/account/templates/account/donate.html:327
 msgid "page.donate.login2"
 msgstr "Да постанете члан, <a %(a_login)s>Пријавите се или региструјте</a>. Хвала вам на подршци!"
 
-#: allthethings/account/templates/account/donate.html:335
+#: allthethings/account/templates/account/donate.html:334
 msgid "page.donate.payment.crypto_select"
 msgstr "Одаберите свој жељени крипто новчић:"
 
-#: allthethings/account/templates/account/donate.html:367
+#: allthethings/account/templates/account/donate.html:366
 msgid "page.donate.submit.confirm"
 msgstr "Кликните на дугме донирај да потврдите ову донацију."
 
-#: allthethings/account/templates/account/donate.html:375
+#: allthethings/account/templates/account/donate.html:374
 msgid "page.donate.submit.button"
 msgstr "Донирајте <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:380
+#: allthethings/account/templates/account/donate.html:379
 msgid "page.donate.submit.cancel_note"
 msgstr "И даље можете да откажете донацију током плаћања."
 
-#: allthethings/account/templates/account/donate.html:384
+#: allthethings/account/templates/account/donate.html:383
 msgid "page.donate.submit.success"
 msgstr "✅ Преусмеравање на страницу за донације…"
 
-#: allthethings/account/templates/account/donate.html:385
+#: allthethings/account/templates/account/donate.html:384
 msgid "page.donate.submit.failure"
 msgstr "❌ Нешто није у реду. Освежите страницу и покушајте поново."
 
-#: allthethings/account/templates/account/donate.html:445
+#: allthethings/account/templates/account/donate.html:444
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:446
+#: allthethings/account/templates/account/donate.html:445
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s / месечно"
 
-#: allthethings/account/templates/account/donate.html:449
+#: allthethings/account/templates/account/donate.html:448
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "за 1 месец"
 
-#: allthethings/account/templates/account/donate.html:450
+#: allthethings/account/templates/account/donate.html:449
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "за 3 месеца"
 
-#: allthethings/account/templates/account/donate.html:451
+#: allthethings/account/templates/account/donate.html:450
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "за 6 месеци"
 
-#: allthethings/account/templates/account/donate.html:452
+#: allthethings/account/templates/account/donate.html:451
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "за 12 месеци"
 
-#: allthethings/account/templates/account/donate.html:453
+#: allthethings/account/templates/account/donate.html:452
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "за 24 месеца"
 
-#: allthethings/account/templates/account/donate.html:457
+#: allthethings/account/templates/account/donate.html:456
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "за 1 месец „%(tier_name)s“"
 
-#: allthethings/account/templates/account/donate.html:458
+#: allthethings/account/templates/account/donate.html:457
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "за 3 месеца „%(tier_name)s“"
 
-#: allthethings/account/templates/account/donate.html:459
+#: allthethings/account/templates/account/donate.html:458
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "за 6 месеци „%(tier_name)s“"
 
-#: allthethings/account/templates/account/donate.html:460
+#: allthethings/account/templates/account/donate.html:459
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "за 12 месеци „%(tier_name)s“"
 
-#: allthethings/account/templates/account/donate.html:461
+#: allthethings/account/templates/account/donate.html:460
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "за 24 месеца „%(tier_name)s“"
 
@@ -1456,130 +1468,154 @@ msgstr "OCLC (WorldCat)"
 msgid "common.record_sources_mapping.duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:3807
+#: allthethings/page/views.py:3788
+msgid "common.specific_search_fields.title"
+msgstr ""
+
+#: allthethings/page/views.py:3789
+msgid "common.specific_search_fields.author"
+msgstr ""
+
+#: allthethings/page/views.py:3790
+msgid "common.specific_search_fields.publisher"
+msgstr ""
+
+#: allthethings/page/views.py:3791
+msgid "common.specific_search_fields.edition_varia"
+msgstr ""
+
+#: allthethings/page/views.py:3792
+msgid "common.specific_search_fields.original_filename"
+msgstr ""
+
+#: allthethings/page/views.py:3793
+msgid "common.specific_search_fields.description_comments"
+msgstr ""
+
+#: allthethings/page/views.py:3818
 msgid "common.md5.servers.fast_partner"
 msgstr "Брзи партнерски сервер #%(number)s"
 
-#: allthethings/page/views.py:3807 allthethings/page/views.py:4228
+#: allthethings/page/views.py:3818 allthethings/page/views.py:4239
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(није потребна верификација прегледача)"
 
-#: allthethings/page/views.py:3809
+#: allthethings/page/views.py:3820
 msgid "common.md5.servers.slow_partner"
 msgstr "Спори партнерски сервер #%(number)s"
 
-#: allthethings/page/views.py:3809
+#: allthethings/page/views.py:3820
 msgid "common.md5.servers.browser_verification_unlimited"
 msgstr "(може захтевати <a %(a_browser)s>верификацију прегледача</a> — неограничена преузимања!)"
 
-#: allthethings/page/views.py:3944
+#: allthethings/page/views.py:3955
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "Преузимања са партнерских сервера су привремено недоступна за ову датотеку."
 
-#: allthethings/page/views.py:3948 allthethings/page/views.py:4186
+#: allthethings/page/views.py:3959 allthethings/page/views.py:4197
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:3998
+#: allthethings/page/views.py:4009
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Стручна литература"
 
-#: allthethings/page/views.py:3998 allthethings/page/views.py:4009
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4009 allthethings/page/views.py:4020
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(такође кликните “GET” на врху)"
 
-#: allthethings/page/views.py:3998 allthethings/page/views.py:4009
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4009 allthethings/page/views.py:4020
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(кликните “GET” на врху)"
 
-#: allthethings/page/views.py:4009
+#: allthethings/page/views.py:4020
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Белетристика"
 
-#: allthethings/page/views.py:4160
+#: allthethings/page/views.py:4171
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:4163 allthethings/page/views.py:4164
-#: allthethings/page/views.py:4165
+#: allthethings/page/views.py:4174 allthethings/page/views.py:4175
+#: allthethings/page/views.py:4176
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "IPFS пролаз #%(num)d"
 
-#: allthethings/page/views.py:4163
+#: allthethings/page/views.py:4174
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(можда ћете морати да покушате више пута са IPFS-ом)"
 
-#: allthethings/page/views.py:4183
+#: allthethings/page/views.py:4194
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Позајмите из Internet Archive-е"
 
-#: allthethings/page/views.py:4183
+#: allthethings/page/views.py:4194
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(само корисници са онемогућеним штампањем)"
 
-#: allthethings/page/views.py:4186
+#: allthethings/page/views.py:4197
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(повезани DOI можда неће бити доступни у Sci-Hub)"
 
-#: allthethings/page/views.py:4193
+#: allthethings/page/views.py:4204
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Масовна преузимања торента"
 
-#: allthethings/page/views.py:4193
+#: allthethings/page/views.py:4204
 msgid "page.md5.box.download.experts_only"
 msgstr "(само стручњаци)"
 
-#: allthethings/page/views.py:4200
+#: allthethings/page/views.py:4211
 msgid "page.md5.box.download.aa_isbn"
 msgstr "Претражите ISBN у Аниној архиви"
 
-#: allthethings/page/views.py:4201
+#: allthethings/page/views.py:4212
 msgid "page.md5.box.download.other_isbn"
 msgstr "Претражите различите друге базе података за ISBN"
 
-#: allthethings/page/views.py:4203
+#: allthethings/page/views.py:4214
 msgid "page.md5.box.download.original_isbndb"
 msgstr "Пронађите оригинални запис у ISBNdb"
 
-#: allthethings/page/views.py:4205
+#: allthethings/page/views.py:4216
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Претражите Анину архиву за Open Library ID"
 
-#: allthethings/page/views.py:4207
+#: allthethings/page/views.py:4218
 msgid "page.md5.box.download.original_openlib"
 msgstr "Пронађите оригинални запис у Отвореној библиотеци"
 
-#: allthethings/page/views.py:4209
+#: allthethings/page/views.py:4220
 msgid "page.md5.box.download.aa_oclc"
 msgstr "Претражите Анину архиву за OCLC (WorldCat) број"
 
-#: allthethings/page/views.py:4210
+#: allthethings/page/views.py:4221
 msgid "page.md5.box.download.original_oclc"
 msgstr "Пронађите оригинални запис у WorldCat"
 
-#: allthethings/page/views.py:4212
+#: allthethings/page/views.py:4223
 msgid "page.md5.box.download.aa_duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:4213
+#: allthethings/page/views.py:4224
 msgid "page.md5.box.download.original_duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:4215
+#: allthethings/page/views.py:4226
 msgid "page.md5.box.download.aa_cadal"
 msgstr ""
 
-#: allthethings/page/views.py:4216
+#: allthethings/page/views.py:4227
 msgid "page.md5.box.download.original_cadal"
 msgstr ""
 
-#: allthethings/page/views.py:4220
+#: allthethings/page/views.py:4231
 msgid "page.md5.box.download.aa_dxid"
 msgstr ""
 
-#: allthethings/page/views.py:4228 allthethings/page/views.py:4229
+#: allthethings/page/views.py:4239 allthethings/page/views.py:4240
 msgid "page.md5.box.download.scidb"
 msgstr "Анина архива 🧬 SciDB"
 
@@ -1623,6 +1659,18 @@ msgstr ""
 #: allthethings/page/templates/page/aarecord.html:39
 msgid "page.md5.header.meta_desc"
 msgstr "Ово је запис метаподатака, а не датотека за преузимање. Можете користити овај URL када <a %(a_request)s>захтевате датотеку</a>."
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.descr_title"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.metadata_comments_title"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:53
+msgid "page.md5.box.date_open_sourced_title"
+msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:54
 msgid "page.md5.box.descr_read_more"
@@ -2179,196 +2227,227 @@ msgid "page.search.tabs.metadata"
 msgstr "Метаподаци"
 
 #: allthethings/page/templates/page/search.html:72
-#: allthethings/page/templates/page/search.html:120
+#: allthethings/page/templates/page/search.html:125
+msgid "page.search.advanced.description_comments"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:80
+#: allthethings/page/templates/page/search.html:174
 msgid "page.search.filters.content.header"
 msgstr "Садржај"
 
-#: allthethings/page/templates/page/search.html:76
-#: allthethings/page/templates/page/search.html:127
+#: allthethings/page/templates/page/search.html:84
+#: allthethings/page/templates/page/search.html:181
 msgid "page.search.filters.filetype.header"
 msgstr "Врста датотеке"
 
-#: allthethings/page/templates/page/search.html:80
-#: allthethings/page/templates/page/search.html:134
+#: allthethings/page/templates/page/search.html:88
+#: allthethings/page/templates/page/search.html:188
 msgid "page.search.filters.access.header"
 msgstr "Приступ"
 
-#: allthethings/page/templates/page/search.html:83
-#: allthethings/page/templates/page/search.html:140
+#: allthethings/page/templates/page/search.html:91
+#: allthethings/page/templates/page/search.html:194
 msgid "page.search.filters.source.header"
 msgstr "Извор"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:146
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:200
 msgid "page.search.filters.order_by.header"
 msgstr "Наручите по"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:149
-#: allthethings/page/templates/page/search.html:153
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:207
 msgid "page.search.filters.sorting.newest"
 msgstr "Најновије"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:149
-#: allthethings/page/templates/page/search.html:150
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:204
 msgid "page.search.filters.sorting.note_publication_year"
 msgstr "(година издања)"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:150
-#: allthethings/page/templates/page/search.html:154
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:204
+#: allthethings/page/templates/page/search.html:208
 msgid "page.search.filters.sorting.oldest"
 msgstr "Најстарије"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:151
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:205
 msgid "page.search.filters.sorting.largest"
 msgstr "Највеће"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:151
-#: allthethings/page/templates/page/search.html:152
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:205
+#: allthethings/page/templates/page/search.html:206
 msgid "page.search.filters.sorting.note_filesize"
 msgstr "(величина датотеке)"
 
-#: allthethings/page/templates/page/search.html:86
-#: allthethings/page/templates/page/search.html:152
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:206
 msgid "page.search.filters.sorting.smallest"
 msgstr "Најмање"
 
-#: allthethings/page/templates/page/search.html:89
-#: allthethings/page/templates/page/search.html:157
+#: allthethings/page/templates/page/search.html:94
+#: allthethings/page/templates/page/search.html:207
+#: allthethings/page/templates/page/search.html:208
+msgid "page.search.filters.sorting.note_open_sourced"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:97
+#: allthethings/page/templates/page/search.html:211
 msgid "page.search.filters.language.header"
 msgstr "Језик"
 
-#: allthethings/page/templates/page/search.html:94
-#: allthethings/page/templates/page/search.html:97
+#: allthethings/page/templates/page/search.html:102
+#: allthethings/page/templates/page/search.html:105
 msgid "page.search.search_settings"
 msgstr "Подешавања претраге"
 
-#: allthethings/page/templates/page/search.html:103
-#: allthethings/page/templates/page/search.html:168
+#: allthethings/page/templates/page/search.html:111
+#: allthethings/page/templates/page/search.html:222
 msgid "page.search.submit"
 msgstr "Претрага"
 
-#: allthethings/page/templates/page/search.html:107
+#: allthethings/page/templates/page/search.html:115
 msgid "page.search.too_long_broad_query"
 msgstr "Претрага је трајала предуго, што је уобичајено за широке упите. Број филтера можда није тачан."
 
-#: allthethings/page/templates/page/search.html:111
-#: allthethings/page/templates/page/search.html:260
+#: allthethings/page/templates/page/search.html:119
+#: allthethings/page/templates/page/search.html:313
 msgid "page.search.too_inaccurate"
 msgstr "Претрага је трајала предуго, што значи да ћете можда видети нетачне резултате. Понекад помаже <a %(a_reload)s>поновно учитавање</a> странице."
 
-#: allthethings/page/templates/page/search.html:143
+#: allthethings/page/templates/page/search.html:123
+msgid "page.search.advanced.header"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:129
+msgid "page.search.advanced.add_specific"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:141
+msgid "common.specific_search_fields.select"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:197
 msgid "page.search.filters.source.scraped"
 msgstr "остругано и отворено од стране АА"
 
-#: allthethings/page/templates/page/search.html:148
+#: allthethings/page/templates/page/search.html:202
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Најважније"
 
-#: allthethings/page/templates/page/search.html:163
+#: allthethings/page/templates/page/search.html:217
 msgid "page.search.more"
 msgstr "више…"
 
-#: allthethings/page/templates/page/search.html:171
+#: allthethings/page/templates/page/search.html:225
 msgid "page.search.header.update_info"
 msgstr "Индекс претраге се ажурира месечно. Тренутно укључује уносе до%(last_data_refresh_date)s. За више техничких информација, погледајте %(link_open_tag)sстрану са скуповима података</a>."
 
-#: allthethings/page/templates/page/search.html:181
+#: allthethings/page/templates/page/search.html:235
 msgid "page.search.results.search_downloads"
 msgstr "Упишите у поље за претрагу да бисте претражили наш каталог од%(count)s датотека које се могу директно преузети, а које <a %(a_preserve)s>чувамо заувек</a>."
 
-#: allthethings/page/templates/page/search.html:184
-#: allthethings/page/templates/page/search.html:199
+#: allthethings/page/templates/page/search.html:238
+#: allthethings/page/templates/page/search.html:253
 msgid "page.search.results.most_comprehensive"
 msgstr "Тренутно имамо најсвеобухватнији отворени каталог књига, научних радова и других писаних радова. Ми пресликавамо Sci-Hub, Library Genesis, Z-библиотека, <a %(a_datasets)s>и још много тога</a>."
 
-#: allthethings/page/templates/page/search.html:187
-#: allthethings/page/templates/page/search.html:202
+#: allthethings/page/templates/page/search.html:241
+#: allthethings/page/templates/page/search.html:256
 msgid "page.search.results.other_shadow_libs"
 msgstr "Ако пронађете друге „библиотеке из сенки“ које би требало да пресликамо, или ако имате било каква питања, контактирајте нас на %(email)s."
 
-#: allthethings/page/templates/page/search.html:188
-#: allthethings/page/templates/page/search.html:203
+#: allthethings/page/templates/page/search.html:242
+#: allthethings/page/templates/page/search.html:257
 msgid "page.search.results.dmca"
 msgstr "За DMCA / тужбе о ауторским правима <a %(a_copyright)s>кликните овде</a>."
 
-#: allthethings/page/templates/page/search.html:192
-#: allthethings/page/templates/page/search.html:207
-#: allthethings/page/templates/page/search.html:221
-#: allthethings/page/templates/page/search.html:239
-#: allthethings/page/templates/page/search.html:247
+#: allthethings/page/templates/page/search.html:246
+#: allthethings/page/templates/page/search.html:261
+#: allthethings/page/templates/page/search.html:275
+#: allthethings/page/templates/page/search.html:292
+#: allthethings/page/templates/page/search.html:300
 msgid "page.search.results.shortcuts"
 msgstr "Савет: користите пречице на тастатури „/” (фокус претраге), „ентер” (претрага), „ј” (горе), „к” (доле) за бржу навигацију."
 
-#: allthethings/page/templates/page/search.html:196
+#: allthethings/page/templates/page/search.html:250
 msgid "page.search.results.search_journals"
 msgstr "Упишите у поље за претрагу да бисте претражили наш каталог од%(count)s академских радова и чланака из часописа, а које <a %(a_preserve)s>чувамо заувек</a>."
 
-#: allthethings/page/templates/page/search.html:211
+#: allthethings/page/templates/page/search.html:265
 msgid "page.search.results.search_digital_lending"
 msgstr "Упишите у поље за претрагу за тражење датотека у дигиталним библиотекама позајмљивања."
 
-#: allthethings/page/templates/page/search.html:214
+#: allthethings/page/templates/page/search.html:268
 msgid "page.search.results.digital_lending_info"
 msgstr "Овај индекс претраге тренутно укључује метаподатке из библиотеке контролисаног дигиталног позајмљивања Internet Archive-а. <a %(a_datasets)s>Више о нашим скуповима података</a>."
 
-#: allthethings/page/templates/page/search.html:217
+#: allthethings/page/templates/page/search.html:271
 msgid "page.search.results.digital_lending_info_more"
 msgstr "За више дигиталних библиотека за позајмљивање, погледајте <a %(a_wikipedia)s>Википедију</a> и <a %(a_mobileread)s>MobileRead Wiki</a>."
 
-#: allthethings/page/templates/page/search.html:225
+#: allthethings/page/templates/page/search.html:279
 msgid "page.search.results.search_metadata"
 msgstr "Упишите у поље за претрагу да бисте претражили метаподатке из библиотека. Ово може бити корисно када <a %(a_request)s>тражите датотеку</a>."
 
-#: allthethings/page/templates/page/search.html:228
+#: allthethings/page/templates/page/search.html:282
 msgid "page.search.results.metadata_info"
 msgstr "Овај индекс претраге тренутно укључује метаподатке из различитих извора метаподатака. <a %(a_datasets)s>Више о нашим скуповима података</a>."
 
-#: allthethings/page/templates/page/search.html:235
+#: allthethings/page/templates/page/search.html:285
+msgid "page.search.results.metadata_no_merging"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:288
 msgid "page.search.results.metadata_info_more"
 msgstr "Постоји много, много извора метаподатака за писане радове широм света. <a %(a_wikipedia)s>Ова страница на Википедији</a> је добар почетак, али ако знате за друге добре листе, јавите нам."
 
-#: allthethings/page/templates/page/search.html:243
+#: allthethings/page/templates/page/search.html:296
 msgid "page.search.results.search_generic"
 msgstr "Упишите у поље за претрагу."
 
-#: allthethings/page/templates/page/search.html:254
+#: allthethings/page/templates/page/search.html:307
 msgid "page.search.results.error.header"
 msgstr "Грешка током претраге."
 
-#: allthethings/page/templates/page/search.html:256
+#: allthethings/page/templates/page/search.html:309
 msgid "page.search.results.error.unknown"
 msgstr "Покушајте <a %(a_reload)s>поново да учитате страницу</a>. Ако проблем и даље постоји, пошаљите нам мејл на %(email)s."
 
-#: allthethings/page/templates/page/search.html:265
+#: allthethings/page/templates/page/search.html:318
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Датотеке нису пронађене.</span> Пробајте са другим упитима или филтерима."
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.main"
 msgstr "Пронашли смо подударања у: %(in)s. Можете се позвати на URL који се тамо налази када <a %(a_request)s>тражите датотеку</a>."
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.journals"
 msgstr "Чланци из часописа (%(count)s)"
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.digital_lending"
 msgstr "Дигитално позајмљивање (%(count)s)"
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:322
 msgid "page.search.found_matches.metadata"
 msgstr "Метаподаци (%(count)s)"
 
-#: allthethings/page/templates/page/search.html:288
+#: allthethings/page/templates/page/search.html:329
+msgid "page.search.results.numbers_pages"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:340
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ делимичних поклапања"
 
-#: allthethings/page/templates/page/search.html:288
+#: allthethings/page/templates/page/search.html:340
 msgid "page.search.results.partial"
 msgstr "%(num)d делимичних поклапања"
 
@@ -2608,6 +2687,20 @@ msgstr "копирај"
 #: allthethings/templates/macros/copy_button.html:2
 msgid "page.donate.copied"
 msgstr "копирано!"
+
+#: allthethings/templates/macros/pagination.html:24
+#: allthethings/templates/macros/pagination.html:29
+msgid "page.search.pagination.prev"
+msgstr ""
+
+#: allthethings/templates/macros/pagination.html:37
+msgid "page.search.pagination.numbers_spacing"
+msgstr ""
+
+#: allthethings/templates/macros/pagination.html:44
+#: allthethings/templates/macros/pagination.html:49
+msgid "page.search.pagination.next"
+msgstr ""
 
 #~ msgid "page.md5.box.download.zlib_anon"
 #~ msgstr "Z-Library анонимни сервер #%(num)d"
