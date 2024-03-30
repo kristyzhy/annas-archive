@@ -297,7 +297,7 @@ msgstr "للتبرّعات التي تزيد عن 5000 دولارًا، راسل
 #: allthethings/page/templates/page/search.html:256
 #: allthethings/page/templates/page/search.html:309
 #: allthethings/templates/layouts/index.html:200
-#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:497
 msgid "page.contact.title"
 msgstr ""
 
@@ -1819,6 +1819,15 @@ msgstr "لا ترسل إلينا بريدًا إلكترونيًا <a %(a_reques
 msgid "page.contact.checkboxes.show_email_button"
 msgstr ""
 
+#: allthethings/page/templates/page/faq.html:3
+#: allthethings/page/templates/page/faq.html:6
+msgid "page.faq.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:8
+msgid "page.faq.what_is.title"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:11
 msgid "page.home.intro.text1"
 msgstr "<span %(span_anna)s> أرشيف آنا </ span> مشروع غير ربحي له هدفان:"
@@ -1864,8 +1873,8 @@ msgid "page.about.text3"
 msgstr "لتبقى متطلعاً على تقدمنا قم بمتابعة آنا على <a href=\"https://www.reddit.com/r/Annas_Archive/\"> ريديت </a> أو <a href=\"https://t.me/annasarchiveorg\">تليغرام</a>. للأسئلة والاقتراحات تواصل مع آنا عبر البريد الإلكتروني %(email)s."
 
 #: allthethings/page/templates/page/faq.html:83
-msgid "page.about.help.header"
-msgstr "طرق للمساعدة"
+msgid "page.faq.help.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:86
 msgid "page.about.help.text"
@@ -1895,6 +1904,10 @@ msgstr "10. أنشئ أو ساعد في الحفاظ على صفحة ويكيب�
 msgid "page.about.help.text11"
 msgstr "11. نتطلع إلى وضع إعلانات صغيرة وحسنة الذوق. إذا كنت ترغب في الإعلان على أرشيف آنا، فيُرجى إخبارنا بذلك."
 
+#: allthethings/page/templates/page/faq.html:93
+msgid "page.faq.help.mirrors"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:96
 msgid "page.donate.faq.title"
 msgstr "الأسئلة الشائعة حول التبرع"
@@ -1915,6 +1928,10 @@ msgstr "<div %(div_question)s>على ماذا تنفق التبرعات؟</div> 
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>هل يمكنني أن أتبرع كمية كبيرة؟</div> سيكون ذلك مذهلا! من أجل التبرعات أكثر من بضعة آلاف الدولارات, يرجى الاتصال بنا مباشرة في%(email)s."
 
+#: allthethings/page/templates/page/faq.html:114
+msgid "page.faq.upload.title"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:117
 msgid "page.upload.text1"
 msgstr "في الوقت الحالي ، نقترح تحميل كتب جديدة على مفترقات تكوين المكتبة. هنا <a %(a_guide)s> دليل مفيد </a>. لاحظ أن كلا الفرعين اللذين قمنا بفهرسته على موقع الويب هذا يسحبان من نظام التحميل نفسه."
@@ -1929,6 +1946,10 @@ msgstr ""
 
 #: allthethings/page/templates/page/faq.html:126
 msgid "page.upload.large.text"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:129
+msgid "page.faq.request.title"
 msgstr ""
 
 #: allthethings/page/templates/page/faq.html:132
@@ -1968,7 +1989,7 @@ msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
-#: allthethings/templates/layouts/index.html:433
+#: allthethings/templates/layouts/index.html:434
 msgid "layout.index.header.nav.beta"
 msgstr "الإصدار التجريبي"
 
@@ -2129,7 +2150,7 @@ msgid "page.search.tabs.metadata"
 msgstr "البيانات الوصفية"
 
 #: allthethings/page/templates/page/search.html:66
-#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:431
 msgid "common.search.placeholder"
 msgstr "عنوان، المؤلف، DOI، ISBN، MD5، …"
 
@@ -2383,8 +2404,8 @@ msgid "layout.index.header.banner.surprise"
 msgstr "مفاجأة أحد أفراد أسرته، ومنحهم حسابا مع العضوية."
 
 #: allthethings/templates/layouts/index.html:213
-#: allthethings/templates/layouts/index.html:427
-#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:482
 msgid "layout.index.header.nav.donate"
 msgstr "تبرع"
 
@@ -2411,112 +2432,113 @@ msgstr "أحدث التنزيلات:"
 #: allthethings/templates/layouts/index.html:396
 #: allthethings/templates/layouts/index.html:406
 #: allthethings/templates/layouts/index.html:418
-#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:480
 msgid "layout.index.header.nav.search"
 msgstr "بحث"
 
 #: allthethings/templates/layouts/index.html:398
 #: allthethings/templates/layouts/index.html:408
 #: allthethings/templates/layouts/index.html:420
-#: allthethings/templates/layouts/index.html:506
+#: allthethings/templates/layouts/index.html:508
 msgid "layout.index.header.nav.datasets"
 msgstr "مجموعات البيانات"
 
 #: allthethings/templates/layouts/index.html:399
 #: allthethings/templates/layouts/index.html:409
 #: allthethings/templates/layouts/index.html:421
-#: allthethings/templates/layouts/index.html:507
+#: allthethings/templates/layouts/index.html:509
 msgid "layout.index.header.nav.torrents"
 msgstr "ملفات تورنت"
 
 #: allthethings/templates/layouts/index.html:400
 #: allthethings/templates/layouts/index.html:410
 #: allthethings/templates/layouts/index.html:422
-#: allthethings/templates/layouts/index.html:508
+#: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.mirrors"
 msgstr ""
 
 #: allthethings/templates/layouts/index.html:401
 #: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:509
+#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:511
 msgid "layout.index.header.nav.llm_data"
 msgstr "بيانات LLM"
 
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:412
 #: allthethings/templates/layouts/index.html:417
-#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:479
 msgid "layout.index.header.nav.home"
 msgstr "الصفحة الرئيسية"
 
-#: allthethings/templates/layouts/index.html:423
-#: allthethings/templates/layouts/index.html:499
+#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:500
 msgid "layout.index.header.nav.annasblog"
 msgstr "مدونة آنا ↗"
 
-#: allthethings/templates/layouts/index.html:424
-#: allthethings/templates/layouts/index.html:500
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:501
 msgid "layout.index.header.nav.annassoftware"
 msgstr "برمجيات آنا ↖"
 
-#: allthethings/templates/layouts/index.html:425
-#: allthethings/templates/layouts/index.html:501
+#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:502
 msgid "layout.index.header.nav.translate"
 msgstr "ترجمة ↗"
 
-#: allthethings/templates/layouts/index.html:436
-#: allthethings/templates/layouts/index.html:440
-#: allthethings/templates/layouts/index.html:445
+#: allthethings/templates/layouts/index.html:437
+#: allthethings/templates/layouts/index.html:441
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.header.nav.login_register"
 msgstr "دخول / تسجيل"
-
-#: allthethings/templates/layouts/index.html:449
-#: allthethings/templates/layouts/index.html:456
-#: allthethings/templates/layouts/index.html:465
-msgid "layout.index.header.nav.public_profile"
-msgstr "الملف الشخصي العام"
 
 #: allthethings/templates/layouts/index.html:450
 #: allthethings/templates/layouts/index.html:457
 #: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "الملفات التي تم تنزيلها"
+msgid "layout.index.header.nav.public_profile"
+msgstr "الملف الشخصي العام"
 
 #: allthethings/templates/layouts/index.html:451
 #: allthethings/templates/layouts/index.html:458
 #: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "الملفات التي تم تنزيلها"
+
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
 msgid "layout.index.header.nav.my_donations"
 msgstr "تبرعاتي"
 
-#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "حساب"
 
-#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:478
 msgid "layout.index.footer.list1.header"
 msgstr "أرشيف آنا"
 
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:496
 msgid "layout.index.footer.list2.header"
 msgstr "للتواصل"
 
-#: allthethings/templates/layouts/index.html:497
+#: allthethings/templates/layouts/index.html:498
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "مطالبات حقوق التأليف والنشر / DMCA"
 
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:499
 msgid "layout.index.footer.list2.reddit"
 msgstr "ريديت"
 
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:499
 msgid "layout.index.footer.list2.telegram"
 msgstr "تليغرام"
 
-#: allthethings/templates/layouts/index.html:510
+#: allthethings/templates/layouts/index.html:512
 msgid "layout.index.header.nav.security"
 msgstr "حماية"
 
-#: allthethings/templates/layouts/index.html:514
+#: allthethings/templates/layouts/index.html:516
 msgid "layout.index.footer.list3.header"
 msgstr "البدائل"
 
@@ -2922,4 +2944,7 @@ msgstr ""
 
 #~ msgid "layout.index.header.nav.refer"
 #~ msgstr "إحالة الأصدقاء"
+
+#~ msgid "page.about.help.header"
+#~ msgstr "طرق للمساعدة"
 

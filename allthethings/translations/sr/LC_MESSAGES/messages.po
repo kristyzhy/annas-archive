@@ -297,7 +297,7 @@ msgstr "За донације преко 5000 долара молимо конт
 #: allthethings/page/templates/page/search.html:256
 #: allthethings/page/templates/page/search.html:309
 #: allthethings/templates/layouts/index.html:200
-#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:497
 msgid "page.contact.title"
 msgstr ""
 
@@ -1819,6 +1819,15 @@ msgstr "Немојте нам слати мејл да <a %(a_request)s>захт
 msgid "page.contact.checkboxes.show_email_button"
 msgstr ""
 
+#: allthethings/page/templates/page/faq.html:3
+#: allthethings/page/templates/page/faq.html:6
+msgid "page.faq.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:8
+msgid "page.faq.what_is.title"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:11
 msgid "page.home.intro.text1"
 msgstr "<span %(span_anna)s>Анина архива</span> је непрофитан пројекат са два циља:"
@@ -1864,8 +1873,8 @@ msgid "page.about.text3"
 msgstr "Да останете у току са нашим напретком, запратите Ану на <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit-у</a> or <a href=\"https://t.me/annasarchiveorg\">Telegram-у</a>. За питања и повратне информације контактирајте Ану на %(email)s."
 
 #: allthethings/page/templates/page/faq.html:83
-msgid "page.about.help.header"
-msgstr "Како да помогнете"
+msgid "page.faq.help.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:86
 msgid "page.about.help.text"
@@ -1895,6 +1904,10 @@ msgstr "10. Направите или помозите у одржавању В�
 msgid "page.about.help.text11"
 msgstr "11. Тражимо да поставимо мале, укусне рекламе. Ако желите да се рекламирате у Аниној архиви, обавестите нас."
 
+#: allthethings/page/templates/page/faq.html:93
+msgid "page.faq.help.mirrors"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:96
 msgid "page.donate.faq.title"
 msgstr "ЧПП о донацијама"
@@ -1915,6 +1928,10 @@ msgstr "<div %(div_question)s>На шта трошите донације?</div>
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Могу ли направити велику донацију?</div> То би било сјајно! За донације веће од неколико хиљада долара, контактирајте нас директно на %(email)s."
 
+#: allthethings/page/templates/page/faq.html:114
+msgid "page.faq.upload.title"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:117
 msgid "page.upload.text1"
 msgstr "За сад, предлажемо да шаљете нове књиге на форкове Library Genesis-a. Овде је <a %(a_guide)s>користан водич</a>. Имајте на уму да оба форка која индексирамо на сајту користе исту базу као извор."
@@ -1930,6 +1947,10 @@ msgstr "Алтернативно, можете их отпремити на Z-Li
 #: allthethings/page/templates/page/faq.html:126
 msgid "page.upload.large.text"
 msgstr "За велика отпремања (преко 10.000 датотека) које Libgen или Z-Library не прихватају, контактирајте нас на %(a_email)s."
+
+#: allthethings/page/templates/page/faq.html:129
+msgid "page.faq.request.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:132
 msgid "page.request.cannot_accomodate"
@@ -1968,7 +1989,7 @@ msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
-#: allthethings/templates/layouts/index.html:433
+#: allthethings/templates/layouts/index.html:434
 msgid "layout.index.header.nav.beta"
 msgstr "бета"
 
@@ -2129,7 +2150,7 @@ msgid "page.search.tabs.metadata"
 msgstr "Метаподаци"
 
 #: allthethings/page/templates/page/search.html:66
-#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:431
 msgid "common.search.placeholder"
 msgstr "Наслов, аутор, DOI, ISBN, MD5…"
 
@@ -2383,8 +2404,8 @@ msgid "layout.index.header.banner.surprise"
 msgstr "Изненадите вољену особу, дајте им налог са чланством."
 
 #: allthethings/templates/layouts/index.html:213
-#: allthethings/templates/layouts/index.html:427
-#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:482
 msgid "layout.index.header.nav.donate"
 msgstr "Донирајте"
 
@@ -2411,112 +2432,113 @@ msgstr "Недавна преузимања:"
 #: allthethings/templates/layouts/index.html:396
 #: allthethings/templates/layouts/index.html:406
 #: allthethings/templates/layouts/index.html:418
-#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:480
 msgid "layout.index.header.nav.search"
 msgstr "Претрага"
 
 #: allthethings/templates/layouts/index.html:398
 #: allthethings/templates/layouts/index.html:408
 #: allthethings/templates/layouts/index.html:420
-#: allthethings/templates/layouts/index.html:506
+#: allthethings/templates/layouts/index.html:508
 msgid "layout.index.header.nav.datasets"
 msgstr "Скупови података"
 
 #: allthethings/templates/layouts/index.html:399
 #: allthethings/templates/layouts/index.html:409
 #: allthethings/templates/layouts/index.html:421
-#: allthethings/templates/layouts/index.html:507
+#: allthethings/templates/layouts/index.html:509
 msgid "layout.index.header.nav.torrents"
 msgstr "Торенти"
 
 #: allthethings/templates/layouts/index.html:400
 #: allthethings/templates/layouts/index.html:410
 #: allthethings/templates/layouts/index.html:422
-#: allthethings/templates/layouts/index.html:508
+#: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.mirrors"
 msgstr "Пресликавања: позив за добровољце"
 
 #: allthethings/templates/layouts/index.html:401
 #: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:509
+#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:511
 msgid "layout.index.header.nav.llm_data"
 msgstr "ВЈМ подаци"
 
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:412
 #: allthethings/templates/layouts/index.html:417
-#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:479
 msgid "layout.index.header.nav.home"
 msgstr "Почетна"
 
-#: allthethings/templates/layouts/index.html:423
-#: allthethings/templates/layouts/index.html:499
+#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:500
 msgid "layout.index.header.nav.annasblog"
 msgstr "Анин блог ↗"
 
-#: allthethings/templates/layouts/index.html:424
-#: allthethings/templates/layouts/index.html:500
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:501
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Анин софтвер ↗"
 
-#: allthethings/templates/layouts/index.html:425
-#: allthethings/templates/layouts/index.html:501
+#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:502
 msgid "layout.index.header.nav.translate"
 msgstr "Преведи ↗"
 
-#: allthethings/templates/layouts/index.html:436
-#: allthethings/templates/layouts/index.html:440
-#: allthethings/templates/layouts/index.html:445
+#: allthethings/templates/layouts/index.html:437
+#: allthethings/templates/layouts/index.html:441
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.header.nav.login_register"
 msgstr "Пријави се / Региструј се"
-
-#: allthethings/templates/layouts/index.html:449
-#: allthethings/templates/layouts/index.html:456
-#: allthethings/templates/layouts/index.html:465
-msgid "layout.index.header.nav.public_profile"
-msgstr "Јавни профил"
 
 #: allthethings/templates/layouts/index.html:450
 #: allthethings/templates/layouts/index.html:457
 #: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Преузете датотеке"
+msgid "layout.index.header.nav.public_profile"
+msgstr "Јавни профил"
 
 #: allthethings/templates/layouts/index.html:451
 #: allthethings/templates/layouts/index.html:458
 #: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Преузете датотеке"
+
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
 msgid "layout.index.header.nav.my_donations"
 msgstr "Моје донације"
 
-#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Налог"
 
-#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:478
 msgid "layout.index.footer.list1.header"
 msgstr "Анина архива"
 
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:496
 msgid "layout.index.footer.list2.header"
 msgstr "Буди у току"
 
-#: allthethings/templates/layouts/index.html:497
+#: allthethings/templates/layouts/index.html:498
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA / захтев ауторских права"
 
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:499
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:499
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:510
+#: allthethings/templates/layouts/index.html:512
 msgid "layout.index.header.nav.security"
 msgstr "Безбедност"
 
-#: allthethings/templates/layouts/index.html:514
+#: allthethings/templates/layouts/index.html:516
 msgid "layout.index.footer.list3.header"
 msgstr "Други избори"
 
@@ -2901,4 +2923,7 @@ msgstr ""
 
 #~ msgid "layout.index.header.nav.refer"
 #~ msgstr "Препоручите пријатеље"
+
+#~ msgid "page.about.help.header"
+#~ msgstr "Како да помогнете"
 

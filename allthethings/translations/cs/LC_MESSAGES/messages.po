@@ -297,7 +297,7 @@ msgstr "V případě darů nad $5000 nás prosím kontaktujte přímo na adrese 
 #: allthethings/page/templates/page/search.html:256
 #: allthethings/page/templates/page/search.html:309
 #: allthethings/templates/layouts/index.html:200
-#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:497
 msgid "page.contact.title"
 msgstr ""
 
@@ -1819,6 +1819,15 @@ msgstr "Prosíme, neposílejte nám emaily s <a %(a_request)s>žádostmi o knihy
 msgid "page.contact.checkboxes.show_email_button"
 msgstr ""
 
+#: allthethings/page/templates/page/faq.html:3
+#: allthethings/page/templates/page/faq.html:6
+msgid "page.faq.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:8
+msgid "page.faq.what_is.title"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:11
 msgid "page.home.intro.text1"
 msgstr "<span %(span_anna)s>Annin archív</span> je neziskový projekt se dvěma cíly:"
@@ -1864,8 +1873,8 @@ msgid "page.about.text3"
 msgstr "Pokud chcete být informováni o našich pokrocích, sledujte Annu na <a href=\"https://www.reddit.com/r/Annas_Archive/\">Redditu</a> nebo <a href=\"https://t.me/annasarchiveorg\">Telegramu</a>. Dotazy a zpětnou vazbu posílejte Anně na %(email)s."
 
 #: allthethings/page/templates/page/faq.html:83
-msgid "page.about.help.header"
-msgstr "Jak pomoct"
+msgid "page.faq.help.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:86
 msgid "page.about.help.text"
@@ -1895,6 +1904,10 @@ msgstr "10. Vytvořte nebo doplňujte Wikistránku Annina archívu, ať už v č
 msgid "page.about.help.text11"
 msgstr "11. Máme zájem o umístění drobných, nerušivých reklam na naši stránku. Pokud byste měli zájem, kontaktujte nás."
 
+#: allthethings/page/templates/page/faq.html:93
+msgid "page.faq.help.mirrors"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:96
 msgid "page.donate.faq.title"
 msgstr "Nejčastěji kladené dotazy - dary"
@@ -1915,6 +1928,10 @@ msgstr "<div %(div_question)s>Na co jsou dary použity?</div> 100%% darů jde na
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Je možné darovat velký obnos peněz?</div> To by bylo úžasné! Pokud plánujete darovat více než několik tisíc dolarů, kontaktujte nás prosím na %(email)s."
 
+#: allthethings/page/templates/page/faq.html:114
+msgid "page.faq.upload.title"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:117
 msgid "page.upload.text1"
 msgstr "Prozatím doporučujeme nahrávat nové knihy na fork Library Genesis. Návod, jak to provést, najdete <a %(a_guide)s>zde</a>. Oba forky uvedené na této stránce čerpají data ze stejného nahrávacího systému."
@@ -1930,6 +1947,10 @@ msgstr "Jiná možnost je nahrát je na Z-Library <a %(a_upload)s>zde</a>."
 #: allthethings/page/templates/page/faq.html:126
 msgid "page.upload.large.text"
 msgstr "Pro nahrání velkého množství souborů (přes 10 000), které Libgen nebo Z-Library neakceptují, nás prosím kontaktujte na %(a_email)s."
+
+#: allthethings/page/templates/page/faq.html:129
+msgid "page.faq.request.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:132
 msgid "page.request.cannot_accomodate"
@@ -1968,7 +1989,7 @@ msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
-#: allthethings/templates/layouts/index.html:433
+#: allthethings/templates/layouts/index.html:434
 msgid "layout.index.header.nav.beta"
 msgstr "beta"
 
@@ -2129,7 +2150,7 @@ msgid "page.search.tabs.metadata"
 msgstr "Metadata"
 
 #: allthethings/page/templates/page/search.html:66
-#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:431
 msgid "common.search.placeholder"
 msgstr "Název, autor, DOI, ISBN, MD5, …"
 
@@ -2383,8 +2404,8 @@ msgid "layout.index.header.banner.surprise"
 msgstr "Překvapte někoho blízkého, dejte mu účet s členstvím."
 
 #: allthethings/templates/layouts/index.html:213
-#: allthethings/templates/layouts/index.html:427
-#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:482
 msgid "layout.index.header.nav.donate"
 msgstr "Přispět"
 
@@ -2411,112 +2432,113 @@ msgstr "Nedávno staženo:"
 #: allthethings/templates/layouts/index.html:396
 #: allthethings/templates/layouts/index.html:406
 #: allthethings/templates/layouts/index.html:418
-#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:480
 msgid "layout.index.header.nav.search"
 msgstr "Vyhledat"
 
 #: allthethings/templates/layouts/index.html:398
 #: allthethings/templates/layouts/index.html:408
 #: allthethings/templates/layouts/index.html:420
-#: allthethings/templates/layouts/index.html:506
+#: allthethings/templates/layouts/index.html:508
 msgid "layout.index.header.nav.datasets"
 msgstr "Datasety"
 
 #: allthethings/templates/layouts/index.html:399
 #: allthethings/templates/layouts/index.html:409
 #: allthethings/templates/layouts/index.html:421
-#: allthethings/templates/layouts/index.html:507
+#: allthethings/templates/layouts/index.html:509
 msgid "layout.index.header.nav.torrents"
 msgstr "Torrenty"
 
 #: allthethings/templates/layouts/index.html:400
 #: allthethings/templates/layouts/index.html:410
 #: allthethings/templates/layouts/index.html:422
-#: allthethings/templates/layouts/index.html:508
+#: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.mirrors"
 msgstr "Zrcadla: výzva pro dobrovolníky"
 
 #: allthethings/templates/layouts/index.html:401
 #: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:509
+#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:511
 msgid "layout.index.header.nav.llm_data"
 msgstr "Data pro LLM"
 
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:412
 #: allthethings/templates/layouts/index.html:417
-#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:479
 msgid "layout.index.header.nav.home"
 msgstr "Domů"
 
-#: allthethings/templates/layouts/index.html:423
-#: allthethings/templates/layouts/index.html:499
+#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:500
 msgid "layout.index.header.nav.annasblog"
 msgstr "Annin blog↗"
 
-#: allthethings/templates/layouts/index.html:424
-#: allthethings/templates/layouts/index.html:500
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:501
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Annin software ↗"
 
-#: allthethings/templates/layouts/index.html:425
-#: allthethings/templates/layouts/index.html:501
+#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:502
 msgid "layout.index.header.nav.translate"
 msgstr "Překlad ↗"
 
-#: allthethings/templates/layouts/index.html:436
-#: allthethings/templates/layouts/index.html:440
-#: allthethings/templates/layouts/index.html:445
+#: allthethings/templates/layouts/index.html:437
+#: allthethings/templates/layouts/index.html:441
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.header.nav.login_register"
 msgstr "Přihlásit / Registrovat"
-
-#: allthethings/templates/layouts/index.html:449
-#: allthethings/templates/layouts/index.html:456
-#: allthethings/templates/layouts/index.html:465
-msgid "layout.index.header.nav.public_profile"
-msgstr "Veřejný profil"
 
 #: allthethings/templates/layouts/index.html:450
 #: allthethings/templates/layouts/index.html:457
 #: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Stažené soubory"
+msgid "layout.index.header.nav.public_profile"
+msgstr "Veřejný profil"
 
 #: allthethings/templates/layouts/index.html:451
 #: allthethings/templates/layouts/index.html:458
 #: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Stažené soubory"
+
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
 msgid "layout.index.header.nav.my_donations"
 msgstr "Mé dary"
 
-#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Účet"
 
-#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:478
 msgid "layout.index.footer.list1.header"
 msgstr "Annin archív"
 
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:496
 msgid "layout.index.footer.list2.header"
 msgstr "Sledujte nás"
 
-#: allthethings/templates/layouts/index.html:497
+#: allthethings/templates/layouts/index.html:498
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA / reklamace autorských práv"
 
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:499
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:499
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:510
+#: allthethings/templates/layouts/index.html:512
 msgid "layout.index.header.nav.security"
 msgstr "Bezpečnost"
 
-#: allthethings/templates/layouts/index.html:514
+#: allthethings/templates/layouts/index.html:516
 msgid "layout.index.footer.list3.header"
 msgstr "Alternativní domény"
 
@@ -2802,4 +2824,7 @@ msgstr ""
 
 #~ msgid "layout.index.header.nav.refer"
 #~ msgstr "Doporučit přítele"
+
+#~ msgid "page.about.help.header"
+#~ msgstr "Jak pomoct"
 

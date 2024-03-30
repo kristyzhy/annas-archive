@@ -298,7 +298,7 @@ msgstr "超过$5000的捐赠请直接通过%(email)s联系我们。"
 #: allthethings/page/templates/page/search.html:256
 #: allthethings/page/templates/page/search.html:309
 #: allthethings/templates/layouts/index.html:200
-#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:497
 msgid "page.contact.title"
 msgstr ""
 
@@ -1820,6 +1820,15 @@ msgstr "不要给我们发邮件来<a %(a_request)s>请求图书</a><br>或提�
 msgid "page.contact.checkboxes.show_email_button"
 msgstr ""
 
+#: allthethings/page/templates/page/faq.html:3
+#: allthethings/page/templates/page/faq.html:6
+msgid "page.faq.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:8
+msgid "page.faq.what_is.title"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:11
 msgid "page.home.intro.text1"
 msgstr "<span %(span_anna)s>安娜的档案</span>是一个非盈利性项目，有两个目标："
@@ -1865,8 +1874,8 @@ msgid "page.about.text3"
 msgstr "要了解我们的最新进展，请关注安娜的<a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>或<a href=\"https://t.me/annasarchiveorg\">Telegram</a>。如有问题和反馈，请通过%(email)s联系Anna。"
 
 #: allthethings/page/templates/page/faq.html:83
-msgid "page.about.help.header"
-msgstr "如何提供帮助"
+msgid "page.faq.help.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:86
 msgid "page.about.help.text"
@@ -1896,6 +1905,10 @@ msgstr "10. 创建或帮助维护你使用的语言版本维基百科的《安�
 msgid "page.about.help.text11"
 msgstr "11. 我们想要投放精巧的小广告。如果你想在安娜的档案上打广告，请联系我们。"
 
+#: allthethings/page/templates/page/faq.html:93
+msgid "page.faq.help.mirrors"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:96
 msgid "page.donate.faq.title"
 msgstr "捐赠常见问题"
@@ -1916,6 +1929,10 @@ msgstr "<div %(div_question)s>你们将捐赠用在什么地方？</div> 100%%�
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>我可以进行大额的捐款吗？</div>这太酷了！对于数千美元及以上的捐款，请直接通过%(email)s联系我们。"
 
+#: allthethings/page/templates/page/faq.html:114
+msgid "page.faq.upload.title"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:117
 msgid "page.upload.text1"
 msgstr "目前，我们建议你先在 Library Genesis 的分支网站上传新书。这里是一份<a %(a_guide)s>快速指南</a>。注意，本站索引的那两个分支网站都从同一个上传系统中获取数据。"
@@ -1931,6 +1948,10 @@ msgstr "或者，你也可以上传到<a %(a_upload)s>Z-Library</a>。"
 #: allthethings/page/templates/page/faq.html:126
 msgid "page.upload.large.text"
 msgstr "对于不被 Libgen 或 Z-Library 接受的大量上传（超过10000个文件），请联系我们：%(a_email)s。"
+
+#: allthethings/page/templates/page/faq.html:129
+msgid "page.faq.request.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:132
 msgid "page.request.cannot_accomodate"
@@ -1969,7 +1990,7 @@ msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
-#: allthethings/templates/layouts/index.html:433
+#: allthethings/templates/layouts/index.html:434
 msgid "layout.index.header.nav.beta"
 msgstr "测试版"
 
@@ -2130,7 +2151,7 @@ msgid "page.search.tabs.metadata"
 msgstr "元数据"
 
 #: allthethings/page/templates/page/search.html:66
-#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:431
 msgid "common.search.placeholder"
 msgstr "SSID、DXID、标题、作者、DOI、ISBN、MD5……"
 
@@ -2384,8 +2405,8 @@ msgid "layout.index.header.banner.surprise"
 msgstr "给你所爱的人一个惊喜，给他们一个会员帐户。"
 
 #: allthethings/templates/layouts/index.html:213
-#: allthethings/templates/layouts/index.html:427
-#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:482
 msgid "layout.index.header.nav.donate"
 msgstr "捐赠"
 
@@ -2412,112 +2433,113 @@ msgstr "近期下载："
 #: allthethings/templates/layouts/index.html:396
 #: allthethings/templates/layouts/index.html:406
 #: allthethings/templates/layouts/index.html:418
-#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:480
 msgid "layout.index.header.nav.search"
 msgstr "搜索"
 
 #: allthethings/templates/layouts/index.html:398
 #: allthethings/templates/layouts/index.html:408
 #: allthethings/templates/layouts/index.html:420
-#: allthethings/templates/layouts/index.html:506
+#: allthethings/templates/layouts/index.html:508
 msgid "layout.index.header.nav.datasets"
 msgstr "数据集"
 
 #: allthethings/templates/layouts/index.html:399
 #: allthethings/templates/layouts/index.html:409
 #: allthethings/templates/layouts/index.html:421
-#: allthethings/templates/layouts/index.html:507
+#: allthethings/templates/layouts/index.html:509
 msgid "layout.index.header.nav.torrents"
 msgstr "种子"
 
 #: allthethings/templates/layouts/index.html:400
 #: allthethings/templates/layouts/index.html:410
 #: allthethings/templates/layouts/index.html:422
-#: allthethings/templates/layouts/index.html:508
+#: allthethings/templates/layouts/index.html:510
 msgid "layout.index.header.nav.mirrors"
 msgstr "镜像：征集志愿者"
 
 #: allthethings/templates/layouts/index.html:401
 #: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:509
+#: allthethings/templates/layouts/index.html:423
+#: allthethings/templates/layouts/index.html:511
 msgid "layout.index.header.nav.llm_data"
 msgstr "大语言模型数据"
 
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:412
 #: allthethings/templates/layouts/index.html:417
-#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:479
 msgid "layout.index.header.nav.home"
 msgstr "主页"
 
-#: allthethings/templates/layouts/index.html:423
-#: allthethings/templates/layouts/index.html:499
+#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:500
 msgid "layout.index.header.nav.annasblog"
 msgstr "安娜的博客 ↗"
 
-#: allthethings/templates/layouts/index.html:424
-#: allthethings/templates/layouts/index.html:500
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:501
 msgid "layout.index.header.nav.annassoftware"
 msgstr "安娜的软件 ↗"
 
-#: allthethings/templates/layouts/index.html:425
-#: allthethings/templates/layouts/index.html:501
+#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:502
 msgid "layout.index.header.nav.translate"
 msgstr "翻译 ↗"
 
-#: allthethings/templates/layouts/index.html:436
-#: allthethings/templates/layouts/index.html:440
-#: allthethings/templates/layouts/index.html:445
+#: allthethings/templates/layouts/index.html:437
+#: allthethings/templates/layouts/index.html:441
+#: allthethings/templates/layouts/index.html:446
 msgid "layout.index.header.nav.login_register"
 msgstr "登录 / 注册"
-
-#: allthethings/templates/layouts/index.html:449
-#: allthethings/templates/layouts/index.html:456
-#: allthethings/templates/layouts/index.html:465
-msgid "layout.index.header.nav.public_profile"
-msgstr "公开资料"
 
 #: allthethings/templates/layouts/index.html:450
 #: allthethings/templates/layouts/index.html:457
 #: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "已下载文件"
+msgid "layout.index.header.nav.public_profile"
+msgstr "公开资料"
 
 #: allthethings/templates/layouts/index.html:451
 #: allthethings/templates/layouts/index.html:458
 #: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "已下载文件"
+
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
 msgid "layout.index.header.nav.my_donations"
 msgstr "我的捐赠"
 
-#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "账户"
 
-#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:478
 msgid "layout.index.footer.list1.header"
 msgstr "安娜的档案"
 
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:496
 msgid "layout.index.footer.list2.header"
 msgstr "保持联系"
 
-#: allthethings/templates/layouts/index.html:497
+#: allthethings/templates/layouts/index.html:498
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "数字千年版权法(DCMA)/ 版权声明"
 
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:499
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:498
+#: allthethings/templates/layouts/index.html:499
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:510
+#: allthethings/templates/layouts/index.html:512
 msgid "layout.index.header.nav.security"
 msgstr "安全性"
 
-#: allthethings/templates/layouts/index.html:514
+#: allthethings/templates/layouts/index.html:516
 msgid "layout.index.footer.list3.header"
 msgstr "镜像"
 
@@ -2923,4 +2945,7 @@ msgstr ""
 
 #~ msgid "layout.index.header.nav.refer"
 #~ msgstr ""
+
+#~ msgid "page.about.help.header"
+#~ msgstr "如何提供帮助"
 
