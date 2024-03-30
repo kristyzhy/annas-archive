@@ -285,10 +285,9 @@
       </p>
 
       <ol class="list-decimal list-inside mb-4">
-        <!-- TODO:TRANSLATE -->
-        <li><strong>{{ gettext('page.donate.payment.buttons.amazon') }}</strong>: send us Amazon.com gift cards using your credit/debit card.</li>
-        <li><strong>{{ gettext('page.donate.payment.buttons.wechat') }}</strong>: WeChat (Weixin Pay) supports international credit/debit cards. In the WeChat app, go to “Me => Services => Wallet => Add a Card”. If you don’t see that, enable it using “Me => Settings => General => Tools => Weixin Pay => Enable”.</li>
-        <li><strong>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}</strong>: You can buy crypto using credit/debit cards. {{ gettext('page.donate.payment.desc.crypto_suggestion', option1=('<a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a>' | safe), option2=('<a href="https://www.coinbase.com" rel="noopener noreferrer nofollow" target="_blank">Coinbase</a>' | safe), option3=('<a href="https://www.kraken.com" rel="noopener noreferrer nofollow" target="_blank">Kraken</a>' | safe)) }}</li>
+        <li><strong>{{ gettext('page.donate.payment.buttons.amazon') }}</strong>: {{ gettext('page.donate.ccexp.amazon_com') }}</li>
+        <li><strong>{{ gettext('page.donate.payment.buttons.wechat') }}</strong>: {{ gettext('page.donate.ccexp.wechat') }}</li>
+        <li><strong>{{ gettext('page.donate.payment.buttons.crypto', bitcoin_icon=('<span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span>' | safe)) }}</strong>: {{ gettext('page.donate.ccexp.crypto') }} {{ gettext('page.donate.payment.desc.crypto_suggestion', option1=('<a href="https://www.binance.com/en" rel="noopener noreferrer nofollow" target="_blank">Binance</a>' | safe), option2=('<a href="https://www.coinbase.com" rel="noopener noreferrer nofollow" target="_blank">Coinbase</a>' | safe), option3=('<a href="https://www.kraken.com" rel="noopener noreferrer nofollow" target="_blank">Kraken</a>' | safe)) }}</li>
       </ol>
     </div>
 

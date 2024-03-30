@@ -63,14 +63,13 @@
 
     <div class="flex mb-2 items-center">
       <a href="#" class="custom-a sm:hidden text-lg mr-2 opacity-50 hover:opacity-100" alt="Filter settings" title="Filter settings" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="icon-[mingcute--settings-6-line]"></span></a>
-      <!-- TODO:TRANSLATE title text -->
-      <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %} title="Focus: '/' Scroll search results: 'j', 'k'">
+      <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %}>
       <button class="sm:hidden px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('common.search.submit') }}</button>
     </div>
 
     <div class="text-xs flex flex-wrap mb-4 sm:hidden">
       {% if search_dict.search_desc %}
-        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab py-0.5 bg-[#ccc] px-1" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><!--TODO:TRANSLATE-->Search descriptions and metadata comments</span></a>
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab py-0.5 bg-[#ccc] px-1" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'">{{ gettext('page.search.advanced.description_comments') }}</span></a>
       {% endif %}
 
       {% for term_type, term_val in search_dict.specific_search_fields %}
@@ -92,7 +91,7 @@
         <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-0.5 bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.source.header') }}</span><span class="py-0.5">{% for bucket in search_dict.aggregations.search_record_sources | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} [{{ bucket.key }}] ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
       {% endif %}
       {% if search_dict.sort_value != '' %}
-        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-0.5 bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.order_by.header') }}</span><span class="py-0.5">{% if search_dict.sort_value == 'newest' %}{{ gettext('page.search.filters.sorting.newest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_publication_year') }}</span>{% endif %}{% if search_dict.sort_value == 'oldest' %}{{ gettext('page.search.filters.sorting.oldest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_publication_year') }}</span>{% endif %}{% if search_dict.sort_value == 'largest' %}{{ gettext('page.search.filters.sorting.largest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_filesize') }}</span>{% endif %}{% if search_dict.sort_value == 'smallest' %}{{ gettext('page.search.filters.sorting.smallest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_filesize') }}</span>{% endif %}</span>{% if search_dict.sort_value == 'newest_added' %}{{ gettext('page.search.filters.sorting.newest') }} <span class="text-gray-500"><!--TODO:TRANSLATE-->(open sourced)</span>{% endif %}{% if search_dict.sort_value == 'oldest_added' %}{{ gettext('page.search.filters.sorting.oldest') }} <span class="text-gray-500"><!--TODO:TRANSLATE-->(open sourced)</span>{% endif %}</a>
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-0.5 bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.order_by.header') }}</span><span class="py-0.5">{% if search_dict.sort_value == 'newest' %}{{ gettext('page.search.filters.sorting.newest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_publication_year') }}</span>{% endif %}{% if search_dict.sort_value == 'oldest' %}{{ gettext('page.search.filters.sorting.oldest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_publication_year') }}</span>{% endif %}{% if search_dict.sort_value == 'largest' %}{{ gettext('page.search.filters.sorting.largest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_filesize') }}</span>{% endif %}{% if search_dict.sort_value == 'smallest' %}{{ gettext('page.search.filters.sorting.smallest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_filesize') }}</span>{% endif %}</span>{% if search_dict.sort_value == 'newest_added' %}{{ gettext('page.search.filters.sorting.newest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_open_sourced') }}</span>{% endif %}{% if search_dict.sort_value == 'oldest_added' %}{{ gettext('page.search.filters.sorting.oldest') }} <span class="text-gray-500">{{ gettext('page.search.filters.sorting.note_open_sourced') }}</span>{% endif %}</a>
       {% endif %}
       {% if (search_dict.aggregations.search_most_likely_language_code | selectattr("selected") | list | length) > 0 %}
         <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-0.5 bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.language.header') }}</span><span class="py-0.5">{% for bucket in search_dict.aggregations.search_most_likely_language_code | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
@@ -121,13 +120,13 @@
             </div>
           {% endif %}
 
-          <div class="font-bold mb-1"><!--TODO:TRANSLATE-->Advanced</div>
+          <div class="font-bold mb-1">{{ gettext('page.search.advanced.header') }}</div>
           <div class="mb-4">
-            <label class="flex cursor-pointer items-start mb-2"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="desc" value="1" {% if search_dict.search_desc %}checked{% endif %}><span class="mr-1 flex-grow"><!--TODO:TRANSLATE-->Search descriptions and metadata comments</span></label>
+            <label class="flex cursor-pointer items-start mb-2"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="desc" value="1" {% if search_dict.search_desc %}checked{% endif %}><span class="mr-1 flex-grow">{{ gettext('page.search.advanced.description_comments') }}</span></label>
 
             <div class="js-specific-terms-list"></div>
 
-            <button class="text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white mr-1 js-specific-terms-add"><!--TODO:TRANSLATE-->Add specific search field</button>
+            <button class="text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded-md text-white mr-1 js-specific-terms-add">{{ gettext('page.search.advanced.add_specific') }}</button>
 
             <script>
               (function() {
@@ -139,8 +138,7 @@
                   const termVal = queryParams['termval_' + number] || '';
 
                   const newDiv = document.createElement('div');
-                  // TODO:TRANSLATE
-                  newDiv.innerHTML = '<div class="mb-2 flex items-center"><div>' + number + '.&nbsp;</div><div><select class="bg-black/6.7 px-2 py-1 rounded mb-1 w-full" name="termtype_' + number + '"><option value="">' + {{ gettext('common.specific_search_fields.select') | tojson }} + '(search specific field)</option><option value="title"' + (termType == 'title' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.title | tojson }} + '</option><option value="author"' + (termType == 'author' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.author | tojson }} + '</option><option value="publisher"' + (termType == 'publisher' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.publisher | tojson }} + '</option><option value="edition_varia"' + (termType == 'edition_varia' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.edition_varia | tojson }} + '</option><option value="original_filename"' + (termType == 'original_filename' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.original_filename | tojson }} + '</option><option value="description_comments"' + (termType == 'description_comments' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.description_comments | tojson }} + '</option></select><input type="field" name="termval_' + number + '" placeholder="Search terms for field" class="w-full bg-black/6.7 px-2 py-1 mr-2 rounded"></div></div>';
+                  newDiv.innerHTML = '<div class="mb-2 flex items-center"><div>' + number + '.&nbsp;</div><div><select class="bg-black/6.7 px-2 py-1 rounded mb-1 w-full" name="termtype_' + number + '"><option value="">' + {{ gettext('common.specific_search_fields.select') | tojson }} + '</option><option value="title"' + (termType == 'title' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.title | tojson }} + '</option><option value="author"' + (termType == 'author' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.author | tojson }} + '</option><option value="publisher"' + (termType == 'publisher' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.publisher | tojson }} + '</option><option value="edition_varia"' + (termType == 'edition_varia' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.edition_varia | tojson }} + '</option><option value="original_filename"' + (termType == 'original_filename' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.original_filename | tojson }} + '</option><option value="description_comments"' + (termType == 'description_comments' ? ' selected' : '') +'>' + {{ search_dict.specific_search_fields_mapping.description_comments | tojson }} + '</option></select><input type="field" name="termval_' + number + '" class="w-full bg-black/6.7 px-2 py-1 mr-2 rounded"></div></div>';
                   newDiv.querySelector('input').value = termVal;
                   return newDiv;
                 }
@@ -206,8 +204,8 @@
             <option value="oldest" {% if search_dict.sort_value == 'oldest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.oldest') }} <span class="text-sm text-gray-500">{{ gettext('page.search.filters.sorting.note_publication_year') }}</span></option>
             <option value="largest" {% if search_dict.sort_value == 'largest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.largest') }} <span class="text-sm text-gray-500">{{ gettext('page.search.filters.sorting.note_filesize') }}</span></option>
             <option value="smallest" {% if search_dict.sort_value == 'smallest' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.smallest') }} <span class="text-sm text-gray-500">{{ gettext('page.search.filters.sorting.note_filesize') }}</span></option>
-            <option value="newest_added" {% if search_dict.sort_value == 'newest_added' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.newest') }} <span class="text-sm text-gray-500"><!--TODO:TRANSLATE-->(open sourced)</span></option>
-            <option value="oldest_added" {% if search_dict.sort_value == 'oldest_added' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.oldest') }} <span class="text-sm text-gray-500"><!--TODO:TRANSLATE-->(open sourced)</span></option>
+            <option value="newest_added" {% if search_dict.sort_value == 'newest_added' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.newest') }} <span class="text-sm text-gray-500">{{ gettext('page.search.filters.sorting.note_open_sourced') }}</span></option>
+            <option value="oldest_added" {% if search_dict.sort_value == 'oldest_added' %}selected{% endif %}>{{ gettext('page.search.filters.sorting.oldest') }} <span class="text-sm text-gray-500">{{ gettext('page.search.filters.sorting.note_open_sourced') }}</span></option>
           </select>
           {% if (search_dict.aggregations.search_most_likely_language_code | length) > 0 %}
             <div class="font-bold mb-1">{{ gettext('page.search.filters.language.header') }}</div>
@@ -284,8 +282,7 @@
                 {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
               <p class="mb-4">
-                <!-- TODO:TRANSLATE -->
-                For metadata, we show the original records. We don’t do any merging of records.
+                {{ gettext('page.search.results.metadata_no_merging') }}
               </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.metadata_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/Wikipedia:Book_sources" ' | safe)) }}
@@ -329,8 +326,7 @@
 
           {% if (search_dict.search_aarecords | length) > 0 %}
             <div class="mt-4 uppercase text-xs text-gray-500">
-              <!-- TODO:TRANSLATE -->
-              Results {{ (search_dict.page_value-1)*search_dict.max_display_results+1 }}-{{ ((search_dict.page_value-1)*search_dict.max_display_results)+(search_dict.search_aarecords | length) }} ({{ search_dict.primary_hits_total_obj.value }}{% if search_dict.primary_hits_total_obj.relation == 'gte' %}+{% endif %} total)
+              {{ gettext('page.search.results.numbers_pages', from=((search_dict.page_value-1)*search_dict.max_display_results+1), to=(((search_dict.page_value-1)*search_dict.max_display_results)+(search_dict.search_aarecords | length)), total=(search_dict.primary_hits_total_obj.value + ('+' if search_dict.primary_hits_total_obj.relation == 'gte' else ''))) }}
             </div>
           {% endif %}
 
