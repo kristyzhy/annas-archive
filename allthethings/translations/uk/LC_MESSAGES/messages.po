@@ -127,27 +127,27 @@ msgstr "%(amount)s всього"
 msgid "common.donation.membership_bonus_parens"
 msgstr ""
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "не оплачено"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "оплачено"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "скасовано"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "закінчився термін дії"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "очікуємо на підтвердження від Анни"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "недійсний"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "Обліковий запис"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "Увійти / Зареєструватися"
@@ -1063,67 +1063,88 @@ msgstr "Зв'яжіться з Анною за адресою %(email)s, якщ�
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Ви можете об’єднати кілька членств (швидке завантаження за 24 години буде додано разом)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "Загальнодоступний профіль"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Завантажені файли"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "Мої донати"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "Вийти"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Ви вийшли з облікового запису. Перезавантажте сторінку, щоб увійти знову."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Щось пішло не так. Будь ласка, перезавантажте сторінку і спробуйте ще раз."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "Реєстрацію успішно завершено! Ось ваш секретний код: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "Надійно збережіть цей код. Якщо ви його загубите, то ви втратите доступ до свого облікового запису."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Закладки.</strong> Ви можете додати цю сторінку до закладок, щоб отримати ваш код.</li><li %(li_item)s><strong>Завантажити.</strong> Натисніть на <a %(a_download)s>це посилання</a>, щоб завантажити ваш код.</li><li %(li_item)s><strong>Менеджер паролів.</strong> Для вашої зручності ми заздалегідь створили попередньо записаний файл з вашим кодом, щоб ви могли зберегти його у своєму менеджері паролів для входу на сайт.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "Введіть ваш секретний код, щоб увійти в систему:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Секретний код"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "Увійти"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Невірний секретний код. Перевірте ваш код і спробуйте ще раз, або зареєструйте новий обліковий запис нижче."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Не загубіть свій ключ!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "У вас ще немає облікового запису?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "Зареєструвати новий обліковий запис"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "Старий обліковий запис на основі електронної пошти? Введіть свою <a %(a_open)s>електронну пошту тут</a>."
 
@@ -1203,72 +1224,19 @@ msgstr "Наразі немає списків"
 msgid "page.profile.lists.new_list"
 msgstr "Створіть новий список, знайшовши файл і відкривши вкладку \"Списки\"."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr ""
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "Не вдалося виконати запит. Будь ласка, спробуйте ще раз через кілька хвилин, і якщо це не вдасться зробити, зв'яжіться з нами за адресою %(email)s та надішліть скріншот екрана."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Сталась невідома помилка. Будь ласка, напишіть на %(email)s і додайте знімок екрану."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Ця монета вища за типовий мінімум. Будь ласка, оберіть іншу тривалість або монету."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
@@ -2492,24 +2460,6 @@ msgstr "Перекладати ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "Увійти / Зареєструватися"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "Загальнодоступний профіль"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Завантажені файли"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "Мої донати"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Обліковий запис"
@@ -2947,4 +2897,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "Допомога проєктові"
+
+#~ msgid "page.refer.title"
+#~ msgstr ""
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr ""
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr ""
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr ""
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr ""
 

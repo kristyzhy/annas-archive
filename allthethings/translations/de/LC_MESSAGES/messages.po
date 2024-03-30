@@ -127,27 +127,27 @@ msgstr "%(amount)s Gesamt"
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s Bonus)"
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "unbezahlt"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "bezahlt"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "abgebrochen"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "abgelaufen"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "wartet auf Annas Bestätigung"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "ungültig"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "Account"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "Anmelden / Registrieren"
@@ -1063,67 +1063,88 @@ msgstr "Kontaktiere Anna unter %(email)s wenn du deine Mitgliedschaft auf eine h
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Du kannst mehrere Mitgliedschaften miteinander kombinieren (schnelle Downloads alle 24 Stunden werden dann zusammenaddiert)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "Öffentliches Profil"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Heruntergeladene Dateien"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "Meine Spenden"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "Abmelden"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Du bist jetzt abgemeldet. Aktualisiere die Webseite um dich erneut anzumelden."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Es ist etwas schief gelaufen. Bitte aktualisiere die Seite und versuche es erneut."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "Registrierung erfolgreich! Dein Geheimcode ist: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "Speichere den Geheimcode sorgfältig ab. Wenn du diesen nicht mehr hast, verlierst du den Zugang zu deinem Konto."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Lesezeichen.</strong> Du kannst diese Seite als Lesezeichen speichern, um zu deinem Geheimcode zurückzukehren.</li><li %(li_item)s><strong>Herunterladen.</strong> Klicke <a %(a_download)s>diesen Link</a> um deinen Code herunterzuladen.</li><li %(li_item)s><strong>Passwort-Manager.</strong> Der Einfachheit halber ist der Schlüssel oben vorab ausgefüllt, sodass du ihn beim Anmelden im Passwort-Manager speichern kannst.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "Gib deinen Geheimcode ein, um dich anzumelden:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Geheimcode"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "Anmelden"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Ungültiger Geheimschlüssel. Verfiziere deinen Schlüssel und versuche es erneut oder registriere ein neues Benutzerkonto."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Verlier deinen Geheimcode nicht!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "Du hast noch keinen Account?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "Registriere einen neuen Account"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "Alter E-Mail basierter Account? Gib deine <a %(a_open)s>E-Mail hier</a> an."
 
@@ -1203,72 +1224,19 @@ msgstr "Keine Listen"
 msgid "page.profile.lists.new_list"
 msgstr "Erstelle eine neue Liste indem du eine Datei findest und die „Liste“ Registerkarte öffnest."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr "Lade deine Freunde zu uns ein um schnelle Bonusdownloads zu erhalten"
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr "Mitglieder können ihre Freunde einladen um Bonusdownloads zu erhalten."
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr "Für jeden Freund, der Mitglied wird:"
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr "<strong>Deine Freunde</strong> bekommen %(percentage)s%% Bonusdownloads zusätzlich zu den regulären täglichen Downloads für die Dauer ihrer Mitgliedschaft."
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr "<strong>Du</strong> erhältst die gleiche Anzahl an Bonusdownloads zusätzlich zu deinen regulären täglichen Downloads für die gleiche Dauer, für die sich dein Freund angemeldet hat (bis zu einer Gesamtanzahl an %(max)s Bonusdownloads zu jedem beliebigen Zeitpunkt). Um deine Bonusdownloads nutzen zu können, musst du eine aktive Mitgliedschaft haben."
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr "Beispiel:"
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr "Dein Freund nutzt deinen Einladungslink und meldet sich für eine dreimonatige „Glücklicher Bibliothekar“ Mitgliedschaft an, welche mit %(num)s schnellen Downloads einhergeht."
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr "Er kriegt %(num)s Bonusdownloads jeden Tag, für drei Monate lang."
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr "Du bekommst ebenfalls %(num)s Bonusdownloads jeden Tag, für drei Monate lang."
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr "<strong>Einladungslink:</strong> "
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr "<a %(a_account)s>Melde dich an</a> und werde Mitglied um auch deine Freunde einzuladen."
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr "<a %(a_donate)s>Werde Mitglied</a> und lade auch deine Freunde dazu ein."
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr "Oder füge %(referral_suffix)s am Ende jedes anderen Links ein, und die Einladung wird gespeichert, wenn sie ein Mitglied werden."
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuche es in ein paar Minuten erneut und kontaktiere uns unter %(email)s mit einem Screenshot, falls das Problem weiterhin auftritt."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Ein unbekannter Fehler ist aufgetreten. Bitte kontaktiere uns unter %(email)s mit einem Screenshot."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Diese Coin hat ein höheres Minimum als üblich. Bitte wähle eine andere Laufzeit oder eine andere Coin."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr "Fehler in der Zahlungsabwicklung. Bitte warten einen Moment und versuche es erneut. Wenn das Problem länger als 24 Stunden bestehen bleibt, kontaktiere uns bitte mit einem Screenshot unter %(email)s."
 
@@ -2492,24 +2460,6 @@ msgstr "Übersetzen ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "Anmelden / Registrieren"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "Öffentliches Profil"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Heruntergeladene Dateien"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "Meine Spenden"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Account"
@@ -2947,4 +2897,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "Wie kann ich helfen?"
+
+#~ msgid "page.refer.title"
+#~ msgstr "Lade deine Freunde zu uns ein um schnelle Bonusdownloads zu erhalten"
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr "Mitglieder können ihre Freunde einladen um Bonusdownloads zu erhalten."
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr "Für jeden Freund, der Mitglied wird:"
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr "<strong>Deine Freunde</strong> bekommen %(percentage)s%% Bonusdownloads zusätzlich zu den regulären täglichen Downloads für die Dauer ihrer Mitgliedschaft."
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr "<strong>Du</strong> erhältst die gleiche Anzahl an Bonusdownloads zusätzlich zu deinen regulären täglichen Downloads für die gleiche Dauer, für die sich dein Freund angemeldet hat (bis zu einer Gesamtanzahl an %(max)s Bonusdownloads zu jedem beliebigen Zeitpunkt). Um deine Bonusdownloads nutzen zu können, musst du eine aktive Mitgliedschaft haben."
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr "Beispiel:"
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr "Dein Freund nutzt deinen Einladungslink und meldet sich für eine dreimonatige „Glücklicher Bibliothekar“ Mitgliedschaft an, welche mit %(num)s schnellen Downloads einhergeht."
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr "Er kriegt %(num)s Bonusdownloads jeden Tag, für drei Monate lang."
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr "Du bekommst ebenfalls %(num)s Bonusdownloads jeden Tag, für drei Monate lang."
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr "<strong>Einladungslink:</strong> "
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr "<a %(a_account)s>Melde dich an</a> und werde Mitglied um auch deine Freunde einzuladen."
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr "<a %(a_donate)s>Werde Mitglied</a> und lade auch deine Freunde dazu ein."
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr "Oder füge %(referral_suffix)s am Ende jedes anderen Links ein, und die Einladung wird gespeichert, wenn sie ein Mitglied werden."
 

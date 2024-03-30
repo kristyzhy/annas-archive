@@ -127,27 +127,27 @@ msgstr "%(amount)s общо"
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s бонус)"
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "неплатен"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "платен"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "отменен"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "просрочен"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "чакам Анна да потвърди"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "невалиден"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "Акаунт"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "Вход / Регистриране"
@@ -1063,67 +1063,88 @@ msgstr "Свържете се с Anna на %(email)s, ако се интерес
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Можете да комбинирате няколко членства (бързите изтегляния за 24 часа ще бъдат добавени заедно)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "Публичен профил"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Изтеглени файлове"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "Моите дарения"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "Излизане"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅Вече сте излезли. Презаредете страницата, за да влезете отново."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Нещо се обърка. Моля, презаредете страницата и опитайте отново."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "Успешна регистрация! Тайният Ви ключ е <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "Внимателно запаметете този ключ. Ако го изгубите, ще загубите достъп до профила си."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Отметка.</strong> Може да добавите отметка за тази препратка, за да намерите ключа си по-лесно.</li><li %(li_item)s><strong>Изтегли.</strong> Натиснете <a %(a_download)s>тази препратка</a>, за да изтеглите ключа си.</li><li %(li_item)s><strong>Управление на пароли.</strong> Използвайте софтуер за управление на пароли, за да запазите ключа, когато го въведете долу.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "Въведете тайния си ключ, за да влезете в системата:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Таен ключ"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "Вход"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Невалиден таен ключ. Проверете ключа си и опитайте отново или регистрирайте нов акаунт по-долу."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Не губете ключа си!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "Още нямате акаунт?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "Регистрирайте нов акаунт"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "Имате стар акаунт, базиран на имейл? Въведете <a %(a_open)s>имейла си тук</a>."
 
@@ -1203,72 +1224,19 @@ msgstr "Все още няма списъци"
 msgid "page.profile.lists.new_list"
 msgstr "Създайте нов списък, като намерите файл и отворите раздела \"Списъци\"."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr "Препоръчайте приятели, за да получите бонуса за бързо изтегляне"
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr "Членовете могат да препоръчват приятели и да печелят бонус изтегляния."
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr "За всеки приятел, който стане член:"
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr "<strong>Те</strong> получават %(percentage)s%% бонус изтегляния в допълнение към редовните ежедневни изтегляния за срока на тяхното членство."
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr "<strong>Вие</strong> получавате същия брой бонус изтегляния в допълнение към обичайните ви ежедневни изтегляния за същата продължителност, за която вашият приятел се е регистрирал (до общо .%(max)s общи бонус изтегляния във всеки даден момент време). Трябва да поддържате активно членство, за да използвате вашите бонус изтегляния."
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr "Пример:"
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr "Приятелят ви използва препоръчващата ви връзка, за да се регистрира за 3-месечно членство в “Lucky Librarian”, което идва с %(num)s бързи изтегляния."
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr "Те получават %(num)s бонус изтегляния всеки ден за всичките тези 3 месеца."
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr "Освен това получавате %(num)s бонус изтегляния всеки ден за същите 3 месеца."
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr "<strong>Препоръчваща връзка:</strong> "
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr "<a %(a_account)s>Влизане</a> и ставане на член, за да насочвате приятелите си."
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr "<a %(a_donate)s>Станете член</a>, за да насочвате приятелите си."
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr "Или добавете %(referral_suffix)s в края на всяка друга връзка и рефералът ще бъде запомнен, когато стане член."
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "Заявката не можа да бъде изпълнена. Опитайте отново след няколко минути и ако това продължи да се случва, свържете се с нас на %(email)s с екранна снимка."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Възникна непозната грешка. Свържете се с нас на %(email)s с екранна снимка."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Тази монета има по-висока стойност от обичайния минимум. Моля, изберете различна продължителност или друга монета."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
@@ -2492,24 +2460,6 @@ msgstr "Превеждане ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "Вход / Регистрация"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "Публичен профил"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Изтеглени файлове"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "Моите дарения"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Акаунт"
@@ -2947,4 +2897,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "Как да помогна"
+
+#~ msgid "page.refer.title"
+#~ msgstr "Препоръчайте приятели, за да получите бонуса за бързо изтегляне"
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr "Членовете могат да препоръчват приятели и да печелят бонус изтегляния."
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr "За всеки приятел, който стане член:"
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr "<strong>Те</strong> получават %(percentage)s%% бонус изтегляния в допълнение към редовните ежедневни изтегляния за срока на тяхното членство."
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr "<strong>Вие</strong> получавате същия брой бонус изтегляния в допълнение към обичайните ви ежедневни изтегляния за същата продължителност, за която вашият приятел се е регистрирал (до общо .%(max)s общи бонус изтегляния във всеки даден момент време). Трябва да поддържате активно членство, за да използвате вашите бонус изтегляния."
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr "Пример:"
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr "Приятелят ви използва препоръчващата ви връзка, за да се регистрира за 3-месечно членство в “Lucky Librarian”, което идва с %(num)s бързи изтегляния."
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr "Те получават %(num)s бонус изтегляния всеки ден за всичките тези 3 месеца."
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr "Освен това получавате %(num)s бонус изтегляния всеки ден за същите 3 месеца."
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr "<strong>Препоръчваща връзка:</strong> "
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr "<a %(a_account)s>Влизане</a> и ставане на член, за да насочвате приятелите си."
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr "<a %(a_donate)s>Станете член</a>, за да насочвате приятелите си."
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr "Или добавете %(referral_suffix)s в края на всяка друга връзка и рефералът ще бъде запомнен, когато стане член."
 

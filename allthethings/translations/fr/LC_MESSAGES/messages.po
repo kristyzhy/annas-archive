@@ -127,27 +127,27 @@ msgstr "%(amount)s total"
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s bonus)"
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "impayé"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "payé"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "annulé"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "expiré"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "En attente de la confirmation d'Anna"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "invalide"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "Compte"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "Se connecter / S'inscrire"
@@ -1063,67 +1063,88 @@ msgstr "Contactez Anna à l'adresse %(email)s si vous souhaitez souscrire à une
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Vous pouvez combiner plusieurs adhésions (les téléchargements rapides par 24 heures seront additionnés)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "Profil public"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Fichiers téléchargés"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "Mes dons"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "Se déconnecter"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Vous êtes désormais déconnecté. Rafraîchissez la page pour vous connecter à nouveau."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Une erreur a eu lieu. Veuillez rafraîchir la page et essayer à nouveau."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "Vous êtes bien inscrit ! Votre clé secrète est : <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "Conservez cette clé soigneusement. En la perdant, vous perdez l'accès à votre compte."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Page en favori.</strong> Vous pouvez ajouter cette page à vos favoris afin de conserver votre clé.</li><li %(li_item)s><strong>Téléchargement.</strong> Cliquez sur <a %(a_download)s>ce lien</a> pour télécharger votre clé.</li><li %(li_item)s><strong>Gestionnaire de mots de passe.</strong> Utilisez un gestionnaire de mots de passe pour enregistrer la clé lorsque vous la saisissez ci-dessous.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "Entrez votre clé secrète pour vous connecter :"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Clé secrète"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "Se connecter"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Clé secrète invalide. Vérifiez votre clé et essayez à nouveau, ou créez un nouveau compte ci-dessous."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Ne perdez pas votre clé !"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "Vous n'avez pas encore de compte ?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "Créer un nouveau compte"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "Compte enregistré avec un ancien email ? Entrez votre <a %(a_open)s>email ici</a>."
 
@@ -1203,72 +1224,19 @@ msgstr "Aucune liste pour le moment"
 msgid "page.profile.lists.new_list"
 msgstr "Créez une nouvelle liste en accédant à un fichier et en ouvrant l'onglet \"Listes\"."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr "Parrainez vos amis pour bénéficier de téléchargements rapides en plus"
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr "Les membres peuvent parrainer des amis pour gagner des téléchargements bonus."
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr "Pour chaque ami qui devient membre :"
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr "<strong>Vos amis parrainés</strong> bénéficieront de %(percentage)s%% de téléchargements bonus en plus de leurs téléchargements journaliers habituels, pour toute la durée de leur adhésion."
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr "<strong>Vous-même</strong> bénéficierez du même nombre de téléchargements bonus en plus de vos téléchargements journaliers habituels, pour toute la durée d'adhésion de votre ami (pour un maximum de %(max)s téléchargements bonus quelque soit la situation). Vous devez-vous même maintenir votre statut d'adhérent pour bénéficier de ces téléchargements bonus."
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr "Exemple :"
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr "Votre ami utilise le lien de parrainage et adhère pour une période de 3 mois en tant que \"Libraire Lucide\", ce qui lui octroie %(num)s téléchargements rapides."
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr "Ils bénéficieront de %(num)s téléchargements bonus chaque jour, pour toute cette période d'adhésion de 3 mois."
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr "Vous bénéficierez également de %(num)s téléchargements bonus chaque jour, pour cette même période de 3 mois."
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr "<strong>Lien de parrainage :</strong> "
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr "<a %(a_account)s>Connectez-vous</a> et devenez membre pour parrainer vos amis."
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr "<a %(a_donate)s>Devenez membre</a> pour parrainer vos amis."
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr "Ou ajoutez %(referral_suffix)s à la fin de n'importe quel autre lien, et l'affiliation sera prise en compte lorsqu'ils deviendront membre."
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "La demande n'a pas pu être complétée. Veuillez réessayer dans quelques minutes, et si le problème persiste, contactez-nous à l'adresse %(email)s avec une capture d'écran."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Une erreur inconnue s'est produite. Veuillez nous contacter à %(email)s avec une capture d'écran."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Cette cryptomonnaie exige un montant minimum plus haut que la normale. Veuillez choisir un abonnement ou une cryptomonnaie différente."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr "Erreur dans le processus de paiement. Merci d'attendre un moment puis d'essayer à nouveau. Si le problème persiste pendant plus de 24 heures, merci de nous contacter à %(email)s avec une capture d'écran."
 
@@ -2492,24 +2460,6 @@ msgstr "Traduire ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "Se connecter / S'inscrire"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "Profil public"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Fichiers téléchargés"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "Mes dons"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Compte"
@@ -2947,4 +2897,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "Comment aider"
+
+#~ msgid "page.refer.title"
+#~ msgstr "Parrainez vos amis pour bénéficier de téléchargements rapides en plus"
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr "Les membres peuvent parrainer des amis pour gagner des téléchargements bonus."
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr "Pour chaque ami qui devient membre :"
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr "<strong>Vos amis parrainés</strong> bénéficieront de %(percentage)s%% de téléchargements bonus en plus de leurs téléchargements journaliers habituels, pour toute la durée de leur adhésion."
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr "<strong>Vous-même</strong> bénéficierez du même nombre de téléchargements bonus en plus de vos téléchargements journaliers habituels, pour toute la durée d'adhésion de votre ami (pour un maximum de %(max)s téléchargements bonus quelque soit la situation). Vous devez-vous même maintenir votre statut d'adhérent pour bénéficier de ces téléchargements bonus."
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr "Exemple :"
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr "Votre ami utilise le lien de parrainage et adhère pour une période de 3 mois en tant que \"Libraire Lucide\", ce qui lui octroie %(num)s téléchargements rapides."
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr "Ils bénéficieront de %(num)s téléchargements bonus chaque jour, pour toute cette période d'adhésion de 3 mois."
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr "Vous bénéficierez également de %(num)s téléchargements bonus chaque jour, pour cette même période de 3 mois."
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr "<strong>Lien de parrainage :</strong> "
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr "<a %(a_account)s>Connectez-vous</a> et devenez membre pour parrainer vos amis."
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr "<a %(a_donate)s>Devenez membre</a> pour parrainer vos amis."
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr "Ou ajoutez %(referral_suffix)s à la fin de n'importe quel autre lien, et l'affiliation sera prise en compte lorsqu'ils deviendront membre."
 

@@ -127,27 +127,27 @@ msgstr "%(amount)s totaal"
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s bonus)"
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "Onbetaald"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "Betaald"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "Geannuleerd"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "Verlopen"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "Wachten op Anna ter bevestiging"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "ongeldig"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "Account"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "Inloggen/registreren"
@@ -1063,67 +1063,88 @@ msgstr "Neem contact op met Anna via %(email)s als je je lidmaatschap naar een h
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Je kunt meerdere lidmaatschappen combineren (het aantal snelle downloads per 24 uur wordt dan samengevoegd)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "Openbaar profiel"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Gedownloade bestanden"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "Mijn donaties"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "Uitloggen"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Je bent nu uitgelogd. Herlaad de pagina om opnieuw in te loggen."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Er ging iets mis. Vernieuw de pagina en probeer het opnieuw."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "Registratie gelukt! Je geheime sleutel is: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "Bewaar deze sleutel goed. Als je 'm kwijtraakt, heb je geen toegang meer tot je account."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Favorieten.</strong> Je kunt deze pagina aan je favorieten toevoegen om je sleutel op te halen.</li><li %(li_item)s><strong>Downloaden.</strong> Klik op <a %(a_download)s>deze link</a> om je sleutel te downloaden.</li><li %(li_item)s><strong>Wachtwoordmanager.</strong> Gebruik een wachtwoordmanager om de sleutel op te slaan wanneer je deze hieronder invoert.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "Voer je geheime sleutel in om in te loggen:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Geheime sleutel"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "Inloggen"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Ongeldige geheime sleutel. Controleer je sleutel en probeer het opnieuw of registreer hieronder een nieuw account."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Raak je sleutel niet kwijt!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "Heb je nog geen account?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "Nieuw account registreren"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "Oud account met e-mailadres? Voer <a %(a_open)s>hier</a> je e-mail in."
 
@@ -1203,72 +1224,19 @@ msgstr "Nog geen lijsten"
 msgid "page.profile.lists.new_list"
 msgstr "Maak een nieuwe lijst door een titel te zoeken en het tabblad Lijsten te openen."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr "Verwijs vrienden voor snelle bonusdownloads"
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr "Leden kunnen vrienden doorverwijzen en bonusdownloads verdienen."
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr "Voor elke vriend die lid wordt:"
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr "krijgt <strong>de vriend</strong> %(percentage)s%% bonusdownloads bovenop de reguliere dagelijkse downloads gedurende het lidmaatschap."
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr "krijg <strong>jij</strong> hetzelfde aantal bonusdownloads bovenop je reguliere dagelijkse downloads gedurende het lidmaatschap van je vriend (voor een totaal van max. %(max)s bonusdownloads op elk willekeurig moment). Voor deze bonusdownloads moet je een actief lidmaatschap hebben."
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr "Voorbeeld:"
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr "Je vriend gebruikt jouw verwijzingslink om zich drie maanden aan te melden voor het lidmaatschap 'Blije bibliothecaris' met %(num)s snelle downloads."
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr "Gedurende die drie maanden ontvangt deze dagelijks %(num)s bonusdownloads."
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr "Gedurende diezelfde drie maanden ontvang jij ook dagelijks %(num)s bonusdownloads."
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr "<strong>Verwijzingslink:</strong> "
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr "<a %(a_account)s>Log in</a> en word lid om vrienden te verwijzen."
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr "<a %(a_donate)s>Word lid</a> om vrienden te verwijzen."
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr "Of voeg %(referral_suffix)s toe aan het einde van een link, waarmee de verwijzing wordt bijgehouden als je vriend lid wordt."
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "Aanvraag kon niet worden voltooid. Probeer het over een paar minuten opnieuw en als het blijft gebeuren, neem dan contact met ons op via %(email)s met een schermafbeelding."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Er is een onbekende fout opgetreden. Neem contact met ons op via %(email)s met een screenshot."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Deze munt heeft een minimum dat hoger is dan gebruikelijk. Selecteer een andere duur of munt."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
@@ -2492,24 +2460,6 @@ msgstr "Vertalen ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "Inloggen/registreren"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "Openbaar profiel"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Gedownloade bestanden"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "Mijn donaties"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Account"
@@ -2944,4 +2894,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "Hoe je kunt helpen"
+
+#~ msgid "page.refer.title"
+#~ msgstr "Verwijs vrienden voor snelle bonusdownloads"
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr "Leden kunnen vrienden doorverwijzen en bonusdownloads verdienen."
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr "Voor elke vriend die lid wordt:"
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr "krijgt <strong>de vriend</strong> %(percentage)s%% bonusdownloads bovenop de reguliere dagelijkse downloads gedurende het lidmaatschap."
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr "krijg <strong>jij</strong> hetzelfde aantal bonusdownloads bovenop je reguliere dagelijkse downloads gedurende het lidmaatschap van je vriend (voor een totaal van max. %(max)s bonusdownloads op elk willekeurig moment). Voor deze bonusdownloads moet je een actief lidmaatschap hebben."
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr "Voorbeeld:"
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr "Je vriend gebruikt jouw verwijzingslink om zich drie maanden aan te melden voor het lidmaatschap 'Blije bibliothecaris' met %(num)s snelle downloads."
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr "Gedurende die drie maanden ontvangt deze dagelijks %(num)s bonusdownloads."
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr "Gedurende diezelfde drie maanden ontvang jij ook dagelijks %(num)s bonusdownloads."
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr "<strong>Verwijzingslink:</strong> "
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr "<a %(a_account)s>Log in</a> en word lid om vrienden te verwijzen."
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr "<a %(a_donate)s>Word lid</a> om vrienden te verwijzen."
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr "Of voeg %(referral_suffix)s toe aan het einde van een link, waarmee de verwijzing wordt bijgehouden als je vriend lid wordt."
 

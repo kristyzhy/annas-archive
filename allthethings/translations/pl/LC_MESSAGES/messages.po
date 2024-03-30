@@ -127,27 +127,27 @@ msgstr "%(amount)s razem"
 msgid "common.donation.membership_bonus_parens"
 msgstr ""
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "nieopłacony"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "opłacony"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "anulowany"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "wygasły"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "oczekuje na potwierdzenie od Anny"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "niepoprawny/e"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "Konto"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "Zaloguj / Zarejestruj"
@@ -1063,67 +1063,88 @@ msgstr "Skontaktuj się z Anną pod %(email)s, w przypadku chęci zmiany progu c
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Można połączyć kilka subskrypcji (szybkie pobieranie w ciągu 24 godzin zostanie zsumowane)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "Profil publiczny"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Pobrane pliki"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "Moje darowizny"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "Wyloguj"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Wylogowano. Odśwież stronę aby zalogować ponownie."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Wystąpił błąd. Proszę odświeżyć stronę i spróbować ponownie."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "Rejestracja zakończona pomyślnie! Twój sekretny klucz to: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "Zapisz ten klucz w bezpiecznym miejscu, ponieważ utracenie go wiąże się z utratą dostępu do konta."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s<strong> Zakładka. </strong> Możesz dodać tę stronę do zakładek aby odzyskać swój klucz.</li><li %(li_item)s><strong> Pobierz. </strong> naciśnij <a %(a_download)s>ten odnośnik</a> aby pobrać swój klucz.</li><li %(li_item)s><strong> Menedżer haseł.</strong> Dla Twojej wygody, klucz poniżej jest uzupełniony wstępnie, więc po zalogowaniu będzie on dostępny w menedżerze haseł. </li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "Wprowadź Twój sekretny klucz, aby zalogować:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Sekretny klucz"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "Zaloguj"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Sekretny klucz jest błędny. Zweryfikuj prawidłowość swojego klucza i spóbuj ponownie lub zarejestruj nowe konto poniżej."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Nie zgub swojego klucza!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "Nie posiadasz konta?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "Zarejestruj nowe konto"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "Starsze konto oparte o adres e-mail? Wprowadź swój <a %(a_open)s> adres tutaj</a>."
 
@@ -1203,72 +1224,19 @@ msgstr "Brak list"
 msgid "page.profile.lists.new_list"
 msgstr "Utwórz nową listę poprzez znalezienie pliku i otworzenie zakładki \"Lista\"."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr ""
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "Żądanie nie mogło zostać ukończone. Spróbuj ponownie za kilka minut, a jeśli nadal będzie się to powtarzać, skontaktuj się z nami pod adresem %(email)s załączając zrzut ekranu."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Wystąpił nieznany błąd. Prosimy o kontakt pod adresem %(email)s i załączenie zrzutu ekranu."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Ta kryptowaluta ma wyższe niż zwykle minimum. Wybierz inny czas trwania lub inną kryptowalutę."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
@@ -2492,24 +2460,6 @@ msgstr "Przetłumacz ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "Zaloguj / Zarejestruj"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "Profil publiczny"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Pobrane pliki"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "Moje darowizny"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Konto"
@@ -2947,4 +2897,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "Jak możesz pomóc"
+
+#~ msgid "page.refer.title"
+#~ msgstr ""
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr ""
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr ""
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr ""
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr ""
 

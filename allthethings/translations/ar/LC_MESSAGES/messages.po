@@ -127,27 +127,27 @@ msgstr "بمجموع %(amount)s"
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s زيادة)"
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "غير مدفوع"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "مدفوع"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "مَلْغي"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "منتهي الصلاحية"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "في انتظار آنّا لتأكيده"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "غير صالح"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "حساب"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "دخول / تسجيل"
@@ -1063,67 +1063,88 @@ msgstr "تواصل مع آنا على %(email)s إذا كنت مهتمًا بت�
 msgid "page.account.logged_in.membership_multiple"
 msgstr "يمكنك الجمع بين عضويات متعددة (سيتم إضافة التنزيلات السريعة لكل ٢٤ ساعة معًا)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "الملف الشخصي العام"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "الملفات التي تم تنزيلها"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "تبرعاتي"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "تسجيل خروج"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ تم تسجيل خروجك الآن. أعد تحميل الصفحة لتسجيل الدخول مرة أخرى."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ حدث خطأ ما. يرجى إعادة تحميل الصفحة وحاول مرة أخرى."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "نجح التسجيل! مفتاحك السري هو: <span %(span_key)s>%(key)s </span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "احفظ هذا المفتاح بعناية. إذا فقدته ، فسوف تفقد الوصول إلى حسابك."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s> <strong> إشارة مرجعية. </ strong> يمكنك وضع إشارة مرجعية على هذه الصفحة لاسترداد مفتاحك. </li> <li %(li_item)s> <strong> تنزيل. </strong> انقر فوق <a %(a_download)s> هذا الرابط </a> لتنزيل مفتاحك. </li> <li %(li_item)s> <strong> </ strong> استخدم مدير كلمات المرور لحفظ المفتاح عند إدخاله فيه بالأسفل. </li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "أدخل مفتاحك السري لتسجيل الدخول:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "المفتاح السري"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "تسجيل الدخول"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "مفتاح سري غير صالح. تحقق من مفتاحك وحاول مرة أخرى ، أو بدلاً من ذلك قم بتسجيل حساب جديد أدناه."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "لا تفقد مفتاحك!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "لا تملك حسابا حتى الآن؟"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "تسجيل حساب جديد"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "حساب قديم قائم على البريد الإلكتروني؟ أدخل <a %(a_open)s> بريدك الإلكتروني هنا </a>."
 
@@ -1203,72 +1224,19 @@ msgstr "لا قوائم حتى الان"
 msgid "page.profile.lists.new_list"
 msgstr "قم بإنشاء قائمة جديدة من خلال البحث عن ملف وفتح علامة التبويب \"القوائم\"."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr "قم بإحالة الأصدقاء للحصول على تنزيلات سريعة إضافية"
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr "يمكن للأعضاء إحالة الأصدقاء وكسب تنزيلات إضافية."
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr "لكل صديق يصبح عضوا:"
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr "<strong>يحصلون</strong> على تنزيلات إضافية %(percentage)s بالإضافة إلى التنزيلات اليومية المنتظمة، طوال مدة عضويتهم."
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr ""
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "لا يمكن إكمال الطلب. يُرجى المحاولة مرة أخرى خلال بضع دقائق، وإذا استمر حدوث ذلك، فاتصل بنا على %(email)s مع لقطة شاشة."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "حدث خطأ غير معروف. يُرجى الاتصال بنا على %(email)s مع لقطة الشاشة."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "هذه العملة لديها حد أدنى أعلى من المعتاد. يرجى تحديد مدة مختلفة أو عملة مختلفة."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
@@ -2492,24 +2460,6 @@ msgstr "ترجمة ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "دخول / تسجيل"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "الملف الشخصي العام"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "الملفات التي تم تنزيلها"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "تبرعاتي"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "حساب"
@@ -2947,4 +2897,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "طرق للمساعدة"
+
+#~ msgid "page.refer.title"
+#~ msgstr "قم بإحالة الأصدقاء للحصول على تنزيلات سريعة إضافية"
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr "يمكن للأعضاء إحالة الأصدقاء وكسب تنزيلات إضافية."
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr "لكل صديق يصبح عضوا:"
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr "<strong>يحصلون</strong> على تنزيلات إضافية %(percentage)s بالإضافة إلى التنزيلات اليومية المنتظمة، طوال مدة عضويتهم."
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr ""
 

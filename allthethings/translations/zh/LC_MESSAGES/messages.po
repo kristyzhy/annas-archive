@@ -127,27 +127,27 @@ msgstr "总共 %(amount)s"
 msgid "common.donation.membership_bonus_parens"
 msgstr " （+%(num)s 次下载）"
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "未支付"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "已支付"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "已取消"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "已过期"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "等待安娜确认中"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "无效的"
 
@@ -1014,7 +1014,7 @@ msgid "page.account.logged_in.title"
 msgstr "账号"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "登录 / 注册"
@@ -1064,67 +1064,88 @@ msgstr "如欲提升会员级别，请联系安娜：%(email)s。"
 msgid "page.account.logged_in.membership_multiple"
 msgstr "您可以合并多个会员资格 (每 24 小时的快速下载将被累加在一起)。"
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "公开资料"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "已下载文件"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "我的捐赠"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "退出登录"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ 账号已退出，刷新页面以重新登录。"
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ 出错了，请刷新页面重试。"
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "注册成功！您的密钥为：<span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "请小心保存此密钥。如果您丢失了它，您将失去访问您的帐户的权限。"
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>加入书签。</strong>你可以在浏览器中收藏此页面以保存你的密钥。</li><li %(li_item)s><strong>下载。</strong> 点击<a %(a_download)s>此链接</a>下载你的密钥。</li><li %(li_item)s><strong>密码管理器。</strong>为方便起见，下面已经填充了你的密钥。这样当你登录时，你可以在密码管理器中保存密钥。</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "输入密钥以登录："
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "密钥"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "登录"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "密钥无效。请检查密钥并再次尝试，或者在下方注册一个新账号。"
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "不要弄丢你的密钥！"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "还没有账号？"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "注册新账号"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "旧的电子邮件账户？在这里输入您的<a %(a_open)s>电子邮件地址</a>。"
 
@@ -1204,72 +1225,19 @@ msgstr "暂无列表"
 msgid "page.profile.lists.new_list"
 msgstr "通过找到文件并打开“列表”选项卡来创建一个新列表。"
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr "向好友推广，获得额外高速下载次数"
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr "会员可以向朋友推广，赚取额外下载次数。"
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr "对每个成为会员的好友："
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr "<strong>他们</strong>能在会员期间多获得每日常规下载次数的 %(percentage)s%%。"
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr "例如："
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr ""
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr ""
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "无法完成请求。请在几分钟之后重试，如果一直这样，请带上截图联系我们：%(email)s。"
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "发生了未知错误。请通过 %(email)s 联系我们，并附上截图。"
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "这种币的最低金额比其他的要高。请选择其他订阅时长或换一种支付方式。"
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
@@ -2493,24 +2461,6 @@ msgstr "翻译 ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "登录 / 注册"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "公开资料"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "已下载文件"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "我的捐赠"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "账户"
@@ -2948,4 +2898,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "如何提供帮助"
+
+#~ msgid "page.refer.title"
+#~ msgstr "向好友推广，获得额外高速下载次数"
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr "会员可以向朋友推广，赚取额外下载次数。"
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr "对每个成为会员的好友："
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr "<strong>他们</strong>能在会员期间多获得每日常规下载次数的 %(percentage)s%%。"
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr "例如："
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr ""
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr ""
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr ""
 

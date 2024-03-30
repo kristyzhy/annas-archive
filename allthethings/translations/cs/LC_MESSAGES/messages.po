@@ -127,27 +127,27 @@ msgstr "%(amount)s celkem"
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s bonus)"
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "nezaplaceno"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "zaplaceno"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "zrušeno"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "vypršela platnost"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "čekání na potvrzení Annou"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "neplatný"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "Účet"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "Přihlášení / Registrace"
@@ -1063,67 +1063,88 @@ msgstr "Pokud chcete zvýšit úroveň svého členství, kontaktujte Annu na %(
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Můžete kombinovat více členství (rychlé stahování za 24 hodin se sečtou)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "Veřejný profil"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Stažené soubory"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "Mé dary"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "Odhlásit se"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Jste odhlášeni. Pro další přihlášení znovu načtěte stránku."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Něco se pokazilo. Znovu načtěte stránku a zkuste to znovu."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "Registrace byla úspěšná! Váš bezpečnostní klíč je: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "Pečlivě si tento klíč uložte. Pokud o něj přijdete, ztratíte přístup k vašemu účtu."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Záložka.</strong> Tuto stránku si můžete přidat do záložek a uložit tak svůj klíč.</li><li %(li_item)s><strong>Stažení.</strong> Kliknutím na <a %(a_download)s>tento odkaz</a> si stáhnete váš klíč.</li><li %(li_item)s><strong>Správce hesel.</strong> Při zadání klíče použijte k jeho uložení správce hesel.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "Pro přihlášení vložte svůj bezpečnostní klíč:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Bezpečnostní klíč"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "Přihlášení"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Neplatný klíč. Ověřte, že je váš klíč zadán správně, a zkuste to znovu, nebo si založte nový účet."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Svůj klíč neztraťte!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "Ještě nemáte účet?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "Registrovat nový účet"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "Starý účet s emailovým přihlašováním? Zadejte svůj <a %(a_open)s>email zde</a>."
 
@@ -1203,72 +1224,19 @@ msgstr "Nenalezen žádný seznam"
 msgid "page.profile.lists.new_list"
 msgstr "Nový seznam lze vytvořit v záložce \"Seznamy\" u vyhledaného souboru."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr "Doporučte přítele a získejte bonusové rychlé stažení"
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr "Členové mohou doporučit přítele a získat bonusové stažení."
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr "Za každého přítele, který si předplatí členství:"
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr "<strong>Oni</strong> získají %(percentage)s%% bonusových stažení ke standardnímu počtu denních stažení po dobu jejich členství."
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr "<strong>Vy</strong> získáte stejný počet stažení ke standardnímu počtu denních stažení po dobu předplaceného členství vašeho přítele (maximálně můžete mít %(max)s bonusových stažení). Pro použití bonusových stažení si musíte zachovat aktivní členství."
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr "Například:"
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr "Váš přítel využije váš odkaz doporučení a zakoupí si 3 měsíce členství \"Kreativní knihovník\", které mu zpřístupní %(num)s rychlých stažení."
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr "Váš přítel získá %(num)s bonusových stažení každý den po dobu 3 měsíců."
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr "Vy také získáte %(num)s bonusových stažení každý den také po dobu 3 měsíců."
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr "<strong>Odkaz doporučení:</strong> "
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr "<a %(a_account)s>Přihlaste se</a> a staňte se členem abyste mohli doporučit přítele."
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr "<a %(a_donate)s>Staňte se členem</a> abyste mohli doporučit přítele."
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr "Nebo přidejte %(referral_suffix)s na konec jakéhokoliv jiného odkazu a vaše doporučení bude aktivováno, když se stanou členem."
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "Požadavek nebylo možné provést, za pár minut to zkuste znovu. Pokud se bude tento problém opakovat, napište nám na %(email)s a přiložte snímek obrazovky."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Nastala neznámá chyba. Prosíme kontaktujte nás na %(email)s se snímkem obrazovky."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Tato kryptoměna má mnohem větší minimum než je obvyklé. Prosíme zvolte jiné trvání nebo jinou kryptoměnu."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
@@ -2492,24 +2460,6 @@ msgstr "Překlad ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "Přihlásit / Registrovat"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "Veřejný profil"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Stažené soubory"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "Mé dary"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Účet"
@@ -2827,4 +2777,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "Jak pomoct"
+
+#~ msgid "page.refer.title"
+#~ msgstr "Doporučte přítele a získejte bonusové rychlé stažení"
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr "Členové mohou doporučit přítele a získat bonusové stažení."
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr "Za každého přítele, který si předplatí členství:"
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr "<strong>Oni</strong> získají %(percentage)s%% bonusových stažení ke standardnímu počtu denních stažení po dobu jejich členství."
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr "<strong>Vy</strong> získáte stejný počet stažení ke standardnímu počtu denních stažení po dobu předplaceného členství vašeho přítele (maximálně můžete mít %(max)s bonusových stažení). Pro použití bonusových stažení si musíte zachovat aktivní členství."
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr "Například:"
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr "Váš přítel využije váš odkaz doporučení a zakoupí si 3 měsíce členství \"Kreativní knihovník\", které mu zpřístupní %(num)s rychlých stažení."
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr "Váš přítel získá %(num)s bonusových stažení každý den po dobu 3 měsíců."
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr "Vy také získáte %(num)s bonusových stažení každý den také po dobu 3 měsíců."
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr "<strong>Odkaz doporučení:</strong> "
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr "<a %(a_account)s>Přihlaste se</a> a staňte se členem abyste mohli doporučit přítele."
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr "<a %(a_donate)s>Staňte se členem</a> abyste mohli doporučit přítele."
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr "Nebo přidejte %(referral_suffix)s na konec jakéhokoliv jiného odkazu a vaše doporučení bude aktivováno, když se stanou členem."
 

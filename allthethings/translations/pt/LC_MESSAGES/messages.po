@@ -127,27 +127,27 @@ msgstr "%(amount)s total"
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s bônus)"
 
-#: allthethings/account/views.py:313
+#: allthethings/account/views.py:288
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "não pago"
 
-#: allthethings/account/views.py:314
+#: allthethings/account/views.py:289
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "pago"
 
-#: allthethings/account/views.py:315
+#: allthethings/account/views.py:290
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "cancelado"
 
-#: allthethings/account/views.py:316
+#: allthethings/account/views.py:291
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "vencido"
 
-#: allthethings/account/views.py:317
+#: allthethings/account/views.py:292
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "aguardando a confirmação da Ana"
 
-#: allthethings/account/views.py:318
+#: allthethings/account/views.py:293
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "inválido"
 
@@ -1013,7 +1013,7 @@ msgid "page.account.logged_in.title"
 msgstr "Conta"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:48
+#: allthethings/account/templates/account/index.html:54
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "Entrar / Registrar"
@@ -1063,67 +1063,88 @@ msgstr "Entre em contato com Anna em %(email)s se estiver interessado em atualiz
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Você pode combinar várias assinaturas (downloads rápidos por 24 horas serão somados)."
 
+#: allthethings/account/templates/account/index.html:40
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:457
+#: allthethings/templates/layouts/index.html:466
+msgid "layout.index.header.nav.public_profile"
+msgstr "Perfil público"
+
 #: allthethings/account/templates/account/index.html:41
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:458
+#: allthethings/templates/layouts/index.html:467
+msgid "layout.index.header.nav.downloaded_files"
+msgstr "Arquivos baixados"
+
+#: allthethings/account/templates/account/index.html:42
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:459
+#: allthethings/templates/layouts/index.html:468
+msgid "layout.index.header.nav.my_donations"
+msgstr "Minhas doações"
+
+#: allthethings/account/templates/account/index.html:47
 msgid "page.account.logged_in.logout.button"
 msgstr "Sair"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:50
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Agora você está desconectado. Recarregue a página para fazer login novamente."
 
-#: allthethings/account/templates/account/index.html:45
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ Algo deu errado. Por favor, recarregue a página e tente novamente."
 
-#: allthethings/account/templates/account/index.html:51
+#: allthethings/account/templates/account/index.html:57
 msgid "page.account.logged_out.registered.text1"
 msgstr "Cadastro bem sucedido! Sua chave secreta é: <span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:54
+#: allthethings/account/templates/account/index.html:60
 msgid "page.account.logged_out.registered.text2"
 msgstr "Guarde essa chave com cuidado. Se você perdê-la, você perderá o acesso à sua conta."
 
-#: allthethings/account/templates/account/index.html:58
+#: allthethings/account/templates/account/index.html:64
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>Marcador.</strong> Você pode marcar esta página para recuperar sua chave.</li><li %(li_item)s><strong>Baixar.</strong> Clique em <a %(a_download)s>este link</a> para baixar sua chave.</li><li %(li_item)s><strong>Gerenciador de senhas.</strong> Para sua conveniência, a chave é pré-preenchida abaixo, assim, quando você fizer login, poderá salvá-lo em seu gerenciador de senhas.</li>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:68
 msgid "page.account.logged_out.key_form.text"
 msgstr "Digite sua chave secreta para fazer login:"
 
-#: allthethings/account/templates/account/index.html:65
+#: allthethings/account/templates/account/index.html:71
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "Chave secreta"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.button"
 msgstr "Entrar"
 
-#: allthethings/account/templates/account/index.html:68
+#: allthethings/account/templates/account/index.html:74
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Chave secreta inválida. Verifique sua chave e tente novamente, ou então registre uma nova conta abaixo."
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:76
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "Não perca sua chave!"
 
-#: allthethings/account/templates/account/index.html:75
+#: allthethings/account/templates/account/index.html:81
 msgid "page.account.logged_out.register.header"
 msgstr "Ainda não tem uma conta?"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:84
 msgid "page.account.logged_out.register.button"
 msgstr "Registrar uma nova conta"
 
-#: allthethings/account/templates/account/index.html:82
+#: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
 msgstr "Conta antiga baseada em e-mail? Insira seu <a %(a_open)s>email aqui</a>."
 
@@ -1203,72 +1224,19 @@ msgstr "Nenhuma lista ainda"
 msgid "page.profile.lists.new_list"
 msgstr "Crie uma nova lista escolhendo um ficheiro e abrindo o separador \"Listas\"."
 
-#: allthethings/account/templates/account/refer.html:3
-#: allthethings/account/templates/account/refer.html:8
-msgid "page.refer.title"
-msgstr "Indique amigos para receber downloads rápidos bônus"
-
-#: allthethings/account/templates/account/refer.html:11
-msgid "page.refer.section1.intro"
-msgstr "Membros podem indicar amigos e receber downloads bônus."
-
-#: allthethings/account/templates/account/refer.html:12
-msgid "page.refer.section1.list_start"
-msgstr "Para cada amigo que se tornar membro:"
-
-#: allthethings/account/templates/account/refer.html:16
-msgid "page.refer.section1.list_1"
-msgstr "<strong>ELes</strong> recebem%(percentage)s%% downloads bônus além dos downloads diários regulares, durante o período de assinatura."
-
-#: allthethings/account/templates/account/refer.html:17
-msgid "page.refer.section1.list_2"
-msgstr "<strong>Você</strong> obtém o mesmo número de downloads bônus além dos downloads diários regulares, pelo mesmo período da assinatura de seu amigo(até um total de %(max)s downloads bônus a qualquer momento). Você deve manter uma assinatura ativa para usar seus downloads bônus."
-
-#: allthethings/account/templates/account/refer.html:21
-msgid "page.refer.section2.list_start"
-msgstr "Exemplo:"
-
-#: allthethings/account/templates/account/refer.html:25
-msgid "page.refer.section2.list_1"
-msgstr "Seu amigo usa seu link de indicação para se inscrever por 3 meses como membro “Bibliotecário Sortudo”, que vem com %(num)s downloads rápidos."
-
-#: allthethings/account/templates/account/refer.html:26
-msgid "page.refer.section2.list_2"
-msgstr "Ele recebe %(num)s downloads bônus todo dia, pelos próximos 3 meses."
-
-#: allthethings/account/templates/account/refer.html:27
-msgid "page.refer.section2.list_3"
-msgstr "Você também recebe %(num)s downloads bônus todo dia, pelos mesmos 3 meses."
-
-#: allthethings/account/templates/account/refer.html:31
-msgid "page.refer.linkbox.header"
-msgstr "<strong>Link de indicação:</strong> "
-
-#: allthethings/account/templates/account/refer.html:33
-msgid "page.refer.linkbox.login"
-msgstr "<a %(a_account)s>Entre</a> e se torne membro para indicar amigos."
-
-#: allthethings/account/templates/account/refer.html:35
-msgid "page.refer.linkbox.donate"
-msgstr "<a %(a_donate)s>Torne-se membro</a> para indicar amigos."
-
-#: allthethings/account/templates/account/refer.html:38
-msgid "page.refer.linkbox.remember"
-msgstr "Ou adicione %(referral_suffix)s ao fim do outro link, e a indicação será lembrada quando seu amigo se tornar membro."
-
-#: allthethings/dyn/views.py:761
+#: allthethings/dyn/views.py:768
 msgid "dyn.buy_membership.error.try_again"
 msgstr "A solicitação não pôde ser concluída. Por favor, tente novamente em alguns minutos, e se continuar acontecendo, entre em contato conosco em %(email)s com uma captura de tela."
 
-#: allthethings/dyn/views.py:764 allthethings/dyn/views.py:774
+#: allthethings/dyn/views.py:771 allthethings/dyn/views.py:781
 msgid "dyn.buy_membership.error.unknown"
 msgstr "Um erro desconhecido ocorreu. Por favor nos contate em %(email)s com uma captura de tela."
 
-#: allthethings/dyn/views.py:769
+#: allthethings/dyn/views.py:776
 msgid "dyn.buy_membership.error.minimum"
 msgstr "Essa moeda tem um mínimo mais alto que o habitual. Por favor selecione uma duração diferente ou uma moeda diferente."
 
-#: allthethings/dyn/views.py:771
+#: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
@@ -2492,24 +2460,6 @@ msgstr "Traduza ↗"
 msgid "layout.index.header.nav.login_register"
 msgstr "Entrar / Cadastrar"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:466
-msgid "layout.index.header.nav.public_profile"
-msgstr "Perfil público"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:458
-#: allthethings/templates/layouts/index.html:467
-msgid "layout.index.header.nav.downloaded_files"
-msgstr "Arquivos baixados"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:459
-#: allthethings/templates/layouts/index.html:468
-msgid "layout.index.header.nav.my_donations"
-msgstr "Minhas doações"
-
 #: allthethings/templates/layouts/index.html:465
 msgid "layout.index.header.nav.account"
 msgstr "Conta"
@@ -2947,4 +2897,43 @@ msgstr ""
 
 #~ msgid "page.about.help.header"
 #~ msgstr "Como ajudar"
+
+#~ msgid "page.refer.title"
+#~ msgstr "Indique amigos para receber downloads rápidos bônus"
+
+#~ msgid "page.refer.section1.intro"
+#~ msgstr "Membros podem indicar amigos e receber downloads bônus."
+
+#~ msgid "page.refer.section1.list_start"
+#~ msgstr "Para cada amigo que se tornar membro:"
+
+#~ msgid "page.refer.section1.list_1"
+#~ msgstr "<strong>ELes</strong> recebem%(percentage)s%% downloads bônus além dos downloads diários regulares, durante o período de assinatura."
+
+#~ msgid "page.refer.section1.list_2"
+#~ msgstr "<strong>Você</strong> obtém o mesmo número de downloads bônus além dos downloads diários regulares, pelo mesmo período da assinatura de seu amigo(até um total de %(max)s downloads bônus a qualquer momento). Você deve manter uma assinatura ativa para usar seus downloads bônus."
+
+#~ msgid "page.refer.section2.list_start"
+#~ msgstr "Exemplo:"
+
+#~ msgid "page.refer.section2.list_1"
+#~ msgstr "Seu amigo usa seu link de indicação para se inscrever por 3 meses como membro “Bibliotecário Sortudo”, que vem com %(num)s downloads rápidos."
+
+#~ msgid "page.refer.section2.list_2"
+#~ msgstr "Ele recebe %(num)s downloads bônus todo dia, pelos próximos 3 meses."
+
+#~ msgid "page.refer.section2.list_3"
+#~ msgstr "Você também recebe %(num)s downloads bônus todo dia, pelos mesmos 3 meses."
+
+#~ msgid "page.refer.linkbox.header"
+#~ msgstr "<strong>Link de indicação:</strong> "
+
+#~ msgid "page.refer.linkbox.login"
+#~ msgstr "<a %(a_account)s>Entre</a> e se torne membro para indicar amigos."
+
+#~ msgid "page.refer.linkbox.donate"
+#~ msgstr "<a %(a_donate)s>Torne-se membro</a> para indicar amigos."
+
+#~ msgid "page.refer.linkbox.remember"
+#~ msgstr "Ou adicione %(referral_suffix)s ao fim do outro link, e a indicação será lembrada quando seu amigo se tornar membro."
 
