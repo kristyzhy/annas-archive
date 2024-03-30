@@ -4632,87 +4632,76 @@ def search_page():
     if search_index_short == 'digital_lending':
         filter_values['search_extension'] = []
 
-    if bool(re.match(r"^[a-fA-F\d]{32}$", search_input)):
-        return redirect(f"/md5/{search_input}", code=302)
-
+    # Correct ISBN by removing spaces so our search for them actually works.
     potential_isbn = search_input.replace('-', '')
     if search_input != potential_isbn and (isbnlib.is_isbn13(potential_isbn) or isbnlib.is_isbn10(potential_isbn)):
         return redirect(f"/search?q={potential_isbn}", code=302)
-
-    ol_page = None
-    if bool(re.match(r"^OL\d+M$", search_input)):
-        ol_page = search_input
-    doi_page = None
-    potential_doi = normalize_doi(search_input)
-    if potential_doi != '':
-        doi_page = potential_doi
-    isbn_page = None
-    canonical_isbn13 = allthethings.utils.normalize_isbn(search_input)
-    if canonical_isbn13 != '':
-        isbn_page = canonical_isbn13
 
     post_filter = []
     for key, values in filter_values.items():
         if values != []:
             post_filter.append({ "terms": { f"search_only_fields.{key}": [value if value != '_empty' else '' for value in values] } })
 
-    custom_search_sorting = []
+    custom_search_sorting = ['_score']
     if sort_value == "newest":
-        custom_search_sorting = [{ "search_only_fields.search_year": "desc" }]
+        custom_search_sorting = [{ "search_only_fields.search_year": "desc" }, '_score']
     if sort_value == "oldest":
-        custom_search_sorting = [{ "search_only_fields.search_year": "asc" }]
+        custom_search_sorting = [{ "search_only_fields.search_year": "asc" }, '_score']
     if sort_value == "largest":
-        custom_search_sorting = [{ "search_only_fields.search_filesize": "desc" }]
+        custom_search_sorting = [{ "search_only_fields.search_filesize": "desc" }, '_score']
     if sort_value == "smallest":
-        custom_search_sorting = [{ "search_only_fields.search_filesize": "asc" }]
+        custom_search_sorting = [{ "search_only_fields.search_filesize": "asc" }, '_score']
 
-    search_query = {
-        "bool": {
-            "should": [
-                {
-                    "bool": {
-                        "should": [
-                            # The 3.0 is from the 3x "boost" of title/author/etc in search_text.
-                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 3.0*10000.0 } },
-                            { 
-                                "constant_score": {
-                                    "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
-                                    "boost": 3.0*50000.0,
+    if search_input == '':
+        search_query = { "bool": { "should": [{ "rank_feature": { "field": "search_only_fields.search_score_base_rank" } } ] } }
+    else:
+        search_query = {
+            "bool": {
+                "should": [
+                    {
+                        "bool": {
+                            "should": [
+                                # The 3.0 is from the 3x "boost" of title/author/etc in search_text.
+                                { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 3.0*10000.0 } },
+                                { 
+                                    "constant_score": {
+                                        "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
+                                        "boost": 3.0*50000.0,
+                                    },
                                 },
-                            },
-                        ],
-                        "must": [
-                            { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
-                        ],
+                            ],
+                            "must": [
+                                { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
+                            ],
+                        },
                     },
-                },
-            ],
-            "must": [
-                {
-                    "bool": {
-                        "should": [
-                            { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 3.0*10000.0/100000.0 } },
-                            {
-                                "constant_score": {
-                                    "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
-                                    "boost": 3.0*50000.0/100000.0,
+                ],
+                "must": [
+                    {
+                        "bool": {
+                            "should": [
+                                { "rank_feature": { "field": "search_only_fields.search_score_base_rank", "boost": 3.0*10000.0/100000.0 } },
+                                {
+                                    "constant_score": {
+                                        "filter": { "term": { "search_only_fields.search_most_likely_language_code": { "value": allthethings.utils.get_base_lang_code(get_locale()) } } },
+                                        "boost": 3.0*50000.0/100000.0,
+                                    },
                                 },
-                            },
-                        ],
-                        "must": [
-                            {
-                                "simple_query_string": {
-                                    "query": search_input, "fields": ["search_only_fields.search_text"],
-                                    "default_operator": "and",
-                                    "boost": 1.0/100000.0,
+                            ],
+                            "must": [
+                                {
+                                    "simple_query_string": {
+                                        "query": search_input, "fields": ["search_only_fields.search_text"],
+                                        "default_operator": "and",
+                                        "boost": 1.0/100000.0,
+                                    },
                                 },
-                            },
-                        ],
+                            ],
+                        },
                     },
-                },
-            ],
-        },
-    }
+                ],
+            },
+        }
 
     max_display_results = 100
 
@@ -4734,7 +4723,7 @@ def search_page():
                         "query": search_query,
                         "aggs": search_query_aggs(search_index_long),
                         "post_filter": { "bool": { "filter": post_filter } },
-                        "sort": custom_search_sorting+['_score'],
+                        "sort": custom_search_sorting,
                         # "track_total_hits": False, # Set to default
                         "timeout": ES_TIMEOUT_PRIMARY,
                         # "knn": { "field": "search_only_fields.search_e5_small_query", "query_vector": list(map(float, get_e5_small_model().encode(f"query: {search_input}", normalize_embeddings=True))), "k": 10, "num_candidates": 1000 },
@@ -4845,7 +4834,7 @@ def search_page():
                         {
                             "size": additional_display_results,
                             "query": search_query,
-                            "sort": custom_search_sorting+['_score'],
+                            "sort": custom_search_sorting,
                             "track_total_hits": False,
                             "timeout": ES_TIMEOUT,
                         },
@@ -4855,7 +4844,7 @@ def search_page():
                             "size": additional_display_results,
                             # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                             "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
-                            "sort": custom_search_sorting+['_score'],
+                            "sort": custom_search_sorting,
                             "track_total_hits": False,
                             "timeout": ES_TIMEOUT,
                         },
@@ -4865,7 +4854,7 @@ def search_page():
                             "size": additional_display_results,
                             # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
                             "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
-                            "sort": custom_search_sorting+['_score'],
+                            "sort": custom_search_sorting,
                             "track_total_hits": False,
                             "timeout": ES_TIMEOUT,
                         },
@@ -4900,9 +4889,6 @@ def search_page():
                 if 'hits' in search_result4_raw:
                     additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result4_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
 
-
-    print(f"{len(additional_search_aarecords)=} {additional_display_results=}")
-
     es_stats.append({ 'name': 'search_page_timer', 'took': (time.perf_counter() - search_page_timer) * 1000, 'timed_out': False })
 
     primary_hits_pages = 1 + (max(0, primary_hits_total_obj['value'] - 1) // max_display_results)
@@ -4931,11 +4917,6 @@ def search_page():
             header_active="home/search",
             search_input=search_input,
             search_dict=search_dict,
-            redirect_pages={
-                'ol_page': ol_page,
-                'doi_page': doi_page,
-                'isbn_page': isbn_page,
-            }
         ), 200))
     if had_es_timeout:
         r.headers.add('Cache-Control', 'no-cache')

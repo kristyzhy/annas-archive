@@ -112,6 +112,11 @@
             </div>
           {% endif %}
 
+          <!-- <div class="font-bold mb-1">Advanced</div>
+          <div class="mb-4">
+            <label class="flex cursor-pointer items-start"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="search_description" value="search_description" {% if False %}checked{% endif %}><span class="mr-1 flex-grow">Search descriptions and metadata comments</span></label>
+          </div> -->
+
           <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
           <div class="mb-4">
             {% for bucket in search_dict.aggregations.search_content_type %}
@@ -167,21 +172,87 @@
       </div>
 
       <div class="min-w-[0] w-full">
+        {% if (search_input | length) == 0 %}
+          <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
+            {% if search_dict.search_index_short == '' %}
+              <p class="mb-4">
+                {{ gettext('page.search.results.search_downloads', count=g.header_stats.total_without_journals, a_preserve=(' href="/about" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.other_shadow_libs', email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
+                {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
+              </p>
+
+              <p class="max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
+            {% elif search_dict.search_index_short == 'journals' %}
+              <p class="mb-4">
+                {{ gettext('page.search.results.search_journals', count=g.header_stats.journal_article, a_preserve=(' href="/about" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.other_shadow_libs', email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
+                {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
+              </p>
+
+              <p class="max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
+            {% elif search_dict.search_index_short == 'digital_lending' %}
+              <p class="mb-4">
+                {{ gettext('page.search.results.search_digital_lending') }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.digital_lending_info', a_datasets=(' href="/datasets" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.digital_lending_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/E-book_lending" ' | safe), a_mobileread=(' href="https://wiki.mobileread.com/wiki/EBook_Lending_Libraries" ' | safe)) }}
+              </p>
+
+              <p class="max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
+            {% elif search_dict.search_index_short == 'meta' %}
+              <p class="mb-4">
+                {{ gettext('page.search.results.search_metadata', a_request=(' href="/account/request" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }}
+              </p>
+              <p class="mb-4">
+                <!-- TODO:TRANSLATE -->
+                For metadata, we show the original records. We don’t do any merging of records.
+              </p>
+              <p class="mb-4">
+                {{ gettext('page.search.results.metadata_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/Wikipedia:Book_sources" ' | safe)) }}
+              </p>
+
+              <p class="max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
+            {% else %}
+              <p class="mb-4">
+                {{ gettext('page.search.results.search_generic') }}
+              </p>
+
+              <p class="max-sm:hidden text-sm text-gray-500">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
+            {% endif %}
+          </div>
+        {% endif %}
+
         {% if search_dict.had_fatal_es_timeout %}
           <p class="mt-4 font-bold">{{ gettext('page.search.results.error.header') }}</p>
 
           <p class="mt-4">{{ gettext('page.search.results.error.unknown', a_reload=(' href="javascript:location.reload()" ' | safe), email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}</p>
-        {% elif (search_input | length) > 0 %}
-          <!-- {% if redirect_pages.isbn_page %}
-            <p class="my-4">That looks like it might be an ISBN. <a href="/isbn/{{ redirect_pages.isbn_page | urlencode }}">View our ISBN data page for “{{ redirect_pages.isbn_page }}”.</a></p>
-          {% endif %}
-          {% if redirect_pages.doi_page %}
-            <p class="my-4">That looks like it might be a DOI. <a href="/doi/{{ redirect_pages.doi_page | urlencode }}">View our DOI data page for “{{ redirect_pages.doi_page }}”.</a></p>
-          {% endif %}
-          {% if redirect_pages.ol_page %}
-            <p class="my-4">That looks like it might be an Open Library Edition ID. <a href="/ol/{{ redirect_pages.ol_page | urlencode }}">View our Open Library data page for “{{ redirect_pages.ol_page }}”.</a></p>
-          {% endif %} -->
-
+        {% else %}
           {% if search_dict.had_es_timeout and (not search_dict.max_search_aarecords_reached) %}
             <div class="mt-4 text-sm text-gray-500 sm:hidden">
               {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
@@ -229,80 +300,6 @@
               {{ pagination(search_dict.pagination_pages_with_dots_small, search_dict.pagination_base_url, search_dict.page_value, False) }}
             </div>
           {% endif %}
-        {% else %}
-          <div class="sm:mt-6 h-[50vh] sm:px-5 md:px-[60px]">
-            {% if search_dict.search_index_short == '' %}
-              <p class="mb-4">
-                {{ gettext('page.search.results.search_downloads', count=g.header_stats.total_without_journals, a_preserve=(' href="/about" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.other_shadow_libs', email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
-                {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
-              </p>
-
-              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
-                {{ gettext('page.search.results.shortcuts') }}
-              </p>
-            {% elif search_dict.search_index_short == 'journals' %}
-              <p class="mb-4">
-                {{ gettext('page.search.results.search_journals', count=g.header_stats.journal_article, a_preserve=(' href="/about" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.other_shadow_libs', email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
-                {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
-              </p>
-
-              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
-                {{ gettext('page.search.results.shortcuts') }}
-              </p>
-            {% elif search_dict.search_index_short == 'digital_lending' %}
-              <p class="mb-4">
-                {{ gettext('page.search.results.search_digital_lending') }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.digital_lending_info', a_datasets=(' href="/datasets" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.digital_lending_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/E-book_lending" ' | safe), a_mobileread=(' href="https://wiki.mobileread.com/wiki/EBook_Lending_Libraries" ' | safe)) }}
-              </p>
-
-              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
-                {{ gettext('page.search.results.shortcuts') }}
-              </p>
-            {% elif search_dict.search_index_short == 'meta' %}
-              <p class="mb-4">
-                {{ gettext('page.search.results.search_metadata', a_request=(' href="/account/request" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                <!-- TODO:TRANSLATE -->
-                For metadata, we show the original records. We don’t do any merging of records.
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.metadata_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/Wikipedia:Book_sources" ' | safe)) }}
-              </p>
-
-              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
-                {{ gettext('page.search.results.shortcuts') }}
-              </p>
-            {% else %}
-              <p class="mb-4">
-                {{ gettext('page.search.results.search_generic') }}
-              </p>
-
-              <p class="mb-4 max-sm:hidden text-sm text-gray-500">
-                {{ gettext('page.search.results.shortcuts') }}
-              </p>
-            {% endif %}
-          </div>
         {% endif %}
         
         {% if search_input != '' %}
