@@ -1,7 +1,26 @@
 {% macro pagination(pagination_pages_with_dots, pagination_base_url, page_value, large) -%}
+  <script>
+    // We can't do this in Jinja because of https://github.com/pallets/jinja/issues/1693 :(
+    if (!window.pagination_code_loaded) {
+      window.pagination_code_loaded = true;
+      document.addEventListener("keydown", e => {
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        if (/^(?:input|textarea|select|button)$/i.test(e.target.tagName)) return;
+        if (e.key === "<") {
+          const el = document.querySelector('.js-pagination-prev-page');
+          if (el) { el.click(); }
+        }
+        if (e.key === ">") {
+          const el = document.querySelector('.js-pagination-next-page');
+          if (el) { el.click(); }
+        }
+      });
+    }
+  </script>
+
   <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm {% if large %}text-sm{% else %}text-xs{% endif %}" aria-label="Pagination">
     {% if page_value > 1 %}
-      <a href="{{ pagination_base_url }}{{ page_value-1 }}" class="custom-a relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+      <a href="{{ pagination_base_url }}{{ page_value-1 }}" class="js-pagination-prev-page custom-a relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
         <span class="sr-only"><!--TODO:TRANSLATE-->Previous</span>
         <span class="icon-[mingcute--left-line]" aria-hidden="true"></span>
       </a>
@@ -21,7 +40,7 @@
       {% endif %}
     {% endfor %}
     {% if page_value < (pagination_pages_with_dots[-1] | int) %}
-      <a href="{{ pagination_base_url }}{{ page_value+1 }}" class="custom-a relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+      <a href="{{ pagination_base_url }}{{ page_value+1 }}" class="js-pagination-next-page custom-a relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
         <span class="sr-only"><!--TODO:TRANSLATE-->Next</span>
         <span class="icon-[mingcute--right-line]" aria-hidden="true" />
       </a>
