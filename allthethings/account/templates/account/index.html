@@ -78,6 +78,11 @@
         <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">{{ gettext('page.account.logged_out.register.button') }}</button>
       </form>
 
+      <p class="mb-4">
+        {{ gettext('page.login.lost_key', a_contact=(' href="/contact" ' | safe)) }}
+        {{ gettext('page.login.lost_key_contact') }}
+      </p>
+
 <!--       <p class="mb-1">{{ gettext('page.account.logged_out.old_email.button', a_open=(' href="#" onclick="document.querySelector(\'.js-account-email-form\').classList.remove(\'hidden\'); event.preventDefault(); return false"' | safe)) }}</p>
 
       <script>
