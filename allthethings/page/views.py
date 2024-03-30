@@ -4633,6 +4633,7 @@ def search_page():
         'search_access_types': [val.strip()[0:50] for val in request.args.getlist("acc")],
         'search_record_sources': [val.strip()[0:20] for val in request.args.getlist("src")],
     }
+    search_desc = (request.args.get("desc", "").strip() == "1")
     page_value_str = request.args.get("page", "").strip()
     page_value = 1
     try:
@@ -4671,6 +4672,10 @@ def search_page():
     if sort_value == "oldest_added":
         custom_search_sorting = [{ "search_only_fields.search_added_date": "asc" }, '_score']
 
+    search_fields = ['search_only_fields.search_text']
+    if search_desc:
+        search_fields.append('search_only_fields.search_description_comments')
+
     if search_input == '':
         search_query = { "match_all": {} }
         if custom_search_sorting == ['_score']:
@@ -4691,7 +4696,13 @@ def search_page():
                                     },
                                 },
                             ],
-                            "must": [ { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } } ],
+                            "must": [
+                                { 
+                                    "bool": {
+                                        "should": [{ "match_phrase": { field_name: { "query": search_input } } } for field_name in search_fields]
+                                    },
+                                },
+                            ],
                         },
                     },
                 ],
@@ -4710,7 +4721,8 @@ def search_page():
                             "must": [
                                 {
                                     "simple_query_string": {
-                                        "query": search_input, "fields": ["search_only_fields.search_text"],
+                                        "query": search_input,
+                                        "fields": search_fields,
                                         "default_operator": "and",
                                         "boost": 1.0/100000.0,
                                     },
@@ -4931,6 +4943,7 @@ def search_page():
     search_dict['pagination_base_url'] = request.path + '?' + urllib.parse.urlencode([(k,v) for k,v in request.args.items() if k != 'page'] + [('page', '')])
     search_dict['primary_hits_total_obj'] = primary_hits_total_obj
     search_dict['max_display_results'] = max_display_results
+    search_dict['search_desc'] = search_desc
 
     r = make_response((render_template(
             "page/search.html",

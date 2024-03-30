@@ -88,6 +88,10 @@
       {% if (search_dict.aggregations.search_most_likely_language_code | selectattr("selected") | list | length) > 0 %}
         <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="py-0.5 bg-[#ccc] mr-1 px-1">{{ gettext('page.search.filters.language.header') }}</span><span class="py-0.5">{% for bucket in search_dict.aggregations.search_most_likely_language_code | selectattr("selected") %}{% if loop.index0 > 0 %}, {% endif %}{{ bucket.label }} ({% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}){% endfor %}</span></a>
       {% endif %}
+
+      {% if search_dict.search_desc %}
+        <a href="#" class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#ccc] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab py-0.5 bg-[#ccc] px-1" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><!--TODO:TRANSLATE-->Search descriptions and metadata comments</span></a>
+      {% endif %}
     </div>
 
     <div class="flex w-full">
@@ -111,11 +115,6 @@
               {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
             </div>
           {% endif %}
-
-          <!-- <div class="font-bold mb-1">Advanced</div>
-          <div class="mb-4">
-            <label class="flex cursor-pointer items-start"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="search_description" value="search_description" {% if False %}checked{% endif %}><span class="mr-1 flex-grow">Search descriptions and metadata comments</span></label>
-          </div> -->
 
           <div class="font-bold mb-1">{{ gettext('page.search.filters.content.header') }}</div>
           <div class="mb-4">
@@ -164,6 +163,11 @@
               {% endif %}
             </div>
           {% endif %}
+
+          <div class="font-bold mb-1"><!--TODO:TRANSLATE-->Advanced</div>
+          <div class="mb-4">
+            <label class="flex cursor-pointer items-start"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="desc" value="1" {% if search_dict.search_desc %}checked{% endif %}><span class="mr-1 flex-grow"><!--TODO:TRANSLATE-->Search descriptions and metadata comments</span></label>
+          </div>
           
           <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 mb-2" type="submit">{{ gettext('page.search.submit') }}</button>
 
