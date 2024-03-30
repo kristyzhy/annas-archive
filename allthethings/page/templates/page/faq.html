@@ -1,11 +1,11 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}FAQ{% endblock %}
+{% block title %}{{ gettext('page.faq.title') }}{% endblock %}
 
 {% block body %}
-  <h2 class="mt-4 mb-1 text-3xl font-bold">Frequently Asked Questions (FAQ)</h2>
+  <h2 class="mt-4 mb-1 text-3xl font-bold">{{ gettext('page.faq.title') }}</h2>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="what">What is Anna’s Archive? <a href="#what" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="what">{{ gettext('page.faq.what_is.title') }} <a href="#what" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="">
     {{ gettext('page.home.intro.text1', span_anna=('class=""' | safe)) }}
@@ -80,7 +80,7 @@
     {{ gettext('page.about.text3', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
   </p>
   
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="help">How can I help? <a href="#help" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="help">{{ gettext('page.faq.help.title') }} <a href="#help" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <ol class="list-inside mb-4">
     {{ gettext('page.about.help.text') }}
@@ -90,7 +90,7 @@
     <li>{{ gettext('page.about.help.text9', a_upload=('href="/faq#upload"' | safe)) }}</li>
     <li>{{ gettext('page.about.help.text10') }}</li>
     <li>{{ gettext('page.about.help.text11') }}</li>
-    <li>12. We would love for people to set up <a href="/mirrors">mirrors</a>, and we will financially support this.</li>
+    <li>12. {{ gettext('page.faq.help.mirrors', a_mirrors=(' href="/mirrors" ' | safe)) }}</li>
   </ol>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="donate">{{ gettext('page.donate.faq.title') }} <a href="#donate" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
@@ -111,7 +111,7 @@
     {{ gettext('page.donate.faq.text_large_donation', div_question=(' class="font-bold" ' | safe), email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
   </div>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="upload">How do I upload new books? <a href="#upload" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="upload">{{ gettext('page.faq.upload.title') }} <a href="#upload" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
     {{ gettext('page.upload.text1', a_guide=(' href="https://wiki.mhut.org/content:how_to_upload" rel="noopener noreferrer" target="_blank"' | safe)) }}
@@ -126,12 +126,21 @@
     {{ gettext('page.upload.large.text', a_email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
   </p>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="request">How do I request books? <a href="#request" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="request">{{ gettext('page.faq.request.title') }} <a href="#request" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
     {{ gettext('page.request.cannot_accomodate') }}
     {{ gettext('page.request.forums') }}
     {{ gettext('page.request.dont_email') }}
+  </p>
+
+  <!-- TODO:TRANSLATE everything below -->
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="mobile">Do you have a mobile app? <a href="#mobile" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+
+  <p class="mb-4">
+      We don’t have an official mobile app, but you can install this website as an app.<br>
+      <strong>Android:</strong> Click the three-dot menu in the top right, and select “Add to Home Screen”.<br>
+      <strong>iOS:</strong> Click the “Share” button at the bottom, and select “Add to Home Screen”.
   </p>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="security">Do you have a responsible disclosure program? <a href="#security" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
@@ -146,14 +155,6 @@
 
   <p class="mb-4">
     If you are interested in offensive security, and want to help archive the world’s knowledge and culture, be sure to contact us. There are many ways in which you can help.
-  </p>
-
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="mobile">Do you have a mobile app? <a href="#mobile" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
-
-  <p class="mb-4">
-      We don’t have an official mobile app, but you can install this website as an app.<br>
-      <strong>Android:</strong> Click the three-dot menu in the top right, and select “Add to Home Screen”.<br>
-      <strong>iOS:</strong> Click the “Share” button at the bottom, and select “Add to Home Screen”.
   </p>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="resources">Are there more resources about Anna’s Archive? <a href="#resources" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
