@@ -4873,9 +4873,9 @@ def search_page():
                         { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
                         {
                             "size": additional_display_results,
+                            "query": {"bool": { "must": { "multi_match": { "query": search_input, "fields": search_fields }  }, "filter": post_filter } },
                             # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                            "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } }, "filter": post_filter } },
-                            "sort": custom_search_sorting,
+                            "sort": ['_score'],
                             "track_total_hits": False,
                             "timeout": ES_TIMEOUT,
                         },
@@ -4883,9 +4883,9 @@ def search_page():
                         { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
                         {
                             "size": additional_display_results,
+                            "query": {"bool": { "must": { "multi_match": { "query": search_input, "fields": search_fields }  } } },
                             # Don't use our own sorting here; otherwise we'll get a bunch of garbage at the top typically.
-                            "query": {"bool": { "must": { "match": { "search_only_fields.search_text": { "query": search_input } } } } },
-                            "sort": custom_search_sorting,
+                            "sort": ['_score'],
                             "track_total_hits": False,
                             "timeout": ES_TIMEOUT,
                         },
