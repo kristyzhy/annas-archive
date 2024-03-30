@@ -326,7 +326,7 @@
 
           {% if (search_dict.search_aarecords | length) > 0 %}
             <div class="mt-4 uppercase text-xs text-gray-500">
-              {{ gettext('page.search.results.numbers_pages', from=((search_dict.page_value-1)*search_dict.max_display_results+1), to=(((search_dict.page_value-1)*search_dict.max_display_results)+(search_dict.search_aarecords | length)), total=(search_dict.primary_hits_total_obj.value + ('+' if search_dict.primary_hits_total_obj.relation == 'gte' else ''))) }}
+              {{ gettext('page.search.results.numbers_pages', from=((search_dict.page_value-1)*search_dict.max_display_results+1), to=(((search_dict.page_value-1)*search_dict.max_display_results)+(search_dict.search_aarecords | length)), total=((search_dict.primary_hits_total_obj.value | string) + ('+' if search_dict.primary_hits_total_obj.relation == 'gte' else ''))) }}
             </div>
           {% endif %}
 
