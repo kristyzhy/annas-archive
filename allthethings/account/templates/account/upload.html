@@ -24,6 +24,6 @@
   <p class="mb-4"><strong>{{ gettext('page.upload.large.header') }}</strong></p>
 
   <p class="mb-4">
-    {{ gettext('page.upload.large.text', a_email=('<a href="/contact">✉️✉️✉️</a>' | safe)) }}
+    {{ gettext('page.upload.large.text', a_email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
   </p>
 {% endblock %}

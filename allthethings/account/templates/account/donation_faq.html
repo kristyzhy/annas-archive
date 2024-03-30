@@ -10,7 +10,7 @@
   </div>
 
   <div class="mb-4">
-    {{ gettext('page.donate.faq.text_other_payment1', div_question=(' class="font-bold" ' | safe), email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
+    {{ gettext('page.donate.faq.text_other_payment1', div_question=(' class="font-bold" ' | safe), email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
   </div>
 
   <div class="mb-4">
@@ -18,7 +18,7 @@
   </div>
 
   <div class="mb-4">
-    {{ gettext('page.donate.faq.text_large_donation', div_question=(' class="font-bold" ' | safe), email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
+    {{ gettext('page.donate.faq.text_large_donation', div_question=(' class="font-bold" ' | safe), email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
   </div>
 
   <div class="mb-4">

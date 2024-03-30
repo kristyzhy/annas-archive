@@ -103,7 +103,7 @@
   </p>
 
   <p class="mb-4">
-    {{ gettext('page.about.text3', email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
+    {{ gettext('page.about.text3', email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
   </p>
 
   <p class="mb-4">

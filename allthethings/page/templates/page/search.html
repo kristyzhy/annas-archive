@@ -184,7 +184,7 @@
                 {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
               <p class="mb-4">
-                {{ gettext('page.search.results.other_shadow_libs', email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
+                {{ gettext('page.search.results.other_shadow_libs', email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
                 {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
               </p>
 
@@ -199,7 +199,7 @@
                 {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
               <p class="mb-4">
-                {{ gettext('page.search.results.other_shadow_libs', email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}
+                {{ gettext('page.search.results.other_shadow_libs', email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
                 {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
               </p>
 
@@ -253,7 +253,7 @@
         {% if search_dict.had_fatal_es_timeout %}
           <p class="mt-4 font-bold">{{ gettext('page.search.results.error.header') }}</p>
 
-          <p class="mt-4">{{ gettext('page.search.results.error.unknown', a_reload=(' href="javascript:location.reload()" ' | safe), email=('<a class="break-all" href="/contact">✉️✉️✉️</a>' | safe)) }}</p>
+          <p class="mt-4">{{ gettext('page.search.results.error.unknown', a_reload=(' href="javascript:location.reload()" ' | safe), email=(('<a class="break-all" href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}</p>
         {% else %}
           {% if search_dict.had_es_timeout and (not search_dict.max_search_aarecords_reached) %}
             <div class="mt-4 text-sm text-gray-500 sm:hidden">
