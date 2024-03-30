@@ -36,6 +36,12 @@
       <div class="mb-4">{{ gettext('page.account.logged_in.membership_multiple') }}</div>
     {% endif %}
 
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc"><a href="/account/profile">{{ gettext('layout.index.header.nav.public_profile') }}</a></li>
+      <li class="list-disc"><a href="/account/downloaded">{{ gettext('layout.index.header.nav.downloaded_files') }}</a></li>
+      <li class="list-disc"><a href="/account/donations">{{ gettext('layout.index.header.nav.my_donations') }}</a></li>
+    </ul>
+
     <form autocomplete="on" onsubmit="window.submitForm(event, '/dyn/account/logout/', (jsonResponse) => { window.globalUpdateAaLoggedIn(jsonResponse.aa_logged_in); })" class="mb-8">
       <fieldset class="mb-4">
         <button type="submit" class="mr-2 bg-[#777] hover:bg-[#999] text-white font-bold py-1 px-3 rounded shadow">{{ gettext('page.account.logged_in.logout.button') }}</button>
