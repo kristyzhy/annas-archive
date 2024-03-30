@@ -4539,7 +4539,7 @@ def search_query_aggs(search_index_long):
         "search_extension": { "terms": { "field": "search_only_fields.search_extension", "size": 9 } },
         "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "size": 100 } },
         "search_record_sources": { "terms": { "field": "search_only_fields.search_record_sources", "size": 100 } },
-        "search_most_likely_language_code": { "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 50 } },
+        "search_most_likely_language_code": { "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 70 } },
     }
 
 @cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=24*60*60))
@@ -4670,9 +4670,7 @@ def search_page():
                                     },
                                 },
                             ],
-                            "must": [
-                                { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } },
-                            ],
+                            "must": [ { "match_phrase": { "search_only_fields.search_text": { "query": search_input } } } ],
                         },
                     },
                 ],
@@ -4911,6 +4909,7 @@ def search_page():
     search_dict['pagination_pages_with_dots_small'] = allthethings.utils.build_pagination_pages_with_dots(primary_hits_pages, page_value, False)
     search_dict['pagination_base_url'] = request.path + '?' + urllib.parse.urlencode([(k,v) for k,v in request.args.items() if k != 'page'] + [('page', '')])
     search_dict['primary_hits_total_obj'] = primary_hits_total_obj
+    search_dict['max_display_results'] = max_display_results
 
     r = make_response((render_template(
             "page/search.html",

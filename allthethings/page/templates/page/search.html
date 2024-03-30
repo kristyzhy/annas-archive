@@ -155,7 +155,7 @@
             <div class="font-bold mb-1">{{ gettext('page.search.filters.language.header') }}</div>
             <div class="mb-4">
               {% for bucket in search_dict.aggregations.search_most_likely_language_code %}
-                <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %} {% if loop.index > 10 %}hidden js-language-hidden{% endif %}"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-0.5 text-sm sm:text-xs text-gray-500">{% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}</span></label>
+                <label class="flex cursor-pointer items-start {% if bucket.doc_count == 0 %}opacity-60{% endif %} {% if (loop.index > 10) and (not bucket.selected) %}hidden js-language-hidden{% endif %}"><input type="checkbox" class="mr-1 mt-1.5 sm:mt-1" name="lang" value="{{bucket.key}}" {% if bucket.selected %}checked{% endif %}><span class="mr-1 flex-grow">{{bucket.label | replace('-', '&#8209;' | safe)}}</span><span class="mt-0.5 text-sm sm:text-xs text-gray-500">{% if search_dict.had_primary_es_timeout %}~{% endif %}{{'{0:,}'.format(bucket.doc_count)}}</span></label>
               {% endfor %}
               {% if search_dict.aggregations.search_most_likely_language_code | length > 10 %}
                 <a href="#" onclick="event.preventDefault(); event.stopPropagation(); for(var el of document.querySelectorAll('.js-language-hidden')) { el.classList.remove('hidden') }; event.currentTarget.classList.add('hidden')">{{ gettext('page.search.more') }}</a>
@@ -272,7 +272,7 @@
           {% if (search_dict.search_aarecords | length) > 0 %}
             <div class="mt-4 uppercase text-xs text-gray-500">
               <!-- TODO:TRANSLATE -->
-              Page {{ search_dict.page_value }} of {{ search_dict.primary_hits_pages }} ({{ search_dict.primary_hits_total_obj.value }}{% if search_dict.primary_hits_total_obj.relation == 'gte' %}+{% endif %} results)
+              Results {{ (search_dict.page_value-1)*search_dict.max_display_results+1 }}-{{ ((search_dict.page_value-1)*search_dict.max_display_results)+(search_dict.search_aarecords | length) }} ({{ search_dict.primary_hits_total_obj.value }}{% if search_dict.primary_hits_total_obj.relation == 'gte' %}+{% endif %} total)
             </div>
           {% endif %}
 
