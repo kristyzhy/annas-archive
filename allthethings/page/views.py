@@ -3198,8 +3198,9 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
         if aarecord['file_unified_data']['cover_url_best'] == '':
             cover_url_multiple += [isbndb['cover_url_guess'] for isbndb in aarecord['isbndb']]
-            cover_url_multiple.append(((aarecord['aac_zlib3_book'] or {}).get('cover_url_guess') or '').strip())
-            cover_url_multiple.append(((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip())
+            # For now, keep out cover urls from zlib entirely, and only add them ad-hoc from aac_zlib3_book.cover_path.
+            # cover_url_multiple.append(((aarecord['aac_zlib3_book'] or {}).get('cover_url_guess') or '').strip())
+            # cover_url_multiple.append(((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip())
             cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
             aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
             aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
@@ -3614,6 +3615,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 'record_aacid': aarecord['aac_zlib3_book']['record_aacid'],
                 'file_aacid': aarecord['aac_zlib3_book']['file_aacid'],
                 'removed': (aarecord['aac_zlib3_book'].get('removed') or 0),
+                'cover_path': (aarecord['aac_zlib3_book'].get('cover_path') or ''),
             }
         if aarecord['ia_record'] is not None:
             aarecord['ia_record'] = {
@@ -3888,7 +3890,10 @@ def get_additional_for_aarecord(aarecord):
     md5_content_type_mapping = get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale()))
 
     cover_url = (aarecord['file_unified_data'].get('cover_url_best', None) or '')
-    if 'zlib' in cover_url or '1lib' in cover_url:
+    zlib3_cover_path = ((aarecord.get('aac_zlib3_book') or {}).get('cover_path') or '')
+    if '/collections/' in zlib3_cover_path:
+        cover_url = f"https://s3proxy.cdn-zlib.se/{zlib3_cover_path}"
+    elif 'zlib' in cover_url or '1lib' in cover_url: # Remove old zlib cover_urls.
         non_zlib_covers = [url for url in (aarecord['file_unified_data'].get('cover_url_additional', None) or []) if ('zlib' not in url and '1lib' not in url)]
         if len(non_zlib_covers) > 0:
             cover_url = non_zlib_covers[0]
@@ -3911,7 +3916,7 @@ def get_additional_for_aarecord(aarecord):
         'top_row': ", ".join([item for item in [
                 additional['most_likely_language_name'],
                 f".{aarecord['file_unified_data']['extension_best']}" if len(aarecord['file_unified_data']['extension_best']) > 0 else '',
-                "/".join(filter(len,["🚀" if (aarecord['file_unified_data']['has_aa_downloads'] == 1) else "", *aarecord_sources(aarecord)])),
+                "/".join(filter(len,["🚀" if (aarecord['file_unified_data'].get('has_aa_downloads') == 1) else "", *aarecord_sources(aarecord)])),
                 format_filesize(aarecord['file_unified_data'].get('filesize_best', None) or 0) if aarecord['file_unified_data'].get('filesize_best', None) else '',
                 md5_content_type_mapping[aarecord['file_unified_data']['content_type']],
                 (aarecord['file_unified_data'].get('original_filename_best_name_only', None) or '').rsplit('.', 1)[0],
