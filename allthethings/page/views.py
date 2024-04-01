@@ -330,7 +330,7 @@ def faq_page():
         "md5:6ed2d768ec1668c73e4fa742e3df78d6", # Physics
     ]
     with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch(popular_ids)
+        aarecords = (get_aarecords_elasticsearch(popular_ids) or [])
         aarecords.sort(key=lambda aarecord: popular_ids.index(aarecord['id']))
 
         return render_template(
@@ -2892,6 +2892,7 @@ def sort_by_length_and_filter_subsequences_with_longest_string(strings):
             strings_filtered.append(string)
     return strings_filtered
 
+number_of_get_aarecords_elasticsearch_exceptions = 0
 def get_aarecords_elasticsearch(aarecord_ids):
     if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
         raise Exception("Invalid aarecord_ids")
@@ -2915,7 +2916,20 @@ def get_aarecords_elasticsearch(aarecord_ids):
 
     search_results_raw = []
     for es_handle, docs in docs_by_es_handle.items():
-        search_results_raw += es_handle.mget(docs=docs)['docs']
+        for attempt in [1,2,3]:
+            try:
+                search_results_raw += es_handle.mget(docs=docs)['docs']
+                number_of_get_aarecords_elasticsearch_exceptions = 0
+                break
+            except:
+                print(f"Warning: another attempt during get_aarecords_elasticsearch {search_input=}")
+                if attempt >= 3:
+                    number_of_get_aarecords_elasticsearch_exceptions += 1
+                    if number_of_get_aarecords_elasticsearch_exceptions > 5:
+                        raise
+                    else:
+                        print("Haven't reached number_of_get_aarecords_elasticsearch_exceptions limit yet, so not raising")
+                        return None
     return [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw if aarecord_raw.get('found') and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
@@ -4300,7 +4314,8 @@ def render_aarecord(record_id):
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=record_id)
 
         aarecords = get_aarecords_elasticsearch(ids)
-
+        if aarecords is None:
+            return render_template("page/aarecord_issue.html", header_active="search"), 500
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=record_id)
 
@@ -4400,38 +4415,38 @@ def scidb_page(doi_input):
 @page.get("/db/aarecord/<path:aarecord_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def md5_json(aarecord_id):
-    with Session(engine) as session:
-        with Session(engine) as session:
-            aarecords = get_aarecords_elasticsearch([aarecord_id])
-            if len(aarecords) == 0:
-                return "{}", 404
-            
-            aarecord_comments = {
-                "id": ("before", ["File from the combined collections of Anna's Archive.",
-                                   "More details at https://annas-archive.org/datasets",
-                                   allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
-                "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrsnf/<id>.json"]),
-                "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrsfic/<id>.json"]),
-                "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/<f_id>.json"]),
-                "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
-                "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
-                "ia_record": ("before", ["Source data at: https://annas-archive.org/db/ia/<ia_id>.json"]),
-                "isbndb": ("before", ["Source data at: https://annas-archive.org/db/isbndb/<isbn13>.json"]),
-                "ol": ("before", ["Source data at: https://annas-archive.org/db/ol/<ol_edition>.json"]),
-                "scihub_doi": ("before", ["Source data at: https://annas-archive.org/db/scihub_doi/<doi>.json"]),
-                "oclc": ("before", ["Source data at: https://annas-archive.org/db/oclc/<oclc>.json"]),
-                "duxiu": ("before", ["Source data at: https://annas-archive.org/db/duxiu_ssid/<duxiu_ssid>.json or https://annas-archive.org/db/cadal_ssno/<cadal_ssno>.json or https://annas-archive.org/db/duxiu_md5/<md5>.json"]),
-                "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
-                "ipfs_infos": ("before", ["Data about the IPFS files."]),
-                "search_only_fields": ("before", ["Data that is used during searching."]),
-                "additional": ("before", ["Data that is derived at a late stage, and not stored in the search index."]),
-            }
-            aarecord = add_comments_to_dict(aarecords[0], aarecord_comments)
+    aarecords = get_aarecords_elasticsearch([aarecord_id])
+    if aarecords is None:
+        return '"Page loading issue"', 500
+    if len(aarecords) == 0:
+        return "{}", 404
+    
+    aarecord_comments = {
+        "id": ("before", ["File from the combined collections of Anna's Archive.",
+                           "More details at https://annas-archive.org/datasets",
+                           allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+        "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrsnf/<id>.json"]),
+        "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrsfic/<id>.json"]),
+        "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/<f_id>.json"]),
+        "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
+        "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
+        "ia_record": ("before", ["Source data at: https://annas-archive.org/db/ia/<ia_id>.json"]),
+        "isbndb": ("before", ["Source data at: https://annas-archive.org/db/isbndb/<isbn13>.json"]),
+        "ol": ("before", ["Source data at: https://annas-archive.org/db/ol/<ol_edition>.json"]),
+        "scihub_doi": ("before", ["Source data at: https://annas-archive.org/db/scihub_doi/<doi>.json"]),
+        "oclc": ("before", ["Source data at: https://annas-archive.org/db/oclc/<oclc>.json"]),
+        "duxiu": ("before", ["Source data at: https://annas-archive.org/db/duxiu_ssid/<duxiu_ssid>.json or https://annas-archive.org/db/cadal_ssno/<cadal_ssno>.json or https://annas-archive.org/db/duxiu_md5/<md5>.json"]),
+        "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
+        "ipfs_infos": ("before", ["Data about the IPFS files."]),
+        "search_only_fields": ("before", ["Data that is used during searching."]),
+        "additional": ("before", ["Data that is derived at a late stage, and not stored in the search index."]),
+    }
+    aarecord = add_comments_to_dict(aarecords[0], aarecord_comments)
 
-            aarecord['additional'].pop('fast_partner_urls')
-            aarecord['additional'].pop('slow_partner_urls')
+    aarecord['additional'].pop('fast_partner_urls')
+    aarecord['additional'].pop('slow_partner_urls')
 
-            return nice_json(aarecord), {'Content-Type': 'text/json; charset=utf-8'}
+    return nice_json(aarecord), {'Content-Type': 'text/json; charset=utf-8'}
 
 
 @page.get("/fast_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
@@ -4444,6 +4459,8 @@ def md5_fast_download(md5_input, path_index, domain_index):
         return redirect(f"/md5/{md5_input}", code=302)
     with Session(engine) as session:
         aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
+        if aarecords is None:
+            return render_template("page/aarecord_issue.html", header_active="search"), 500
         if len(aarecords) == 0:
             return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
         aarecord = aarecords[0]
@@ -4502,6 +4519,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
     with Session(engine) as session:
         with Session(mariapersist_engine) as mariapersist_session:
             aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
+            if aarecords is None:
+                return render_template("page/aarecord_issue.html", header_active="search"), 500
             if len(aarecords) == 0:
                 return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
             aarecord = aarecords[0]
@@ -4792,9 +4811,8 @@ def search_page():
             number_of_search_primary_exceptions = 0
             break
         except Exception as err:
-            if attempt < 2:
-                print(f"Warning: another attempt during primary ES search {search_input=}")
-            else:
+            print(f"Warning: another attempt during primary ES search {search_input=}")
+            if attempt >= 2:
                 had_es_timeout = True
                 had_primary_es_timeout = True
                 had_fatal_es_timeout = True
@@ -4802,6 +4820,8 @@ def search_page():
                 number_of_search_primary_exceptions += 1
                 if number_of_search_primary_exceptions > 5:
                     print(f"Exception during primary ES search {attempt=} {search_input=} ///// {repr(err)} ///// {traceback.format_exc()}\n")
+                else:
+                    print("Haven't reached number_of_search_primary_exceptions limit yet, so not raising")
                 break
     for num, response in enumerate(search_results_raw['responses']):
         es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
