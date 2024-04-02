@@ -52,6 +52,7 @@ number_of_db_exceptions = 0
 @dyn.get("/up/databases/")
 @allthethings.utils.no_cache()
 def databases():
+    global number_of_db_exceptions
     try:
         with engine.connect() as conn:
             conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))

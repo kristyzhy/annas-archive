@@ -2405,6 +2405,7 @@ def get_duxiu_dicts(session, key, values):
             aa_derived_duxiu_ssids_to_primary_id[new_aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"]] = primary_id
 
     if len(aa_derived_duxiu_ssids_to_primary_id) > 0:
+        # Careful! Make sure this recursion doesn't loop infinitely.
         for record in get_duxiu_dicts(session, 'duxiu_ssid', list(aa_derived_duxiu_ssids_to_primary_id.keys())):
             primary_id = aa_derived_duxiu_ssids_to_primary_id[record['duxiu_ssid']]
             for aac_record in record['aac_records']:
@@ -2894,6 +2895,8 @@ def sort_by_length_and_filter_subsequences_with_longest_string(strings):
 
 number_of_get_aarecords_elasticsearch_exceptions = 0
 def get_aarecords_elasticsearch(aarecord_ids):
+    global number_of_get_aarecords_elasticsearch_exceptions
+
     if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
         raise Exception("Invalid aarecord_ids")
 
@@ -2919,7 +2922,6 @@ def get_aarecords_elasticsearch(aarecord_ids):
         for attempt in [1,2,3]:
             try:
                 search_results_raw += es_handle.mget(docs=docs)['docs']
-                number_of_get_aarecords_elasticsearch_exceptions = 0
                 break
             except:
                 print(f"Warning: another attempt during get_aarecords_elasticsearch {search_input=}")
@@ -2930,6 +2932,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
                     else:
                         print("Haven't reached number_of_get_aarecords_elasticsearch_exceptions limit yet, so not raising")
                         return None
+        number_of_get_aarecords_elasticsearch_exceptions = 0
     return [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw if aarecord_raw.get('found') and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
 
 
@@ -4648,6 +4651,8 @@ number_of_search_primary_exceptions = 0
 @page.get("/search")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def search_page():
+    global number_of_search_primary_exceptions
+    
     search_page_timer = time.perf_counter()
     had_es_timeout = False
     had_primary_es_timeout = False
