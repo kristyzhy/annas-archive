@@ -2401,8 +2401,9 @@ def get_duxiu_dicts(session, key, values):
 
     aa_derived_duxiu_ssids_to_primary_id = {}
     for primary_id, aac_records in aac_records_by_primary_id.items():
-        if "aa_derived_duxiu_ssid" in new_aac_record["metadata"]["record"]:
-            aa_derived_duxiu_ssids_to_primary_id[new_aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"]] = primary_id
+        for aac_record in aac_records:
+            if "aa_derived_duxiu_ssid" in aac_record["metadata"]["record"]:
+                aa_derived_duxiu_ssids_to_primary_id[aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"]] = primary_id
 
     if len(aa_derived_duxiu_ssids_to_primary_id) > 0:
         # Careful! Make sure this recursion doesn't loop infinitely.
