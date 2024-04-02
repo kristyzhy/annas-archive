@@ -4,8 +4,8 @@
 
 {% block body %}
 
-<div class="max-lg:max-w-[450px] max-lg:mx-auto lg:flex lg:flex-wrap lg:justify-around">
-  <div class="lg:w-[450px]">
+<div class="max-lg:max-w-[450px] max-lg:mx-auto lg:flex lg:flex-wrap lg:justify-between">
+  <div class="lg:w-[485px]">
     <h2 class="mt-4 text-xl font-bold">📚 {{ gettext('page.home.full_database.header') }}</h2>
 
     <form action="/search" method="get" role="search">
@@ -52,7 +52,7 @@
     {% endif %}
   </div>
 
-  <div class="lg:w-[450px]">
+  <div class="lg:w-[485px]">
     <h2 class="mt-8 text-xl font-bold">🏛️ {{ gettext('page.home.archive.header') }}</h2>
 
     <p class="mb-4">
