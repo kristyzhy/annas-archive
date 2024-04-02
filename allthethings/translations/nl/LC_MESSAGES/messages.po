@@ -1,3 +1,19 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-02 21:57+0000\n"
+"PO-Revision-Date: 2024-04-02 21:57+0000\n"
+"Last-Translator: Guus <guusvanweelderen@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.4.2\n"
+
 #: allthethings/app.py:203
 msgid "layout.index.invalid_request"
 msgstr "Ongeldig verzoek. Bezoek %(websites)s."
@@ -174,7 +190,7 @@ msgstr "Raadpleeg de <a href=\"/donation_faq\">veelgestelde vragen over donaties
 
 #: allthethings/account/templates/account/donate.html:24
 msgid "page.donate.refer.text1"
-msgstr ""
+msgstr "<a %(a_refer)s>Verwijs je vrienden</a> voor nog meer downloads!"
 
 #: allthethings/account/templates/account/donate.html:31
 #: allthethings/account/templates/account/donation.html:23
@@ -456,15 +472,15 @@ msgstr "<strong>BELANGRIJK:</strong> We ondersteunen alleen Amazon.com, geen and
 
 #: allthethings/account/templates/account/donate.html:288
 msgid "page.donate.ccexp.amazon_com"
-msgstr ""
+msgstr "Stuur ons cadeaubonnen van Amazon.com met je creditcard of betaalpas."
 
 #: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.ccexp.wechat"
-msgstr ""
+msgstr "WeChat (Weixin Pay) biedt ondersteuning voor internationale creditcards en betaalpassen. Ga in de WeChat-app naar Me => Services => Wallet => Add a Card. Als je die optie niet ziet, kun je hem inschakelen via Me => Settings => General => Tools => Weixin Pay => Enable."
 
 #: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.ccexp.crypto"
-msgstr ""
+msgstr "Je kunt crypto kopen met een creditcard of betaalpas."
 
 #: allthethings/account/templates/account/donate.html:303
 msgid "page.donate.duration.intro"
@@ -646,11 +662,11 @@ msgstr "Bedankt voor je donatie!"
 
 #: allthethings/account/templates/account/donation.html:60
 msgid "page.donation.thank_you.secret_key"
-msgstr ""
+msgstr "Schrijf je geheime sleutel op om in te loggen als je dat nog niet hebt gedaan:"
 
 #: allthethings/account/templates/account/donation.html:62
 msgid "page.donation.thank_you.locked_out"
-msgstr ""
+msgstr "Anders word je mogelijk buitengesloten van dit account!"
 
 #: allthethings/account/templates/account/donation.html:66
 msgid "page.donation.old_instructions.intro_outdated"
@@ -955,7 +971,7 @@ msgstr "6. Je ontvangt een afschrift. Stuur dat naar ons. Wij bevestigen je dona
 
 #: allthethings/account/templates/account/donation.html:516
 msgid "page.donate.wait"
-msgstr ""
+msgstr "Wacht minstens <span %(span_hours)s>twee uur</span> (en vernieuw daarna deze pagina) voordat je contact zoekt."
 
 #: allthethings/account/templates/account/donation.html:517
 msgid "page.donate.mistake"
@@ -1020,7 +1036,7 @@ msgstr "Inloggen/registreren"
 
 #: allthethings/account/templates/account/index.html:20
 msgid "page.account.logged_in.account_id"
-msgstr ""
+msgstr "Account-ID: %(account_id)s"
 
 #: allthethings/account/templates/account/index.html:21
 msgid "page.account.logged_in.public_profile"
@@ -1045,15 +1061,15 @@ msgstr "welke downloads?"
 #: allthethings/account/templates/account/index.html:31
 #: allthethings/account/templates/account/index.html:33
 msgid "page.account.logged_in.telegram_group_wrapper"
-msgstr ""
+msgstr "Exclusieve Telegram-groep: %(link)s"
 
 #: allthethings/account/templates/account/index.html:31
 msgid "page.account.logged_in.telegram_group_join"
-msgstr ""
+msgstr "Sluit je aan!"
 
 #: allthethings/account/templates/account/index.html:33
 msgid "page.account.logged_in.telegram_group_upgrade"
-msgstr ""
+msgstr "Upgrade naar een <a %(a_tier)s>hoger niveau</a> om aan onze groep deel te nemen."
 
 #: allthethings/account/templates/account/index.html:35
 msgid "page.account.logged_in.membership_upgrade"
@@ -1138,11 +1154,11 @@ msgstr "Nieuw account registreren"
 
 #: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
-msgstr ""
+msgstr "<a %(a_contact)s>Neem contact met ons op</a> als je je sleutel bent verloren en geef daarbij zo veel mogelijk informatie door."
 
 #: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
-msgstr ""
+msgstr "Om contact op te nemen, moet je mogelijk tijdelijk een nieuw account maken."
 
 #: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
@@ -1238,7 +1254,7 @@ msgstr "Deze munt heeft een minimum dat hoger is dan gebruikelijk. Selecteer een
 
 #: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
-msgstr ""
+msgstr "Fout bij het verwerken van de betaling. Wacht even en probeer het daarna opnieuw. Als het probleem meer dan 24 uur aanhoudt, neem dan contact met ons op via %(email)s met een screenshot."
 
 #: allthethings/page/views.py:3734
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1354,27 +1370,27 @@ msgstr ""
 
 #: allthethings/page/views.py:3782
 msgid "common.specific_search_fields.title"
-msgstr ""
+msgstr "Titel"
 
 #: allthethings/page/views.py:3783
 msgid "common.specific_search_fields.author"
-msgstr ""
+msgstr "Auteur"
 
 #: allthethings/page/views.py:3784
 msgid "common.specific_search_fields.publisher"
-msgstr ""
+msgstr "Uitgever"
 
 #: allthethings/page/views.py:3785
 msgid "common.specific_search_fields.edition_varia"
-msgstr ""
+msgstr "Editie"
 
 #: allthethings/page/views.py:3786
 msgid "common.specific_search_fields.original_filename"
-msgstr ""
+msgstr "Originele bestandsnaam"
 
 #: allthethings/page/views.py:3787
 msgid "common.specific_search_fields.description_comments"
-msgstr ""
+msgstr "Beschrijving en metadata-opmerkingen"
 
 #: allthethings/page/views.py:3812
 msgid "common.md5.servers.fast_partner"
@@ -1473,31 +1489,31 @@ msgstr "Originele vermelding in Open Library zoeken"
 
 #: allthethings/page/views.py:4214
 msgid "page.md5.box.download.aa_oclc"
-msgstr "Anna’s Archief doorzoeken op OCLC (WorldCat) nummer"
+msgstr "Anna’s Archief doorzoeken op OCLC-nummer (WorldCat)"
 
 #: allthethings/page/views.py:4215
 msgid "page.md5.box.download.original_oclc"
-msgstr "Oorspronkelijke vermelding in WorldCat zoeken"
+msgstr "Originele vermelding in WorldCat zoeken"
 
 #: allthethings/page/views.py:4217
 msgid "page.md5.box.download.aa_duxiu"
-msgstr ""
+msgstr "Anna's Archief doorzoeken op DuXiu SSID-nummer"
 
 #: allthethings/page/views.py:4218
 msgid "page.md5.box.download.original_duxiu"
-msgstr ""
+msgstr "Handmatig zoeken op DuXiu"
 
 #: allthethings/page/views.py:4220
 msgid "page.md5.box.download.aa_cadal"
-msgstr ""
+msgstr "Anna's Archief doorzoeken op CADAL SSNO-nummer"
 
 #: allthethings/page/views.py:4221
 msgid "page.md5.box.download.original_cadal"
-msgstr ""
+msgstr "Originele vermelding in CADAL zoeken"
 
 #: allthethings/page/views.py:4225
 msgid "page.md5.box.download.aa_dxid"
-msgstr ""
+msgstr "Anna's Archief doorzoeken op DuXiu DXID-nummer"
 
 #: allthethings/page/views.py:4233 allthethings/page/views.py:4234
 msgid "page.md5.box.download.scidb"
@@ -1534,11 +1550,11 @@ msgstr "Metadatavermelding OCLC (WorldCat) %(id)s"
 
 #: allthethings/page/templates/page/aarecord.html:33
 msgid "page.md5.header.meta_duxiu_ssid"
-msgstr ""
+msgstr "Metadatavermelding DuXiu SSID %(id)s"
 
 #: allthethings/page/templates/page/aarecord.html:35
 msgid "page.md5.header.meta_cadal_ssno"
-msgstr ""
+msgstr "Metadatavermelding CADAL SSNO %(id)s"
 
 #: allthethings/page/templates/page/aarecord.html:39
 msgid "page.md5.header.meta_desc"
@@ -1546,15 +1562,15 @@ msgstr "Dit is een metadatavermelding, geen downloadbaar bestand. Je kunt deze U
 
 #: allthethings/page/templates/page/aarecord.html:53
 msgid "page.md5.box.descr_title"
-msgstr ""
+msgstr "beschrijving"
 
 #: allthethings/page/templates/page/aarecord.html:53
 msgid "page.md5.box.metadata_comments_title"
-msgstr ""
+msgstr "metadata-opmerkingen"
 
 #: allthethings/page/templates/page/aarecord.html:53
 msgid "page.md5.box.date_open_sourced_title"
-msgstr ""
+msgstr "opensourcedatum"
 
 #: allthethings/page/templates/page/aarecord.html:54
 msgid "page.md5.box.descr_read_more"
@@ -2933,4 +2949,3 @@ msgstr ""
 
 #~ msgid "page.refer.linkbox.remember"
 #~ msgstr "Of voeg %(referral_suffix)s toe aan het einde van een link, waarmee de verwijzing wordt bijgehouden als je vriend lid wordt."
-
