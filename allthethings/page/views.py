@@ -1889,6 +1889,21 @@ def get_lgli_file_dicts(session, key, values):
         if potential_doi_scimag_archive_path != '':
             allthethings.utils.add_identifier_unified(lgli_file_dict, 'doi', potential_doi_scimag_archive_path)
 
+        if lgli_file_dict['libgen_id'] > 0:
+            allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli_libgen_id', lgli_file_dict['libgen_id'])
+        if lgli_file_dict['fiction_id'] > 0:
+            allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli_fiction_id', lgli_file_dict['fiction_id'])
+        if lgli_file_dict['fiction_rus_id'] > 0:
+            allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli_fiction_rus_id', lgli_file_dict['fiction_rus_id'])
+        if lgli_file_dict['comics_id'] > 0:
+            allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli_comics_id', lgli_file_dict['comics_id'])
+        if lgli_file_dict['scimag_id'] > 0:
+            allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli_scimag_id', lgli_file_dict['scimag_id'])
+        if lgli_file_dict['standarts_id'] > 0:
+            allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli_standarts_id', lgli_file_dict['standarts_id'])
+        if lgli_file_dict['magz_id'] > 0:
+            allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli_magz_id', lgli_file_dict['magz_id'])
+
         lgli_file_dict['added_date_unified'] = {}
         if lgli_file_dict['time_added'] != '0000-00-00 00:00:00':
             if not isinstance(lgli_file_dict['time_added'], datetime.datetime):
