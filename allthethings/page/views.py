@@ -2427,19 +2427,22 @@ def get_duxiu_dicts(session, key, values):
         for primary_id, aac_records in aac_records_by_primary_id.items():
             for aac_record in aac_records.values():
                 if "filename_decoded" in aac_record["metadata"]["record"]:
-                    filename_decoded_basename_to_primary_id[aac_record["metadata"]["record"]["filename_decoded"].rsplit('.', 1)[0]] = primary_id
+                    basename = aac_record["metadata"]["record"]["filename_decoded"].rsplit('.', 1)[0]
+                    if len(basename) >= 5: # Skip very short basenames as they might have too many hits.
+                        filename_decoded_basename_to_primary_id[basename] = primary_id
         if len(filename_decoded_basename_to_primary_id) > 0:
             # Careful! Make sure this recursion doesn't loop infinitely.
             for record in get_duxiu_dicts(session, 'filename_decoded_prefix', list(filename_decoded_basename_to_primary_id.keys())):
-                primary_id = filename_decoded_basename_to_primary_id[record['filename_decoded'].rsplit('.', 1)[0]]
-                for aac_record in record['aac_records']:
-                    # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
-                    # first, and any data we get directly from the fields associated with the file itself should take precedence.
-                    if aac_record['aacid'] not in aac_records_by_primary_id[primary_id]:
-                        aac_records_by_primary_id[primary_id][aac_record['aacid']] = {
-                            "aac_record_added_because": "filename_decoded_prefix",
-                            **aac_record
-                        }
+                for filename_decoded_basename, primary_id in filename_decoded_basename_to_primary_id.items():
+                    if record['filename_decoded'].startswith(filename_decoded_basename):
+                        for aac_record in record['aac_records']:
+                            # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
+                            # first, and any data we get directly from the fields associated with the file itself should take precedence.
+                            if aac_record['aacid'] not in aac_records_by_primary_id[primary_id]:
+                                aac_records_by_primary_id[primary_id][aac_record['aacid']] = {
+                                    "aac_record_added_because": "filename_decoded_prefix",
+                                    **aac_record
+                                }
 
     duxiu_dicts = []
     for primary_id, aac_records in aac_records_by_primary_id.items():
