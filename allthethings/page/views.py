@@ -2336,7 +2336,7 @@ def oclc_oclc_json(oclc):
 def get_duxiu_dicts(session, key, values):
     if len(values) == 0:
         return []
-    if key not in ['duxiu_ssid', 'cadal_ssno', 'md5', 'filename_decoded_prefix']:
+    if key not in ['duxiu_ssid', 'cadal_ssno', 'md5', 'filename_decoded_basename']:
         raise Exception(f"Unexpected 'key' in get_duxiu_dicts: '{key}'")
 
     primary_id_prefix = f"{key}_"
@@ -2347,11 +2347,8 @@ def get_duxiu_dicts(session, key, values):
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         if key == 'md5':
             cursor.execute(f'SELECT annas_archive_meta__aacid__duxiu_records.aacid AS aacid, annas_archive_meta__aacid__duxiu_records.metadata AS metadata, annas_archive_meta__aacid__duxiu_files.primary_id AS primary_id, annas_archive_meta__aacid__duxiu_files.data_folder AS generated_file_data_folder, annas_archive_meta__aacid__duxiu_files.aacid AS generated_file_aacid, annas_archive_meta__aacid__duxiu_files.metadata AS generated_file_metadata FROM annas_archive_meta__aacid__duxiu_records JOIN annas_archive_meta__aacid__duxiu_files ON (CONCAT("md5_", annas_archive_meta__aacid__duxiu_files.md5) = annas_archive_meta__aacid__duxiu_records.primary_id) WHERE annas_archive_meta__aacid__duxiu_files.primary_id IN %(values)s', { "values": values })
-        elif key == 'filename_decoded_prefix':
-            # Note: filename_decoded accidentally has quotation marks (") still in it, so add that to the prefix.
-            where_clause = ' OR '.join([f"(filename_decoded LIKE CONCAT('\"', %(value_{index})s, '%%'))" for index in range(len(values))])
-            where_values = {f"value_{index}": value for index, value in enumerate(values)}
-            cursor.execute(f'SELECT annas_archive_meta__aacid__duxiu_records.aacid AS aacid, annas_archive_meta__aacid__duxiu_records.metadata AS metadata, JSON_UNQUOTE(annas_archive_meta__aacid__duxiu_records_by_filename_decoded.filename_decoded) AS primary_id FROM annas_archive_meta__aacid__duxiu_records JOIN annas_archive_meta__aacid__duxiu_records_by_filename_decoded USING (aacid) WHERE { where_clause }', where_values)
+        elif key == 'filename_decoded_basename':
+            cursor.execute(f'SELECT annas_archive_meta__aacid__duxiu_records.aacid AS aacid, annas_archive_meta__aacid__duxiu_records.metadata AS metadata, annas_archive_meta__aacid__duxiu_records_by_decoded_basename.filename_decoded_basename AS primary_id FROM annas_archive_meta__aacid__duxiu_records JOIN annas_archive_meta__aacid__duxiu_records_by_decoded_basename USING (aacid) WHERE filename_decoded_basename IN %(values)s', { "values": values })
         else:
             cursor.execute(f'SELECT * FROM annas_archive_meta__aacid__duxiu_records WHERE primary_id IN %(values)s', { "values": [f'{primary_id_prefix}{value}' for value in values] })
     except Exception as err:
@@ -2404,43 +2401,43 @@ def get_duxiu_dicts(session, key, values):
 
         aac_records_by_primary_id[aac_record['primary_id']][new_aac_record['aacid']] = new_aac_record
 
-    if key != 'filename_decoded_prefix':
-        aa_derived_duxiu_ssids_to_primary_id = {}
+    if key != 'filename_decoded_basename':
+        aa_derived_duxiu_ssids_to_primary_ids = collections.defaultdict(list)
         for primary_id, aac_records in aac_records_by_primary_id.items():
             for aac_record in aac_records.values():
                 if "aa_derived_duxiu_ssid" in aac_record["metadata"]["record"]:
-                    aa_derived_duxiu_ssids_to_primary_id[aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"]] = primary_id
-        if len(aa_derived_duxiu_ssids_to_primary_id) > 0:
+                    aa_derived_duxiu_ssids_to_primary_ids[aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"]].append(primary_id)
+        if len(aa_derived_duxiu_ssids_to_primary_ids) > 0:
             # Careful! Make sure this recursion doesn't loop infinitely.
-            for record in get_duxiu_dicts(session, 'duxiu_ssid', list(aa_derived_duxiu_ssids_to_primary_id.keys())):
-                primary_id = aa_derived_duxiu_ssids_to_primary_id[record['duxiu_ssid']]
-                for aac_record in record['aac_records']:
-                    # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
-                    # first, and any data we get directly from the fields associated with the file itself should take precedence.
-                    if aac_record['aacid'] not in aac_records_by_primary_id[primary_id]:
-                        aac_records_by_primary_id[primary_id][aac_record['aacid']] = {
-                            "aac_record_added_because": "duxiu_ssid",
-                            **aac_record
-                        }
+            for record in get_duxiu_dicts(session, 'duxiu_ssid', list(aa_derived_duxiu_ssids_to_primary_ids.keys())):
+                for primary_id in aa_derived_duxiu_ssids_to_primary_ids[record['duxiu_ssid']]:
+                    for aac_record in record['aac_records']:
+                        # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
+                        # first, and any data we get directly from the fields associated with the file itself should take precedence.
+                        if aac_record['aacid'] not in aac_records_by_primary_id[primary_id]:
+                            aac_records_by_primary_id[primary_id][aac_record['aacid']] = {
+                                "aac_record_added_because": "duxiu_ssid",
+                                **aac_record
+                            }
 
-        filename_decoded_basename_to_primary_id = {}
+        filename_decoded_basename_to_primary_ids = collections.defaultdict(list)
         for primary_id, aac_records in aac_records_by_primary_id.items():
             for aac_record in aac_records.values():
                 if "filename_decoded" in aac_record["metadata"]["record"]:
-                    basename = aac_record["metadata"]["record"]["filename_decoded"].rsplit('.', 1)[0]
+                    basename = aac_record["metadata"]["record"]["filename_decoded"].rsplit('.', 1)[0][0:250] # Same logic as in MySQL query.
                     if len(basename) >= 5: # Skip very short basenames as they might have too many hits.
-                        filename_decoded_basename_to_primary_id[basename] = primary_id
-        if len(filename_decoded_basename_to_primary_id) > 0:
+                        filename_decoded_basename_to_primary_ids[basename].append(primary_id)
+        if len(filename_decoded_basename_to_primary_ids) > 0:
             # Careful! Make sure this recursion doesn't loop infinitely.
-            for record in get_duxiu_dicts(session, 'filename_decoded_prefix', list(filename_decoded_basename_to_primary_id.keys())):
-                for filename_decoded_basename, primary_id in filename_decoded_basename_to_primary_id.items():
-                    if record['filename_decoded'].startswith(filename_decoded_basename):
+            for record in get_duxiu_dicts(session, 'filename_decoded_basename', list(filename_decoded_basename_to_primary_ids.keys())):
+                for filename_decoded_basename, primary_id in filename_decoded_basename_to_primary_ids.items():
+                    for primary_id in filename_decoded_basename_to_primary_ids[record['filename_decoded_basename']]:
                         for aac_record in record['aac_records']:
                             # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
                             # first, and any data we get directly from the fields associated with the file itself should take precedence.
                             if aac_record['aacid'] not in aac_records_by_primary_id[primary_id]:
                                 aac_records_by_primary_id[primary_id][aac_record['aacid']] = {
-                                    "aac_record_added_because": "filename_decoded_prefix",
+                                    "aac_record_added_because": "filename_decoded_basename",
                                     **aac_record
                                 }
 
@@ -2458,8 +2455,8 @@ def get_duxiu_dicts(session, key, values):
             duxiu_dict['cadal_ssno'] = primary_id.replace('cadal_ssno_', '')
         elif key == 'md5':
             duxiu_dict['md5'] = primary_id
-        elif key == 'filename_decoded_prefix':
-            duxiu_dict['filename_decoded'] = primary_id
+        elif key == 'filename_decoded_basename':
+            duxiu_dict['filename_decoded_basename'] = primary_id
         else:
             raise Exception(f"Unexpected 'key' in get_duxiu_dicts: '{key}'")
         duxiu_dict['duxiu_file'] = None
