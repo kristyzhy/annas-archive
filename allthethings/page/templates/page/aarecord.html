@@ -100,6 +100,12 @@
     </a> -->
   {% endif %}
 
+  {% if g.domain_lang_code == 'zh' %}
+    <div class="mb-4 text-sm bg-[#ffd] p-2">
+      [广告] 想要下载速度更快？嘎嘎快加速器，加速全球，又快又稳。<a target="_blank" href="https://sososofast.com/">立即试用。</a>使用优惠码“annas-archive”在结账时立享9折优惠！
+    </div>
+  {% endif %}
+
   <div class="flex flex-wrap mb-1 text-black/64" role="tablist" aria-label="file tabs">
     <button class="mr-4 mb-1 border-b-[3px] border-transparent aria-selected:border-[#0095ff] aria-selected:text-black aria-selected:font-bold js-md5-tab-downloads" aria-selected="true" id="md5-tab-downloads" aria-controls="md5-panel-downloads" tabindex="0">{% if aarecord_id_split[0] in ['md5','doi'] %}{{ gettext('page.md5.tabs.downloads', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] == 'ia' %}{{ gettext('page.md5.tabs.borrow', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% elif aarecord_id_split[0] in ['isbn', 'ol', 'oclc', 'duxiu_ssid', 'cadal_ssno'] %}{{ gettext('page.md5.tabs.explore_metadata', count=((aarecord.additional.fast_partner_urls | length) + (aarecord.additional.slow_partner_urls | length) + (aarecord.additional.download_urls | length))) }}{% endif %}</button>
     {% if aarecord_id_split[0] == 'md5' %}
