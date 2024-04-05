@@ -83,6 +83,9 @@ def scidb_info(aarecord, additional=None):
     if additional is None:
         additional = aarecord['additional']
 
+    if aarecord['indexes'] != ['aarecords_journals']:
+        return None
+
     valid_dois = [doi for doi in aarecord['file_unified_data']['identifiers_unified'].get('doi') or [] if not doi_is_isbn(doi)]
     if len(valid_dois) == 0:
         return None
@@ -106,7 +109,7 @@ def scidb_info(aarecord, additional=None):
     elif scihub_link:
         priority = 2
     else:
-        return None
+        priority = 3
 
     return { "priority": priority, "doi": valid_dois[0], "path_info": path_info, "scihub_link": scihub_link }
 

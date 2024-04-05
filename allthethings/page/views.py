@@ -3716,6 +3716,10 @@ def get_aarecords_mysql(session, aarecord_ids):
             if aarecord['duxiu']['cadal_ssno'] is None:
                 del aarecord['duxiu']['cadal_ssno']
 
+        search_content_type = aarecord['file_unified_data']['content_type']
+        # Once we have the content type.
+        aarecord['indexes'] = [allthethings.utils.get_aarecord_search_index(aarecord_id_split[0], search_content_type)]
+
         # Even though `additional` is only for computing real-time stuff,
         # we'd like to cache some fields for in the search results.
         with force_locale('en'):
@@ -3723,10 +3727,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['has_aa_downloads'] = additional['has_aa_downloads']
             aarecord['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
             aarecord['file_unified_data']['has_torrent_paths'] = (1 if (len(additional['torrent_paths']) > 0) else 0)
-
-        search_content_type = aarecord['file_unified_data']['content_type']
-        # Once we have the content type.
-        aarecord['indexes'] = [allthethings.utils.get_aarecord_search_index(aarecord_id_split[0], search_content_type)]
+            aarecord['file_unified_data']['has_scidb'] = additional['has_scidb']
 
         initial_search_text = "\n".join([
             aarecord['file_unified_data']['title_best'][:1000],
@@ -3777,6 +3778,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['external_borrow'] if (aarecord.get('ia_record') and (not aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['external_borrow_printdisabled'] if (aarecord.get('ia_record') and (aarecord['ia_record']['aa_ia_derived']['printdisabled_only'])) else []),
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
+                *(['aa_scidb'] if aarecord['file_unified_data']['has_scidb'] == 1 else []),
                 *(['meta_explore'] if allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]) else []),
             ],
             'search_record_sources': aarecord_sources(aarecord),
@@ -3820,6 +3822,7 @@ def get_access_types_mapping(display_lang):
     with force_locale(display_lang):
         return {
             "aa_download": gettext("common.access_types_mapping.aa_download"),
+            "aa_scidb": "🧬 SciDB", # TODO:TRANSLATE
             "external_download": gettext("common.access_types_mapping.external_download"),
             "external_borrow": gettext("common.access_types_mapping.external_borrow"),
             "external_borrow_printdisabled": gettext("common.access_types_mapping.external_borrow_printdisabled"),
@@ -4295,10 +4298,12 @@ def get_additional_for_aarecord(aarecord):
         #     for miaochuan_link in aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']:
         #         additional['download_urls'].append(('', '', f"Miaochuan link 秒传: {miaochuan_link} (for use with BaiduYun)"))
 
+    additional['has_scidb'] = 0
     scidb_info = allthethings.utils.scidb_info(aarecord, additional)
     if scidb_info is not None:
-        additional['fast_partner_urls'] = [(gettext('page.md5.box.download.scidb'), f"/scidb/{scidb_info['doi']}", gettext('common.md5.servers.no_browser_verification'))] + additional['fast_partner_urls']
-        additional['download_urls'] = [(gettext('page.md5.box.download.scidb'), f"/scidb/{scidb_info['doi']}", "")] + additional['download_urls']
+        additional['fast_partner_urls'] = [(gettext('page.md5.box.download.scidb'), f"/scidb?doi={scidb_info['doi']}", gettext('common.md5.servers.no_browser_verification'))] + additional['fast_partner_urls']
+        additional['slow_partner_urls'] = [(gettext('page.md5.box.download.scidb'), f"/scidb?doi={scidb_info['doi']}", gettext('common.md5.servers.no_browser_verification'))] + additional['slow_partner_urls']
+        additional['has_scidb'] = 1
 
     return additional
 
@@ -4384,8 +4389,12 @@ def render_aarecord(record_id):
         }
         return render_template("page/aarecord.html", **render_fields)
 
-@page.get("/scidb/")
-@page.post("/scidb/")
+@page.get("/scidb")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+def scidb_home_page():
+    return render_template("page/scidb_home.html", header_active="home/scidb", doi_input=request.args.get('doi'))
+
+@page.post("/scidb")
 @allthethings.utils.no_cache()
 def scidb_redirect_page():
     doi_input = request.args.get("doi", "").strip()
@@ -4395,29 +4404,33 @@ def scidb_redirect_page():
 @page.post("/scidb/<path:doi_input>")
 @allthethings.utils.no_cache()
 def scidb_page(doi_input):
+    # account_id = allthethings.utils.get_account_id(request.cookies)
+    # if account_id is None:
+    #     return render_template("page/login_to_view.html", header_active="")
+
     doi_input = doi_input.strip()
 
     if not doi_input.startswith('10.'):
         if '10.' in doi_input:
             return redirect(f"/scidb/{doi_input[doi_input.find('10.'):].strip()}", code=302)    
-        return redirect(f"/search?q={doi_input}", code=302)
+        return redirect(f"/search?index=journals&q={doi_input}", code=302)
 
     if allthethings.utils.doi_is_isbn(doi_input):
-        return redirect(f'/search?q="doi:{doi_input}"', code=302)
+        return redirect(f'/search?index=journals&q="doi:{doi_input}"', code=302)
 
     fast_scidb = False
-    verified = False
-    if str(request.args.get("scidb_verified") or "") == "1":
-        verified = True
+    # verified = False
+    # if str(request.args.get("scidb_verified") or "") == "1":
+    #     verified = True
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is not None:
         with Session(mariapersist_engine) as mariapersist_session:
             account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
             if account_fast_download_info is not None:
                 fast_scidb = True
-                verified = True
-    if not verified:
-        return redirect(f"/scidb/{doi_input}?scidb_verified=1", code=302)
+            # verified = True
+    # if not verified:
+    #     return redirect(f"/scidb/{doi_input}?scidb_verified=1", code=302)
 
     with Session(engine) as session:
         try:
@@ -4428,13 +4441,13 @@ def scidb_page(doi_input):
                 timeout=ES_TIMEOUT_PRIMARY,
             )
         except Exception as err:
-            return redirect(f"/search?q=doi:{doi_input}", code=302)
+            return redirect(f'/search?index=journals&q="doi:{doi_input}"', code=302)
         aarecords = [add_additional_to_aarecord(aarecord) for aarecord in search_results_raw['hits']['hits']]
         aarecords_and_infos = [(aarecord, allthethings.utils.scidb_info(aarecord)) for aarecord in aarecords if allthethings.utils.scidb_info(aarecord) is not None]
         aarecords_and_infos.sort(key=lambda aarecord_and_info: aarecord_and_info[1]['priority'])
 
         if len(aarecords_and_infos) == 0:
-            return redirect(f"/search?q=doi:{doi_input}", code=302)
+            return redirect(f'/search?index=journals&q="doi:{doi_input}"', code=302)
 
         aarecord, scidb_info = aarecords_and_infos[0]
 
@@ -4444,9 +4457,10 @@ def scidb_page(doi_input):
         if path_info:
             domain = random.choice(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)
             targeted_seconds_multiplier = 1.0
-            minimum = 500
-            maximum = 1000
+            minimum = 100
+            maximum = 500
             if fast_scidb:
+                domain = random.choice(allthethings.utils.FAST_DOWNLOAD_DOMAINS)
                 minimum = 1000
                 maximum = 5000
             speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
@@ -4462,6 +4476,7 @@ def scidb_page(doi_input):
             "pdf_url": pdf_url,
             "download_url": download_url,
             "scihub_link": scidb_info['scihub_link'],
+            "fast_scidb": fast_scidb,
         }
         return render_template("page/scidb.html", **render_fields)
 

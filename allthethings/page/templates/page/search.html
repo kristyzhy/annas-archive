@@ -246,19 +246,15 @@
                 {{ gettext('page.search.results.shortcuts') }}
               </p>
             {% elif search_dict.search_index_short == 'journals' %}
+              <!-- TODO:TRANSLATE -->
               <p class="mb-4">
-                {{ gettext('page.search.results.search_journals', count=g.header_stats.journal_article, a_preserve=(' href="/faq#what" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
-              </p>
-              <p class="mb-4">
-                {{ gettext('page.search.results.other_shadow_libs', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
-                {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
+                <strong>Looking for papers?</strong>
+                Sci-Hub has <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank">paused</a> uploading of new papers.
+                🧬&nbsp;SciDB is a continuation of Sci-Hub, with its familiar interface and direct viewing of PDFs. <a href="/scidb">Try it here.</a>
               </p>
 
-              <p class="max-sm:hidden text-sm text-gray-500">
-                {{ gettext('page.search.results.shortcuts') }}
+              <p>
+                You can also still use regular search. {{ gettext('page.search.results.search_journals', count=g.header_stats.journal_article, a_preserve=(' href="/faq#what" ' | safe)) }}
               </p>
             {% elif search_dict.search_index_short == 'digital_lending' %}
               <p class="mb-4">

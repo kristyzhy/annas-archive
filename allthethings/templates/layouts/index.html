@@ -394,6 +394,7 @@
               <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-home')" class="header-link-first {{ 'header-link-active' if header_active.startswith('home') }}" style="margin-right: 24px;">
                 <span class="header-link-normal">
                   {% if header_active == 'home/search' %}{{ gettext('layout.index.header.nav.search') }}
+                  {% elif header_active == 'home/scidb' %}🧬&nbsp;{{ gettext('page.home.scidb.header') }}
                   {% elif header_active == 'home/faq' %}<!--TODO:TRANSLATE-->FAQ
                   {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                   {% elif header_active == 'home/torrents' %}{{ gettext('layout.index.header.nav.torrents') }}
@@ -404,6 +405,7 @@
                 </span>
                 <span class="header-link-bold">
                   {% if header_active == 'home/search' %}{{ gettext('layout.index.header.nav.search') }}
+                  {% elif header_active == 'home/scidb' %}🧬&nbsp;{{ gettext('page.home.scidb.header') }}
                   {% elif header_active == 'home/faq' %}<!--TODO:TRANSLATE-->FAQ
                   {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                   {% elif header_active == 'home/torrents' %}{{ gettext('layout.index.header.nav.torrents') }}
@@ -416,6 +418,7 @@
               <div class="absolute left-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
                 <a class="custom-a block py-1 {% if header_active == 'home/home'     %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/search'   %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/search">{{ gettext('layout.index.header.nav.search') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/scidb'   %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/search">🧬&nbsp;{{ gettext('page.home.scidb.header') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/faq'      %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/faq"><!--TODO:TRANSLATE-->FAQ</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/datasets' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
                 <a class="custom-a block py-1 {% if header_active == 'home/torrents' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a>
@@ -478,6 +481,7 @@
             <strong class="font-bold text-black">{{ gettext('layout.index.footer.list1.header') }}</strong><br>
             <a class="custom-a hover:text-[#333]" href="/">{{ gettext('layout.index.header.nav.home') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/search">{{ gettext('layout.index.header.nav.search') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/scidb">🧬&nbsp;{{ gettext('page.home.scidb.header') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/faq"><!--TODO:TRANSLATE-->FAQ</a><br>
             <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a><br>
             <select class="p-1 rounded text-gray-500 mt-1 max-w-[110px]" onchange="handleChangeLang(event)">
