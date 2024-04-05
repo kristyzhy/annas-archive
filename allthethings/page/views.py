@@ -886,11 +886,11 @@ def get_aac_zlib3_book_dicts(session, key, values):
     try:
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata, annas_archive_meta__aacid__zlib3_records.primary_id AS primary_id FROM annas_archive_meta__aacid__zlib3_records LEFT JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s ORDER BY record_aacid', { "values": [str(value) for value in values] })
+        cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata, annas_archive_meta__aacid__zlib3_records.primary_id AS primary_id FROM annas_archive_meta__aacid__zlib3_records LEFT JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s', { "values": [str(value) for value in values] })
         aac_zlib3_books_by_primary_id = collections.defaultdict(dict)
         # Merge different iterations of books, so even when a book gets "missing":1 later, we still use old
-        # metadata where available (note: depends on `ORDER BY record_aacid` above).
-        for row in cursor.fetchall():
+        # metadata where available (note: depends on the sorting below).
+        for row in sorted(cursor.fetchall(), key=lambda row: row['record_aacid']):
             aac_zlib3_books_by_primary_id[row['primary_id']] = {
                 **aac_zlib3_books_by_primary_id[row['primary_id']],
                 **row,
