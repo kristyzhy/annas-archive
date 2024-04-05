@@ -2445,16 +2445,15 @@ def get_duxiu_dicts(session, key, values):
         if len(filename_decoded_basename_to_primary_ids) > 0:
             # Careful! Make sure this recursion doesn't loop infinitely.
             for record in get_duxiu_dicts(session, 'filename_decoded_basename', list(filename_decoded_basename_to_primary_ids.keys())):
-                for filename_decoded_basename, primary_id in filename_decoded_basename_to_primary_ids.items():
-                    for primary_id in filename_decoded_basename_to_primary_ids[record['filename_decoded_basename']]:
-                        for aac_record in record['aac_records']:
-                            # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
-                            # first, and any data we get directly from the fields associated with the file itself should take precedence.
-                            if aac_record['aacid'] not in aac_records_by_primary_id[primary_id]:
-                                aac_records_by_primary_id[primary_id][aac_record['aacid']] = {
-                                    "aac_record_added_because": "filename_decoded_basename",
-                                    **aac_record
-                                }
+                for primary_id in filename_decoded_basename_to_primary_ids[record['filename_decoded_basename']]:
+                    for aac_record in record['aac_records']:
+                        # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
+                        # first, and any data we get directly from the fields associated with the file itself should take precedence.
+                        if aac_record['aacid'] not in aac_records_by_primary_id[primary_id]:
+                            aac_records_by_primary_id[primary_id][aac_record['aacid']] = {
+                                "aac_record_added_because": "filename_decoded_basename",
+                                **aac_record
+                            }
 
     duxiu_dicts = []
     for primary_id, aac_records in aac_records_by_primary_id.items():
