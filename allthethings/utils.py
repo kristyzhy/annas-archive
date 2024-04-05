@@ -23,6 +23,7 @@ import httpx
 import indexed_zstd
 import threading
 import traceback
+import time
 
 from flask_babel import gettext, get_babel, force_locale
 
@@ -568,6 +569,7 @@ def payment2_check(cursor, payment_id):
         except:
             if attempt == 5:
                 raise
+            time.sleep(1)
     if payment2_status['payment_status'] in ['confirmed', 'sending', 'finished']:
         if confirm_membership(cursor, payment2_status['order_id'], 'payment2_status', payment2_status):
             return (payment2_status, True)
