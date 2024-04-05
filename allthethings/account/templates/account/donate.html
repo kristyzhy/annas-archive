@@ -334,13 +334,14 @@
                 {{ gettext('page.donate.payment.crypto_select') }}
               </p>
 
-              <!-- Be sure to update the validation list in `def buy_membership`! -->
+              <!-- Be sure to update the validation list in `def account_buy_membership`! -->
               <select class="pr-8 mb-4 bg-black/6.7 px-2 py-1 rounded" name="pay_currency">
+                <!-- TODO:TRANSLATE -->
+                <option value="xmr">XMR / Monero (lowest minimum amount)</option>
                 <option value="btc">BTC / Bitcoin</option>
                 <option value="eth">ETH / Ethereum</option>
                 <option value="bch">BCH / Bitcoin Cash</option>
                 <option value="ltc">LTC / Litecoin</option>
-                <option value="xmr">XMR / Monero</option>
                 <option value="ada">ADA / Cardano</option>
                 <option value="bnbbsc">BNB BSC / Binance Coin</option>
                 <option value="busdbsc">BUSD BSC / Binance USD</option>
@@ -350,14 +351,16 @@
                 <!-- <option value="matic">MATIC / Polygon</option> -->
                 <option value="near">NEAR</option>
                 <option value="pax">PAX / Paxos</option>
-                <option value="pyusd">PYUSD / PayPal USD</option>
-                <option value="sol">SOL / Solana</option>
+                <option value="pyusd">PYUSD / PayPal USD (warning: high minimum amount)</option>
+                <option value="sol">SOL / Solana (warning: high minimum amount)</option>
                 <option value="ton">TON / Toncoin</option>
                 <option value="trx">TRX / Tron</option>
-                <option value="tusd">TUSD / TrueUSD</option>
-                <option value="usdc">USDC</option>
-                <option value="usdterc20">USDT-ERC20 / Tether-Ethereum</option>
+                <!-- <option value="tusd">TUSD / TrueUSD</option> -->
+                <option value="usdc">USDC-ERC20 / USDC-Ethereum (warning: high minimum amount)</option>
+                <option value="usdtbsc">USDT-BSC / Tether-Binance</option>
+                <option value="usdterc20">USDT-ERC20 / Tether-Ethereum (warning: high minimum amount)</option>
                 <option value="usdttrc20">USDT-TRC20 / Tether-Tron</option>
+                <option value="usdtsol">USDT-SOL / Tether-Solana</option>
                 <option value="xrp">XRP / Ripple</option>
               </select>
             </div>

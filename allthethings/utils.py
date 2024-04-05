@@ -320,7 +320,7 @@ MEMBERSHIP_TELEGRAM_URL = {
 }
 MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "crypto": 0,
-    "payment2": 1000,
+    "payment2": 0,
     # "cc":     20,
     "binance": 0,
     "paypal": 3500,
