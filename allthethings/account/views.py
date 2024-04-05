@@ -74,6 +74,7 @@ def account_index_page():
             account_dict=dict(account),
             account_fast_download_info=allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id),
             memberships=membership_dicts,
+            account_secret_key=allthethings.utils.secret_key_from_account_id(account_id),
         )
 
 
