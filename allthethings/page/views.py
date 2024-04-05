@@ -3779,6 +3779,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 *(['aa_download'] if aarecord['file_unified_data']['has_aa_downloads'] == 1 else []),
                 *(['aa_scidb'] if aarecord['file_unified_data']['has_scidb'] == 1 else []),
                 *(['meta_explore'] if allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]) else []),
+                *(['torrents_available'] if aarecord['file_unified_data']['has_torrent_paths'] == 1 else []),
             ],
             'search_record_sources': aarecord_sources(aarecord),
             # Used in external system, check before changing.
@@ -3826,6 +3827,7 @@ def get_access_types_mapping(display_lang):
             "external_borrow": gettext("common.access_types_mapping.external_borrow"),
             "external_borrow_printdisabled": gettext("common.access_types_mapping.external_borrow_printdisabled"),
             "meta_explore": gettext("common.access_types_mapping.meta_explore"),
+            "torrents_available": "Contained in torrents", # TODO:TRANSLATE
         }
 
 def get_record_sources_mapping(display_lang):
