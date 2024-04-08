@@ -1,16 +1,15 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-08 09:06+0000\n"
-"PO-Revision-Date: 2024-04-08 09:06+0000\n"
+"PO-Revision-Date: 2024-04-08 20:07+0000\n"
 "Last-Translator: gumblex <abcdoyle888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.4.2\n"
 
@@ -971,7 +970,7 @@ msgstr "6. 你会收到一封邮件回复。请将这封邮件转发给我们，
 
 #: allthethings/account/templates/account/donation.html:516
 msgid "page.donate.wait"
-msgstr ""
+msgstr "请至少等待<span %(span_hours)s>两个小时</span>，（刷新页面）再联系我们。"
 
 #: allthethings/account/templates/account/donation.html:517
 msgid "page.donate.mistake"
@@ -1061,15 +1060,15 @@ msgstr "下载过什么？"
 #: allthethings/account/templates/account/index.html:31
 #: allthethings/account/templates/account/index.html:33
 msgid "page.account.logged_in.telegram_group_wrapper"
-msgstr ""
+msgstr "独家 Telegram 群组：%(link)s"
 
 #: allthethings/account/templates/account/index.html:31
 msgid "page.account.logged_in.telegram_group_join"
-msgstr ""
+msgstr "点击加入我们！"
 
 #: allthethings/account/templates/account/index.html:33
 msgid "page.account.logged_in.telegram_group_upgrade"
-msgstr ""
+msgstr "升级到<a %(a_tier)s>更高档次</a>，可以加入我们的群组。"
 
 #: allthethings/account/templates/account/index.html:35
 msgid "page.account.logged_in.membership_upgrade"
@@ -1154,11 +1153,11 @@ msgstr "注册新账号"
 
 #: allthethings/account/templates/account/index.html:88
 msgid "page.login.lost_key"
-msgstr ""
+msgstr "如果你丢失了密钥，请<a %(a_contact)s>联系我们</a>，并提供尽可能多的信息。"
 
 #: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key_contact"
-msgstr ""
+msgstr "你可能需要临时创建一个新账号来联系我们。"
 
 #: allthethings/account/templates/account/index.html:92
 msgid "page.account.logged_out.old_email.button"
@@ -1254,7 +1253,7 @@ msgstr "这种币的最低金额比其他的要高。请选择其他订阅时长
 
 #: allthethings/dyn/views.py:778
 msgid "dyn.buy_membership.error.wait"
-msgstr ""
+msgstr "支付处理错误。请等待一会然后重试。如果该问题持续了超过 24 小时，请通过 %(email)s 联系我们，并附上截图。"
 
 #: allthethings/page/views.py:3734
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1826,11 +1825,11 @@ msgstr "保存"
 
 #: allthethings/page/templates/page/faq.html:21
 msgid "page.home.preservation.text1"
-msgstr ""
+msgstr "我们保存书籍、论文、漫画、杂志等资料，将这些资料从各种<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">影子图书馆</a>、官办图书馆、其他收藏集等集中到一处。通过简化批量复制的过程——利用BT种子，这些数据在世界各处就能有多份副本，从而得以永久保存。有些影子图书馆自身已采用这种方式（如 Sci-Hub、Library Genesis），而安娜的档案还“解放”了其他不提供批量分发的影子图书馆（如 Z-Library）、无法称为影子图书馆的图书馆（如 Internet Archive、读秀）的馆藏数据。"
 
 #: allthethings/page/templates/page/faq.html:23
 msgid "page.home.preservation.text2"
-msgstr ""
+msgstr "数据的广泛传播、代码的开源共享，使我们网站不惧取缔的风险，并保证了人类知识文化的长期保存。进一步了解<a href=\"/datasets\">我们的数据集</a>。"
 
 #: allthethings/page/templates/page/faq.html:37
 msgid "page.home.preservation.label"
@@ -1858,7 +1857,7 @@ msgstr "要了解我们的最新进展，请关注安娜的<a href=\"https://www
 
 #: allthethings/page/templates/page/faq.html:83
 msgid "page.faq.help.title"
-msgstr ""
+msgstr "我能提供什么帮助？"
 
 #: allthethings/page/templates/page/faq.html:86
 msgid "page.about.help.text"
@@ -1890,7 +1889,7 @@ msgstr "11. 我们想要投放精巧的小广告。如果你想在安娜的档�
 
 #: allthethings/page/templates/page/faq.html:93
 msgid "page.faq.help.mirrors"
-msgstr ""
+msgstr "我们想要有人帮忙搭建<a %(a_mirrors)s>镜像</a>，也能在经济上给予资助。"
 
 #: allthethings/page/templates/page/faq.html:96
 msgid "page.donate.faq.title"
@@ -1938,19 +1937,19 @@ msgstr "如何请求图书？"
 
 #: allthethings/page/templates/page/faq.html:132
 msgid "page.request.cannot_accomodate"
-msgstr ""
+msgstr "目前，我们无法满足图书需求。"
 
 #: allthethings/page/templates/page/faq.html:133
 msgid "page.request.forums"
-msgstr ""
+msgstr "请在 Z-Library 或 Libgen 论坛提出请求。"
 
 #: allthethings/page/templates/page/faq.html:134
 msgid "page.request.dont_email"
-msgstr ""
+msgstr "不要给我们发邮件请求图书。"
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more_new"
-msgstr ""
+msgstr "你已经用完了今日的高速下载次数。"
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
 msgid "page.fast_downloads.no_member"
@@ -1995,7 +1994,7 @@ msgstr "如果你是<a %(a_member)s>会员</a>，无需浏览器验证。"
 
 #: allthethings/page/templates/page/home.html:46
 msgid "page.home.payment_processor.body"
-msgstr ""
+msgstr "如果你正在运营一个支持高风险、匿名的支付处理商，请联系我们。我们也在寻找精巧的小广告投放者。所有的收益将用于我们的文化保存事业。"
 
 #: allthethings/page/templates/page/home.html:56
 msgid "page.home.archive.header"
@@ -2038,7 +2037,7 @@ msgstr "🪩 镜像：征集志愿者"
 
 #: allthethings/page/templates/page/home.html:81
 msgid "page.home.mirrors.body"
-msgstr ""
+msgstr "为提高安娜的档案的容灾能力，我们正在招募能运营镜像的志愿者。<a href=\"/mirrors\">了解更多……</a>"
 
 #: allthethings/page/templates/page/login.html:17
 msgid "page.login.continue"
@@ -2046,7 +2045,7 @@ msgstr "继续"
 
 #: allthethings/page/templates/page/login_to_view.html:8
 msgid "page.login.please"
-msgstr ""
+msgstr "请先<a %(a_account)s>登录</a>再查看本页。</a>"
 
 #: allthethings/page/templates/page/partner_download.html:10
 msgid "page.partner_download.header"
@@ -2145,7 +2144,7 @@ msgstr "搜索"
 #: allthethings/page/templates/page/search.html:72
 #: allthethings/page/templates/page/search.html:125
 msgid "page.search.advanced.description_comments"
-msgstr ""
+msgstr "搜索描述和元数据中的注释"
 
 #: allthethings/page/templates/page/search.html:80
 #: allthethings/page/templates/page/search.html:174
@@ -2210,7 +2209,7 @@ msgstr "最小"
 #: allthethings/page/templates/page/search.html:207
 #: allthethings/page/templates/page/search.html:208
 msgid "page.search.filters.sorting.note_open_sourced"
-msgstr ""
+msgstr "（已开源）"
 
 #: allthethings/page/templates/page/search.html:97
 #: allthethings/page/templates/page/search.html:211
@@ -2238,15 +2237,15 @@ msgstr "搜索花费了太长时间，你可能会看到不准确的结果。有
 
 #: allthethings/page/templates/page/search.html:123
 msgid "page.search.advanced.header"
-msgstr ""
+msgstr "高级"
 
 #: allthethings/page/templates/page/search.html:129
 msgid "page.search.advanced.add_specific"
-msgstr ""
+msgstr "增加特定搜索字段"
 
 #: allthethings/page/templates/page/search.html:141
 msgid "common.specific_search_fields.select"
-msgstr ""
+msgstr "（搜索特定字段）"
 
 #: allthethings/page/templates/page/search.html:197
 msgid "page.search.filters.source.scraped"
@@ -2293,7 +2292,7 @@ msgstr "提示：使用快捷键 “/”（搜索框）, “enter”（搜索）
 
 #: allthethings/page/templates/page/search.html:250
 msgid "page.search.results.search_journals"
-msgstr ""
+msgstr "在框中输入文本，搜索我们<a %(a_preserve)s>永久保存</a>的 %(count)s 篇学术论文和期刊文章的索引。"
 
 #: allthethings/page/templates/page/search.html:265
 msgid "page.search.results.search_digital_lending"
@@ -2317,7 +2316,7 @@ msgstr "此处索引目前包含 ISBNdb 和 Open Library 的元数据。<a %(a_d
 
 #: allthethings/page/templates/page/search.html:285
 msgid "page.search.results.metadata_no_merging"
-msgstr ""
+msgstr "我们展示元数据的原始记录。我们对这些记录不做任何合并。"
 
 #: allthethings/page/templates/page/search.html:288
 msgid "page.search.results.metadata_info_more"
@@ -2357,7 +2356,7 @@ msgstr "元数据 (%(count)s)"
 
 #: allthethings/page/templates/page/search.html:329
 msgid "page.search.results.numbers_pages"
-msgstr ""
+msgstr "结果集 %(from)s-%(to)s（总计 %(total)s）"
 
 #: allthethings/page/templates/page/search.html:340
 msgid "page.search.results.partial_more"
@@ -2395,7 +2394,7 @@ msgstr "捐赠"
 
 #: allthethings/templates/layouts/index.html:216
 msgid "layout.index.header.banner.mirrors"
-msgstr ""
+msgstr "为提高安娜的档案的容灾能力，我们正在招募能运营镜像的志愿者。"
 
 #: allthethings/templates/layouts/index.html:219
 msgid "layout.index.header.banner.valentine_gift"
@@ -2531,7 +2530,7 @@ msgstr "已复制！"
 #: allthethings/templates/macros/pagination.html:24
 #: allthethings/templates/macros/pagination.html:29
 msgid "page.search.pagination.prev"
-msgstr ""
+msgstr "上一页"
 
 #: allthethings/templates/macros/pagination.html:37
 msgid "page.search.pagination.numbers_spacing"
@@ -2540,7 +2539,7 @@ msgstr ""
 #: allthethings/templates/macros/pagination.html:44
 #: allthethings/templates/macros/pagination.html:49
 msgid "page.search.pagination.next"
-msgstr ""
+msgstr "下一页"
 
 #~ msgid "page.md5.box.download.mirror"
 #~ msgstr "镜像 #%(num)d: %(link)s %(extra)s"
