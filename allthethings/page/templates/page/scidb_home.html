@@ -15,7 +15,7 @@
   <div class="mb-4">
     <form action="/scidb/" method="get" onsubmit='window.location="/scidb/" + new FormData(event.currentTarget).get("doi"); event.preventDefault(); return false'>
       <div class="flex max-w-[600px]">
-        <input required pattern=".*10\..+" name="doi" type="search" placeholder="{{ gettext('page.home.scidb.placeholder_doi') }}" class="grow bg-black/6.7 px-2 py-1 mr-2 rounded" value="{{ doi_input | e }}">
+        <input required pattern=".*10\..+" name="doi" type="search" placeholder="{{ gettext('page.home.scidb.placeholder_doi') }}" class="grow bg-black/6.7 px-2 py-1 mr-2 rounded" value="{{ doi_input or '' }}">
         <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('page.home.scidb.open') }}</button>
       </div>
     </form>
