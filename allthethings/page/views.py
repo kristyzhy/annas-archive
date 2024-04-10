@@ -4071,11 +4071,12 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         lgrsnf_torrent_path = f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"
-        if lgrsnf_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path:
+        lgrsnf_manually_synced = (lgrsnf_thousands_dir >= 4110000) and (lgrsnf_thousands_dir <= 4265000)
+        if lgrsnf_manually_synced or (lgrsnf_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
             additional['torrent_paths'].append([lgrsnf_torrent_path])
-            if torrents_json_aa_currently_seeding_by_torrent_path[lgrsnf_torrent_path]:
-                lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
-                add_partner_servers(lgrsnf_path, '', aarecord, additional)
+        if lgrsnf_manually_synced or ((lgrsnf_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path) and (torrents_json_aa_currently_seeding_by_torrent_path[lgrsnf_torrent_path])):
+            lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
+            add_partner_servers(lgrsnf_path, '', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{aarecord['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
