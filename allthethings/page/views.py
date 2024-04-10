@@ -887,10 +887,12 @@ def get_aac_zlib3_book_dicts(session, key, values):
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute(f'SELECT annas_archive_meta__aacid__zlib3_records.aacid AS record_aacid, annas_archive_meta__aacid__zlib3_records.metadata AS record_metadata, annas_archive_meta__aacid__zlib3_files.aacid AS file_aacid, annas_archive_meta__aacid__zlib3_files.data_folder AS file_data_folder, annas_archive_meta__aacid__zlib3_files.metadata AS file_metadata, annas_archive_meta__aacid__zlib3_records.primary_id AS primary_id FROM annas_archive_meta__aacid__zlib3_records LEFT JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) WHERE {aac_key} IN %(values)s', { "values": [str(value) for value in values] })
+        raw_aac_zlib3_books_by_primary_id = collections.defaultdict(list)
         aac_zlib3_books_by_primary_id = collections.defaultdict(dict)
         # Merge different iterations of books, so even when a book gets "missing":1 later, we still use old
         # metadata where available (note: depends on the sorting below).
         for row in sorted(cursor.fetchall(), key=lambda row: row['record_aacid']):
+            raw_aac_zlib3_books_by_primary_id[row['primary_id']].append(row),
             aac_zlib3_books_by_primary_id[row['primary_id']] = {
                 **aac_zlib3_books_by_primary_id[row['primary_id']],
                 **row,
@@ -935,6 +937,8 @@ def get_aac_zlib3_book_dicts(session, key, values):
         if aac_zlib3_book_dict['md5_reported'] is not None:
             allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'md5', aac_zlib3_book_dict['md5_reported'])
         allthethings.utils.add_isbns_unified(aac_zlib3_book_dict, aac_zlib3_book_dict['isbns'])
+
+        aac_zlib3_book_dict['raw_aac'] = raw_aac_zlib3_books_by_primary_id[str(aac_zlib3_book_dict['zlibrary_id'])]
 
         aac_zlib3_book_dicts.append(add_comments_to_dict(aac_zlib3_book_dict, zlib_book_dict_comments))
     return aac_zlib3_book_dicts
@@ -3584,7 +3588,9 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_broken', 'descr': ((aarecord['lgli_file'] or {}).get('broken') or ''), 'better_md5': ((aarecord['lgli_file'] or {}).get('generic') or '').lower() })
         if (aarecord['zlib_book'] and (aarecord['zlib_book']['in_libgen'] or False) == False and (aarecord['zlib_book']['pilimi_torrent'] or '') == ''):
             aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', 'better_md5': '' })
-        if ((aarecord['aac_zlib3_book'] or {}).get('removed') or 0) == 1:
+        # TODO: Reindex and use "removal reason" properly, and do some statistics to remove spurious removal reasons.
+        # For now we only mark it as a problem on the basis of aac_zlib3 if there is no libgen record.
+        if (((aarecord['aac_zlib3_book'] or {}).get('removed') or 0) == 1) and (aarecord['lgrsnf_book'] is None) and (aarecord['lgrsfic_book'] is None) and (aarecord['lgli_file'] is None):
             aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', 'better_md5': '' })
 
         aarecord['file_unified_data']['content_type'] = 'book_unknown'
