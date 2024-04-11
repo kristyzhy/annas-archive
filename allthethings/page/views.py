@@ -2377,6 +2377,8 @@ def get_duxiu_dicts(session, key, values):
         traceback.print_tb(err.__traceback__)
 
     for aac_record in cursor.fetchall():
+        # print(f"{aac_record=}")
+
         new_aac_record = {
             **aac_record,
             "metadata": orjson.loads(aac_record['metadata']),
@@ -2462,6 +2464,8 @@ def get_duxiu_dicts(session, key, values):
 
     duxiu_dicts = []
     for primary_id, aac_records in aac_records_by_primary_id.items():
+        # print(f"{primary_id=}, {aac_records=}")
+        
         if any([record['metadata']['type'] == 'dx_20240122__books' for record in aac_records.values()]) and not any([record['metadata']['type'] == '512w_final_csv' for record in aac_records.values()]):
             # 512w_final_csv has a bunch of incorrect records from dx_20240122__books deleted.
             continue
@@ -3806,6 +3810,11 @@ def get_aarecords_mysql(session, aarecord_ids):
             # Used in external system, check before changing.
             'search_bulk_torrents': 'has_bulk_torrents' if aarecord['file_unified_data']['has_torrent_paths'] else 'no_bulk_torrents',
         }
+
+        if len(aarecord['search_only_fields']['search_record_sources']) == 0:
+            raise Exception(f"Missing search_record_sources; phantom record? {aarecord=}")
+        if len(aarecord['search_only_fields']['search_access_types']) == 0:
+            raise Exception(f"Missing search_access_types; phantom record? {aarecord=}")
         
         # At the very end
         aarecord['search_only_fields']['search_score_base_rank'] = float(aarecord_score_base(aarecord))

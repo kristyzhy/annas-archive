@@ -645,6 +645,9 @@ def elastic_build_aarecords_duxiu_internal():
                         if item['primary_id'].startswith('cadal_ssno_hj'):
                             # These are collections.
                             continue
+                        if 'dx_20240122__books' in item['metadata']:
+                            # Skip, because 512w_final_csv is the authority on these records, and has a bunch of records from dx_20240122__books deleted.
+                            continue
                         if 'dx_20240122__remote_files' in item['metadata']:
                             # Skip for now because a lot of the DuXiu SSIDs are actual CADAL SSNOs, and stand-alone records from
                             # remote_files are not useful anyway since they lack metadata like title, author, etc.
