@@ -221,6 +221,23 @@ CREATE TABLE mariapersist_slow_download_access (
     KEY `account_id_timestamp` (`account_id`,`timestamp`),
     CONSTRAINT `mariapersist_slow_download_access_account_id` FOREIGN KEY (`account_id`) REFERENCES `mariapersist_accounts` (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+ALTER TABLE mariapersist_slow_download_access ADD INDEX `ip_timestamp` (`ip`,`timestamp`);
+ALTER TABLE mariapersist_slow_download_access ADD COLUMN `pseudo_ipv4` binary(4) NULL, ADD INDEX `pseudo_ipv4_timestamp` (`pseudo_ipv4`,`timestamp`);
+
+CREATE TABLE mariapersist_slow_download_access_pseudo_ipv4_hourly (
+    `pseudo_ipv4` binary(4) NOT NULL,
+    `hour_since_epoch` BIGINT,
+    `count` INT,
+    PRIMARY KEY (`pseudo_ipv4`,`hour_since_epoch`),
+    KEY `hour_since_epoch_count` (`hour_since_epoch`, `count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+-- Get top 10 downloaders from last hour:
+--   SELECT * FROM mariapersist_slow_download_access_pseudo_ipv4_hourly ORDER BY hour_since_epoch DESC, count DESC LIMIT 10;
+-- Plug into Python:
+--   import ipaddress
+--   ipaddress.ip_address()
+-- Grand total:
+--   SELECT pseudo_ipv4, SUM(count) FROM mariapersist_slow_download_access_pseudo_ipv4_hourly GROUP BY pseudo_ipv4 ORDER BY SUM(count) DESC LIMIT 10;
 
 -- INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration) VALUES ('XXXXX', 5, NOW() + INTERVAL 10 YEAR);
 CREATE TABLE mariapersist_memberships (

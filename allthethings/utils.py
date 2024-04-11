@@ -38,9 +38,11 @@ from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_U
 
 FEATURE_FLAGS = {}
 
-FAST_DOWNLOAD_DOMAINS = [x for x in [FAST_PARTNER_SERVER1, 'wbsg8v.xyz', 'momot.rs'] if x is not None]
+FAST_DOWNLOAD_DOMAINS = [x for x in [FAST_PARTNER_SERVER1, 'nrzr.li', 'wbsg8v.xyz', 'momot.rs'] if x is not None]
 # SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'ktxr.rs', 'nrzr.li']
-SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'nrzr.li', 'wbsg8v.xyz']
+SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'wbsg8v.xyz']
+SCIDB_SLOW_DOWNLOAD_DOMAINS = ['nrzr.li']
+SCIDB_FAST_DOWNLOAD_DOMAINS = [FAST_PARTNER_SERVER1 if FAST_PARTNER_SERVER1 is not None else 'nrzr.li']
 
 def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])
@@ -102,8 +104,10 @@ def scidb_info(aarecord, additional=None):
         return None
 
     path_info = None
-    if len(additional['partner_url_paths']) > 0:
-        path_info = additional['partner_url_paths'][0]
+    # TODO: Remove if when scimag server works well again.
+    if scihub_link is None:
+        if len(additional['partner_url_paths']) > 0:
+            path_info = additional['partner_url_paths'][0]
 
     if path_info:
         priority = 1
@@ -201,6 +205,58 @@ def canonical_ip_bytes(ip):
         ipv6 = ipaddress.ip_address(prefix | (int(ipv6) << 80))
     return ipv6.packed
 
+def pseudo_ipv4_bytes(ip):
+    ipv4orv6 = ipaddress.ip_address(ip)
+    if ipv4orv6.version == 4:
+        output = ipv4orv6.packed
+    else:
+        # Pseudo ipv4 algorithm from https://blog.cloudflare.com/eliminating-the-last-reasons-to-not-enable-ipv6/
+        last_4_bytes_of_md5 = hashlib.md5(ipv4orv6.packed[0:8]).digest()[-4:]
+        output = bytes([0xF0 | (last_4_bytes_of_md5[0] & 0x0F)]) + last_4_bytes_of_md5[1:]
+    if len(output) != 4:
+        raise Exception(f"Unexpected output length in pseudo_ipv4_bytes: {output=}")
+    return output
+
+# Hardcoded for now from https://www.cloudflare.com/ips/
+CLOUDFLARE_NETWORKS = [ipaddress.ip_network(row) for row in [
+    '173.245.48.0/20',
+    '103.21.244.0/22',
+    '103.22.200.0/22',
+    '103.31.4.0/22',
+    '141.101.64.0/18',
+    '108.162.192.0/18',
+    '190.93.240.0/20',
+    '188.114.96.0/20',
+    '197.234.240.0/22',
+    '198.41.128.0/17',
+    '162.158.0.0/15',
+    '104.16.0.0/13',
+    '104.24.0.0/14',
+    '172.64.0.0/13',
+    '131.0.72.0/22',
+    '2400:cb00::/32',
+    '2606:4700::/32',
+    '2803:f800::/32',
+    '2405:b500::/32',
+    '2405:8100::/32',
+    '2a06:98c0::/29',
+    '2c0f:f248::/32',
+]]
+
+def is_canonical_ip_cloudflare(canonical_ip_bytes):
+    if not isinstance(canonical_ip_bytes, bytes):
+        raise Exception(f"Bad instance in is_canonical_ip_cloudflare")
+    ipv6 = ipaddress.ip_address(canonical_ip_bytes)
+    if ipv6.version != 6:
+        raise Exception(f"Bad ipv6.version in is_canonical_ip_cloudflare")
+    if ipv6.sixtofour is not None:
+        for network in CLOUDFLARE_NETWORKS:
+            if ipv6.sixtofour in network:
+                return True
+    for network in CLOUDFLARE_NETWORKS:
+        if ipv6 in network:
+            return True
+    return False
 
 def public_cache(cloudflare_minutes=0, minutes=0):
     def fwrap(f):
@@ -368,7 +424,7 @@ def get_account_fast_download_info(mariapersist_session, account_id):
     downloads_per_day += bonus_downloads
 
     downloads_left = downloads_per_day
-    recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(10000)).scalars()]
+    recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(50000)).scalars()]
     downloads_left -= len(recently_downloaded_md5s)
 
     max_tier = str(max([int(membership['membership_tier']) for membership in memberships]))
@@ -588,7 +644,7 @@ def hoodpay_check(cursor, hoodpay_id, donation_id):
 
 def make_anon_download_uri(limit_multiple, speed_kbps, path, filename, domain):
     limit_multiple_field = 'y' if limit_multiple else 'x'
-    expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=6)).timestamp())
+    expiry = int((datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=2)).timestamp())
     secure_str = f"{domain}/{limit_multiple_field}/{expiry}/{speed_kbps}/{path},{DOWNLOADS_SECRET_KEY}"
     md5 = base64.urlsafe_b64encode(hashlib.md5(secure_str.encode('utf-8')).digest()).decode('utf-8').rstrip('=')
     return f"d3/{limit_multiple_field}/{expiry}/{speed_kbps}/{urllib.parse.quote(path)}~/{md5}/{filename}"

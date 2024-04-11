@@ -15,18 +15,25 @@
     </p>
   {% endif %}
 
+  {% if no_cloudflare %}
+    <!-- TODO:TRANSLATE -->
+    ❌ Slow downloads are not available through Cloudflare.
+  {% endif %}
+
   <p class="mb-4">
     {{ gettext('page.partner_download.main_page', a_main=((' href="/md5/' + canonical_md5 + '"') | safe)) }}
   </p>
 
-  {% if not only_official %}
+  {% if not (only_official or no_cloudflare) %}
     <p class="mb-4">
       {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">' + gettext('page.partner_download.download_now') + '</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
-      {% if warning %}{{ gettext('page.partner_download.warning_many_downloads') }}{% endif %}
+      <!-- TODO:TRANSLATE -->
+      {% if hourly_download_count_from_ip %} Downloads from your IP address in the last 24 hours: {{ hourly_download_count_from_ip }}.{% endif %}
+      {% if warning %} {{ gettext('page.partner_download.warning_many_downloads') }}{% endif %}
     </p>
   {% endif %}
 
-  {% if slow_download or only_official %}
+  {% if slow_download or only_official or no_cloudflare %}
     <p class="mb-4">
       {{ gettext('page.partner_download.faster_downloads', a_membership=(' href="/donate"' | safe)) }}
     </p>
