@@ -94,6 +94,7 @@ def make_torrent_json(top_level_group_name, group_name, row):
         'leechers': ((row['scrape_metadata'].get('scrape') or {}).get('leechers') or 0),
         'completed': ((row['scrape_metadata'].get('scrape') or {}).get('completed') or 0),
         'stats_scraped_at': row['scrape_created'],
+        'partially_broken': row['partially_broken'],
         'random': row['temp_uuid'],
     }
 

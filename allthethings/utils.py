@@ -1618,6 +1618,17 @@ def get_torrents_json_aa_currently_seeding_by_torrent_path():
         cursor.execute('SELECT json FROM torrents_json LIMIT 1')
         return { row['url'].split('dyn/small_file/torrents/', 1)[1]: row['aa_currently_seeding'] for row in orjson.loads(cursor.fetchone()['json']) }
 
+# These are marked as not seeding because an issue with the torrent but are actually seeding.
+# Keep in sync.
+TORRENT_PATHS_PARTIALLY_BROKEN = [
+    'torrents/external/libgen_li_fic/f_2869000.torrent',
+    'torrents/external/libgen_li_fic/f_2896000.torrent',
+    'torrents/external/libgen_li_fic/f_2945000.torrent',
+    'torrents/external/libgen_li_fic/f_2966000.torrent',
+    'torrents/external/libgen_li_fic/f_3412000.torrent',
+    'torrents/external/libgen_li_fic/f_3453000.torrent',
+]
+
 def build_pagination_pages_with_dots(primary_hits_pages, page_value, large):
     pagination_pages_with_dots = []
     for page in sorted(set(list(range(1,min(primary_hits_pages+1, (4 if large else 3)))) + list(range(max(1,page_value-1),min(page_value+2,primary_hits_pages+1))) + list(range(max(1,primary_hits_pages-(2 if large else 0)),primary_hits_pages+1)))):

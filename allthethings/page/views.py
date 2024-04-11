@@ -575,6 +575,7 @@ def get_torrents_data():
                 "is_metadata": (('annas_archive_meta__' in small_file['file_path']) or ('.sql' in small_file['file_path']) or ('-index-' in small_file['file_path']) or ('-derived' in small_file['file_path']) or ('isbndb' in small_file['file_path']) or ('covers-' in small_file['file_path']) or ('-metadata-' in small_file['file_path']) or ('-thumbs' in small_file['file_path']) or ('.csv' in small_file['file_path'])),
                 "magnet_link": f"magnet:?xt=urn:btih:{metadata['btih']}&dn={urllib.parse.quote(display_name)}&tr=udp://tracker.opentrackr.org:1337/announce",
                 "temp_uuid": shortuuid.uuid(),
+                "partially_broken": (small_file['file_path'] in allthethings.utils.TORRENT_PATHS_PARTIALLY_BROKEN),
             })
 
         for key in small_file_dicts_grouped_external:

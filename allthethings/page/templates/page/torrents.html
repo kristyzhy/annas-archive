@@ -11,7 +11,9 @@
       document.querySelector('.js-scrape-created-{{ uuid_prefix }}-{{ small_file.temp_uuid }}').innerText = window.timeAgo.format(new Date({{ small_file.scrape_created | tojson }}), 'mini');
     });
   </script>
-</tr>
+</tr>{% if small_file.partially_broken %}<tr class="{% if small_file.obsolete %}line-through{% endif %}">
+  <td colspan="6" class="pb-1 pr-1 text-xs">The above torrent file is partially broken, but still in use. It can never get to 100% seeding, so leechers are treated as seeders.</td>
+</tr>{% endif %}
 {%- endmacro %}
 
 {% extends "layouts/index.html" %}
