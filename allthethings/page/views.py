@@ -2503,6 +2503,7 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict['aa_duxiu_derived']['debug_language_codes'] = {}
         duxiu_dict['aa_duxiu_derived']['language_codes'] = []
         duxiu_dict['aa_duxiu_derived']['added_date_unified'] = {}
+        duxiu_dict['aa_duxiu_derived']['problems_infos'] = []
         duxiu_dict['aac_records'] = list(aac_records.values())
 
         if key == 'duxiu_ssid':
@@ -2734,6 +2735,12 @@ def get_duxiu_dicts(session, key, values):
                 duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'].append('#'.join(miaochuan_link_parts))
                 duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(int(aac_record['metadata']['record']['filesize']))
                 duxiu_dict['aa_duxiu_derived']['filepath_multiple'].append(aac_record['metadata']['record']['filename_decoded'])
+
+                if len(aac_record['metadata']['record']['pdg_broken_files']) > 3:
+                    duxiu_dict['aa_duxiu_derived']['problems_infos'].append({
+                        'duxiu_problem_type': 'pdg_broken_files',
+                        'pdg_broken_files_len': len(aac_record['metadata']['record']['pdg_broken_files']),
+                    })
 
                 if 'aa_derived_duxiu_ssid' in aac_record['metadata']['record']:
                     duxiu_dict['aa_duxiu_derived']['duxiu_ssid_multiple'].append(aac_record['metadata']['record']['aa_derived_duxiu_ssid'])
@@ -3589,6 +3596,13 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['problems'].append({ 'type': 'lgli_broken', 'descr': ((aarecord['lgli_file'] or {}).get('broken') or ''), 'better_md5': ((aarecord['lgli_file'] or {}).get('generic') or '').lower() })
         if (aarecord['zlib_book'] and (aarecord['zlib_book']['in_libgen'] or False) == False and (aarecord['zlib_book']['pilimi_torrent'] or '') == ''):
             aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', 'better_md5': '' })
+        if len(((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('problems_infos') or []) > 0:
+            for duxiu_problem_info in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('problems_infos') or []):
+                if duxiu_problem_info['duxiu_problem_type'] == 'pdg_broken_files':
+                    # TODO:TRANSLATE
+                    aarecord['file_unified_data']['problems'].append({ 'type': 'duxiu_pdg_broken_files', 'descr': f"{pdg_broken_files_len} affected pages", 'better_md5': '' })
+                else:
+                    raise Exception(f"Unknown duxiu_problem_type: {duxiu_problem_info=}")
         # TODO: Reindex and use "removal reason" properly, and do some statistics to remove spurious removal reasons.
         # For now we only mark it as a problem on the basis of aac_zlib3 if there is no libgen record.
         if (((aarecord['aac_zlib3_book'] or {}).get('removed') or 0) == 1) and (aarecord['lgrsnf_book'] is None) and (aarecord['lgrsfic_book'] is None) and (aarecord['lgli_file'] is None):
@@ -3804,11 +3818,12 @@ def get_aarecords_mysql(session, aarecord_ids):
 
 def get_md5_problem_type_mapping():
     return { 
-        "lgrsnf_visible":  gettext("common.md5_problem_type_mapping.lgrsnf_visible"),
-        "lgrsfic_visible": gettext("common.md5_problem_type_mapping.lgrsfic_visible"),
-        "lgli_visible":    gettext("common.md5_problem_type_mapping.lgli_visible"),
-        "lgli_broken":     gettext("common.md5_problem_type_mapping.lgli_broken"),
-        "zlib_missing":    gettext("common.md5_problem_type_mapping.zlib_missing"),
+        "lgrsnf_visible":         gettext("common.md5_problem_type_mapping.lgrsnf_visible"),
+        "lgrsfic_visible":        gettext("common.md5_problem_type_mapping.lgrsfic_visible"),
+        "lgli_visible":           gettext("common.md5_problem_type_mapping.lgli_visible"),
+        "lgli_broken":            gettext("common.md5_problem_type_mapping.lgli_broken"),
+        "zlib_missing":           gettext("common.md5_problem_type_mapping.zlib_missing"),
+        "duxiu_pdg_broken_files": "Not all pages could be converted to PDF", # TODO:TRANSLATE
     }
 
 def get_md5_content_type_mapping(display_lang):
