@@ -26,11 +26,17 @@
       We use the Sci-Hub metadata as provided by <a href="/datasets/libgen_li">Libgen.li</a> in its “scimag” collection. We also use the <a href="https://sci-hub.ru/datasets/dois-2022-02-12.7z">dois-2022-02-12.7z</a> dataset.
     </p>
 
+    <p class="mb-4">
+      Note that the “smarch” torrents are <a href="https://www.reddit.com/r/libgen/comments/15qa5i0/what_are_smarch_files/">deprecated</a> and therefore not included in our torrents list.
+    </p>
+
     <p><strong>Resources</strong></p>
     <ul class="list-inside mb-4 ml-1">
       <li class="list-disc">Total files: {{ stats_data.stats_by_group.journals.count | numberformat }}</li>
       <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.journals.filesize | filesizeformat }}</li>
       <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.journals.aa_count | numberformat }} ({{ (stats_data.stats_by_group.journals.aa_count/stats_data.stats_by_group.journals.count*100.0) | decimalformat }}%)</li>
+      <li class="list-disc"><a href="/torrents#scihub">Torrents on Anna’s Archive</a></li>
+      <li class="list-disc"><a href="/db/scihub_doi/10.5822/978-1-61091-843-5_15.json">Example record on Anna’s Archive</a></li>
       <li class="list-disc"><a href="https://sci-hub.ru/">Website</a></li>
       <li class="list-disc"><a href="https://sci-hub.ru/database">Metadata and torrents</a></li>
       <li class="list-disc"><a href="https://libgen.rs/scimag/repository_torrent/">Torrents on Libgen.rs</a></li>

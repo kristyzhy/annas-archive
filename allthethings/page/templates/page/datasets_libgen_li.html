@@ -40,6 +40,8 @@
       <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.lgli.filesize | filesizeformat }}</li>
       <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.lgli.aa_count | numberformat }} ({{ (stats_data.stats_by_group.lgli.aa_count/stats_data.stats_by_group.lgli.count*100.0) | decimalformat }}%)</li>
       <li class="list-disc">Last updated: {{ stats_data.libgenli_date }}</li>
+      <li class="list-disc"><a href="/torrents#libgen_li_comics">Comics torrents on Anna’s Archive</a></li>
+      <li class="list-disc"><a href="/torrents#libgen_li_fic">Fiction torrents on Anna’s Archive</a></li>
       <li class="list-disc"><a href="/db/lgli/4663167.json">Example record on Anna’s Archive</a></li>
       <li class="list-disc"><a href="https://libgen.li/">Main website</a></li>
       <li class="list-disc"><a href="https://libgen.li/dirlist.php?dir=dbdumps">Metadata</a></li>

@@ -19,6 +19,7 @@ import traceback
 import curlify2
 import babel.numbers as babel_numbers
 import io
+import random
 
 from flask import Blueprint, request, g, make_response, render_template, redirect, send_file
 from flask_cors import cross_origin
@@ -126,8 +127,8 @@ def generate_torrents_page():
             for small_file in small_files:
                 output_row = make_torrent_json(top_level_group_name, group_name, small_file)
                 if not output_row['embargo'] and not output_row['obsolete'] and output_row['seeders'] > 0:
-                    output_rows.append(output_row)
-    output_rows.sort(key=lambda output_row: (output_row['seeders'] + 0.1 * output_row['leechers'], output_row['random']))
+                    output_rows.append({ **output_row, "random_increment": random.random()*2.0 })
+    output_rows.sort(key=lambda output_row: output_row['seeders'] + (0.1 * output_row['leechers']) + output_row['random_increment'])
 
     total_bytes = 0
     filtered_output_rows = []

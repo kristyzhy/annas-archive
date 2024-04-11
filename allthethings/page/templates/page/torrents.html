@@ -104,7 +104,7 @@
       <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list">Generate Torrent List</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
       <p class="mb-4">
-        Generate a list of torrents, sorted by <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/157">seeders + 0.1*leechers</a>, ascending. Specify a maximum TB to store (we simply cut off the list when the max TB is reached).
+        Generate a list of torrents, sorted by <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/157">seeders + 0.1*leechers + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply cut off the list when the max TB is reached).
       </p>
 
       <form action="/dyn/generate_torrents" class="flex items-center mb-4">
@@ -174,7 +174,7 @@
               {% elif group == 'libgen_li_comics' %}
                 <div class="mb-1 text-sm">Comics collection from Libgen.li. WARNING: we have identified a few hundred torrents that are incorrect (the ones not seeded by us currently). A correction will be announced when it becomes available. <a href="/torrents/libgen_li_comics">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/libgen_li">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://libgen.li/torrents/comics/">original</a><span class="text-xs text-gray-500"> / </span><a href="https://data.ipdl.cat/torrent-archive/c/">ipdl.cat</a></div>
               {% elif group == 'scihub' %}
-                <div class="mb-1 text-sm">Sci-Hub / Libgen.rs “scimag” collection of academic papers. Currently not directly seeded by Anna’s Archive, but we keep a backup in extracted form. <a href="/torrents/scihub">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/scihub">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://libgen.rs/scimag/repository_torrent/">original</a></div>
+                <div class="mb-1 text-sm">Sci-Hub / Libgen.rs “scimag” collection of academic papers. Currently not directly seeded by Anna’s Archive, but we keep a backup in extracted form. Note that the “smarch” torrents are <a href="https://www.reddit.com/r/libgen/comments/15qa5i0/what_are_smarch_files/">deprecated</a> and therefore not included in our list. <a href="/torrents/scihub">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/scihub">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://libgen.rs/scimag/repository_torrent/">original</a></div>
               {% elif group == 'duxiu' %}
                 <div class="mb-1 text-sm">DuXiu and related. <a href="/torrents/duxiu">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/duxiu">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/duxiu-exclusive.html">blog</a></div>
               {% endif %}
