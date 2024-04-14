@@ -2465,10 +2465,6 @@ def get_duxiu_dicts(session, key, values):
     duxiu_dicts = []
     for primary_id, aac_records in aac_records_by_primary_id.items():
         # print(f"{primary_id=}, {aac_records=}")
-        
-        if any([record['metadata']['type'] == 'dx_20240122__books' for record in aac_records.values()]) and not any([record['metadata']['type'] == '512w_final_csv' for record in aac_records.values()]):
-            # 512w_final_csv has a bunch of incorrect records from dx_20240122__books deleted.
-            continue
 
         duxiu_dict = {}
 
@@ -2521,8 +2517,10 @@ def get_duxiu_dicts(session, key, values):
             duxiu_dict['aa_duxiu_derived']['added_date_unified']['duxiu_meta_scrape'] = max(duxiu_dict['aa_duxiu_derived']['added_date_unified'].get('duxiu_meta_scrape') or '', datetime.datetime.strptime(aac_record['aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat())
 
             if aac_record['metadata']['type'] == 'dx_20240122__books':
-                if len(aac_record['metadata']['record'].get('source') or '') > 0:
-                    duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['dx_20240122__books', aac_record['metadata']['record']['source']])
+                # 512w_final_csv has a bunch of incorrect records from dx_20240122__books deleted, so skip these entirely.
+                # if len(aac_record['metadata']['record'].get('source') or '') > 0:
+                #     duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['dx_20240122__books', aac_record['metadata']['record']['source']])
+                pass
             elif aac_record['metadata']['type'] in ['512w_final_csv', 'DX_corrections240209_csv']:
                 if aac_record['metadata']['type'] == '512w_final_csv' and any([record['metadata']['type'] == 'DX_corrections240209_csv' for record in aac_records.values()]):
                     # Skip if there is also a correction.
@@ -3604,7 +3602,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             for duxiu_problem_info in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('problems_infos') or []):
                 if duxiu_problem_info['duxiu_problem_type'] == 'pdg_broken_files':
                     # TODO:TRANSLATE
-                    aarecord['file_unified_data']['problems'].append({ 'type': 'duxiu_pdg_broken_files', 'descr': f"{pdg_broken_files_len} affected pages", 'better_md5': '' })
+                    aarecord['file_unified_data']['problems'].append({ 'type': 'duxiu_pdg_broken_files', 'descr': f"{duxiu_problem_info['pdg_broken_files_len']} affected pages", 'better_md5': '' })
                 else:
                     raise Exception(f"Unknown duxiu_problem_type: {duxiu_problem_info=}")
         # TODO: Reindex and use "removal reason" properly, and do some statistics to remove spurious removal reasons.

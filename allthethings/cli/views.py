@@ -172,10 +172,11 @@ def mysql_build_computed_all_md5s_internal():
     cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_records')
     print("Inserting from 'annas_archive_meta__aacid__zlib3_records'")
     cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(md5), 8 FROM annas_archive_meta__aacid__zlib3_records WHERE md5 IS NOT NULL')
-    print("Load indexes of annas_archive_meta__aacid__zlib3_files")
-    cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_files')
-    print("Inserting from 'annas_archive_meta__aacid__zlib3_files'")
-    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(md5), 9 FROM annas_archive_meta__aacid__zlib3_files WHERE md5 IS NOT NULL')
+    # We currently don't support loading a zlib3_file without a correspodning zlib3_record. Should we ever?
+    # print("Load indexes of annas_archive_meta__aacid__zlib3_files")
+    # cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_files')
+    # print("Inserting from 'annas_archive_meta__aacid__zlib3_files'")
+    # cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(md5), 9 FROM annas_archive_meta__aacid__zlib3_files WHERE md5 IS NOT NULL')
     print("Load indexes of annas_archive_meta__aacid__duxiu_files")
     cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__duxiu_files')
     print("Inserting from 'annas_archive_meta__aacid__duxiu_files'")
@@ -647,6 +648,9 @@ def elastic_build_aarecords_duxiu_internal():
                             continue
                         if 'dx_20240122__books' in item['metadata']:
                             # Skip, because 512w_final_csv is the authority on these records, and has a bunch of records from dx_20240122__books deleted.
+                            continue
+                        if ('dx_toc_db__dx_toc' in item['metadata']) and ('"toc_xml":null' in item['metadata']):
+                            # Skip empty TOC records.
                             continue
                         if 'dx_20240122__remote_files' in item['metadata']:
                             # Skip for now because a lot of the DuXiu SSIDs are actual CADAL SSNOs, and stand-alone records from

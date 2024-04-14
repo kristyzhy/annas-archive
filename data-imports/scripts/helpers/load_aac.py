@@ -40,6 +40,9 @@ def build_insert_data(line):
             if md5_reported_matches is None:
                 raise Exception(f"'md5_reported' found, but not in an expected format! '{line}'")
             md5 = md5_reported_matches[1]
+    if (md5 is not None) and (not bool(re.match(r"^[a-f\d]{32}$", md5))):
+        # Remove if it's not md5.
+        md5 = None
     metadata = line[(line.index('"metadata":')+len('"metadata":')):-2]
     return { 'aacid': aacid, 'primary_id': primary_id, 'md5': md5, 'data_folder': data_folder, 'metadata': metadata }
 
