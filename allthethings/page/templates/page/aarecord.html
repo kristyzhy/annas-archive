@@ -222,17 +222,20 @@
       </ul>
     {% endif %}
 
+
     <div>
       {% if aarecord_id_split[0] in ['md5','doi'] %}
         {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
+          <div class="mb-4"><a href="#" class="text-sm" onClick="event.preventDefault(); for (const el of document.querySelectorAll('.js-show-external')) { el.classList.remove('hidden') }; this.classList.add('hidden')">show external downloads</a></div>
+
           <!-- <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div> -->
-          <div class="font-bold">{{ gettext('page.md5.box.download.header_external') }}</div>
+          <div class="font-bold js-show-external hidden">{{ gettext('page.md5.box.download.header_external') }}</div>
         {% else %}
           <div class="font-bold">{{ gettext('page.md5.box.download.header_generic') }}</div>
         {% endif %}
       {% endif %}
 
-      <ul class="mb-4">
+      <ul class="mb-4 {% if (aarecord.additional.fast_partner_urls | length) > 0 %}js-show-external hidden{% endif %}">
         {% for label, url, extra in aarecord.additional.download_urls %}
           {% if label %}
             <li>- {{ gettext('page.md5.box.download.option', num=loop.index, link=(("<a href='" + url + "'" + 'rel="noopener noreferrer nofollow" ' + (' target="_blank" ' if (not url.startswith("/")) else '') + ' class="js-download-link">' + label + '</a>') | safe), extra=(extra | safe)) }}</li>
@@ -249,6 +252,7 @@
           <li>- {{ gettext('page.md5.box.download.support_libraries') }}</li>
         {% endif %}
       </ul>
+
       {% if (aarecord.file_unified_data.problems | length) == 0 %}
         {% if aarecord_id_split[0] in ['md5','doi'] %}
           <div class="mb-4 text-sm text-gray-500">{{ gettext('page.md5.box.download.no_issues_notice') }}</div>
