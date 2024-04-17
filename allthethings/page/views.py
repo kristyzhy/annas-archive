@@ -4060,7 +4060,7 @@ def get_additional_for_aarecord(aarecord):
             directory = 'other'
             if bool(re.match(r"^[a-z]", ia_id)):
                 directory = ia_id[0]
-            partner_path = f"u/annas-archive-ia-2023-06-acsm/{directory}/{ia_id}.{extension}"
+            partner_path = f"u/ia/annas-archive-ia-2023-06-acsm/{directory}/{ia_id}.{extension}"
             additional['torrent_paths'].append([f"managed_by_aa/ia/annas-archive-ia-acsm-{directory}.tar.torrent"])
         elif ia_file_type == 'lcpdf':
             directory = 'other'
@@ -4072,10 +4072,10 @@ def get_additional_for_aarecord(aarecord):
                 directory = 'per_'
             elif bool(re.match(r"^[a-z]", ia_id)):
                 directory = ia_id[0]
-            partner_path = f"u/annas-archive-ia-2023-06-lcpdf/{directory}/{ia_id}.{extension}"
+            partner_path = f"u/ia/annas-archive-ia-2023-06-lcpdf/{directory}/{ia_id}.{extension}"
             additional['torrent_paths'].append([f"managed_by_aa/ia/annas-archive-ia-lcpdf-{directory}.tar.torrent"])
         elif ia_file_type == 'ia2_acsmpdf':
-            partner_path = make_temp_anon_aac_path("o/ia2_acsmpdf_files", aarecord['ia_record']['aa_ia_file']['aacid'], aarecord['ia_record']['aa_ia_file']['data_folder'])
+            partner_path = make_temp_anon_aac_path("i/ia2_acsmpdf_files", aarecord['ia_record']['aa_ia_file']['aacid'], aarecord['ia_record']['aa_ia_file']['data_folder'])
             additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{aarecord['ia_record']['aa_ia_file']['data_folder']}.torrent"])
         else:
             raise Exception(f"Unknown ia_record file type: {ia_file_type}")
@@ -4138,9 +4138,9 @@ def get_additional_for_aarecord(aarecord):
                 additional['torrent_paths'].append([scimag_torrent_path])
 
                 if torrents_json_aa_currently_seeding_by_torrent_path[scimag_torrent_path]:
-                    scimag_tenmillion_dir = (scimag_id // 10000000)
+                    scimag_thousand_dir = (scimag_id // 1000)
                     scimag_filename = urllib.parse.quote(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/'))
-                    scimag_path = f"i/scimag/{scimag_tenmillion_dir}/{scimag_filename}"
+                    scimag_path = f"i/scimag/{scimag_hundredthousand_dir:03}00000/{scimag_thousand_dir:05}000/{scimag_filename}"
                     add_partner_servers(scimag_path, 'scimag', aarecord, additional)
 
         lglicomics_id = aarecord['lgli_file']['comics_id']
@@ -4170,7 +4170,7 @@ def get_additional_for_aarecord(aarecord):
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
         additional['torrent_paths'].append([f"managed_by_aa/zlib/{aarecord['zlib_book']['pilimi_torrent']}"])
     if (aarecord.get('aac_zlib3_book') is not None) and (aarecord['aac_zlib3_book']['file_aacid'] is not None):
-        zlib_path = make_temp_anon_aac_path("o/zlib3_files", aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
+        zlib_path = make_temp_anon_aac_path("u/zlib3_files", aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
         additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{aarecord['aac_zlib3_book']['file_data_folder']}.torrent"])
     if aarecord.get('aac_zlib3_book') is not None:

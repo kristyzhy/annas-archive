@@ -365,7 +365,7 @@ MEMBERSHIP_DURATION_DISCOUNTS = {
     "1": 0, "3": 5, "6": 10, "12": 15, "24": 25,
 }
 MEMBERSHIP_DOWNLOADS_PER_DAY = {
-    "1": 0, "2": 20, "3": 50, "4": 100, "5": 1000,
+    "1": 0, "2": 20, "3": 50, "4": 200, "5": 1000,
 }
 # Keep in sync.
 MEMBERSHIP_BONUSDOWNLOADS_PER_DAY = {
