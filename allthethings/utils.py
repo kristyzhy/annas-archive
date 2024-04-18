@@ -518,11 +518,11 @@ def membership_costs_data(locale):
             elif cost_cents_usd == 5100:
                 cost_cents_usd = 4500
             elif cost_cents_usd == 5400:
-                cost_cents_usd = 5500
+                cost_cents_usd = 5000
             elif cost_cents_usd == 8550:
-                cost_cents_usd = 8500
+                cost_cents_usd = 7500
             elif cost_cents_usd == 9000:
-                cost_cents_usd = 8500
+                cost_cents_usd = 7500
             elif cost_cents_usd == 30600:
                 cost_cents_usd = 30000
             elif cost_cents_usd <= 100000:
