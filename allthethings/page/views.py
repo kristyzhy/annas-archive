@@ -769,7 +769,7 @@ def torrents_page():
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT * FROM mariapersist_torrent_scrapes_histogram WHERE day > DATE_FORMAT(NOW() - INTERVAL 60 DAY, "%Y-%m-%d") ORDER BY day, seeder_group LIMIT 500')
+        cursor.execute('SELECT * FROM mariapersist_torrent_scrapes_histogram WHERE day > DATE_FORMAT(NOW() - INTERVAL 60 DAY, "%Y-%m-%d") AND day < DATE_FORMAT(NOW() - INTERVAL 1 DAY, "%Y-%m-%d") ORDER BY day, seeder_group LIMIT 500')
         histogram = cursor.fetchall()
 
         return render_template(
