@@ -141,7 +141,9 @@ def extensions(app):
     def localeselector():
         potential_locale = request.headers['Host'].split('.')[0]
         if potential_locale in [allthethings.utils.get_domain_lang_code(locale) for locale in allthethings.utils.list_translations()]:
-            return allthethings.utils.domain_lang_code_to_full_lang_code(potential_locale)
+            selected_locale = allthethings.utils.domain_lang_code_to_full_lang_code(potential_locale)
+            # print(f"{selected_locale=}")
+            return selected_locale
         return 'en'
     babel.init_app(app, locale_selector=localeselector)
 
@@ -232,7 +234,7 @@ def extensions(app):
         else:
             g.full_domain = 'http://' + g.full_domain
 
-        g.languages = [(allthethings.utils.get_domain_lang_code(locale), locale.get_display_name()) for locale in allthethings.utils.list_translations()]
+        g.languages = [(allthethings.utils.get_domain_lang_code(locale), allthethings.utils.get_domain_lang_code_display_name(locale)) for locale in allthethings.utils.list_translations()]
         g.languages.sort()
 
         g.last_data_refresh_date = last_data_refresh_date()

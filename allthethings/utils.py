@@ -24,6 +24,7 @@ import indexed_zstd
 import threading
 import traceback
 import time
+import langcodes
 
 from flask_babel import gettext, get_babel, force_locale
 
@@ -157,6 +158,10 @@ def get_domain_lang_code(locale):
         return 'tw'
     elif str(locale) == 'nb_NO':
         return 'no'
+    elif str(locale) == 'pt':
+        return 'br'
+    elif str(locale) == 'pt_PT':
+        return 'pt'
     else:
         return str(locale)
 
@@ -165,8 +170,22 @@ def domain_lang_code_to_full_lang_code(domain_lang_code):
         return 'zh_Hant'
     elif domain_lang_code == "no":
         return 'nb_NO'
+    elif domain_lang_code == "br":
+        return 'pt'
+    elif domain_lang_code == "pt":
+        return 'pt_PT'
     else:
         return domain_lang_code
+
+def get_domain_lang_code_display_name(locale):
+    if str(locale) == 'nb_NO':
+        return 'norsk bokmål'
+    elif str(locale) == 'pt':
+        return 'Brasil português'
+    elif str(locale) == 'pt_PT':
+        return 'Portugal português'
+    else:
+        return locale.get_display_name()
 
 def get_full_lang_code(locale):
     return str(locale)
