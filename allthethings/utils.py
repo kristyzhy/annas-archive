@@ -158,7 +158,7 @@ def get_domain_lang_code(locale):
         return 'tw'
     elif str(locale) == 'nb_NO':
         return 'no'
-    elif str(locale) == 'pt':
+    elif str(locale) == 'pt_BR':
         return 'br'
     elif str(locale) == 'pt_PT':
         return 'pt'
@@ -171,7 +171,7 @@ def domain_lang_code_to_full_lang_code(domain_lang_code):
     elif domain_lang_code == "no":
         return 'nb_NO'
     elif domain_lang_code == "br":
-        return 'pt'
+        return 'pt_BR'
     elif domain_lang_code == "pt":
         return 'pt_PT'
     else:
@@ -180,7 +180,7 @@ def domain_lang_code_to_full_lang_code(domain_lang_code):
 def get_domain_lang_code_display_name(locale):
     if str(locale) == 'nb_NO':
         return 'norsk bokmål'
-    elif str(locale) == 'pt':
+    elif str(locale) == 'pt_BR':
         return 'Brasil português'
     elif str(locale) == 'pt_PT':
         return 'Portugal português'
