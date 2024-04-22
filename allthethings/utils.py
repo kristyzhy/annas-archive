@@ -181,9 +181,9 @@ def get_domain_lang_code_display_name(locale):
     if str(locale) == 'nb_NO':
         return 'norsk bokmål'
     elif str(locale) == 'pt_BR':
-        return 'Brasil português'
+        return 'Brasil: português'
     elif str(locale) == 'pt_PT':
-        return 'Portugal português'
+        return 'Portugal: português'
     else:
         return locale.get_display_name()
 
