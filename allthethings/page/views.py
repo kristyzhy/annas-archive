@@ -4796,6 +4796,21 @@ def search_page():
 
     es_handle = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long]
 
+    primary_search_searches = [
+        { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
+        {
+            "size": max_display_results, 
+            "from": (page_value-1)*max_display_results,
+            "query": search_query,
+            "aggs": search_query_aggs(search_index_long),
+            "post_filter": { "bool": { "filter": post_filter } },
+            "sort": custom_search_sorting,
+            # "track_total_hits": False, # Set to default
+            "timeout": ES_TIMEOUT_PRIMARY,
+            # "knn": { "field": "search_only_fields.search_e5_small_query", "query_vector": list(map(float, get_e5_small_model().encode(f"query: {search_input}", normalize_embeddings=True))), "k": 10, "num_candidates": 1000 },
+        },
+    ]
+
     search_names = ['search1_primary']
     search_results_raw = {'responses': [{} for search_name in search_names]}
     for attempt in [1, 2]:
@@ -4804,20 +4819,7 @@ def search_page():
                 request_timeout=5,
                 max_concurrent_searches=64,
                 max_concurrent_shard_requests=64,
-                searches=[
-                    { "index": allthethings.utils.all_virtshards_for_index(search_index_long) },
-                    {
-                        "size": max_display_results, 
-                        "from": (page_value-1)*max_display_results,
-                        "query": search_query,
-                        "aggs": search_query_aggs(search_index_long),
-                        "post_filter": { "bool": { "filter": post_filter } },
-                        "sort": custom_search_sorting,
-                        # "track_total_hits": False, # Set to default
-                        "timeout": ES_TIMEOUT_PRIMARY,
-                        # "knn": { "field": "search_only_fields.search_e5_small_query", "query_vector": list(map(float, get_e5_small_model().encode(f"query: {search_input}", normalize_embeddings=True))), "k": 10, "num_candidates": 1000 },
-                    },
-                ]
+                searches=primary_search_searches,
             ))
             number_of_search_primary_exceptions = 0
             break
@@ -4835,7 +4837,7 @@ def search_page():
                     print("Haven't reached number_of_search_primary_exceptions limit yet, so not raising")
                 break
     for num, response in enumerate(search_results_raw['responses']):
-        es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
+        es_stats.append({ 'name': search_names[num], 'took': response.get('took'), 'timed_out': response.get('timed_out'), 'searches': primary_search_searches })
         if response.get('timed_out') or (response == {}):
             had_es_timeout = True
             had_primary_es_timeout = True
@@ -4995,7 +4997,7 @@ def search_page():
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
     search_dict['search_index_short'] = search_index_short
-    search_dict['es_stats'] = es_stats
+    search_dict['es_stats_json'] = orjson.dumps(es_stats, option=orjson.OPT_INDENT_2).decode()
     search_dict['had_primary_es_timeout'] = had_primary_es_timeout
     search_dict['had_es_timeout'] = had_es_timeout
     search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout

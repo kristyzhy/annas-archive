@@ -372,7 +372,7 @@
     </div>
   </form>
 
-  <!-- es_stats:
-{{ search_dict.es_stats | tojson(indent=2) }}
-  -->
+  <script>
+    window.es_stats = {{ search_dict.es_stats_json | safe }}
+  </script>
 {% endblock %}
