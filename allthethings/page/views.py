@@ -69,9 +69,9 @@ search_filtered_bad_aarecord_ids = [
     "md5:ca10d6b2ee5c758955ff468591ad67d9",
 ]
 
-ES_TIMEOUT_PRIMARY = "1s"
+ES_TIMEOUT_PRIMARY = "200ms"
 ES_TIMEOUT_ALL_AGG = "20s"
-ES_TIMEOUT = "500ms"
+ES_TIMEOUT = "100ms"
 
 # Taken from https://github.com/internetarchive/openlibrary/blob/e7e8aa5b8c/openlibrary/plugins/openlibrary/pages/languages.page
 # because https://openlibrary.org/languages.json doesn't seem to give a complete list? (And ?limit=.. doesn't seem to work.)
