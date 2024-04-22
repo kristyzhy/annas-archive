@@ -4136,14 +4136,12 @@ def get_additional_for_aarecord(aarecord):
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
             scimag_hundredthousand_dir = (scimag_id // 100000)
             scimag_torrent_path = f"external/scihub/sm_{scimag_hundredthousand_dir:03}00000-{scimag_hundredthousand_dir:03}99999.torrent"
-            if scimag_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path:
-                additional['torrent_paths'].append([scimag_torrent_path])
+            additional['torrent_paths'].append([scimag_torrent_path])
 
-                if torrents_json_aa_currently_seeding_by_torrent_path[scimag_torrent_path]:
-                    scimag_thousand_dir = (scimag_id // 1000)
-                    scimag_filename = urllib.parse.quote(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/'))
-                    scimag_path = f"i/scimag/{scimag_hundredthousand_dir:03}00000/{scimag_thousand_dir:05}000/{scimag_filename}"
-                    add_partner_servers(scimag_path, 'scimag', aarecord, additional)
+            scimag_thousand_dir = (scimag_id // 1000)
+            scimag_filename = urllib.parse.quote(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/'))
+            scimag_path = f"i/scimag/{scimag_hundredthousand_dir:03}00000/{scimag_thousand_dir:05}000/{scimag_filename}"
+            add_partner_servers(scimag_path, 'scimag', aarecord, additional)
 
         lglicomics_id = aarecord['lgli_file']['comics_id']
         if lglicomics_id > 0 and lglicomics_id < 2566000:
