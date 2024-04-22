@@ -222,6 +222,16 @@
       </ul>
     {% endif %}
 
+    {% if aarecord_id_split[0] in ['md5','doi'] %}
+      <div>
+        <ul class="mb-4">
+          <li>- {{ gettext('page.md5.box.download.convert') }}</li>
+          <li>- {{ gettext('page.md5.box.download.kindle') }}</li>
+          <li>- {{ gettext('page.md5.box.download.support_authors') }}</li>
+          <li>- {{ gettext('page.md5.box.download.support_libraries') }}</li>
+        </ul>
+      </div>
+    {% endif %}
 
     <div>
       {% if aarecord_id_split[0] in ['md5','doi'] %}
@@ -245,12 +255,6 @@
         {% else %}
           <li>- {{ gettext('page.md5.box.download.no_found') }}</li>
         {% endfor %}
-        {% if aarecord_id_split[0] in ['md5','doi'] %}
-          <li>- {{ gettext('page.md5.box.download.convert') }}</li>
-          <li>- {{ gettext('page.md5.box.download.kindle') }}</li>
-          <li>- {{ gettext('page.md5.box.download.support_authors') }}</li>
-          <li>- {{ gettext('page.md5.box.download.support_libraries') }}</li>
-        {% endif %}
       </ul>
 
       {% if (aarecord.file_unified_data.problems | length) == 0 %}
