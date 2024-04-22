@@ -297,6 +297,15 @@
               </p>
             {% endif %}
           </div>
+        {% else %}
+          {% if search_dict.search_index_short == 'journals' %}
+            <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
+              <!-- TODO:TRANSLATE -->
+              <strong>Looking for papers?</strong>
+              Sci-Hub has <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank">paused</a> uploading of new papers.
+              🧬&nbsp;SciDB is a continuation of Sci-Hub, with its familiar interface and direct viewing of PDFs. <a href="/scidb">Try it here.</a>
+            </div>
+          {% endif %}
         {% endif %}
 
         {% if search_dict.had_fatal_es_timeout %}
