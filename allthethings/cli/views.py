@@ -305,9 +305,10 @@ def elastic_reset_aarecords_internal():
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_all')
         cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13')
-        cursor.execute('CREATE TABLE aarecords_isbn13 (isbn13 CHAR(13) NOT NULL, hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, PRIMARY KEY (isbn13, hashed_aarecord_id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes')
+        cursor.execute('CREATE TABLE aarecords_codes (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id_prefix CHAR(20), code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13') # Old
         cursor.execute('COMMIT')
 
 #################################################################################################
@@ -351,13 +352,14 @@ def elastic_build_aarecords_job(aarecord_ids):
                 aarecords = get_aarecords_mysql(session, aarecord_ids)
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
                 aarecords_all_insert_data = []
-                aarecords_isbn13_insert_data = []
+                aarecords_codes_insert_data = []
                 for aarecord in aarecords:
+                    aarecord_id_split = aarecord['id'].split(':', 1)
                     hashed_aarecord_id = hashlib.md5(aarecord['id'].encode()).digest()
                     aarecords_all_insert_data.append({
                         'hashed_aarecord_id': hashed_aarecord_id,
                         'aarecord_id': aarecord['id'],
-                        'md5': bytes.fromhex(aarecord['id'].split(':', 1)[1]) if aarecord['id'].startswith('md5:') else None,
+                        'md5': bytes.fromhex(aarecord_id_split[1]) if aarecord['id'].startswith('md5:') else None,
                         'json_compressed': elastic_build_aarecords_compressor.compress(orjson.dumps({
                             # Note: used in external code.
                             'search_only_fields': {
@@ -372,16 +374,27 @@ def elastic_build_aarecords_job(aarecord_ids):
                         operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': f'{index}__{virtshard}', '_id': aarecord['id'] })
                     for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
                         dois.append(doi)
-                    for isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-                        aarecords_isbn13_insert_data.append({
-                            'isbn13': isbn13,
+
+                    codes = []
+                    for code_name in aarecord['file_unified_data']['identifiers_unified'].keys():
+                        for code_value in aarecord['file_unified_data']['identifiers_unified'][code_name]:
+                            codes.append(f"{code_name}:{code_value}")
+                    for code_name in aarecord['file_unified_data']['classifications_unified'].keys():
+                        for code_value in aarecord['file_unified_data']['classifications_unified'][code_name]:
+                            codes.append(f"{code_name}:{code_value}")
+                    for code in codes:
+                        aarecords_codes_insert_data.append({
+                            'hashed_code': hashlib.md5(code.encode()).digest(),
+                            'code': code,
                             'hashed_aarecord_id': hashed_aarecord_id,
                             'aarecord_id': aarecord['id'],
+                            'aarecord_id_prefix': aarecord_id_split[0],
                         })
-                    # TODO: Replace with aarecords_isbn13
+
+                    # TODO: Replace with aarecords_codes
                     if aarecord['id'].startswith('oclc:'):
                         for isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-                            isbn13_oclc_insert_data.append({ "isbn13": isbn13, "oclc_id": int(aarecord['id'].split(':', 1)[1]) })
+                            isbn13_oclc_insert_data.append({ "isbn13": isbn13, "oclc_id": int(aarecord_id_split[1]) })
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job finished for loop")
 
                 if (aarecord_ids[0].startswith('md5:')) and (len(dois) > 0):
@@ -391,7 +404,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                     cursor.execute('COMMIT')
                     # print(f'Deleted {count} DOIs')
 
-                # TODO: Replace with aarecords_isbn13
+                # TODO: Replace with aarecords_codes
                 if len(isbn13_oclc_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
                     cursor.executemany(f"INSERT INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s) ON DUPLICATE KEY UPDATE isbn13=VALUES(isbn13)", isbn13_oclc_insert_data)
@@ -424,9 +437,10 @@ def elastic_build_aarecords_job(aarecord_ids):
                 cursor.executemany(f'INSERT INTO aarecords_all (hashed_aarecord_id, aarecord_id, md5, json_compressed) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(md5)s, %(json_compressed)s) ON DUPLICATE KEY UPDATE json_compressed=VALUES(json_compressed)', aarecords_all_insert_data)
                 cursor.execute('COMMIT')
 
-                if len(aarecords_isbn13_insert_data) > 0:
+                if len(aarecords_codes_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
-                    cursor.executemany(f"INSERT INTO aarecords_isbn13 (isbn13, hashed_aarecord_id, aarecord_id) VALUES (%(isbn13)s, %(hashed_aarecord_id)s, %(aarecord_id)s) ON DUPLICATE KEY UPDATE isbn13=VALUES(isbn13)", aarecords_isbn13_insert_data)
+                    # ON DUPLICATE KEY here is dummy, to avoid INSERT IGNORE which suppresses other errors
+                    cursor.executemany(f"INSERT INTO aarecords_codes (hashed_code, hashed_aarecord_id, aarecord_id_prefix, code, aarecord_id) VALUES (%(hashed_code)s, %(hashed_aarecord_id)s, %(aarecord_id_prefix)s, %(code)s, %(aarecord_id)s) ON DUPLICATE KEY UPDATE code=VALUES(code)", aarecords_codes_insert_data)
                     cursor.execute('COMMIT')
 
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into aarecords_all")
@@ -691,7 +705,7 @@ def elastic_build_aarecords_oclc_internal():
         print("Creating oclc_isbn table")
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        # TODO: Replace with aarecords_isbn13
+        # TODO: Replace with aarecords_codes
         cursor.execute('CREATE TABLE IF NOT EXISTS isbn13_oclc (isbn13 CHAR(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL, oclc_id BIGINT NOT NULL, PRIMARY KEY (isbn13, oclc_id)) ENGINE=MyISAM ROW_FORMAT=FIXED DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
 
     with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
