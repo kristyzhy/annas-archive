@@ -1,0 +1,19 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Codes{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
+  <div lang="en">
+    <h2 class="mt-4 mb-1 text-3xl font-bold">Codes Explorer</h2>
+
+    <ul class="list-inside mb-4 ml-1">
+      {% for display_row in display_rows %}
+        <li class="list-disc"><a href="{{ display_row.link }}">{{ display_row.label }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

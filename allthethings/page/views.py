@@ -804,6 +804,66 @@ def torrents_group_page(group):
         detailview=True,
     )
 
+@page.get("/codes")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+def codes_page():
+    return ""
+    
+    with engine.connect() as connection:
+        prefix = request.args.get('prefix') or ''
+
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+
+        cursor.execute("DROP FUNCTION IF EXISTS fn_get_next_codepoint")
+        cursor.execute("""
+            CREATE FUNCTION fn_get_next_codepoint(initial INT, prefix VARCHAR(200)) RETURNS INT
+            NOT DETERMINISTIC
+            READS SQL DATA
+            BEGIN
+                    DECLARE _next VARCHAR(200);
+                    DECLARE EXIT HANDLER FOR NOT FOUND RETURN NULL;
+                    SELECT  ORD(SUBSTRING(code, LENGTH(prefix)+1, 1))
+                    INTO    _next
+                    FROM    aarecords_codes
+                    WHERE   code LIKE CONCAT(prefix, "%%") AND code >= CONCAT(prefix, CHAR(initial + 1))
+                    ORDER BY
+                            code
+                    LIMIT 1;
+                    RETURN _next;
+            END
+        """)
+
+        cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING utf8)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
+        new_prefixes = [row['new_prefix'] for row in cursor.fetchall()]        
+
+        display_rows = []
+        for prefix in new_prefixes:
+            # TODO: more efficient? Though this is not that bad because we don't typically iterate through that many values.
+            cursor.execute('SELECT code FROM aarecords_codes WHERE code LIKE CONCAT(%(prefix)s, "%%") ORDER BY code LIMIT 1', { "prefix": prefix })
+            first_code = cursor.fetchone()['code']
+            cursor.execute('SELECT code FROM aarecords_codes WHERE code LIKE CONCAT(%(prefix)s, "%%") ORDER BY code DESC LIMIT 1', { "prefix": prefix })
+            last_code = cursor.fetchone()['code']
+
+            if first_code == last_code:
+                display_rows.append({
+                    "label": first_code,
+                    "link": f'/search?q="{first_code}"',
+                })
+            else:
+                longest_prefix = os.path.commonprefix([first_code, last_code])
+                display_rows.append({
+                    "label": f'{longest_prefix}⋯',
+                    "link": f'/codes?prefix={longest_prefix}',
+                })
+
+
+        return render_template(
+            "page/codes.html",
+            header_active="",
+            display_rows=display_rows,
+        )
+
 zlib_book_dict_comments = {
     **allthethings.utils.COMMON_DICT_COMMENTS,
     "zlibrary_id": ("before", ["This is a file from the Z-Library collection of Anna's Archive.",
@@ -4165,6 +4225,9 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://cloudflare-ipfs.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
         additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=4), f"https://libstc.cc/d/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=5), f"https://dweb.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=6), f"https://w3s.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
     if aarecord.get('zlib_book') is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)

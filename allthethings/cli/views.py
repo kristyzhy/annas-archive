@@ -306,7 +306,9 @@ def elastic_reset_aarecords_internal():
         cursor.execute('DROP TABLE IF EXISTS aarecords_all')
         cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('DROP TABLE IF EXISTS aarecords_codes')
-        cursor.execute('CREATE TABLE aarecords_codes (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id_prefix CHAR(20), code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE aarecords_codes (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_counts')
+        cursor.execute('CREATE TABLE aarecords_codes_counts (code_prefix_length INT NOT NULL, code_prefix VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), child_count BIGINT, record_count BIGINT, PRIMARY KEY (code_prefix_length, code_prefix, aarecord_id_prefix)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13') # Old
         cursor.execute('COMMIT')
@@ -353,6 +355,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
                 aarecords_all_insert_data = []
                 aarecords_codes_insert_data = []
+                aarecords_codes_counts_insert_data = []
                 for aarecord in aarecords:
                     aarecord_id_split = aarecord['id'].split(':', 1)
                     hashed_aarecord_id = hashlib.md5(aarecord['id'].encode()).digest()
@@ -389,6 +392,24 @@ def elastic_build_aarecords_job(aarecord_ids):
                             'hashed_aarecord_id': hashed_aarecord_id,
                             'aarecord_id': aarecord['id'],
                             'aarecord_id_prefix': aarecord_id_split[0],
+                        })
+                        code_prefix = ''
+                        # 18 is enough for "isbn13:" plus 11 of the 13 digits.
+                        for code_letter in code[:min(18,len(code)-1)]:
+                            code_prefix += code_letter
+                            aarecords_codes_counts_insert_data.append({
+                                'code_prefix_length': len(code_prefix),
+                                'code_prefix': code_prefix,
+                                'aarecord_id_prefix': aarecord_id_split[0],
+                                'child_count_delta': 1,
+                                'record_count_delta': 0,
+                            })
+                        aarecords_codes_counts_insert_data.append({
+                            'code_prefix_length': len(code),
+                            'code_prefix': code,
+                            'aarecord_id_prefix': aarecord_id_split[0],
+                            'child_count_delta': 0,
+                            'record_count_delta': 1,
                         })
 
                     # TODO: Replace with aarecords_codes
@@ -440,7 +461,11 @@ def elastic_build_aarecords_job(aarecord_ids):
                 if len(aarecords_codes_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
                     # ON DUPLICATE KEY here is dummy, to avoid INSERT IGNORE which suppresses other errors
-                    cursor.executemany(f"INSERT INTO aarecords_codes (hashed_code, hashed_aarecord_id, aarecord_id_prefix, code, aarecord_id) VALUES (%(hashed_code)s, %(hashed_aarecord_id)s, %(aarecord_id_prefix)s, %(code)s, %(aarecord_id)s) ON DUPLICATE KEY UPDATE code=VALUES(code)", aarecords_codes_insert_data)
+                    cursor.executemany(f"INSERT INTO aarecords_codes (hashed_code, hashed_aarecord_id, code, aarecord_id, aarecord_id_prefix) VALUES (%(hashed_code)s, %(hashed_aarecord_id)s, %(code)s, %(aarecord_id)s, %(aarecord_id_prefix)s) ON DUPLICATE KEY UPDATE code=VALUES(code)", aarecords_codes_insert_data)
+                    cursor.execute('COMMIT')
+                if len(aarecords_codes_counts_insert_data) > 0:
+                    session.connection().connection.ping(reconnect=True)
+                    cursor.executemany(f"INSERT INTO aarecords_codes_counts (code_prefix_length, code_prefix, aarecord_id_prefix, child_count, record_count) VALUES (%(code_prefix_length)s, %(code_prefix)s, %(aarecord_id_prefix)s, %(child_count_delta)s, %(record_count_delta)s) ON DUPLICATE KEY UPDATE child_count=child_count+VALUES(child_count), record_count=record_count+VALUES(record_count)", aarecords_codes_counts_insert_data)
                     cursor.execute('COMMIT')
 
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into aarecords_all")
