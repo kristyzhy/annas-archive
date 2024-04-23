@@ -808,7 +808,7 @@ def torrents_group_page(group):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def codes_page():
     return ""
-    
+
     with engine.connect() as connection:
         prefix = request.args.get('prefix') or ''
 
@@ -4089,10 +4089,12 @@ def get_additional_for_aarecord(aarecord):
     filename_extension = aarecord['file_unified_data'].get('extension_best', None) or ''    
     filename_code = ''
     for code in additional['codes']:
-        if code['key'] in ['isbn13', 'isbn10', 'doi', 'issn']:
+        if code['key'] in ['isbn13', 'isbn10', 'doi', 'issn', 'duxiu_ssid', 'cadal_ssno']:
             filename_code = f" -- {code['value']}"
             break
-    additional['filename'] = urllib.parse.quote(f"{filename_slug}{filename_code} -- {aarecord['id'].split(':', 1)[1]} -- Anna’s Archive".replace('.', '_') + f".{filename_extension}", safe='')
+    filename_base = f"{filename_slug}{filename_code} -- {aarecord['id'].split(':', 1)[1]}".replace('.', '_')
+    additional['filename_without_annas_archive'] = urllib.parse.quote(f"{filename_base}.{filename_extension}", safe='')
+    additional['filename'] = urllib.parse.quote(f"{filename_base} -- Anna’s Archive.{filename_extension}", safe='')
 
     additional['download_urls'] = []
     additional['fast_partner_urls'] = []
@@ -4222,12 +4224,11 @@ def get_additional_for_aarecord(aarecord):
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
     if len(aarecord.get('ipfs_infos') or []) > 0:
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://cloudflare-ipfs.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=4), f"https://libstc.cc/d/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=5), f"https://dweb.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=6), f"https://w3s.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename']}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://cloudflare-ipfs.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=4), f"https://dweb.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", ""))
+        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=5), f"https://w3s.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", ""))
     if aarecord.get('zlib_book') is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
