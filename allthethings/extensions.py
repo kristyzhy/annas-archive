@@ -22,7 +22,7 @@ class FallbackNodeSelector: # Selects only the first live node
         self.node_configs = node_configs
     def select(self, nodes):
         node_configs = list(self.node_configs)
-        reverse = (random.randint(0, 100) < 10)
+        reverse = (random.randint(0, 10000) < 5)
         if reverse:
             node_configs.reverse() # Occasionally pick the fallback to check it.
         for node_config in node_configs:

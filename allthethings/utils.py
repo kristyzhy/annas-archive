@@ -105,10 +105,8 @@ def scidb_info(aarecord, additional=None):
         return None
 
     path_info = None
-    # TODO: remove
-    if scihub_link is None:
-        if len(additional['partner_url_paths']) > 0:
-            path_info = additional['partner_url_paths'][0]
+    if len(additional['partner_url_paths']) > 0:
+        path_info = additional['partner_url_paths'][0]
 
     if path_info:
         priority = 1

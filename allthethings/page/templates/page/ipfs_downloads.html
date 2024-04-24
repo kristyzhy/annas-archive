@@ -1,0 +1,31 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}IPFS downloads{% endblock %}
+
+{% block meta_tags %}
+  <meta property="robots" content="noindex" />
+{% endblock %}
+
+{% block body %}
+  <!-- TODO:TRANSLATE -->
+
+  <h2 class="mt-4 mb-4 text-3xl font-bold">IPFS downloads</h2>
+
+  <p class="mb-4">
+    {{ gettext('page.partner_download.main_page', a_main=((' href="/md5/' + canonical_md5 + '"') | safe)) }}
+  </p>
+
+  <ul class="mb-4">
+    {% for url in ipfs_urls %}
+      <li>- <a href="{{ url }}">{{ gettext('page.md5.box.download.ipfs_gateway', num=loop.index) }}</a> {% if loop.index == 1 %}{{ gettext('page.md5.box.download.ipfs_gateway_extra')}}{% endif %}</li>
+    {% endfor %}
+  </ul>
+
+  <p class="mb-4">
+    {{ gettext('page.partner_download.faster_downloads', a_membership=(' href="/donate"' | safe)) }}
+  </p>
+
+  <p class="mb-4">
+    {{ gettext('page.partner_download.bulk_mirroring', a_datasets=(' href="/datasets"' | safe), a_torrents=(' href="/torrents"' | safe)) }}
+  </p>
+{% endblock %}

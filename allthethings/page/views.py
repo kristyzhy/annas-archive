@@ -4103,6 +4103,7 @@ def get_additional_for_aarecord(aarecord):
     additional['has_aa_downloads'] = 0
     additional['has_aa_exclusive_downloads'] = 0
     additional['torrent_paths'] = []
+    additional['ipfs_urls'] = []
     shown_click_get = False
     linked_dois = set()
 
@@ -4169,7 +4170,7 @@ def get_additional_for_aarecord(aarecord):
         shown_click_get = True
     if aarecord.get('lgrsfic_book') is not None:
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
-        lgrsfic_torrent_path = f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir:03}.torrent"
+        lgrsfic_torrent_path = f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir}.torrent" # Note: no leading zeroes
         lgrsfic_manually_synced = (lgrsfic_thousands_dir >= 2886000) and (lgrsfic_thousands_dir <= 2977000)
         if lgrsfic_manually_synced or (lgrsfic_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
             additional['torrent_paths'].append([lgrsfic_torrent_path])
@@ -4190,7 +4191,7 @@ def get_additional_for_aarecord(aarecord):
                 lglific_path = f"e/lglific/{lglific_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
                 add_partner_servers(lglific_path, '', aarecord, additional)
 
-            lglific_torrent_path = f"external/libgen_li_fic/f_{lglific_thousands_dir:03}.torrent"
+            lglific_torrent_path = f"external/libgen_li_fic/f_{lglific_thousands_dir}.torrent" # Note: no leading zeroes
             if lglific_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path:
                 additional['torrent_paths'].append([lglific_torrent_path])
 
@@ -4210,7 +4211,7 @@ def get_additional_for_aarecord(aarecord):
             lglicomics_thousands_dir = (lglicomics_id // 1000) * 1000
             lglicomics_path = f"a/comics/{lglicomics_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
             add_partner_servers(lglicomics_path, '', aarecord, additional)
-            additional['torrent_paths'].append([f"external/libgen_li_comics/c_{lglicomics_thousands_dir}.torrent"]) # Note: no leading zeroes!
+            additional['torrent_paths'].append([f"external/libgen_li_comics/c_{lglicomics_thousands_dir}.torrent"]) # Note: no leading zeroes
 
         lglimagz_id = aarecord['lgli_file']['magz_id']
         if lglimagz_id > 0 and lglimagz_id < 1363000:
@@ -4223,12 +4224,25 @@ def get_additional_for_aarecord(aarecord):
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
-    if len(aarecord.get('ipfs_infos') or []) > 0:
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://cloudflare-ipfs.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=2), f"https://ipfs.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=3), f"https://gateway.pinata.cloud/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=4), f"https://dweb.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", ""))
-        additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=5), f"https://w3s.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", ""))
+    if (len(aarecord.get('ipfs_infos') or []) > 0) and (aarecord_id_split[0] == 'md5'):
+        # additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://ipfs.eth.aragon.network/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
+
+        additional['ipfs_urls'].append(f"https://ipfs.eth.aragon.network/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://ipfs-stg.fleek.co/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://cloudflare-ipfs.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://ipfs.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://gateway.pinata.cloud/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://dweb.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://w3s.link/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://storry.tv/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://gw3.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://public.w3ipfs.aioz.network/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://ipfsgw.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://cf-ipfs.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://eternum.io/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+        additional['ipfs_urls'].append(f"https://ipfs.raribleuserdata.com/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}")
+
+        additional['download_urls'].append(("IPFS", f"/ipfs_downloads/{aarecord_id_split[1]}", ""))
     if aarecord.get('zlib_book') is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
@@ -4642,6 +4656,40 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 hourly_download_count_from_ip=hourly_download_count_from_ip,
                 # pseudo_ipv4=f"{data_pseudo_ipv4[0]}.{data_pseudo_ipv4[1]}.{data_pseudo_ipv4[2]}.{data_pseudo_ipv4[3]}",
             )
+
+@page.get("/ipfs_downloads/<string:md5_input>")
+@allthethings.utils.no_cache()
+def ipfs_downloads(md5_input):
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+
+    if (request.headers.get('cf-worker') or '') != '':
+        return redirect(f"/md5/{md5_input}", code=302)
+
+    data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
+    if allthethings.utils.is_canonical_ip_cloudflare(data_ip):
+        return redirect(f"/md5/{md5_input}", code=302)
+
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
+        return redirect(f"/md5/{md5_input}", code=302)
+
+    aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
+    if aarecords is None:
+        return render_template("page/aarecord_issue.html", header_active="search"), 500
+    if len(aarecords) == 0:
+        return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
+    aarecord = aarecords[0]
+    try:
+        ipfs_urls = aarecord['additional']['ipfs_urls']
+    except:
+        return redirect(f"/md5/{md5_input}", code=302)
+
+    return render_template(
+        "page/ipfs_downloads.html",
+        header_active="search",
+        ipfs_urls=ipfs_urls,
+        canonical_md5=canonical_md5,
+    )
 
 def search_query_aggs(search_index_long):
     return {
