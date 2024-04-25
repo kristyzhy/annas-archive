@@ -822,7 +822,7 @@ def codes_page():
             READS SQL DATA
             BEGIN
                     DECLARE _next VARCHAR(200);
-                    DECLARE EXIT HANDLER FOR NOT FOUND RETURN NULL;
+                    DECLARE EXIT HANDLER FOR NOT FOUND RETURN 0;
                     SELECT  ORD(SUBSTRING(code, LENGTH(prefix)+1, 1))
                     INTO    _next
                     FROM    aarecords_codes
@@ -834,26 +834,39 @@ def codes_page():
             END
         """)
 
-        cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING utf8)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
-        new_prefixes = [row['new_prefix'] for row in cursor.fetchall()]        
+        exact_matches = []
+        cursor.execute('SELECT aarecord_id FROM aarecords_codes WHERE code = %(prefix)s ORDER BY code, hashed_code, hashed_aarecord_id LIMIT 1000', { "prefix": prefix })
+        for row in cursor.fetchall():
+            exact_matches.append({
+                "label": row['aarecord_id'],
+                "link": allthethings.utils.path_for_aarecord_id(row['aarecord_id']),
+            })
 
-        display_rows = []
-        for prefix in new_prefixes:
+        # cursor.execute('SELECT CONCAT(%(prefix)s, IF(@r > 0, CHAR(@r USING utf8), "")) AS new_prefix, @r := fn_get_next_codepoint(IF(@r > 0, @r, ORD(" ")), %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
+        cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING utf8)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code > %(prefix)s AND code LIKE CONCAT(%(prefix)s, "%%") ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r != 0', { "prefix": prefix })
+        new_prefixes_raw = cursor.fetchall()
+        new_prefixes = [row['new_prefix'] for row in new_prefixes_raw]
+        prefix_rows = []
+        print(f"{new_prefixes_raw=}")
+        for new_prefix in new_prefixes:
             # TODO: more efficient? Though this is not that bad because we don't typically iterate through that many values.
-            cursor.execute('SELECT code FROM aarecords_codes WHERE code LIKE CONCAT(%(prefix)s, "%%") ORDER BY code LIMIT 1', { "prefix": prefix })
-            first_code = cursor.fetchone()['code']
-            cursor.execute('SELECT code FROM aarecords_codes WHERE code LIKE CONCAT(%(prefix)s, "%%") ORDER BY code DESC LIMIT 1', { "prefix": prefix })
-            last_code = cursor.fetchone()['code']
+            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(%(new_prefix)s, "%%") ORDER BY code, hashed_code, hashed_aarecord_id LIMIT 1', { "new_prefix": new_prefix })
+            first_record = cursor.fetchone()
+            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(%(new_prefix)s, "%%") ORDER BY code DESC, hashed_code DESC, hashed_aarecord_id DESC LIMIT 1', { "new_prefix": new_prefix })
+            last_record = cursor.fetchone()
 
-            if first_code == last_code:
-                display_rows.append({
-                    "label": first_code,
-                    "link": f'/search?q="{first_code}"',
+            if first_record['code'] == last_record['code']:
+                prefix_rows.append({
+                    "label": first_record["code"],
+                    "records": last_record["row_number_order_by_code"]-first_record["row_number_order_by_code"]+1,
+                    "link": f'/codes?prefix={first_record["code"]}',
                 })
             else:
-                longest_prefix = os.path.commonprefix([first_code, last_code])
-                display_rows.append({
+                longest_prefix = os.path.commonprefix([first_record["code"], last_record["code"]])
+                prefix_rows.append({
                     "label": f'{longest_prefix}⋯',
+                    "codes": last_record["dense_rank_order_by_code"]-first_record["dense_rank_order_by_code"]+1,
+                    "records": last_record["row_number_order_by_code"]-first_record["row_number_order_by_code"]+1,
                     "link": f'/codes?prefix={longest_prefix}',
                 })
 
@@ -861,7 +874,9 @@ def codes_page():
         return render_template(
             "page/codes.html",
             header_active="",
-            display_rows=display_rows,
+            prefix=prefix,
+            prefix_rows=prefix_rows,
+            exact_matches=exact_matches,
         )
 
 zlib_book_dict_comments = {
@@ -3991,7 +4006,7 @@ def get_additional_for_aarecord(aarecord):
     aarecord_id_split = aarecord['id'].split(':', 1)
 
     additional = {}
-    additional['path'] = '/' + aarecord_id_split[0].replace('/isbn/', '/isbndb/') + '/' + aarecord_id_split[1]
+    additional['path'] = allthethings.utils.path_for_aarecord_id(aarecord['id'])
     additional['most_likely_language_name'] = (get_display_name_for_lang(aarecord['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if aarecord['file_unified_data'].get('most_likely_language_code', None) else '')
 
     additional['added_date_best'] = ''

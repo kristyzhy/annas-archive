@@ -10,10 +10,43 @@
   <div lang="en">
     <h2 class="mt-4 mb-1 text-3xl font-bold">Codes Explorer</h2>
 
-    <ul class="list-inside mb-4 ml-1">
-      {% for display_row in display_rows %}
-        <li class="list-disc"><a href="{{ display_row.link }}">{{ display_row.label }}</a></li>
+    <form action="/codes" method="get">
+      <input name="prefix" value="{{ prefix }}" placeholder="Prefix" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded text-sm">
+      <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 text-sm" type="submit">Go</button>
+      <a href="/codes" class="custom-a mr-2 bg-[#777] hover:bg-[#999] text-white py-1 px-3 rounded text-sm">Reset</a>
+    </form>
+
+    {% if (exact_matches | length) > 0 %}
+      <div class="font-bold mt-4">
+        Records matching “{{ prefix }}”
+      </div>
+
+      {% for exact_match in exact_matches %}
+        <div>- <a href="{{ exact_match.link }}">{{ exact_match.label }}</a></div>
       {% endfor %}
-    </ul>
+
+      <div class="text-sm"><a href='/search?q="{{ prefix }}"'>Search Anna’s Archive for “{{ prefix }}”</a></div>
+    {% endif %}
+
+    {% if (prefix_rows | length) > 0 %}
+      <div class="font-bold mt-4">
+        Codes starting with “{{ prefix }}”
+      </div>
+
+      <table>
+        <tr>
+          <td></td>
+          <td class="text-sm text-gray-500 px-4">records</td>
+          <td class="text-sm text-gray-500 px-4">codes</td>
+        </tr>
+        {% for prefix_row in prefix_rows %}
+          <tr>
+            <td><a href="{{ prefix_row.link }}">{{ prefix_row.label }}</a></td>
+            <td class="text-sm text-gray-500 px-4">{{ prefix_row.records }}</td>
+            <td class="text-sm text-gray-500 px-4">{{ prefix_row.codes or '1' }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
   </div>
 {% endblock %}

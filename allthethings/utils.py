@@ -80,6 +80,10 @@ def split_aarecord_ids(aarecord_ids):
         ret[split_aarecord_id[0]].append(split_aarecord_id[1])
     return ret
 
+def path_for_aarecord_id(aarecord_id):
+    aarecord_id_split = aarecord_id.split(':', 1)
+    return '/' + aarecord_id_split[0].replace('isbn', 'isbndb') + '/' + aarecord_id_split[1]
+
 def doi_is_isbn(doi):
     return doi.startswith('10.978.') or doi.startswith('10.979.')
 

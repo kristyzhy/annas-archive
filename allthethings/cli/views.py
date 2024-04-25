@@ -97,6 +97,7 @@ def nonpersistent_dbreset_internal():
     Reflected.prepare(engine_multi)
     elastic_reset_aarecords_internal()
     elastic_build_aarecords_all_internal()
+    mysql_build_aarecords_codes_numbers()
 
 def query_yield_batches(conn, qry, pk_attr, maxrq):
     """specialized windowed query generator (using LIMIT/OFFSET)
@@ -306,7 +307,7 @@ def elastic_reset_aarecords_internal():
         cursor.execute('DROP TABLE IF EXISTS aarecords_all')
         cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('DROP TABLE IF EXISTS aarecords_codes')
-        cursor.execute('CREATE TABLE aarecords_codes (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE aarecords_codes (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), row_number_order_by_code BIGINT DEFAULT 0, dense_rank_order_by_code BIGINT DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         # cursor.execute('DROP TABLE IF EXISTS aarecords_codes_counts')
         # cursor.execute('CREATE TABLE aarecords_codes_counts (code_prefix_length INT NOT NULL, code_prefix VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), child_count BIGINT, record_count BIGINT, PRIMARY KEY (code_prefix_length, code_prefix, aarecord_id_prefix)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
@@ -851,6 +852,57 @@ def elastic_build_aarecords_main_internal():
                         current_doi = batch[-1]['doi']
 
         print(f"Done with main!")
+
+#################################################################################################
+# ./run flask cli mysql_build_aarecords_codes_numbers
+@cli.cli.command('mysql_build_aarecords_codes_numbers')
+def mysql_build_aarecords_codes_numbers():
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        cursor.execute('SELECT COUNT(*) AS count FROM aarecords_codes LIMIT 1')
+        total = cursor.fetchone()['count']
+        print(f"Found {total=} codes")
+
+        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+            current_record_for_filter = {'code':'','hashed_code':b'','hashed_aarecord_id':b''}
+            row_number_order_by_code = 0
+            dense_rank_order_by_code = 0
+            row_number_partition_by_aarecord_id_prefix_order_by_code = collections.defaultdict(int)
+            dense_rank_partition_by_aarecord_id_prefix_order_by_code = collections.defaultdict(int)
+            last_code = ''
+            last_code_by_aarecord_id_prefix = collections.defaultdict(str)
+            while True:
+                connection.connection.ping(reconnect=True)
+                cursor.execute('SELECT code, aarecord_id_prefix, hashed_code, hashed_aarecord_id FROM aarecords_codes WHERE (code, hashed_code, hashed_aarecord_id) > (%(from_code)s, %(from_hashed_code)s, %(from_hashed_aarecord_id)s) ORDER BY code, hashed_code, hashed_aarecord_id LIMIT %(BATCH_SIZE)s', { "from_code": current_record_for_filter['code'], "from_hashed_code": current_record_for_filter['hashed_code'], "from_hashed_aarecord_id": current_record_for_filter['hashed_aarecord_id'], "BATCH_SIZE": BATCH_SIZE })
+                rows = list(cursor.fetchall())
+                if len(rows) == 0:
+                    break
+
+                update_data = []
+                for row in rows:
+                    row_number_order_by_code += 1
+                    if row['code'] != last_code:
+                        dense_rank_order_by_code += 1
+                    row_number_partition_by_aarecord_id_prefix_order_by_code[row['aarecord_id_prefix']] += 1
+                    if row['code'] != last_code_by_aarecord_id_prefix[row['aarecord_id_prefix']]:
+                        dense_rank_partition_by_aarecord_id_prefix_order_by_code[row['aarecord_id_prefix']] += 1
+                    update_data.append({
+                        "row_number_order_by_code": row_number_order_by_code,
+                        "dense_rank_order_by_code": dense_rank_order_by_code,
+                        "row_number_partition_by_aarecord_id_prefix_order_by_code": row_number_partition_by_aarecord_id_prefix_order_by_code[row['aarecord_id_prefix']],
+                        "dense_rank_partition_by_aarecord_id_prefix_order_by_code": dense_rank_partition_by_aarecord_id_prefix_order_by_code[row['aarecord_id_prefix']],
+                        "hashed_code": row['hashed_code'],
+                        "hashed_aarecord_id": row['hashed_aarecord_id'],
+                    })
+                    last_code = row['code']
+                    last_code_by_aarecord_id_prefix[row['aarecord_id_prefix']] = row['code']
+                connection.connection.ping(reconnect=True)
+                cursor.executemany('UPDATE aarecords_codes SET row_number_order_by_code=%(row_number_order_by_code)s, dense_rank_order_by_code=%(dense_rank_order_by_code)s, row_number_partition_by_aarecord_id_prefix_order_by_code=%(row_number_partition_by_aarecord_id_prefix_order_by_code)s, dense_rank_partition_by_aarecord_id_prefix_order_by_code=%(dense_rank_partition_by_aarecord_id_prefix_order_by_code)s WHERE hashed_code=%(hashed_code)s AND hashed_aarecord_id=%(hashed_aarecord_id)s', update_data)
+                cursor.execute('COMMIT')
+
+                pbar.update(len(rows))
+                current_record_for_filter = rows[-1]
 
 
 #################################################################################################
