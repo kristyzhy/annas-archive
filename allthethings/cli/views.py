@@ -42,7 +42,7 @@ from sqlalchemy.orm import Session
 from pymysql.constants import CLIENT
 from config.settings import SLOW_DATA_IMPORTS
 
-from allthethings.page.views import get_aarecords_mysql
+from allthethings.page.views import get_aarecords_mysql, get_isbndb_dicts
 
 cli = Blueprint("cli", __name__, template_folder="templates")
 
@@ -97,7 +97,7 @@ def nonpersistent_dbreset_internal():
     Reflected.prepare(engine_multi)
     elastic_reset_aarecords_internal()
     elastic_build_aarecords_all_internal()
-    mysql_build_aarecords_codes_numbers()
+    mysql_build_aarecords_codes_numbers_internal()
 
 def query_yield_batches(conn, qry, pk_attr, maxrq):
     """specialized windowed query generator (using LIMIT/OFFSET)
@@ -351,6 +351,14 @@ def elastic_build_aarecords_job(aarecord_ids):
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
                 cursor.execute('SELECT 1')
                 cursor.fetchall()
+
+                # Filter out records that are filtered in get_isbndb_dicts, because there are some bad records there.
+                canonical_isbn13s = [aarecord_id[len('isbn:'):] for aarecord_id in aarecord_ids if aarecord_id.startswith('isbn:')]
+                bad_isbn13_aarecord_ids = set([f"isbn:{isbndb_dict['ean13']}" for isbndb_dict in get_isbndb_dicts(session, canonical_isbn13s) if len(isbndb_dict['isbndb']) == 0])
+                aarecord_ids = [aarecord_id for aarecord_id in aarecord_ids if aarecord_id not in bad_isbn13_aarecord_ids]
+                if len(aarecord_ids) == 0:
+                    return False
+
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job set up aa_records_all")
                 aarecords = get_aarecords_mysql(session, aarecord_ids)
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
@@ -857,6 +865,9 @@ def elastic_build_aarecords_main_internal():
 # ./run flask cli mysql_build_aarecords_codes_numbers
 @cli.cli.command('mysql_build_aarecords_codes_numbers')
 def mysql_build_aarecords_codes_numbers():
+    mysql_build_aarecords_codes_numbers_internal()
+
+def mysql_build_aarecords_codes_numbers_internal():
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)

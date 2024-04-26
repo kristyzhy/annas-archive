@@ -359,13 +359,13 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # "payment2cashapp": 20,
 
     "crypto": 0,
-    "payment2": 10,
+    "payment2": 20,
     # "cc":     0,
     "binance": 0,
     "paypal": 0,
     "payment2paypal": 0,
     "payment2cc": 0,
-    "payment2cashapp": 10,
+    "payment2cashapp": 20,
 
     "paypalreg": 0,
     "amazon": 0,

@@ -2764,6 +2764,13 @@ def get_duxiu_dicts(session, key, values):
                     duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = [int(aac_record['generated_file_metadata']['filesize'])] + duxiu_dict['aa_duxiu_derived']['filesize_multiple']
                     duxiu_dict['aa_duxiu_derived']['added_date_unified']['duxiu_filegen'] = datetime.datetime.strptime(aac_record['generated_file_aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat()
 
+                    # Only check for problems when we have generated_file_aacid, since that indicates this is the main file record.
+                    if len(aac_record['metadata']['record']['pdg_broken_files']) > 3:
+                        duxiu_dict['aa_duxiu_derived']['problems_infos'].append({
+                            'duxiu_problem_type': 'pdg_broken_files',
+                            'pdg_broken_files_len': len(aac_record['metadata']['record']['pdg_broken_files']),
+                        })
+
                 duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['aa_catalog_files'])
 
                 aa_derived_ini_values = aac_record['metadata']['record']['aa_derived_ini_values']
@@ -2812,12 +2819,6 @@ def get_duxiu_dicts(session, key, values):
                 duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'].append('#'.join(miaochuan_link_parts))
                 duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(int(aac_record['metadata']['record']['filesize']))
                 duxiu_dict['aa_duxiu_derived']['filepath_multiple'].append(aac_record['metadata']['record']['filename_decoded'])
-
-                if len(aac_record['metadata']['record']['pdg_broken_files']) > 3:
-                    duxiu_dict['aa_duxiu_derived']['problems_infos'].append({
-                        'duxiu_problem_type': 'pdg_broken_files',
-                        'pdg_broken_files_len': len(aac_record['metadata']['record']['pdg_broken_files']),
-                    })
 
                 if 'aa_derived_duxiu_ssid' in aac_record['metadata']['record']:
                     duxiu_dict['aa_duxiu_derived']['duxiu_ssid_multiple'].append(aac_record['metadata']['record']['aa_derived_duxiu_ssid'])
