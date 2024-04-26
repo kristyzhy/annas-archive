@@ -266,13 +266,14 @@ def extensions(app):
         }
         tagline_newnew2a = gettext('layout.index.header.tagline_newnew2a', **new_stats)
         tagline_newnew2b = gettext('layout.index.header.tagline_newnew2b', **new_stats)
-        new_header_tagline = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats)])
+        tagline_newnew4 = 'All our code and data are completely open source.' # TODO:TRANSLATE
+        new_header_tagline = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats), tagline_newnew4])
         g.header_tagline = new_header_tagline
         g.header_tagline_mid = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats)])
         g.header_tagline_short = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b])
         if str(get_locale()) != 'en':
             with force_locale('en'):
-                new_header_tagline_english = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats)])
+                new_header_tagline_english = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats), tagline_newnew4])
             if new_header_tagline == new_header_tagline_english:
                 g.header_tagline = gettext('layout.index.header.tagline', **g.header_stats)
                 g.header_tagline_mid = gettext('layout.index.header.tagline', **g.header_stats)
