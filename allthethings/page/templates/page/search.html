@@ -233,11 +233,13 @@
             {% if search_dict.search_index_short == '' %}
               <p class="mb-4">
                 {{ gettext('page.search.results.search_downloads', count=g.header_stats.total_without_journals, a_preserve=(' href="/faq#what" ' | safe)) }}
+                <!-- TODO:TRANSLATE -->
+                In fact, anyone can help preserve these files by seeding our <a href="/torrents">unified list of torrents</a>.
               </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
-              <p class="mb-4">
+              <p class="mb-4 text-sm">
                 {{ gettext('page.search.results.other_shadow_libs', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
                 {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
               </p>
@@ -273,14 +275,17 @@
             {% elif search_dict.search_index_short == 'meta' %}
               <p class="mb-4">
                 {{ gettext('page.search.results.search_metadata', a_request=(' href="/faq#request" ' | safe)) }}
-              </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }}
-              </p>
-              <p class="mb-4">
                 {{ gettext('page.search.results.metadata_no_merging') }}
               </p>
-              <p class="mb-4">
+
+              <p class="mb-4 text-sm">
+                <!-- TODO:TRANSLATE -->
+                Our inspiration for collecting metadata is Aaron Swartz’ goal of “one web page for every book ever published”, for which he created <a href="https://en.wikipedia.org/wiki/Open_Library">Open Library</a>. That project has done well, but our unique position allows us to get metadata that they can’t. Another inspiration was our desire to know <a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">how many books there are in the world</a>, so we can calculate how many books we still have left to save.
+              </p>
+
+              <p class="mb-4 text-sm">
                 {{ gettext('page.search.results.metadata_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/Wikipedia:Book_sources" ' | safe)) }}
               </p>
 

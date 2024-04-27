@@ -34,16 +34,20 @@
       <h2 class="mt-4 mb-1 text-3xl font-bold">Torrents</h2>
 
       <p class="mb-4">
-        This torrent list is the “ultimate unified list” of releases by Anna’s Archive, Library Genesis, Sci-Hub, and others. By seeding these torrents, you help preserve humanity’s knowledge and culture.
-      </p>
-
-      <p class="mb-4 font-bold">
-        These torrents represent the vast majority of human knowledge that can be mirrored in bulk.
+        This torrent list is the “ultimate unified list” of releases by Anna’s Archive, Library Genesis, Sci-Hub, and others. By seeding these torrents, you help preserve humanity’s knowledge and culture. These torrents represent the vast majority of human knowledge that can be mirrored in bulk.
       </p>
 
       <p class="mb-4">
         These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://annas-software.org/AnnaArchivist/annas-archive">source code</a>. We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
       </p>
+
+      <p class="mb-4">
+        Currently <strong>{{ ((torrents_data.seeder_sizes[2]/(1+torrents_data.seeder_sizes[0]+torrents_data.seeder_sizes[1]+torrents_data.seeder_sizes[2]))*100 | round) }}%</strong> of the total <strong>{{ torrents_data.seeder_size_total_string }}</strong> is copied in more than 10 locations. We need your help to get to 100%!
+      </p>
+
+      <div class="mb-4 bg-yellow-100 p-4 rounded">
+        <em>“The lost cannot be recovered; but let us save what remains: not by vaults and locks which fence them from the public eye and use, in consigning them to the waste of time, but by such a multiplication of copies, as shall place them beyond the reach of accident.”</em><div class="text-sm">— Thomas Jefferson, 1791</div>
+      </div>
 
       <div class="mt-8 group"><span class="text-xl font-bold" id="guide">Guide</span> <a href="#guide" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 

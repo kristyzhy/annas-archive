@@ -613,6 +613,8 @@ def get_torrents_data():
             },
             'group_size_strings': group_size_strings,
             'seeder_size_strings': seeder_size_strings,
+            'seeder_sizes': seeder_sizes,
+            'seeder_size_total_string': format_filesize(sum(seeder_sizes.values())),
         }
 
 @page.get("/datasets")
