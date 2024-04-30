@@ -380,7 +380,8 @@ def get_stats_data():
 
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT metadata FROM annas_archive_meta__aacid__zlib3_records ORDER BY primary_id DESC, aacid DESC LIMIT 1')
+        # WARNING! Sorting by primary ID does a lexical sort, not numerical. Sorting by zlib3_records.aacid gets records from refreshes. zlib3_files.aacid is most reliable.
+        cursor.execute('SELECT annas_archive_meta__aacid__zlib3_records.metadata AS metadata FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) ORDER BY annas_archive_meta__aacid__zlib3_files.aacid DESC LIMIT 1')
         zlib3_record = cursor.fetchone()
         zlib_date = orjson.loads(zlib3_record['metadata'])['date_modified'] if zlib3_record is not None else ''
 
@@ -809,7 +810,7 @@ def torrents_group_page(group):
 @page.get("/codes")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def codes_page():
-    return ""
+    # return ""
 
     with engine.connect() as connection:
         prefix = request.args.get('prefix') or ''
@@ -4641,21 +4642,23 @@ def md5_slow_download(md5_input, path_index, domain_index):
             hourly_download_count_from_ip = ((cursor.fetchone() or {}).get('count') or 0)
             # minimum = 10
             # maximum = 100
-            minimum = 10
+            minimum = 100
             maximum = 300
             targeted_seconds_multiplier = 1.0
             warning = False
             if hourly_download_count_from_ip >= 400:
                 targeted_seconds_multiplier = 3.0
-                minimum = 1
+                minimum = 5
                 maximum = 30
                 warning = True
             elif hourly_download_count_from_ip >= 100:
                 targeted_seconds_multiplier = 2.0
+                minimum = 20
                 maximum = 100
                 warning = True
             elif hourly_download_count_from_ip >= 30:
                 targeted_seconds_multiplier = 1.5
+                minimum = 20
                 maximum = 150
                 warning = False
 
@@ -5144,6 +5147,8 @@ def search_page():
     search_dict['search_desc'] = search_desc
     search_dict['specific_search_fields'] = specific_search_fields
     search_dict['specific_search_fields_mapping'] = specific_search_fields_mapping
+
+    g.hide_search_bar = True
 
     r = make_response((render_template(
             "page/search.html",

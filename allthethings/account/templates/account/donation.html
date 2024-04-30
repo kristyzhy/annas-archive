@@ -219,16 +219,16 @@
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">2</span>Transfer the Bitcoin to our address</p>
 
         <p class="mb-4">
-          Click the “Send bitcoin” button to make a “withdrawal”. Switch from dollars to BTC by pressing the <span class="icon-[cil--transfer] align-middle"></span> icon. Enter the BTC amount below and click “Send”.
+          Click the “Send bitcoin” button to make a “withdrawal”. Switch from dollars to BTC by pressing the <span class="icon-[cil--transfer] align-middle"></span> icon. Enter the BTC amount below and click “Send”. See <a href="https://youtu.be/YldIAkST7fw?t=63">this video</a> if you get stuck.
         </p>
 
         <p class="mb-4">
           {{ gettext('page.donation.transfer_amount_to', amount=((donation_pay_amount + ' ' + (donation_dict.json.payment2_request.pay_currency | upper) + ' ' + copy_button(donation_pay_amount)) | safe), account=((donation_dict.json.payment2_request.pay_address + ' ' + copy_button(donation_dict.json.payment2_request.pay_address)) | safe)) }}
         </p>
 
-        <p class="mb-4">
+        <!-- <p class="mb-4">
           For small donations (under $25) you might need to use Rush or Priority.
-        </p>
+        </p> -->
 
         <p class="mb-4">
           <strong>{{ gettext('page.donation.status_header') }}</strong> {% if donation_confirming %}{{ gettext('page.donation.waiting_for_confirmation_refresh') }}{% else %}{{ gettext('page.donation.waiting_for_transfer_refresh') }}{% endif %}<br>

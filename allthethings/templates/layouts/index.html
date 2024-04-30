@@ -3,6 +3,9 @@
     <meta charset="utf-8">
     <title>{% if self.title() %}{% block title %}{% endblock %} - {% endif %}{{ gettext('layout.index.title') }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    {% if g.domain_lang_code in ['ar', 'fa', 'he', 'ur'] %}
+      <!-- <style>body { direction: rtl; } </style> -->
+    {% endif %}
     <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
     {% if self.meta_tags() %}
       {% block meta_tags %}{% endblock %}
@@ -430,9 +433,11 @@
               </div>
               <a href="/donate" class="{{ 'header-link-active' if header_active == 'donate' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.donate') }}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.donate') }}</span></a>
             </div>
-            <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
-              <input class="js-slash-focus rounded" name="q" type="search" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" title="Focus: '/' Scroll search results: 'j', 'k'">
-            </form>
+            {% if not g.hide_search_bar %}
+              <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
+                <input class="js-slash-focus rounded" name="q" type="search" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" title="Focus: '/' Scroll search results: 'j', 'k'">
+              </form>
+            {% endif %}
             <div class="header-links header-links-right relative z-10 ml-auto items-center">
               <!-- <div class="mr-1 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('layout.index.header.nav.beta') }}</div> -->
               <a href="#" aria-expanded="false" onclick="topMenuToggle(event, 'js-top-menu-login')" class="header-link-first {{ 'header-link-active' if header_active.startswith('account') }} [html.aa-logged-in_&]:hidden">

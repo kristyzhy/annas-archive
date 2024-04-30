@@ -42,7 +42,7 @@
       </p>
 
       <p class="mb-4">
-        Currently <strong>{{ ((torrents_data.seeder_sizes[2]/(1+torrents_data.seeder_sizes[0]+torrents_data.seeder_sizes[1]+torrents_data.seeder_sizes[2]))*100 | round) }}%</strong> of the total <strong>{{ torrents_data.seeder_size_total_string }}</strong> is copied in more than 10 locations. We need your help to get to 100%!
+        Currently <strong>{{ (((torrents_data.seeder_sizes[1]+torrents_data.seeder_sizes[2])/(1+torrents_data.seeder_sizes[0]+torrents_data.seeder_sizes[1]+torrents_data.seeder_sizes[2]))*100) | round | int }}%</strong> of the total <strong>{{ torrents_data.seeder_size_total_string }}</strong> is copied in at least 4 locations, and only {{ (((torrents_data.seeder_sizes[2])/(1+torrents_data.seeder_sizes[0]+torrents_data.seeder_sizes[1]+torrents_data.seeder_sizes[2]))*100) | round | int }}% in more than 10 locations. We need your help to get to 100%!
       </p>
 
       <div class="mb-4 bg-yellow-100 p-4 rounded">
@@ -110,15 +110,15 @@
         List of heroes who are committed to long term seeding of all or large parts of this torrent list. These people help preserve humanity’s knowledge and culture, and we are deeply grateful for that. <a href="/contact">Contact us</a> if you wish to be added. We’ll give you Amazing Archivist-level membership if you seed 100TB+. IP addresses are required to supply so we can verify if you’re still seeding.
       </p> -->
 
-      <table>
+      <!-- <table>
         <tr><th class="text-left pr-4">Username</th><th class="text-left pr-4">Contact</th><th class="text-left pr-4">IPs</th><th class="text-left pr-4">Notes</th></tr>
         <tr><td class="pr-4"><a href="/profile/Anna000">AnnaArchivist #Anna000</a></td><td class="pr-4"><a href="/contact">Contact</a></td><td class="pr-4">95.214.235.224</td><td class="pr-4">Anna’s Archive is committed to seeding all the torrents in this list for as long as possible.</td></tr>
-      </table>
+      </table> -->
 
       <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list">Generate Torrent List</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
       <p class="mb-4">
-        Generate a list of torrents, sorted by <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/157">seeders + 0.1*leechers + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply cut off the list when the max TB is reached).
+        Generate a list of torrents, sorted by <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/157">(seeders + 0.1*leechers)*fraction-of-torrent-size-compared-to-average-size + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply keep adding torrents until max TB is reached).
       </p>
 
       <form action="/dyn/generate_torrents" class="flex items-center mb-4">

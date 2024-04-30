@@ -862,6 +862,12 @@ def elastic_build_aarecords_main_internal():
         print(f"Done with main!")
 
 #################################################################################################
+# Fill aarecords_codes with numbers based off ROW_NUMBER and DENSE_RANK MySQL functions, but
+# precomupted because they're expensive.
+#
+# TODO: Make the aarecords_codes table way more efficient. E.g. by not having indexes as all, and
+# only having (id_prefix,code,id) main columns, and have that also be the primary key? Or perhaps just (code,id)?
+#
 # ./run flask cli mysql_build_aarecords_codes_numbers
 @cli.cli.command('mysql_build_aarecords_codes_numbers')
 def mysql_build_aarecords_codes_numbers():
@@ -876,7 +882,9 @@ def mysql_build_aarecords_codes_numbers_internal():
         print(f"Found {total=} codes")
 
         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-            current_record_for_filter = {'code':'','hashed_code':b'','hashed_aarecord_id':b''}
+            # TODO
+            # current_record_for_filter = {'code':'','hashed_code':b'','hashed_aarecord_id':b''}
+            current_record_for_filter = {'code':''}
             row_number_order_by_code = 0
             dense_rank_order_by_code = 0
             row_number_partition_by_aarecord_id_prefix_order_by_code = collections.defaultdict(int)
@@ -885,13 +893,28 @@ def mysql_build_aarecords_codes_numbers_internal():
             last_code_by_aarecord_id_prefix = collections.defaultdict(str)
             while True:
                 connection.connection.ping(reconnect=True)
-                cursor.execute('SELECT code, aarecord_id_prefix, hashed_code, hashed_aarecord_id FROM aarecords_codes WHERE (code, hashed_code, hashed_aarecord_id) > (%(from_code)s, %(from_hashed_code)s, %(from_hashed_aarecord_id)s) ORDER BY code, hashed_code, hashed_aarecord_id LIMIT %(BATCH_SIZE)s', { "from_code": current_record_for_filter['code'], "from_hashed_code": current_record_for_filter['hashed_code'], "from_hashed_aarecord_id": current_record_for_filter['hashed_aarecord_id'], "BATCH_SIZE": BATCH_SIZE })
+                # TODO
+                # cursor.execute('SELECT code, aarecord_id_prefix, hashed_code, hashed_aarecord_id FROM aarecords_codes WHERE (code, hashed_code, hashed_aarecord_id) > (%(from_code)s, %(from_hashed_code)s, %(from_hashed_aarecord_id)s) ORDER BY code, hashed_code, hashed_aarecord_id LIMIT %(BATCH_SIZE)s', { "from_code": current_record_for_filter['code'], "from_hashed_code": current_record_for_filter['hashed_code'], "from_hashed_aarecord_id": current_record_for_filter['hashed_aarecord_id'], "BATCH_SIZE": BATCH_SIZE })
+                cursor.execute('SELECT code, aarecord_id_prefix, hashed_code, hashed_aarecord_id FROM aarecords_codes WHERE code > %(from_code)s ORDER BY code LIMIT %(BATCH_SIZE)s', { "from_code": current_record_for_filter['code'], "BATCH_SIZE": BATCH_SIZE })
                 rows = list(cursor.fetchall())
                 if len(rows) == 0:
                     break
 
+                at_the_end = False
+                # TODO fix this by having a proper index or primary key that allows us to do a proper inequality.
+                if rows[0]['code'] == rows[-1]['code']:
+                    if len(rows) == BATCH_SIZE:
+                        raise Exception(f"We currently don't support having all rows have the same code {code=} (too small BATCH_SIZE {BATCH_SIZE=}).")
+                    else:
+                        at_the_end = True
+
                 update_data = []
                 for row in rows:
+                    # TODO fix this by having a proper index or primary key that allows us to do a proper inequality.
+                    if (not at_the_end) and (row['code'] == rows[-1]['code']):
+                        continue
+                    current_record_for_filter = row
+
                     row_number_order_by_code += 1
                     if row['code'] != last_code:
                         dense_rank_order_by_code += 1
@@ -912,8 +935,9 @@ def mysql_build_aarecords_codes_numbers_internal():
                 cursor.executemany('UPDATE aarecords_codes SET row_number_order_by_code=%(row_number_order_by_code)s, dense_rank_order_by_code=%(dense_rank_order_by_code)s, row_number_partition_by_aarecord_id_prefix_order_by_code=%(row_number_partition_by_aarecord_id_prefix_order_by_code)s, dense_rank_partition_by_aarecord_id_prefix_order_by_code=%(dense_rank_partition_by_aarecord_id_prefix_order_by_code)s WHERE hashed_code=%(hashed_code)s AND hashed_aarecord_id=%(hashed_aarecord_id)s', update_data)
                 cursor.execute('COMMIT')
 
-                pbar.update(len(rows))
-                current_record_for_filter = rows[-1]
+                pbar.update(len(update_data))
+                # TODO
+                # current_record_for_filter = rows[-1]
 
 
 #################################################################################################

@@ -113,7 +113,6 @@ def torrents_json_page():
 @allthethings.utils.no_cache()
 def generate_torrents_page():
     torrents_data = get_torrents_data()
-    output_rows = []
     max_tb = 10000000
     try:
         max_tb = float(request.args.get('max_tb'))
@@ -123,20 +122,34 @@ def generate_torrents_page():
         max_tb = 10000000
     max_bytes = 1000000000000 * max_tb
 
+    potential_output_rows = []
+    total_data_size = 0
     for top_level_group_name, small_files_groups in torrents_data['small_file_dicts_grouped'].items():
         for group_name, small_files in small_files_groups.items():
             for small_file in small_files:
                 output_row = make_torrent_json(top_level_group_name, group_name, small_file)
                 if not output_row['embargo'] and not output_row['obsolete'] and output_row['seeders'] > 0:
-                    output_rows.append({ **output_row, "random_increment": random.random()*2.0 })
-    output_rows.sort(key=lambda output_row: output_row['seeders'] + (0.1 * output_row['leechers']) + output_row['random_increment'])
+                    potential_output_rows.append({ **output_row, "random_increment": random.random()*2.0 })
+                    total_data_size += output_row['data_size']
+
+    avg_data_size = 1
+    if len(potential_output_rows) > 0:
+        avg_data_size = total_data_size/len(potential_output_rows)
+    output_rows = []
+    for output_row in potential_output_rows:
+        # Note, this is intentionally inverted, because larger torrents should be proportionally sorted higher in ascending order! Think of it as an adjustment for "seeders per MB".
+        data_size_multiplier = avg_data_size/output_row['data_size']
+        total_sort_score = ((output_row['seeders'] + (0.1 * output_row['leechers'])) * data_size_multiplier) + output_row['random_increment']
+        output_rows.append({ **output_row, "data_size_multiplier": data_size_multiplier, "total_sort_score": total_sort_score })
+
+    output_rows.sort(key=lambda output_row: output_row['total_sort_score'])
 
     total_bytes = 0
     filtered_output_rows = []
     for output_row in output_rows:
+        if (total_bytes + output_row['data_size']) >= max_bytes:
+            continue
         total_bytes += output_row['data_size']
-        if total_bytes >= max_bytes:
-            break
         filtered_output_rows.append(output_row)
 
     output_format = (request.args.get('format') or 'json')
