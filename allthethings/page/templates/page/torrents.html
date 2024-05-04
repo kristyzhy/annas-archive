@@ -20,7 +20,7 @@
 
 {% extends "layouts/index.html" %}
 
-{% block title %}Torrents{% endblock %}
+{% block title %}Torrents {% if detailview %}▶ {{ ((torrents_data.small_file_dicts_grouped.values() | list)[0].keys() | list)[0] }}{% endif %}{% endblock %}
 
 {% block body %}
   {% if gettext('common.english_only') != 'Text below continues in English.' %}

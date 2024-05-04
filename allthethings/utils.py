@@ -383,7 +383,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
 }
 MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
-    "1": 0, "3": 5, "6": 10, "12": 15, "24": 25,
+    "1": 0, "3": 2, "6": 5, "12": 10, "24": 15,
 }
 MEMBERSHIP_DOWNLOADS_PER_DAY = {
     "1": 0, "2": 20, "3": 50, "4": 200, "5": 1000,
@@ -419,7 +419,9 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "ccexp": 99999999,
 }
 MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
-    # "payment1":  30000,
+    "payment1":  13000,
+    "payment1_alipay":  100000,
+    "payment1_wechat":  100000,
     "payment1b": 100000,
     "payment1bb": 100000,
     "amazon": 10000,
@@ -521,7 +523,7 @@ def membership_costs_data(locale):
         cost_cents_native_currency = cost_cents_usd
         if method in ['alipay', 'payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb']:
             native_currency_code = 'CNY'
-            cost_cents_native_currency = math.floor(cost_cents_usd * 7 / 100) * 100
+            cost_cents_native_currency = math.floor(cost_cents_usd * 7.25 / 100) * 100
         # elif method == 'bmc':
         #     native_currency_code = 'COFFEE'
         #     cost_cents_native_currency = round(cost_cents_usd / 500)
@@ -539,7 +541,7 @@ def membership_costs_data(locale):
             elif cost_cents_usd == 5100:
                 cost_cents_usd = 4500
             elif cost_cents_usd == 5400:
-                cost_cents_usd = 5000
+                cost_cents_usd = 5500
             elif cost_cents_usd == 8550:
                 cost_cents_usd = 7500
             elif cost_cents_usd == 9000:
