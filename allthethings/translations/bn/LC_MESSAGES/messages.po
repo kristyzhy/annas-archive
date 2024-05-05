@@ -46,6 +46,10 @@ msgstr "⭐️&nbsp;আমরা %(libraries)s প্রতিলিপি ক�
 msgid "layout.index.header.tagline_newnew2b"
 msgstr "আমরা %(scraped)s সংগ্রহ ও মুক্ত উৎস করি।"
 
+#: allthethings/app.py:269
+msgid "layout.index.header.tagline_open_source"
+msgstr ""
+
 #: allthethings/app.py:270 allthethings/app.py:272 allthethings/app.py:273
 #: allthethings/app.py:276
 msgid "layout.index.header.tagline_new1"
@@ -285,300 +289,315 @@ msgid "page.donate.header.large_donations"
 msgstr "৫ হাজার ডলারের অধিক অনুদান দিতে আমাদের সাথে সরাসরি যোগাযোগ করুন এই ঠিকানায় %(email)s।"
 
 #: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/index.html:37
+#: allthethings/account/templates/account/index.html:36
 #: allthethings/page/templates/page/contact.html:3
 #: allthethings/page/templates/page/contact.html:7
-#: allthethings/page/templates/page/faq.html:85
-#: allthethings/page/templates/page/faq.html:108
-#: allthethings/page/templates/page/faq.html:116
-#: allthethings/page/templates/page/faq.html:137
-#: allthethings/page/templates/page/home.html:45
-#: allthethings/page/templates/page/home.html:50
-#: allthethings/page/templates/page/home.html:58
-#: allthethings/page/templates/page/search.html:243
+#: allthethings/page/templates/page/faq.html:84
+#: allthethings/page/templates/page/faq.html:107
+#: allthethings/page/templates/page/faq.html:115
+#: allthethings/page/templates/page/faq.html:136
+#: allthethings/page/templates/page/home.html:46
+#: allthethings/page/templates/page/home.html:51
+#: allthethings/page/templates/page/home.html:59
+#: allthethings/page/templates/page/search.html:242
 #: allthethings/page/templates/page/search.html:319
 #: allthethings/templates/layouts/index.html:203
 #: allthethings/templates/layouts/index.html:506
 msgid "page.contact.title"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:123
+#: allthethings/account/templates/account/donate.html:116
+msgid "page.donate.without_membership"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:122
 #, fuzzy
 msgid "page.donate.payment.intro"
 msgstr "কিভাবে পেমেন্ট করতে চান তা নির্ধারণ করুন। ক্রিপ্টোভিত্তিক অর্থ দিলে আমরা একটু ছাড় প্রদান করি %(bitcoin_icon)s, কারণ এতে আমাদের কম ফি দেওয়া লাগে।"
 
-#: allthethings/account/templates/account/donate.html:124
+#: allthethings/account/templates/account/donate.html:123
 msgid "page.donate.payment.intro2"
 msgstr "কিভাবে পেমেন্ট করতে চান তা নির্ধারণ করুন। বর্তমানে আমরা শুধুই ক্রিপ্টোভিত্তিক অর্থ গ্রহণ করি %(bitcoin_icon)s, কারণ অন্যান্য সুপ্রচলিত অর্থ বিনিময়ের সেবাগুলো আমাদের সাথে কাজ করতে রাজি নয়।"
 
-#: allthethings/account/templates/account/donate.html:126
+#: allthethings/account/templates/account/donate.html:125
 msgid "page.donate.payment.select_method"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:130
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:129
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.payment.buttons.amazon"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:131
-#: allthethings/account/templates/account/donate.html:141
-#: allthethings/account/templates/account/donate.html:292
+#: allthethings/account/templates/account/donate.html:130
+#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:291
 msgid "page.donate.payment.buttons.crypto"
 msgstr "ক্রিপ্টো %(bitcoin_icon)s"
 
+#: allthethings/account/templates/account/donate.html:130
 #: allthethings/account/templates/account/donate.html:131
 #: allthethings/account/templates/account/donate.html:132
-#: allthethings/account/templates/account/donate.html:133
+#: allthethings/account/templates/account/donate.html:140
 #: allthethings/account/templates/account/donate.html:141
-#: allthethings/account/templates/account/donate.html:142
+#: allthethings/account/templates/account/donate.html:145
 #: allthethings/account/templates/account/donate.html:146
-#: allthethings/account/templates/account/donate.html:147
-#: allthethings/account/templates/account/donate.html:150
-#: allthethings/account/templates/account/donate.html:153
+#: allthethings/account/templates/account/donate.html:149
+#: allthethings/account/templates/account/donate.html:152
+#: allthethings/account/templates/account/donate.html:310
 #: allthethings/account/templates/account/donate.html:311
 #: allthethings/account/templates/account/donate.html:312
 #: allthethings/account/templates/account/donate.html:313
-#: allthethings/account/templates/account/donate.html:314
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:133
+#: allthethings/account/templates/account/donate.html:132
 msgid "page.donate.payment.buttons.paypal"
 msgstr "পেপাল (US) %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:139
-#: allthethings/account/templates/account/donate.html:157
+#: allthethings/account/templates/account/donate.html:138
+#: allthethings/account/templates/account/donate.html:156
 msgid "page.donate.payment.buttons.alipay"
 msgstr "আলি'পে"
 
-#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:139
 msgid "page.donate.payment.buttons.pix"
 msgstr "পিক্স (ব্রাজিল)"
 
-#: allthethings/account/templates/account/donate.html:146
+#: allthethings/account/templates/account/donate.html:145
 msgid "page.donate.payment.buttons.paypal_plain"
 msgstr "পেপাল"
 
-#: allthethings/account/templates/account/donate.html:147
+#: allthethings/account/templates/account/donate.html:146
 msgid "page.donate.payment.buttons.cashapp"
 msgstr "আর্থিক অ্যাপ"
 
+#: allthethings/account/templates/account/donate.html:147
 #: allthethings/account/templates/account/donate.html:148
-#: allthethings/account/templates/account/donate.html:149
 msgid "page.donate.payment.buttons.credit_debit"
 msgstr "ক্রেডিট/ডেবিট কার্ড"
 
-#: allthethings/account/templates/account/donate.html:150
+#: allthethings/account/templates/account/donate.html:149
 msgid "page.donate.payment.buttons.credit_debit2"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:158
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:157
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.payment.buttons.wechat"
 msgstr "উইচ্যাট"
 
-#: allthethings/account/templates/account/donate.html:159
-#: allthethings/account/templates/account/donate.html:168
-#: allthethings/account/templates/account/donate.html:176
-#: allthethings/account/templates/account/donate.html:183
+#: allthethings/account/templates/account/donate.html:158
+#: allthethings/account/templates/account/donate.html:167
+#: allthethings/account/templates/account/donate.html:175
+#: allthethings/account/templates/account/donate.html:182
 msgid "page.donate.payment.buttons.alipay_wechat"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:183
+#: allthethings/account/templates/account/donate.html:182
 msgid "page.donate.payment.buttons.temporarily_unavailable"
 msgstr "(সাময়িকভাবে অনুপলভ্য)"
 
-#: allthethings/account/templates/account/donate.html:190
+#: allthethings/account/templates/account/donate.html:189
 #, fuzzy
 msgid "page.donate.payment.desc.crypto"
 msgstr "ক্রিপ্টো পদ্ধতিতে আপনি আমাদের BTC, ETH, XMR, ও SOL এর মাধ্যমে অনুদান দিতে পারেন। এই অপশনটি ব্যবহার করুন যদি আপনি ইতিমধ্যেই ক্রিপ্টোকারেন্সি সম্পর্কে যথেষ্ট অবগত থাকেন।"
 
-#: allthethings/account/templates/account/donate.html:196
+#: allthethings/account/templates/account/donate.html:195
 msgid "page.donate.payment.desc.crypto2"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:200
-#: allthethings/account/templates/account/donate.html:292
+#: allthethings/account/templates/account/donate.html:199
+#: allthethings/account/templates/account/donate.html:291
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:206
+#: allthethings/account/templates/account/donate.html:205
 msgid "page.donate.payment.desc.paypal"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:207
+#: allthethings/account/templates/account/donate.html:206
 msgid "page.donate.payment.desc.paypal_short"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:213
+#: allthethings/account/templates/account/donate.html:212
 msgid "page.donate.payment.desc.cashapp"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:213
+#: allthethings/account/templates/account/donate.html:212
 msgid "page.donate.payment.desc.cashapp_easy"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:215
 msgid "page.donate.payment.desc.cashapp_fee"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:276
+#: allthethings/account/templates/account/donate.html:221
+#: allthethings/account/templates/account/donate.html:275
 msgid "page.donate.payment.desc.credit_debit"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:223
+#: allthethings/account/templates/account/donate.html:222
 msgid "page.donate.payment.desc.google_apple"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:224
+#: allthethings/account/templates/account/donate.html:223
 msgid "page.donate.payment.desc.elimate_discount"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:225
+#: allthethings/account/templates/account/donate.html:224
 msgid "page.donate.payment.desc.longer_subs"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:247
-#: allthethings/account/templates/account/donate.html:253
+#: allthethings/account/templates/account/donate.html:246
+#: allthethings/account/templates/account/donate.html:252
 msgid "page.donate.payment.desc.alipay_wechat"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:264
 msgid "page.donate.payment.desc.amazon"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:266
+#: allthethings/account/templates/account/donate.html:265
 msgid "page.donate.payment.desc.amazon_round"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:270
+#: allthethings/account/templates/account/donate.html:269
 #: allthethings/account/templates/account/donation.html:325
 msgid "page.donate.payment.desc.amazon_com"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.ccexp.amazon_com"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.ccexp.wechat"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:292
+#: allthethings/account/templates/account/donate.html:291
 msgid "page.donate.ccexp.crypto"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:305
+#: allthethings/account/templates/account/donate.html:304
 msgid "page.donate.duration.intro"
 msgstr "আপনি কতদিন সাবস্ক্রাইব করে থাকতে ইচ্ছুক তা নির্বাচন করুন।"
 
-#: allthethings/account/templates/account/donate.html:310
+#: allthethings/account/templates/account/donate.html:309
 msgid "page.donate.duration.1_mo"
 msgstr "১ মাস"
 
-#: allthethings/account/templates/account/donate.html:311
+#: allthethings/account/templates/account/donate.html:310
 msgid "page.donate.duration.3_mo"
 msgstr "৩ মাস"
 
-#: allthethings/account/templates/account/donate.html:312
+#: allthethings/account/templates/account/donate.html:311
 msgid "page.donate.duration.6_mo"
 msgstr "৬ মাস"
 
-#: allthethings/account/templates/account/donate.html:313
+#: allthethings/account/templates/account/donate.html:312
 msgid "page.donate.duration.12_mo"
 msgstr "১২ মাস"
 
-#: allthethings/account/templates/account/donate.html:314
+#: allthethings/account/templates/account/donate.html:313
 msgid "page.donate.duration.24_mo"
 msgstr "২৪ মাস"
 
-#: allthethings/account/templates/account/donate.html:317
+#: allthethings/account/templates/account/donate.html:316
 #, fuzzy
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>মূল্যছাড়ের <span %(span_discount)s></span> পরে</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:323
+#: allthethings/account/templates/account/donate.html:322
 msgid "page.donate.payment.minimum_method"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:324
+#: allthethings/account/templates/account/donate.html:323
 msgid "page.donate.payment.maximum_method"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:329
+#: allthethings/account/templates/account/donate.html:328
 msgid "page.donate.login2"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:336
+#: allthethings/account/templates/account/donate.html:335
 msgid "page.donate.payment.crypto_select"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:371
+#: allthethings/account/templates/account/donate.html:340
+msgid "page.donate.currency_lowest_minimum"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:354
+#: allthethings/account/templates/account/donate.html:355
+#: allthethings/account/templates/account/donate.html:359
+#: allthethings/account/templates/account/donate.html:361
+msgid "page.donate.currency_warning_high_minimum"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:369
 msgid "page.donate.submit.confirm"
 msgstr "অনুদানটি নিশ্চিত করতে অনুদান বাটনে ক্লিক করুন।"
 
-#: allthethings/account/templates/account/donate.html:379
+#: allthethings/account/templates/account/donate.html:377
 msgid "page.donate.submit.button"
 msgstr "অনুদান প্রদান করুন <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:384
+#: allthethings/account/templates/account/donate.html:382
 msgid "page.donate.submit.cancel_note"
 msgstr "চেকআউটের সময়ও আপনার অনুদান প্রদান প্রক্রিয়াটি বাতিল করার ক্ষমতা রয়েছে।"
 
-#: allthethings/account/templates/account/donate.html:388
+#: allthethings/account/templates/account/donate.html:386
 msgid "page.donate.submit.success"
 msgstr "✅ আপনাকে অনুদান পাতায় ফিরিয়ে নেওয়া হচ্ছে…"
 
-#: allthethings/account/templates/account/donate.html:389
+#: allthethings/account/templates/account/donate.html:387
 msgid "page.donate.submit.failure"
 msgstr "❌ কিছু একটা সমস্যা হয়েছে। অনুগ্রহ করে পাতাটি রিলোড করুন এবং আবারও চেষ্টা করুন।"
 
-#: allthethings/account/templates/account/donate.html:449
+#: allthethings/account/templates/account/donate.html:447
 msgid "page.donate.duration.summary.discount"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:450
+#: allthethings/account/templates/account/donate.html:448
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:453
+#: allthethings/account/templates/account/donate.html:451
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:454
+#: allthethings/account/templates/account/donate.html:452
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:455
+#: allthethings/account/templates/account/donate.html:453
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:456
+#: allthethings/account/templates/account/donate.html:454
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:457
+#: allthethings/account/templates/account/donate.html:455
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:461
+#: allthethings/account/templates/account/donate.html:459
 msgid "page.donate.submit.button.label.1_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:462
+#: allthethings/account/templates/account/donate.html:460
 msgid "page.donate.submit.button.label.3_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:463
+#: allthethings/account/templates/account/donate.html:461
 msgid "page.donate.submit.button.label.6_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:464
+#: allthethings/account/templates/account/donate.html:462
 msgid "page.donate.submit.button.label.12_mo"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:465
+#: allthethings/account/templates/account/donate.html:463
 msgid "page.donate.submit.button.label.24_mo"
 msgstr ""
 
@@ -1017,7 +1036,7 @@ msgid "page.account.logged_in.title"
 msgstr ""
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:56
+#: allthethings/account/templates/account/index.html:55
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr ""
@@ -1030,125 +1049,133 @@ msgstr ""
 msgid "page.account.logged_in.public_profile"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:26
+#: allthethings/account/templates/account/index.html:22
+msgid "page.account.logged_in.secret_key_dont_share"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:22
+msgid "page.account.logged_in.secret_key_show"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_none"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:28
 msgid "page.account.logged_in.membership_has_some"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:31
+#: allthethings/account/templates/account/index.html:30
 msgid "page.account.logged_in.membership_fast_downloads_used"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:31
+#: allthethings/account/templates/account/index.html:30
 msgid "page.account.logged_in.which_downloads"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:33
-#: allthethings/account/templates/account/index.html:35
+#: allthethings/account/templates/account/index.html:32
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.telegram_group_wrapper"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:33
+#: allthethings/account/templates/account/index.html:32
 msgid "page.account.logged_in.telegram_group_join"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:35
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.telegram_group_upgrade"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:37
+#: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.membership_upgrade"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:38
+#: allthethings/account/templates/account/index.html:37
 msgid "page.account.logged_in.membership_multiple"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:42
+#: allthethings/account/templates/account/index.html:41
 #: allthethings/templates/layouts/index.html:458
 #: allthethings/templates/layouts/index.html:465
 #: allthethings/templates/layouts/index.html:474
 msgid "layout.index.header.nav.public_profile"
 msgstr "প্রকাশ্য প্রোফাইল"
 
-#: allthethings/account/templates/account/index.html:43
+#: allthethings/account/templates/account/index.html:42
 #: allthethings/templates/layouts/index.html:459
 #: allthethings/templates/layouts/index.html:466
 #: allthethings/templates/layouts/index.html:475
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "ডাউনলোডকৃত ফাইলসমূহ"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:43
 #: allthethings/templates/layouts/index.html:460
 #: allthethings/templates/layouts/index.html:467
 #: allthethings/templates/layouts/index.html:476
 msgid "layout.index.header.nav.my_donations"
 msgstr "আমার অনুদানসমূহ"
 
-#: allthethings/account/templates/account/index.html:49
+#: allthethings/account/templates/account/index.html:48
 msgid "page.account.logged_in.logout.button"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:52
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.success"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:53
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_in.logout.failure"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:59
+#: allthethings/account/templates/account/index.html:58
 msgid "page.account.logged_out.registered.text1"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:61
 msgid "page.account.logged_out.registered.text2"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:65
 msgid "page.account.logged_out.registered.text3"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:69
 msgid "page.account.logged_out.key_form.text"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:73
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "গোপন চাবি"
 
-#: allthethings/account/templates/account/index.html:74
+#: allthethings/account/templates/account/index.html:73
 msgid "page.account.logged_out.key_form.button"
 msgstr "প্রবেশ"
 
-#: allthethings/account/templates/account/index.html:76
+#: allthethings/account/templates/account/index.html:75
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:77
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:82
 msgid "page.account.logged_out.register.header"
 msgstr "এখনো কোনো নিজস্ব একাউন্ট নেই?"
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:85
 msgid "page.account.logged_out.register.button"
 msgstr "নতুন একাউন্ট নিবন্ধন করুন"
 
-#: allthethings/account/templates/account/index.html:90
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:91
+#: allthethings/account/templates/account/index.html:90
 msgid "page.login.lost_key_contact"
 msgstr ""
 
-#: allthethings/account/templates/account/index.html:94
+#: allthethings/account/templates/account/index.html:93
 #, fuzzy
 msgid "page.account.logged_out.old_email.button"
 msgstr "পুরাতন ইমেইল ভিত্তিক একাউন্ট? আপনার ইমেইল অ্যাড্রেস লিখুন <a %(a_open)s>এখানে</a>."
@@ -1320,6 +1347,10 @@ msgstr ""
 #: allthethings/page/views.py:3937
 msgid "common.access_types_mapping.meta_explore"
 msgstr "উপতথ্য দেখো"
+
+#: allthethings/page/views.py:3938
+msgid "common.access_types_mapping.torrents_available"
+msgstr ""
 
 #: allthethings/page/views.py:3944
 msgid "common.record_sources_mapping.lgrs"
@@ -1637,8 +1668,10 @@ msgid "layout.index.header.banner.refer"
 msgstr ""
 
 #: allthethings/page/templates/page/aarecord.html:207
-#: allthethings/page/templates/page/home.html:28
-#: allthethings/page/templates/page/home.html:39
+#: allthethings/page/templates/page/home.html:30
+#: allthethings/page/templates/page/home.html:40
+#: allthethings/page/templates/page/search.html:254
+#: allthethings/page/templates/page/search.html:311
 #: allthethings/templates/layouts/index.html:219
 #: allthethings/templates/layouts/index.html:222
 #: allthethings/templates/layouts/index.html:310
@@ -1788,6 +1821,24 @@ msgstr ""
 msgid "page.contact.checkboxes.show_email_button"
 msgstr ""
 
+#: allthethings/page/templates/page/datasets.html:162
+#: allthethings/page/templates/page/faq.html:151
+#: allthethings/page/templates/page/search.html:283
+msgid "page.faq.metadata.inspiration1"
+msgstr ""
+
+#: allthethings/page/templates/page/datasets.html:163
+#: allthethings/page/templates/page/faq.html:152
+#: allthethings/page/templates/page/search.html:284
+msgid "page.faq.metadata.inspiration2"
+msgstr ""
+
+#: allthethings/page/templates/page/datasets.html:164
+#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/search.html:285
+msgid "page.faq.metadata.inspiration3"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:3
 #: allthethings/page/templates/page/faq.html:6
 msgid "page.faq.title"
@@ -1805,133 +1856,145 @@ msgstr "<span %(span_anna)s>অ্যানাজ আর্কাইভ</span> �
 msgid "page.home.intro.text2"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:24
+#: allthethings/page/templates/page/faq.html:19
+msgid "page.home.intro.open_source"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:23
 msgid "page.home.preservation.header"
 msgstr "সংরক্ষণ করা"
 
-#: allthethings/page/templates/page/faq.html:26
+#: allthethings/page/templates/page/faq.html:25
 msgid "page.home.preservation.text1"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:28
+#: allthethings/page/templates/page/faq.html:27
 msgid "page.home.preservation.text2"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:42
+#: allthethings/page/templates/page/faq.html:41
 #, fuzzy
 msgid "page.home.preservation.label"
 msgstr "আমাদের আনুমানিক হিসাবমতে আমরা এখানে টিকিয়ে রাখছি <a href=\"https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html\">5%% সমগ্র পৃথিবীর মধ্যে</a>."
 
-#: allthethings/page/templates/page/faq.html:47
+#: allthethings/page/templates/page/faq.html:46
 msgid "page.home.access.header"
 msgstr "প্রবেশাধিকার"
 
-#: allthethings/page/templates/page/faq.html:49
+#: allthethings/page/templates/page/faq.html:48
 msgid "page.home.access.text"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:53
+#: allthethings/page/templates/page/faq.html:52
 msgid "page.home.access.label"
 msgstr "প্রতি ঘণ্টায় গড় ডাউনলোড সংখ্যা গত ৩০ দিনে। প্রতি ঘণ্টায় গড়: %(hourly)s. দৈনিক গড়: %(daily)s."
 
-#: allthethings/page/templates/page/faq.html:81
+#: allthethings/page/templates/page/faq.html:80
 msgid "page.about.text2"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:85
+#: allthethings/page/templates/page/faq.html:84
 msgid "page.about.text3"
 msgstr "আমাদের অগ্রগতি সম্পর্কে আপডেট থাকতে, Anna অনুসরণ করুন <a href=\"https://www.reddit.com/r/Annas_Archive-এ /\">Reddit</a> অথবা <a href=\"https://t.me/annasarchiveorg\">টেলিগ্রাম</a>। প্রশ্ন এবং প্রতিক্রিয়ার জন্য অনুগ্রহ করে %(email)s এ Anna সাথে যোগাযোগ করুন।"
 
-#: allthethings/page/templates/page/faq.html:88
+#: allthethings/page/templates/page/faq.html:87
 msgid "page.faq.help.title"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:91
+#: allthethings/page/templates/page/faq.html:90
 msgid "page.about.help.text"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:92
+#: allthethings/page/templates/page/faq.html:91
 msgid "page.about.help.text6"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:93
+#: allthethings/page/templates/page/faq.html:92
 msgid "page.about.help.text7"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:94
+#: allthethings/page/templates/page/faq.html:93
 msgid "page.about.help.text8"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:95
+#: allthethings/page/templates/page/faq.html:94
 msgid "page.about.help.text9"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:96
+#: allthethings/page/templates/page/faq.html:95
 msgid "page.about.help.text10"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:97
+#: allthethings/page/templates/page/faq.html:96
 msgid "page.about.help.text11"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:98
+#: allthethings/page/templates/page/faq.html:97
 msgid "page.faq.help.mirrors"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:101
+#: allthethings/page/templates/page/faq.html:100
 msgid "page.donate.faq.title"
 msgstr "অনুদান প্রাজিপ্র"
 
-#: allthethings/page/templates/page/faq.html:104
+#: allthethings/page/templates/page/faq.html:103
 msgid "page.donate.faq.renew"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:108
+#: allthethings/page/templates/page/faq.html:107
 msgid "page.donate.faq.text_other_payment1"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:112
+#: allthethings/page/templates/page/faq.html:111
 msgid "page.donate.faq.spend"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:116
+#: allthethings/page/templates/page/faq.html:115
 msgid "page.donate.faq.text_large_donation"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:125
+#: allthethings/page/templates/page/faq.html:124
 msgid "page.faq.upload.title"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:128
+#: allthethings/page/templates/page/faq.html:127
 msgid "page.upload.text1"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:129
+#: allthethings/page/templates/page/faq.html:128
 msgid "common.libgen.email"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:133
+#: allthethings/page/templates/page/faq.html:132
 msgid "page.upload.zlib.text"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:137
+#: allthethings/page/templates/page/faq.html:136
 msgid "page.upload.large.text"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:140
+#: allthethings/page/templates/page/faq.html:139
 msgid "page.faq.request.title"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:143
+#: allthethings/page/templates/page/faq.html:142
 msgid "page.request.cannot_accomodate"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:144
+#: allthethings/page/templates/page/faq.html:143
 msgid "page.request.forums"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:145
+#: allthethings/page/templates/page/faq.html:144
 msgid "page.request.dont_email"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:147
+msgid "page.faq.metadata.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:150
+msgid "page.faq.metadata.indeed"
 msgstr ""
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
@@ -1969,74 +2032,86 @@ msgstr "সাইডিবি"
 msgid "layout.index.header.nav.beta"
 msgstr "বেটা"
 
+#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/search.html:252
+#: allthethings/page/templates/page/search.html:309
+msgid "page.home.scidb.scihub_paused"
+msgstr ""
+
 #: allthethings/page/templates/page/home.html:28
-#: allthethings/page/templates/page/home.html:32
+#: allthethings/page/templates/page/search.html:253
+#: allthethings/page/templates/page/search.html:310
+msgid "page.home.scidb.continuation"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:29
+#: allthethings/page/templates/page/home.html:34
 msgid "page.home.scidb.subtitle"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:36
 #: allthethings/page/templates/page/scidb_home.html:18
 msgid "page.home.scidb.placeholder_doi"
 msgstr "ডিওআই"
 
-#: allthethings/page/templates/page/home.html:35
+#: allthethings/page/templates/page/home.html:37
 #: allthethings/page/templates/page/scidb_home.html:19
 msgid "page.home.scidb.open"
 msgstr "মুক্ত"
 
-#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/home.html:39
 msgid "page.home.scidb.browser_verification"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:58
+#: allthethings/page/templates/page/home.html:59
 msgid "page.home.payment_processor.body"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:74
+#: allthethings/page/templates/page/home.html:75
 msgid "page.home.archive.header"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:78
 msgid "page.home.archive.body"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:81
+#: allthethings/page/templates/page/home.html:82
 msgid "page.home.torrents.body"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:84
+#: allthethings/page/templates/page/home.html:85
 #: allthethings/page/templates/page/torrents.html:82
 msgid "page.home.torrents.legend_less"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:85
+#: allthethings/page/templates/page/home.html:86
 #: allthethings/page/templates/page/torrents.html:83
 msgid "page.home.torrents.legend_range"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:86
+#: allthethings/page/templates/page/home.html:87
 #: allthethings/page/templates/page/torrents.html:84
 msgid "page.home.torrents.legend_greater"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:90
+#: allthethings/page/templates/page/home.html:91
 msgid "page.home.llm.header"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:93
+#: allthethings/page/templates/page/home.html:94
 msgid "page.home.llm.body"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:97
 msgid "page.home.mirrors.header"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:99
+#: allthethings/page/templates/page/home.html:100
 msgid "page.home.mirrors.body"
 msgstr ""
 
 #: allthethings/page/templates/page/ipfs_downloads.html:15
-#: allthethings/page/templates/page/partner_download.html:24
+#: allthethings/page/templates/page/partner_download.html:23
 msgid "page.partner_download.main_page"
 msgstr ""
 
@@ -2049,12 +2124,12 @@ msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(আপনাকে IPFS দিয়ে একাধিকবার চেষ্টা করতে হতে পারে)"
 
 #: allthethings/page/templates/page/ipfs_downloads.html:25
-#: allthethings/page/templates/page/partner_download.html:38
+#: allthethings/page/templates/page/partner_download.html:36
 msgid "page.partner_download.faster_downloads"
 msgstr ""
 
 #: allthethings/page/templates/page/ipfs_downloads.html:29
-#: allthethings/page/templates/page/partner_download.html:43
+#: allthethings/page/templates/page/partner_download.html:41
 msgid "page.partner_download.bulk_mirroring"
 msgstr ""
 
@@ -2076,15 +2151,23 @@ msgstr "সহযোগী ওয়েবসাইট থেকে ডাউনল
 msgid "page.partner_download.slow_downloads_official"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:29
+#: allthethings/page/templates/page/partner_download.html:19
+msgid "page.partner_download.slow_downloads_cloudflare"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:28
 msgid "page.partner_download.url"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:29
+#: allthethings/page/templates/page/partner_download.html:28
 msgid "page.partner_download.download_now"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:32
+#: allthethings/page/templates/page/partner_download.html:29
+msgid "page.partner_download.downloads_last_24_hours"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:30
 msgid "page.partner_download.warning_many_downloads"
 msgstr ""
 
@@ -2276,50 +2359,59 @@ msgstr ""
 msgid "page.search.results.search_downloads"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:240
+#: allthethings/page/templates/page/search.html:236
+msgid "page.search.results.help_preserve"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:239
 msgid "page.search.results.most_comprehensive"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:243
+#: allthethings/page/templates/page/search.html:242
 msgid "page.search.results.other_shadow_libs"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:244
+#: allthethings/page/templates/page/search.html:243
 msgid "page.search.results.dmca"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:248
-#: allthethings/page/templates/page/search.html:273
+#: allthethings/page/templates/page/search.html:247
+#: allthethings/page/templates/page/search.html:272
 #: allthethings/page/templates/page/search.html:293
 #: allthethings/page/templates/page/search.html:301
 msgid "page.search.results.shortcuts"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:259
+#: allthethings/page/templates/page/search.html:251
+#: allthethings/page/templates/page/search.html:308
+msgid "page.search.results.looking_for_papers"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:258
 msgid "page.search.results.search_journals"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:263
+#: allthethings/page/templates/page/search.html:262
 msgid "page.search.results.search_digital_lending"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:266
+#: allthethings/page/templates/page/search.html:265
 msgid "page.search.results.digital_lending_info"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:268
 msgid "page.search.results.digital_lending_info_more"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:277
+#: allthethings/page/templates/page/search.html:276
 msgid "page.search.results.search_metadata"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:279
+#: allthethings/page/templates/page/search.html:278
 msgid "page.search.results.metadata_info"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:280
+#: allthethings/page/templates/page/search.html:279
 msgid "page.search.results.metadata_no_merging"
 msgstr ""
 
@@ -2423,6 +2515,14 @@ msgstr "সাম্প্রতিক ডাউনলোডসমূহ:"
 #: allthethings/templates/layouts/index.html:488
 msgid "layout.index.header.nav.search"
 msgstr "অনুসন্ধান করুন"
+
+#: allthethings/templates/layouts/index.html:401
+#: allthethings/templates/layouts/index.html:412
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:490
+#: allthethings/templates/layouts/index.html:516
+msgid "layout.index.header.nav.faq"
+msgstr ""
 
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:413

@@ -46,6 +46,10 @@ msgstr "⭐️&nbsp;我们镜像 %(libraries)s。"
 msgid "layout.index.header.tagline_newnew2b"
 msgstr "我们抓取并开源 %(scraped)s。"
 
+#: allthethings/app.py:269
+msgid "layout.index.header.tagline_open_source"
+msgstr ""
+
 #: allthethings/app.py:270 allthethings/app.py:272 allthethings/app.py:273
 #: allthethings/app.py:276
 msgid "layout.index.header.tagline_new1"
@@ -283,297 +287,312 @@ msgid "page.donate.header.large_donations"
 msgstr "超过$5000的捐赠请直接通过%(email)s联系我们。"
 
 #: allthethings/account/templates/account/donate.html:115
-#: allthethings/account/templates/account/index.html:37
+#: allthethings/account/templates/account/index.html:36
 #: allthethings/page/templates/page/contact.html:3
 #: allthethings/page/templates/page/contact.html:7
-#: allthethings/page/templates/page/faq.html:85
-#: allthethings/page/templates/page/faq.html:108
-#: allthethings/page/templates/page/faq.html:116
-#: allthethings/page/templates/page/faq.html:137
-#: allthethings/page/templates/page/home.html:45
-#: allthethings/page/templates/page/home.html:50
-#: allthethings/page/templates/page/home.html:58
-#: allthethings/page/templates/page/search.html:243
+#: allthethings/page/templates/page/faq.html:84
+#: allthethings/page/templates/page/faq.html:107
+#: allthethings/page/templates/page/faq.html:115
+#: allthethings/page/templates/page/faq.html:136
+#: allthethings/page/templates/page/home.html:46
+#: allthethings/page/templates/page/home.html:51
+#: allthethings/page/templates/page/home.html:59
+#: allthethings/page/templates/page/search.html:242
 #: allthethings/page/templates/page/search.html:319
 #: allthethings/templates/layouts/index.html:203
 #: allthethings/templates/layouts/index.html:506
 msgid "page.contact.title"
 msgstr "联系邮箱"
 
-#: allthethings/account/templates/account/donate.html:123
+#: allthethings/account/templates/account/donate.html:116
+msgid "page.donate.without_membership"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:122
 msgid "page.donate.payment.intro"
 msgstr "选择一个付款方式。我们为基于加密货币 %(bitcoin_icon)s 的支付方式提供折扣，因为这样能（极大）减轻我们的成本费用。"
 
-#: allthethings/account/templates/account/donate.html:124
+#: allthethings/account/templates/account/donate.html:123
 msgid "page.donate.payment.intro2"
 msgstr "请选择支付方式。我们目前仅支持加密货币支付 %(bitcoin_icon)s，因为传统支付处理系统拒绝与我们合作。"
 
-#: allthethings/account/templates/account/donate.html:126
+#: allthethings/account/templates/account/donate.html:125
 msgid "page.donate.payment.select_method"
 msgstr "请选择付款方式。"
 
-#: allthethings/account/templates/account/donate.html:130
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:129
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.payment.buttons.amazon"
 msgstr "亚马逊礼品卡"
 
-#: allthethings/account/templates/account/donate.html:131
-#: allthethings/account/templates/account/donate.html:141
-#: allthethings/account/templates/account/donate.html:292
+#: allthethings/account/templates/account/donate.html:130
+#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:291
 msgid "page.donate.payment.buttons.crypto"
 msgstr "加密货币 %(bitcoin_icon)s"
 
+#: allthethings/account/templates/account/donate.html:130
 #: allthethings/account/templates/account/donate.html:131
 #: allthethings/account/templates/account/donate.html:132
-#: allthethings/account/templates/account/donate.html:133
+#: allthethings/account/templates/account/donate.html:140
 #: allthethings/account/templates/account/donate.html:141
-#: allthethings/account/templates/account/donate.html:142
+#: allthethings/account/templates/account/donate.html:145
 #: allthethings/account/templates/account/donate.html:146
-#: allthethings/account/templates/account/donate.html:147
-#: allthethings/account/templates/account/donate.html:150
-#: allthethings/account/templates/account/donate.html:153
+#: allthethings/account/templates/account/donate.html:149
+#: allthethings/account/templates/account/donate.html:152
+#: allthethings/account/templates/account/donate.html:310
 #: allthethings/account/templates/account/donate.html:311
 #: allthethings/account/templates/account/donate.html:312
 #: allthethings/account/templates/account/donate.html:313
-#: allthethings/account/templates/account/donate.html:314
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:133
+#: allthethings/account/templates/account/donate.html:132
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal（美国） %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:139
-#: allthethings/account/templates/account/donate.html:157
+#: allthethings/account/templates/account/donate.html:138
+#: allthethings/account/templates/account/donate.html:156
 msgid "page.donate.payment.buttons.alipay"
 msgstr "支付宝"
 
-#: allthethings/account/templates/account/donate.html:140
+#: allthethings/account/templates/account/donate.html:139
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix（巴西）"
 
-#: allthethings/account/templates/account/donate.html:146
+#: allthethings/account/templates/account/donate.html:145
 msgid "page.donate.payment.buttons.paypal_plain"
 msgstr "PayPal"
 
-#: allthethings/account/templates/account/donate.html:147
+#: allthethings/account/templates/account/donate.html:146
 msgid "page.donate.payment.buttons.cashapp"
 msgstr "Cash App"
 
+#: allthethings/account/templates/account/donate.html:147
 #: allthethings/account/templates/account/donate.html:148
-#: allthethings/account/templates/account/donate.html:149
 msgid "page.donate.payment.buttons.credit_debit"
 msgstr "信用卡/借记卡"
 
-#: allthethings/account/templates/account/donate.html:150
+#: allthethings/account/templates/account/donate.html:149
 msgid "page.donate.payment.buttons.credit_debit2"
 msgstr "信用卡/借记卡 2"
 
-#: allthethings/account/templates/account/donate.html:158
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:157
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.payment.buttons.wechat"
 msgstr "微信"
 
-#: allthethings/account/templates/account/donate.html:159
-#: allthethings/account/templates/account/donate.html:168
-#: allthethings/account/templates/account/donate.html:176
-#: allthethings/account/templates/account/donate.html:183
+#: allthethings/account/templates/account/donate.html:158
+#: allthethings/account/templates/account/donate.html:167
+#: allthethings/account/templates/account/donate.html:175
+#: allthethings/account/templates/account/donate.html:182
 msgid "page.donate.payment.buttons.alipay_wechat"
 msgstr "支付宝 / 微信"
 
-#: allthethings/account/templates/account/donate.html:183
+#: allthethings/account/templates/account/donate.html:182
 msgid "page.donate.payment.buttons.temporarily_unavailable"
 msgstr "（暂不可用）"
 
-#: allthethings/account/templates/account/donate.html:190
+#: allthethings/account/templates/account/donate.html:189
 msgid "page.donate.payment.desc.crypto"
 msgstr "您可以使用加密货币 BTC, ETH, XMR 和 SOL 进行捐赠。如果您熟悉加密货币，请使用此选项。"
 
-#: allthethings/account/templates/account/donate.html:196
+#: allthethings/account/templates/account/donate.html:195
 msgid "page.donate.payment.desc.crypto2"
 msgstr "你可以捐赠 BTC、ETH、XMR 等加密货币。"
 
-#: allthethings/account/templates/account/donate.html:200
-#: allthethings/account/templates/account/donate.html:292
+#: allthethings/account/templates/account/donate.html:199
+#: allthethings/account/templates/account/donate.html:291
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr "如果你第一次使用加密货币，我们推荐使用 %(option1)s、%(option2)s 或 %(option3)s 购买并捐赠比特币（首创且为最常用的加密货币）。"
 
-#: allthethings/account/templates/account/donate.html:206
+#: allthethings/account/templates/account/donate.html:205
 msgid "page.donate.payment.desc.paypal"
 msgstr "在 PayPal（美国）的捐赠方式中，我们将使用 PayPal Crypto，这可以让我们保持匿名。我们感谢您花时间学习如何用这种方式捐赠，这样让我们很省心。"
 
-#: allthethings/account/templates/account/donate.html:207
+#: allthethings/account/templates/account/donate.html:206
 msgid "page.donate.payment.desc.paypal_short"
 msgstr "使用 PayPal 捐赠。"
 
-#: allthethings/account/templates/account/donate.html:213
+#: allthethings/account/templates/account/donate.html:212
 msgid "page.donate.payment.desc.cashapp"
 msgstr "使用 Cash App 捐赠。"
 
-#: allthethings/account/templates/account/donate.html:213
+#: allthethings/account/templates/account/donate.html:212
 msgid "page.donate.payment.desc.cashapp_easy"
 msgstr "如果你有 Cash App 账号，这是最方便的捐赠方式了！"
 
-#: allthethings/account/templates/account/donate.html:216
+#: allthethings/account/templates/account/donate.html:215
 msgid "page.donate.payment.desc.cashapp_fee"
 msgstr "注意，对金额少于 %(amount)s 的交易，Cash App 会收取 %(fee)s 的手续费。若金额不少于 %(amount)s，就是免费的！"
 
-#: allthethings/account/templates/account/donate.html:222
-#: allthethings/account/templates/account/donate.html:276
+#: allthethings/account/templates/account/donate.html:221
+#: allthethings/account/templates/account/donate.html:275
 msgid "page.donate.payment.desc.credit_debit"
 msgstr "使用信用卡或借记卡捐赠。"
 
-#: allthethings/account/templates/account/donate.html:223
+#: allthethings/account/templates/account/donate.html:222
 msgid "page.donate.payment.desc.google_apple"
 msgstr "谷歌支付和苹果支付也是可行的。"
 
-#: allthethings/account/templates/account/donate.html:224
+#: allthethings/account/templates/account/donate.html:223
 msgid "page.donate.payment.desc.elimate_discount"
 msgstr "注意，小额捐赠时，信用卡手续费会抵消我们 %(discount)s%% 的折扣，所以我们推荐更长期的订阅。"
 
-#: allthethings/account/templates/account/donate.html:225
+#: allthethings/account/templates/account/donate.html:224
 msgid "page.donate.payment.desc.longer_subs"
 msgstr "请注意，小额捐赠的费用较高，因此我们建议长期订阅。"
 
-#: allthethings/account/templates/account/donate.html:247
-#: allthethings/account/templates/account/donate.html:253
+#: allthethings/account/templates/account/donate.html:246
+#: allthethings/account/templates/account/donate.html:252
 msgid "page.donate.payment.desc.alipay_wechat"
 msgstr "使用支付宝或微信捐赠。您可以在下一页进行选择。"
 
-#: allthethings/account/templates/account/donate.html:265
+#: allthethings/account/templates/account/donate.html:264
 msgid "page.donate.payment.desc.amazon"
 msgstr "使用亚马逊礼品卡捐赠。"
 
-#: allthethings/account/templates/account/donate.html:266
+#: allthethings/account/templates/account/donate.html:265
 msgid "page.donate.payment.desc.amazon_round"
 msgstr "注意，我们需要将金额取整至经销商可接受的数字（最小 %(minimum)s）。"
 
-#: allthethings/account/templates/account/donate.html:270
+#: allthethings/account/templates/account/donate.html:269
 #: allthethings/account/templates/account/donation.html:325
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>重要提示：</strong> 我们仅支持 Amazon.com，其他亚马逊网站均不支持。例如，.de、.co.uk、.ca（德国、英国、加拿大分站）均不支持。"
 
-#: allthethings/account/templates/account/donate.html:290
+#: allthethings/account/templates/account/donate.html:289
 msgid "page.donate.ccexp.amazon_com"
 msgstr "使用信用卡/借记卡给我们发送 Amazon.com 礼品卡。"
 
-#: allthethings/account/templates/account/donate.html:291
+#: allthethings/account/templates/account/donate.html:290
 msgid "page.donate.ccexp.wechat"
 msgstr "微信 (WeChat) 支付支持国际信用卡/借记卡。在微信程序中，转到“我 => 服务 => 钱包 => 新增卡片”。如果你找不到，请通过“我 => 设置 => 一般 => 协助工具 => 微信支付 => 启用”打开。"
 
-#: allthethings/account/templates/account/donate.html:292
+#: allthethings/account/templates/account/donate.html:291
 msgid "page.donate.ccexp.crypto"
 msgstr "你可以使用信用卡/借记卡购买加密货币。"
 
-#: allthethings/account/templates/account/donate.html:305
+#: allthethings/account/templates/account/donate.html:304
 msgid "page.donate.duration.intro"
 msgstr "选择您想订阅多久。"
 
-#: allthethings/account/templates/account/donate.html:310
+#: allthethings/account/templates/account/donate.html:309
 msgid "page.donate.duration.1_mo"
 msgstr "1 个月"
 
-#: allthethings/account/templates/account/donate.html:311
+#: allthethings/account/templates/account/donate.html:310
 msgid "page.donate.duration.3_mo"
 msgstr "3 个月"
 
-#: allthethings/account/templates/account/donate.html:312
+#: allthethings/account/templates/account/donate.html:311
 msgid "page.donate.duration.6_mo"
 msgstr "6 个月"
 
-#: allthethings/account/templates/account/donate.html:313
+#: allthethings/account/templates/account/donate.html:312
 msgid "page.donate.duration.12_mo"
 msgstr "12 个月"
 
-#: allthethings/account/templates/account/donate.html:314
+#: allthethings/account/templates/account/donate.html:313
 msgid "page.donate.duration.24_mo"
 msgstr "24 个月"
 
-#: allthethings/account/templates/account/donate.html:317
+#: allthethings/account/templates/account/donate.html:316
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>折扣 <span %(span_discount)s></span></div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:323
+#: allthethings/account/templates/account/donate.html:322
 msgid "page.donate.payment.minimum_method"
 msgstr "这种支付方式最低需要 %(amount)s。请选择其他订阅时长或换一种支付方式。"
 
-#: allthethings/account/templates/account/donate.html:324
+#: allthethings/account/templates/account/donate.html:323
 msgid "page.donate.payment.maximum_method"
 msgstr "这种支付方式最高限额 %(amount)s。请选择其他订阅时长或换一种支付方式。"
 
-#: allthethings/account/templates/account/donate.html:329
+#: allthethings/account/templates/account/donate.html:328
 msgid "page.donate.login2"
 msgstr "加入会员，请<a %(a_login)s>登录或注册</a>。感谢您的支持！"
 
-#: allthethings/account/templates/account/donate.html:336
+#: allthethings/account/templates/account/donate.html:335
 msgid "page.donate.payment.crypto_select"
 msgstr "选择您喜欢的加密货币："
 
-#: allthethings/account/templates/account/donate.html:371
+#: allthethings/account/templates/account/donate.html:340
+msgid "page.donate.currency_lowest_minimum"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:354
+#: allthethings/account/templates/account/donate.html:355
+#: allthethings/account/templates/account/donate.html:359
+#: allthethings/account/templates/account/donate.html:361
+msgid "page.donate.currency_warning_high_minimum"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:369
 msgid "page.donate.submit.confirm"
 msgstr "点击“捐赠”按钮确认此捐赠。"
 
-#: allthethings/account/templates/account/donate.html:379
+#: allthethings/account/templates/account/donate.html:377
 msgid "page.donate.submit.button"
 msgstr "捐赠 <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:384
+#: allthethings/account/templates/account/donate.html:382
 msgid "page.donate.submit.cancel_note"
 msgstr "您仍然可以在结帐时取消捐赠。"
 
-#: allthethings/account/templates/account/donate.html:388
+#: allthethings/account/templates/account/donate.html:386
 msgid "page.donate.submit.success"
 msgstr "✅ 跳转到捐赠页面…"
 
-#: allthethings/account/templates/account/donate.html:389
+#: allthethings/account/templates/account/donate.html:387
 msgid "page.donate.submit.failure"
 msgstr "❌ 出问题了。请重新加载页面并再试一次。"
 
-#: allthethings/account/templates/account/donate.html:449
+#: allthethings/account/templates/account/donate.html:447
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:450
+#: allthethings/account/templates/account/donate.html:448
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "每月 %(monthly_cost)s"
 
-#: allthethings/account/templates/account/donate.html:453
+#: allthethings/account/templates/account/donate.html:451
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 个月"
 
-#: allthethings/account/templates/account/donate.html:454
+#: allthethings/account/templates/account/donate.html:452
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 个月"
 
-#: allthethings/account/templates/account/donate.html:455
+#: allthethings/account/templates/account/donate.html:453
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 个月"
 
-#: allthethings/account/templates/account/donate.html:456
+#: allthethings/account/templates/account/donate.html:454
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 个月"
 
-#: allthethings/account/templates/account/donate.html:457
+#: allthethings/account/templates/account/donate.html:455
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 个月"
 
-#: allthethings/account/templates/account/donate.html:461
+#: allthethings/account/templates/account/donate.html:459
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 个月 “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:462
+#: allthethings/account/templates/account/donate.html:460
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 个月 “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:463
+#: allthethings/account/templates/account/donate.html:461
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 个月“%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:464
+#: allthethings/account/templates/account/donate.html:462
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 个月 “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:465
+#: allthethings/account/templates/account/donate.html:463
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 个月“%(tier_name)s”"
 
@@ -1012,7 +1031,7 @@ msgid "page.account.logged_in.title"
 msgstr "账号"
 
 #: allthethings/account/templates/account/index.html:7
-#: allthethings/account/templates/account/index.html:56
+#: allthethings/account/templates/account/index.html:55
 #: allthethings/page/templates/page/login_to_view.html:3
 msgid "page.account.logged_out.title"
 msgstr "登录 / 注册"
@@ -1025,125 +1044,133 @@ msgstr "账户 ID: %(account_id)s"
 msgid "page.account.logged_in.public_profile"
 msgstr "公开个人资料：%(profile_link)s"
 
-#: allthethings/account/templates/account/index.html:26
+#: allthethings/account/templates/account/index.html:22
+msgid "page.account.logged_in.secret_key_dont_share"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:22
+msgid "page.account.logged_in.secret_key_show"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_none"
 msgstr "会员：<strong>无</strong> <a %(a_become)s>（成为会员）</a>"
 
-#: allthethings/account/templates/account/index.html:29
+#: allthethings/account/templates/account/index.html:28
 msgid "page.account.logged_in.membership_has_some"
 msgstr "会员：<strong>%(tier_name)s</strong>，%(until_date)s 到期<a %(a_extend)s>（续期）</a>"
 
-#: allthethings/account/templates/account/index.html:31
+#: allthethings/account/templates/account/index.html:30
 msgid "page.account.logged_in.membership_fast_downloads_used"
 msgstr "高速下载使用量（最近24小时）：<strong>%(used)s / %(total)s</strong>"
 
-#: allthethings/account/templates/account/index.html:31
+#: allthethings/account/templates/account/index.html:30
 msgid "page.account.logged_in.which_downloads"
 msgstr "下载过什么？"
 
-#: allthethings/account/templates/account/index.html:33
-#: allthethings/account/templates/account/index.html:35
+#: allthethings/account/templates/account/index.html:32
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.telegram_group_wrapper"
 msgstr "独家 Telegram 群组：%(link)s"
 
-#: allthethings/account/templates/account/index.html:33
+#: allthethings/account/templates/account/index.html:32
 msgid "page.account.logged_in.telegram_group_join"
 msgstr "点击加入我们！"
 
-#: allthethings/account/templates/account/index.html:35
+#: allthethings/account/templates/account/index.html:34
 msgid "page.account.logged_in.telegram_group_upgrade"
 msgstr "升级到<a %(a_tier)s>更高档次</a>，可以加入我们的群组。"
 
-#: allthethings/account/templates/account/index.html:37
+#: allthethings/account/templates/account/index.html:36
 msgid "page.account.logged_in.membership_upgrade"
 msgstr "如欲提升会员级别，请联系安娜：%(email)s。"
 
-#: allthethings/account/templates/account/index.html:38
+#: allthethings/account/templates/account/index.html:37
 msgid "page.account.logged_in.membership_multiple"
 msgstr "您可以合并多个会员资格 (每 24 小时的快速下载将被累加在一起)。"
 
-#: allthethings/account/templates/account/index.html:42
+#: allthethings/account/templates/account/index.html:41
 #: allthethings/templates/layouts/index.html:458
 #: allthethings/templates/layouts/index.html:465
 #: allthethings/templates/layouts/index.html:474
 msgid "layout.index.header.nav.public_profile"
 msgstr "公开资料"
 
-#: allthethings/account/templates/account/index.html:43
+#: allthethings/account/templates/account/index.html:42
 #: allthethings/templates/layouts/index.html:459
 #: allthethings/templates/layouts/index.html:466
 #: allthethings/templates/layouts/index.html:475
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "已下载文件"
 
-#: allthethings/account/templates/account/index.html:44
+#: allthethings/account/templates/account/index.html:43
 #: allthethings/templates/layouts/index.html:460
 #: allthethings/templates/layouts/index.html:467
 #: allthethings/templates/layouts/index.html:476
 msgid "layout.index.header.nav.my_donations"
 msgstr "我的捐赠"
 
-#: allthethings/account/templates/account/index.html:49
+#: allthethings/account/templates/account/index.html:48
 msgid "page.account.logged_in.logout.button"
 msgstr "退出登录"
 
-#: allthethings/account/templates/account/index.html:52
+#: allthethings/account/templates/account/index.html:51
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ 账号已退出，刷新页面以重新登录。"
 
-#: allthethings/account/templates/account/index.html:53
+#: allthethings/account/templates/account/index.html:52
 msgid "page.account.logged_in.logout.failure"
 msgstr "❌ 出错了，请刷新页面重试。"
 
-#: allthethings/account/templates/account/index.html:59
+#: allthethings/account/templates/account/index.html:58
 msgid "page.account.logged_out.registered.text1"
 msgstr "注册成功！您的密钥为：<span %(span_key)s>%(key)s</span>"
 
-#: allthethings/account/templates/account/index.html:62
+#: allthethings/account/templates/account/index.html:61
 msgid "page.account.logged_out.registered.text2"
 msgstr "请小心保存此密钥。如果您丢失了它，您将失去访问您的帐户的权限。"
 
-#: allthethings/account/templates/account/index.html:66
+#: allthethings/account/templates/account/index.html:65
 msgid "page.account.logged_out.registered.text3"
 msgstr "<li %(li_item)s><strong>加入书签。</strong>你可以在浏览器中收藏此页面以保存你的密钥。</li><li %(li_item)s><strong>下载。</strong> 点击<a %(a_download)s>此链接</a>下载你的密钥。</li><li %(li_item)s><strong>密码管理器。</strong>为方便起见，下面已经填充了你的密钥。这样当你登录时，你可以在密码管理器中保存密钥。</li>"
 
-#: allthethings/account/templates/account/index.html:70
+#: allthethings/account/templates/account/index.html:69
 msgid "page.account.logged_out.key_form.text"
 msgstr "输入密钥以登录："
 
-#: allthethings/account/templates/account/index.html:73
+#: allthethings/account/templates/account/index.html:72
 msgid "page.account.logged_out.key_form.placeholder"
 msgstr "密钥"
 
-#: allthethings/account/templates/account/index.html:74
+#: allthethings/account/templates/account/index.html:73
 msgid "page.account.logged_out.key_form.button"
 msgstr "登录"
 
-#: allthethings/account/templates/account/index.html:76
+#: allthethings/account/templates/account/index.html:75
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "密钥无效。请检查密钥并再次尝试，或者在下方注册一个新账号。"
 
-#: allthethings/account/templates/account/index.html:78
+#: allthethings/account/templates/account/index.html:77
 msgid "page.account.logged_out.key_form.dont_lose_key"
 msgstr "不要弄丢你的密钥！"
 
-#: allthethings/account/templates/account/index.html:83
+#: allthethings/account/templates/account/index.html:82
 msgid "page.account.logged_out.register.header"
 msgstr "还没有账号？"
 
-#: allthethings/account/templates/account/index.html:86
+#: allthethings/account/templates/account/index.html:85
 msgid "page.account.logged_out.register.button"
 msgstr "注册新账号"
 
-#: allthethings/account/templates/account/index.html:90
+#: allthethings/account/templates/account/index.html:89
 msgid "page.login.lost_key"
 msgstr "如果你丢失了密钥，请<a %(a_contact)s>联系我们</a>，并提供尽可能多的信息。"
 
-#: allthethings/account/templates/account/index.html:91
+#: allthethings/account/templates/account/index.html:90
 msgid "page.login.lost_key_contact"
 msgstr "你可能需要临时创建一个新账号来联系我们。"
 
-#: allthethings/account/templates/account/index.html:94
+#: allthethings/account/templates/account/index.html:93
 msgid "page.account.logged_out.old_email.button"
 msgstr "旧的电子邮件账户？在这里输入您的<a %(a_open)s>电子邮件地址</a>。"
 
@@ -1314,6 +1341,10 @@ msgstr "外部借阅（无法打印）"
 #: allthethings/page/views.py:3937
 msgid "common.access_types_mapping.meta_explore"
 msgstr "查阅元数据"
+
+#: allthethings/page/views.py:3938
+msgid "common.access_types_mapping.torrents_available"
+msgstr ""
 
 #: allthethings/page/views.py:3944
 msgid "common.record_sources_mapping.lgrs"
@@ -1631,8 +1662,10 @@ msgid "layout.index.header.banner.refer"
 msgstr "向一位朋友推广，你和你的朋友都能多获得 %(percentage)s%% 的高速下载次数！"
 
 #: allthethings/page/templates/page/aarecord.html:207
-#: allthethings/page/templates/page/home.html:28
-#: allthethings/page/templates/page/home.html:39
+#: allthethings/page/templates/page/home.html:30
+#: allthethings/page/templates/page/home.html:40
+#: allthethings/page/templates/page/search.html:254
+#: allthethings/page/templates/page/search.html:311
 #: allthethings/templates/layouts/index.html:219
 #: allthethings/templates/layouts/index.html:222
 #: allthethings/templates/layouts/index.html:310
@@ -1782,6 +1815,24 @@ msgstr "不要给我们发邮件来<a %(a_request)s>请求图书</a><br>或提�
 msgid "page.contact.checkboxes.show_email_button"
 msgstr "显示邮箱"
 
+#: allthethings/page/templates/page/datasets.html:162
+#: allthethings/page/templates/page/faq.html:151
+#: allthethings/page/templates/page/search.html:283
+msgid "page.faq.metadata.inspiration1"
+msgstr ""
+
+#: allthethings/page/templates/page/datasets.html:163
+#: allthethings/page/templates/page/faq.html:152
+#: allthethings/page/templates/page/search.html:284
+msgid "page.faq.metadata.inspiration2"
+msgstr ""
+
+#: allthethings/page/templates/page/datasets.html:164
+#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/search.html:285
+msgid "page.faq.metadata.inspiration3"
+msgstr ""
+
 #: allthethings/page/templates/page/faq.html:3
 #: allthethings/page/templates/page/faq.html:6
 msgid "page.faq.title"
@@ -1799,133 +1850,145 @@ msgstr "<span %(span_anna)s>安娜的档案</span>是一个非盈利性项目，
 msgid "page.home.intro.text2"
 msgstr "<li><strong>保存：</strong>备份人类所有的知识和文化。</li><li><strong>取用：</strong>让世界上的任何人都可获得这些知识和文化。</li>"
 
-#: allthethings/page/templates/page/faq.html:24
+#: allthethings/page/templates/page/faq.html:19
+msgid "page.home.intro.open_source"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:23
 msgid "page.home.preservation.header"
 msgstr "保存"
 
-#: allthethings/page/templates/page/faq.html:26
+#: allthethings/page/templates/page/faq.html:25
 msgid "page.home.preservation.text1"
 msgstr "我们保存书籍、论文、漫画、杂志等资料，将这些资料从各种<a href=\"https://en.wikipedia.org/wiki/Shadow_library\">影子图书馆</a>、官办图书馆、其他收藏集等集中到一处。通过简化批量复制的过程——利用BT种子，这些数据在世界各处就能有多份副本，从而得以永久保存。有些影子图书馆自身已采用这种方式（如 Sci-Hub、Library Genesis），而安娜的档案还“解放”了其他不提供批量分发的影子图书馆（如 Z-Library）、无法称为影子图书馆的图书馆（如 Internet Archive、读秀）的馆藏数据。"
 
-#: allthethings/page/templates/page/faq.html:28
+#: allthethings/page/templates/page/faq.html:27
 msgid "page.home.preservation.text2"
 msgstr "数据的广泛传播、代码的开源共享，使我们网站不惧取缔的风险，并保证了人类知识文化的长期保存。进一步了解<a href=\"/datasets\">我们的数据集</a>。"
 
-#: allthethings/page/templates/page/faq.html:42
+#: allthethings/page/templates/page/faq.html:41
 msgid "page.home.preservation.label"
 msgstr "我们估计我们已经保存了<a href=\"https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html\">全球约5%%的图书</a>。"
 
-#: allthethings/page/templates/page/faq.html:47
+#: allthethings/page/templates/page/faq.html:46
 msgid "page.home.access.header"
 msgstr "取用"
 
-#: allthethings/page/templates/page/faq.html:49
+#: allthethings/page/templates/page/faq.html:48
 msgid "page.home.access.text"
 msgstr "我们与合作伙伴共同努力，让任何人都能轻松、自由地获得我们的收藏。我们相信每个人都有权分享人类的集体智慧，不<a %(a_search)s>枉费作者的心血</a>。"
 
-#: allthethings/page/templates/page/faq.html:53
+#: allthethings/page/templates/page/faq.html:52
 msgid "page.home.access.label"
 msgstr "过去30日内每小时下载量。平均每小时：%(hourly)s。平均每天：%(daily)s。"
 
-#: allthethings/page/templates/page/faq.html:81
+#: allthethings/page/templates/page/faq.html:80
 msgid "page.about.text2"
 msgstr "我们坚信，信息能自由流通，知识和文化能得以保存。有了这个搜索引擎，我们就站在了巨人的肩膀上。我们敬重各种影子图书馆建立者的辛勤付出，并希望这个搜索引擎能扩大它们的影响力。"
 
-#: allthethings/page/templates/page/faq.html:85
+#: allthethings/page/templates/page/faq.html:84
 msgid "page.about.text3"
 msgstr "要了解我们的最新进展，请关注安娜的<a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>或<a href=\"https://t.me/annasarchiveorg\">Telegram</a>。如有问题和反馈，请通过%(email)s联系Anna。"
 
-#: allthethings/page/templates/page/faq.html:88
+#: allthethings/page/templates/page/faq.html:87
 msgid "page.faq.help.title"
 msgstr "我能提供什么帮助？"
 
-#: allthethings/page/templates/page/faq.html:91
+#: allthethings/page/templates/page/faq.html:90
 msgid "page.about.help.text"
 msgstr "<li>1. 在<a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>或<a href=\"https://t.me/annasarchiveorg\">Telegram</a>上关注我们。</li><li>2. 在推特、Reddit、抖音、Instagram、当地的咖啡馆或图书馆，或任何你去的地方，传播关于安娜档案馆的信息!我们不相信守门人——如果我们被关闭，我们会在其他地方重新出现，因为我们所有的代码和数据都是完全开源的。</li><li>3. 如果你有能力，可以考虑<a href=\"/donate\">捐赠</a>。</li><li>4. 帮助将我们的网站<a href=\"https://translate.annas-software.org/\">翻译</a>成不同的语言。</li><li>5. 如果您是一名软件工程师，请考虑为我们的<a href=\"https://annas-software.org/\">开源</a>做出贡献，或者为我们的<a href=\"/datasets\">种子</a>做种。</li>"
 
-#: allthethings/page/templates/page/faq.html:92
+#: allthethings/page/templates/page/faq.html:91
 msgid "page.about.help.text6"
 msgstr "6. 如果你是安全研究人员，利用你的技能，我们既可以进攻也可以防守。请参阅<a %(a_security)s>安全</a>页面。"
 
-#: allthethings/page/templates/page/faq.html:93
+#: allthethings/page/templates/page/faq.html:92
 msgid "page.about.help.text7"
 msgstr "7. 我们在寻找能处理匿名商户支付方式的专家。能否请你帮我们增加更便捷的捐款方式？PayPal、微信、礼品卡等。如果你听说过这样的人，请联系我们。"
 
-#: allthethings/page/templates/page/faq.html:94
+#: allthethings/page/templates/page/faq.html:93
 msgid "page.about.help.text8"
 msgstr "8. 我们一直需要更多的服务器资源。"
 
-#: allthethings/page/templates/page/faq.html:95
+#: allthethings/page/templates/page/faq.html:94
 msgid "page.about.help.text9"
 msgstr "9. 帮助我们的途径还有：直接在本站上反馈文件问题、撰写评论、创建书单；<a %(a_upload)s>上传更多图书</a>、修复文件问题或改善现有图书的排版样式。"
 
-#: allthethings/page/templates/page/faq.html:96
+#: allthethings/page/templates/page/faq.html:95
 msgid "page.about.help.text10"
 msgstr "10. 创建或帮助维护你使用的语言版本维基百科的《安娜的档案》页面。"
 
-#: allthethings/page/templates/page/faq.html:97
+#: allthethings/page/templates/page/faq.html:96
 msgid "page.about.help.text11"
 msgstr "11. 我们想要投放精巧的小广告。如果你想在安娜的档案上打广告，请联系我们。"
 
-#: allthethings/page/templates/page/faq.html:98
+#: allthethings/page/templates/page/faq.html:97
 msgid "page.faq.help.mirrors"
 msgstr "我们想要有人帮忙搭建<a %(a_mirrors)s>镜像</a>，也能在经济上给予资助。"
 
-#: allthethings/page/templates/page/faq.html:101
+#: allthethings/page/templates/page/faq.html:100
 msgid "page.donate.faq.title"
 msgstr "捐赠常见问题"
 
-#: allthethings/page/templates/page/faq.html:104
+#: allthethings/page/templates/page/faq.html:103
 msgid "page.donate.faq.renew"
 msgstr "<div %(div_question)s>会员资格会自动续期吗？</div>会员<strong>不会</strong>自动续期。入会时间长短由你决定。"
 
-#: allthethings/page/templates/page/faq.html:108
+#: allthethings/page/templates/page/faq.html:107
 msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>你们还有其他支付方式吗？</div>目前还没有。许多人不希望这样的档案馆能够存在，所以我们必须保持谨慎。如果您可以帮助我们安全地建立别的（更便利的）支付方式，请通过 %(email)s 联系我们。"
 
-#: allthethings/page/templates/page/faq.html:112
+#: allthethings/page/templates/page/faq.html:111
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>你们将捐赠用在什么地方？</div> 100%%将用来保存世界的知识和文化，使之触手可及。目前我们主要把钱花在服务器、存储和带宽上。没有任何资金会流向任何团队成员个人。"
 
-#: allthethings/page/templates/page/faq.html:116
+#: allthethings/page/templates/page/faq.html:115
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>我可以进行大额的捐款吗？</div>这太酷了！对于数千美元及以上的捐款，请直接通过%(email)s联系我们。"
 
-#: allthethings/page/templates/page/faq.html:125
+#: allthethings/page/templates/page/faq.html:124
 msgid "page.faq.upload.title"
 msgstr "怎样上传新书？"
 
-#: allthethings/page/templates/page/faq.html:128
+#: allthethings/page/templates/page/faq.html:127
 msgid "page.upload.text1"
 msgstr "目前，我们建议你先在 Library Genesis 的分支网站上传新书。这里是一份<a %(a_guide)s>快速指南</a>。注意，本站索引的那两个分支网站都从同一个上传系统中获取数据。"
 
-#: allthethings/page/templates/page/faq.html:129
+#: allthethings/page/templates/page/faq.html:128
 msgid "common.libgen.email"
 msgstr "如果你的电子邮件地址无法在 Libgen 论坛上使用，我们推荐使用 <a %(a_mail)s>Proton Mail</a>（免费）。你也可以<a %(a_manual)s>手动申请</a>激活你的账号。"
 
-#: allthethings/page/templates/page/faq.html:133
+#: allthethings/page/templates/page/faq.html:132
 msgid "page.upload.zlib.text"
 msgstr "或者，你也可以上传到<a %(a_upload)s>Z-Library</a>。"
 
-#: allthethings/page/templates/page/faq.html:137
+#: allthethings/page/templates/page/faq.html:136
 msgid "page.upload.large.text"
 msgstr "对于不被 Libgen 或 Z-Library 接受的大量上传（超过10000个文件），请联系我们：%(a_email)s。"
 
-#: allthethings/page/templates/page/faq.html:140
+#: allthethings/page/templates/page/faq.html:139
 msgid "page.faq.request.title"
 msgstr "如何请求图书？"
 
-#: allthethings/page/templates/page/faq.html:143
+#: allthethings/page/templates/page/faq.html:142
 msgid "page.request.cannot_accomodate"
 msgstr "目前，我们无法满足图书需求。"
 
-#: allthethings/page/templates/page/faq.html:144
+#: allthethings/page/templates/page/faq.html:143
 msgid "page.request.forums"
 msgstr "请在 Z-Library 或 Libgen 论坛提出请求。"
 
-#: allthethings/page/templates/page/faq.html:145
+#: allthethings/page/templates/page/faq.html:144
 msgid "page.request.dont_email"
 msgstr "不要给我们发邮件请求图书。"
+
+#: allthethings/page/templates/page/faq.html:147
+msgid "page.faq.metadata.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:150
+msgid "page.faq.metadata.indeed"
+msgstr ""
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more_new"
@@ -1962,74 +2025,86 @@ msgstr "SciDB"
 msgid "layout.index.header.nav.beta"
 msgstr "测试版"
 
+#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/search.html:252
+#: allthethings/page/templates/page/search.html:309
+msgid "page.home.scidb.scihub_paused"
+msgstr ""
+
 #: allthethings/page/templates/page/home.html:28
-#: allthethings/page/templates/page/home.html:32
+#: allthethings/page/templates/page/search.html:253
+#: allthethings/page/templates/page/search.html:310
+msgid "page.home.scidb.continuation"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:29
+#: allthethings/page/templates/page/home.html:34
 msgid "page.home.scidb.subtitle"
 msgstr "直接访问 %(count)s 篇学术论文"
 
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:36
 #: allthethings/page/templates/page/scidb_home.html:18
 msgid "page.home.scidb.placeholder_doi"
 msgstr "DOI"
 
-#: allthethings/page/templates/page/home.html:35
+#: allthethings/page/templates/page/home.html:37
 #: allthethings/page/templates/page/scidb_home.html:19
 msgid "page.home.scidb.open"
 msgstr "打开"
 
-#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/home.html:39
 msgid "page.home.scidb.browser_verification"
 msgstr "如果你是<a %(a_member)s>会员</a>，无需浏览器验证。"
 
-#: allthethings/page/templates/page/home.html:58
+#: allthethings/page/templates/page/home.html:59
 msgid "page.home.payment_processor.body"
 msgstr "如果你正在运营一个支持高风险、匿名的支付处理商，请联系我们。我们也在寻找精巧的小广告投放者。所有的收益将用于我们的文化保存事业。"
 
-#: allthethings/page/templates/page/home.html:74
+#: allthethings/page/templates/page/home.html:75
 msgid "page.home.archive.header"
 msgstr "长期存档"
 
-#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:78
 msgid "page.home.archive.body"
 msgstr "安娜的档案使用的数据集完全开放，可以使用种子批量镜像。<a %(a_datasets)s>了解更多……</a>"
 
-#: allthethings/page/templates/page/home.html:81
+#: allthethings/page/templates/page/home.html:82
 msgid "page.home.torrents.body"
 msgstr "做种对我们帮助很大。<a %(a_torrents)s>进一步了解……</a>"
 
-#: allthethings/page/templates/page/home.html:84
+#: allthethings/page/templates/page/home.html:85
 #: allthethings/page/templates/page/torrents.html:82
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s 个上传者"
 
-#: allthethings/page/templates/page/home.html:85
+#: allthethings/page/templates/page/home.html:86
 #: allthethings/page/templates/page/torrents.html:83
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s 个上传者"
 
-#: allthethings/page/templates/page/home.html:86
+#: allthethings/page/templates/page/home.html:87
 #: allthethings/page/templates/page/torrents.html:84
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s 个上传者"
 
-#: allthethings/page/templates/page/home.html:90
+#: allthethings/page/templates/page/home.html:91
 msgid "page.home.llm.header"
 msgstr "大语言模型（LLM）训练数据"
 
-#: allthethings/page/templates/page/home.html:93
+#: allthethings/page/templates/page/home.html:94
 msgid "page.home.llm.body"
 msgstr "我们有全世界最大的高质量文本数据集。<a %(a_llm)s>了解更多……</a>"
 
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:97
 msgid "page.home.mirrors.header"
 msgstr "🪩 镜像：征集志愿者"
 
-#: allthethings/page/templates/page/home.html:99
+#: allthethings/page/templates/page/home.html:100
 msgid "page.home.mirrors.body"
 msgstr "为提高安娜的档案的容灾能力，我们正在招募能运营镜像的志愿者。<a href=\"/mirrors\">了解更多……</a>"
 
 #: allthethings/page/templates/page/ipfs_downloads.html:15
-#: allthethings/page/templates/page/partner_download.html:24
+#: allthethings/page/templates/page/partner_download.html:23
 msgid "page.partner_download.main_page"
 msgstr "🔗 此文件的所有下载地址：<a %(a_main)s>文件主页</a>。"
 
@@ -2042,12 +2117,12 @@ msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "（使用 IPFS 时您可能需要多次尝试）"
 
 #: allthethings/page/templates/page/ipfs_downloads.html:25
-#: allthethings/page/templates/page/partner_download.html:38
+#: allthethings/page/templates/page/partner_download.html:36
 msgid "page.partner_download.faster_downloads"
 msgstr "🚀要获得更快的下载并跳过浏览器检查，<a %(a_membership)s >成为会员</a>。"
 
 #: allthethings/page/templates/page/ipfs_downloads.html:29
-#: allthethings/page/templates/page/partner_download.html:43
+#: allthethings/page/templates/page/partner_download.html:41
 msgid "page.partner_download.bulk_mirroring"
 msgstr "📡对于我们集合的批量镜像，请查看<a %(a_datasets)s >数据集</a>和<a %(a_torrents)s>Torrents</a>页面。"
 
@@ -2068,15 +2143,23 @@ msgstr "从合作伙伴网站下载"
 msgid "page.partner_download.slow_downloads_official"
 msgstr "❌ 下载速度慢只能通过官方网站进行。 访问 %(websites)s。"
 
-#: allthethings/page/templates/page/partner_download.html:29
+#: allthethings/page/templates/page/partner_download.html:19
+msgid "page.partner_download.slow_downloads_cloudflare"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:28
 msgid "page.partner_download.url"
 msgstr "📚使用以下URL下载:<a %(a_download)s>立即下载</a >。"
 
-#: allthethings/page/templates/page/partner_download.html:29
+#: allthethings/page/templates/page/partner_download.html:28
 msgid "page.partner_download.download_now"
 msgstr "现在下载"
 
-#: allthethings/page/templates/page/partner_download.html:32
+#: allthethings/page/templates/page/partner_download.html:29
+msgid "page.partner_download.downloads_last_24_hours"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:30
 msgid "page.partner_download.warning_many_downloads"
 msgstr "警告：过去 24 小时内，您的 IP 地址有大量下载。 下载可能比平常慢。"
 
@@ -2268,50 +2351,59 @@ msgstr "检索索引每月更新。目前它包含截至 %(last_data_refresh_dat
 msgid "page.search.results.search_downloads"
 msgstr "在框内输入文字以搜索我们共%(count)s个可直接下载的文件，我们会 <a %(a_preserve)s>永久保存</a>它们。"
 
-#: allthethings/page/templates/page/search.html:240
+#: allthethings/page/templates/page/search.html:236
+msgid "page.search.results.help_preserve"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:239
 msgid "page.search.results.most_comprehensive"
 msgstr "我们有目前世界上最完整的图书、论文和其他书面文献的开放编目。我们镜像了 Sci-Hub、Library Genesis、Z-Library <a %(a_datasets)s>等数据源</a>。"
 
-#: allthethings/page/templates/page/search.html:243
+#: allthethings/page/templates/page/search.html:242
 msgid "page.search.results.other_shadow_libs"
 msgstr "如果你还知道其他我们应该镜像的“影子图书馆”，或者你有任何问题，请联系我们：%(email)s。"
 
-#: allthethings/page/templates/page/search.html:244
+#: allthethings/page/templates/page/search.html:243
 msgid "page.search.results.dmca"
 msgstr "DMCA/版权问题，请<a %(a_copyright)s>点击此处</a>。"
 
-#: allthethings/page/templates/page/search.html:248
-#: allthethings/page/templates/page/search.html:273
+#: allthethings/page/templates/page/search.html:247
+#: allthethings/page/templates/page/search.html:272
 #: allthethings/page/templates/page/search.html:293
 #: allthethings/page/templates/page/search.html:301
 msgid "page.search.results.shortcuts"
 msgstr "提示：使用快捷键 “/”（搜索框）, “enter”（搜索）, “j”（上）, “k”（下）可快速导航。"
 
-#: allthethings/page/templates/page/search.html:259
+#: allthethings/page/templates/page/search.html:251
+#: allthethings/page/templates/page/search.html:308
+msgid "page.search.results.looking_for_papers"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:258
 msgid "page.search.results.search_journals"
 msgstr "在框中输入文本，搜索我们<a %(a_preserve)s>永久保存</a>的 %(count)s 篇学术论文和期刊文章的索引。"
 
-#: allthethings/page/templates/page/search.html:263
+#: allthethings/page/templates/page/search.html:262
 msgid "page.search.results.search_digital_lending"
 msgstr "在搜索框输入内容，以搜索数字借阅图书馆中的文件。"
 
-#: allthethings/page/templates/page/search.html:266
+#: allthethings/page/templates/page/search.html:265
 msgid "page.search.results.digital_lending_info"
 msgstr "此搜索索引当前包括来自互联网档案馆的受控数字借阅（Controlled Digital Lending）图书馆。<a %(a_datasets)s关于我们数据集的更多信息</a>."
 
-#: allthethings/page/templates/page/search.html:269
+#: allthethings/page/templates/page/search.html:268
 msgid "page.search.results.digital_lending_info_more"
 msgstr "更多数字借阅图书馆，请参阅<a %(a_wikipedia)s>维基百科</a>和 <a %(a_mobileread)s>MobileRead Wiki</a>。"
 
-#: allthethings/page/templates/page/search.html:277
+#: allthethings/page/templates/page/search.html:276
 msgid "page.search.results.search_metadata"
 msgstr "在方框内输入内容搜索来自图书馆的元数据。这在 <a %(a_request)s>请求文件</a>时可能会有帮助。"
 
-#: allthethings/page/templates/page/search.html:279
+#: allthethings/page/templates/page/search.html:278
 msgid "page.search.results.metadata_info"
 msgstr "此处索引目前包含 ISBNdb 和 Open Library 的元数据。<a %(a_datasets)s>了解我们的数据集</a>。"
 
-#: allthethings/page/templates/page/search.html:280
+#: allthethings/page/templates/page/search.html:279
 msgid "page.search.results.metadata_no_merging"
 msgstr "我们展示元数据的原始记录。我们对这些记录不做任何合并。"
 
@@ -2415,6 +2507,14 @@ msgstr "近期下载："
 #: allthethings/templates/layouts/index.html:488
 msgid "layout.index.header.nav.search"
 msgstr "搜索"
+
+#: allthethings/templates/layouts/index.html:401
+#: allthethings/templates/layouts/index.html:412
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:490
+#: allthethings/templates/layouts/index.html:516
+msgid "layout.index.header.nav.faq"
+msgstr ""
 
 #: allthethings/templates/layouts/index.html:402
 #: allthethings/templates/layouts/index.html:413
