@@ -1014,8 +1014,8 @@ def gc_notify():
             print(error)
             return "", 404
 
-        potential_money = re.search(r"\$([0123456789]+\.[0123456789]{2})", message_body)
-        if potential_money is None:
+        potential_money = re.findall(r"\n\$([0123456789]+\.[0123456789]{2})", message_body)
+        if len(potential_money) == 0:
             error = f"Warning: gc_notify message '{message['X-Original-To']}' with no matches for potential_money"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
             cursor.execute('UPDATE mariapersist_donations SET json=%(json)s WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
@@ -1023,9 +1023,9 @@ def gc_notify():
             print(error)
             return "", 404
 
-        money = float(potential_money[1])
-        # Allow for 10% margin
-        if money * 110 < int(donation['cost_cents_usd']):
+        money = float(potential_money[-1])
+        # Allow for 5% margin
+        if money * 105 < int(donation['cost_cents_usd']):
             error = f"Warning: gc_notify message '{message['X-Original-To']}' with too small amount gift card {money*110} < {donation['cost_cents_usd']}"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
             cursor.execute('UPDATE mariapersist_donations SET json=%(json)s WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })

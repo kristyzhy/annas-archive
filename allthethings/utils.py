@@ -345,7 +345,7 @@ def membership_tier_names(locale):
         }
 
 MEMBERSHIP_TIER_COSTS = { 
-    "2": 5, "3": 10, "4": 30, "5": 100,
+    "2": 7, "3": 10, "4": 30, "5": 100,
 }
 MEMBERSHIP_METHOD_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
@@ -359,13 +359,13 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     # "payment2cashapp": 20,
 
     "crypto": 0,
-    "payment2": 20,
+    "payment2": 10,
     # "cc":     0,
     "binance": 0,
     "paypal": 0,
     "payment2paypal": 0,
     "payment2cc": 0,
-    "payment2cashapp": 20,
+    "payment2cashapp": 10,
 
     "paypalreg": 0,
     "amazon": 0,
@@ -383,10 +383,10 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
 }
 MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
-    "1": 0, "3": 2, "6": 5, "12": 10, "24": 15,
+    "1": 0, "3": 5, "6": 10, "12": 25, "24": 40,
 }
 MEMBERSHIP_DOWNLOADS_PER_DAY = {
-    "1": 0, "2": 20, "3": 50, "4": 200, "5": 1000,
+    "1": 0, "2": 25, "3": 50, "4": 200, "5": 1000,
 }
 # Keep in sync.
 MEMBERSHIP_BONUSDOWNLOADS_PER_DAY = {
@@ -424,7 +424,7 @@ MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
     "payment1_wechat":  100000,
     "payment1b": 100000,
     "payment1bb": 100000,
-    "amazon": 10000,
+    "amazon": 20000,
 }
 MEMBERSHIP_MAX_BONUS_DOWNLOADS = 10000
 
@@ -530,24 +530,18 @@ def membership_costs_data(locale):
         elif method == 'amazon':
             if cost_cents_usd <= 500:
                 cost_cents_usd = 500
+            elif cost_cents_usd <= 700:
+                cost_cents_usd = 700
             elif cost_cents_usd <= 1000:
                 cost_cents_usd = 1000
             elif cost_cents_usd <= 1500:
                 cost_cents_usd = 1500
-            elif cost_cents_usd <= 2000:
+            elif cost_cents_usd <= 2200:
                 cost_cents_usd = 2000
             elif cost_cents_usd <= 2700:
                 cost_cents_usd = 2500
-            elif cost_cents_usd == 5100:
-                cost_cents_usd = 4500
-            elif cost_cents_usd == 5400:
-                cost_cents_usd = 5500
-            elif cost_cents_usd == 8550:
-                cost_cents_usd = 7500
-            elif cost_cents_usd == 9000:
-                cost_cents_usd = 7500
-            elif cost_cents_usd == 30600:
-                cost_cents_usd = 30000
+            elif cost_cents_usd <= 10000:
+                cost_cents_usd = (cost_cents_usd // 500) * 500
             elif cost_cents_usd <= 100000:
                 cost_cents_usd = round(cost_cents_usd / 1000) * 1000
             elif cost_cents_usd <= 200000:
