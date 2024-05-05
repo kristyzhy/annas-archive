@@ -113,8 +113,7 @@
     <p class="mb-4 text-sm text-gray-500 text-center">
       {{ gettext('page.donate.header.large_donations_wealthy') }}
       {{ gettext('page.donate.header.large_donations', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
-      <!-- TODO:TRANSLATE -->
-      If you’d like to make a donation (any amount) without membership, feel free to use this Monero (XMR) address: <span class="text-xs"> 8C1Tdvfhj6wHHPtvMHyAmn3jgt9vF9qSdKCYFy8U9ioB2Z16tEhjLSaB8qMSfzsnQeSrbohpYAiMgcW1acmmvCHQ4YGmZip</span>.
+      {{ gettext('page.donate.without_membership', address=('<span class="text-xs"> 8C1Tdvfhj6wHHPtvMHyAmn3jgt9vF9qSdKCYFy8U9ioB2Z16tEhjLSaB8qMSfzsnQeSrbohpYAiMgcW1acmmvCHQ4YGmZip</span>' | safe)) }}
     </p>
   </div>
 
@@ -338,8 +337,7 @@
 
               <!-- Be sure to update the validation list in `def account_buy_membership`! -->
               <select class="pr-8 mb-4 bg-black/6.7 px-2 py-1 rounded" name="pay_currency">
-                <!-- TODO:TRANSLATE -->
-                <option value="xmr">XMR / Monero (lowest minimum amount)</option>
+                <option value="xmr">XMR / Monero {{ gettext('page.donate.currency_lowest_minimum') }}</option>
                 <option value="btc">BTC / Bitcoin</option>
                 <option value="eth">ETH / Ethereum</option>
                 <option value="bch">BCH / Bitcoin Cash</option>
@@ -353,14 +351,14 @@
                 <!-- <option value="matic">MATIC / Polygon</option> -->
                 <option value="near">NEAR</option>
                 <option value="pax">PAX / Paxos</option>
-                <option value="pyusd">PYUSD / PayPal USD (warning: high minimum amount)</option>
-                <option value="sol">SOL / Solana (warning: high minimum amount)</option>
+                <option value="pyusd">PYUSD / PayPal USD {{ gettext('page.donate.currency_warning_high_minimum') }}</option>
+                <option value="sol">SOL / Solana {{ gettext('page.donate.currency_warning_high_minimum') }}</option>
                 <option value="ton">TON / Toncoin</option>
                 <option value="trx">TRX / Tron</option>
                 <!-- <option value="tusd">TUSD / TrueUSD</option> -->
-                <option value="usdc">USDC-ERC20 / USDC-Ethereum (warning: high minimum amount)</option>
+                <option value="usdc">USDC-ERC20 / USDC-Ethereum {{ gettext('page.donate.currency_warning_high_minimum') }}</option>
                 <option value="usdtbsc">USDT-BSC / Tether-Binance</option>
-                <option value="usdterc20">USDT-ERC20 / Tether-Ethereum (warning: high minimum amount)</option>
+                <option value="usdterc20">USDT-ERC20 / Tether-Ethereum {{ gettext('page.donate.currency_warning_high_minimum') }}</option>
                 <option value="usdttrc20">USDT-TRC20 / Tether-Tron</option>
                 <option value="usdtsol">USDT-SOL / Tether-Solana</option>
                 <option value="xrp">XRP / Ripple</option>

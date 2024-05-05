@@ -16,8 +16,7 @@
   {% endif %}
 
   {% if no_cloudflare %}
-    <!-- TODO:TRANSLATE -->
-    ❌ Slow downloads are not available through Cloudflare VPNs or otherwise from Cloudflare IP addresses.
+    {{ gettext('page.partner_download.slow_downloads_cloudflare') }}
   {% endif %}
 
   <p class="mb-4">
@@ -27,8 +26,7 @@
   {% if not (only_official or no_cloudflare) %}
     <p class="mb-4">
       {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">' + gettext('page.partner_download.download_now') + '</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
-      <!-- TODO:TRANSLATE -->
-      {% if hourly_download_count_from_ip %} Downloads from your IP address in the last 24 hours: {{ hourly_download_count_from_ip }}.{% endif %}
+      {% if hourly_download_count_from_ip %} {{ gettext('page.partner_download.downloads_last_24_hours', count=hourly_download_count_from_ip) }}{% endif %}
       {% if warning %} {{ gettext('page.partner_download.warning_many_downloads') }}{% endif %}
     </p>
   {% endif %}

@@ -24,8 +24,10 @@
     </p> -->
 
     <p class="mb-1">
-      <!-- TODO:TRANSLATE -->
-      Sci-Hub has <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank">paused</a> uploading of new papers. 🧬&nbsp;SciDB is a continuation of Sci-Hub. {{ gettext('page.home.scidb.subtitle', count=g.header_stats.journal_article) }}. <a class="text-xs" href="/scidb">{{ gettext('layout.index.header.learn_more') }}</a>
+      {{ gettext('page.home.scidb.scihub_paused', a_paused=(' href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank" ' | safe)) }}
+      {{ gettext('page.home.scidb.continuation') }}
+      {{ gettext('page.home.scidb.subtitle', count=g.header_stats.journal_article) }}.
+      <a class="text-xs" href="/scidb">{{ gettext('layout.index.header.learn_more') }}</a>
     </p>
 
     <form action="/scidb/" method="get" onsubmit='window.location="/scidb/" + new FormData(event.currentTarget).get("doi"); event.preventDefault(); return false'>
@@ -35,7 +37,6 @@
         <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('page.home.scidb.open') }}</button>
       </div>
       <!-- <div class="mb-1 text-sm text-gray-500">{{ gettext('page.home.scidb.browser_verification', a_member=(' href="/donate" ' | safe)) }}</div> -->
-      <!-- TODO:TRANSLATE -->
       <!-- <div class="mb-1 text-sm text-gray-500">Contains all of Sci-Hub, and more. <a class="" href="/scidb">{{ gettext('layout.index.header.learn_more') }}</a></div> -->
     </form>
 

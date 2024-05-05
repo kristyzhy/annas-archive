@@ -266,7 +266,7 @@ def extensions(app):
         }
         tagline_newnew2a = gettext('layout.index.header.tagline_newnew2a', **new_stats)
         tagline_newnew2b = gettext('layout.index.header.tagline_newnew2b', **new_stats)
-        tagline_newnew4 = 'All our code and data are completely open source.' # TODO:TRANSLATE
+        tagline_newnew4 = gettext('layout.index.header.tagline_open_source')
         new_header_tagline = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats), tagline_newnew4])
         g.header_tagline = new_header_tagline
         g.header_tagline_mid = " ".join([gettext('layout.index.header.tagline_new1'), tagline_newnew2a, tagline_newnew2b, gettext('layout.index.header.tagline_new3', **new_stats)])

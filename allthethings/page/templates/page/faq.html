@@ -16,8 +16,7 @@
   </ol>
 
   <p class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    All our <a href="https://annas-software.org/">code</a> and <a href="/datasets">data</a> are completely open source.
+    {{ gettext('page.home.intro.open_source', a_code=(' href="https://annas-software.org/" ' | safe), a_datasets=(' href="/datasets" ' | safe)) }}
   </p>
 
   <div class="bg-[#f2f2f2] p-4 pb-3 rounded-lg mb-4">
@@ -145,12 +144,13 @@
     {{ gettext('page.request.dont_email') }}
   </p>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="metadata">Do you collect metadata? <a href="#metadata" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="metadata">{{ gettext('page.faq.metadata.title') }} <a href="#metadata" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-    <a href="/datasets">We do indeed.</a>
-    <!-- TODO:TRANSLATE -->
-    Our inspiration for collecting metadata is Aaron Swartz’ goal of “one web page for every book ever published”, for which he created <a href="https://en.wikipedia.org/wiki/Open_Library">Open Library</a>. That project has done well, but our unique position allows us to get metadata that they can’t. Another inspiration was our desire to know <a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">how many books there are in the world</a>, so we can calculate how many books we still have left to save.
+    <a href="/datasets">{{ gettext('page.faq.metadata.indeed') }}</a>
+    {{ gettext('page.faq.metadata.inspiration1', a_openlib=(' href="https://en.wikipedia.org/wiki/Open_Library" ' | safe)) }}
+    {{ gettext('page.faq.metadata.inspiration2') }}
+    {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
   </p>
 
   <!-- TODO:TRANSLATE everything below -->

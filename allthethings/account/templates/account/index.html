@@ -19,8 +19,7 @@
     {% from 'macros/profile_link.html' import profile_link %}
     <div>{{ gettext('page.account.logged_in.account_id', account_id=account_dict.account_id) }}</div>
     <div>{{ gettext('page.account.logged_in.public_profile', profile_link=profile_link(account_dict, account_dict.account_id)) }}</div>
-    <!-- TODO:TRANSLATE -->
-    <div class="mb-4">Secret key (don’t share!): <a href="#" onclick="event.preventDefault(); document.querySelector('.js-secret-key').classList.remove('hidden'); this.classList.add('hidden'); return false">show</a><span class="js-secret-key hidden">{{ account_secret_key }}</span></div>
+    <div class="mb-4">{{ gettext('page.account.logged_in.secret_key_dont_share', secret_key=((('<a href="#" onclick="event.preventDefault(); document.querySelector('.js-secret-key').classList.remove('hidden'); this.classList.add('hidden'); return false">' | safe) + gettext('page.account.logged_in.secret_key_show') + ('</a><span class="js-secret-key hidden">' | safe) + account_secret_key + ('</span>' | safe)) | safe)) }}</div>
     
     {% if not account_fast_download_info %}
       <div class="mb-4">{{ gettext('page.account.logged_in.membership_none', a_become=(' href="/donate"' | safe)) }}</div>

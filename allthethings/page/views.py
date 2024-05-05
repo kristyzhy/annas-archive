@@ -3935,7 +3935,7 @@ def get_access_types_mapping(display_lang):
             "external_borrow": gettext("common.access_types_mapping.external_borrow"),
             "external_borrow_printdisabled": gettext("common.access_types_mapping.external_borrow_printdisabled"),
             "meta_explore": gettext("common.access_types_mapping.meta_explore"),
-            "torrents_available": "Contained in torrents", # TODO:TRANSLATE
+            "torrents_available": gettext("common.access_types_mapping.torrents_available"),
         }
 
 def get_record_sources_mapping(display_lang):

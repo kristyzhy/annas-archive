@@ -233,8 +233,7 @@
             {% if search_dict.search_index_short == '' %}
               <p class="mb-4">
                 {{ gettext('page.search.results.search_downloads', count=g.header_stats.total_without_journals, a_preserve=(' href="/faq#what" ' | safe)) }}
-                <!-- TODO:TRANSLATE -->
-                In fact, anyone can help preserve these files by seeding our <a href="/torrents">unified list of torrents</a>.
+                {{ gettext('page.search.results.help_preserve', a_torrents=(' href="/torrents" ' | safe)) }}
               </p>
               <p class="mb-4">
                 {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
@@ -248,11 +247,11 @@
                 {{ gettext('page.search.results.shortcuts') }}
               </p>
             {% elif search_dict.search_index_short == 'journals' %}
-              <!-- TODO:TRANSLATE -->
               <p class="mb-4">
-                <strong>Looking for papers?</strong>
-                Sci-Hub has <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank">paused</a> uploading of new papers.
-                🧬&nbsp;SciDB is a continuation of Sci-Hub, with its familiar interface and direct viewing of PDFs. <a href="/scidb">Try it here.</a>
+                <strong>{{ gettext('page.search.results.looking_for_papers') }}</strong>
+                {{ gettext('page.home.scidb.scihub_paused', a_paused=(' href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank" ' | safe)) }}
+                {{ gettext('page.home.scidb.continuation') }}
+                <a href="/scidb">{{ gettext('layout.index.header.learn_more') }}</a>
               </p>
 
               <p>
@@ -281,8 +280,9 @@
               </p>
 
               <p class="mb-4 text-sm">
-                <!-- TODO:TRANSLATE -->
-                Our inspiration for collecting metadata is Aaron Swartz’ goal of “one web page for every book ever published”, for which he created <a href="https://en.wikipedia.org/wiki/Open_Library">Open Library</a>. That project has done well, but our unique position allows us to get metadata that they can’t. Another inspiration was our desire to know <a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">how many books there are in the world</a>, so we can calculate how many books we still have left to save.
+                {{ gettext('page.faq.metadata.inspiration1', a_openlib=(' href="https://en.wikipedia.org/wiki/Open_Library" ' | safe)) }}
+                {{ gettext('page.faq.metadata.inspiration2') }}
+                {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
               </p>
 
               <p class="mb-4 text-sm">
@@ -305,10 +305,10 @@
         {% else %}
           {% if search_dict.search_index_short == 'journals' %}
             <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
-              <!-- TODO:TRANSLATE -->
-              <strong>Looking for papers?</strong>
-              Sci-Hub has <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank">paused</a> uploading of new papers.
-              🧬&nbsp;SciDB is a continuation of Sci-Hub, with its familiar interface and direct viewing of PDFs. <a href="/scidb">Try it here.</a>
+              <strong>{{ gettext('page.search.results.looking_for_papers') }}</strong>
+              {{ gettext('page.home.scidb.scihub_paused', a_paused=(' href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank" ' | safe)) }}
+              {{ gettext('page.home.scidb.continuation') }}
+              <a href="/scidb">{{ gettext('layout.index.header.learn_more') }}</a>
             </div>
           {% endif %}
         {% endif %}
