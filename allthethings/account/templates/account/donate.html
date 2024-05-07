@@ -319,8 +319,14 @@
 
     <form onsubmit="window.submitForm(event, '/dyn/account/buy_membership/', (data) => { if (data.error) { alert(data.error); location.reload() } else { window.location = data.redirect_url } })" class="js-membership-form mt-4 mb-4">
       <fieldset class="mb-2">
-        <div class="js-membership-donate-minimum mb-4 hidden">{{ gettext('page.donate.payment.minimum_method', amount=('<span class="js-membership-donate-minimum-amount"></span>' | safe)) }}</div>
-        <div class="js-membership-donate-maximum mb-4 hidden">{{ gettext('page.donate.payment.maximum_method', amount=('<span class="js-membership-donate-maximum-amount"></span>' | safe)) }}</div>
+        <div class="js-membership-donate-minimum mb-4 hidden">
+          <span class="js-membership-donate-minimum-text">{{ gettext('page.donate.payment.minimum_method', amount=('<span class="js-membership-donate-minimum-amount"></span>' | safe)) }}</span>
+          <div class="mt-2"><button class="bg-[#ddd] hover:bg-[#ccc] px-4 py-1 text-sm rounded-md text-white mb-1" onclick="event.preventDefault(); alert(document.querySelector('.js-membership-donate-minimum-text').innerText); return false;">Donate</button></div>
+        </div>
+        <div class="js-membership-donate-maximum mb-4 hidden">
+          <span class="js-membership-donate-maximum-text">{{ gettext('page.donate.payment.maximum_method', amount=('<span class="js-membership-donate-maximum-amount"></span>' | safe)) }}</span>
+          <div class="mt-2"><button class="bg-[#ddd] hover:bg-[#ccc] px-4 py-1 text-sm rounded-md text-white mb-1" onclick="event.preventDefault(); alert(document.querySelector('.js-membership-donate-maximum-text').innerText); return false;">Donate</button></div>
+        </div>
 
         <div class="js-membership-donate-submit-confirmation">
           <div class="[html.aa-logged-in_&]:hidden">

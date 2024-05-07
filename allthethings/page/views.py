@@ -818,6 +818,8 @@ def codes_page():
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
 
+        # TODO: Since 'code' and 'aarecord_id' are binary, this might not work with multi-byte UTF-8 chars. Test (and fix) that!
+
         cursor.execute("DROP FUNCTION IF EXISTS fn_get_next_codepoint")
         cursor.execute("""
             CREATE FUNCTION fn_get_next_codepoint(initial INT, prefix VARCHAR(200)) RETURNS INT
@@ -838,34 +840,36 @@ def codes_page():
         """)
 
         exact_matches = []
-        cursor.execute('SELECT aarecord_id FROM aarecords_codes WHERE code = %(prefix)s ORDER BY code, hashed_code, hashed_aarecord_id LIMIT 1000', { "prefix": prefix })
+        cursor.execute('SELECT aarecord_id FROM aarecords_codes WHERE code = %(prefix)s ORDER BY code, aarecord_id LIMIT 1000', { "prefix": prefix.encode() })
         for row in cursor.fetchall():
+            aarecord_id = row['aarecord_id'].decode()
             exact_matches.append({
-                "label": row['aarecord_id'],
-                "link": allthethings.utils.path_for_aarecord_id(row['aarecord_id']),
+                "label": aarecord_id,
+                "link": allthethings.utils.path_for_aarecord_id(aarecord_id),
             })
 
         # cursor.execute('SELECT CONCAT(%(prefix)s, IF(@r > 0, CHAR(@r USING utf8), "")) AS new_prefix, @r := fn_get_next_codepoint(IF(@r > 0, @r, ORD(" ")), %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
-        cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING utf8)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code > %(prefix)s AND code LIKE CONCAT(%(prefix)s, "%%") ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r != 0', { "prefix": prefix })
+        cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING utf8)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code > %(prefix)s AND code LIKE CONCAT(%(prefix)s, "%%") ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r != 0', { "prefix": prefix.encode() })
         new_prefixes_raw = cursor.fetchall()
         new_prefixes = [row['new_prefix'] for row in new_prefixes_raw]
         prefix_rows = []
         print(f"{new_prefixes_raw=}")
         for new_prefix in new_prefixes:
             # TODO: more efficient? Though this is not that bad because we don't typically iterate through that many values.
-            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(%(new_prefix)s, "%%") ORDER BY code, hashed_code, hashed_aarecord_id LIMIT 1', { "new_prefix": new_prefix })
+            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(%(new_prefix)s, "%%") ORDER BY code, aarecord_id LIMIT 1', { "new_prefix": new_prefix })
             first_record = cursor.fetchone()
-            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(%(new_prefix)s, "%%") ORDER BY code DESC, hashed_code DESC, hashed_aarecord_id DESC LIMIT 1', { "new_prefix": new_prefix })
+            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(%(new_prefix)s, "%%") ORDER BY code DESC, aarecord_id DESC LIMIT 1', { "new_prefix": new_prefix })
             last_record = cursor.fetchone()
 
             if first_record['code'] == last_record['code']:
+                code = first_record["code"].decode()
                 prefix_rows.append({
-                    "label": first_record["code"],
+                    "label": code,
                     "records": last_record["row_number_order_by_code"]-first_record["row_number_order_by_code"]+1,
-                    "link": f'/codes?prefix={first_record["code"]}',
+                    "link": f'/codes?prefix={code}',
                 })
             else:
-                longest_prefix = os.path.commonprefix([first_record["code"], last_record["code"]])
+                longest_prefix = os.path.commonprefix([first_record["code"].decode(), last_record["code"].decode()])
                 prefix_rows.append({
                     "label": f'{longest_prefix}⋯',
                     "codes": last_record["dense_rank_order_by_code"]-first_record["dense_rank_order_by_code"]+1,
@@ -4176,7 +4180,7 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         lgrsnf_torrent_path = f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"
-        lgrsnf_manually_synced = (lgrsnf_thousands_dir <= 4284000)
+        lgrsnf_manually_synced = (lgrsnf_thousands_dir <= 4297000)
         # TODO: Put back.
         # lgrsnf_manually_synced = (lgrsnf_thousands_dir >= 4110000) and (lgrsnf_thousands_dir <= 4284000)
         if lgrsnf_manually_synced or (lgrsnf_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
@@ -4190,7 +4194,7 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('lgrsfic_book') is not None:
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
         lgrsfic_torrent_path = f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir}.torrent" # Note: no leading zeroes
-        lgrsfic_manually_synced = (lgrsfic_thousands_dir >= 2886000) and (lgrsfic_thousands_dir <= 2977000)
+        lgrsfic_manually_synced = (lgrsfic_thousands_dir >= 2886000) and (lgrsfic_thousands_dir <= 2983000)
         if lgrsfic_manually_synced or (lgrsfic_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
             additional['torrent_paths'].append([lgrsfic_torrent_path])
         if lgrsfic_manually_synced or ((lgrsfic_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path) and (torrents_json_aa_currently_seeding_by_torrent_path[lgrsfic_torrent_path])):
