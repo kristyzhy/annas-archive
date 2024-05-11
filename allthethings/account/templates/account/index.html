@@ -29,7 +29,7 @@
       {% endfor %}
       <div class="">{{ gettext('page.account.logged_in.membership_fast_downloads_used', used=(account_fast_download_info.downloads_per_day-account_fast_download_info.downloads_left), total=account_fast_download_info.downloads_per_day ) }} <a class="text-sm" href="/account/downloaded">{{ gettext('page.account.logged_in.which_downloads') }}</a></div>
       {% if account_fast_download_info.telegram_url %}
-        <div class="my-4">{{ gettext('page.account.logged_in.telegram_group_wrapper', link=('<a href="' + account_fast_download_info.telegram_url + '">' + gettext('page.account.logged_in.telegram_group_join') + '</a>')) }}</div>
+        <div class="my-4">{{ gettext('page.account.logged_in.telegram_group_wrapper', link=((('<a href="' + account_fast_download_info.telegram_url + '">' | safe) + gettext('page.account.logged_in.telegram_group_join') + ('</a>' | safe)) | safe)) }}</div>
       {% else %}
         <div class="my-4">{{ gettext('page.account.logged_in.telegram_group_wrapper', link=(('<em>' | safe) + gettext('page.account.logged_in.telegram_group_upgrade', a_tier=('href="/donate"' | safe)) + ('</em>' | safe))) }}
       {% endif %}

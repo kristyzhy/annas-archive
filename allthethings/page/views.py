@@ -3963,6 +3963,7 @@ def get_specific_search_fields_mapping(display_lang):
             'author': gettext('common.specific_search_fields.author'),
             'publisher': gettext('common.specific_search_fields.publisher'),
             'edition_varia': gettext('common.specific_search_fields.edition_varia'),
+            'year': "Year published", # TODO:TRANSLATE
             'original_filename': gettext('common.specific_search_fields.original_filename'),
             'description_comments': gettext('common.specific_search_fields.description_comments'),
         }

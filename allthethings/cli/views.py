@@ -873,12 +873,17 @@ def mysql_build_aarecords_codes_numbers():
     mysql_build_aarecords_codes_numbers_internal()
 
 def mysql_build_aarecords_codes_numbers_internal():
+    processed_rows = 0
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
         cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes"')
         total = cursor.fetchone()['table_rows']
         print(f"Found {total=} codes")
+
+        # cursor.execute('SELECT COUNT(*) AS count FROM aarecords_codes')
+        # total = cursor.fetchone()['count']
+        # print(f"ACTUAL total: {total=} codes (expensive to compute)")
 
         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
             current_record_for_filter = {'code':b'','aarecord_id':b''}
@@ -918,7 +923,9 @@ def mysql_build_aarecords_codes_numbers_internal():
                 cursor.execute('COMMIT')
 
                 pbar.update(len(update_data))
+                processed_rows += len(update_data)
                 current_record_for_filter = rows[-1]
+    print(f"Done! {processed_rows=}")
 
 
 #################################################################################################
