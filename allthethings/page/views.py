@@ -532,6 +532,7 @@ def get_torrents_data():
         group_sizes = collections.defaultdict(int)
         small_file_dicts_grouped_aa = collections.defaultdict(list)
         small_file_dicts_grouped_external = collections.defaultdict(list)
+        small_file_dicts_grouped_other_aa = collections.defaultdict(list)
         aac_meta_file_paths_grouped = collections.defaultdict(list)
         seeder_sizes = collections.defaultdict(int)
         for small_file in small_files:
@@ -560,6 +561,8 @@ def get_torrents_data():
             group_sizes[group] += metadata['data_size']
             if toplevel == 'external':
                 list_to_add = small_file_dicts_grouped_external[group]
+            elif toplevel == 'other_aa':
+                list_to_add = small_file_dicts_grouped_other_aa[group]
             else:
                 list_to_add = small_file_dicts_grouped_aa[group]
             display_name = small_file['file_path'].split('/')[-1]
@@ -569,7 +572,7 @@ def get_torrents_data():
                 "metadata": metadata, 
                 "aa_currently_seeding": allthethings.utils.aa_currently_seeding(metadata),
                 "size_string": format_filesize(metadata['data_size']), 
-                "file_path_short": small_file['file_path'].replace('torrents/managed_by_aa/annas_archive_meta__aacid/', '').replace('torrents/managed_by_aa/annas_archive_data__aacid/', '').replace(f'torrents/managed_by_aa/{group}/', '').replace(f'torrents/external/{group}/', ''),
+                "file_path_short": small_file['file_path'].replace('torrents/managed_by_aa/annas_archive_meta__aacid/', '').replace('torrents/managed_by_aa/annas_archive_data__aacid/', '').replace(f'torrents/managed_by_aa/{group}/', '').replace(f'torrents/external/{group}/', '').replace(f'torrents/other_aa/{group}/', ''),
                 "display_name": display_name, 
                 "scrape_metadata": scrape_metadata, 
                 "scrape_created": scrape_created, 
@@ -583,6 +586,8 @@ def get_torrents_data():
             small_file_dicts_grouped_external[key] = natsort.natsorted(small_file_dicts_grouped_external[key], key=lambda x: list(x.values()))
         for key in small_file_dicts_grouped_aa:
             small_file_dicts_grouped_aa[key] = natsort.natsorted(small_file_dicts_grouped_aa[key], key=lambda x: list(x.values()))
+        for key in small_file_dicts_grouped_other_aa:
+            small_file_dicts_grouped_other_aa[key] = natsort.natsorted(small_file_dicts_grouped_other_aa[key], key=lambda x: list(x.values()))
 
         obsolete_file_paths = [
             'torrents/managed_by_aa/zlib/pilimi-zlib-index-2022-06-28.torrent',
@@ -599,7 +604,7 @@ def get_torrents_data():
             obsolete_file_paths += file_path_list[0:-1]
 
         # Tack on "obsolete" fields, now that we have them
-        for group in list(small_file_dicts_grouped_aa.values()) + list(small_file_dicts_grouped_external.values()):
+        for group in list(small_file_dicts_grouped_aa.values()) + list(small_file_dicts_grouped_external.values()) + list(small_file_dicts_grouped_other_aa.values()):
             for item in group:
                 item['obsolete'] = (item['file_path'] in obsolete_file_paths)
 
@@ -611,6 +616,7 @@ def get_torrents_data():
             'small_file_dicts_grouped': {
                 'managed_by_aa': dict(sorted(small_file_dicts_grouped_aa.items())),
                 'external': dict(sorted(small_file_dicts_grouped_external.items())),
+                'other_aa': dict(sorted(small_file_dicts_grouped_other_aa.items())),
             },
             'group_size_strings': group_size_strings,
             'seeder_size_strings': seeder_size_strings,

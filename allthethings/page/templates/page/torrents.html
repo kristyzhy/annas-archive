@@ -58,9 +58,13 @@
       <div class="mt-8 group"><span class="text-xl font-bold" id="guide">Guide</span> <a href="#guide" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
       <p class="mb-4">
-        The list of torrents is split in two parts:<br>
+        The list of torrents is split in three parts:<br>
         1. The first part is managed and released by Anna’s Archive. These include books, papers, and magazines from websites such as Z-Library and Internet Archive. It also includes metadata records from websites such as WorldCat and ISBNdb.<br>
         2. The second part is managed and released by others, such as Library Genesis and Sci-Hub. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.<br>
+        3. Miscellaneous other torrents; not critical to seed and not included in stats or the torrent list generator.<br>
+      </p>
+
+      <p class="mb-4">
         For more information about the different collections, see the <a href="/datasets">Datasets</a> page.
       </p>
 
@@ -162,11 +166,17 @@
             Torrents with “aac” in the filename use the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents.
             <!-- Some torrents that have messages in their filename are “adopted torrents”, which is a perk of our top tier <a href="/donate">“Amazing Archivist” membership</a>. -->
           </p>
-        {% else %}
+        {% elif toplevel == 'external' %}
           <div class="mt-8 group"><span class="text-2xl font-bold" id="external">External Collections</span> <a href="#external" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
           <p class="mb-4">
             These torrents are managed and released by others. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.
+          </p>
+        {% else %}
+          <div class="mt-8 group"><span class="text-2xl font-bold" id="other_aa">Other Torrents by Anna’s Archive</span> <a href="#other_aa" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+
+          <p class="mb-4">
+            These are miscellaneous torrents which are not critical to seed, but contain useful data for certain use cases. These torrents are not included in the seeding stats or torrent list generator.
           </p>
         {% endif %}
       {% endif %}
@@ -198,6 +208,8 @@
                 <div class="mb-1 text-sm">Sci-Hub / Libgen.rs “scimag” collection of academic papers. Currently not directly seeded by Anna’s Archive, but we keep a backup in extracted form. Note that the “smarch” torrents are <a href="https://www.reddit.com/r/libgen/comments/15qa5i0/what_are_smarch_files/">deprecated</a> and therefore not included in our list. <a href="/torrents/scihub">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/scihub">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://libgen.rs/scimag/repository_torrent/">original</a></div>
               {% elif group == 'duxiu' %}
                 <div class="mb-1 text-sm">DuXiu and related. <a href="/torrents/duxiu">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/duxiu">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/duxiu-exclusive.html">blog</a></div>
+              {% elif group == 'aa_derived_mirror_metadata' %}
+                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MySQL), published occasionally for convenience. All of this can be generated from scratch using <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">our open source code</a>, but this can take a while. At this time you do still need to run the Worldcat-related scripts.</div>
               {% endif %}
             </td></tr>
 

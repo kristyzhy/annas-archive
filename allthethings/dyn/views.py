@@ -128,7 +128,7 @@ def generate_torrents_page():
         for group_name, small_files in small_files_groups.items():
             for small_file in small_files:
                 output_row = make_torrent_json(top_level_group_name, group_name, small_file)
-                if not output_row['embargo'] and not output_row['obsolete'] and output_row['seeders'] > 0:
+                if not output_row['embargo'] and not output_row['obsolete'] and output_row['seeders'] > 0 and output_row['top_level_group_name'] != 'other_aa':
                     potential_output_rows.append({ **output_row, "random_increment": random.random()*2.0 })
                     total_data_size += output_row['data_size']
 
