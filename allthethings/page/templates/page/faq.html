@@ -170,6 +170,28 @@
     Select the settings you like, keep the search box empty, click “Search”, and then bookmark the page using your browser’s bookmark feature.
   </p>
 
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="torrents">Torrents FAQ <a href="#torrents" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+
+  <p class="mb-4">
+    <strong>I would like to help seed, but I don’t have much disk space.</strong><br>
+    Use the <a href="/torrents#generate_torrent_list">torrent list generator</a> to generate a list of torrents that are most in need of torrenting, within your storage space limits.
+  </p>
+
+  <p class="mb-4">
+    <strong>The torrents are too slow, can I download the data directly from you?</strong><br>
+    Yes, see the <a href="/llm">LLM data</a> page.
+  </p>
+
+  <p class="mb-4">
+    <strong>Can I download only a subset of the files, like only a particular language or topic?</strong><br>
+    Most torrents contain the files directly, which means that you can instruct torrent clients to only download the required files. To determine which files to download, you can <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">reconstruct</a> our metadata database. Unfortunately, a number of torrent collections contain .zip or .tar files at the root, in which case you need to download the entire torrent before being able to select individual files.
+  </p>
+
+  <p class="mb-4">
+    <strong>How do you handle duplicates in the torrents?</strong><br>
+    We try to keep minimal duplication or overlap between the torrents in this list, but this can’t always be achieved, and depends heavily on the policies of the source libraries. For libraries that put out their own torrents, it’s out of our hands. For torrents released by Anna’s Archive, we deduplicate only based on MD5 hash, which means that different versions of the same book don’t get deduplicated.
+  </p>
+
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="mobile">Do you have a mobile app? <a href="#mobile" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">

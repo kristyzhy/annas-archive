@@ -65,11 +65,11 @@
       </p>
 
       <p class="mb-4">
-        For more information about the different collections, see the <a href="/datasets">Datasets</a> page.
+        Torrents seeded by Anna’s Archive are indicated with a checkmark (✅). Some torrents get temporarily embargoed (🔒) upon release, for various reasons (e.g. protecting our scraping methods). An embargo means very slow initial seeding speeds. They get lifted within a year.
       </p>
 
       <p class="mb-4">
-        We try to keep minimal duplication or overlap between the torrents in this list. Some torrents get temporarily embargoed (🔒) upon release, for various reasons (e.g. protecting our scraping methods). An embargo means very slow initial seeding speeds. They get lifted within a year.
+        For more information about the different collections, see the <a href="/datasets">Datasets</a> page. Also see the <a href="/faq#torrents">Torrents FAQ</a>.
       </p>
 
       <p class="mb-4">
@@ -169,13 +169,13 @@
         {% elif toplevel == 'external' %}
           <div class="mt-8 group"><span class="text-2xl font-bold" id="external">External Collections</span> <a href="#external" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
-          <p class="mb-4">
+          <p class="mb-0">
             These torrents are managed and released by others. We include these torrents in order to present a unified list of everything you need to mirror Anna’s Archive.
           </p>
         {% else %}
           <div class="mt-8 group"><span class="text-2xl font-bold" id="other_aa">Other Torrents by Anna’s Archive</span> <a href="#other_aa" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
-          <p class="mb-4">
+          <p class="mb-0">
             These are miscellaneous torrents which are not critical to seed, but contain useful data for certain use cases. These torrents are not included in the seeding stats or torrent list generator.
           </p>
         {% endif %}
@@ -209,7 +209,7 @@
               {% elif group == 'duxiu' %}
                 <div class="mb-1 text-sm">DuXiu and related. <a href="/torrents/duxiu">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/duxiu">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/duxiu-exclusive.html">blog</a></div>
               {% elif group == 'aa_derived_mirror_metadata' %}
-                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MySQL), published occasionally for convenience. All of this can be generated from scratch using <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">our open source code</a>, but this can take a while. At this time you do still need to run the Worldcat-related scripts.</div>
+                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MariaDB), published occasionally to make it easier to set up mirrors. All this data can be generated from scratch using <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">our open source code</a>, but this can take a while. At this time you do still need to run the Worldcat-related scripts.</div>
               {% endif %}
             </td></tr>
 
