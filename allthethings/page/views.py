@@ -816,7 +816,7 @@ def torrents_group_page(group):
 @page.get("/codes")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def codes_page():
-    # return ""
+    return ""
 
     with engine.connect() as connection:
         prefix = request.args.get('prefix') or ''

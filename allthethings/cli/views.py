@@ -313,6 +313,9 @@ def elastic_reset_aarecords_internal():
         # cursor.execute('CREATE TABLE aarecords_codes_counts (code_prefix_length INT NOT NULL, code_prefix VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), child_count BIGINT, record_count BIGINT, PRIMARY KEY (code_prefix_length, code_prefix, aarecord_id_prefix)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13') # Old
+        # TODO: Replace with aarecords_codes
+        cursor.execute('DROP TABLE IF EXISTS isbn13_oclc')
+        cursor.execute('CREATE TABLE isbn13_oclc (isbn13 CHAR(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL, oclc_id BIGINT NOT NULL, PRIMARY KEY (isbn13, oclc_id)) ENGINE=MyISAM ROW_FORMAT=FIXED DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
 #################################################################################################
@@ -733,13 +736,6 @@ def elastic_build_aarecords_oclc_internal():
         print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
         print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
         print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
-
-    with engine.connect() as connection:
-        print("Creating oclc_isbn table")
-        connection.connection.ping(reconnect=True)
-        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        # TODO: Replace with aarecords_codes
-        cursor.execute('CREATE TABLE IF NOT EXISTS isbn13_oclc (isbn13 CHAR(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL, oclc_id BIGINT NOT NULL, PRIMARY KEY (isbn13, oclc_id)) ENGINE=MyISAM ROW_FORMAT=FIXED DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
 
     with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
         print("Processing from oclc")
