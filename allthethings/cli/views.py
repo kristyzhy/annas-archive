@@ -306,9 +306,10 @@ def elastic_reset_aarecords_internal():
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_all')
         cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('DROP TABLE IF EXISTS aarecords_codes')
-        # cursor.execute('CREATE TABLE aarecords_codes (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), row_number_order_by_code BIGINT DEFAULT 0, dense_rank_order_by_code BIGINT DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('CREATE TABLE aarecords_codes (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
+        # cursor.execute('CREATE TABLE aarecords_codes_new (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), row_number_order_by_code BIGINT DEFAULT 0, dense_rank_order_by_code BIGINT DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         # cursor.execute('DROP TABLE IF EXISTS aarecords_codes_counts')
         # cursor.execute('CREATE TABLE aarecords_codes_counts (code_prefix_length INT NOT NULL, code_prefix VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), child_count BIGINT, record_count BIGINT, PRIMARY KEY (code_prefix_length, code_prefix, aarecord_id_prefix)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
@@ -472,7 +473,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 if len(aarecords_codes_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
                     # ON DUPLICATE KEY here is dummy, to avoid INSERT IGNORE which suppresses other errors
-                    cursor.executemany(f"INSERT INTO aarecords_codes (code, aarecord_id, aarecord_id_prefix) VALUES (%(code)s, %(aarecord_id)s, %(aarecord_id_prefix)s) ON DUPLICATE KEY UPDATE code=VALUES(code)", aarecords_codes_insert_data)
+                    cursor.executemany(f"INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) VALUES (%(code)s, %(aarecord_id)s, %(aarecord_id_prefix)s) ON DUPLICATE KEY UPDATE code=VALUES(code)", aarecords_codes_insert_data)
                     cursor.execute('COMMIT')
                 # if len(aarecords_codes_counts_insert_data) > 0:
                 #     session.connection().connection.ping(reconnect=True)
@@ -857,8 +858,8 @@ def elastic_build_aarecords_main_internal():
         print(f"Done with main!")
 
 #################################################################################################
-# Fill aarecords_codes with numbers based off ROW_NUMBER and DENSE_RANK MySQL functions, but
-# precomupted because they're expensive.
+# Fill aarecords_codes (actually aarecords_codes_new) with numbers based off ROW_NUMBER and
+# DENSE_RANK MySQL functions, but precomupted because they're expensive.
 #
 # TODO: Make the aarecords_codes table way more efficient. E.g. by not having indexes as all, and
 # only having (id_prefix,code,id) main columns, and have that also be the primary key? Or perhaps just (code,id)?
@@ -873,11 +874,11 @@ def mysql_build_aarecords_codes_numbers_internal():
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes"')
+        cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes_new"')
         total = cursor.fetchone()['table_rows']
-        print(f"Found {total=} codes")
+        print(f"Found {total=} codes (approximately)")
 
-        # cursor.execute('SELECT COUNT(*) AS count FROM aarecords_codes')
+        # cursor.execute('SELECT COUNT(*) AS count FROM aarecords_codes_new')
         # total = cursor.fetchone()['count']
         # print(f"ACTUAL total: {total=} codes (expensive to compute)")
 
@@ -891,7 +892,7 @@ def mysql_build_aarecords_codes_numbers_internal():
             last_code_by_aarecord_id_prefix = collections.defaultdict(str)
             while True:
                 connection.connection.ping(reconnect=True)
-                cursor.execute('SELECT code, aarecord_id_prefix, aarecord_id FROM aarecords_codes WHERE code > %(from_code)s OR (code = %(from_code)s AND aarecord_id > %(from_aarecord_id)s) ORDER BY code, aarecord_id LIMIT %(BATCH_SIZE)s', { "from_code": current_record_for_filter['code'], "from_aarecord_id": current_record_for_filter['aarecord_id'], "BATCH_SIZE": BATCH_SIZE })
+                cursor.execute('SELECT code, aarecord_id_prefix, aarecord_id FROM aarecords_codes_new WHERE code > %(from_code)s OR (code = %(from_code)s AND aarecord_id > %(from_aarecord_id)s) ORDER BY code, aarecord_id LIMIT %(BATCH_SIZE)s', { "from_code": current_record_for_filter['code'], "from_aarecord_id": current_record_for_filter['aarecord_id'], "BATCH_SIZE": BATCH_SIZE })
                 rows = list(cursor.fetchall())
                 if len(rows) == 0:
                     break
@@ -915,12 +916,19 @@ def mysql_build_aarecords_codes_numbers_internal():
                     last_code = row['code']
                     last_code_by_aarecord_id_prefix[row['aarecord_id_prefix']] = row['code']
                 connection.connection.ping(reconnect=True)
-                cursor.executemany('UPDATE aarecords_codes SET row_number_order_by_code=%(row_number_order_by_code)s, dense_rank_order_by_code=%(dense_rank_order_by_code)s, row_number_partition_by_aarecord_id_prefix_order_by_code=%(row_number_partition_by_aarecord_id_prefix_order_by_code)s, dense_rank_partition_by_aarecord_id_prefix_order_by_code=%(dense_rank_partition_by_aarecord_id_prefix_order_by_code)s WHERE code=%(code)s AND aarecord_id=%(aarecord_id)s', update_data)
+                cursor.executemany('UPDATE aarecords_codes_new SET row_number_order_by_code=%(row_number_order_by_code)s, dense_rank_order_by_code=%(dense_rank_order_by_code)s, row_number_partition_by_aarecord_id_prefix_order_by_code=%(row_number_partition_by_aarecord_id_prefix_order_by_code)s, dense_rank_partition_by_aarecord_id_prefix_order_by_code=%(dense_rank_partition_by_aarecord_id_prefix_order_by_code)s WHERE code=%(code)s AND aarecord_id=%(aarecord_id)s', update_data)
                 cursor.execute('COMMIT')
 
                 pbar.update(len(update_data))
                 processed_rows += len(update_data)
                 current_record_for_filter = rows[-1]
+        
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes')
+        cursor.execute('COMMIT')
+        cursor.execute('ALTER TABLE aarecords_codes_new RENAME aarecords_codes')
+        cursor.execute('COMMIT')
     print(f"Done! {processed_rows=}")
 
 
