@@ -310,6 +310,9 @@ def elastic_reset_aarecords_internal():
         # cursor.execute('CREATE TABLE aarecords_codes_new (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), row_number_order_by_code BIGINT DEFAULT 0, dense_rank_order_by_code BIGINT DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes_new')
+        cursor.execute('CREATE TABLE aarecords_codes_prefixes_new (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         # cursor.execute('DROP TABLE IF EXISTS aarecords_codes_counts')
         # cursor.execute('CREATE TABLE aarecords_codes_counts (code_prefix_length INT NOT NULL, code_prefix VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), child_count BIGINT, record_count BIGINT, PRIMARY KEY (code_prefix_length, code_prefix, aarecord_id_prefix)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
@@ -369,6 +372,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
                 aarecords_all_insert_data = []
                 aarecords_codes_insert_data = []
+                aarecords_codes_prefixes_insert_data = []
                 # aarecords_codes_counts_insert_data = []
                 for aarecord in aarecords:
                     aarecord_id_split = aarecord['id'].split(':', 1)
@@ -404,6 +408,9 @@ def elastic_build_aarecords_job(aarecord_ids):
                             'code': code.encode(),
                             'aarecord_id': aarecord['id'].encode(),
                             'aarecord_id_prefix': aarecord_id_split[0].encode(),
+                        })
+                        aarecords_codes_prefixes_insert_data.append({
+                            'code_prefix': code.encode().split(b':', 1)[0],
                         })
                         # code_prefix = ''
                         # # 18 is enough for "isbn13:" plus 11 of the 13 digits.
@@ -474,6 +481,11 @@ def elastic_build_aarecords_job(aarecord_ids):
                     session.connection().connection.ping(reconnect=True)
                     # ON DUPLICATE KEY here is dummy, to avoid INSERT IGNORE which suppresses other errors
                     cursor.executemany(f"INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) VALUES (%(code)s, %(aarecord_id)s, %(aarecord_id_prefix)s) ON DUPLICATE KEY UPDATE code=VALUES(code)", aarecords_codes_insert_data)
+                    cursor.execute('COMMIT')
+                if len(aarecords_codes_prefixes_insert_data) > 0:
+                    session.connection().connection.ping(reconnect=True)
+                    # ON DUPLICATE KEY here is dummy, to avoid INSERT IGNORE which suppresses other errors
+                    cursor.executemany(f"INSERT INTO aarecords_codes_prefixes_new (code_prefix) VALUES (%(code_prefix)s) ON DUPLICATE KEY UPDATE code_prefix=VALUES(code_prefix)", aarecords_codes_prefixes_insert_data)
                     cursor.execute('COMMIT')
                 # if len(aarecords_codes_counts_insert_data) > 0:
                 #     session.connection().connection.ping(reconnect=True)
@@ -864,6 +876,9 @@ def elastic_build_aarecords_main_internal():
 # TODO: Make the aarecords_codes table way more efficient. E.g. by not having indexes as all, and
 # only having (id_prefix,code,id) main columns, and have that also be the primary key? Or perhaps just (code,id)?
 #
+# TODO: This command takes very long, can we make it parallel somehow? Perhaps by relaxing some
+# continuity on the numbers (e.g. they're only valid within prefixes of length 1 or 2)?
+#
 # ./run flask cli mysql_build_aarecords_codes_numbers
 @cli.cli.command('mysql_build_aarecords_codes_numbers')
 def mysql_build_aarecords_codes_numbers():
@@ -928,6 +943,10 @@ def mysql_build_aarecords_codes_numbers_internal():
         cursor.execute('DROP TABLE IF EXISTS aarecords_codes')
         cursor.execute('COMMIT')
         cursor.execute('ALTER TABLE aarecords_codes_new RENAME aarecords_codes')
+        cursor.execute('COMMIT')
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes')
+        cursor.execute('COMMIT')
+        cursor.execute('ALTER TABLE aarecords_codes_prefixes_new RENAME aarecords_codes_prefixes')
         cursor.execute('COMMIT')
     print(f"Done! {processed_rows=}")
 
