@@ -23,7 +23,25 @@
     {{ gettext('page.partner_download.main_page', a_main=((' href="/md5/' + canonical_md5 + '"') | safe)) }}
   </p>
 
-  {% if not (only_official or no_cloudflare) %}
+  {% if wait_seconds %}
+    <script>
+      setTimeout(function() {
+        window.location.reload();
+      }, 5000);
+    </script>
+    <p>
+      <!-- TODO:TRANSLATE -->
+      ⏰ In order to give everyone an opportunity to download files for free, you need to wait <strong>{{ wait_seconds }} seconds</strong> before you can download this file. For your convenience, this page will be automatically refreshed until the timer finishes.
+    </p>
+    <ul class="mb-4">
+      <li>- Feel free to continue browsing Anna’s Archive in a different tab while waiting.</li>
+      <li>- Feel free to open multiple download pages at the same time.</li>
+      <li>- Once you get a download link it is valid for several hours.</li>
+      <li>- Thanks for waiting, this keeps the website accessible for free for everyone! 😊</li>
+    </ul>
+  {% endif %}
+
+  {% if not (only_official or no_cloudflare or wait_seconds) %}
     <p class="mb-4">
       {{ gettext('page.partner_download.url', url=(('<a href="' + url + '" class="font-bold">' + gettext('page.partner_download.download_now') + '</a>') | safe), a_download=((' href="' + url + '" class="font-bold"') | safe)) }}
       {% if hourly_download_count_from_ip %} {{ gettext('page.partner_download.downloads_last_24_hours', count=hourly_download_count_from_ip) }}{% endif %}
@@ -31,9 +49,11 @@
     </p>
   {% endif %}
 
-  {% if slow_download or only_official or no_cloudflare %}
+  {% if slow_download or only_official or no_cloudflare or wait_seconds %}
     <p class="mb-4">
-      {{ gettext('page.partner_download.faster_downloads', a_membership=(' href="/donate"' | safe)) }}
+      <!-- TODO:TRANSLATE -->
+      🚀 To get faster downloads, skip the browser checks, and skip waitlists, <a href="/donate">become a member</a>.
+      <!-- {{ gettext('page.partner_download.faster_downloads', a_membership=(' href="/donate"' | safe)) }} -->
     </p>
   {% endif %}
 

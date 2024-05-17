@@ -41,9 +41,11 @@ from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
 from flask_babel import gettext, ngettext, force_locale, get_locale
-from config.settings import AA_EMAIL
+from config.settings import AA_EMAIL, DOWNLOADS_SECRET_KEY
 
 import allthethings.utils
+
+HASHED_DOWNLOADS_SECRET_KEY = hashlib.sha256(DOWNLOADS_SECRET_KEY.encode()).digest()
 
 page = Blueprint("page", __name__, template_folder="templates")
 
@@ -3996,7 +3998,8 @@ def add_partner_servers(path, modifier, aarecord, additional):
         targeted_seconds = 10
     # When changing the domains, don't forget to change md5_fast_download and md5_slow_download.
     for index in range(len(allthethings.utils.FAST_DOWNLOAD_DOMAINS)):
-        additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), gettext("common.md5.servers.no_browser_verification") if len(additional['fast_partner_urls']) == 0 else ''))
+        gettext("common.md5.servers.no_browser_verification")
+        additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), '(no browser verification or waitlists)' if len(additional['fast_partner_urls']) == 0 else ''))
     for index in range(len(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)):
         additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification" ') if len(additional['slow_partner_urls']) == 0 else ''))
     additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
@@ -4608,6 +4611,7 @@ def compute_download_speed(targeted_seconds, filesize, minimum, maximum):
     return min(maximum, max(minimum, int(filesize/1000/targeted_seconds)))
 
 @page.get("/slow_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
+@page.post("/slow_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
 @allthethings.utils.no_cache()
 def md5_slow_download(md5_input, path_index, domain_index):
     md5_input = md5_input[0:50]
@@ -4630,12 +4634,13 @@ def md5_slow_download(md5_input, path_index, domain_index):
             canonical_md5=canonical_md5,
         )
 
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
+        return redirect(f"/md5/{md5_input}", code=302)
+
     data_pseudo_ipv4 = allthethings.utils.pseudo_ipv4_bytes(request.remote_addr)
     account_id = allthethings.utils.get_account_id(request.cookies)
     data_hour_since_epoch = int(time.time() / 3600)
 
-    if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
-        return redirect(f"/md5/{md5_input}", code=302)
     with Session(engine) as session:
         with Session(mariapersist_engine) as mariapersist_session:
             aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
@@ -4645,7 +4650,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
             aarecord = aarecords[0]
             try:
-                domain = allthethings.utils.SLOW_DOWNLOAD_DOMAINS[domain_index]
+                domain_slow = allthethings.utils.SLOW_DOWNLOAD_DOMAINS[domain_index]
+                domain_slowest = allthethings.utils.SLOWEST_DOWNLOAD_DOMAINS[domain_index]
                 path_info = aarecord['additional']['partner_url_paths'][path_index]
             except:
                 return redirect(f"/md5/{md5_input}", code=302)
@@ -4655,27 +4661,39 @@ def md5_slow_download(md5_input, path_index, domain_index):
             hourly_download_count_from_ip = ((cursor.fetchone() or {}).get('count') or 0)
             # minimum = 10
             # maximum = 100
-            minimum = 100
-            maximum = 300
-            targeted_seconds_multiplier = 1.0
+            # minimum = 100
+            # maximum = 300
+            # targeted_seconds_multiplier = 1.0
             warning = False
-            if hourly_download_count_from_ip >= 400:
-                targeted_seconds_multiplier = 3.0
-                minimum = 5
-                maximum = 30
+            # These waitlist_max_wait_time_seconds values must be multiples, under the current modulo scheme.
+            # Also WAITLIST_DOWNLOAD_WINDOW_SECONDS gets subtracted from it.
+            waitlist_max_wait_time_seconds = 4*60
+            domain = domain_slow
+            if hourly_download_count_from_ip >= 100:
+                # targeted_seconds_multiplier = 2.0
+                # minimum = 20
+                # maximum = 100
+                waitlist_max_wait_time_seconds *= 2
                 warning = True
-            elif hourly_download_count_from_ip >= 100:
-                targeted_seconds_multiplier = 2.0
-                minimum = 20
-                maximum = 100
-                warning = True
+                domain = domain_slowest
             elif hourly_download_count_from_ip >= 30:
-                targeted_seconds_multiplier = 1.5
-                minimum = 20
-                maximum = 150
-                warning = False
+                domain = domain_slowest
 
-            speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
+            WAITLIST_DOWNLOAD_WINDOW_SECONDS = 90
+            days_since_epoch = int(time.time() / 3600 / 24)
+            hashed_md5_bytes = int.from_bytes(hashlib.sha256(bytes.fromhex(canonical_md5) + HASHED_DOWNLOADS_SECRET_KEY).digest() + days_since_epoch.to_bytes(length=64, byteorder='big'), byteorder='big')
+            seconds_since_epoch = int(time.time())
+            wait_seconds = ((hashed_md5_bytes-seconds_since_epoch) % waitlist_max_wait_time_seconds) - WAITLIST_DOWNLOAD_WINDOW_SECONDS
+            if wait_seconds > 1:
+                return render_template(
+                    "page/partner_download.html",
+                    header_active="search",
+                    wait_seconds=wait_seconds,
+                    canonical_md5=canonical_md5,
+                )
+
+            # speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
+            speed = 10000
 
             url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(True, speed, path_info['path'], aarecord['additional']['filename'], domain)
 
@@ -4692,7 +4710,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 slow_download=True,
                 warning=warning,
                 canonical_md5=canonical_md5,
-                hourly_download_count_from_ip=hourly_download_count_from_ip,
+                # Don't show hourly_download_count_from_ip for now.
+                # hourly_download_count_from_ip=hourly_download_count_from_ip,
                 # pseudo_ipv4=f"{data_pseudo_ipv4[0]}.{data_pseudo_ipv4[1]}.{data_pseudo_ipv4[2]}.{data_pseudo_ipv4[3]}",
             )
 

@@ -41,7 +41,8 @@ FEATURE_FLAGS = {}
 
 FAST_DOWNLOAD_DOMAINS = [x for x in [FAST_PARTNER_SERVER1, 'nrzr.li', 'wbsg8v.xyz', 'momot.rs'] if x is not None]
 # SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'ktxr.rs', 'nrzr.li']
-SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'wbsg8v.xyz']
+SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'wbsg8v.xyz'] # KEEP SAME LENGTH
+SLOWEST_DOWNLOAD_DOMAINS = ['momot.rs', 'momot.rs'] # KEEP SAME LENGTH
 SCIDB_SLOW_DOWNLOAD_DOMAINS = ['nrzr.li']
 SCIDB_FAST_DOWNLOAD_DOMAINS = [FAST_PARTNER_SERVER1 if FAST_PARTNER_SERVER1 is not None else 'nrzr.li']
 
