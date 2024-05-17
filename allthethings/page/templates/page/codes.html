@@ -11,26 +11,32 @@
     <h2 class="mt-4 mb-1 text-3xl font-bold">Codes Explorer</h2>
 
     <form action="/codes" method="get">
-      <input name="prefix" value="{{ prefix }}" placeholder="Prefix" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded text-sm">
+      <input name="prefix" value="{{ prefix_label }}" placeholder="Prefix" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded text-sm">
       <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 text-sm" type="submit">Go</button>
       <a href="/codes" class="custom-a mr-2 bg-[#777] hover:bg-[#999] text-white py-1 px-3 rounded text-sm">Reset</a>
     </form>
 
+    {% if bad_unicode %}
+      <div class="font-bold italic mt-4">
+        Warning: code has incorrect Unicode characters in it, and might behave incorrectly in various situations. The raw binary can be decoded from the base64 representation in the URL.
+      </div>
+    {% endif %}
+
     {% if (exact_matches | length) > 0 %}
       <div class="font-bold mt-4">
-        Records matching “{{ prefix }}”
+        Records matching “{{ prefix_label }}”
       </div>
 
       {% for exact_match in exact_matches %}
         <div>- <a href="{{ exact_match.link }}">{{ exact_match.label }}</a></div>
       {% endfor %}
 
-      <div class="text-sm"><a href='/search?q="{{ prefix }}"'>Search Anna’s Archive for “{{ prefix }}”</a></div>
+      <div class="text-sm"><a href='/search?q="{{ prefix_label }}"'>Search Anna’s Archive for “{{ prefix_label }}”</a></div>
     {% endif %}
 
     {% if (prefix_rows | length) > 0 %}
       <div class="font-bold mt-4">
-        Codes starting with “{{ prefix }}”
+        Codes starting with “{{ prefix_label }}”
       </div>
 
       <table>
