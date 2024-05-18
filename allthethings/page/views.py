@@ -4175,7 +4175,7 @@ def get_additional_for_aarecord(aarecord):
             if bool(re.match(r"^[a-z]", ia_id)):
                 directory = ia_id[0]
             partner_path = f"u/ia/annas-archive-ia-2023-06-acsm/{directory}/{ia_id}.{extension}"
-            additional['torrent_paths'].append([f"managed_by_aa/ia/annas-archive-ia-acsm-{directory}.tar.torrent"])
+            additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/ia/annas-archive-ia-acsm-{directory}.tar.torrent", "file_level1": f"annas-archive-ia-acsm-{directory}.tar", "file_level2": f"{ia_id}.{extension}" })
         elif ia_file_type == 'lcpdf':
             directory = 'other'
             if ia_id.startswith('per_c'):
@@ -4187,17 +4187,17 @@ def get_additional_for_aarecord(aarecord):
             elif bool(re.match(r"^[a-z]", ia_id)):
                 directory = ia_id[0]
             partner_path = f"u/ia/annas-archive-ia-2023-06-lcpdf/{directory}/{ia_id}.{extension}"
-            additional['torrent_paths'].append([f"managed_by_aa/ia/annas-archive-ia-lcpdf-{directory}.tar.torrent"])
+            additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/ia/annas-archive-ia-lcpdf-{directory}.tar.torrent", "file_level1": f"annas-archive-ia-lcpdf-{directory}.tar", "file_level2": f"{ia_id}.{extension}" })
         elif ia_file_type == 'ia2_acsmpdf':
             partner_path = make_temp_anon_aac_path("i/ia2_acsmpdf_files", aarecord['ia_record']['aa_ia_file']['aacid'], aarecord['ia_record']['aa_ia_file']['data_folder'])
-            additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{aarecord['ia_record']['aa_ia_file']['data_folder']}.torrent"])
+            additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/annas_archive_data__aacid/{aarecord['ia_record']['aa_ia_file']['data_folder']}.torrent", "file_level1": aarecord['ia_record']['aa_ia_file']['aacid'], "file_level2": "" })
         else:
             raise Exception(f"Unknown ia_record file type: {ia_file_type}")
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if (aarecord.get('duxiu') is not None) and (aarecord['duxiu'].get('duxiu_file') is not None):
         data_folder = aarecord['duxiu']['duxiu_file']['data_folder']
         # TODO: Add back when releasing DuXiu torrents.
-        # additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{data_folder}.torrent"])
+        # additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/annas_archive_data__aacid/{data_folder}.torrent", "file_level1": aarecord['duxiu']['duxiu_file']['aacid'], "file_level2": "" })
         server = 'x'
         if data_folder <= 'annas_archive_data__aacid__duxiu_files__20240312T070549Z--20240312T070550Z':
             server = 'v'
@@ -4209,12 +4209,13 @@ def get_additional_for_aarecord(aarecord):
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         lgrsnf_torrent_path = f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"
         lgrsnf_manually_synced = (lgrsnf_thousands_dir <= 4297000)
+        lgrsnf_filename = aarecord['lgrsnf_book']['md5'].lower()
         # TODO: Put back.
         # lgrsnf_manually_synced = (lgrsnf_thousands_dir >= 4110000) and (lgrsnf_thousands_dir <= 4284000)
         if lgrsnf_manually_synced or (lgrsnf_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
-            additional['torrent_paths'].append([lgrsnf_torrent_path])
+            additional['torrent_paths'].append({ "torrent_path": lgrsnf_torrent_path, "file_level1": lgrsnf_filename, "file_level2": "" })
         if lgrsnf_manually_synced or ((lgrsnf_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path) and (torrents_json_aa_currently_seeding_by_torrent_path[lgrsnf_torrent_path])):
-            lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{aarecord['lgrsnf_book']['md5'].lower()}"
+            lgrsnf_path = f"e/lgrsnf/{lgrsnf_thousands_dir}/{lgrsnf_filename}"
             add_partner_servers(lgrsnf_path, '', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsnf'), f"http://library.lol/main/{aarecord['lgrsnf_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
@@ -4223,10 +4224,11 @@ def get_additional_for_aarecord(aarecord):
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
         lgrsfic_torrent_path = f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir}.torrent" # Note: no leading zeroes
         lgrsfic_manually_synced = (lgrsfic_thousands_dir >= 2886000) and (lgrsfic_thousands_dir <= 2983000)
+        lgrsfic_filename = f"{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
         if lgrsfic_manually_synced or (lgrsfic_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
-            additional['torrent_paths'].append([lgrsfic_torrent_path])
+            additional['torrent_paths'].append({ "torrent_path": lgrsfic_torrent_path, "file_level1": lgrsfic_filename, "file_level2": "" })
         if lgrsfic_manually_synced or ((lgrsfic_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path) and (torrents_json_aa_currently_seeding_by_torrent_path[lgrsfic_torrent_path])):
-            lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+            lgrsfic_path = f"e/lgrsfic/{lgrsfic_thousands_dir}/{lgrsfic_filename}"
             add_partner_servers(lgrsfic_path, '', aarecord, additional)
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgrsfic'), f"http://library.lol/fiction/{aarecord['lgrsfic_book']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
@@ -4235,43 +4237,47 @@ def get_additional_for_aarecord(aarecord):
         lglific_id = aarecord['lgli_file']['fiction_id']
         if lglific_id > 0:
             lglific_thousands_dir = (lglific_id // 1000) * 1000
+            lglific_filename = f"{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
             # Don't use torrents_json for this, because we have more files that don't get
             # torrented, because they overlap with our Z-Library torrents.
             # TODO: Verify overlap, and potentially add more torrents for what's missing?
             if lglific_thousands_dir >= 2201000 and lglific_thousands_dir <= 4259000:
-                lglific_path = f"e/lglific/{lglific_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+                lglific_path = f"e/lglific/{lglific_thousands_dir}/{lglific_filename}"
                 add_partner_servers(lglific_path, '', aarecord, additional)
 
             lglific_torrent_path = f"external/libgen_li_fic/f_{lglific_thousands_dir}.torrent" # Note: no leading zeroes
             if lglific_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path:
-                additional['torrent_paths'].append([lglific_torrent_path])
+                additional['torrent_paths'].append({ "torrent_path": lglific_torrent_path, "file_level1": lglific_filename, "file_level2": "" })
 
         scimag_id = aarecord['lgli_file']['scimag_id']
         if scimag_id > 0 and scimag_id <= 87599999: # 87637042 seems the max now in the libgenli db
             scimag_hundredthousand_dir = (scimag_id // 100000)
-            scimag_torrent_path = f"external/scihub/sm_{scimag_hundredthousand_dir:03}00000-{scimag_hundredthousand_dir:03}99999.torrent"
-            additional['torrent_paths'].append([scimag_torrent_path])
-
             scimag_thousand_dir = (scimag_id // 1000)
             scimag_filename = urllib.parse.quote(aarecord['lgli_file']['scimag_archive_path'].replace('\\', '/'))
+            
+            scimag_torrent_path = f"external/scihub/sm_{scimag_hundredthousand_dir:03}00000-{scimag_hundredthousand_dir:03}99999.torrent"
+            additional['torrent_paths'].append({ "torrent_path": scimag_torrent_path, "file_level1": f"libgen.scimag{scimag_thousand_dir:05}000-{scimag_thousand_dir:05}999.zip", "file_level2": scimag_filename })
+
             scimag_path = f"i/scimag/{scimag_hundredthousand_dir:03}00000/{scimag_thousand_dir:05}000/{scimag_filename}"
             add_partner_servers(scimag_path, 'scimag', aarecord, additional)
 
         lglicomics_id = aarecord['lgli_file']['comics_id']
         if lglicomics_id > 0 and lglicomics_id < 2566000:
             lglicomics_thousands_dir = (lglicomics_id // 1000) * 1000
-            lglicomics_path = f"a/comics/{lglicomics_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+            lglicomics_filename = f"{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+            lglicomics_path = f"a/comics/{lglicomics_thousands_dir}/{lglicomics_filename}"
             add_partner_servers(lglicomics_path, '', aarecord, additional)
-            additional['torrent_paths'].append([f"external/libgen_li_comics/c_{lglicomics_thousands_dir}.torrent"]) # Note: no leading zeroes
+            additional['torrent_paths'].append({ "torrent_path": f"external/libgen_li_comics/c_{lglicomics_thousands_dir}.torrent", "file_level1": lglicomics_filename, "file_level2": "" }) # Note: no leading zero
 
         lglimagz_id = aarecord['lgli_file']['magz_id']
         if lglimagz_id > 0 and lglimagz_id < 1363000:
             lglimagz_thousands_dir = (lglimagz_id // 1000) * 1000
-            lglimagz_path = f"y/magz/{lglimagz_thousands_dir}/{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+            lglimagz_filename = f"{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
+            lglimagz_path = f"y/magz/{lglimagz_thousands_dir}/{lglimagz_filename}"
             add_partner_servers(lglimagz_path, '', aarecord, additional)
 
             # TODO: Bring back.
-            # additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs.torrent"])
+            # additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs.torrent", "file_level1": lglimagz_filename, "file_level2": "" })
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
@@ -4302,11 +4308,14 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('zlib_book') is not None and len(aarecord['zlib_book']['pilimi_torrent'] or '') > 0:
         zlib_path = make_temp_anon_zlib_path(aarecord['zlib_book']['zlibrary_id'], aarecord['zlib_book']['pilimi_torrent'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
-        additional['torrent_paths'].append([f"managed_by_aa/zlib/{aarecord['zlib_book']['pilimi_torrent']}"])
+        if "-zlib2-" in aarecord['zlib_book']['pilimi_torrent']:
+            additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/zlib/{aarecord['zlib_book']['pilimi_torrent']}", "file_level1": aarecord['zlib_book']['pilimi_torrent'].replace('.torrent', '.tar'), "file_level2": str(aarecord['zlib_book']['zlibrary_id']) })
+        else:
+            additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/zlib/{aarecord['zlib_book']['pilimi_torrent']}", "file_level1": str(aarecord['zlib_book']['zlibrary_id']), "file_level2": "" })
     if (aarecord.get('aac_zlib3_book') is not None) and (aarecord['aac_zlib3_book']['file_aacid'] is not None):
         zlib_path = make_temp_anon_aac_path("u/zlib3_files", aarecord['aac_zlib3_book']['file_aacid'], aarecord['aac_zlib3_book']['file_data_folder'])
         add_partner_servers(zlib_path, 'aa_exclusive' if (len(additional['fast_partner_urls']) == 0) else '', aarecord, additional)
-        additional['torrent_paths'].append([f"managed_by_aa/annas_archive_data__aacid/{aarecord['aac_zlib3_book']['file_data_folder']}.torrent"])
+        additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/annas_archive_data__aacid/{aarecord['aac_zlib3_book']['file_data_folder']}.torrent", "file_level1": aarecord['aac_zlib3_book']['file_aacid'], "file_level2": "" })
     if aarecord.get('aac_zlib3_book') is not None:
         # additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://loginzlib2vrak5zzpcocc3ouizykn6k5qecgj2tzlnab5wcbqhembyd.onion/md5/{aarecord['aac_zlib3_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
         additional['download_urls'].append(("Z-Library", f"https://1lib.sk/md5/{aarecord['aac_zlib3_book']['md5_reported'].lower()}", ""))
@@ -4321,11 +4330,16 @@ def get_additional_for_aarecord(aarecord):
         if doi not in linked_dois:
             additional['download_urls'].append((gettext('page.md5.box.download.scihub', doi=doi), f"https://sci-hub.ru/{doi}", gettext('page.md5.box.download.scihub_maybe')))
     if aarecord_id_split[0] == 'md5':
-        for torrent_paths in additional['torrent_paths']:
+        for torrent_path in additional['torrent_paths']:
             # path = "/torrents"
-            # group = torrent_group_data_from_file_path(f"torrents/{torrent_paths[0]}")['group']
+            # group = torrent_group_data_from_file_path(f"torrents/{torrent_path}")['group']
             # path += f"#{group}"
-            files_html = " or ".join([f'<a href="/dyn/small_file/torrents/{torrent_path}">file</a>' for torrent_path in torrent_paths])
+            # TODO:TRANSLATE
+            files_html = f'<a href="/dyn/small_file/torrents/{torrent_path["torrent_path"]}">torrent file</a>'
+            if len(torrent_path['file_level1']) > 0:
+                files_html += f" → file “{torrent_path['file_level1']}”"
+            if len(torrent_path['file_level2']) > 0:
+                files_html += f" (extract) → file “{torrent_path['file_level2']}”"
             additional['download_urls'].append((gettext('page.md5.box.download.bulk_torrents'), "/datasets", gettext('page.md5.box.download.experts_only') + f' <span class="text-sm text-gray-500">{files_html}</em></span>'))
         if len(additional['torrent_paths']) == 0:
             if additional['has_aa_downloads'] == 0:
