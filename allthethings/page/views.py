@@ -4203,7 +4203,8 @@ def get_additional_for_aarecord(aarecord):
             server = 'v'
         elif data_folder <= 'annas_archive_data__aacid__duxiu_files__20240312T105436Z--20240312T105437Z':
             server = 'w'
-        partner_path = f"{server}/duxiu_files/20240312/{data_folder}/{aarecord['duxiu']['duxiu_file']['aacid']}"
+        date = data_folder.split('__')[3][0:8]
+        partner_path = f"{server}/duxiu_files/{date}/{data_folder}/{aarecord['duxiu']['duxiu_file']['aacid']}"
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
@@ -4699,7 +4700,7 @@ def md5_slow_download(md5_input, path_index, domain_index):
             warning = False
             # These waitlist_max_wait_time_seconds values must be multiples, under the current modulo scheme.
             # Also WAITLIST_DOWNLOAD_WINDOW_SECONDS gets subtracted from it.
-            waitlist_max_wait_time_seconds = 4*60
+            waitlist_max_wait_time_seconds = 10*60
             domain = domain_slow
             if hourly_download_count_from_ip >= 100:
                 # targeted_seconds_multiplier = 2.0
