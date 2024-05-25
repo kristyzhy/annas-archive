@@ -28,7 +28,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta, gettext, get_locale
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess, MariapersistSmallFiles
-from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT1B_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH
+from config.settings import SECRET_KEY, PAYMENT1_KEY, PAYMENT1B_KEY, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, PAYMENT2_HMAC, PAYMENT2_SIG_HEADER, GC_NOTIFY_SIG, HOODPAY_URL, HOODPAY_AUTH, PAYMENT3_DOMAIN, PAYMENT3_KEY
 from allthethings.page.views import get_aarecords_elasticsearch, ES_TIMEOUT_PRIMARY, get_torrents_data
 
 import allthethings.utils
@@ -730,7 +730,7 @@ def account_buy_membership():
         raise Exception(f"Invalid costCentsUsdVerification")
 
     donation_type = 0 # manual
-    if method in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay']:
+    if method in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay', 'payment3a']:
         donation_type = 1
 
     with Session(mariapersist_engine) as mariapersist_session:
@@ -756,6 +756,28 @@ def account_buy_membership():
             response = httpx.post(HOODPAY_URL, json=payload, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES, timeout=10.0)
             response.raise_for_status()
             donation_json['hoodpay_request'] = response.json()
+
+        if method == 'payment3a':
+            data = {
+                # Note that these are sorted by key.
+                "amount": str(int(float(membership_costs['cost_cents_usd']) * allthethings.utils.MEMBERSHIP_EXCHANGE_RATE_RMB / 100.0)),
+                "callbackUrl": "https://annas-archive.se/dyn/payment3_notify/",
+                "clientIp": "1.1.1.1",
+                "mchId": 20000007,
+                "mchOrderId": donation_id,
+                "payerName": "Anna",
+                "productId": 8038,
+                "remark": "",
+                "time": int(time.time()),
+            }
+            sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + "&key=" + PAYMENT3_KEY
+            sign = hashlib.md5((sign_str).encode()).hexdigest()
+            response = httpx.post(f"https://{PAYMENT3_DOMAIN}/api/deposit/create-order", data={ **data, "sign": sign }, proxies=PAYMENT2_PROXIES, timeout=10.0)
+            response.raise_for_status()
+            donation_json['payment3_request'] = response.json()
+            if str(donation_json['payment3_request']['code']) != '1':
+                print(f"Warning payment3_request error: {donation_json['payment3_request']}")
+                return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.unknown', email="https://annas-archive.org/contact") })
 
         if method in ['payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc']:
             if method == 'payment2':
@@ -940,6 +962,34 @@ def payment2_notify():
         if not payment2_request_success:
             return "Error happened", 404
     return ""
+
+@dyn.post("/payment3_notify/")
+@allthethings.utils.no_cache()
+def payment3_notify():
+    data = {
+        # Note that these are sorted by key.
+        "amount": request.form.get('amount', ''),
+        "mchOrderId": request.form.get('mchOrderId', ''),
+        "orderId": request.form.get('orderId', ''),
+        "remark": request.form.get('remark', ''),
+        "status": request.form.get('status', ''),
+        "time": request.form.get('time', ''),
+    }
+    sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + "&key=" + PAYMENT3_KEY
+    sign = hashlib.md5((sign_str).encode()).hexdigest()
+    if sign != request.form.get('sign', ''):
+        print(f"Warning: failed payment3_status_callback request because of incorrect signature {sign_str} /// {dict(request.args)}.")
+        return "FAIL"
+    if str(data['status']) in ['2','3']:
+        with mariapersist_engine.connect() as connection:
+            donation_id = data['mchOrderId']
+            connection.connection.ping(reconnect=True)
+            cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+            if allthethings.utils.confirm_membership(cursor, donation_id, 'payment3_status_callback', data):
+                return "SUCCESS"
+            else:
+                return "FAIL"
+    return "SUCCESS"
 
 @dyn.post("/hoodpay_notify/<string:donation_id>")
 @allthethings.utils.no_cache()

@@ -194,14 +194,17 @@
       <div class="header" role="navigation">
         <div>
         <!-- <div class="[html:not(.aa-logged-in)_&]:hidden"> -->
-          {% if g.domain_lang_code == 'zh' and False %} <!-- NOTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+          {% if g.domain_lang_code == 'zh' %}
             <!-- blue -->
             <div class="bg-[#0195ff] hidden js-top-banner">
               <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
                 <div>
                   <!-- GFW, payment processors, ads -->
-                  我们正在寻找专业服务，可以帮助可靠地绕过GFW，例如通过设置定期更改的代理和域名，或其他技巧。如果您确实具有此方面的实际专业经验，请与我们联系。<strong>我们愿意为此付出代价。</strong><a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a>
-                  <!-- <span class="text-xs">我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。此外，我们正在寻找希望放置小而别致广告的公司。</span> -->
+                  <!-- 我们正在寻找专业服务，可以帮助可靠地绕过GFW，例如通过设置定期更改的代理和域名，或其他技巧。如果您确实具有此方面的实际专业经验，请与我们联系。<strong>我们愿意为此付出代价。</strong><a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a> -->
+                  <!-- payment processors, ads -->
+                  <!-- 我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。此外，我们正在寻找希望放置小而别致广告的公司。 -->
+                  <!-- payment processors -->
+                  我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。 <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a>
                 </div>
                 <div>
                   <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
@@ -274,7 +277,7 @@
           <script>
             (function() {
               if (document.querySelector('.js-top-banner')) {
-                var latestTopBannerType = '11';
+                var latestTopBannerType = '12';
                 var topBannerMatch = document.cookie.match(/top_banner_hidden=([^$ ;}]+)/);
                 var topBannerType = '';
                 if (topBannerMatch) {

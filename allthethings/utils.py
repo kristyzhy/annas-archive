@@ -35,7 +35,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1, HOODPAY_URL, HOODPAY_AUTH
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1, HOODPAY_URL, HOODPAY_AUTH, PAYMENT3_DOMAIN, PAYMENT3_KEY
 
 FEATURE_FLAGS = {}
 
@@ -378,6 +378,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
     "payment1_wechat": 0,
     "payment1b": 0,
     "payment1bb": 0,
+    "payment3a": 0,
     "givebutter": 0,
     "hoodpay": 0,
     "ccexp": 0,
@@ -415,6 +416,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "payment1_wechat": 1000,
     "payment1b": 0,
     "payment1bb": 1000,
+    "payment3a": 1000,
     "givebutter": 500,
     "hoodpay": 1000,
     "ccexp": 99999999,
@@ -425,9 +427,12 @@ MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
     "payment1_wechat":  100000,
     "payment1b": 100000,
     "payment1bb": 100000,
+    "payment3a": 30000,
     "amazon": 20000,
 }
 MEMBERSHIP_MAX_BONUS_DOWNLOADS = 10000
+
+MEMBERSHIP_EXCHANGE_RATE_RMB = 7.25
 
 def get_account_fast_download_info(mariapersist_session, account_id):
     mariapersist_session.connection().connection.ping(reconnect=True)
@@ -522,9 +527,9 @@ def membership_costs_data(locale):
 
         native_currency_code = 'USD'
         cost_cents_native_currency = cost_cents_usd
-        if method in ['alipay', 'payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb']:
+        if method in ['alipay', 'payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment3a']:
             native_currency_code = 'CNY'
-            cost_cents_native_currency = math.floor(cost_cents_usd * 7.25 / 100) * 100
+            cost_cents_native_currency = math.floor(cost_cents_usd * MEMBERSHIP_EXCHANGE_RATE_RMB / 100) * 100
         # elif method == 'bmc':
         #     native_currency_code = 'COFFEE'
         #     cost_cents_native_currency = round(cost_cents_usd / 500)
@@ -598,7 +603,7 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     #     return False
 
     donation_json = orjson.loads(donation['json'])
-    if donation_json['method'] not in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay']:
+    if donation_json['method'] not in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay', 'payment3a']:
         print(f"Warning: failed {data_key} request because method is not valid: {donation_id}")
         return False
 
@@ -650,6 +655,35 @@ def payment2_check(cursor, payment_id):
         else:
             return (payment2_status, False)
     return (payment2_status, True)
+
+def payment3_check(cursor, donation_id):
+    payment3_status = None
+    for attempt in [1,2,3,4,5]:
+        try:
+            data = {
+                # Note that these are sorted by key.
+                "mchId": 20000007,
+                "mchOrderId": donation_id,
+                "time": int(time.time()),
+            }
+            sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + "&key=" + PAYMENT3_KEY
+            sign = hashlib.md5((sign_str).encode()).hexdigest()
+            response = httpx.post(f"https://{PAYMENT3_DOMAIN}/api/deposit/order-info", data={ **data, "sign": sign }, proxies=PAYMENT2_PROXIES, timeout=10.0)
+            response.raise_for_status()
+            payment3_status = response.json()
+            if str(payment3_status['code']) != '1':
+                raise Exception(f"Invalid payment3_status {donation_id=}: {payment3_status}")
+            break
+        except:
+            if attempt == 5:
+                raise
+            time.sleep(1)
+    if str(payment3_status['data']['status']) in ['2','3']:
+        if confirm_membership(cursor, donation_id, 'payment3_status', payment3_status):
+            return (payment3_status, True)
+        else:
+            return (payment3_status, False)
+    return (payment3_status, True)
 
 def hoodpay_check(cursor, hoodpay_id, donation_id):
     hoodpay_status = httpx.get(HOODPAY_URL.split('/v1/businesses/', 1)[0] + '/v1/public/payments/hosted-page/' + hoodpay_id, headers={"Authorization": f"Bearer {HOODPAY_AUTH}"}, proxies=PAYMENT2_PROXIES, timeout=10.0).json()['data']

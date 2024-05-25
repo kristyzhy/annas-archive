@@ -330,7 +330,7 @@ def donation_page(donation_id):
         if donation_json['method'] == 'payment1' and donation.processing_status == 0:
             data = {
                 # Note that these are sorted by key.
-                "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
+                "money": str(int(float(donation.cost_cents_usd) * allthethings.utils.MEMBERSHIP_EXCHANGE_RATE_RMB / 100.0)),
                 "name": "Anna’s Archive Membership",
                 "notify_url": "https://annas-archive.se/dyn/payment1_notify/",
                 "out_trade_no": str(donation.donation_id),
@@ -344,7 +344,7 @@ def donation_page(donation_id):
         if donation_json['method'] == 'payment1_alipay' and donation.processing_status == 0:
             data = {
                 # Note that these are sorted by key.
-                "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
+                "money": str(int(float(donation.cost_cents_usd) * allthethings.utils.MEMBERSHIP_EXCHANGE_RATE_RMB / 100.0)),
                 "name": "Anna’s Archive Membership",
                 "notify_url": "https://annas-archive.se/dyn/payment1_notify/",
                 "out_trade_no": str(donation.donation_id),
@@ -359,7 +359,7 @@ def donation_page(donation_id):
         if donation_json['method'] == 'payment1_wechat' and donation.processing_status == 0:
             data = {
                 # Note that these are sorted by key.
-                "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
+                "money": str(int(float(donation.cost_cents_usd) * allthethings.utils.MEMBERSHIP_EXCHANGE_RATE_RMB / 100.0)),
                 "name": "Anna’s Archive Membership",
                 "notify_url": "https://annas-archive.se/dyn/payment1_notify/",
                 "out_trade_no": str(donation.donation_id),
@@ -375,7 +375,7 @@ def donation_page(donation_id):
         if donation_json['method'] in ['payment1b', 'payment1bb'] and donation.processing_status == 0:
             data = {
                 # Note that these are sorted by key.
-                "money": str(int(float(donation.cost_cents_usd) * 7.0 / 100.0)),
+                "money": str(int(float(donation.cost_cents_usd) * allthethings.utils.MEMBERSHIP_EXCHANGE_RATE_RMB / 100.0)),
                 "name": "Anna’s Archive Membership",
                 "notify_url": "https://annas-archive.org/dyn/payment1b_notify/",
                 "out_trade_no": str(donation.donation_id),
@@ -406,6 +406,23 @@ def donation_page(donation_id):
                 raise Exception("Not payment2_request_success in donation_page")
             if payment2_status['payment_status'] == 'confirming':
                 donation_confirming = True
+
+
+        if donation_json['method'] in ['payment3a'] and donation.processing_status == 0:
+            # return redirect(donation_json['payment3_request']['data']['url'], code=302)
+            donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(hours=2)
+            if donation_time_left < datetime.timedelta(minutes=30):
+                donation_time_left_not_much = True
+            if donation_time_left < datetime.timedelta():
+                donation_time_expired = True
+
+            mariapersist_session.connection().connection.ping(reconnect=True)
+            cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
+            payment3_status, payment3_request_success = allthethings.utils.payment3_check(cursor, donation.donation_id)
+            if not payment3_request_success:
+                raise Exception("Not payment3_request_success in donation_page")
+            if str(payment3_status['data']['status']) == '-2':
+                donation_time_expired = True
 
         if donation_json['method'] in ['hoodpay'] and donation.processing_status == 0:
             donation_time_left = donation.created - datetime.datetime.now() + datetime.timedelta(minutes=30)
