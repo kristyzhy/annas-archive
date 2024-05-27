@@ -187,13 +187,13 @@
             <tr><td colspan="100" class="pt-4"><span class="text-xl font-bold" id="{{ group | replace('/', '__') }}">{{ group }}</span> <span class="text-xs text-gray-500">{{ torrents_data.group_size_strings[group] }} / {{ small_files | length }} {{ 'torrent' if (small_files | length == 1) else 'torrents' }}</span> {% if not detailview %}<a href="#{{ group | replace('/', '__') }}" class="custom-a invisible [td:hover>&]:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a>{% endif %}
 
               {% if group == 'zlib' %}
-                <div class="mb-1 text-sm">Z-Library books. <a href="/torrents/zlib">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/zlib">dataset</a></div>
+                <div class="mb-1 text-sm">Z-Library books. The different types of torrents in this list are cumulative — you need them all to get the full collection. <a href="/torrents/zlib">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/zlib">dataset</a></div>
               {% elif group == 'isbndb' %}
                 <div class="mb-1 text-sm">ISBNdb metadata. <a href="/torrents/isbndb">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/isbndb">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">blog</a></div>
               {% elif group == 'libgenrs_covers' %}
                 <div class="mb-1 text-sm">Book covers from Libgen.rs. <a href="/torrents/libgenrs_covers">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/annas-update-open-source-elasticsearch-covers.html">blog</a></div>
               {% elif group == 'ia' %}
-                <div class="mb-1 text-sm">Internet Archive Controlled Digital Lending books and magazines. <a href="/torrents/ia">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/ia">dataset</a></div>
+                <div class="mb-1 text-sm">Internet Archive Controlled Digital Lending books and magazines. The different types of torrents in this list are cumulative — you need them all to get the full collection. <a href="/torrents/ia">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/ia">dataset</a></div>
               {% elif group == 'worldcat' %}
                 <div class="mb-1 text-sm">Metadata from OCLC/Worldcat. <a href="/torrents/worldcat">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/worldcat">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/worldcat-scrape.html">blog</a></div>
               {% elif group == 'libgen_rs_non_fic' %}

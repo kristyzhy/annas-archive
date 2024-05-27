@@ -4211,7 +4211,7 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         lgrsnf_torrent_path = f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"
-        lgrsnf_manually_synced = (lgrsnf_thousands_dir <= 4297000)
+        lgrsnf_manually_synced = (lgrsnf_thousands_dir <= 4308000)
         lgrsnf_filename = aarecord['lgrsnf_book']['md5'].lower()
         # TODO: Put back.
         # lgrsnf_manually_synced = (lgrsnf_thousands_dir >= 4110000) and (lgrsnf_thousands_dir <= 4284000)
@@ -4226,7 +4226,7 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('lgrsfic_book') is not None:
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
         lgrsfic_torrent_path = f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir}.torrent" # Note: no leading zeroes
-        lgrsfic_manually_synced = (lgrsfic_thousands_dir >= 2886000) and (lgrsfic_thousands_dir <= 2983000)
+        lgrsfic_manually_synced = (lgrsfic_thousands_dir >= 2886000) and (lgrsfic_thousands_dir <= 2987000)
         lgrsfic_filename = f"{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
         if lgrsfic_manually_synced or (lgrsfic_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
             additional['torrent_paths'].append({ "torrent_path": lgrsfic_torrent_path, "file_level1": lgrsfic_filename, "file_level2": "" })
@@ -4691,8 +4691,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 return redirect(f"/md5/{md5_input}", code=302)
 
             cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
-            cursor.execute('SELECT count FROM mariapersist_slow_download_access_pseudo_ipv4_hourly WHERE pseudo_ipv4 = %(pseudo_ipv4)s AND hour_since_epoch > %(hour_since_epoch)s LIMIT 1', { "pseudo_ipv4": data_pseudo_ipv4, "hour_since_epoch": data_hour_since_epoch-24 })
-            hourly_download_count_from_ip = ((cursor.fetchone() or {}).get('count') or 0)
+            cursor.execute('SELECT SUM(count) AS count FROM mariapersist_slow_download_access_pseudo_ipv4_hourly WHERE pseudo_ipv4 = %(pseudo_ipv4)s AND hour_since_epoch > %(hour_since_epoch)s', { "pseudo_ipv4": data_pseudo_ipv4, "hour_since_epoch": data_hour_since_epoch-24 })
+            daily_download_count_from_ip = ((cursor.fetchone() or {}).get('count') or 0)
             # minimum = 10
             # maximum = 100
             # minimum = 100
@@ -4701,16 +4701,16 @@ def md5_slow_download(md5_input, path_index, domain_index):
             warning = False
             # These waitlist_max_wait_time_seconds values must be multiples, under the current modulo scheme.
             # Also WAITLIST_DOWNLOAD_WINDOW_SECONDS gets subtracted from it.
-            waitlist_max_wait_time_seconds = 10*60
+            waitlist_max_wait_time_seconds = 5*60
             domain = domain_slow
-            if hourly_download_count_from_ip >= 100:
+            if daily_download_count_from_ip >= 100:
                 # targeted_seconds_multiplier = 2.0
                 # minimum = 20
                 # maximum = 100
-                waitlist_max_wait_time_seconds *= 2
+                waitlist_max_wait_time_seconds *= 4
                 warning = True
                 domain = domain_slowest
-            elif hourly_download_count_from_ip >= 30:
+            elif daily_download_count_from_ip >= 30:
                 domain = domain_slowest
 
             WAITLIST_DOWNLOAD_WINDOW_SECONDS = 90
@@ -4724,6 +4724,7 @@ def md5_slow_download(md5_input, path_index, domain_index):
                     header_active="search",
                     wait_seconds=wait_seconds,
                     canonical_md5=canonical_md5,
+                    daily_download_count_from_ip=daily_download_count_from_ip,
                 )
 
             # speed = compute_download_speed(path_info['targeted_seconds']*targeted_seconds_multiplier, aarecord['file_unified_data']['filesize_best'], minimum, maximum)
@@ -4744,8 +4745,7 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 slow_download=True,
                 warning=warning,
                 canonical_md5=canonical_md5,
-                # Don't show hourly_download_count_from_ip for now.
-                # hourly_download_count_from_ip=hourly_download_count_from_ip,
+                daily_download_count_from_ip=daily_download_count_from_ip,
                 # pseudo_ipv4=f"{data_pseudo_ipv4[0]}.{data_pseudo_ipv4[1]}.{data_pseudo_ipv4[2]}.{data_pseudo_ipv4[3]}",
             )
 
