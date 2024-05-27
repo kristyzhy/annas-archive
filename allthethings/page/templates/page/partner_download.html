@@ -24,21 +24,47 @@
   </p>
 
   {% if wait_seconds %}
-    <script>
-      setTimeout(function() {
-        window.location.reload();
-      }, 5000);
-    </script>
     <p>
       <!-- TODO:TRANSLATE -->
-      ⏰ In order to give everyone an opportunity to download files for free, you need to wait <strong>{{ wait_seconds }} seconds</strong> before you can download this file. For your convenience, this page will be automatically refreshed until the timer finishes.
+      ⏰ In order to give everyone an opportunity to download files for free, you need to wait <strong>{{ wait_seconds }} seconds</strong> before you can download this file. 
     </p>
     <ul class="mb-4">
       <li>- Feel free to continue browsing Anna’s Archive in a different tab while waiting.</li>
       <li>- Feel free to wait for multiple download pages to load at the same time (but please only download one file at the same time per server).</li>
       <li>- Once you get a download link it is valid for several hours.</li>
       <li>- Thanks for waiting, this keeps the website accessible for free for everyone! 😊</li>
+      <li><label class="cursor-pointer"><input class="js-partner-reload mr-1" type="checkbox" maxlength="200"> Automatically refresh page.</label></li>
     </ul>
+    <script>
+      (function() {
+        let partnerReload = false;
+        let partnerTimeout = undefined;
+        function setPartnerReload(newValue) {
+          if (partnerReload === newValue) {
+            return;
+          }
+          partnerReload = newValue;
+          document.querySelector('.js-partner-reload').checked = partnerReload;
+          if (partnerReload) {
+            window.localStorage.partner_reload = "1";
+            partnerTimeout = setTimeout(function() {
+              window.location.reload();
+            }, 5000);
+          } else {
+            window.localStorage.partner_reload = "0";
+            clearTimeout(partnerTimeout);
+          }
+        }
+        document.querySelector('.js-partner-reload').addEventListener('click', function(event) {
+          setPartnerReload(event.target.checked);
+        });
+
+        if (window.localStorage.partner_reload !== "0" && window.localStorage.partner_reload !== "1") {
+          window.localStorage.partner_reload = "1";
+        }
+        setPartnerReload(window.localStorage.partner_reload === "1");
+      })();
+    </script>
   {% endif %}
 
   {% if not (only_official or no_cloudflare or wait_seconds) %}

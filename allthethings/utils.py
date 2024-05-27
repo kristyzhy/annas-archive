@@ -902,6 +902,7 @@ UNIFIED_IDENTIFIERS = {
     "lgli_scimag_id": { "label": "Libgen.li scimag_id", "description": "Repository ID for the 'scimag' repository in Libgen.li. Directly taken from the 'scimag_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
     "lgli_standarts_id": { "label": "Libgen.li standarts_id", "description": "Repository ID for the 'standarts' repository in Libgen.li. Directly taken from the 'standarts_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
     "lgli_magz_id": { "label": "Libgen.li magz_id", "description": "Repository ID for the 'magz' repository in Libgen.li. Directly taken from the 'magz_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
+    "torrent": { "label": "Torrent", "url": "/dyn/small_file/torrents/%s", "description": "Bulk torrent for long-term preservation.", "website": "/torrents" },
     **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }

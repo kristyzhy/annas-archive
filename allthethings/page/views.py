@@ -3859,6 +3859,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['has_aa_exclusive_downloads'] = additional['has_aa_exclusive_downloads']
             aarecord['file_unified_data']['has_torrent_paths'] = (1 if (len(additional['torrent_paths']) > 0) else 0)
             aarecord['file_unified_data']['has_scidb'] = additional['has_scidb']
+            for torrent_path in additional['torrent_paths']:
+                allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'torrent', torrent_path['torrent_path'])
 
         initial_search_text = "\n".join([
             aarecord['file_unified_data']['title_best'][:1000],
@@ -4276,9 +4278,8 @@ def get_additional_for_aarecord(aarecord):
             lglimagz_filename = f"{aarecord['lgli_file']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
             lglimagz_path = f"y/magz/{lglimagz_thousands_dir}/{lglimagz_filename}"
             add_partner_servers(lglimagz_path, '', aarecord, additional)
-
-            # TODO: Bring back.
-            # additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/annas_archive_data__aacid/c_2022_12_thousand_dirs.torrent", "file_level1": lglimagz_filename, "file_level2": "" })
+            if lglimagz_id < 1000000:
+                additional['torrent_paths'].append({ "torrent_path": f"external/libgen_li_magazines/m_{lglimagz_thousands_dir}.torrent", "file_level1": lglimagz_filename, "file_level2": "" }) # Note: no leading zero
 
         additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
         shown_click_get = True
