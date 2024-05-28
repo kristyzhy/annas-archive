@@ -306,12 +306,8 @@ def elastic_reset_aarecords_internal():
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_all')
         cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
         # cursor.execute('CREATE TABLE aarecords_codes_new (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), row_number_order_by_code BIGINT DEFAULT 0, dense_rank_order_by_code BIGINT DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('CREATE TABLE aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes_new')
-        cursor.execute('CREATE TABLE aarecords_codes_prefixes_new (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         # cursor.execute('DROP TABLE IF EXISTS aarecords_codes_counts')
         # cursor.execute('CREATE TABLE aarecords_codes_counts (code_prefix_length INT NOT NULL, code_prefix VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), child_count BIGINT, record_count BIGINT, PRIMARY KEY (code_prefix_length, code_prefix, aarecord_id_prefix)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
@@ -320,6 +316,23 @@ def elastic_reset_aarecords_internal():
         # TODO: Replace with aarecords_codes
         cursor.execute('DROP TABLE IF EXISTS isbn13_oclc')
         cursor.execute('CREATE TABLE isbn13_oclc (isbn13 CHAR(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL, oclc_id BIGINT NOT NULL, PRIMARY KEY (isbn13, oclc_id)) ENGINE=MyISAM ROW_FORMAT=FIXED DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('COMMIT')
+
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes_new')
+        new_tables_internal()    
+
+
+# These tables always need to be created new if they don't exist yet.
+# They should only be used when doing a full refresh, but things will
+# crash if they don't exist.
+def new_tables_internal():
+    print("Creating some new tables if necessary")
+    with Session(engine) as session:
+        session.connection().connection.ping(reconnect=True)
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes_new (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
 #################################################################################################
@@ -541,6 +554,7 @@ def elastic_build_aarecords_all_internal():
 # ./run flask cli elastic_build_aarecords_ia
 @cli.cli.command('elastic_build_aarecords_ia')
 def elastic_build_aarecords_ia():
+    new_tables_internal()
     elastic_build_aarecords_ia_internal()
 
 def elastic_build_aarecords_ia_internal():
@@ -591,6 +605,7 @@ def elastic_build_aarecords_ia_internal():
 # ./run flask cli elastic_build_aarecords_isbndb
 @cli.cli.command('elastic_build_aarecords_isbndb')
 def elastic_build_aarecords_isbndb():
+    new_tables_internal()
     elastic_build_aarecords_isbndb_internal()
 
 def elastic_build_aarecords_isbndb_internal():
@@ -638,6 +653,7 @@ def elastic_build_aarecords_isbndb_internal():
 # ./run flask cli elastic_build_aarecords_ol
 @cli.cli.command('elastic_build_aarecords_ol')
 def elastic_build_aarecords_ol():
+    new_tables_internal()
     elastic_build_aarecords_ol_internal()
 
 def elastic_build_aarecords_ol_internal():
@@ -674,6 +690,7 @@ def elastic_build_aarecords_ol_internal():
 # ./run flask cli elastic_build_aarecords_duxiu
 @cli.cli.command('elastic_build_aarecords_duxiu')
 def elastic_build_aarecords_duxiu():
+    new_tables_internal()
     elastic_build_aarecords_duxiu_internal()
 
 def elastic_build_aarecords_duxiu_internal():
@@ -733,6 +750,7 @@ def elastic_build_aarecords_duxiu_internal():
 # ./run flask cli elastic_build_aarecords_oclc
 @cli.cli.command('elastic_build_aarecords_oclc')
 def elastic_build_aarecords_oclc():
+    new_tables_internal()
     elastic_build_aarecords_oclc_internal()
 
 def elastic_build_aarecords_oclc_internal():
@@ -799,6 +817,7 @@ def elastic_build_aarecords_oclc_internal():
 # ./run flask cli elastic_build_aarecords_main
 @cli.cli.command('elastic_build_aarecords_main')
 def elastic_build_aarecords_main():
+    new_tables_internal()
     elastic_build_aarecords_main_internal()
 
 def elastic_build_aarecords_main_internal():
