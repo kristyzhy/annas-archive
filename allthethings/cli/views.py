@@ -497,8 +497,8 @@ def elastic_build_aarecords_job(aarecord_ids):
                     cursor.execute('COMMIT')
                 if len(aarecords_codes_prefixes_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
-                    # ON DUPLICATE KEY here is dummy, to avoid INSERT IGNORE which suppresses other errors
-                    cursor.executemany(f"INSERT INTO aarecords_codes_prefixes_new (code_prefix) VALUES (%(code_prefix)s) ON DUPLICATE KEY UPDATE code_prefix=VALUES(code_prefix)", aarecords_codes_prefixes_insert_data)
+                    # We do use INSERT IGNORE here, because this table gets highly contested, so we prefer simple ignoring of errors.
+                    cursor.executemany(f"INSERT IGNORE INTO aarecords_codes_prefixes_new (code_prefix) VALUES (%(code_prefix)s)", aarecords_codes_prefixes_insert_data)
                     cursor.execute('COMMIT')
                 # if len(aarecords_codes_counts_insert_data) > 0:
                 #     session.connection().connection.ping(reconnect=True)
