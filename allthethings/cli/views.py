@@ -548,6 +548,7 @@ def elastic_build_aarecords_all_internal():
     elastic_build_aarecords_duxiu_internal()
     elastic_build_aarecords_oclc_internal()
     elastic_build_aarecords_main_internal()
+    elastic_build_aarecords_forcemerge_internal()
 
 
 #################################################################################################
@@ -887,6 +888,18 @@ def elastic_build_aarecords_main_internal():
                         current_doi = batch[-1]['doi']
 
         print(f"Done with main!")
+
+#################################################################################################
+# ./run flask cli elastic_build_aarecords_forcemerge
+@cli.cli.command('elastic_build_aarecords_forcemerge')
+def elastic_build_aarecords_forcemerge():
+    elastic_build_aarecords_forcemerge_internal()
+
+def elastic_build_aarecords_forcemerge_internal():
+    for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+        for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
+            print(f'Calling forcemerge on {full_index_name=}')
+            es_handle.options(ignore_status=[400,404]).indices.forcemerge(index=full_index_name, wait_for_completion=True, request_timeout=300)
 
 #################################################################################################
 # Fill aarecords_codes (actually aarecords_codes_new) with numbers based off ROW_NUMBER and
