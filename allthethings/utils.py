@@ -41,9 +41,10 @@ FEATURE_FLAGS = {}
 
 FAST_DOWNLOAD_DOMAINS = [x for x in [FAST_PARTNER_SERVER1, 'nrzr.li', 'wbsg8v.xyz', 'momot.rs'] if x is not None]
 # SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'ktxr.rs', 'nrzr.li']
-SLOW_DOWNLOAD_DOMAINS = ['momot.rs', 'wbsg8v.xyz'] # KEEP SAME LENGTH
-SLOWEST_DOWNLOAD_DOMAINS = ['momot.rs', 'momot.rs'] # KEEP SAME LENGTH
-SCIDB_SLOW_DOWNLOAD_DOMAINS = ['nrzr.li']
+SLOW_DOWNLOAD_DOMAINS_SLIGHTLY_FASTER = [False, True, True] # KEEP SAME LENGTH
+SLOW_DOWNLOAD_DOMAINS = ['nrzr.li', 'momot.rs', 'wbsg8v.xyz'] # KEEP SAME LENGTH
+SLOWEST_DOWNLOAD_DOMAINS = ['nrzr.li', 'momot.rs', 'momot.rs'] # KEEP SAME LENGTH
+SCIDB_SLOW_DOWNLOAD_DOMAINS = ['wbsg8v.xyz']
 SCIDB_FAST_DOWNLOAD_DOMAINS = [FAST_PARTNER_SERVER1 if FAST_PARTNER_SERVER1 is not None else 'nrzr.li']
 
 def validate_canonical_md5s(canonical_md5s):
@@ -711,7 +712,7 @@ COMMON_DICT_COMMENTS = {
     "language_codes": ("before", ["Anna's Archive version of the 'language' field, where we attempted to parse it into BCP 47 tags."]),
     "cover_url_normalized": ("after", ["Anna's Archive version of the 'coverurl' field, where we attempted to turn it into a full URL."]),
     "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', 'periodical', and 'year' fields; combining them into a single field for display and search."]),
-    "topic_descr": ("after", ["A description of the 'topic' field using a separate database table, which seems to have its roots in the Kolxo3 library that Libgen was originally based on.",
+    "topic_descr": ("after", ["A description of the 'topic' field using the 'topics' database table, which seems to have its roots in the Kolxo3 library that Libgen was originally based on.",
                     "https://wiki.mhut.org/content:bibliographic_data says that this field will be deprecated in favor of Dewey Decimal."]),
     "topic": ("after", ["See 'topic_descr' below."]),
     "searchable": ("after", ["This seems to indicate that the book has been OCR'ed."]),
@@ -907,6 +908,7 @@ UNIFIED_IDENTIFIERS = {
     # Plus more added below!
 }
 UNIFIED_CLASSIFICATIONS = {
+    "lgrsnf_topic": { "label": "Libgen.rs Non-Fiction Topic", "description": "Libgen’s own classification system of 'topics' for non-fiction books. Obtained from the 'topic' metadata field, using the 'topics' database table, which seems to have its roots in the Kolxo3 library that Libgen was originally based on. https://wiki.mhut.org/content:bibliographic_data says that this field will be deprecated in favor of Dewey Decimal.", "website": "/datasets/libgen_rs" },
     **{LGLI_CLASSIFICATIONS_MAPPING.get(key, key): value for key, value in LGLI_CLASSIFICATIONS.items()},
     # Plus more added below!
 }
