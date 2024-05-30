@@ -387,6 +387,6 @@
   </form>
 
   <script>
-    window.es_stats = {{ search_dict.es_stats_json | safe }}
+    window.es_stats = {{ search_dict.es_stats_json | tojson }}
   </script>
 {% endblock %}

@@ -5204,7 +5204,7 @@ def search_page():
     search_dict['aggregations'] = aggregations
     search_dict['sort_value'] = sort_value
     search_dict['search_index_short'] = search_index_short
-    search_dict['es_stats_json'] = orjson.dumps(es_stats, option=orjson.OPT_INDENT_2).decode()
+    search_dict['es_stats_json'] = es_stats
     search_dict['had_primary_es_timeout'] = had_primary_es_timeout
     search_dict['had_es_timeout'] = had_es_timeout
     search_dict['had_fatal_es_timeout'] = had_fatal_es_timeout
