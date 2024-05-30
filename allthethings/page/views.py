@@ -1639,7 +1639,7 @@ def get_lgrsnf_book_dicts(session, key, values):
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsnf', lgrs_book_dict['id'])
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'])
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsnf_book.Identifier.split(",") + lgrsnf_book.IdentifierWODash.split(","))
-        allthethings.utils.add_classification_unified(lgrs_book_dict, 'lgrsnf_topic', lgrs_book_dict.get('topic_descr'))
+        allthethings.utils.add_classification_unified(lgrs_book_dict, 'lgrsnf_topic', lgrs_book_dict.get('topic_descr') or '')
         for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
             if name in lgrs_book_dict:
                 allthethings.utils.add_identifier_unified(lgrs_book_dict, unified_name, lgrs_book_dict[name])
@@ -4712,8 +4712,8 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 # targeted_seconds_multiplier = 2.0
                 # minimum = 20
                 # maximum = 100
-                waitlist_max_wait_time_seconds *= 3
-                warning = True
+                waitlist_max_wait_time_seconds *= 2
+                # warning = True
                 domain = domain_slowest
             elif daily_download_count_from_ip >= 30:
                 domain = domain_slowest
