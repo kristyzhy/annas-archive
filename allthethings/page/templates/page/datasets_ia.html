@@ -22,6 +22,15 @@
       These records are being referred to directly from the Open Library dataset, but also contains records that are not in Open Library. We also have a number of data files scraped by community members over the years.
     </p>
 
+    <p class="">
+      The collection consists of two parts. You need both parts to get all data (except superseded torrents, which are crossed out on the torrents page).
+    </p>
+
+    <ul class="list-inside mb-4 ml-1">
+      <li class="list-disc"><strong>ia:</strong> our first release, before we standardized on the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers (AAC) format</a>. Contains metadata (as json and xml), pdfs (from acsm and lcpdf digital lending systems), and cover thumbnails.</li>
+      <li class="list-disc"><strong>ia2:</strong> incremental new releases, using AAC. Only contains metadata with timestamps after 2023-01-01, since the rest is covered already by “ia”. Also all pdf files, this time from the acsm and “bookreader” (IA’s web reader) lending systems.</li>
+    </ul>
+
     <p><strong>Resources</strong></p>
     <ul class="list-inside mb-4 ml-1">
       <li class="list-disc">Total files: {{ stats_data.stats_by_group.ia.count | numberformat }}</li>

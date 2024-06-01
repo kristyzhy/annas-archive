@@ -168,7 +168,8 @@ def mysql_build_computed_all_md5s_internal():
     print("Load indexes of annas_archive_meta__aacid__ia2_acsmpdf_files and aa_ia_2023_06_metadata")
     cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__ia2_acsmpdf_files, aa_ia_2023_06_metadata')
     print("Inserting from 'annas_archive_meta__aacid__ia2_acsmpdf_files'")
-    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(md5), 7 FROM aa_ia_2023_06_metadata USE INDEX (libgen_md5) JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NULL')
+    # Note: annas_archive_meta__aacid__ia2_records / files are all after 2023, so no need to filter out the old libgen ones!
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(annas_archive_meta__aacid__ia2_acsmpdf_files.md5), 7 FROM annas_archive_meta__aacid__ia2_records JOIN annas_archive_meta__aacid__ia2_acsmpdf_files USING (primary_id)')
     print("Load indexes of annas_archive_meta__aacid__zlib3_records")
     cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_records')
     print("Inserting from 'annas_archive_meta__aacid__zlib3_records'")
