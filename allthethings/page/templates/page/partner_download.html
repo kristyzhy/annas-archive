@@ -16,7 +16,9 @@
   {% endif %}
 
   {% if no_cloudflare %}
-    {{ gettext('page.partner_download.slow_downloads_cloudflare') }}
+    <p class="mb-4 font-bold underline">
+      {{ gettext('page.partner_download.slow_downloads_cloudflare') }}
+    </p>
   {% endif %}
 
   <p class="mb-4">

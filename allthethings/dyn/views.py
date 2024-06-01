@@ -57,8 +57,9 @@ def databases():
     try:
         with engine.connect() as conn:
             conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))
-        with mariapersist_engine.connect() as mariapersist_conn:
-            mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))
+        if not allthethings.utils.DOWN_FOR_MAINTENANCE:
+            with mariapersist_engine.connect() as mariapersist_conn:
+                mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))
         if not es.ping():
             raise Exception("es.ping failed!")
         if not es_aux.ping():

@@ -47,6 +47,8 @@ SLOWEST_DOWNLOAD_DOMAINS = ['nrzr.li', 'momot.rs', 'momot.rs'] # KEEP SAME LENGT
 SCIDB_SLOW_DOWNLOAD_DOMAINS = ['wbsg8v.xyz']
 SCIDB_FAST_DOWNLOAD_DOMAINS = [FAST_PARTNER_SERVER1 if FAST_PARTNER_SERVER1 is not None else 'nrzr.li']
 
+DOWN_FOR_MAINTENANCE = False
+
 def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])
 

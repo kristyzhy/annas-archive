@@ -307,6 +307,9 @@ def add_comments_to_dict(before_dict, comments):
 @page.get("/")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def home_page():
+    if allthethings.utils.DOWN_FOR_MAINTENANCE:
+        return render_template("page/maintenance.html", header_active="")
+
     torrents_data = get_torrents_data()
     return render_template("page/home.html", header_active="home/home", torrents_data=torrents_data)
 
@@ -4448,6 +4451,9 @@ def cadal_ssno_page(cadal_ssno_input):
     return render_aarecord(f"cadal_ssno:{cadal_ssno_input}")
 
 def render_aarecord(record_id):
+    if allthethings.utils.DOWN_FOR_MAINTENANCE:
+        return render_template("page/maintenance.html", header_active="")
+        
     with Session(engine) as session:
         ids = [record_id]
         if not allthethings.utils.validate_aarecord_ids(ids):
@@ -4860,6 +4866,9 @@ number_of_search_primary_exceptions = 0
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def search_page():
     global number_of_search_primary_exceptions
+
+    if allthethings.utils.DOWN_FOR_MAINTENANCE:
+        return render_template("page/maintenance.html", header_active="")
 
     search_page_timer = time.perf_counter()
     had_es_timeout = False
