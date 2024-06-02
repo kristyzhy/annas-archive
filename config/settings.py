@@ -54,5 +54,3 @@ else:
 SLOW_DATA_IMPORTS = str(os.getenv("SLOW_DATA_IMPORTS", "")).lower() in ["1","true"]
 
 FLASK_DEBUG = str(os.getenv("FLASK_DEBUG", "")).lower() in ["1","true"]
-
-TEMPORARY_FLAG_JOURNALS_IN_ES_AUX = str(os.getenv("TEMPORARY_FLAG_JOURNALS_IN_ES_AUX", "")).lower() in ["1","true"]

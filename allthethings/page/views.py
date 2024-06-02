@@ -395,10 +395,18 @@ def get_stats_data():
             max_concurrent_searches=10,
             max_concurrent_shard_requests=10,
             searches=[
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
-                { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals") },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
                 { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords"), "request_cache": False },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
+                {
+                    "track_total_hits": True,
+                    "timeout": "20s",
+                    "size": 0,
+                    "aggs": {
+                        "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } },
+                        "search_bulk_torrents": { "terms": { "field": "search_only_fields.search_bulk_torrents", "include": "has_bulk_torrents" } },
+                    },
+                },
                 { "index": allthethings.utils.all_virtshards_for_index("aarecords") },
                 {
                     "track_total_hits": True,
@@ -415,7 +423,25 @@ def get_stats_data():
                         },
                     },
                 },
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
+            ],
+        ))
+        stats_data_esaux = dict(es_aux.msearch(
+            request_timeout=30,
+            max_concurrent_searches=10,
+            max_concurrent_shard_requests=10,
+            searches=[
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals") },
+                { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
+                { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals") },
+                {
+                    "track_total_hits": True,
+                    "timeout": "20s",
+                    "size": 0,
+                    "aggs": {
+                        "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } },
+                        "search_bulk_torrents": { "terms": { "field": "search_only_fields.search_bulk_torrents", "include": "has_bulk_torrents" } },
+                    },
+                },
                 { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals") },
                 {
                     "track_total_hits": True,
@@ -423,7 +449,6 @@ def get_stats_data():
                     "size": 0,
                     "aggs": { "search_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } },
                 },
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
                 { "index": allthethings.utils.all_virtshards_for_index("aarecords_journals") },
                 {
                     "track_total_hits": True,
@@ -434,40 +459,21 @@ def get_stats_data():
                         "search_bulk_torrents": { "terms": { "field": "search_only_fields.search_bulk_torrents", "include": "has_bulk_torrents" } },
                     },
                 },
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals"), "request_cache": False },
-                { "index": allthethings.utils.all_virtshards_for_index("aarecords")+allthethings.utils.all_virtshards_for_index("aarecords_journals") },
-                {
-                    "track_total_hits": True,
-                    "timeout": "20s",
-                    "size": 0,
-                    "aggs": {
-                        "search_access_types": { "terms": { "field": "search_only_fields.search_access_types", "include": "aa_download" } },
-                        "search_bulk_torrents": { "terms": { "field": "search_only_fields.search_bulk_torrents", "include": "has_bulk_torrents" } },
-                    },
-                },
-            ],
-        ))
-        stats_data_es_aux = dict(es_aux.msearch(
-            request_timeout=30,
-            max_concurrent_searches=10,
-            max_concurrent_shard_requests=10,
-            searches=[
-                # { "index": allthethings.utils.all_virtshards_for_index("aarecords_digital_lending"), "request_cache": False },
                 { "index": allthethings.utils.all_virtshards_for_index("aarecords_digital_lending") },
                 { "track_total_hits": True, "timeout": "20s", "size": 0, "aggs": { "total_filesize": { "sum": { "field": "search_only_fields.search_filesize" } } } },
             ],
         ))
-        responses_without_timed_out = [response for response in (stats_data_es['responses'] + stats_data_es_aux['responses']) if 'timed_out' not in response]
+        responses_without_timed_out = [response for response in (stats_data_es['responses'] + stats_data_esaux['responses']) if 'timed_out' not in response]
         if len(responses_without_timed_out) > 0:
             raise Exception(f"One of the 'get_stats_data' responses didn't have 'timed_out' field in it: {responses_without_timed_out=}")
-        if any([response['timed_out'] for response in (stats_data_es['responses'] + stats_data_es_aux['responses'])]):
+        if any([response['timed_out'] for response in (stats_data_es['responses'] + stats_data_esaux['responses'])]):
             # WARNING: don't change this message because we match on 'timed out' below
             raise Exception("One of the 'get_stats_data' responses timed out")
 
         # print(f'{orjson.dumps(stats_data_es)=}')
 
         stats_by_group = {}
-        for bucket in stats_data_es['responses'][1]['aggregations']['search_record_sources']['buckets']:
+        for bucket in stats_data_es['responses'][2]['aggregations']['search_record_sources']['buckets']:
             stats_by_group[bucket['key']] = {
                 'count': bucket['doc_count'],
                 'filesize': bucket['search_filesize']['value'],
@@ -475,21 +481,21 @@ def get_stats_data():
                 'torrent_count': bucket['search_bulk_torrents']['buckets'][0]['doc_count'] if len(bucket['search_bulk_torrents']['buckets']) > 0 else 0,
             }
         stats_by_group['journals'] = {
-            'count': stats_data_es['responses'][2]['hits']['total']['value'],
-            'filesize': stats_data_es['responses'][2]['aggregations']['search_filesize']['value'],
-            'aa_count': stats_data_es['responses'][3]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
-            'torrent_count': stats_data_es['responses'][3]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count'] if len(stats_data_es['responses'][3]['aggregations']['search_bulk_torrents']['buckets']) > 0 else 0,
+            'count': stats_data_esaux['responses'][2]['hits']['total']['value'],
+            'filesize': stats_data_esaux['responses'][2]['aggregations']['search_filesize']['value'],
+            'aa_count': stats_data_esaux['responses'][3]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
+            'torrent_count': stats_data_esaux['responses'][3]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count'] if len(stats_data_esaux['responses'][3]['aggregations']['search_bulk_torrents']['buckets']) > 0 else 0,
         }
         stats_by_group['total'] = {
-            'count': stats_data_es['responses'][0]['hits']['total']['value'],
-            'filesize': stats_data_es['responses'][0]['aggregations']['total_filesize']['value'],
-            'aa_count': stats_data_es['responses'][4]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
-            'torrent_count': stats_data_es['responses'][4]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count'] if len(stats_data_es['responses'][4]['aggregations']['search_bulk_torrents']['buckets']) > 0 else 0,
+            'count': stats_data_es['responses'][0]['hits']['total']['value']+stats_data_esaux['responses'][0]['hits']['total']['value'],
+            'filesize': stats_data_es['responses'][0]['aggregations']['total_filesize']['value']+stats_data_esaux['responses'][0]['aggregations']['total_filesize']['value'],
+            'aa_count': stats_data_es['responses'][1]['aggregations']['search_access_types']['buckets'][0]['doc_count']+stats_data_esaux['responses'][1]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
+            'torrent_count': (stats_data_es['responses'][1]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count']+stats_data_esaux['responses'][1]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count']) if (len(stats_data_es['responses'][1]['aggregations']['search_bulk_torrents']['buckets'])+len(stats_data_esaux['responses'][1]['aggregations']['search_bulk_torrents']['buckets'])) > 0 else 0,
         }
-        stats_by_group['ia']['count'] += stats_data_es_aux['responses'][0]['hits']['total']['value']
-        stats_by_group['total']['count'] += stats_data_es_aux['responses'][0]['hits']['total']['value']
-        stats_by_group['ia']['filesize'] += stats_data_es_aux['responses'][0]['aggregations']['total_filesize']['value']
-        stats_by_group['total']['filesize'] += stats_data_es_aux['responses'][0]['aggregations']['total_filesize']['value']
+        stats_by_group['ia']['count'] += stats_data_esaux['responses'][4]['hits']['total']['value']
+        stats_by_group['total']['count'] += stats_data_esaux['responses'][4]['hits']['total']['value']
+        stats_by_group['ia']['filesize'] += stats_data_esaux['responses'][4]['aggregations']['total_filesize']['value']
+        stats_by_group['total']['filesize'] += stats_data_esaux['responses'][4]['aggregations']['total_filesize']['value']
 
     return {
         'stats_by_group': stats_by_group,
@@ -849,7 +855,7 @@ def codes_page():
                     SELECT  ORD(SUBSTRING(code, LENGTH(prefix)+1, 1))
                     INTO    _next
                     FROM    aarecords_codes
-                    WHERE   code LIKE CONCAT(prefix, "%%") AND code >= CONCAT(prefix, CHAR(initial + 1))
+                    WHERE   code LIKE CONCAT(REPLACE(REPLACE(prefix, "%%", "\\%%"), "_", "\\_"), "%%") AND code >= CONCAT(prefix, CHAR(initial + 1))
                     ORDER BY
                             code
                     LIMIT 1;
@@ -867,7 +873,7 @@ def codes_page():
             })
 
         # cursor.execute('SELECT CONCAT(%(prefix)s, IF(@r > 0, CHAR(@r USING utf8), "")) AS new_prefix, @r := fn_get_next_codepoint(IF(@r > 0, @r, ORD(" ")), %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
-        cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING binary)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code > %(prefix)s AND code LIKE CONCAT(%(prefix)s, "%%") ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r != 0', { "prefix": prefix_bytes })
+        cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING binary)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code > %(prefix)s AND code LIKE CONCAT(REPLACE(REPLACE(%(prefix)s, "%%", "\\%%"), "_", "\\_"), "%%") ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r != 0', { "prefix": prefix_bytes })
         new_prefixes_raw = cursor.fetchall()
         new_prefixes = [row['new_prefix'] for row in new_prefixes_raw]
         prefix_rows = []
@@ -875,9 +881,9 @@ def codes_page():
 
         for new_prefix in new_prefixes:
             # TODO: more efficient? Though this is not that bad because we don't typically iterate through that many values.
-            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(%(new_prefix)s, "%%") ORDER BY code, aarecord_id LIMIT 1', { "new_prefix": new_prefix })
+            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(REPLACE(REPLACE(%(new_prefix)s, "%%", "\\%%"), "_", "\\_"), "%%") ORDER BY code, aarecord_id LIMIT 1', { "new_prefix": new_prefix })
             first_record = cursor.fetchone()
-            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(%(new_prefix)s, "%%") ORDER BY code DESC, aarecord_id DESC LIMIT 1', { "new_prefix": new_prefix })
+            cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(REPLACE(REPLACE(%(new_prefix)s, "%%", "\\%%"), "_", "\\_"), "%%") ORDER BY code DESC, aarecord_id DESC LIMIT 1', { "new_prefix": new_prefix })
             last_record = cursor.fetchone()
 
             if first_record['code'] == last_record['code']:
@@ -4453,7 +4459,7 @@ def cadal_ssno_page(cadal_ssno_input):
 def render_aarecord(record_id):
     if allthethings.utils.DOWN_FOR_MAINTENANCE:
         return render_template("page/maintenance.html", header_active="")
-        
+
     with Session(engine) as session:
         ids = [record_id]
         if not allthethings.utils.validate_aarecord_ids(ids):

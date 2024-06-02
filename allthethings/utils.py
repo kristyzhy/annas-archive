@@ -35,7 +35,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1, HOODPAY_URL, HOODPAY_AUTH, PAYMENT3_DOMAIN, PAYMENT3_KEY, TEMPORARY_FLAG_JOURNALS_IN_ES_AUX
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1, HOODPAY_URL, HOODPAY_AUTH, PAYMENT3_DOMAIN, PAYMENT3_KEY
 
 FEATURE_FLAGS = {}
 
@@ -1179,7 +1179,7 @@ def get_aarecord_search_index(id_prefix, content_type):
         raise Exception(f"Unknown aarecord_id prefix: {aarecord_id}")
 SEARCH_INDEX_TO_ES_MAPPING = {
     'aarecords': es,
-    'aarecords_journals': es_aux if TEMPORARY_FLAG_JOURNALS_IN_ES_AUX else es,
+    'aarecords_journals': es_aux,
     'aarecords_digital_lending': es_aux,
     'aarecords_metadata': es_aux,
 }
@@ -1698,7 +1698,8 @@ def build_pagination_pages_with_dots(primary_hits_pages, page_value, large):
     else:
         return pagination_pages_with_dots
 
-
+def escape_mysql_like(input_string):
+    return input_string.replace('%', '\\%').replace('_', '\\_')
 
 
 
