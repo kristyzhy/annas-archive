@@ -3101,7 +3101,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
                 search_results_raw += es_handle.mget(docs=docs)['docs']
                 break
             except:
-                print(f"Warning: another attempt during get_aarecords_elasticsearch {search_input=}")
+                print(f"Warning: another attempt during get_aarecords_elasticsearch {aarecord_ids=}")
                 if attempt >= 3:
                     number_of_get_aarecords_elasticsearch_exceptions += 1
                     if number_of_get_aarecords_elasticsearch_exceptions > 5:
@@ -4530,15 +4530,21 @@ def scidb_page(doi_input):
 
     with Session(engine) as session:
         try:
-            search_results_raw = es.search(
-                index=allthethings.utils.all_virtshards_for_index("aarecords") + allthethings.utils.all_virtshards_for_index("aarecords_journals"),
+            search_results_raw1 = es_aux.search(
+                index=allthethings.utils.all_virtshards_for_index("aarecords_journals"),
                 size=50,
                 query={ "term": { "search_only_fields.search_doi": doi_input } },
-                timeout=ES_TIMEOUT_PRIMARY,
+                timeout="2s",
+            )
+            search_results_raw2 = es.search(
+                index=allthethings.utils.all_virtshards_for_index("aarecords"),
+                size=50,
+                query={ "term": { "search_only_fields.search_doi": doi_input } },
+                timeout="2s",
             )
         except Exception as err:
             return redirect(f'/search?index=journals&q="doi:{doi_input}"', code=302)
-        aarecords = [add_additional_to_aarecord(aarecord) for aarecord in search_results_raw['hits']['hits']]
+        aarecords = [add_additional_to_aarecord(aarecord) for aarecord in search_results_raw1['hits']['hits']+search_results_raw2['hits']['hits']]
         aarecords_and_infos = [(aarecord, allthethings.utils.scidb_info(aarecord)) for aarecord in aarecords if allthethings.utils.scidb_info(aarecord) is not None]
         aarecords_and_infos.sort(key=lambda aarecord_and_info: aarecord_and_info[1]['priority'])
 
@@ -4809,7 +4815,7 @@ def search_query_aggs(search_index_long):
         "search_most_likely_language_code": { "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 70 } },
     }
 
-@cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=24*60*60))
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=60*60))
 def all_search_aggs(display_lang, search_index_long):
     try:
         search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=allthethings.utils.all_virtshards_for_index(search_index_long), size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
@@ -5066,7 +5072,10 @@ def search_page():
     primary_response_raw = search_results_raw['responses'][0]
 
     display_lang = allthethings.utils.get_base_lang_code(get_locale())
-    all_aggregations, all_aggregations_es_stat = all_search_aggs(display_lang, search_index_long)
+    try:
+        all_aggregations, all_aggregations_es_stat = all_search_aggs(display_lang, search_index_long)
+    except:
+        return 'Page loading issue', 500
     es_stats.append(all_aggregations_es_stat)
 
     doc_counts = {}
