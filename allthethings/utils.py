@@ -430,7 +430,7 @@ MEMBERSHIP_METHOD_MAXIMUM_CENTS_NATIVE = {
     "payment1_wechat":  100000,
     "payment1b": 100000,
     "payment1bb": 100000,
-    "payment3a": 30000,
+    "payment3a": 70000,
     "amazon": 20000,
 }
 MEMBERSHIP_MAX_BONUS_DOWNLOADS = 10000
