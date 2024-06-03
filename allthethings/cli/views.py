@@ -772,7 +772,7 @@ def elastic_build_aarecords_oclc_internal():
 
     with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
         print("Processing from oclc")
-        oclc_file = indexed_zstd.IndexedZstdFile('/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
+        oclc_file = indexed_zstd.IndexedZstdFile('/file-data/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
         if FIRST_OCLC_ID is not None:
             oclc_file.seek(allthethings.utils.get_worldcat_pos_before_id(FIRST_OCLC_ID))
         with tqdm.tqdm(total=min(MAX_WORLDCAT, 765200000-OCLC_DONE_ALREADY), bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:

@@ -1601,7 +1601,7 @@ def get_worldcat_pos_before_id(oclc_id):
 
     file = getattr(worldcat_thread_local, 'file', None)
     if file is None:
-        file = worldcat_thread_local.file = indexed_zstd.IndexedZstdFile('/worldcat/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
+        file = worldcat_thread_local.file = indexed_zstd.IndexedZstdFile('/file-data/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
 
     low = 0
     high = file.size()
