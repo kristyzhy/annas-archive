@@ -1590,14 +1590,12 @@ MARC_DEPRECATED_COUNTRY_CODES = {
 # TODO: for a minor speed improvement we can cache the last read block,
 # and then first read the byte offsets within that block.
 aac_file_thread_local = threading.local()
-def get_lines_from_aac_file(session, collection, offsets_and_lengths):
+def get_lines_from_aac_file(cursor, collection, offsets_and_lengths):
     file_cache = getattr(aac_file_thread_local, 'file_cache', None)
     if file_cache is None:
         file_cache = worldcat_thread_local.file_cache = {}
 
     if collection not in file_cache:
-        session.connection().connection.ping(reconnect=True)
-        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT filename FROM annas_archive_meta_aac_filenames WHERE collection = %(collection)s', { 'collection': collection })
         filename = cursor.fetchone()['filename']
         file_cache[collection] = indexed_zstd.IndexedZstdFile(f'/file-data/{filename}')
@@ -1609,6 +1607,11 @@ def get_lines_from_aac_file(session, collection, offsets_and_lengths):
         line_bytes = file.read(byte_length)
         if len(line_bytes) != byte_length:
             raise Exception(f"Invalid {len(line_bytes)=} != {byte_length=}")
+        # Uncomment to verify JSON after read.
+        # try:
+        #     orjson.loads(line_bytes)
+        # except:
+        #     raise Exception(f"Bad JSON: {collection=} {byte_offset=} {byte_length=} {index=} {line_bytes=}")
         lines[index] = line_bytes
     return lines
 

@@ -866,7 +866,7 @@ def elastic_build_aarecords_duxiu_internal():
                 while True:
                     connection.connection.ping(reconnect=True)
                     cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                    cursor.execute('SELECT primary_id, metadata FROM annas_archive_meta__aacid__duxiu_records WHERE (primary_id LIKE "duxiu_ssid_%%" OR primary_id LIKE "cadal_ssno_%%") AND primary_id > %(from)s ORDER BY primary_id LIMIT %(limit)s', { "from": current_primary_id, "limit": BATCH_SIZE })
+                    cursor.execute('SELECT primary_id, byte_offset, byte_length FROM annas_archive_meta__aacid__duxiu_records WHERE (primary_id LIKE "duxiu_ssid_%%" OR primary_id LIKE "cadal_ssno_%%") AND primary_id > %(from)s ORDER BY primary_id LIMIT %(limit)s', { "from": current_primary_id, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
                         if any(last_map.get()):
@@ -876,20 +876,25 @@ def elastic_build_aarecords_duxiu_internal():
                         break
                     print(f"Processing with {THREADS=} {len(batch)=} aarecords from annas_archive_meta__aacid__duxiu_records ( starting primary_id: {batch[0]['primary_id']} , ending primary_id: {batch[-1]['primary_id']} )...")
 
+                    lines_bytes = allthethings.utils.get_lines_from_aac_file(cursor, 'duxiu_records', [(row['byte_offset'], row['byte_length']) for row in batch])
+
                     ids = []
-                    for item in batch:
+                    for item_index, item in enumerate(batch):
+                        line_bytes = lines_bytes[item_index]
+
                         if item['primary_id'] == 'duxiu_ssid_-1':
                             continue
                         if item['primary_id'].startswith('cadal_ssno_hj'):
                             # These are collections.
                             continue
-                        if 'dx_20240122__books' in item['metadata']:
+                        # TODO: pull these things out into the table?
+                        if b'dx_20240122__books' in line_bytes:
                             # Skip, because 512w_final_csv is the authority on these records, and has a bunch of records from dx_20240122__books deleted.
                             continue
-                        if ('dx_toc_db__dx_toc' in item['metadata']) and ('"toc_xml":null' in item['metadata']):
+                        if (b'dx_toc_db__dx_toc' in line_bytes) and (b'"toc_xml":null' in line_bytes):
                             # Skip empty TOC records.
                             continue
-                        if 'dx_20240122__remote_files' in item['metadata']:
+                        if b'dx_20240122__remote_files' in line_bytes:
                             # Skip for now because a lot of the DuXiu SSIDs are actual CADAL SSNOs, and stand-alone records from
                             # remote_files are not useful anyway since they lack metadata like title, author, etc.
                             continue
