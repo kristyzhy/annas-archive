@@ -91,6 +91,9 @@ def nonpersistent_dbreset_internal():
     cursor.execute('DROP TABLE IF EXISTS torrents_json; CREATE TABLE torrents_json (json JSON NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin; INSERT INTO torrents_json (json) VALUES (%(json)s); COMMIT', {'json': torrents_json})
     cursor.close()
 
+    mysql_reset_aac_tables_internal()
+    mysql_build_aac_tables_internal()
+
     mysql_build_computed_all_md5s_internal()
 
     time.sleep(1)
@@ -117,6 +120,158 @@ def query_yield_batches(conn, qry, pk_attr, maxrq):
             break
         yield batch
         firstid = batch[-1][0]
+
+#################################################################################################
+# Reset "annas_archive_meta_*" tables so they are built from scratch.
+# ./run flask cli mysql_reset_aac_tables
+#
+# To dump computed_all_md5s to txt: 
+#   docker exec mariadb mariadb -uallthethings -ppassword allthethings --skip-column-names -e 'SELECT LOWER(HEX(md5)) from computed_all_md5s;' > md5.txt
+@cli.cli.command('mysql_reset_aac_tables')
+def mysql_reset_aac_tables():
+    mysql_reset_aac_tables_internal()
+
+def mysql_reset_aac_tables_internal():
+    print("Resetting aac tables...")
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        cursor.execute('DROP TABLE IF EXISTS annas_archive_meta_aac_filenames')
+    print("Done!")
+
+#################################################################################################
+# Rebuild "annas_archive_meta_*" tables, if they have changed.
+# ./run flask cli mysql_build_aac_tables
+#
+# To dump computed_all_md5s to txt: 
+#   docker exec mariadb mariadb -uallthethings -ppassword allthethings --skip-column-names -e 'SELECT LOWER(HEX(md5)) from computed_all_md5s;' > md5.txt
+@cli.cli.command('mysql_build_aac_tables')
+def mysql_build_aac_tables():
+    mysql_build_aac_tables_internal()
+
+def mysql_build_aac_tables_internal():
+    print("Building aac tables...")
+    file_data_files_by_collection = collections.defaultdict(list)
+
+    for filename in os.listdir('/file-data'):
+        if not (filename.startswith('annas_archive_meta__aacid__') and filename.endswith('.jsonl.seekable.zst')):
+            continue
+        if 'worldcat' in filename:
+            continue
+        collection = filename.split('__')[2]
+        file_data_files_by_collection[collection].append(filename)
+
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        cursor.execute('CREATE TABLE IF NOT EXISTS annas_archive_meta_aac_filenames (`collection` VARCHAR(250) NOT NULL, `filename` VARCHAR(250) NOT NULL, PRIMARY KEY (`collection`)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('SELECT * FROM annas_archive_meta_aac_filenames')
+        existing_filenames_by_collection = { row['collection']: row['filename'] for row in cursor.fetchall() }
+
+        collections_need_indexing = {}
+        for collection, filenames in file_data_files_by_collection.items():
+            filenames.sort()
+            previous_filename = existing_filenames_by_collection.get(collection) or ''
+            collection_needs_indexing = filenames[-1] != previous_filename
+            if collection_needs_indexing:
+                collections_need_indexing[collection] = filenames[-1]
+            print(f"{collection:20}   files found: {len(filenames):02}    latest: {filenames[-1].split('__')[3].split('.')[0]}    {'previous filename: ' + previous_filename if collection_needs_indexing else '(no change)'}")
+
+        for collection, filename in collections_need_indexing.items():
+            print(f"[{collection}] Starting indexing...")
+
+            extra_index_fields = {}
+            if collection == 'duxiu_records':
+                extra_index_fields['filename_decoded_basename'] = 'VARCHAR(250) NULL'
+
+            def build_insert_data(line, byte_offset):
+                # Parse "canonical AAC" more efficiently than parsing all the JSON
+                matches = re.match(rb'\{"aacid":"([^"]+)",("data_folder":"([^"]+)",)?"metadata":\{"[^"]+":([^,]+),("md5":"([^"]+)")?', line)
+                if matches is None:
+                    raise Exception(f"Line is not in canonical AAC format: '{line}'")
+                aacid = matches[1]
+                # data_folder = matches[3]
+                primary_id = matches[4].replace(b'"', b'')
+
+                md5 = matches[6]
+                if ('duxiu_files' in collection and b'"original_md5"' in line):
+                    # For duxiu_files, md5 is the primary id, so we stick original_md5 in the md5 column so we can query that as well.
+                    original_md5_matches = re.search(rb'"original_md5":"([^"]+)"', line)
+                    if original_md5_matches is None:
+                        raise Exception(f"'original_md5' found, but not in an expected format! '{line}'")
+                    md5 = original_md5_matches[1]
+                elif md5 is None:
+                    if b'"md5_reported"' in line:
+                        md5_reported_matches = re.search(rb'"md5_reported":"([^"]+)"', line)
+                        if md5_reported_matches is None:
+                            raise Exception(f"'md5_reported' found, but not in an expected format! '{line}'")
+                        md5 = md5_reported_matches[1]
+                if (md5 is not None) and (not bool(re.match(rb"^[a-f\d]{32}$", md5))):
+                    # Remove if it's not md5.
+                    md5 = None
+
+                return_data = { 
+                    'aacid': aacid.decode(), 
+                    'primary_id': primary_id.decode(), 
+                    'md5': md5.decode() if md5 is not None else None, 
+                    'byte_offset': byte_offset,
+                    'byte_length': len(line),
+                }
+
+                if 'filename_decoded_basename' in extra_index_fields:
+                    return_data['filename_decoded_basename'] = None
+                    if b'"filename_decoded"' in line:
+                        json = orjson.loads(line)
+                        filename_decoded = json['metadata']['record']['filename_decoded']
+                        return_data['filename_decoded_basename'] = filename_decoded.rsplit('.', 1)[0]
+                return return_data
+
+            CHUNK_SIZE = 100000
+
+            filepath = f'/file-data/{filename}'
+            table_name = f'annas_archive_meta__aacid__{collection}'
+            print(f"[{collection}] Reading from {filepath} to {table_name}")
+
+            file = indexed_zstd.IndexedZstdFile(filepath)
+            # For some strange reason this must be on a separate line from the `file =` line.
+            uncompressed_size = file.size()
+            print(f"[{collection}] {uncompressed_size=}")
+
+            table_extra_fields = ''.join([f', {index_name} {index_type}' for index_name, index_type in extra_index_fields.items()])
+            table_extra_index = ''.join([f', INDEX({index_name})' for index_name, index_type in extra_index_fields.items()])
+            insert_extra_names = ''.join([f', {index_name}' for index_name, index_type in extra_index_fields.items()])
+            insert_extra_values = ''.join([f', %({index_name})s' for index_name, index_type in extra_index_fields.items()])
+
+            cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+            cursor.execute(f"CREATE TABLE {table_name} (`aacid` VARCHAR(250) NOT NULL, `primary_id` VARCHAR(250) NULL, `md5` char(32) CHARACTER SET ascii NULL, `byte_offset` BIGINT NOT NULL, `byte_length` BIGINT NOT NULL {table_extra_fields}, PRIMARY KEY (`aacid`), INDEX `primary_id` (`primary_id`), INDEX `md5` (`md5`) {table_extra_index}) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin")
+
+            cursor.execute(f"LOCK TABLES {table_name} WRITE")
+            # From https://github.com/indygreg/python-zstandard/issues/13#issuecomment-1544313739
+            with tqdm.tqdm(total=uncompressed_size, bar_format='{l_bar}{bar}{r_bar} {eta}', unit='B', unit_scale=True) as pbar:
+                with open(filepath, 'rb') as fh:
+                    dctx = zstandard.ZstdDecompressor()
+                    stream_reader = io.BufferedReader(dctx.stream_reader(fh))
+                    byte_offset = 0
+                    for lines in more_itertools.ichunked(stream_reader, CHUNK_SIZE):
+                        bytes_in_batch = 0
+                        insert_data = [] 
+                        for line in lines:
+                            insert_data.append(build_insert_data(line, byte_offset))
+                            line_len = len(line)
+                            byte_offset += line_len
+                            bytes_in_batch += line_len
+                        action = 'INSERT'
+                        if collection == 'duxiu_records':
+                            # This collection inadvertently has a bunch of exact duplicate lines.
+                            action = 'REPLACE'
+                        connection.connection.ping(reconnect=True)
+                        cursor.executemany(f'{action} INTO {table_name} (aacid, primary_id, md5, byte_offset, byte_length {insert_extra_names}) VALUES (%(aacid)s, %(primary_id)s, %(md5)s, %(byte_offset)s, %(byte_length)s {insert_extra_values})', insert_data)
+                        pbar.update(bytes_in_batch)
+            connection.connection.ping(reconnect=True)
+            cursor.execute(f"UNLOCK TABLES")
+            cursor.execute(f"REPLACE INTO annas_archive_meta_aac_filenames (collection, filename) VALUES (%(collection)s, %(filename)s)", { "collection": collection, "filename": filepath.rsplit('/', 1)[-1] })
+            cursor.execute(f"COMMIT")
+            print(f"[{collection}] Done!")
 
 
 #################################################################################################

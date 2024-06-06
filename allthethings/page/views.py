@@ -1120,21 +1120,47 @@ def get_ia_record_dicts(session, key, values):
         print(repr(err))
         traceback.print_tb(err.__traceback__)
 
-    ia_record_dicts = []
-    # Prioritize ia_entries2 first, because their records are newer.
-    for ia_record, ia_file, ia2_acsmpdf_file in (ia_entries2 + ia_entries):
+    ia_entries_combined = []
+    ia2_records_indexes = []
+    ia2_records_offsets_and_lengths = []
+    ia2_acsmpdf_files_indexes = []
+    ia2_acsmpdf_files_offsets_and_lengths = []
+    index = 0
+    # Prioritize ia_entries2 first, because their records are newer. This order matters
+    # futher below.
+    for ia_record, ia_file, ia2_acsmpdf_file in ia_entries2 + ia_entries:
         ia_record_dict = ia_record.to_dict()
-        if 'primary_id' in ia_record_dict:
-            # Convert from AAC.
-            metadata = orjson.loads(ia_record_dict["metadata"])
+        if 'byte_offset' in ia_record_dict:
+            ia2_records_indexes.append(index)
+            ia2_records_offsets_and_lengths.append((ia_record_dict['byte_offset'], ia_record_dict['byte_length']))
+        ia_file_dict = None
+        if ia_file is not None:
+            ia_file_dict = ia_file.to_dict()
+        ia2_acsmpdf_file_dict = None
+        if ia2_acsmpdf_file is not None:
+            ia2_acsmpdf_file_dict = ia2_acsmpdf_file.to_dict()
+            ia2_acsmpdf_files_indexes.append(index)
+            ia2_acsmpdf_files_offsets_and_lengths.append((ia2_acsmpdf_file_dict['byte_offset'], ia2_acsmpdf_file_dict['byte_length']))
+        ia_entries_combined.append([ia_record_dict, ia_file_dict, ia2_acsmpdf_file_dict])
+        index += 1
 
+    ia2_records_lines = allthethings.utils.get_lines_from_aac_file(session, 'ia2_records', ia2_records_offsets_and_lengths)
+    for index, line_bytes in enumerate(ia2_records_lines):
+        ia_entries_combined[ia2_records_indexes[index]][0] = orjson.loads(line_bytes)
+    ia2_acsmpdf_files_lines = allthethings.utils.get_lines_from_aac_file(session, 'ia2_acsmpdf_files', ia2_acsmpdf_files_offsets_and_lengths)
+    for index, line_bytes in enumerate(ia2_acsmpdf_files_lines):
+        ia_entries_combined[ia2_acsmpdf_files_indexes[index]][2] = orjson.loads(line_bytes)
+
+    ia_record_dicts = []
+    for ia_record_dict, ia_file_dict, ia2_acsmpdf_file_dict in ia_entries_combined:
+        if 'aacid' in ia_record_dict:
+            # Convert from AAC.
             ia_record_dict = {
-                "ia_id": metadata["ia_id"],
+                "ia_id": ia_record_dict["metadata"]["ia_id"],
                 # "has_thumb" # We'd need to look at both ia_entries2 and ia_entries to get this, but not worth it.
                 "libgen_md5": None,
-                "json": metadata['metadata_json'],
+                "json": ia_record_dict["metadata"]['metadata_json'],
             }
-
             for external_id in extract_list_from_ia_json_field(ia_record_dict, 'external-identifier'):
                 if 'urn:libgen:' in external_id:
                     ia_record_dict['libgen_md5'] = external_id.split('/')[-1]
@@ -1155,17 +1181,15 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict['aa_ia_file'] = None
         added_date_unified_file = {}
         if ia_record_dict['libgen_md5'] is None: # If there's a Libgen MD5, then we do NOT serve our IA file.
-            if ia_file is not None:
-                ia_record_dict['aa_ia_file'] = ia_file.to_dict()
+            if ia_file_dict is not None:
+                ia_record_dict['aa_ia_file'] = ia_file_dict
                 ia_record_dict['aa_ia_file']['extension'] = 'pdf'
                 added_date_unified_file = { "ia_file_scrape": "2023-06-28" }
-            elif ia2_acsmpdf_file is not None:
-                ia2_acsmpdf_file_dict = ia2_acsmpdf_file.to_dict()
-                ia2_acsmpdf_file_metadata = orjson.loads(ia2_acsmpdf_file_dict['metadata'])
+            elif ia2_acsmpdf_file_dict is not None:
                 ia_record_dict['aa_ia_file'] = {
                     'md5': ia2_acsmpdf_file_dict['md5'],
                     'type': 'ia2_acsmpdf',
-                    'filesize': ia2_acsmpdf_file_metadata['filesize'],
+                    'filesize': ia2_acsmpdf_file_dict['metadata']['filesize'],
                     'ia_id': ia2_acsmpdf_file_dict['primary_id'],
                     'extension': 'pdf',
                     'aacid': ia2_acsmpdf_file_dict['aacid'],
