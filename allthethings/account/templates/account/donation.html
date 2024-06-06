@@ -174,7 +174,7 @@
 
         <p class="mb-4">
           {{ gettext('page.donation.pyusd.instructions') }}
-          {{ gettext('page.donation.pyusd.more', more='$4', amount=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
+          {{ gettext('page.donation.pyusd.more', more='$5', amount=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions) }}
         </p>
 
         <p class="mb-4 mt-6 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">2</span>Transfer the PYUSD to our address</p>
@@ -429,9 +429,9 @@
           {{ gettext('page.donation.payment.alipay.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=((' href="' | safe) + (donation_dict.json.payment3_request.data.url | safe) + ('" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe) | safe)) }}</a> <!-- Oops! Translation is missing </a> -->
         </p>
 
-        <p class="mb-4">
+        <!-- <p class="mb-4">
           Unfortunately the Alipay page is often only accessible from <strong>mainland China</strong>. You might need to temporarily disable your VPN, or use a VPN to mainland China (or Hong Kong also works sometimes).
-        </p>
+        </p> -->
 
         <!-- <p class="mb-4">
           {{ gettext('page.donate.strange_account') }}
