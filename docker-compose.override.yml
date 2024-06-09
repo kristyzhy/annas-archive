@@ -32,13 +32,6 @@ services:
     networks:
       - "mynetwork"
     volumes:
-      - "./aacid_small/annas_archive_meta__aacid__duxiu_records__20240130T000000Z--20240305T000000Z.jsonl.small.seekable.zst:/file-data/annas_archive_meta__aacid__duxiu_records__20240130T000000Z--20240305T000000Z.jsonl.seekable.zst"
-      - "./aacid_small/annas_archive_meta__aacid__duxiu_files__20240312T053315Z--20240312T133715Z.jsonl.small.seekable.zst:/file-data/annas_archive_meta__aacid__duxiu_files__20240312T053315Z--20240312T133715Z.jsonl.seekable.zst"
-      - "./aacid_small/annas_archive_meta__aacid__ia2_acsmpdf_files__20231008T203648Z--20240126T083250Z.jsonl.small.seekable.zst:/file-data/annas_archive_meta__aacid__ia2_acsmpdf_files__20231008T203648Z--20240126T083250Z.jsonl.seekable.zst"
-      - "./aacid_small/annas_archive_meta__aacid__ia2_records__20240126T065114Z--20240126T070601Z.jsonl.small.seekable.zst:/file-data/annas_archive_meta__aacid__ia2_records__20240126T065114Z--20240126T070601Z.jsonl.seekable.zst"
-      - "./aacid_small/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.small.seekable.zst:/file-data/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst"
-      - "./aacid_small/annas_archive_meta__aacid__zlib3_files__20230808T051503Z--20240402T183036Z.jsonl.small.seekable.zst:/file-data/annas_archive_meta__aacid__zlib3_files__20230808T051503Z--20240402T183036Z.jsonl.seekable.zst"
-      - "./aacid_small/annas_archive_meta__aacid__zlib3_records__20230808T014342Z--20240322T220922Z.jsonl.small.seekable.zst:/file-data/annas_archive_meta__aacid__zlib3_records__20230808T014342Z--20240322T220922Z.jsonl.seekable.zst"
       - "../annas-archive-dev--temp-dir:/temp-dir"
 
   elasticsearch:

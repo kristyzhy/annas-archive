@@ -40,7 +40,7 @@ from sqlalchemy import select, func, text, create_engine
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session
 from pymysql.constants import CLIENT
-from config.settings import SLOW_DATA_IMPORTS
+from config.settings import SLOW_DATA_IMPORTS, AACID_SMALL_DATA_IMPORTS
 
 from allthethings.page.views import get_aarecords_mysql, get_isbndb_dicts
 
@@ -142,9 +142,6 @@ def mysql_reset_aac_tables_internal():
 #################################################################################################
 # Rebuild "annas_archive_meta_*" tables, if they have changed.
 # ./run flask cli mysql_build_aac_tables
-#
-# To dump computed_all_md5s to txt: 
-#   docker exec mariadb mariadb -uallthethings -ppassword allthethings --skip-column-names -e 'SELECT LOWER(HEX(md5)) from computed_all_md5s;' > md5.txt
 @cli.cli.command('mysql_build_aac_tables')
 def mysql_build_aac_tables():
     mysql_build_aac_tables_internal()
@@ -153,7 +150,7 @@ def mysql_build_aac_tables_internal():
     print("Building aac tables...")
     file_data_files_by_collection = collections.defaultdict(list)
 
-    for filename in os.listdir('/file-data'):
+    for filename in os.listdir(allthethings.utils.aac_path_prefix()):
         if not (filename.startswith('annas_archive_meta__aacid__') and filename.endswith('.jsonl.seekable.zst')):
             continue
         if 'worldcat' in filename:
@@ -228,12 +225,11 @@ def mysql_build_aac_tables_internal():
 
             CHUNK_SIZE = 100000
 
-            filepath = f'/file-data/{filename}'
+            filepath = f'{allthethings.utils.aac_path_prefix()}{filename}'
             table_name = f'annas_archive_meta__aacid__{collection}'
             print(f"[{collection}] Reading from {filepath} to {table_name}")
 
             file = indexed_zstd.IndexedZstdFile(filepath)
-            # For some strange reason this must be on a separate line from the `file =` line.
             uncompressed_size = file.size()
             print(f"[{collection}] {uncompressed_size=}")
 
@@ -248,25 +244,23 @@ def mysql_build_aac_tables_internal():
             cursor.execute(f"LOCK TABLES {table_name} WRITE")
             # From https://github.com/indygreg/python-zstandard/issues/13#issuecomment-1544313739
             with tqdm.tqdm(total=uncompressed_size, bar_format='{l_bar}{bar}{r_bar} {eta}', unit='B', unit_scale=True) as pbar:
-                with open(filepath, 'rb') as fh:
-                    dctx = zstandard.ZstdDecompressor()
-                    stream_reader = io.BufferedReader(dctx.stream_reader(fh))
-                    byte_offset = 0
-                    for lines in more_itertools.ichunked(stream_reader, CHUNK_SIZE):
-                        bytes_in_batch = 0
-                        insert_data = [] 
-                        for line in lines:
-                            insert_data.append(build_insert_data(line, byte_offset))
-                            line_len = len(line)
-                            byte_offset += line_len
-                            bytes_in_batch += line_len
-                        action = 'INSERT'
-                        if collection == 'duxiu_records':
-                            # This collection inadvertently has a bunch of exact duplicate lines.
-                            action = 'REPLACE'
-                        connection.connection.ping(reconnect=True)
-                        cursor.executemany(f'{action} INTO {table_name} (aacid, primary_id, md5, byte_offset, byte_length {insert_extra_names}) VALUES (%(aacid)s, %(primary_id)s, %(md5)s, %(byte_offset)s, %(byte_length)s {insert_extra_values})', insert_data)
-                        pbar.update(bytes_in_batch)
+                byte_offset = 0
+                for lines in more_itertools.ichunked(file, CHUNK_SIZE):
+                    bytes_in_batch = 0
+                    insert_data = [] 
+                    for line in lines:
+                        allthethings.utils.aac_spot_check_line_bytes(line)
+                        insert_data.append(build_insert_data(line, byte_offset))
+                        line_len = len(line)
+                        byte_offset += line_len
+                        bytes_in_batch += line_len
+                    action = 'INSERT'
+                    if collection == 'duxiu_records':
+                        # This collection inadvertently has a bunch of exact duplicate lines.
+                        action = 'REPLACE'
+                    connection.connection.ping(reconnect=True)
+                    cursor.executemany(f'{action} INTO {table_name} (aacid, primary_id, md5, byte_offset, byte_length {insert_extra_names}) VALUES (%(aacid)s, %(primary_id)s, %(md5)s, %(byte_offset)s, %(byte_length)s {insert_extra_values})', insert_data)
+                    pbar.update(bytes_in_batch)
             connection.connection.ping(reconnect=True)
             cursor.execute(f"UNLOCK TABLES")
             cursor.execute(f"REPLACE INTO annas_archive_meta_aac_filenames (collection, filename) VALUES (%(collection)s, %(filename)s)", { "collection": collection, "filename": filepath.rsplit('/', 1)[-1] })
@@ -932,7 +926,7 @@ def elastic_build_aarecords_oclc_internal():
 
     with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
         print("Processing from oclc")
-        oclc_file = indexed_zstd.IndexedZstdFile('/file-data/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
+        oclc_file = indexed_zstd.IndexedZstdFile(f'{allthethings.utils.aac_path_prefix()}annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
         if FIRST_OCLC_ID is not None:
             oclc_file.seek(allthethings.utils.get_worldcat_pos_before_id(FIRST_OCLC_ID))
         with tqdm.tqdm(total=min(MAX_WORLDCAT, 765200000-OCLC_DONE_ALREADY), bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:

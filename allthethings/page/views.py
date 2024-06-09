@@ -1210,10 +1210,10 @@ def get_ia_record_dicts(session, key, values):
                 added_date_unified_file = { "ia_file_scrape": "2023-06-28" }
             elif ia2_acsmpdf_file_dict is not None:
                 ia_record_dict['aa_ia_file'] = {
-                    'md5': ia2_acsmpdf_file_dict['md5'],
+                    'md5': ia2_acsmpdf_file_dict['metadata']['md5'],
                     'type': 'ia2_acsmpdf',
                     'filesize': ia2_acsmpdf_file_dict['metadata']['filesize'],
-                    'ia_id': ia2_acsmpdf_file_dict['primary_id'],
+                    'ia_id': ia2_acsmpdf_file_dict['metadata']['ia_id'],
                     'extension': 'pdf',
                     'aacid': ia2_acsmpdf_file_dict['aacid'],
                     'data_folder': ia2_acsmpdf_file_dict['data_folder'],
@@ -2551,7 +2551,7 @@ def get_duxiu_dicts(session, key, values):
         duxiu_records_offsets_and_lengths.append((row['byte_offset'], row['byte_length']))
         if row.get('generated_file_byte_offset') is not None:
             duxiu_files_indexes.append(row_index)
-            duxiu_records_offsets_and_lengths.append((row['generated_file_byte_offset'], row['generated_file_byte_length']))
+            duxiu_files_offsets_and_lengths.append((row['generated_file_byte_offset'], row['generated_file_byte_length']))
         top_level_records.append([{ "primary_id": row['primary_id'] }, None])
 
     for index, line_bytes in enumerate(allthethings.utils.get_lines_from_aac_file(cursor, 'duxiu_records', duxiu_records_offsets_and_lengths)):

@@ -78,6 +78,8 @@ ENV FLASK_DEBUG="${FLASK_DEBUG}" \
     PYTHONUNBUFFERED="true" \
     PYTHONPATH="."
 
+ENV PYTHONFAULTHANDLER=1
+
 COPY --from=assets /app/public /public
 COPY . .
 

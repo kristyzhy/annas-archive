@@ -35,7 +35,7 @@ from sqlalchemy.orm import Session
 from flask_babel import format_timedelta
 
 from allthethings.extensions import es, es_aux, engine, mariapersist_engine, MariapersistDownloadsTotalByMd5, mail, MariapersistDownloadsHourlyByMd5, MariapersistDownloadsHourly, MariapersistMd5Report, MariapersistAccounts, MariapersistComments, MariapersistReactions, MariapersistLists, MariapersistListEntries, MariapersistDonations, MariapersistDownloads, MariapersistFastDownloadAccess
-from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1, HOODPAY_URL, HOODPAY_AUTH, PAYMENT3_DOMAIN, PAYMENT3_KEY
+from config.settings import SECRET_KEY, DOWNLOADS_SECRET_KEY, MEMBERS_TELEGRAM_URL, FLASK_DEBUG, PAYMENT2_URL, PAYMENT2_API_KEY, PAYMENT2_PROXIES, FAST_PARTNER_SERVER1, HOODPAY_URL, HOODPAY_AUTH, PAYMENT3_DOMAIN, PAYMENT3_KEY, AACID_SMALL_DATA_IMPORTS
 
 FEATURE_FLAGS = {}
 
@@ -1586,6 +1586,14 @@ MARC_DEPRECATED_COUNTRY_CODES = {
     "yu" : "Serbia and Montenegro",
 }
 
+def aac_path_prefix():
+    return "/app/aacid_small/" if AACID_SMALL_DATA_IMPORTS else "/file-data/"
+
+def aac_spot_check_line_bytes(line_bytes):
+    if line_bytes[0:1] != b'{':
+        raise Exception(f"Bad JSON (does not start with {{): {collection=} {byte_offset=} {byte_length=} {index=} {line_bytes=}")
+    if line_bytes[-2:] != b'}\n':
+        raise Exception(f"Bad JSON (does not end with }}\\n): {collection=} {byte_offset=} {byte_length=} {index=} {line_bytes=}")
 
 # TODO: for a minor speed improvement we can cache the last read block,
 # and then first read the byte offsets within that block.
@@ -1598,7 +1606,7 @@ def get_lines_from_aac_file(cursor, collection, offsets_and_lengths):
     if collection not in file_cache:
         cursor.execute('SELECT filename FROM annas_archive_meta_aac_filenames WHERE collection = %(collection)s', { 'collection': collection })
         filename = cursor.fetchone()['filename']
-        file_cache[collection] = indexed_zstd.IndexedZstdFile(f'/file-data/{filename}')
+        file_cache[collection] = indexed_zstd.IndexedZstdFile(f'{aac_path_prefix()}{filename}')
     file = file_cache[collection]
 
     lines = [None]*len(offsets_and_lengths)
@@ -1607,7 +1615,8 @@ def get_lines_from_aac_file(cursor, collection, offsets_and_lengths):
         line_bytes = file.read(byte_length)
         if len(line_bytes) != byte_length:
             raise Exception(f"Invalid {len(line_bytes)=} != {byte_length=}")
-        # Uncomment to verify JSON after read.
+        aac_spot_check_line_bytes(line_bytes)
+        # Uncomment to fully verify JSON after read.
         # try:
         #     orjson.loads(line_bytes)
         # except:
@@ -1630,7 +1639,7 @@ def get_worldcat_pos_before_id(oclc_id):
 
     file = getattr(worldcat_thread_local, 'file', None)
     if file is None:
-        file = worldcat_thread_local.file = indexed_zstd.IndexedZstdFile('/file-data/annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
+        file = worldcat_thread_local.file = indexed_zstd.IndexedZstdFile(f'{aac_path_prefix()}annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
 
     low = 0
     high = file.size()
