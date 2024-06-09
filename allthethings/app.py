@@ -6,9 +6,10 @@ import sys
 import time
 import babel.numbers as babel_numbers
 import multiprocessing
+import ipaddress
 
 from celery import Celery
-from flask import Flask, request, g
+from flask import Flask, request, g, redirect
 from werkzeug.security import safe_join
 from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -227,12 +228,26 @@ def extensions(app):
 
         g.secure_domain = g.base_domain not in ['localtest.me:8000', 'localhost:8000']
         g.full_domain = g.base_domain
+        full_hostname = g.base_domain
         if g.domain_lang_code != 'en':
             g.full_domain = g.domain_lang_code + '.' + g.base_domain
+            full_hostname = g.domain_lang_code + '.' + g.base_domain
         if g.secure_domain:
             g.full_domain = 'https://' + g.full_domain
         else:
             g.full_domain = 'http://' + g.full_domain
+
+        # TODO: change proxies to use domain name in Host.
+        host_is_ip = False
+        try:
+            ipaddress.ip_address(request.headers['Host'])
+            host_is_ip = True
+        except:
+            pass
+        if (not host_is_ip) and (request.headers['Host'] != full_hostname):
+            redir_path = f"{g.full_domain}{request.full_path}"
+            print(f"Warning: redirecting {request.headers['Host']=} {request.full_path=} to {redir_path=} because {full_hostname=}")
+            return redirect(redir_path, code=301)
 
         g.languages = [(allthethings.utils.get_domain_lang_code(locale), allthethings.utils.get_domain_lang_code_display_name(locale)) for locale in allthethings.utils.list_translations()]
         g.languages.sort()
