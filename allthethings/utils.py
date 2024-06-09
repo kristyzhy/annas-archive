@@ -417,7 +417,7 @@ MEMBERSHIP_METHOD_MINIMUM_CENTS_USD = {
     "payment1": 1000,
     "payment1_alipay": 1000,
     "payment1_wechat": 1000,
-    "payment1b": 0,
+    "payment1b": 1000,
     "payment1bb": 1000,
     "payment3a": 1000,
     "givebutter": 500,

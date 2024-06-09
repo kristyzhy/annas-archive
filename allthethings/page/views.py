@@ -954,7 +954,7 @@ def zlib_add_edition_varia_normalized(zlib_book_dict):
     zlib_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
 def zlib_cover_url_guess(md5):
-    # return f"https://static.1lib.sk/covers/books/{md5[0:2]}/{md5[2:4]}/{md5[4:6]}/{md5}.jpg"
+    # return f"https://static.z-lib.gs/covers/books/{md5[0:2]}/{md5[2:4]}/{md5[4:6]}/{md5}.jpg"
     return f""
 
 def get_zlib_book_dicts(session, key, values):
@@ -4399,10 +4399,10 @@ def get_additional_for_aarecord(aarecord):
         additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/annas_archive_data__aacid/{aarecord['aac_zlib3_book']['file_data_folder']}.torrent", "file_level1": aarecord['aac_zlib3_book']['file_aacid'], "file_level2": "" })
     if aarecord.get('aac_zlib3_book') is not None:
         # additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://loginzlib2vrak5zzpcocc3ouizykn6k5qecgj2tzlnab5wcbqhembyd.onion/md5/{aarecord['aac_zlib3_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
-        additional['download_urls'].append(("Z-Library", f"https://1lib.sk/md5/{aarecord['aac_zlib3_book']['md5_reported'].lower()}", ""))
+        additional['download_urls'].append(("Z-Library", f"https://z-lib.gs/md5/{aarecord['aac_zlib3_book']['md5_reported'].lower()}", ""))
     if (aarecord.get('zlib_book') is not None) and (aarecord.get('aac_zlib3_book') is None):
         # additional['download_urls'].append((gettext('page.md5.box.download.zlib_tor'), f"http://loginzlib2vrak5zzpcocc3ouizykn6k5qecgj2tzlnab5wcbqhembyd.onion/md5/{aarecord['zlib_book']['md5_reported'].lower()}", gettext('page.md5.box.download.zlib_tor_extra')))
-        additional['download_urls'].append(("Z-Library", f"https://1lib.sk/md5/{aarecord['zlib_book']['md5_reported'].lower()}", ""))
+        additional['download_urls'].append(("Z-Library", f"https://z-lib.gs/md5/{aarecord['zlib_book']['md5_reported'].lower()}", ""))
     if aarecord.get('ia_record') is not None:
         ia_id = aarecord['ia_record']['ia_id']
         printdisabled_only = aarecord['ia_record']['aa_ia_derived']['printdisabled_only']
