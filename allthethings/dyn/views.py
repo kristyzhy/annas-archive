@@ -72,6 +72,72 @@ def databases():
     number_of_db_exceptions = 0
     return ""
 
+def api_md5_fast_download_get_json(download_url, other_fields):
+    return allthethings.utils.nice_json({
+        "///download_url": [
+            "This API is intended as a stable JSON API for getting fast download files as a member.",
+            "A successful request will return status code 200 or 204, a `download_url` field and `account_fast_download_info`.",
+            "Bad responses use different status codes, a `download_url` set to `null`, and `error` field with string description.",
+            "Accepted query parameters:",
+            "- `md5` (required): the md5 string of the requested file.",
+            "- `path_index` (optional): Integer, 0 or larger, indicating the collection (if the file is present in more than one).",
+            "- `domain_index` (optional): Integer, 0 or larger, indicating the download server, e.g. 0='Fast Partner Server #1'.",
+            "These parameters correspond to the fast download page like this: /fast_download/{md5}/{path_index}/{domain_index}",
+            "Example: /dyn/api/fast_download.json?md5=d6e1dc51a50726f00ec438af21952a45",
+        ],
+        "download_url": download_url,
+        **other_fields,
+    })
+
+# IMPORTANT: Keep in sync with md5_fast_download.
+@dyn.get("/api/fast_download.json")
+@allthethings.utils.no_cache()
+def api_md5_fast_download():
+    md5_input = request.args.get('md5', '')
+    domain_index = int(request.args.get('domain_index', '0'))
+    path_index = int(request.args.get('path_index', '0'))
+
+    md5_input = md5_input[0:50]
+    canonical_md5 = md5_input.strip().lower()[0:32]
+
+    if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
+        return api_md5_fast_download_get_json(None, { "error": "Invalid md5" }), 400, {'Content-Type': 'text/json; charset=utf-8'}
+    with Session(engine) as session:
+        aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
+        if aarecords is None:
+            return api_md5_fast_download_get_json(None, { "error": "Error during fetching" }), 500, {'Content-Type': 'text/json; charset=utf-8'}
+        if len(aarecords) == 0:
+            return api_md5_fast_download_get_json(None, { "error": "Record not found" }), 404, {'Content-Type': 'text/json; charset=utf-8'}
+        aarecord = aarecords[0]
+        try:
+            domain = allthethings.utils.FAST_DOWNLOAD_DOMAINS[domain_index]
+            path_info = aarecord['additional']['partner_url_paths'][path_index]
+        except:
+            return api_md5_fast_download_get_json(None, { "error": "Invalid domain_index or path_index" }), 400, {'Content-Type': 'text/json; charset=utf-8'}
+        url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(False, 20000, path_info['path'], aarecord['additional']['filename'], domain)
+
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    with Session(mariapersist_engine) as mariapersist_session:
+        account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
+        if account_fast_download_info is None:
+            return api_md5_fast_download_get_json(None, { "error": "Not a member" }), 403, {'Content-Type': 'text/json; charset=utf-8'}
+
+        if canonical_md5 not in account_fast_download_info['recently_downloaded_md5s']:
+            if account_fast_download_info['downloads_left'] <= 0:
+                return api_md5_fast_download_get_json(None, { "error": "No downloads left" }), 429, {'Content-Type': 'text/json; charset=utf-8'}
+
+            data_md5 = bytes.fromhex(canonical_md5)
+            data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
+            mariapersist_session.connection().execute(text('INSERT INTO mariapersist_fast_download_access (md5, ip, account_id) VALUES (:md5, :ip, :account_id)').bindparams(md5=data_md5, ip=data_ip, account_id=account_id))
+            mariapersist_session.commit()
+    return api_md5_fast_download_get_json(url, {
+        "account_fast_download_info": {
+            "downloads_left": account_fast_download_info['downloads_left'],
+            "downloads_per_day": account_fast_download_info['downloads_per_day'],
+            "recently_downloaded_md5s": account_fast_download_info['recently_downloaded_md5s'],
+        },
+    }), {'Content-Type': 'text/json; charset=utf-8'}
+
 def make_torrent_url(file_path):
     return f"{g.full_domain}/dyn/small_file/{file_path}"
 

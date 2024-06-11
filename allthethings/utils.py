@@ -322,6 +322,11 @@ def get_md5_report_type_mapping():
         'other': gettext('common.md5_report_type_mapping.other'),
     }
 
+def nice_json(some_dict):
+    json_str = orjson.dumps(some_dict, option=orjson.OPT_INDENT_2 | orjson.OPT_NON_STR_KEYS, default=str).decode('utf-8')
+    # Triple-slashes means it shouldn't be put on the previous line.
+    return re.sub(r'[ \n]*"//(?!/)', ' "//', json_str, flags=re.MULTILINE)
+
 def donation_id_to_receipt_id(donation_id):
     return shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").encode(shortuuid.decode(donation_id))
 

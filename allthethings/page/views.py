@@ -190,11 +190,6 @@ def make_temp_anon_aac_path(prefix, file_aac_id, data_folder):
 def strip_description(description):
     return re.sub(r'<[^<]+?>', r' ', re.sub(r'<a.+?href="([^"]+)"[^>]*>', r'(\1) ', description.replace('</p>', '\n\n').replace('</P>', '\n\n').replace('<br>', '\n').replace('<BR>', '\n').replace('.', '. ').replace(',', ', '))).strip()
 
-def nice_json(some_dict):
-    json_str = orjson.dumps(some_dict, option=orjson.OPT_INDENT_2 | orjson.OPT_NON_STR_KEYS, default=str).decode('utf-8')
-    # Triple-slashes means it shouldn't be put on the previous line.
-    return re.sub(r'[ \n]*"//(?!/)', ' "//', json_str, flags=re.MULTILINE)
-
 
 # A mapping of countries to languages, for those countries that have a clear single spoken language.
 # Courtesy of a friendly LLM.. beware of hallucinations!
@@ -1095,7 +1090,7 @@ def zlib_book_json(zlib_id):
         zlib_book_dicts = get_zlib_book_dicts(session, "zlibrary_id", [zlib_id])
         if len(zlib_book_dicts) == 0:
             return "{}", 404
-        return nice_json(zlib_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(zlib_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 @page.get("/db/aac_zlib3/<int:zlib_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
@@ -1104,7 +1099,7 @@ def aac_zlib3_book_json(zlib_id):
         aac_zlib3_book_dicts = get_aac_zlib3_book_dicts(session, "zlibrary_id", [zlib_id])
         if len(aac_zlib3_book_dicts) == 0:
             return "{}", 404
-        return nice_json(aac_zlib3_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(aac_zlib3_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def extract_list_from_ia_json_field(ia_record_dict, key):
     val = ia_record_dict['json'].get('metadata', {}).get(key, [])
@@ -1331,7 +1326,7 @@ def ia_record_json(ia_id):
         ia_record_dicts = get_ia_record_dicts(session, "ia_id", [ia_id])
         if len(ia_record_dicts) == 0:
             return "{}", 404
-        return nice_json(ia_record_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(ia_record_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def extract_ol_str_field(field):
     if field is None:
@@ -1647,7 +1642,7 @@ def ol_book_json(ol_edition):
         ol_book_dicts = get_ol_book_dicts(session, "ol_edition", [ol_edition])
         if len(ol_book_dicts) == 0:
             return "{}", 404
-        return nice_json(ol_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(ol_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_lgrsnf_book_dicts(session, key, values):
     if len(values) == 0:
@@ -1799,7 +1794,7 @@ def lgrsnf_book_json(lgrsnf_book_id):
         lgrs_book_dicts = get_lgrsnf_book_dicts(session, "ID", [lgrsnf_book_id])
         if len(lgrs_book_dicts) == 0:
             return "{}", 404
-        return nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 @page.get("/db/lgrsfic/<int:lgrsfic_book_id>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
 def lgrsfic_book_json(lgrsfic_book_id):
@@ -1807,7 +1802,7 @@ def lgrsfic_book_json(lgrsfic_book_id):
         lgrs_book_dicts = get_lgrsfic_book_dicts(session, "ID", [lgrsfic_book_id])
         if len(lgrs_book_dicts) == 0:
             return "{}", 404
-        return nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 libgenli_elem_descr_output = None
 def libgenli_elem_descr(conn):
@@ -1921,13 +1916,13 @@ def get_lgli_file_dicts(session, key, values):
 
             issue_other_fields = dict((key, edition_dict[key]) for key in allthethings.utils.LGLI_ISSUE_OTHER_FIELDS if edition_dict[key] not in ['', '0', 0, None])
             if len(issue_other_fields) > 0:
-                edition_dict['issue_other_fields_json'] = nice_json(issue_other_fields)
+                edition_dict['issue_other_fields_json'] = allthethings.utils.nice_json(issue_other_fields)
             standard_info_fields = dict((key, edition_dict['descriptions_mapped'][key]) for key in allthethings.utils.LGLI_STANDARD_INFO_FIELDS if edition_dict['descriptions_mapped'].get(key) not in ['', '0', 0, None])
             if len(standard_info_fields) > 0:
-                edition_dict['standard_info_fields_json'] = nice_json(standard_info_fields)
+                edition_dict['standard_info_fields_json'] = allthethings.utils.nice_json(standard_info_fields)
             date_info_fields = dict((key, edition_dict['descriptions_mapped'][key]) for key in allthethings.utils.LGLI_DATE_INFO_FIELDS if edition_dict['descriptions_mapped'].get(key) not in ['', '0', 0, None])
             if len(date_info_fields) > 0:
-                edition_dict['date_info_fields_json'] = nice_json(date_info_fields)
+                edition_dict['date_info_fields_json'] = allthethings.utils.nice_json(date_info_fields)
 
             issue_series_title_normalized = []
             if len((edition_dict['issue_series_title'] or '').strip()) > 0:
@@ -2113,7 +2108,7 @@ def lgli_json(lgli_file_id):
         lgli_file_dicts = get_lgli_file_dicts(session, "f_id", [lgli_file_id])
         if len(lgli_file_dicts) == 0:
             return "{}", 404
-        return nice_json(lgli_file_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(lgli_file_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_isbndb_dicts(session, canonical_isbn13s):
     if len(canonical_isbn13s) == 0:
@@ -2206,7 +2201,7 @@ def isbndb_json(isbn):
         isbndb_dicts = get_isbndb_dicts(session, [isbn])
         if len(isbndb_dicts) == 0:
             return "{}", 404
-        return nice_json(isbndb_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(isbndb_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 
 def get_scihub_doi_dicts(session, key, values):
@@ -2248,7 +2243,7 @@ def scihub_doi_json(doi):
         scihub_doi_dicts = get_scihub_doi_dicts(session, 'doi', [doi])
         if len(scihub_doi_dicts) == 0:
             return "{}", 404
-        return nice_json(scihub_doi_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(scihub_doi_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 
 def oclc_get_authors_from_contributors(contributors):
@@ -2520,7 +2515,7 @@ def oclc_oclc_json(oclc):
         oclc_dicts = get_oclc_dicts(session, 'oclc', [oclc])
         if len(oclc_dicts) == 0:
             return "{}", 404
-        return nice_json(oclc_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(oclc_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_duxiu_dicts(session, key, values):
     if len(values) == 0:
@@ -3054,7 +3049,7 @@ def duxiu_ssid_json(duxiu_ssid):
         duxiu_dicts = get_duxiu_dicts(session, 'duxiu_ssid', [duxiu_ssid])
         if len(duxiu_dicts) == 0:
             return "{}", 404
-        return nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 @page.get("/db/cadal_ssno/<path:cadal_ssno>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
@@ -3063,7 +3058,7 @@ def cadal_ssno_json(cadal_ssno):
         duxiu_dicts = get_duxiu_dicts(session, 'cadal_ssno', [cadal_ssno])
         if len(duxiu_dicts) == 0:
             return "{}", 404
-        return nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 @page.get("/db/duxiu_md5/<path:md5>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
@@ -3072,7 +3067,7 @@ def duxiu_md5_json(md5):
         duxiu_dicts = get_duxiu_dicts(session, 'md5', [md5])
         if len(duxiu_dicts) == 0:
             return "{}", 404
-        return nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+        return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_embeddings_for_aarecords(session, aarecords):
     aarecord_ids = [aarecord['id'] for aarecord in aarecords]
@@ -4532,7 +4527,7 @@ def render_aarecord(record_id):
     with Session(engine) as session:
         ids = [record_id]
         if not allthethings.utils.validate_aarecord_ids(ids):
-            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=record_id)
+            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=record_id), 404
 
         aarecords = get_aarecords_elasticsearch(ids)
         if aarecords is None:
@@ -4540,7 +4535,7 @@ def render_aarecord(record_id):
         if len(aarecords) == 0:
             code = record_id.replace('isbn:', 'isbn13:')
             return redirect(f'/search?q="{code}"', code=301)
-            # return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=record_id)
+            # return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=record_id), 404
 
         aarecord = aarecords[0]
 
@@ -4685,9 +4680,9 @@ def md5_json(aarecord_id):
     aarecord['additional'].pop('fast_partner_urls')
     aarecord['additional'].pop('slow_partner_urls')
 
-    return nice_json(aarecord), {'Content-Type': 'text/json; charset=utf-8'}
+    return allthethings.utils.nice_json(aarecord), {'Content-Type': 'text/json; charset=utf-8'}
 
-
+# IMPORTANT: Keep in sync with api_md5_fast_download.
 @page.get("/fast_download/<string:md5_input>/<int:path_index>/<int:domain_index>")
 @allthethings.utils.no_cache()
 def md5_fast_download(md5_input, path_index, domain_index):
@@ -4701,7 +4696,7 @@ def md5_fast_download(md5_input, path_index, domain_index):
         if aarecords is None:
             return render_template("page/aarecord_issue.html", header_active="search"), 500
         if len(aarecords) == 0:
-            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
+            return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input), 404
         aarecord = aarecords[0]
         try:
             domain = allthethings.utils.FAST_DOWNLOAD_DOMAINS[domain_index]
@@ -4773,7 +4768,7 @@ def md5_slow_download(md5_input, path_index, domain_index):
             if aarecords is None:
                 return render_template("page/aarecord_issue.html", header_active="search"), 500
             if len(aarecords) == 0:
-                return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
+                return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input), 404
             aarecord = aarecords[0]
             try:
                 domain_slow = allthethings.utils.SLOW_DOWNLOAD_DOMAINS[domain_index]
@@ -4861,7 +4856,7 @@ def ipfs_downloads(md5_input):
     if aarecords is None:
         return render_template("page/aarecord_issue.html", header_active="search"), 500
     if len(aarecords) == 0:
-        return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input)
+        return render_template("page/aarecord_not_found.html", header_active="search", not_found_field=md5_input), 404
     aarecord = aarecords[0]
     try:
         ipfs_urls = aarecord['additional']['ipfs_urls']
