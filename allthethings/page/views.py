@@ -386,9 +386,13 @@ def get_stats_data():
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         # WARNING! Sorting by primary ID does a lexical sort, not numerical. Sorting by zlib3_records.aacid gets records from refreshes. zlib3_files.aacid is most reliable.
-        cursor.execute('SELECT annas_archive_meta__aacid__zlib3_records.metadata AS metadata FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) ORDER BY annas_archive_meta__aacid__zlib3_files.aacid DESC LIMIT 1')
+        cursor.execute('SELECT annas_archive_meta__aacid__zlib3_records.byte_offset, annas_archive_meta__aacid__zlib3_records.byte_length FROM annas_archive_meta__aacid__zlib3_records JOIN annas_archive_meta__aacid__zlib3_files USING (primary_id) ORDER BY annas_archive_meta__aacid__zlib3_files.aacid DESC LIMIT 1')
         zlib3_record = cursor.fetchone()
-        zlib_date = orjson.loads(zlib3_record['metadata'])['date_modified'] if zlib3_record is not None else ''
+        zlib_date = ''
+        if zlib3_record is not None:
+            zlib_aac_lines = allthethings.utils.get_lines_from_aac_file(cursor, 'zlib3_records', [(zlib3_record['byte_offset'], zlib3_record['byte_length'])])
+            if len(zlib_aac_lines) > 0:
+                zlib_date = orjson.loads(zlib_aac_lines[0])['metadata']['date_modified']
 
         stats_data_es = dict(es.msearch(
             request_timeout=30,
