@@ -26,7 +26,7 @@
     </p>
 
     <p class="mb-4">
-      All our data can be <a href="/torrents">torrented</a>.
+      All our data can be <a href="/torrents">torrented</a>, and all our metadata can be <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases. The raw data can be manually explored through JSON files such as <a href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">this</a>.
     </p>
 
     <h3 class="mt-4 mb-1 text-xl font-bold">Overview</h3>
@@ -104,19 +104,17 @@
         <td class="p-2 align-top">
           <div class="my-2 first:mt-0 last:mb-0">✅ Non-Fiction torrents are shared with Libgen.rs (and mirrored <a href="https://libgen.li/torrents/libgen/">here</a>).</div>
           <div class="my-2 first:mt-0 last:mb-0">🙃 Fiction collection has diverged but still has <a href="https://libgen.li/torrents/fiction/">torrents</a>, though not updated since 2022 (we do have direct downloads).</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#libgenli_comics">comic books and magazines</a>.
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Libgen.li collaboratively manage collections of <a href="/torrents#libgen_li_comics">comic books</a> and <a href="/torrents#libgen_li_magazines">magazines</a>.
           <div class="my-2 first:mt-0 last:mb-0">❌ No torrents for Russian fiction and standard documents collections.</div>
         </td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
         <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/zlib">Z-Library</a></td>
         <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">❌ No metadata available in bulk from Z-Library.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#zlib">Z-Library metadata</a>.
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Z-Library collaboratively manage a collection of <a href="/torrents#zlib">Z-Library metadata</a>.
         </td>
         <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">❌ No files available in bulk from Z-Library.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#zlib">Z-Library files</a>.
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Z-Library collaboratively manage a collection of <a href="/torrents#zlib">Z-Library files</a>.
         </td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
@@ -203,7 +201,7 @@
     <h3 class="mt-4 mb-1 text-xl font-bold">Unified database</h3>
 
     <p class="mb-4">
-      We combine all the above sources into one unified database that we use to serve this website. This unified database is not available directly, but since Anna’s Archive is fully open source, it can be fairly easily <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">reconstructed</a>. The scripts on that page will automatically download all the requisite metadata from the sources mentioned above.
+      We combine all the above sources into one unified database that we use to serve this website. This unified database is not available directly, but since Anna’s Archive is fully open source, it can be fairly easily <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases. The scripts on that page will automatically download all the requisite metadata from the sources mentioned above.
     </p>
 
     <p class="mb-4">

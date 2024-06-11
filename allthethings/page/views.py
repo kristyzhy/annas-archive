@@ -612,6 +612,8 @@ def get_torrents_data():
         ]
         for file_path_list in aac_meta_file_paths_grouped.values():
             obsolete_file_paths += file_path_list[0:-1]
+        for item in small_file_dicts_grouped_other_aa['aa_derived_mirror_metadata'][0:-1]:
+            obsolete_file_paths.append(item['file_path'])
 
         # Tack on "obsolete" fields, now that we have them
         for group in list(small_file_dicts_grouped_aa.values()) + list(small_file_dicts_grouped_external.values()) + list(small_file_dicts_grouped_other_aa.values()):

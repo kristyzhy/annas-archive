@@ -44,7 +44,7 @@
       </p>
 
       <p class="mb-4">
-        These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://annas-software.org/AnnaArchivist/annas-archive">source code</a>. We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
+        These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://annas-software.org/AnnaArchivist/annas-archive">source code</a> and metadata (which can be <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases). We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
       </p>
 
       <p class="mb-4">
@@ -211,7 +211,7 @@
               {% elif group == 'duxiu' %}
                 <div class="mb-1 text-sm">DuXiu and related. <a href="/torrents/duxiu">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/duxiu">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/duxiu-exclusive.html">blog</a></div>
               {% elif group == 'aa_derived_mirror_metadata' %}
-                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MariaDB), published occasionally to make it easier to set up mirrors. All this data can be generated from scratch using <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">our open source code</a>, but this can take a while. At this time you do still need to run the Worldcat-related scripts.</div>
+                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MariaDB), published occasionally to make it easier to set up mirrors. All this data can be generated from scratch using our <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">open source code</a>, but this can take a while. At this time you do still need to run the AAC-related scripts.</div>
               {% endif %}
             </td></tr>
 

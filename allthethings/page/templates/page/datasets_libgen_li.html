@@ -26,7 +26,7 @@
       The metadata for this library is freely available <a hre="https://libgen.li/dirlist.php?dir=dbdumps">here</a>. However, this server is slow and doesn’t support resuming broken connections. The same files are also available on <a href="ftp://ftp.libgen.lc/upload/db">FTP</a>, which works better.
 
     <p class="mb-4">
-      There are no torrents available for the additional content. The torrents that are on the Libgen.li website are mirrors of other torrents listed here. The one exception is fiction torrents starting at <code>f_2201000.torrent</code>.
+      There are no torrents available for the additional content. The torrents that are on the Libgen.li website are mirrors of other torrents listed here. The one exception is fiction torrents starting at <code>f_2201000.torrent</code>. The comics and magazines torrents are released as a collaboration between Anna’s Archive and Libgen.li.
     </p>
 
     <p class="mb-4">
@@ -43,8 +43,9 @@
       <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.lgli.filesize | filesizeformat }}</li>
       <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.lgli.aa_count | numberformat }} ({{ (stats_data.stats_by_group.lgli.aa_count/stats_data.stats_by_group.lgli.count*100.0) | decimalformat }}%)</li>
       <li class="list-disc">Last updated: {{ stats_data.libgenli_date }}</li>
-      <li class="list-disc"><a href="/torrents#libgen_li_comics">Comics torrents on Anna’s Archive</a></li>
       <li class="list-disc"><a href="/torrents#libgen_li_fic">Fiction torrents on Anna’s Archive</a></li>
+      <li class="list-disc"><a href="/torrents#libgen_li_comics">Comics torrents on Anna’s Archive</a></li>
+      <li class="list-disc"><a href="/torrents#libgen_li_magazines">Magazines torrents on Anna’s Archive</a></li>
       <li class="list-disc"><a href="/db/lgli/4663167.json">Example record on Anna’s Archive</a></li>
       <li class="list-disc"><a href="https://libgen.li/">Main website</a></li>
       <li class="list-disc"><a href="https://libgen.li/dirlist.php?dir=dbdumps">Metadata</a></li>
