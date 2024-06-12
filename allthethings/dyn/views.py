@@ -84,6 +84,7 @@ def api_md5_fast_download_get_json(download_url, other_fields):
             "- `domain_index` (optional): Integer, 0 or larger, indicating the download server, e.g. 0='Fast Partner Server #1'.",
             "These parameters correspond to the fast download page like this: /fast_download/{md5}/{path_index}/{domain_index}",
             "Example: /dyn/api/fast_download.json?md5=d6e1dc51a50726f00ec438af21952a45",
+            "A cookie must be sent corresponding to a logged in user. This can be obtained from the network tab of your browser’s debug tools.",
         ],
         "download_url": download_url,
         **other_fields,
