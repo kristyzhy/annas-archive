@@ -240,7 +240,7 @@ def torrents_latest_aac_page(collection):
         return send_file(io.BytesIO(file['data']), as_attachment=True, download_name=f'{collection}.torrent')
 
 @dyn.get("/small_file/<path:file_path>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def small_file_page(file_path):
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
@@ -726,7 +726,7 @@ def lists(resource):
         )
 
 @dyn.get("/search_counts")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def search_counts_page():
     search_input = request.args.get("q", "").strip()
 

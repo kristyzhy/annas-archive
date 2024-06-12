@@ -300,7 +300,7 @@ def add_comments_to_dict(before_dict, comments):
     return after_dict
 
 @page.get("/")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def home_page():
     if allthethings.utils.DOWN_FOR_MAINTENANCE:
         return render_template("page/maintenance.html", header_active="")
@@ -309,18 +309,18 @@ def home_page():
     return render_template("page/home.html", header_active="home/home", torrents_data=torrents_data)
 
 @page.get("/login")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def login_page():
     return redirect(f"/account", code=301)
     # return render_template("page/login.html", header_active="account")
 
 @page.get("/about")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def about_page():
     return redirect(f"/faq", code=301)
 
 @page.get("/faq")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def faq_page():
     popular_ids = [
         "md5:8336332bf5877e3adbfb60ac70720cd5", # Against intellectual monopoly
@@ -340,27 +340,27 @@ def faq_page():
         )
 
 @page.get("/security")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def security_page():
     return redirect(f"/faq#security", code=301)
 
 @page.get("/mobile")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def mobile_page():
     return redirect(f"/faq#mobile", code=301)
 
 @page.get("/llm")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def llm_page():
     return render_template("page/llm.html", header_active="home/llm")
 
 @page.get("/mirrors")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def mirrors_page():
     return render_template("page/mirrors.html", header_active="home/mirrors")
 
 @page.get("/browser_verification")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def browser_verification_page():
     return render_template("page/browser_verification.html", header_active="home/search")
 
@@ -637,7 +637,7 @@ def get_torrents_data():
         }
 
 @page.get("/datasets")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_page():
     try:
         stats_data = get_stats_data()
@@ -648,7 +648,7 @@ def datasets_page():
         raise
 
 @page.get("/datasets/ia")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_ia_page():
     try:
         stats_data = get_stats_data()
@@ -659,7 +659,7 @@ def datasets_ia_page():
         raise
 
 @page.get("/datasets/duxiu")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_duxiu_page():
     try:
         stats_data = get_stats_data()
@@ -670,7 +670,7 @@ def datasets_duxiu_page():
         raise
 
 @page.get("/datasets/zlib")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_zlib_page():
     try:
         stats_data = get_stats_data()
@@ -681,7 +681,7 @@ def datasets_zlib_page():
         raise
 
 @page.get("/datasets/isbndb")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_isbndb_page():
     try:
         stats_data = get_stats_data()
@@ -692,7 +692,7 @@ def datasets_isbndb_page():
         raise
 
 @page.get("/datasets/scihub")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_scihub_page():
     try:
         stats_data = get_stats_data()
@@ -703,7 +703,7 @@ def datasets_scihub_page():
         raise
 
 @page.get("/datasets/libgen_rs")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_libgen_rs_page():
     try:
         stats_data = get_stats_data()
@@ -714,7 +714,7 @@ def datasets_libgen_rs_page():
         raise
 
 @page.get("/datasets/libgen_li")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_libgen_li_page():
     try:
         stats_data = get_stats_data()
@@ -725,7 +725,7 @@ def datasets_libgen_li_page():
         raise
 
 @page.get("/datasets/openlib")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_openlib_page():
     try:
         stats_data = get_stats_data()
@@ -736,7 +736,7 @@ def datasets_openlib_page():
         raise
 
 @page.get("/datasets/worldcat")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_worldcat_page():
     try:
         stats_data = get_stats_data()
@@ -747,7 +747,7 @@ def datasets_worldcat_page():
         raise
 
 # @page.get("/datasets/isbn_ranges")
-# @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+# @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 # def datasets_isbn_ranges_page():
 #     try:
 #         stats_data = get_stats_data()
@@ -773,12 +773,12 @@ def contact_page():
     return render_template("page/contact.html", header_active="", AA_EMAIL=AA_EMAIL)
 
 @page.get("/fast_download_no_more")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def fast_download_no_more_page():
     return render_template("page/fast_download_no_more.html", header_active="")
 
 @page.get("/fast_download_not_member")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def fast_download_not_member_page():
     return render_template("page/fast_download_not_member.html", header_active="")
 
@@ -1086,7 +1086,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
     return aac_zlib3_book_dicts
 
 @page.get("/db/zlib/<int:zlib_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def zlib_book_json(zlib_id):
     with Session(engine) as session:
         zlib_book_dicts = get_zlib_book_dicts(session, "zlibrary_id", [zlib_id])
@@ -1095,7 +1095,7 @@ def zlib_book_json(zlib_id):
         return allthethings.utils.nice_json(zlib_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 @page.get("/db/aac_zlib3/<int:zlib_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def aac_zlib3_book_json(zlib_id):
     with Session(engine) as session:
         aac_zlib3_book_dicts = get_aac_zlib3_book_dicts(session, "zlibrary_id", [zlib_id])
@@ -1322,7 +1322,7 @@ def get_ia_record_dicts(session, key, values):
     return ia_record_dicts
 
 @page.get("/db/ia/<string:ia_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def ia_record_json(ia_id):
     with Session(engine) as session:
         ia_record_dicts = get_ia_record_dicts(session, "ia_id", [ia_id])
@@ -1638,7 +1638,7 @@ def get_ol_book_dicts_by_isbn13(session, isbn13s):
         return dict(retval)
 
 @page.get("/db/ol/<string:ol_edition>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def ol_book_json(ol_edition):
     with Session(engine) as session:
         ol_book_dicts = get_ol_book_dicts(session, "ol_edition", [ol_edition])
@@ -1781,16 +1781,16 @@ def get_lgrsfic_book_dicts(session, key, values):
     return lgrs_book_dicts
 
 @page.get("/db/lgrs/nf/<int:lgrsnf_book_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def lgrsnf_book_json_redirect(lgrsnf_book_id):
     return redirect(f"/db/lgrsnf/{lgrsnf_book_id}.json", code=301)
 @page.get("/db/lgrs/fic/<int:lgrsfic_book_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def lgrsfic_book_json_redirect(lgrsfic_book_id):
     return redirect(f"/db/lgrsfic/{lgrsfic_book_id}.json", code=301)
 
 @page.get("/db/lgrsnf/<int:lgrsnf_book_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def lgrsnf_book_json(lgrsnf_book_id):
     with Session(engine) as session:
         lgrs_book_dicts = get_lgrsnf_book_dicts(session, "ID", [lgrsnf_book_id])
@@ -1798,7 +1798,7 @@ def lgrsnf_book_json(lgrsnf_book_id):
             return "{}", 404
         return allthethings.utils.nice_json(lgrs_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 @page.get("/db/lgrsfic/<int:lgrsfic_book_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def lgrsfic_book_json(lgrsfic_book_id):
     with Session(engine) as session:
         lgrs_book_dicts = get_lgrsfic_book_dicts(session, "ID", [lgrsfic_book_id])
@@ -2099,12 +2099,12 @@ def get_lgli_file_dicts(session, key, values):
     return lgli_file_dicts
 
 @page.get("/db/lgli/file/<int:lgli_file_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def lgli_file_json(lgli_file_id):
     return redirect(f"/db/lgli/{lgli_file_id}.json", code=301)
 
 @page.get("/db/lgli/<int:lgli_file_id>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def lgli_json(lgli_file_id):
     with Session(engine) as session:
         lgli_file_dicts = get_lgli_file_dicts(session, "f_id", [lgli_file_id])
@@ -2197,7 +2197,7 @@ def get_isbndb_dicts(session, canonical_isbn13s):
     return isbn_dicts
 
 @page.get("/db/isbndb/<string:isbn>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def isbndb_json(isbn):
     with Session(engine) as session:
         isbndb_dicts = get_isbndb_dicts(session, [isbn])
@@ -2239,7 +2239,7 @@ def get_scihub_doi_dicts(session, key, values):
     return scihub_doi_dicts
 
 @page.get("/db/scihub_doi/<path:doi>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def scihub_doi_json(doi):
     with Session(engine) as session:
         scihub_doi_dicts = get_scihub_doi_dicts(session, 'doi', [doi])
@@ -2511,7 +2511,7 @@ def get_oclc_dicts_by_isbn13(session, isbn13s):
         return dict(retval)
 
 @page.get("/db/oclc/<path:oclc>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def oclc_oclc_json(oclc):
     with Session(engine) as session:
         oclc_dicts = get_oclc_dicts(session, 'oclc', [oclc])
@@ -3045,7 +3045,7 @@ def get_duxiu_dicts(session, key, values):
 # cadal_ssno_44517971 has some <font>s.
 # 
 @page.get("/db/duxiu_ssid/<path:duxiu_ssid>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def duxiu_ssid_json(duxiu_ssid):
     with Session(engine) as session:
         duxiu_dicts = get_duxiu_dicts(session, 'duxiu_ssid', [duxiu_ssid])
@@ -3054,7 +3054,7 @@ def duxiu_ssid_json(duxiu_ssid):
         return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 @page.get("/db/cadal_ssno/<path:cadal_ssno>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def cadal_ssno_json(cadal_ssno):
     with Session(engine) as session:
         duxiu_dicts = get_duxiu_dicts(session, 'cadal_ssno', [cadal_ssno])
@@ -3063,7 +3063,7 @@ def cadal_ssno_json(cadal_ssno):
         return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 @page.get("/db/duxiu_md5/<path:md5>.json")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def duxiu_md5_json(md5):
     with Session(engine) as session:
         duxiu_dicts = get_duxiu_dicts(session, 'md5', [md5])
@@ -4468,14 +4468,14 @@ def add_additional_to_aarecord(aarecord):
     return { **aarecord['_source'], '_score': (aarecord.get('_score') or 0.0), 'additional': get_additional_for_aarecord(aarecord['_source']) }
 
 @page.get("/md5/<string:md5_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def md5_page(md5_input):
     md5_input = md5_input[0:50]
     canonical_md5 = md5_input.strip().lower()[0:32]
     return render_aarecord(f"md5:{canonical_md5}")
 
 @page.get("/ia/<string:ia_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def ia_page(ia_input):
     with Session(engine) as session:
         session.connection().connection.ping(reconnect=True)
@@ -4488,37 +4488,37 @@ def ia_page(ia_input):
         return render_aarecord(f"ia:{ia_input}")
 
 @page.get("/isbn/<string:isbn_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def isbn_page(isbn_input):
     return redirect(f"/isbndb/{isbn_input}", code=302)
 
 @page.get("/isbndb/<string:isbn_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def isbndb_page(isbn_input):
     return render_aarecord(f"isbn:{isbn_input}")
 
 @page.get("/ol/<string:ol_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def ol_page(ol_input):
     return render_aarecord(f"ol:{ol_input}")
 
 @page.get("/doi/<path:doi_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def doi_page(doi_input):
     return render_aarecord(f"doi:{doi_input}")
 
 @page.get("/oclc/<path:oclc_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def oclc_page(oclc_input):
     return render_aarecord(f"oclc:{oclc_input}")
 
 @page.get("/duxiu_ssid/<path:duxiu_ssid_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def duxiu_ssid_page(duxiu_ssid_input):
     return render_aarecord(f"duxiu_ssid:{duxiu_ssid_input}")
 
 @page.get("/cadal_ssno/<path:cadal_ssno_input>")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def cadal_ssno_page(cadal_ssno_input):
     return render_aarecord(f"cadal_ssno:{cadal_ssno_input}")
 
@@ -4552,7 +4552,7 @@ def render_aarecord(record_id):
         return render_template("page/aarecord.html", **render_fields)
 
 @page.get("/scidb")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*24)
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def scidb_home_page():
     return render_template("page/scidb_home.html", header_active="home/scidb", doi_input=request.args.get('doi'))
 
