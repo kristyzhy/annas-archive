@@ -6,7 +6,8 @@ set -Eeuxo pipefail
 # Feel free to comment out steps in order to retry failed parts of this script, when necessary.
 # Dump scripts are idempotent, and can be rerun without losing too much work.
 
-cd /exports
+# Make core dumps and other debug output to go to /temp-dir.
+cd /temp-dir
 
 rm -rf /exports/mariadb
 mkdir /exports/mariadb
