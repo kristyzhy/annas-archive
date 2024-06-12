@@ -210,7 +210,8 @@
     {% endif %}
 
     {% if (aarecord.additional.slow_partner_urls | length) > 0 %}
-      <div><span class="font-bold">{{ gettext('page.md5.box.download.header_slow_only') }}</span> {{ gettext('page.md5.box.download.trusted_partners') }} More information in the <a href="/faq#slow">FAQ</a>.</div>
+      <!-- TODO:TRANSLATE -->
+      <div><span class="font-bold">{{ gettext('page.md5.box.download.header_slow_only') }}</span> {{ gettext('page.md5.box.download.trusted_partners') }} More information in the <a href="/faq#slow">FAQ</a>. {{ gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification" ') }}</div>
       <ul class="mb-4">
         {% for label, url, extra in aarecord.additional.slow_partner_urls %}
           {% if label %}

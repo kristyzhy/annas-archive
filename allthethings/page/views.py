@@ -4101,7 +4101,7 @@ def add_partner_servers(path, modifier, aarecord, additional):
             # TODO:TRANSLATE
             additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), '(slightly faster but with waitlist)'))
         else:
-            additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification" ')))
+            additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), '(no waitlist, but can be very slow or not work at all)'))
     additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
 
 def max_length_with_word_boundary(sentence, max_len):
