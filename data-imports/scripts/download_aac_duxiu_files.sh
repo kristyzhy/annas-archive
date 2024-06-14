@@ -10,11 +10,7 @@ mkdir /temp-dir/aac_duxiu_files
 
 cd /temp-dir/aac_duxiu_files
 
-# curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/duxiu_files.torrent
-# TODO: switch back
-curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/duxiu_files__20240229T082726Z.torrent
+curl -C - -O https://annas-archive.org/dyn/torrents/latest_aac_meta/duxiu_files.torrent
 
 # Tried ctorrent and aria2, but webtorrent seems to work best overall.
-# webtorrent download duxiu_files.torrent
-# TODO: switch back
-webtorrent download duxiu_files__20240229T082726Z.torrent
+webtorrent download duxiu_files.torrent

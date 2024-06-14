@@ -4749,13 +4749,17 @@ def md5_slow_download(md5_input, path_index, domain_index):
         )
 
     data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
-    if allthethings.utils.is_canonical_ip_cloudflare(data_ip):
-        return render_template(
-            "page/partner_download.html",
-            header_active="search",
-            no_cloudflare=True,
-            canonical_md5=canonical_md5,
-        )
+
+    # We blocked Cloudflare because otherwise VPN users circumvent the CAPTCHA.
+    # But it also blocks some TOR users who get Cloudflare exit nodes.
+    # Perhaps not as necessary anymore now that we have waitlists, and extra throttling by IP.
+    # if allthethings.utils.is_canonical_ip_cloudflare(data_ip):
+    #     return render_template(
+    #         "page/partner_download.html",
+    #         header_active="search",
+    #         no_cloudflare=True,
+    #         canonical_md5=canonical_md5,
+    #     )
 
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
         return redirect(f"/md5/{md5_input}", code=302)

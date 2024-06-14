@@ -221,7 +221,7 @@
 
   <p class="mb-4">
     <strong>Can I download only a subset of the files, like only a particular language or topic?</strong><br>
-    Most torrents contain the files directly, which means that you can instruct torrent clients to only download the required files. To determine which files to download, you can <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/tree/main/data-imports">reconstruct</a> our metadata database. Unfortunately, a number of torrent collections contain .zip or .tar files at the root, in which case you need to download the entire torrent before being able to select individual files.
+    Most torrents contain the files directly, which means that you can instruct torrent clients to only download the required files. To determine which files to download, you can <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generate</a> our metadata, or <a href="/torrents#aa_derived_mirror_metadata">download</a> our ElasticSearch and MariaDB databases. Unfortunately, a number of torrent collections contain .zip or .tar files at the root, in which case you need to download the entire torrent before being able to select individual files.
   </p>
 
   <p class="mb-4">
@@ -232,6 +232,13 @@
   <p class="mb-4">
     <strong>Can I get the torrent list as JSON?</strong><br>
     <a href="/dyn/torrents.json">Yes</a>.
+  </p>
+
+  <p class="mb-4">
+    <strong>I don’t see PDFs or EPUBs in the torrents, only binary files? What do I do?</strong><br>
+    These are actually PDFs and EPUBs, they just don’t have an extension in many of our torrents. There are two places in which you can find the metadata for torrent files, including the file types/extensions:<br>
+    1. Each collection or release has its own metadata. For example, <a href="/torrents#libgen_rs_non_fic">Libgen.rs torrents</a> have a corresponding metadata database hosted on the Libgen.rs website. We typically link to relevant metadata resources from each collection’s <a href="/datasets">dataset page</a>.<br>
+    2. We recommend <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generating</a> or <a href="/torrents#aa_derived_mirror_metadata">downloading</a> our ElasticSearch and MariaDB databases. These contains a mapping for each record in Anna’s Archive to its corresponding torrent files (if available), under "torrent_paths" in the ElasticSearch JSON.
   </p>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="security">Do you have a responsible disclosure program? <a href="#security" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>

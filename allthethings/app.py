@@ -215,9 +215,10 @@ def extensions(app):
         g.app_debug = app.debug
         g.base_domain = 'annas-archive.org'
         valid_other_domains = ['annas-archive.gs', 'annas-archive.se']
-        if app.debug:
-            valid_other_domains.append('localtest.me:8000')
-            valid_other_domains.append('localhost:8000')
+        # if app.debug:
+        # Not just for app.debug, but also for Docker health check.
+        valid_other_domains.append('localtest.me:8000')
+        valid_other_domains.append('localhost:8000')
         for valid_other_domain in valid_other_domains:
             if request.headers['Host'].endswith(valid_other_domain):
                 g.base_domain = valid_other_domain

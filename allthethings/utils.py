@@ -1596,9 +1596,9 @@ def aac_path_prefix():
 
 def aac_spot_check_line_bytes(line_bytes):
     if line_bytes[0:1] != b'{':
-        raise Exception(f"Bad JSON (does not start with {{): {collection=} {byte_offset=} {byte_length=} {index=} {line_bytes=}")
+        raise Exception(f"Bad JSON (does not start with {{): {line_bytes[0:500]=}")
     if line_bytes[-2:] != b'}\n':
-        raise Exception(f"Bad JSON (does not end with }}\\n): {collection=} {byte_offset=} {byte_length=} {index=} {line_bytes=}")
+        raise Exception(f"Bad JSON (does not end with }}\\n): {line_bytes[0:500]=}")
 
 # TODO: for a minor speed improvement we can cache the last read block,
 # and then first read the byte offsets within that block.
