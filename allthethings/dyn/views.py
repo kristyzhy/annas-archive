@@ -80,11 +80,11 @@ def api_md5_fast_download_get_json(download_url, other_fields):
             "Bad responses use different status codes, a `download_url` set to `null`, and `error` field with string description.",
             "Accepted query parameters:",
             "- `md5` (required): the md5 string of the requested file.",
+            "- `key` (required): the secret key for your account (which must have membership).",
             "- `path_index` (optional): Integer, 0 or larger, indicating the collection (if the file is present in more than one).",
             "- `domain_index` (optional): Integer, 0 or larger, indicating the download server, e.g. 0='Fast Partner Server #1'.",
             "These parameters correspond to the fast download page like this: /fast_download/{md5}/{path_index}/{domain_index}",
-            "Example: /dyn/api/fast_download.json?md5=d6e1dc51a50726f00ec438af21952a45",
-            "A cookie must be sent corresponding to a logged in user. This can be obtained from the network tab of your browser’s debug tools.",
+            "Example: /dyn/api/fast_download.json?md5=d6e1dc51a50726f00ec438af21952a45&key=YOUR_SECRET_KEY",
         ],
         "download_url": download_url,
         **other_fields,
@@ -94,6 +94,7 @@ def api_md5_fast_download_get_json(download_url, other_fields):
 @dyn.get("/api/fast_download.json")
 @allthethings.utils.no_cache()
 def api_md5_fast_download():
+    key_input = request.args.get('key', '')
     md5_input = request.args.get('md5', '')
     domain_index = int(request.args.get('domain_index', '0'))
     path_index = int(request.args.get('path_index', '0'))
@@ -103,21 +104,22 @@ def api_md5_fast_download():
 
     if not allthethings.utils.validate_canonical_md5s([canonical_md5]) or canonical_md5 != md5_input:
         return api_md5_fast_download_get_json(None, { "error": "Invalid md5" }), 400, {'Content-Type': 'text/json; charset=utf-8'}
-    with Session(engine) as session:
-        aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
-        if aarecords is None:
-            return api_md5_fast_download_get_json(None, { "error": "Error during fetching" }), 500, {'Content-Type': 'text/json; charset=utf-8'}
-        if len(aarecords) == 0:
-            return api_md5_fast_download_get_json(None, { "error": "Record not found" }), 404, {'Content-Type': 'text/json; charset=utf-8'}
-        aarecord = aarecords[0]
-        try:
-            domain = allthethings.utils.FAST_DOWNLOAD_DOMAINS[domain_index]
-            path_info = aarecord['additional']['partner_url_paths'][path_index]
-        except:
-            return api_md5_fast_download_get_json(None, { "error": "Invalid domain_index or path_index" }), 400, {'Content-Type': 'text/json; charset=utf-8'}
-        url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(False, 20000, path_info['path'], aarecord['additional']['filename'], domain)
+    aarecords = get_aarecords_elasticsearch([f"md5:{canonical_md5}"])
+    if aarecords is None:
+        return api_md5_fast_download_get_json(None, { "error": "Error during fetching" }), 500, {'Content-Type': 'text/json; charset=utf-8'}
+    if len(aarecords) == 0:
+        return api_md5_fast_download_get_json(None, { "error": "Record not found" }), 404, {'Content-Type': 'text/json; charset=utf-8'}
+    aarecord = aarecords[0]
+    try:
+        domain = allthethings.utils.FAST_DOWNLOAD_DOMAINS[domain_index]
+        path_info = aarecord['additional']['partner_url_paths'][path_index]
+    except:
+        return api_md5_fast_download_get_json(None, { "error": "Invalid domain_index or path_index" }), 400, {'Content-Type': 'text/json; charset=utf-8'}
+    url = 'https://' + domain + '/' + allthethings.utils.make_anon_download_uri(False, 20000, path_info['path'], aarecord['additional']['filename'], domain)
 
-    account_id = allthethings.utils.get_account_id(request.cookies)
+    account_id = allthethings.utils.account_id_from_secret_key(key_input)
+    if account_id is None:
+        return api_md5_fast_download_get_json(None, { "error": "Invalid secret key" }), 401, {'Content-Type': 'text/json; charset=utf-8'}
     with Session(mariapersist_engine) as mariapersist_session:
         account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
         if account_fast_download_info is None:

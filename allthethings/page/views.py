@@ -4281,10 +4281,19 @@ def get_additional_for_aarecord(aarecord):
         # TODO: Add back when releasing DuXiu torrents.
         # additional['torrent_paths'].append({ "torrent_path": f"managed_by_aa/annas_archive_data__aacid/{data_folder}.torrent", "file_level1": aarecord['duxiu']['duxiu_file']['aacid'], "file_level2": "" })
         server = 'x'
-        if data_folder <= 'annas_archive_data__aacid__duxiu_files__20240312T070549Z--20240312T070550Z' or (data_folder >= 'annas_archive_data__aacid__duxiu_files__20240520T021707Z--20240520T021708Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240520T031310Z--20240520T031311Z'):
+        if data_folder >= 'annas_archive_data__aacid__duxiu_files__20240613T170516Z--20240613T170517Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240613T171624Z--20240613T171625Z':
+            server = 'o'
+        elif data_folder >= 'annas_archive_data__aacid__duxiu_files__20240613T171757Z--20240613T171758Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240613T190311Z--20240613T190312Z':
+            server = 'v'
+        elif data_folder >= 'annas_archive_data__aacid__duxiu_files__20240613T190428Z--20240613T190429Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240613T204954Z--20240613T204955Z':
+            server = 'w'
+        elif data_folder >= 'annas_archive_data__aacid__duxiu_files__20240613T205835Z--20240613T205836Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240613T223234Z--20240613T223235Z':
+            server = 'x'
+        elif data_folder <= 'annas_archive_data__aacid__duxiu_files__20240312T070549Z--20240312T070550Z' or (data_folder >= 'annas_archive_data__aacid__duxiu_files__20240520T021707Z--20240520T021708Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240520T031310Z--20240520T031311Z'):
             server = 'v'
         elif data_folder <= 'annas_archive_data__aacid__duxiu_files__20240312T105436Z--20240312T105437Z' or (data_folder >= 'annas_archive_data__aacid__duxiu_files__20240520T031411Z--20240520T031412Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240520T044303Z--20240520T044304Z'):
             server = 'w'
+
         date = data_folder.split('__')[3][0:8]
         partner_path = f"{server}/duxiu_files/{date}/{data_folder}/{aarecord['duxiu']['duxiu_file']['aacid']}"
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
