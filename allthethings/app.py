@@ -214,10 +214,11 @@ def extensions(app):
 
         g.app_debug = app.debug
         g.base_domain = 'annas-archive.org'
-        valid_other_domains = ['annas-archive.gs', 'annas-archive.se']
-        # if app.debug:
+        valid_other_domains = ['annas-archive.gs', 'annas-archive.se', 'annas-blog.org']
+        if app.debug:
+            valid_other_domains.append('annas-blog.org.localtest.me:8000')
+            valid_other_domains.append('localtest.me:8000')
         # Not just for app.debug, but also for Docker health check.
-        valid_other_domains.append('localtest.me:8000')
         valid_other_domains.append('localhost:8000')
         for valid_other_domain in valid_other_domains:
             if request.headers['Host'].endswith(valid_other_domain):
@@ -227,7 +228,7 @@ def extensions(app):
         g.domain_lang_code = allthethings.utils.get_domain_lang_code(get_locale())
         g.full_lang_code = allthethings.utils.get_full_lang_code(get_locale())
 
-        g.secure_domain = g.base_domain not in ['localtest.me:8000', 'localhost:8000']
+        g.secure_domain = g.base_domain not in ['localtest.me:8000', 'localhost:8000', 'annas-blog.org.localtest.me:8000']
         g.full_domain = g.base_domain
         full_hostname = g.base_domain
         if g.domain_lang_code != 'en':
@@ -247,7 +248,7 @@ def extensions(app):
             pass
         if (not host_is_ip) and (request.headers['Host'] != full_hostname):
             redir_path = f"{g.full_domain}{request.full_path}"
-            print(f"Warning: redirecting {request.headers['Host']=} {request.full_path=} to {redir_path=} because {full_hostname=}")
+            print(f"Warning: redirecting {request.headers['Host']=} {request.full_path=} to {redir_path=} because {full_hostname=} {g.base_domain=}")
             return redirect(redir_path, code=301)
 
         g.languages = [(allthethings.utils.get_domain_lang_code(locale), allthethings.utils.get_domain_lang_code_display_name(locale)) for locale in allthethings.utils.list_translations()]
