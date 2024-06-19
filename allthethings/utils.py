@@ -1594,11 +1594,11 @@ MARC_DEPRECATED_COUNTRY_CODES = {
 def aac_path_prefix():
     return "/app/aacid_small/" if AACID_SMALL_DATA_IMPORTS else "/file-data/"
 
-def aac_spot_check_line_bytes(line_bytes):
+def aac_spot_check_line_bytes(line_bytes, other_info):
     if line_bytes[0:1] != b'{':
-        raise Exception(f"Bad JSON (does not start with {{): {line_bytes[0:500]=}")
+        raise Exception(f"Bad JSON (does not start with {{): {line_bytes[0:500]=} {other_info=}")
     if line_bytes[-2:] != b'}\n':
-        raise Exception(f"Bad JSON (does not end with }}\\n): {line_bytes[0:500]=}")
+        raise Exception(f"Bad JSON (does not end with }}\\n): {line_bytes[0:500]=} {other_info=}")
 
 # TODO: for a minor speed improvement we can cache the last read block,
 # and then first read the byte offsets within that block.
@@ -1620,7 +1620,7 @@ def get_lines_from_aac_file(cursor, collection, offsets_and_lengths):
         line_bytes = file.read(byte_length)
         if len(line_bytes) != byte_length:
             raise Exception(f"Invalid {len(line_bytes)=} != {byte_length=}")
-        aac_spot_check_line_bytes(line_bytes)
+        aac_spot_check_line_bytes(line_bytes, (byte_offset, byte_length, index))
         # Uncomment to fully verify JSON after read.
         # try:
         #     orjson.loads(line_bytes)

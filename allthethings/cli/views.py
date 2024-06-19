@@ -249,7 +249,7 @@ def mysql_build_aac_tables_internal():
                     bytes_in_batch = 0
                     insert_data = [] 
                     for line in lines:
-                        allthethings.utils.aac_spot_check_line_bytes(line)
+                        allthethings.utils.aac_spot_check_line_bytes(line, {})
                         insert_data.append(build_insert_data(line, byte_offset))
                         line_len = len(line)
                         byte_offset += line_len
@@ -318,20 +318,21 @@ def mysql_build_computed_all_md5s_internal():
     cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__ia2_acsmpdf_files, aa_ia_2023_06_metadata')
     print("Inserting from 'annas_archive_meta__aacid__ia2_acsmpdf_files'")
     # Note: annas_archive_meta__aacid__ia2_records / files are all after 2023, so no need to filter out the old libgen ones!
-    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(annas_archive_meta__aacid__ia2_acsmpdf_files.md5), 7 FROM annas_archive_meta__aacid__ia2_records JOIN annas_archive_meta__aacid__ia2_acsmpdf_files USING (primary_id)')
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(annas_archive_meta__aacid__ia2_acsmpdf_files.md5), 7 FROM aa_ia_2023_06_metadata USE INDEX (libgen_md5) JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (ia_id=primary_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NULL')
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(annas_archive_meta__aacid__ia2_acsmpdf_files.md5), 8 FROM annas_archive_meta__aacid__ia2_records JOIN annas_archive_meta__aacid__ia2_acsmpdf_files USING (primary_id)')
     print("Load indexes of annas_archive_meta__aacid__zlib3_records")
     cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_records')
     print("Inserting from 'annas_archive_meta__aacid__zlib3_records'")
-    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(md5), 8 FROM annas_archive_meta__aacid__zlib3_records WHERE md5 IS NOT NULL')
-    # We currently don't support loading a zlib3_file without a correspodning zlib3_record. Should we ever?
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(md5), 9 FROM annas_archive_meta__aacid__zlib3_records WHERE md5 IS NOT NULL')
+    # We currently don't support loading a zlib3_file without a corresponding zlib3_record. Should we ever?
     # print("Load indexes of annas_archive_meta__aacid__zlib3_files")
     # cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__zlib3_files')
     # print("Inserting from 'annas_archive_meta__aacid__zlib3_files'")
-    # cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(md5), 9 FROM annas_archive_meta__aacid__zlib3_files WHERE md5 IS NOT NULL')
+    # cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(md5), 10 FROM annas_archive_meta__aacid__zlib3_files WHERE md5 IS NOT NULL')
     print("Load indexes of annas_archive_meta__aacid__duxiu_files")
     cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__duxiu_files')
     print("Inserting from 'annas_archive_meta__aacid__duxiu_files'")
-    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(primary_id), 10 FROM annas_archive_meta__aacid__duxiu_files WHERE primary_id IS NOT NULL')
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(primary_id), 11 FROM annas_archive_meta__aacid__duxiu_files WHERE primary_id IS NOT NULL')
     cursor.close()
     print("Done mysql_build_computed_all_md5s_internal!")
     # engine_multi = create_engine(mariadb_url_no_timeout, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
