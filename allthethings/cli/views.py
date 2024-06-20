@@ -40,7 +40,7 @@ from sqlalchemy import select, func, text, create_engine
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import Session
 from pymysql.constants import CLIENT
-from config.settings import SLOW_DATA_IMPORTS, AACID_SMALL_DATA_IMPORTS
+from config.settings import SLOW_DATA_IMPORTS
 
 from allthethings.page.views import get_aarecords_mysql, get_isbndb_dicts
 
