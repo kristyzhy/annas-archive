@@ -1082,7 +1082,7 @@ def gc_notify():
     request_data = request.get_data()
     message = email.message_from_bytes(request_data, policy=email.policy.default)
     
-    if message['Subject'] is None or message['Subject'].strip().endswith('is waiting'):
+    if message['Subject'] is None:
         return ""
 
     to_split = message['X-Original-To'].replace('+', '@').split('@')
@@ -1126,7 +1126,7 @@ def gc_notify():
             print(error)
             return "", 404
 
-        if not message['Subject'].strip().endswith('sent you an Amazon Gift Card!'):
+        if not (message['Subject'].strip().endswith('sent you an Amazon Gift Card!') or message['Subject'].strip().endswith('is waiting')):
             error = f"Warning: gc_notify message '{message['X-Original-To']}' with wrong Subject: {message['Subject']}"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
             cursor.execute('UPDATE mariapersist_donations SET json=%(json)s WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
