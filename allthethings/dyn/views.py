@@ -883,6 +883,7 @@ def account_buy_membership():
                 if donation_json['payment2_request']['code'] == 'AMOUNT_MINIMAL_ERROR':
                     return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.minimum') })
                 elif donation_json['payment2_request']['code'] == 'INTERNAL_ERROR':
+                    print(f"Warning: internal error in payment2_request: {donation_json['payment2_request']=}")
                     return orjson.dumps({ 'error': gettext('dyn.buy_membership.error.wait', email="https://annas-archive.org/contact") })
                 else:
                     print(f"Warning: unknown error in payment2 with code missing: {donation_json['payment2_request']} /// {curlify2.to_curl(response.request)}")

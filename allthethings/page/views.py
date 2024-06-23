@@ -4384,7 +4384,8 @@ def get_additional_for_aarecord(aarecord):
             if lglimagz_id < 1000000:
                 additional['torrent_paths'].append({ "collection": "libgen_li_magazines", "torrent_path": f"external/libgen_li_magazines/m_{lglimagz_thousands_dir}.torrent", "file_level1": lglimagz_filename, "file_level2": "" }) # Note: no leading zero
 
-        additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')))
+        # TODO:TRANSLATE
+        additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", (gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')) + ' <div style="margin-left: 24px" class="text-sm text-gray-500">their ads are known to contain malicious software, so use an ad blocker or don’t click ads</div>'))
         shown_click_get = True
     if (len(aarecord.get('ipfs_infos') or []) > 0) and (aarecord_id_split[0] == 'md5'):
         # additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://ipfs.eth.aragon.network/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
