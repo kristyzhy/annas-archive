@@ -539,6 +539,8 @@ def torrent_group_data_from_file_path(file_path):
         group = 'ia'
     if 'duxiu' in file_path:
         group = 'duxiu'
+    if 'upload_files' in file_path:
+        group = 'upload_files'
 
     return { 'group': group, 'aac_meta_group': aac_meta_group }
 
@@ -4301,10 +4303,10 @@ def get_additional_for_aarecord(aarecord):
         elif data_folder >= 'annas_archive_data__aacid__duxiu_files__20240613T190428Z--20240613T190429Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240613T204954Z--20240613T204955Z':
             server = 'w'
         elif data_folder >= 'annas_archive_data__aacid__duxiu_files__20240613T205835Z--20240613T205836Z' and data_folder <= 'annas_archive_data__aacid__duxiu_files__20240613T223234Z--20240613T223235Z':
-            server = 'x'
+            server = 'w'
         else:
             if AACID_SMALL_DATA_IMPORTS:
-                server = 'x'
+                server = 'w'
             else:
                 raise Exception(f"Warning: Unknown duxiu range: {data_folder=}")
 
