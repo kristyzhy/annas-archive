@@ -1,3 +1,19 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-26 00:22+0000\n"
+"PO-Revision-Date: 2024-06-26 00:22+0000\n"
+"Last-Translator: Ayla <sky-blue@users.noreply.translate.annas-software.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.6.1\n"
+
 #: allthethings/app.py:206
 msgid "layout.index.invalid_request"
 msgstr "无效的请求。访问 %(websites)s。"
@@ -307,7 +323,7 @@ msgstr "联系邮箱"
 
 #: allthethings/account/templates/account/donate.html:118
 msgid "page.donate.without_membership"
-msgstr ""
+msgstr "如果您想在没有会员资格的情况下捐款（任意金额），请随意使用此 Monero (XMR) 地址：%(address)s。"
 
 #: allthethings/account/templates/account/donate.html:124
 msgid "page.donate.payment.intro"
@@ -522,14 +538,14 @@ msgstr "选择您喜欢的加密货币："
 
 #: allthethings/account/templates/account/donate.html:352
 msgid "page.donate.currency_lowest_minimum"
-msgstr ""
+msgstr "（最低金额）"
 
 #: allthethings/account/templates/account/donate.html:366
 #: allthethings/account/templates/account/donate.html:367
 #: allthethings/account/templates/account/donate.html:371
 #: allthethings/account/templates/account/donate.html:373
 msgid "page.donate.currency_warning_high_minimum"
-msgstr ""
+msgstr "（警告：最低金额较高）"
 
 #: allthethings/account/templates/account/donate.html:381
 msgid "page.donate.submit.confirm"
@@ -1061,11 +1077,11 @@ msgstr "公开个人资料：%(profile_link)s"
 
 #: allthethings/account/templates/account/index.html:22
 msgid "page.account.logged_in.secret_key_dont_share"
-msgstr ""
+msgstr "（不要共享！）：%(secret_key)s"
 
 #: allthethings/account/templates/account/index.html:22
 msgid "page.account.logged_in.secret_key_show"
-msgstr ""
+msgstr "显示"
 
 #: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_none"
@@ -1360,7 +1376,7 @@ msgstr "查阅元数据"
 
 #: allthethings/page/views.py:4060
 msgid "common.access_types_mapping.torrents_available"
-msgstr ""
+msgstr "包含在种子中"
 
 #: allthethings/page/views.py:4066
 msgid "common.record_sources_mapping.lgrs"
@@ -1835,19 +1851,19 @@ msgstr "显示邮箱"
 #: allthethings/page/templates/page/faq.html:170
 #: allthethings/page/templates/page/search.html:283
 msgid "page.faq.metadata.inspiration1"
-msgstr ""
+msgstr "我们的灵感来源于 Aaron Swartz 的目标，即“为每本出版的书创建一个网页”，为此他创建了 <a %(a_openlib)s>Open Library</a>。"
 
 #: allthethings/page/templates/page/datasets.html:155
 #: allthethings/page/templates/page/faq.html:171
 #: allthethings/page/templates/page/search.html:284
 msgid "page.faq.metadata.inspiration2"
-msgstr ""
+msgstr "该项目进展顺利，但我们的独特位置使我们能够获取他们无法获得的元数据。"
 
 #: allthethings/page/templates/page/datasets.html:156
 #: allthethings/page/templates/page/faq.html:172
 #: allthethings/page/templates/page/search.html:285
 msgid "page.faq.metadata.inspiration3"
-msgstr ""
+msgstr "另一个灵感来源是我们想知道<a %(a_blog)s>世界上有多少书</a>，以便计算我们还剩多少书需要保存。"
 
 #: allthethings/page/templates/page/faq.html:3
 #: allthethings/page/templates/page/faq.html:6
@@ -1868,7 +1884,7 @@ msgstr "<li><strong>保存：</strong>备份人类所有的知识和文化。</l
 
 #: allthethings/page/templates/page/faq.html:19
 msgid "page.home.intro.open_source"
-msgstr ""
+msgstr "我们所有的<a %(a_code)s>代码</a>和<a %(a_datasets)s>数据</a>都是完全开源的。"
 
 #: allthethings/page/templates/page/faq.html:23
 msgid "page.home.preservation.header"
@@ -2000,11 +2016,11 @@ msgstr "不要给我们发邮件请求图书。"
 
 #: allthethings/page/templates/page/faq.html:166
 msgid "page.faq.metadata.title"
-msgstr ""
+msgstr "你收集元数据吗？"
 
 #: allthethings/page/templates/page/faq.html:169
 msgid "page.faq.metadata.indeed"
-msgstr ""
+msgstr "确实如此。"
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
 msgid "page.fast_downloads.no_more_new"
@@ -2045,13 +2061,13 @@ msgstr "测试版"
 #: allthethings/page/templates/page/search.html:252
 #: allthethings/page/templates/page/search.html:309
 msgid "page.home.scidb.scihub_paused"
-msgstr ""
+msgstr "Sci-Hub <a %(a_paused)s>已暂停</a>新论文的上传。"
 
 #: allthethings/page/templates/page/home.html:28
 #: allthethings/page/templates/page/search.html:253
 #: allthethings/page/templates/page/search.html:310
 msgid "page.home.scidb.continuation"
-msgstr ""
+msgstr "🧬 SciDB 是 Sci-Hub 的延续。"
 
 #: allthethings/page/templates/page/home.html:29
 #: allthethings/page/templates/page/home.html:34
@@ -2161,7 +2177,7 @@ msgstr "❌ 下载速度慢只能通过官方网站进行。 访问 %(websites)s
 
 #: allthethings/page/templates/page/partner_download.html:20
 msgid "page.partner_download.slow_downloads_cloudflare"
-msgstr ""
+msgstr "❌ 无法通过 Cloudflare VPN 或其他方式从 Cloudflare IP 地址进行缓慢下载。"
 
 #: allthethings/page/templates/page/partner_download.html:74
 msgid "page.partner_download.url"
@@ -2177,7 +2193,7 @@ msgstr "警告：过去 24 小时内，您的 IP 地址有大量下载。 下载
 
 #: allthethings/page/templates/page/partner_download.html:81
 msgid "page.partner_download.downloads_last_24_hours"
-msgstr ""
+msgstr "过去 24 小时内从您的 IP 地址下载的次数：%(count)s。"
 
 #: allthethings/page/templates/page/scidb.html:14
 #: allthethings/templates/layouts/index.html:303
@@ -2369,7 +2385,7 @@ msgstr "在框内输入文字以搜索我们共%(count)s个可直接下载的文
 
 #: allthethings/page/templates/page/search.html:236
 msgid "page.search.results.help_preserve"
-msgstr ""
+msgstr "事实上，任何人都可以通过种子我们的<a %(a_torrents)s>统一种子列表</a>来帮助保存这些文件。"
 
 #: allthethings/page/templates/page/search.html:239
 msgid "page.search.results.most_comprehensive"
@@ -2393,7 +2409,7 @@ msgstr "提示：使用快捷键 “/”（搜索框）, “enter”（搜索）
 #: allthethings/page/templates/page/search.html:251
 #: allthethings/page/templates/page/search.html:308
 msgid "page.search.results.looking_for_papers"
-msgstr ""
+msgstr "寻找论文？"
 
 #: allthethings/page/templates/page/search.html:258
 msgid "page.search.results.search_journals"
@@ -2530,7 +2546,7 @@ msgstr "搜索"
 #: allthethings/templates/layouts/index.html:493
 #: allthethings/templates/layouts/index.html:519
 msgid "layout.index.header.nav.faq"
-msgstr ""
+msgstr "常见问题"
 
 #: allthethings/templates/layouts/index.html:405
 #: allthethings/templates/layouts/index.html:416
@@ -2647,7 +2663,7 @@ msgstr "上一页"
 
 #: allthethings/templates/macros/pagination.html:37
 msgid "page.search.pagination.numbers_spacing"
-msgstr ""
+msgstr "…"
 
 #: allthethings/templates/macros/pagination.html:44
 #: allthethings/templates/macros/pagination.html:49
@@ -3064,4 +3080,3 @@ msgstr "下一页"
 
 #~ msgid "page.refer.linkbox.remember"
 #~ msgstr ""
-
