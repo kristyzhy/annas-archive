@@ -1302,7 +1302,7 @@ def get_ia_record_dicts(session, key, values):
 
         aa_ia_derived_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
-            "ia_id": ("before", ["This is an Internet Archive record, augmented by Anna's Archive.",
+            "ia_id": ("before", ["This is an IA record, augmented by Anna's Archive.",
                               "More details at https://annas-archive.org/datasets/ia",
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
@@ -1322,7 +1322,7 @@ def get_ia_record_dicts(session, key, values):
 
         ia_record_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
-            "ia_id": ("before", ["This is an Internet Archive record, augmented by Anna's Archive.",
+            "ia_id": ("before", ["This is an IA record, augmented by Anna's Archive.",
                               "More details at https://annas-archive.org/datasets/ia",
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
@@ -4068,7 +4068,8 @@ def get_record_sources_mapping(display_lang):
             "lgrs": gettext("common.record_sources_mapping.lgrs"),
             "lgli": gettext("common.record_sources_mapping.lgli"),
             "zlib": gettext("common.record_sources_mapping.zlib"),
-            "ia": gettext("common.record_sources_mapping.ia"),
+            "ia": "IA", # TODO:TRANSLATE
+            # "ia": gettext("common.record_sources_mapping.ia"),
             "isbndb": gettext("common.record_sources_mapping.isbndb"),
             "ol": gettext("common.record_sources_mapping.ol"),
             "scihub": gettext("common.record_sources_mapping.scihub"),

@@ -46,7 +46,7 @@
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/scihub">Sci-Hub</a><div class="text-sm text-gray-500">Via Libgen.li “scimag”</div>' | safe, stats_data.stats_by_group.journals, '<div class="text-sm text-gray-500 whitespace-normal">Sci-Hub: frozen since 2021; most available through torrents<div>Libgen.li: minor additions since then</div></div>' | safe) }}</tr>
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">Libgen.li</a><div class="text-sm text-gray-500">Excluding “scimag”</div>' | safe, stats_data.stats_by_group.lgli, stats_data.libgenli_date, 'Fiction torrents are behind (though IDs ~4-6M not torrented since they overlap with our Zlib torrents).') }}</tr>
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/zlib">Z-Library</a>' | safe, stats_data.stats_by_group.zlib, stats_data.zlib_date, '') }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/ia">Internet Archive Controlled Digital Lending</a>' | safe, stats_data.stats_by_group.ia, stats_data.ia_date, '98%+ of files are searchable.') }}</tr>
+      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/ia">IA Controlled Digital Lending</a>' | safe, stats_data.stats_by_group.ia, stats_data.ia_date, '98%+ of files are searchable.') }}</tr>
       <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">DuXiu 读秀</a>' | safe, stats_data.stats_by_group.duxiu, stats_data.duxiu_date, 'No torrents released yet.') }}</tr>
       <tr class="even:bg-[#f2f2f2] font-bold">{{ stats_row('Total<div class="text-sm font-normal text-gray-500">Excluding duplicates</div>' | safe, stats_data.stats_by_group.total, '', '') }}</tr>
     </table>
@@ -118,15 +118,15 @@
         </td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/ia">Internet Archive Controlled Digital Lending</a></td>
+        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/ia">IA Controlled Digital Lending</a></td>
         <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Some metadata available through <a href="https://openlibrary.org/developers/dumps">Open Library database dumps</a>, but those don’t cover the entire Internet Archive collection.</div>
+          <div class="my-2 first:mt-0 last:mb-0">✅ Some metadata available through <a href="https://openlibrary.org/developers/dumps">Open Library database dumps</a>, but those don’t cover the entire IA collection.</div>
           <div class="my-2 first:mt-0 last:mb-0">❌ No easily accessible metadata dumps available for their entire collection.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">Internet Archive metadata</a>.
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">IA metadata</a>.
         </td>
         <td class="p-2 align-top">
           <div class="my-2 first:mt-0 last:mb-0">❌ Files only available for borrowing on a limited basis, with various access restrictions.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">Internet Archive files</a>.
+          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">IA files</a>.
         </td>
       </tr>
       <tr class="even:bg-[#f2f2f2]">

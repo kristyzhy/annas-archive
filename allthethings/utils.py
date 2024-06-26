@@ -1012,7 +1012,7 @@ OPENLIB_LABELS = {
     "nbuv": "NBUV",
     "nla": "NLA",
     "nur": "NUR",
-    "ocaid": "Internet Archive",
+    "ocaid": "IA",
     "openstax": "OpenStax",
     "overdrive": "OverDrive",
     "paperback_swap": "Paperback Swap",
