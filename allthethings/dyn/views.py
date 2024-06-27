@@ -1062,9 +1062,11 @@ def payment3_notify():
                 return "FAIL"
     return "SUCCESS"
 
-@dyn.post("/hoodpay_notify/<string:donation_id>")
+
+@dyn.post("/hoodpay_notify/")
 @allthethings.utils.no_cache()
-def hoodpay_notify(donation_id):
+def hoodpay_notify():
+    donation_id = request.json['forPaymentEvents']['metadata']['donation_id']
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         donation = connection.execute(select(MariapersistDonations).where(MariapersistDonations.donation_id == donation_id).limit(1)).first()
@@ -1076,6 +1078,20 @@ def hoodpay_notify(donation_id):
         if not hoodpay_request_success:
             return "Error happened", 404
     return ""
+# @dyn.post("/hoodpay_notify/<string:donation_id>")
+# @allthethings.utils.no_cache()
+# def hoodpay_notify(donation_id):
+#     with mariapersist_engine.connect() as connection:
+#         connection.connection.ping(reconnect=True)
+#         donation = connection.execute(select(MariapersistDonations).where(MariapersistDonations.donation_id == donation_id).limit(1)).first()
+#         if donation is None:
+#             return "", 403
+#         donation_json = orjson.loads(donation['json'])
+#         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+#         hoodpay_status, hoodpay_request_success = allthethings.utils.hoodpay_check(cursor, donation_json['hoodpay_request']['data']['id'], donation_id)
+#         if not hoodpay_request_success:
+#             return "Error happened", 404
+#     return ""
 
 @dyn.post("/gc_notify/")
 @allthethings.utils.no_cache()
