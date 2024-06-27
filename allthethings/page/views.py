@@ -539,8 +539,8 @@ def torrent_group_data_from_file_path(file_path):
         group = 'ia'
     if 'duxiu' in file_path:
         group = 'duxiu'
-    if 'upload_files' in file_path:
-        group = 'upload_files'
+    if 'upload' in file_path:
+        group = 'upload'
 
     return { 'group': group, 'aac_meta_group': aac_meta_group }
 
