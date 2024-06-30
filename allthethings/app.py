@@ -203,7 +203,7 @@ def extensions(app):
     @app.before_request
     def before_req():
         if X_AA_SECRET is not None and request.headers.get('x-aa-secret') != X_AA_SECRET and (not request.full_path.startswith('/dyn/up')):
-            return gettext('layout.index.invalid_request', websites='annas-archive.org, .gs, .se')
+            return gettext('layout.index.invalid_request', websites='annas-archive.gs, .se')
 
         # Add English as a fallback language to all translations.
         translations = get_translations()
@@ -213,8 +213,8 @@ def extensions(app):
             translations_with_english_fallback.add(translations)
 
         g.app_debug = app.debug
-        g.base_domain = 'annas-archive.org'
-        valid_other_domains = ['annas-archive.gs', 'annas-archive.se', 'annas-blog.org']
+        g.base_domain = 'annas-archive.gs'
+        valid_other_domains = ['annas-archive.se', 'annas-blog.org']
         if app.debug:
             valid_other_domains.append('annas-blog.org.localtest.me:8000')
             valid_other_domains.append('localtest.me:8000')

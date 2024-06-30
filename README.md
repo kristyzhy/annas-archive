@@ -1,6 +1,6 @@
 # Anna’s Archive
 
-Welcome to the Code repository for Anna's Archive, the comprehensive search engine for books, papers, comics, magazines, and more. This repository contains all the code necessary to run annas-archive.org locally or deploy it to a production environment.
+Welcome to the Code repository for Anna's Archive, the comprehensive search engine for books, papers, comics, magazines, and more. This repository contains all the code necessary to run Anna’s Archive locally or deploy it to a production environment.
 
 ## Quick Start
 

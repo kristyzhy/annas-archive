@@ -526,7 +526,6 @@
 
           <div class="grow">
             <strong class="font-bold text-black">{{ gettext('layout.index.footer.list3.header') }}</strong><br>
-            <a class="custom-a hover:text-[#333] js-annas-archive-org" href="https://annas-archive.org">annas-archive.org</a></a><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-gs" href="https://annas-archive.gs">annas-archive.gs</a><br>
             <a class="custom-a hover:text-[#333] js-annas-archive-se" href="https://annas-archive.se">annas-archive.se</a><br>
           </div>
@@ -551,7 +550,7 @@
         if (isInvalidDomain) {
           console.log("Invalid domain");
           // If the domain is invalid, replace window.baseDomain first, in case the domain
-          // is something weird like 'weird.annas-archive.org'.
+          // is something weird like 'weird.annas-archive.gs'.
           domainsToReplace.unshift(window.baseDomain);
         }
 
@@ -596,7 +595,7 @@
             el.action = el.action.replace(currentDomainToReplace, domain);
           }
         }
-        // useOtherDomain('annas-archive.org'); // For testing.
+        // useOtherDomain('annas-archive.gs'); // For testing.
 
         function getRandomString() {
           return Math.random() + "." + Math.random() + "." + Math.random();

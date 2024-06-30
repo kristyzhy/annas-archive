@@ -377,10 +377,10 @@ def donation_page(donation_id):
                 # Note that these are sorted by key.
                 "money": str(int(float(donation.cost_cents_usd) * allthethings.utils.MEMBERSHIP_EXCHANGE_RATE_RMB / 100.0)),
                 "name": "Anna’s Archive Membership",
-                "notify_url": "https://annas-archive.org/dyn/payment1b_notify/",
+                "notify_url": "https://annas-archive.gs/dyn/payment1b_notify/",
                 "out_trade_no": str(donation.donation_id),
                 "pid": PAYMENT1B_ID,
-                "return_url": "https://annas-archive.org/account/",
+                "return_url": "https://annas-archive.gs/account/",
                 "sitename": "Anna’s Archive",
             }
             sign_str = '&'.join([f'{k}={v}' for k, v in data.items()]) + PAYMENT1B_KEY

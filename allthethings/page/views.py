@@ -941,7 +941,7 @@ def codes_page():
 zlib_book_dict_comments = {
     **allthethings.utils.COMMON_DICT_COMMENTS,
     "zlibrary_id": ("before", ["This is a file from the Z-Library collection of Anna's Archive.",
-                      "More details at https://annas-archive.org/datasets/zlib",
+                      "More details at https://annas-archive.gs/datasets/zlib",
                       "The source URL is http://loginzlib2vrak5zzpcocc3ouizykn6k5qecgj2tzlnab5wcbqhembyd.onion/md5/<md5_reported>",
                       allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
     "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', and 'year' fields; combining them into a single field for display and search."]),
@@ -1303,7 +1303,7 @@ def get_ia_record_dicts(session, key, values):
         aa_ia_derived_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "ia_id": ("before", ["This is an IA record, augmented by Anna's Archive.",
-                              "More details at https://annas-archive.org/datasets/ia",
+                              "More details at https://annas-archive.gs/datasets/ia",
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "cover_url": ("before", "Constructed directly from ia_id."),
@@ -1323,7 +1323,7 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "ia_id": ("before", ["This is an IA record, augmented by Anna's Archive.",
-                              "More details at https://annas-archive.org/datasets/ia",
+                              "More details at https://annas-archive.gs/datasets/ia",
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "libgen_md5": ("after", "If the metadata refers to a Libgen MD5 from which IA imported, it will be filled in here."),
@@ -1723,7 +1723,7 @@ def get_lgrsnf_book_dicts(session, key, values):
         lgrs_book_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "id": ("before", ["This is a Libgen.rs Non-Fiction record, augmented by Anna's Archive.",
-                              "More details at https://annas-archive.org/datasets/libgen_rs",
+                              "More details at https://annas-archive.gs/datasets/libgen_rs",
                               "Most of these fields are explained at https://wiki.mhut.org/content:bibliographic_data",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
@@ -1788,7 +1788,7 @@ def get_lgrsfic_book_dicts(session, key, values):
         lgrs_book_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "id": ("before", ["This is a Libgen.rs Fiction record, augmented by Anna's Archive.",
-                              "More details at https://annas-archive.org/datasets/libgen_rs",
+                              "More details at https://annas-archive.gs/datasets/libgen_rs",
                               "Most of these fields are explained at https://wiki.mhut.org/content:bibliographic_data",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
@@ -2100,7 +2100,7 @@ def get_lgli_file_dicts(session, key, values):
         lgli_file_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "f_id": ("before", ["This is a Libgen.li file record, augmented by Anna's Archive.",
-                     "More details at https://annas-archive.org/datasets/libgen_li",
+                     "More details at https://annas-archive.gs/datasets/libgen_li",
                      "Most of these fields are explained at https://libgen.li/community/app.php/article/new-database-structure-published-o%CF%80y6%D0%BB%D0%B8%C4%B8o%D0%B2a%D0%BDa-%D0%BDo%D0%B2a%D1%8F-c%D1%82py%C4%B8%D1%82ypa-6a%D0%B7%C6%85i-%D0%B4a%D0%BD%D0%BD%C6%85ix",
                      "The source URL is https://libgen.li/file.php?id=<f_id>",
                      allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
@@ -2204,7 +2204,7 @@ def get_isbndb_dicts(session, canonical_isbn13s):
 
         isbndb_wrapper_comments = {
             "ean13": ("before", ["Metadata from our ISBNdb collection, augmented by Anna's Archive.",
-                               "More details at https://annas-archive.org/datasets",
+                               "More details at https://annas-archive.gs/datasets",
                                allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "isbndb": ("before", ["All matching records from the ISBNdb database."]),
         }
@@ -2247,7 +2247,7 @@ def get_scihub_doi_dicts(session, key, values):
         scihub_doi_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "doi": ("before", ["This is a file from Sci-Hub's dois-2022-02-12.7z dataset.",
-                              "More details at https://annas-archive.org/datasets/scihub",
+                              "More details at https://annas-archive.gs/datasets/scihub",
                               "The source URL is https://sci-hub.ru/datasets/dois-2022-02-12.7z",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
@@ -3023,13 +3023,13 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "duxiu_ssid": ("before", ["This is a DuXiu metadata record.",
-                                "More details at https://annas-archive.org/datasets/duxiu",
+                                "More details at https://annas-archive.gs/datasets/duxiu",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "cadal_ssno": ("before", ["This is a CADAL metadata record.",
-                                "More details at https://annas-archive.org/datasets/duxiu",
+                                "More details at https://annas-archive.gs/datasets/duxiu",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "md5": ("before", ["This is a DuXiu/related metadata record.",
-                                "More details at https://annas-archive.org/datasets/duxiu",
+                                "More details at https://annas-archive.gs/datasets/duxiu",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "duxiu_file": ("before", ["Information on the actual file in our collection (see torrents)."]),
             "aa_duxiu_derived": ("before", "Derived metadata."),
@@ -4684,19 +4684,19 @@ def md5_json(aarecord_id):
     
     aarecord_comments = {
         "id": ("before", ["File from the combined collections of Anna's Archive.",
-                           "More details at https://annas-archive.org/datasets",
+                           "More details at https://annas-archive.gs/datasets",
                            allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
-        "lgrsnf_book": ("before", ["Source data at: https://annas-archive.org/db/lgrsnf/<id>.json"]),
-        "lgrsfic_book": ("before", ["Source data at: https://annas-archive.org/db/lgrsfic/<id>.json"]),
-        "lgli_file": ("before", ["Source data at: https://annas-archive.org/db/lgli/<f_id>.json"]),
-        "zlib_book": ("before", ["Source data at: https://annas-archive.org/db/zlib/<zlibrary_id>.json"]),
-        "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.org/db/aac_zlib3/<zlibrary_id>.json"]),
-        "ia_record": ("before", ["Source data at: https://annas-archive.org/db/ia/<ia_id>.json"]),
-        "isbndb": ("before", ["Source data at: https://annas-archive.org/db/isbndb/<isbn13>.json"]),
-        "ol": ("before", ["Source data at: https://annas-archive.org/db/ol/<ol_edition>.json"]),
-        "scihub_doi": ("before", ["Source data at: https://annas-archive.org/db/scihub_doi/<doi>.json"]),
-        "oclc": ("before", ["Source data at: https://annas-archive.org/db/oclc/<oclc>.json"]),
-        "duxiu": ("before", ["Source data at: https://annas-archive.org/db/duxiu_ssid/<duxiu_ssid>.json or https://annas-archive.org/db/cadal_ssno/<cadal_ssno>.json or https://annas-archive.org/db/duxiu_md5/<md5>.json"]),
+        "lgrsnf_book": ("before", ["Source data at: https://annas-archive.gs/db/lgrsnf/<id>.json"]),
+        "lgrsfic_book": ("before", ["Source data at: https://annas-archive.gs/db/lgrsfic/<id>.json"]),
+        "lgli_file": ("before", ["Source data at: https://annas-archive.gs/db/lgli/<f_id>.json"]),
+        "zlib_book": ("before", ["Source data at: https://annas-archive.gs/db/zlib/<zlibrary_id>.json"]),
+        "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.gs/db/aac_zlib3/<zlibrary_id>.json"]),
+        "ia_record": ("before", ["Source data at: https://annas-archive.gs/db/ia/<ia_id>.json"]),
+        "isbndb": ("before", ["Source data at: https://annas-archive.gs/db/isbndb/<isbn13>.json"]),
+        "ol": ("before", ["Source data at: https://annas-archive.gs/db/ol/<ol_edition>.json"]),
+        "scihub_doi": ("before", ["Source data at: https://annas-archive.gs/db/scihub_doi/<doi>.json"]),
+        "oclc": ("before", ["Source data at: https://annas-archive.gs/db/oclc/<oclc>.json"]),
+        "duxiu": ("before", ["Source data at: https://annas-archive.gs/db/duxiu_ssid/<duxiu_ssid>.json or https://annas-archive.gs/db/cadal_ssno/<cadal_ssno>.json or https://annas-archive.gs/db/duxiu_md5/<md5>.json"]),
         "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
         "ipfs_infos": ("before", ["Data about the IPFS files."]),
         "search_only_fields": ("before", ["Data that is used during searching."]),
