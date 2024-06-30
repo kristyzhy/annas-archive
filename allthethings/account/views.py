@@ -444,7 +444,7 @@ def donation_page(donation_id):
 
         donation_email = f"AnnaReceipts+{donation_dict['receipt_id']}@proton.me"
         if donation_json['method'] == 'amazon':
-            donation_email = f"giftcards+{donation_dict['receipt_id']}@annas-mail.org"
+            donation_email = f"giftcards+{donation_dict['receipt_id']}@annas-archive.gs"
 
         # # No need to call get_referral_account_id here, because we have already verified, and we don't want to take away their bonus because
         # # the referrer's membership expired.
