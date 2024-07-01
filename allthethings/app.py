@@ -29,21 +29,6 @@ import allthethings.utils
 
 multiprocessing.set_start_method('spawn', force=True)
 
-# Rewrite `annas-blog.org` to `/blog` as a workaround for Flask not nicely supporting multiple domains.
-# Also strip `/blog` if we encounter it directly, to avoid duplicating it.
-class BlogMiddleware(object):
-    def __init__(self, app):
-        self.app = app
-    def __call__(self, environ, start_response):
-        # Not just .startswith('annas-blog.org') bc then you get potential domains like www.annas-blog.org/md5/021bf980b32f1ec86758e06bf40a2b4c
-        if 'annas-blog.org' in environ['HTTP_HOST']: # so we can test using http://annas-blog.org.localtest.me:8000/
-            environ['PATH_INFO'] = '/blog' + environ['PATH_INFO']
-        elif environ['PATH_INFO'].startswith('/blog'): # Don't allow the /blog path directly to avoid duplication between annas-blog.org and /blog
-            # Note that this HAS to be in an `elif`, because some blog paths actually start with `/blog`, e.g. `/blog-introducing.html`!
-            environ['PATH_INFO'] = environ['PATH_INFO'][len('/blog'):]
-        return self.app(environ, start_response)
-
-
 def create_celery_app(app=None):
     """
     Create a new Celery app and tie together the Celery config to the app's
@@ -214,9 +199,8 @@ def extensions(app):
 
         g.app_debug = app.debug
         g.base_domain = 'annas-archive.gs'
-        valid_other_domains = ['annas-archive.se', 'annas-blog.org']
+        valid_other_domains = ['annas-archive.se']
         if app.debug:
-            valid_other_domains.append('annas-blog.org.localtest.me:8000')
             valid_other_domains.append('localtest.me:8000')
         # Not just for app.debug, but also for Docker health check.
         valid_other_domains.append('localhost:8000')
@@ -228,7 +212,7 @@ def extensions(app):
         g.domain_lang_code = allthethings.utils.get_domain_lang_code(get_locale())
         g.full_lang_code = allthethings.utils.get_full_lang_code(get_locale())
 
-        g.secure_domain = g.base_domain not in ['localtest.me:8000', 'localhost:8000', 'annas-blog.org.localtest.me:8000']
+        g.secure_domain = g.base_domain not in ['localtest.me:8000', 'localhost:8000']
         g.full_domain = g.base_domain
         full_hostname = g.base_domain
         if g.domain_lang_code != 'en':
@@ -312,7 +296,7 @@ def middleware(app):
 
     # Set the real IP address into request.remote_addr when behind a proxy.
     # x_for=2 because of Varnish, then Cloudflare.
-    app.wsgi_app = BlogMiddleware(ProxyFix(app.wsgi_app, x_for=2, x_proto=1))
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2, x_proto=1)
 
     return None
 

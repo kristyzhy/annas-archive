@@ -163,7 +163,7 @@
           </p>
 
           <p class="mb-0">
-            Torrents with “aac” in the filename use the <a href="https://annas-blog.org/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents.
+            Torrents with “aac” in the filename use the <a href="https://annas-archive.gs/blog/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents.
             <!-- Some torrents that have messages in their filename are “adopted torrents”, which is a perk of our top tier <a href="/donate">“Amazing Archivist” membership</a>. -->
           </p>
         {% elif toplevel == 'external' %}
@@ -189,13 +189,13 @@
               {% if group == 'zlib' %}
                 <div class="mb-1 text-sm">Z-Library books. The different types of torrents in this list are cumulative — you need them all to get the full collection. <a href="/torrents/zlib">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/zlib">dataset</a></div>
               {% elif group == 'isbndb' %}
-                <div class="mb-1 text-sm">ISBNdb metadata. <a href="/torrents/isbndb">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/isbndb">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html">blog</a></div>
+                <div class="mb-1 text-sm">ISBNdb metadata. <a href="/torrents/isbndb">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/isbndb">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.gs/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html">blog</a></div>
               {% elif group == 'libgenrs_covers' %}
-                <div class="mb-1 text-sm">Book covers from Libgen.rs. <a href="/torrents/libgenrs_covers">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/annas-update-open-source-elasticsearch-covers.html">blog</a></div>
+                <div class="mb-1 text-sm">Book covers from Libgen.rs. <a href="/torrents/libgenrs_covers">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.gs/blog/annas-update-open-source-elasticsearch-covers.html">blog</a></div>
               {% elif group == 'ia' %}
                 <div class="mb-1 text-sm">IA Controlled Digital Lending books and magazines. The different types of torrents in this list are cumulative — you need them all to get the full collection. <a href="/torrents/ia">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/ia">dataset</a></div>
               {% elif group == 'worldcat' %}
-                <div class="mb-1 text-sm">Metadata from OCLC/Worldcat. <a href="/torrents/worldcat">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/worldcat">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/worldcat-scrape.html">blog</a></div>
+                <div class="mb-1 text-sm">Metadata from OCLC/Worldcat. <a href="/torrents/worldcat">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/worldcat">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.gs/blog/worldcat-scrape.html">blog</a></div>
               {% elif group == 'libgen_rs_non_fic' %}
                 <div class="mb-1 text-sm">Non-fiction book collection from Libgen.rs. <a href="/torrents/libgen_rs_non_fic">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://libgen.rs/repository_torrent/">original</a><span class="text-xs text-gray-500"> / </span><a href="https://forum.mhut.org/viewtopic.php?f=17&t=6395&p=217286">new additions</a> (blocks IP ranges, VPN might be required)<span class="text-xs text-gray-500"> / </span><a href="https://data.ipdl.cat/torrent-archive/r/">ipdl.cat</a></div>
               {% elif group == 'libgen_rs_fic' %}
@@ -209,7 +209,7 @@
               {% elif group == 'scihub' %}
                 <div class="mb-1 text-sm">Sci-Hub / Libgen.rs “scimag” collection of academic papers. Currently not directly seeded by Anna’s Archive, but we keep a backup in extracted form. Note that the “smarch” torrents are <a href="https://www.reddit.com/r/libgen/comments/15qa5i0/what_are_smarch_files/">deprecated</a> and therefore not included in our list. <a href="/torrents/scihub">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/scihub">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://libgen.rs/scimag/repository_torrent/">original</a></div>
               {% elif group == 'duxiu' %}
-                <div class="mb-1 text-sm">DuXiu and related. <a href="/torrents/duxiu">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/duxiu">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-blog.org/duxiu-exclusive.html">blog</a></div>
+                <div class="mb-1 text-sm">DuXiu and related. <a href="/torrents/duxiu">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/duxiu">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.gs/blog/duxiu-exclusive.html">blog</a></div>
               {% elif group == 'upload' %}
                 <div class="mb-1 text-sm">Sets of files that were uploaded to Anna’s Archive by volunteers, which are too small to warrant their own datasets page, but together make for a formidable collection. <a href="/torrents/upload">full list</a></div>
               {% elif group == 'aa_derived_mirror_metadata' %}

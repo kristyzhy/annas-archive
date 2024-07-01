@@ -38,7 +38,7 @@
 
     <div style="position: relative; padding-bottom: 12px">
       <div style="width: 14px; height: 14px; border-left: 1px solid gray; border-bottom: 1px solid gray; position: absolute; top: 5px; left: calc(5% - 1px)"></div>
-      <div style="position: relative; left: calc(5% + 20px); width: calc(90% - 20px); top: 8px; font-size: 90%; color: #555">{{ gettext('page.home.preservation.label') }}</div>
+      <div style="position: relative; left: calc(5% + 20px); width: calc(90% - 20px); top: 8px; font-size: 90%; color: #555">{{ gettext('page.home.preservation.label') | replace ('https://annas-blog.org', '/blog') }}</div>
     </div>
   </div>
 
@@ -170,7 +170,7 @@
     <a href="/datasets">{{ gettext('page.faq.metadata.indeed') }}</a>
     {{ gettext('page.faq.metadata.inspiration1', a_openlib=(' href="https://en.wikipedia.org/wiki/Open_Library" ' | safe)) }}
     {{ gettext('page.faq.metadata.inspiration2') }}
-    {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-blog.org/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
+    {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-archive.gs/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
   </p>
 
   <!-- TODO:TRANSLATE everything below -->
@@ -259,7 +259,7 @@
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="resources">Are there more resources about Anna’s Archive? <a href="#resources" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <ul class="list-inside mb-4">
-    <li class="list-disc"><a href="https://annas-blog.org">Anna’s Blog</a>, <a href="https://www.reddit.com/user/AnnaArchivist">Reddit</a>, <a href="https://www.reddit.com/r/Annas_Archive">Subreddit</a> — regular updates</li>
+    <li class="list-disc"><a href="https://annas-archive.gs/blog">Anna’s Blog</a>, <a href="https://www.reddit.com/user/AnnaArchivist">Reddit</a>, <a href="https://www.reddit.com/r/Annas_Archive">Subreddit</a> — regular updates</li>
     <li class="list-disc"><a href="https://annas-software.org">Anna’s Software</a> — our open source code</li>
     <li class="list-disc"><a href="https://translate.annas-software.org">Translate on Anna’s Software</a> — our translation system</li>
     <li class="list-disc"><a href="/datasets">Datasets</a> — about the data</li>
