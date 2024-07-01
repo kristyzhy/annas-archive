@@ -44,7 +44,7 @@
       </p>
 
       <p class="mb-4">
-        These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://annas-software.org/AnnaArchivist/annas-archive">source code</a> and metadata (which can be <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases). We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
+        These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive">source code</a> and metadata (which can be <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases). We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
       </p>
 
       <p class="mb-4">
@@ -128,7 +128,7 @@
       <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list">Generate Torrent List</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
       <p class="mb-4">
-        Generate a list of torrents, sorted by <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/issues/157">(seeders + 0.1*leechers)*fraction-of-torrent-size-compared-to-average-size + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply keep adding torrents until max TB is reached).
+        Generate a list of torrents, sorted by <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/issues/157">(seeders + 0.1*leechers)*fraction-of-torrent-size-compared-to-average-size + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply keep adding torrents until max TB is reached).
       </p>
 
       <form action="/dyn/generate_torrents" class="flex items-center mb-4">
@@ -213,7 +213,7 @@
               {% elif group == 'upload' %}
                 <div class="mb-1 text-sm">Sets of files that were uploaded to Anna’s Archive by volunteers, which are too small to warrant their own datasets page, but together make for a formidable collection. <a href="/torrents/upload">full list</a></div>
               {% elif group == 'aa_derived_mirror_metadata' %}
-                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MariaDB), published occasionally to make it easier to set up mirrors. All this data can be generated from scratch using our <a href="https://annas-software.org/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">open source code</a>, but this can take a while. At this time you do still need to run the AAC-related scripts. These files have been created using the data-imports/scripts/dump_*.sh scripts in our codebase. We welcome contributions for the corresponding loading scripts. Documentation for the ElasticSearch records can be found inline in our <a href="https://annas-archive.gs/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">example JSON</a>.</div>
+                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MariaDB), published occasionally to make it easier to set up mirrors. All this data can be generated from scratch using our <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">open source code</a>, but this can take a while. At this time you do still need to run the AAC-related scripts. These files have been created using the data-imports/scripts/dump_*.sh scripts in our codebase. We welcome contributions for the corresponding loading scripts. Documentation for the ElasticSearch records can be found inline in our <a href="https://annas-archive.gs/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">example JSON</a>.</div>
               {% endif %}
             </td></tr>
 

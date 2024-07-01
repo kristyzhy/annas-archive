@@ -49,7 +49,7 @@ HASHED_DOWNLOADS_SECRET_KEY = hashlib.sha256(DOWNLOADS_SECRET_KEY.encode()).dige
 
 page = Blueprint("page", __name__, template_folder="templates")
 
-# Per https://annas-software.org/AnnaArchivist/annas-archive/-/issues/37
+# Per https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/issues/37
 search_filtered_bad_aarecord_ids = [
     "md5:b0647953a182171074873b61200c71dd",
     "md5:820a4f8961ae0a76ad265f1678b7dfa5",
