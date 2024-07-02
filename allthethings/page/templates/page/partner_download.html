@@ -84,13 +84,11 @@
     </p>
   {% endif %}
 
-  {% if slow_download or only_official or no_cloudflare or wait_seconds %}
-    <p class="mb-4">
-      <!-- TODO:TRANSLATE -->
-      <!-- 🚀 To get faster downloads, skip the browser checks, and skip waitlists, <a href="/donate">become a member</a>. -->
-      {{ gettext('page.partner_download.faster_downloads', a_membership=(' href="/donate"' | safe)) }}
-    </p>
-  {% endif %}
+  <p class="mb-4">
+    <!-- TODO:TRANSLATE -->
+    <!-- 🚀 To get faster downloads, skip the browser checks, and skip waitlists, <a href="/donate">become a member</a>. -->
+    {{ gettext('page.partner_download.faster_downloads', a_membership=(' href="/donate"' | safe)) }}
+  </p>
 
   <p class="mb-4">
     {{ gettext('page.partner_download.bulk_mirroring', a_datasets=(' href="/datasets"' | safe), a_torrents=(' href="/torrents"' | safe)) }}

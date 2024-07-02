@@ -4746,14 +4746,7 @@ def md5_fast_download(md5_input, path_index, domain_index):
             data_ip = allthethings.utils.canonical_ip_bytes(request.remote_addr)
             mariapersist_session.connection().execute(text('INSERT INTO mariapersist_fast_download_access (md5, ip, account_id) VALUES (:md5, :ip, :account_id)').bindparams(md5=data_md5, ip=data_ip, account_id=account_id))
             mariapersist_session.commit()
-
-    return render_template(
-        "page/partner_download.html",
-        header_active="search",
-        url=url,
-        slow_download=False,
-        canonical_md5=canonical_md5,
-    )
+    return redirect(url, code=302)
 
 def compute_download_speed(targeted_seconds, filesize, minimum, maximum):
     return min(maximum, max(minimum, int(filesize/1000/targeted_seconds)))
@@ -4860,7 +4853,6 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 "page/partner_download.html",
                 header_active="search",
                 url=url,
-                slow_download=True,
                 warning=warning,
                 canonical_md5=canonical_md5,
                 daily_download_count_from_ip=daily_download_count_from_ip,

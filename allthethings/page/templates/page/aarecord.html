@@ -118,6 +118,15 @@
   {% if aarecord_id_split[0] == 'md5' %}
     <script>
       (function() {
+        window.showExternalDownloads = function() {
+          for (const el of document.querySelectorAll('.js-show-external')) { 
+            el.classList.remove('hidden');
+          }; 
+          for (const el of document.querySelectorAll('.js-show-external-button')) { 
+            el.classList.add('hidden');
+          }; 
+        }
+
         const md5 = {{ aarecord_id_split[1] | tojson }};
 
         function fetchComments() {
@@ -151,6 +160,7 @@
             }
 
             if (json.is_member) {
+              window.showExternalDownloads();
               document.querySelector('.js-fast-download-no-member-header').classList.add('hidden');
               if (json.download_still_active) {
                 document.querySelector('.js-fast-download-member-header-valid-for').classList.remove('hidden');
@@ -238,7 +248,7 @@
     <div>
       {% if aarecord_id_split[0] in ['md5','doi'] %}
         {% if (aarecord.additional.fast_partner_urls | length) > 0 %}
-          <div class="mb-4"><a href="#" class="text-sm" onClick="event.preventDefault(); for (const el of document.querySelectorAll('.js-show-external')) { el.classList.remove('hidden') }; this.classList.add('hidden')">show external downloads</a></div>
+          <div class="mb-4"><a href="#" class="text-sm js-show-external-button" onClick="event.preventDefault(); window.showExternalDownloads()">show external downloads</a></div>
 
           <!-- <div class="font-bold">{{ gettext('page.md5.box.download.header_slow') }}</div> -->
           <div class="font-bold js-show-external hidden">{{ gettext('page.md5.box.download.header_external') }}</div>
