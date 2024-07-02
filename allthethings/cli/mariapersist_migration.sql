@@ -257,3 +257,17 @@ CREATE TABLE mariapersist_memberships (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT account_id, membership_tier, membership_expiration FROM mariapersist_accounts WHERE membership_expiration IS NOT NULL;
 -- ALTER TABLE mariapersist_memberships ADD COLUMN `bonus_downloads` INT NOT NULL DEFAULT 0;
 -- ALTER TABLE mariapersist_memberships DROP INDEX `from_donation_id`, ADD INDEX `from_donation_id` (`from_donation_id`);
+
+CREATE TABLE mariapersist_giftcards (
+    `giftcard_id` BIGINT NOT NULL AUTO_INCREMENT,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `donation_id` CHAR(22) NOT NULL,
+    `link` CHAR(250) NULL,
+    `email_data` LONGBLOB NOT NULL,
+    PRIMARY KEY (`giftcard_id`),
+    INDEX (`created`),
+    INDEX (`donation_id`),
+    UNIQUE INDEX (`link`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+

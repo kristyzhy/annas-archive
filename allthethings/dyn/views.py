@@ -1160,6 +1160,27 @@ def gc_notify():
             print(error)
             return "", 404
 
+        links = [str(link) for link in re.findall(r'(https://www.amazon.com/gp/r.html?[^\n)>"]+)', message_body)]
+        if len(links) == 0:
+            error = f"Warning: gc_notify message '{message['X-Original-To']}' with no matches for links"
+            donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
+            cursor.execute('UPDATE mariapersist_donations SET json=%(json)s WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
+            cursor.execute('COMMIT')
+            print(error)
+            return "", 404
+
+        main_link = None
+        for potential_link in links:
+            if 'https%3A%2F%2Fwww.amazon.com%2Fg%2F' in potential_link:
+                main_link = potential_link
+                break
+        if main_link is not None:
+            main_link = main_link.split('https%3A%2F%2Fwww.amazon.com%2Fg%2F', 1)[1]
+            main_link = main_link.split('%3F', 1)[0]
+            main_link = f"https://www.amazon.com/g/{main_link}"
+        cursor.execute('INSERT IGNORE INTO mariapersist_giftcards (donation_id, link, email_data) VALUES (%(donation_id)s, %(link)s, %(email_data)s)', { 'donation_id': donation_id, 'link': main_link, 'email_data': request_data })
+        cursor.execute('COMMIT')
+
         money = float(potential_money[-1])
         # Allow for 5% margin
         if money * 105 < int(donation['cost_cents_usd']):
@@ -1170,20 +1191,6 @@ def gc_notify():
             print(error)
             return "", 404
 
-        links = [str(link) for link in re.findall(r'(https://www.amazon.com/gp/r.html?[^\n)>"]+)', message_body)]
-        if len(links) == 0:
-            error = f"Warning: gc_notify message '{message['X-Original-To']}' with no matches for links"
-            donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
-            cursor.execute('UPDATE mariapersist_donations SET json=%(json)s WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
-            cursor.execute('COMMIT')
-            print(error)
-            return "", 404
-
-        potential_claim_code = re.search(r'Claim Code:[ ]+([^> \n]+)[<\n]', message_body)
-        claim_code = None
-        if potential_claim_code is not None:
-            claim_code = potential_claim_code[1]
-
         sig = request.headers['X-GC-NOTIFY-SIG']
         if sig != GC_NOTIFY_SIG:
             error = f"Warning: gc_notify message '{message['X-Original-To']}' has incorrect signature: '{sig}'"
@@ -1193,7 +1200,7 @@ def gc_notify():
             print(error)
             return "", 404
 
-        data_value = { "links": links, "claim_code": claim_code, "money": money }
+        data_value = { "links": links, "money": money }
         if not allthethings.utils.confirm_membership(cursor, donation_id, 'amazon_gc_done', data_value):
             error = f"Warning: gc_notify message '{message['X-Original-To']}' confirm_membership failed"
             donation_json['gc_notify_debug'].append({ "error": error, "message_body": message_body, "email_data": request_data.decode() })
