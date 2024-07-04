@@ -625,6 +625,7 @@ def get_torrents_data():
             'torrents/managed_by_aa/libgenli_comics/comics3.1__adopted_by_oskanios.tar.torrent',
             'torrents/managed_by_aa/libgenli_comics/c_2022_12_thousand_dirs.torrent',
             'torrents/managed_by_aa/libgenli_comics/c_2022_12_thousand_dirs_magz.torrent',
+            'torrents/managed_by_aa/annas_archive_data__aacid/annas_archive_data__aacid__upload_files_duxiu_epub__20240510T045054Z--20240510T045055Z.torrent',
         ]
         for file_path_list in aac_meta_file_paths_grouped.values():
             obsolete_file_paths += file_path_list[0:-1]

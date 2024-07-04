@@ -450,6 +450,35 @@
           <button onclick="window.location.reload()" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
         </p>
       {% endif %}
+    {% elif donation_dict.json.method == 'payment3b' %}
+      {% if donation_time_expired %}
+        <p class="mb-4">
+          {{ gettext('page.donation.expired') }}
+        </p>
+      {% else %}
+        <h2 class="mt-4 mb-4 text-xl font-bold">WeChat instructions <!-- TODO:TRANSLATE --></h2>
+
+        <!-- <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p> -->
+        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Donate on WeChat <!--TODO:TRANSLATE --></p>
+
+        <p class="mb-4">
+          <!-- TODO:TRANSLATE -->
+          Donate the total amount of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} using <a href="{{ donation_dict.json.payment3_request.data.url }}" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this WeChat account</a>.
+        </p>
+
+        <p class="mb-4">
+          <strong>{{ gettext('page.donation.status_header') }}</strong> {% if donation_confirming %}{{ gettext('page.donation.waiting_for_confirmation_refresh') }}{% else %}{{ gettext('page.donation.waiting_for_transfer_refresh') }}{% endif %}<br>
+          <strong>{{ gettext('page.donation.time_left_header') }}</strong> {{ (donation_time_left | string).split('.')[0] }} {% if donation_time_left_not_much %}{{ gettext('page.donation.might_want_to_cancel') }}{% endif %}
+        </p>
+
+        <p class="mb-4">
+          {{ gettext('page.donation.reset_timer') }}
+        </p>
+
+        <p class="mb-4">
+          <button onclick="window.location.reload()" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white mb-1">{{ gettext('page.donation.refresh_status') }}</button>
+        </p>
+      {% endif %}
     {% elif donation_dict.json.method == 'pix' %}
       <p class="mb-4">
         {{ gettext('page.donation.expired') }}
@@ -468,7 +497,7 @@
       </p> -->
     {% endif %}
 
-    {% if donation_dict.json.method not in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay', 'payment3a'] %}
+    {% if donation_dict.json.method not in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay', 'payment3a', 'payment3b'] %}
       <p class="mt-8 mb-4 font-bold">{{ gettext('page.donation.footer.header', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe), circle_number=(3 if donation_dict.json.method in ['paypal', 'binance'] else 2)) }}
 
       <p class="mb-4">

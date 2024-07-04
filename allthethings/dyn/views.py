@@ -800,7 +800,7 @@ def account_buy_membership():
         raise Exception(f"Invalid costCentsUsdVerification")
 
     donation_type = 0 # manual
-    if method in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay', 'payment3a']:
+    if method in ['payment1', 'payment1_alipay', 'payment1_wechat', 'payment1b', 'payment1bb', 'payment2', 'payment2paypal', 'payment2cashapp', 'payment2cc', 'amazon', 'hoodpay', 'payment3a', 'payment3b']:
         donation_type = 1
 
     with Session(mariapersist_engine) as mariapersist_session:
@@ -827,7 +827,7 @@ def account_buy_membership():
             response.raise_for_status()
             donation_json['hoodpay_request'] = response.json()
 
-        if method == 'payment3a':
+        if method in ['payment3a', 'payment3b']:
             data = {
                 # Note that these are sorted by key.
                 "amount": str(int(float(membership_costs['cost_cents_usd']) * allthethings.utils.MEMBERSHIP_EXCHANGE_RATE_RMB / 100.0)),
@@ -836,7 +836,7 @@ def account_buy_membership():
                 "mchId": 20000007,
                 "mchOrderId": donation_id,
                 "payerName": "Anna",
-                "productId": 8038,
+                "productId": 8038 if method == 'payment3a' else 8055,
                 "remark": "",
                 "time": int(time.time()),
             }
@@ -1151,6 +1151,7 @@ def gc_notify():
             print(error)
             return "", 404
 
+        # Keep in sync!
         potential_money = re.findall(r"\n\$([0123456789]+\.[0123456789]{2})", message_body)
         if len(potential_money) == 0:
             error = f"Warning: gc_notify message '{message['X-Original-To']}' with no matches for potential_money"
@@ -1160,6 +1161,7 @@ def gc_notify():
             print(error)
             return "", 404
 
+        # Keep in sync!
         links = [str(link) for link in re.findall(r'(https://www.amazon.com/gp/r.html?[^\n)>"]+)', message_body)]
         if len(links) == 0:
             error = f"Warning: gc_notify message '{message['X-Original-To']}' with no matches for links"
@@ -1169,6 +1171,7 @@ def gc_notify():
             print(error)
             return "", 404
 
+        # Keep in sync!
         main_link = None
         for potential_link in links:
             if 'https%3A%2F%2Fwww.amazon.com%2Fg%2F' in potential_link:
@@ -1181,6 +1184,7 @@ def gc_notify():
         cursor.execute('INSERT IGNORE INTO mariapersist_giftcards (donation_id, link, email_data) VALUES (%(donation_id)s, %(link)s, %(email_data)s)', { 'donation_id': donation_id, 'link': main_link, 'email_data': request_data })
         cursor.execute('COMMIT')
 
+        # Keep in sync!
         money = float(potential_money[-1])
         # Allow for 5% margin
         if money * 105 < int(donation['cost_cents_usd']):
