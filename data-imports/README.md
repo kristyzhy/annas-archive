@@ -76,7 +76,7 @@ docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -
 
 # Calculate derived data:
 docker exec -it aa-data-import--web flask cli mysql_reset_aac_tables # Can be skipped when using aa_derived_mirror_metadata. Only necessary for full reset.
-docker exec -it aa-data-import--web flask cli mysql_build_aac_tables # Can be skipped when using aa_derived_mirror_metadata.
+docker exec -it aa-data-import--web flask cli mysql_build_aac_tables
 docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s # Can be skipped when using aa_derived_mirror_metadata.
 docker exec -it aa-data-import--web flask cli elastic_reset_aarecords # Can be skipped when using aa_derived_mirror_metadata. Only necessary for full reset.
 docker exec -it aa-data-import--web flask cli elastic_build_aarecords_all # Can be skipped when using aa_derived_mirror_metadata. Only necessary for full reset; see the code for incrementally rebuilding only part of the index.
@@ -120,8 +120,8 @@ docker compose logs --tail 20 --follow
 docker exec -it aa-data-import--web /scripts/load_elasticsearch.sh
 docker exec -it aa-data-import--web /scripts/load_elasticsearchaux.sh
 docker exec -it aa-data-import--web /scripts/load_mariadb.sh
-# Make sure to still run the download_aac_* and load_aac_* scripts, since those download and move into position the AAC files, which
-# are necessary for some more unusual operations (such as the /db endpoints). This will not rebuild any MariaDB tables, since the system
+# Make sure to still run the download_aac_*, load_aac_*, and mysql_build_aac_tables scripts, since those download and move into position the AAC files,
+# which are necessary for some more unusual operations (such as the /db endpoints). This will not rebuild any MariaDB tables, since the system
 # will detect that the AAC files are already up to date (unless there have since been newer AAC files) and will use the imported AAC
 # tables (which point to byte offsets in the compressed AAC files).
 # We also recommend still running check_after_imports.sh.
