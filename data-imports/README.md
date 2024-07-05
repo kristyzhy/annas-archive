@@ -114,6 +114,8 @@ docker compose logs --tail 20 --follow
 
 ## Importing from aa_derived_mirror_metadata
 
+For answers to questions about this, please see [this Reddit post and comments](https://www.reddit.com/r/Annas_Archive/comments/1dtb4qz/comment/lbbo3ys/).
+
 ```bash
 # First, download the torrents from https://annas-archive.gs/torrents#aa_derived_mirror_metadata to aa-data-import--temp-dir/imports.
 # Then run these:
@@ -125,4 +127,5 @@ docker exec -it aa-data-import--web /scripts/load_mariadb.sh
 # will detect that the AAC files are already up to date (unless there have since been newer AAC files) and will use the imported AAC
 # tables (which point to byte offsets in the compressed AAC files).
 # We also recommend still running check_after_imports.sh.
+# If you have more questions, please first check out this Reddit post and comments: https://www.reddit.com/r/Annas_Archive/comments/1dtb4qz/comment/lbbo3ys/
 ```
