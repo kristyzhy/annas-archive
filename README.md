@@ -32,15 +32,14 @@ To get Anna's Archive running locally:
 
 4. **Restart the Application**
 
-   Once the database is initialized, restart the Docker Compose process:
+   Once the database is initialized, restart the Docker Compose process, by killing it (CTRL+C) and running:
    ```bash
-   docker compose down
-   docker compose up
+   docker compose up --build
    ```
 
 5. **Visit Anna's Archive**
 
-   Open your browser and visit [http://localhost:8000](http://localhost:8000) to access the application.
+   Open your browser and visit [http://localtest.me:8000](http://localtest.me:8000) to access the application.
 
 ## Common Issues and Solutions
 

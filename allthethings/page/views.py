@@ -556,6 +556,7 @@ def get_torrents_data():
         scrapes_by_file_path = { row['file_path']: row for row in cursor.fetchall() }
 
         group_sizes = collections.defaultdict(int)
+        group_num_files = collections.defaultdict(int)
         small_file_dicts_grouped_aa = collections.defaultdict(list)
         small_file_dicts_grouped_external = collections.defaultdict(list)
         small_file_dicts_grouped_other_aa = collections.defaultdict(list)
@@ -585,6 +586,7 @@ def get_torrents_data():
                         seeder_sizes[2] += metadata['data_size']
 
             group_sizes[group] += metadata['data_size']
+            group_num_files[group] += metadata.get('num_files') or 0
             if toplevel == 'external':
                 list_to_add = small_file_dicts_grouped_external[group]
             elif toplevel == 'other_aa':
@@ -606,6 +608,7 @@ def get_torrents_data():
                 "magnet_link": f"magnet:?xt=urn:btih:{metadata['btih']}&dn={urllib.parse.quote(display_name)}&tr=udp://tracker.opentrackr.org:1337/announce",
                 "temp_uuid": shortuuid.uuid(),
                 "partially_broken": (small_file['file_path'] in allthethings.utils.TORRENT_PATHS_PARTIALLY_BROKEN),
+                "torrent_code": 'torrent:' + small_file['file_path'].replace('torrents/','')
             })
 
         for key in small_file_dicts_grouped_external:
@@ -648,6 +651,7 @@ def get_torrents_data():
                 'other_aa': dict(sorted(small_file_dicts_grouped_other_aa.items())),
             },
             'group_size_strings': group_size_strings,
+            'group_num_files': group_num_files,
             'seeder_size_strings': seeder_size_strings,
             'seeder_sizes': seeder_sizes,
             'seeder_size_total_string': format_filesize(sum(seeder_sizes.values())),
@@ -842,14 +846,31 @@ def torrents_group_page(group):
         detailview=True,
     )
 
+@page.get("/member_codes")
+@allthethings.utils.no_cache()
+def member_codes_page():
+    prefix_arg = request.args.get('prefix') or ''
+    if len(prefix_arg) > 0:
+        prefix_b64_redirect = base64.b64encode(prefix_arg.encode()).decode()
+        return redirect(f"/member_codes?prefix_b64={prefix_b64_redirect}", code=301)
+
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    with Session(mariapersist_engine) as mariapersist_session:
+        account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
+        if account_fast_download_info is None:
+            prefix_b64 = request.args.get('prefix_b64') or ''
+            return redirect(f"/codes?prefix_b64={prefix_b64}", code=302)
+    return codes_page()
+
 @page.get("/codes")
+@page.post("/codes")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def codes_page():
     with engine.connect() as connection:
         prefix_arg = request.args.get('prefix') or ''
         if len(prefix_arg) > 0:
             prefix_b64_redirect = base64.b64encode(prefix_arg.encode()).decode()
-            return redirect(f"/codes?prefix_b64={prefix_b64_redirect}", code=301)
+            return redirect(f"/member_codes?prefix_b64={prefix_b64_redirect}", code=301)
 
         prefix_b64 = request.args.get('prefix_b64') or ''
         try:
@@ -882,21 +903,31 @@ def codes_page():
         """)
 
         exact_matches = []
-        cursor.execute('SELECT aarecord_id FROM aarecords_codes WHERE code = %(prefix)s ORDER BY code, aarecord_id LIMIT 1000', { "prefix": prefix_bytes })
-        for row in cursor.fetchall():
-            aarecord_id = row['aarecord_id'].decode()
-            exact_matches.append({
-                "label": aarecord_id,
-                "link": allthethings.utils.path_for_aarecord_id(aarecord_id),
-            })
+        new_prefixes = []
+        hit_max_exact_matches = False
 
-        # cursor.execute('SELECT CONCAT(%(prefix)s, IF(@r > 0, CHAR(@r USING utf8), "")) AS new_prefix, @r := fn_get_next_codepoint(IF(@r > 0, @r, ORD(" ")), %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
-        cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING binary)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code > %(prefix)s AND code LIKE CONCAT(REPLACE(REPLACE(%(prefix)s, "%%", "\\%%"), "_", "\\_"), "%%") ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r != 0', { "prefix": prefix_bytes })
-        new_prefixes_raw = cursor.fetchall()
-        new_prefixes = [row['new_prefix'] for row in new_prefixes_raw]
+        if prefix_bytes == b'':
+            cursor.execute('SELECT code_prefix FROM aarecords_codes_prefixes')
+            new_prefixes = [row['code_prefix'] + b':' for row in cursor.fetchall()]
+        else:
+            max_exact_matches = 10000
+            cursor.execute('SELECT aarecord_id FROM aarecords_codes WHERE code = %(prefix)s ORDER BY code, aarecord_id LIMIT %(max_exact_matches)s', { "prefix": prefix_bytes, "max_exact_matches": max_exact_matches })
+            for row in cursor.fetchall():
+                aarecord_id = row['aarecord_id'].decode()
+                exact_matches.append({
+                    "label": aarecord_id,
+                    "link": allthethings.utils.path_for_aarecord_id(aarecord_id),
+                })
+            if len(exact_matches) == max_exact_matches:
+                hit_max_exact_matches = True
+
+            # cursor.execute('SELECT CONCAT(%(prefix)s, IF(@r > 0, CHAR(@r USING utf8), "")) AS new_prefix, @r := fn_get_next_codepoint(IF(@r > 0, @r, ORD(" ")), %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
+            cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING binary)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code > %(prefix)s AND code LIKE CONCAT(REPLACE(REPLACE(%(prefix)s, "%%", "\\%%"), "_", "\\_"), "%%") ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 10000) iterator WHERE @r != 0', { "prefix": prefix_bytes })
+            new_prefixes_raw = cursor.fetchall()
+            new_prefixes = [row['new_prefix'] for row in new_prefixes_raw]
+            # print(f"{new_prefixes_raw=}")
+
         prefix_rows = []
-        # print(f"{new_prefixes_raw=}")
-
         for new_prefix in new_prefixes:
             # TODO: more efficient? Though this is not that bad because we don't typically iterate through that many values.
             cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(REPLACE(REPLACE(%(new_prefix)s, "%%", "\\%%"), "_", "\\_"), "%%") ORDER BY code, aarecord_id LIMIT 1', { "new_prefix": new_prefix })
@@ -904,24 +935,27 @@ def codes_page():
             cursor.execute('SELECT code, row_number_order_by_code, dense_rank_order_by_code FROM aarecords_codes WHERE code LIKE CONCAT(REPLACE(REPLACE(%(new_prefix)s, "%%", "\\%%"), "_", "\\_"), "%%") ORDER BY code DESC, aarecord_id DESC LIMIT 1', { "new_prefix": new_prefix })
             last_record = cursor.fetchone()
 
-            if first_record['code'] == last_record['code']:
+            if (first_record['code'] == last_record['code']) and (prefix_bytes != b''):
                 code = first_record["code"]
                 code_label = code.decode(errors='replace')
                 code_b64 = base64.b64encode(code).decode()
                 prefix_rows.append({
                     "label": code_label,
                     "records": last_record["row_number_order_by_code"]-first_record["row_number_order_by_code"]+1,
-                    "link": f'/codes?prefix_b64={code_b64}',
+                    "link": f'/member_codes?prefix_b64={code_b64}',
                 })
             else:
-                longest_prefix = os.path.commonprefix([first_record["code"], last_record["code"]])
+                longest_prefix = new_prefix
+                if prefix_bytes != b'':
+                    longest_prefix = os.path.commonprefix([first_record["code"], last_record["code"]])
                 longest_prefix_label = longest_prefix.decode(errors='replace')
                 longest_prefix_b64 = base64.b64encode(longest_prefix).decode()
                 prefix_rows.append({
                     "label": f'{longest_prefix_label}⋯',
                     "codes": last_record["dense_rank_order_by_code"]-first_record["dense_rank_order_by_code"]+1,
                     "records": last_record["row_number_order_by_code"]-first_record["row_number_order_by_code"]+1,
-                    "link": f'/codes?prefix_b64={longest_prefix_b64}',
+                    "link": f'/member_codes?prefix_b64={longest_prefix_b64}',
+                    "code_item": allthethings.utils.make_code_for_display(longest_prefix_label[:-1], '') if prefix_bytes == b'' else None,
                 })
 
         bad_unicode = False
@@ -930,13 +964,21 @@ def codes_page():
         except:
             bad_unicode = True
 
+        prefix_label = prefix_bytes.decode(errors='replace')
+        code_item = None
+        if ':' in prefix_label:
+            key, value = prefix_label.split(':', 1)
+            code_item = allthethings.utils.make_code_for_display(key, value)
+
         return render_template(
             "page/codes.html",
-            header_active="",
-            prefix_label=prefix_bytes.decode(errors='replace'),
+            header_active="home/codes",
+            prefix_label=prefix_label,
             prefix_rows=prefix_rows,
             exact_matches=exact_matches,
+            hit_max_exact_matches=hit_max_exact_matches,
             bad_unicode=bad_unicode,
+            code_item=code_item,
         )
 
 zlib_book_dict_comments = {
@@ -4157,25 +4199,10 @@ def get_additional_for_aarecord(aarecord):
     additional['codes'] = []
     for key, values in aarecord['file_unified_data'].get('identifiers_unified', {}).items():
         for value in values:
-            masked_isbn = ''
-            if key in ['isbn10', 'isbn13']:
-                masked_isbn = isbnlib.mask(value)
-
-            additional['codes'].append({
-                'key': key,
-                'value': value,
-                'masked_isbn': masked_isbn,
-                'type': 'identifier',
-                'info': allthethings.utils.UNIFIED_IDENTIFIERS.get(key) or {},
-            })
+            additional['codes'].append(allthethings.utils.make_code_for_display(key, value))
     for key, values in aarecord['file_unified_data'].get('classifications_unified', {}).items():
         for value in values:
-            additional['codes'].append({
-                'key': key,
-                'value': value,
-                'type': 'classification',
-                'info': allthethings.utils.UNIFIED_CLASSIFICATIONS.get(key) or {},
-            })
+            additional['codes'].append(allthethings.utils.make_code_for_display(key, value))
     CODES_PRIORITY = ['isbn13', 'isbn10', 'csbn', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin', 'duxiu_ssid', 'cadal_ssno']
     additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100))
 

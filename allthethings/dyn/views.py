@@ -55,8 +55,9 @@ number_of_db_exceptions = 0
 def databases():
     global number_of_db_exceptions
     try:
-        with engine.connect() as conn:
-            conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))
+        # Local MariaDB is not really necessary for most pages.
+        # with engine.connect() as conn:
+        #     conn.execute(text("SELECT 1 FROM zlib_book LIMIT 1"))
         if not allthethings.utils.DOWN_FOR_MAINTENANCE:
             with mariapersist_engine.connect() as mariapersist_conn:
                 mariapersist_conn.execute(text("SELECT 1 FROM mariapersist_downloads_total_by_md5 LIMIT 1"))

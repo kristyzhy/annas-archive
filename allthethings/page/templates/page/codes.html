@@ -3,6 +3,8 @@
 {% block title %}Codes{% endblock %}
 
 {% block body %}
+  {% from 'macros/copy_button.html' import copy_button %}
+
   {% if gettext('common.english_only') != 'Text below continues in English.' %}
     <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
   {% endif %}
@@ -10,10 +12,24 @@
   <div lang="en">
     <h2 class="mt-4 mb-1 text-3xl font-bold">Codes Explorer</h2>
 
-    <form action="/codes" method="get">
+    {% if prefix_label == '' %}
+      <div class="mt-4">
+        Explore the codes that records are tagged with, by prefix. The “records” column shows the number of records tagged with codes with the given prefix, as seen in the search engine (including metadata-only records). The “codes” column shows how many actual codes have a given prefix.
+      </div>
+
+      <div class="mt-4 text-sm text-gray-500">
+        This page can take a while to generate, which is why it requires a Cloudflare captcha. <a href="/donate">Members</a> can skip the captcha.
+      </div>
+
+      <div class="mt-4 pb-2 text-sm text-gray-500">
+        Please do not scrape these pages. Instead we recommend <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generating</a> or <a href="/torrents#aa_derived_mirror_metadata">downloading</a> our ElasticSearch and MariaDB databases, and running our <a href="https://software.annas-archive.gs">open source code</a>. The raw data can be manually explored through JSON files such as <a href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">this</a>.
+      </div>
+    {% endif %}
+
+    <form action="/member_codes" method="get" class="mt-4">
       <input name="prefix" value="{{ prefix_label }}" placeholder="Prefix" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded text-sm">
       <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 text-sm" type="submit">Go</button>
-      <a href="/codes" class="custom-a mr-2 bg-[#777] hover:bg-[#999] text-white py-1 px-3 rounded text-sm">Reset</a>
+      <a href="/member_codes" class="custom-a mr-2 bg-[#777] hover:bg-[#999] text-white py-1 px-3 rounded text-sm">Reset</a>
     </form>
 
     {% if bad_unicode %}
@@ -22,36 +38,83 @@
       </div>
     {% endif %}
 
+    {% if code_item and ((code_item.info | length) > 0) %}
+      <div class="mt-4">
+        <div class="font-bold">Known code prefix “{{ code_item.key }}”</div>
+        <table>
+          <tr class=""><td class="pr-8 py-2">Prefix</td><td><a href="/member_codes?prefix={{ code_item.key }}:">“{{ code_item.key }}”</a></td></tr>
+          <tr class=""><td class="pr-8 py-2">Label </td><td>{{ code_item.info.label }}</td></tr>
+          {% if code_item.info.description %}<tr class=""><td class="pr-8 py-2">Description</td><td class="py-2">{{ code_item.info.description }}</td></tr>{% endif %}
+          {% if code_item.info.url %}
+            {% if '%s' in code_item.info.url %}
+              <tr class=""><td class="pr-8 py-2">URL for a specific code</td><td class="py-2">{{ code_item.info.url }} <div class="text-sm text-gray-500">“%s” gets substituted with the code value</div></td></tr>
+            {% else %}
+              <tr class=""><td class="pr-8 py-2">Generic URL</td><td class="py-2"><a href="{{ code_item.info.url }}" rel="noopener noreferrer nofollow">{{ code_item.info.url }}</a></td></tr>
+            {% endif %}
+          {% endif %}
+          {% if code_item.info.website %}<tr class=""><td class="pr-8 py-2">Website</td><td class="py-2"><a href="{{ code_item.info.website }}" rel="noopener noreferrer nofollow">{{ code_item.info.website }}</a></td></tr>{% endif %}
+        </table>
+      </div>
+    {% endif %}
+
     {% if (exact_matches | length) > 0 %}
       <div class="font-bold mt-4">
-        Records matching “{{ prefix_label }}”
+        {{ exact_matches | length }}{% if hit_max_exact_matches %}+{% endif %} records matching “{{ prefix_label }}”
       </div>
 
       {% for exact_match in exact_matches %}
-        <div>- <a href="{{ exact_match.link }}">{{ exact_match.label }}</a></div>
+        <div>• <a href="{{ exact_match.link }}">{{ exact_match.label }}</a></div>
       {% endfor %}
 
-      <div class="text-sm"><a href='/search?q="{{ prefix_label }}"'>Search Anna’s Archive for “{{ prefix_label }}”</a></div>
+      <div class="text-sm mt-2"><a href='/search?q="{{ prefix_label }}"'>Search Anna’s Archive for “{{ prefix_label }}”</a></div>
+      {% if code_item.info.url and ('%s' in code_item.info.url) %}
+        <div class="text-sm"><a href="{{ code_item.info.url | replace('%s', code_item.value) }}">URL for specific code: “{{ code_item.info.url | replace('%s', code_item.value) }}”</a></div>
+      {% endif %}
     {% endif %}
 
     {% if (prefix_rows | length) > 0 %}
-      <div class="font-bold mt-4">
-        Codes starting with “{{ prefix_label }}”
-      </div>
+      {% if prefix_label != '' %}
+        <div class="font-bold mt-4">
+          Codes starting with “{{ prefix_label }}”
+        </div>
+      {% endif %}
 
       <table>
         <tr>
           <td></td>
+          <td></td>
           <td class="text-sm text-gray-500 px-4">records</td>
           <td class="text-sm text-gray-500 px-4">codes</td>
         </tr>
-        {% for prefix_row in prefix_rows %}
+        {% macro prefix_row_render(prefix_row) %}
           <tr>
-            <td><a href="{{ prefix_row.link }}">{{ prefix_row.label }}</a></td>
-            <td class="text-sm text-gray-500 px-4">{{ prefix_row.records }}</td>
-            <td class="text-sm text-gray-500 px-4">{{ prefix_row.codes or '1' }}</td>
+            <td class="break-all"><a href="{{ prefix_row.link }}">{{ prefix_row.label }}</a></td>
+            <td class="text-sm text-gray-500 pl-4">
+              {% if prefix_row.code_item %}{{ prefix_row.code_item.info.label }}{% endif %}
+            </td>
+            <td class="text-sm text-gray-500 px-4">{{ prefix_row.records | numberformat }}</td>
+            <td class="text-sm text-gray-500 px-4">{{ (prefix_row.codes or 1) | numberformat }}</td>
           </tr>
-        {% endfor %}
+        {% endmacro %}
+
+        {% if prefix_label == '' %}
+          {% for prefix_row in prefix_rows %}
+            {% if prefix_row.records >= 10000 %}
+              {{ prefix_row_render(prefix_row) }}
+            {% endif %}
+          {% endfor %}
+
+          <tr><td colspan="100" class="pt-4 text-sm text-gray-500">Fewer than {{ 10000 | numberformat }} records</td></tr>
+          {% for prefix_row in prefix_rows %}
+            {% if prefix_row.records < 10000 %}
+              {{ prefix_row_render(prefix_row) }}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for prefix_row in prefix_rows %}
+            {{ prefix_row_render(prefix_row) }}
+          {% endfor %}
+        {% endif %}
       </table>
     {% endif %}
   </div>

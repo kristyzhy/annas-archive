@@ -1156,6 +1156,14 @@ def merge_unified_fields(list_of_fields_unified):
                 merged_sets[unified_name].add(value)
     return { unified_name: list(merged_set) for unified_name, merged_set in merged_sets.items() }
 
+def make_code_for_display(key, value):
+    return {
+        'key': key,
+        'value': value,
+        'masked_isbn': isbnlib.mask(value) if ['isbn10', 'isbn13'] and (isbnlib.is_isbn10(value) or isbnlib.is_isbn13(value)) else '',
+        'info': UNIFIED_IDENTIFIERS.get(key) or UNIFIED_CLASSIFICATIONS.get(key) or {},
+    }
+
 SEARCH_INDEX_SHORT_LONG_MAPPING = {
     '': 'aarecords',
     'journals': 'aarecords_journals',

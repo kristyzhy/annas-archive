@@ -223,6 +223,8 @@
 
           {% if g.last_data_refresh_date %}
             <div class="mt-4 mb-2" style="font-size: 90%; color: #555">{{ gettext('page.search.header.update_info', last_data_refresh_date=(g.last_data_refresh_date | dateformat('long')), link_open_tag=('<a href="/datasets">' | safe)) }}</div>
+
+            <div class="mt-4 mb-2" style="font-size: 90%; color: #555">To explore the search index by codes, use the <a href="/member_codes">Codes Explorer</a>.</div>
           {% endif %}
         </div>
       </div>
