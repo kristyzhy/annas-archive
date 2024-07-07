@@ -5351,7 +5351,7 @@ def search_page():
     search_dict['primary_hits_pages'] = primary_hits_pages
     search_dict['pagination_pages_with_dots_large'] = allthethings.utils.build_pagination_pages_with_dots(primary_hits_pages, page_value, True)
     search_dict['pagination_pages_with_dots_small'] = allthethings.utils.build_pagination_pages_with_dots(primary_hits_pages, page_value, False)
-    search_dict['pagination_base_url'] = request.path + '?' + urllib.parse.urlencode([(k,v) for k,v in request.args.items() if k != 'page'] + [('page', '')])
+    search_dict['pagination_base_url'] = request.path + '?' + urllib.parse.urlencode([(k,v) for k,values in request.args.lists() for v in values if k != 'page'] + [('page', '')])
     search_dict['primary_hits_total_obj'] = primary_hits_total_obj
     search_dict['max_display_results'] = max_display_results
     search_dict['search_desc'] = search_desc
