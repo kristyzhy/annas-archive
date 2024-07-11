@@ -8,34 +8,34 @@ To get Anna's Archive running locally:
 
 1. **Initial Setup**
 
-   In a terminal, clone the repository and set up your environment:
-   ```bash
-   git clone https://software.annas-archive.se/AnnaArchivist/annas-archive.git
-   cd annas-archive
-   cp .env.dev .env
-   ```
+  In a terminal, clone the repository and set up your environment:
+  ```bash
+  git clone https://software.annas-archive.se/AnnaArchivist/annas-archive.git
+  cd annas-archive
+  cp .env.dev .env
+  ```
 
 2. **Build and Start the Application**
 
-   Use Docker Compose to build and start the application:
-   ```bash
-   docker compose up --build
-   ```
-   Wait a few minutes for the setup to complete. It's normal to see some errors from the `web` container during the first setup.
+  Use Docker Compose to build and start the application:
+  ```bash
+  docker compose up --build
+  ```
+  Wait a few minutes for the setup to complete. It's normal to see some errors from the `web` container during the first setup.
 
 3. **Database Initialization**
 
-   In a new terminal window, initialize the database:
-   ```bash
-   ./run flask cli dbreset
-   ```
+  In a new terminal window, initialize the database:
+  ```bash
+  ./run flask cli dbreset
+  ```
 
 4. **Restart the Application**
 
-   Once the database is initialized, restart the Docker Compose process, by killing it (CTRL+C) and running:
-   ```bash
-   docker compose up --build
-   ```
+  Once the database is initialized, restart the Docker Compose process, by killing it (CTRL+C) and running:
+  ```bash
+  docker compose up --build
+  ```
 
 5. **Visit Anna's Archive**
 
@@ -64,11 +64,18 @@ To get Anna's Archive running locally:
 Anna’s Archive is built on a scalable architecture designed to support a large volume of data and users:
 
 - **Web Servers:** One or more servers handling web requests, with heavy caching (e.g., Cloudflare) to optimize performance.
-- **Database Servers:** 
-  - MariaDB for read-only data with MyISAM tables ("mariadb").
-  - A separate MariaDB instance for read/write operations ("mariapersist").
-  - A persistent data replica ("mariapersistreplica") for backups and redundancy.
+- **Database Servers:**
+  - Critical for basic operation:
+    - 2 ElasticSearch servers "elasticsearch" (main) and "elasticsearchaux" (journal papers, digital lending, and metadata). Split out into two so the full index of "elasticsearch" can be easily forced into memory with `vmtouch` for performance.
+  - Currently required for basic operation, but in the future only necessary for generating the search index:
+    - MariaDB for read-only data with MyISAM tables ("mariadb")
+    - Static read-only files in AAC (Anna’s Archive Container) format, with accompanying index tables (with byte offsets) in MariaDB.
+  - Currently required for basic operation, but in the future only necessary for user accounts and other persistence:
+    - A separate MariaDB instance for read/write operations ("mariapersist").
+    - A persistent data replica ("mariapersistreplica") for backups and redundancy.
 - **Caching and Proxy Servers:** Recommended setup includes proxy servers (e.g., nginx) in front of the web servers for added control and security (DMCA notices).
+
+In our setup, the web and database servers are duplicated multiple times on different servers, with the exception of "mariapersist" which is shared between all servers. The ElasticSearch main server (or both servers) can also be run separately on optimized hardware, since search speed is usually a bottleneck.
 
 ## Importing Data
 

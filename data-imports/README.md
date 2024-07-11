@@ -1,9 +1,9 @@
 Importing the data has been mostly automated, but it's still advisable to run the individual scripts yourself. It can take several days to run everything, but we also support only updating part of the data.
 
 Roughly the steps are:
-- (optional) make a copy of the existing MySQL database, if you want to keep existing data.
+- (optional) make a copy of the existing MariaDB database, if you want to keep existing data.
 - Download new data.
-- Import data into MySQL.
+- Import data into MariaDB.
 - Generate derived data (mostly ElasticSearch).
 - Swap out the new data in production.
 
@@ -21,7 +21,7 @@ chown 1000 ../../aa-data-import--allthethings-elastic-data
 mkdir ../../aa-data-import--allthethings-elasticsearchaux-data
 chown 1000 ../../aa-data-import--allthethings-elasticsearchaux-data
 
-# Run this you want to start off with the existing MySQL data, e.g. if you only want to run a subset of the scripts.
+# Run this you want to start off with the existing MariaDB data, e.g. if you only want to run a subset of the scripts.
 sudo rsync -av --append ../../allthethings-mysql-data/ ../../aa-data-import--allthethings-mysql-data/
 
 # You might need to adjust the size of ElasticSearch's heap size, by changing `ES_JAVA_OPTS` in `data-imports/docker-compose.yml`.
@@ -42,15 +42,15 @@ docker exec -it aa-data-import--web /scripts/download_openlib.sh # Can be skippe
 docker exec -it aa-data-import--web /scripts/download_pilimi_isbndb.sh # Can be skipped when using aa_derived_mirror_metadata.
 docker exec -it aa-data-import--web /scripts/download_pilimi_zlib.sh # Can be skipped when using aa_derived_mirror_metadata.
 docker exec -it aa-data-import--web /scripts/download_aa_various.sh # Can be skipped when using aa_derived_mirror_metadata.
-docker exec -it aa-data-import--web /scripts/download_aac_duxiu_files.sh
-docker exec -it aa-data-import--web /scripts/download_aac_duxiu_records.sh
-docker exec -it aa-data-import--web /scripts/download_aac_ia2_acsmpdf_files.sh
-docker exec -it aa-data-import--web /scripts/download_aac_ia2_records.sh
-docker exec -it aa-data-import--web /scripts/download_aac_upload_files.sh
-docker exec -it aa-data-import--web /scripts/download_aac_upload_records.sh
-docker exec -it aa-data-import--web /scripts/download_aac_worldcat.sh
-docker exec -it aa-data-import--web /scripts/download_aac_zlib3_files.sh
-docker exec -it aa-data-import--web /scripts/download_aac_zlib3_records.sh
+docker exec -it aa-data-import--web /scripts/download_aac_duxiu_files.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/download_aac_duxiu_records.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/download_aac_ia2_acsmpdf_files.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/download_aac_ia2_records.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/download_aac_upload_files.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/download_aac_upload_records.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/download_aac_worldcat.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/download_aac_zlib3_files.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/download_aac_zlib3_records.sh # CANNOT BE SKIPPED
 
 # Load the data.
 docker exec -it aa-data-import--web /scripts/load_libgenli.sh # Can be skipped when using aa_derived_mirror_metadata.
@@ -59,40 +59,44 @@ docker exec -it aa-data-import--web /scripts/load_openlib.sh # Can be skipped wh
 docker exec -it aa-data-import--web /scripts/load_pilimi_isbndb.sh # Can be skipped when using aa_derived_mirror_metadata.
 docker exec -it aa-data-import--web /scripts/load_pilimi_zlib.sh # Can be skipped when using aa_derived_mirror_metadata.
 docker exec -it aa-data-import--web /scripts/load_aa_various.sh # Can be skipped when using aa_derived_mirror_metadata.
-docker exec -it aa-data-import--web /scripts/load_aac_duxiu_files.sh
-docker exec -it aa-data-import--web /scripts/load_aac_duxiu_records.sh
-docker exec -it aa-data-import--web /scripts/load_aac_ia2_acsmpdf_files.sh
-docker exec -it aa-data-import--web /scripts/load_aac_ia2_records.sh
-docker exec -it aa-data-import--web /scripts/load_aac_upload_files.sh
-docker exec -it aa-data-import--web /scripts/load_aac_upload_records.sh
-docker exec -it aa-data-import--web /scripts/load_aac_worldcat.sh
-docker exec -it aa-data-import--web /scripts/load_aac_zlib3_files.sh
-docker exec -it aa-data-import--web /scripts/load_aac_zlib3_records.sh
+docker exec -it aa-data-import--web /scripts/load_aac_duxiu_files.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/load_aac_duxiu_records.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/load_aac_ia2_acsmpdf_files.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/load_aac_ia2_records.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/load_aac_upload_files.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/load_aac_upload_records.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/load_aac_worldcat.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/load_aac_zlib3_files.sh # CANNOT BE SKIPPED
+docker exec -it aa-data-import--web /scripts/load_aac_zlib3_records.sh # CANNOT BE SKIPPED
 
-# If you ever want to see what is going on in MySQL as these scripts run:
-docker exec -it aa-data-import--web mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SHOW PROCESSLIST;'
+# Index AAC files.
+docker exec -it aa-data-import--web /scripts/decompress_aac_files.sh # OPTIONAL: only run this if you have enough disk space and want to speed up calculating derived data. The decompressed files are not recommended to keep for use in production (waste of space).
+docker exec -it aa-data-import--web flask cli mysql_reset_aac_tables # OPTIONAL: mysql_build_aac_tables will recreate tables as necessary, but this can be useful if you suspect data corruption.
+docker exec -it aa-data-import--web flask cli mysql_build_aac_tables # RECOMMENDED even when using aa_derived_mirror_metadata, in case new AAC files have been loaded since the data of aa_derived_mirror_metadata was generated. AAC files that are the same will automatically be skipped.
+
+# To manually keep an eye on things, run SHOW PROCESSLIST; in a MariaDB prompt:
+docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -ppassword allthethings
 
 # First sanity check to make sure the right tables exist.
 docker exec -it aa-data-import--web /scripts/check_after_imports.sh
 
 # Sanity check to make sure the tables are filled.
-docker exec -it aa-data-import--mariadb mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1000 / 1000 / 1000), 2) AS "Size (GB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
-# To manually keep an eye on things, run SHOW PROCESSLIST; in a MariaDB prompt:
-docker exec -it aa-data-import--mariadb mariadb -h aa-data-import--mariadb -u root -ppassword allthethings
+docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1000 / 1000 / 1000), 2) AS "Size (GB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
 
 # Calculate derived data:
-docker exec -it aa-data-import--web flask cli mysql_reset_aac_tables # Can be skipped when using aa_derived_mirror_metadata. Only necessary for full reset.
-docker exec -it aa-data-import--web flask cli mysql_build_aac_tables
 docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s # Can be skipped when using aa_derived_mirror_metadata.
 docker exec -it aa-data-import--web flask cli elastic_reset_aarecords # Can be skipped when using aa_derived_mirror_metadata. Only necessary for full reset.
 docker exec -it aa-data-import--web flask cli elastic_build_aarecords_all # Can be skipped when using aa_derived_mirror_metadata. Only necessary for full reset; see the code for incrementally rebuilding only part of the index.
 docker exec -it aa-data-import--web flask cli elastic_build_aarecords_forcemerge # Can be skipped when using aa_derived_mirror_metadata.
 docker exec -it aa-data-import--web flask cli mysql_build_aarecords_codes_numbers # Can be skipped when using aa_derived_mirror_metadata. Only run this when doing full reset.
 
+# Gracefully shut down MariaDB
+docker exec -it aa-data-import--web /scripts/mariadb_graceful_shutdown.sh
+
 # Make sure to fully stop the databases, so we can move some files around.
 docker compose down
 
-# Quickly swap out the new MySQL+ES folders in a production setting.
+# Quickly swap out the new MariaDB+ES folders in a production setting.
 cd ..
 docker compose stop mariadb elasticsearch elasticsearchaux kibana web
 export NOW=$(date +"%Y_%m_%d_%H_%M")
