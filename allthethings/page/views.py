@@ -4593,7 +4593,11 @@ def get_additional_for_aarecord(aarecord):
             partner_path = f"u/ia/annas-archive-ia-2023-06-lcpdf/{directory}/{ia_id}.{extension}"
             additional['torrent_paths'].append({ "collection": "ia", "torrent_path": f"managed_by_aa/ia/annas-archive-ia-lcpdf-{directory}.tar.torrent", "file_level1": f"annas-archive-ia-lcpdf-{directory}.tar", "file_level2": f"{ia_id}.{extension}" })
         elif ia_file_type == 'ia2_acsmpdf':
-            partner_path = make_temp_anon_aac_path("i/ia2_acsmpdf_files", aarecord['ia_record']['aa_ia_file']['aacid'], aarecord['ia_record']['aa_ia_file']['data_folder'])
+            server = 'i'
+            date = aarecord['ia_record']['aa_ia_file']['data_folder'].split('__')[3][0:8]            
+            if date in ['20240701', '20240702']:
+                server = 'o'
+            partner_path = make_temp_anon_aac_path(f"{server}/ia2_acsmpdf_files", aarecord['ia_record']['aa_ia_file']['aacid'], aarecord['ia_record']['aa_ia_file']['data_folder'])
             additional['torrent_paths'].append({ "collection": "ia", "torrent_path": f"managed_by_aa/annas_archive_data__aacid/{aarecord['ia_record']['aa_ia_file']['data_folder']}.torrent", "file_level1": aarecord['ia_record']['aa_ia_file']['aacid'], "file_level2": "" })
         else:
             raise Exception(f"Unknown ia_record file type: {ia_file_type}")
@@ -4615,9 +4619,7 @@ def get_additional_for_aarecord(aarecord):
                 server = 'w'
             else:
                 raise Exception(f"Warning: Unknown duxiu range: {data_folder=}")
-
-        date = data_folder.split('__')[3][0:8]
-        partner_path = f"{server}/duxiu_files/{date}/{data_folder}/{aarecord['duxiu']['duxiu_file']['aacid']}"
+        partner_path = make_temp_anon_aac_path(f"{server}/duxiu_files", aarecord['duxiu']['duxiu_file']['aacid'], data_folder)
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if (aarecord.get('aac_upload') is not None) and (len(aarecord['aac_upload']['files']) > 0):
         for aac_upload_file in aarecord['aac_upload']['files']:
@@ -4626,7 +4628,7 @@ def get_additional_for_aarecord(aarecord):
             if 'upload_files_misc' in aac_upload_file['data_folder']:
                 server = 'w'
             data_folder_split = aac_upload_file['data_folder'].split('__')
-            directory = f"{data_folder_split[2]}_{data_folder_split[3][0:8]}"
+            directory = f"{data_folder_split[2]}_{data_folder_split[3][0:8]}" # Different than make_temp_anon_aac_path!
             partner_path = f"{server}/upload_files/{directory}/{aac_upload_file['data_folder']}/{aac_upload_file['aacid']}"
             add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('lgrsnf_book') is not None:
