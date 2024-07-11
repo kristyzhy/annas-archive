@@ -8,9 +8,5 @@ set -Eeuxo pipefail
 
 cd /temp-dir/aac_ia2_records
 
-# TODO: make these files always seekable in torrent.
-unzstd --keep annas_archive_meta__aacid__ia2_records__20240126T065114Z--20240126T070601Z.jsonl.zst
-t2sz annas_archive_meta__aacid__ia2_records__20240126T065114Z--20240126T070601Z.jsonl -l 2 -s 50M -T 32 -o annas_archive_meta__aacid__ia2_records__20240126T065114Z--20240126T070601Z.jsonl.seekable.zst
-
-rm -f /file-data/annas_archive_meta__aacid__ia2_records__20240126T065114Z--20240126T070601Z.jsonl.seekable.zst
-mv annas_archive_meta__aacid__ia2_records__20240126T065114Z--20240126T070601Z.jsonl.seekable.zst /file-data/annas_archive_meta__aacid__ia2_records__20240126T065114Z--20240126T070601Z.jsonl.seekable.zst
+rm -f /file-data/annas_archive_meta__aacid__ia2_records*
+mv annas_archive_meta__aacid__ia2_records*.jsonl.seekable.zst /file-data/

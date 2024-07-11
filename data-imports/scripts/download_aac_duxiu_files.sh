@@ -13,4 +13,4 @@ cd /temp-dir/aac_duxiu_files
 curl -C - -O https://annas-archive.gs/dyn/torrents/latest_aac_meta/duxiu_files.torrent
 
 # Tried ctorrent and aria2, but webtorrent seems to work best overall.
-webtorrent download duxiu_files.torrent
+webtorrent --verbose download duxiu_files.torrent

@@ -46,6 +46,8 @@ docker exec -it aa-data-import--web /scripts/download_aac_duxiu_files.sh
 docker exec -it aa-data-import--web /scripts/download_aac_duxiu_records.sh
 docker exec -it aa-data-import--web /scripts/download_aac_ia2_acsmpdf_files.sh
 docker exec -it aa-data-import--web /scripts/download_aac_ia2_records.sh
+docker exec -it aa-data-import--web /scripts/download_aac_upload_files.sh
+docker exec -it aa-data-import--web /scripts/download_aac_upload_records.sh
 docker exec -it aa-data-import--web /scripts/download_aac_worldcat.sh
 docker exec -it aa-data-import--web /scripts/download_aac_zlib3_files.sh
 docker exec -it aa-data-import--web /scripts/download_aac_zlib3_records.sh
@@ -61,6 +63,8 @@ docker exec -it aa-data-import--web /scripts/load_aac_duxiu_files.sh
 docker exec -it aa-data-import--web /scripts/load_aac_duxiu_records.sh
 docker exec -it aa-data-import--web /scripts/load_aac_ia2_acsmpdf_files.sh
 docker exec -it aa-data-import--web /scripts/load_aac_ia2_records.sh
+docker exec -it aa-data-import--web /scripts/load_aac_upload_files.sh
+docker exec -it aa-data-import--web /scripts/load_aac_upload_records.sh
 docker exec -it aa-data-import--web /scripts/load_aac_worldcat.sh
 docker exec -it aa-data-import--web /scripts/load_aac_zlib3_files.sh
 docker exec -it aa-data-import--web /scripts/load_aac_zlib3_records.sh

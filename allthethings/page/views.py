@@ -1045,6 +1045,7 @@ def get_zlib_book_dicts(session, key, values):
         if zlib_book_dict['md5_reported'] is not None:
             allthethings.utils.add_identifier_unified(zlib_book_dict, 'md5', zlib_book_dict['md5_reported'])
         allthethings.utils.add_isbns_unified(zlib_book_dict, [record.isbn for record in zlib_book.isbns])
+        allthethings.utils.add_isbns_unified(zlib_book_dict, isbnlib.get_isbnlike(zlib_book_dict['description'] , 'normal'))
 
         zlib_book_dicts.append(add_comments_to_dict(zlib_book_dict, zlib_book_dict_comments))
     return zlib_book_dicts
@@ -1138,6 +1139,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
         if aac_zlib3_book_dict['md5_reported'] is not None:
             allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'md5', aac_zlib3_book_dict['md5_reported'])
         allthethings.utils.add_isbns_unified(aac_zlib3_book_dict, aac_zlib3_book_dict['isbns'])
+        allthethings.utils.add_isbns_unified(aac_zlib3_book_dict, isbnlib.get_isbnlike(aac_zlib3_book_dict['description'] , 'normal'))
 
         aac_zlib3_book_dict['raw_aac'] = raw_aac_zlib3_books_by_primary_id[str(aac_zlib3_book_dict['zlibrary_id'])]
 
@@ -1342,6 +1344,7 @@ def get_ia_record_dicts(session, key, values):
             elif urn.startswith('urn:isbn:'):
                 isbns.append(urn[len('urn:isbn:'):])
         allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], isbns)
+        allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], isbnlib.get_isbnlike('\n'.join([ia_record_dict['ia_id'], ia_record_dict['aa_ia_derived']['stripped_description_and_references']] + ia_record_dict['aa_ia_derived']['combined_comments']) , 'normal'))
 
         aa_ia_derived_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
@@ -1727,7 +1730,7 @@ def get_lgrsnf_book_dicts(session, key, values):
     lgrs_book_dicts = []
     for lgrsnf_book in lgrsnf_books:
         lgrs_book_dict = dict((k.lower(), v) for k,v in dict(lgrsnf_book).items())
-        lgrs_book_dict['stripped_description'] = strip_description(lgrs_book_dict.get('descr') or '')
+        lgrs_book_dict['stripped_description'] = strip_description('\n\n'.join(filter(len, list(dict.fromkeys([lgrs_book_dict.get('descr') or '', lgrs_book_dict.get('toc') or ''])))))
         lgrs_book_dict['language_codes'] = get_bcp47_lang_codes(lgrs_book_dict.get('language') or '')
         lgrs_book_dict['cover_url_normalized'] = f"https://libgen.rs/covers/{lgrs_book_dict['coverurl']}" if len(lgrs_book_dict.get('coverurl') or '') > 0 else ''
 
@@ -1750,11 +1753,11 @@ def get_lgrsnf_book_dicts(session, key, values):
             edition_varia_normalized.append(lgrs_book_dict['year'].strip())
         lgrs_book_dict['edition_varia_normalized'] = ', '.join(edition_varia_normalized)
 
-
         allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsnf', lgrs_book_dict['id'])
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'])
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsnf_book.Identifier.split(",") + lgrsnf_book.IdentifierWODash.split(","))
+        allthethings.utils.add_isbns_unified(lgrs_book_dict, isbnlib.get_isbnlike('\n'.join([lgrs_book_dict.get('descr') or '', lgrs_book_dict.get('locator') or '', lgrs_book_dict.get('toc') or '']), 'normal'))
         allthethings.utils.add_classification_unified(lgrs_book_dict, 'lgrsnf_topic', lgrs_book_dict.get('topic_descr') or '')
         for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
             if name in lgrs_book_dict:
@@ -1820,6 +1823,7 @@ def get_lgrsfic_book_dicts(session, key, values):
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsfic', lgrs_book_dict['id'])
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'])
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsfic_book.Identifier.split(","))
+        allthethings.utils.add_isbns_unified(lgrs_book_dict, isbnlib.get_isbnlike('\n'.join([lgrs_book_dict.get('descr') or '', lgrs_book_dict.get('locator') or '']), 'normal'))
         for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
             if name in lgrs_book_dict:
                 allthethings.utils.add_identifier_unified(lgrs_book_dict, unified_name, lgrs_book_dict[name])
@@ -2051,6 +2055,7 @@ def get_lgli_file_dicts(session, key, values):
                     for value in values:
                         allthethings.utils.add_classification_unified(edition_dict, allthethings.utils.LGLI_CLASSIFICATIONS_MAPPING.get(key, key), value)
             allthethings.utils.add_isbns_unified(edition_dict, edition_dict['descriptions_mapped'].get('isbn') or [])
+            allthethings.utils.add_isbns_unified(edition_dict, isbnlib.get_isbnlike('\n'.join(edition_dict['descriptions_mapped'].get('description') or []), 'normal'))
 
             edition_dict['stripped_description'] = ''
             if len(edition_dict['descriptions_mapped'].get('description') or []) > 0:
@@ -2111,6 +2116,7 @@ def get_lgli_file_dicts(session, key, values):
         allthethings.utils.init_identifiers_and_classification_unified(lgli_file_dict)
         allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli', lgli_file_dict['f_id'])
         allthethings.utils.add_identifier_unified(lgli_file_dict, 'md5', lgli_file_dict['md5'])
+        allthethings.utils.add_isbns_unified(lgli_file_dict, isbnlib.get_isbnlike(lgli_file_dict['locator'], 'normal'))
         lgli_file_dict['scimag_archive_path_decoded'] = urllib.parse.unquote(lgli_file_dict['scimag_archive_path'].replace('\\', '/'))
         potential_doi_scimag_archive_path = lgli_file_dict['scimag_archive_path_decoded']
         if potential_doi_scimag_archive_path.endswith('.pdf'):
@@ -2659,10 +2665,14 @@ def get_duxiu_dicts(session, key, values):
             if 'SS号' in new_aac_record["metadata"]["record"]["aa_derived_ini_values"]:
                 new_aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"] = new_aac_record["metadata"]["record"]["aa_derived_ini_values"]["SS号"][0]["value"]
             else:
-                ssid_filename_match = re.search(r'(?:^|\D)(\d{8})(?:\D|$)', new_aac_record['metadata']['record']['filename_decoded'])
-                if ssid_filename_match is not None:
-                    # TODO: Only duxiu_ssid here? Or also CADAL?
-                    new_aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"] = ssid_filename_match[1]
+                # TODO: Only duxiu_ssid here? Or also CADAL?
+                ssid_dir = allthethings.utils.extract_ssid_or_ssno_from_filepath(new_aac_record['metadata']['record']['pdg_dir_name'])
+                if ssid_dir is not None:
+                    new_aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"] = ssid_dir
+                else:
+                    ssid_filename = allthethings.utils.extract_ssid_or_ssno_from_filepath(new_aac_record['metadata']['record']['filename_decoded'])
+                    if ssid_filename is not None:
+                        new_aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"] = ssid_filename
 
         aac_records_by_primary_id[new_aac_record['primary_id']][new_aac_record['aacid']] = new_aac_record
 
@@ -2762,7 +2772,7 @@ def get_duxiu_dicts(session, key, values):
             if aac_record['metadata']['type'] == 'dx_20240122__books':
                 # 512w_final_csv has a bunch of incorrect records from dx_20240122__books deleted, so skip these entirely.
                 # if len(aac_record['metadata']['record'].get('source') or '') > 0:
-                #     duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['dx_20240122__books', aac_record['metadata']['record']['source']])
+                #     duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"dx_20240122__books: {aac_record['metadata']['record']['source']}")
                 pass
             elif aac_record['metadata']['type'] in ['512w_final_csv', 'DX_corrections240209_csv']:
                 if aac_record['metadata']['type'] == '512w_final_csv' and any([record['metadata']['type'] == 'DX_corrections240209_csv' for record in aac_records.values()]):
@@ -2804,7 +2814,7 @@ def get_duxiu_dicts(session, key, values):
                             raise Exception(f"Unknown type of duxiu 512w_final_csv isbn_type {identifier_type=}")
             elif aac_record['metadata']['type'] == 'dx_20240122__remote_files':
                 if len(aac_record['metadata']['record'].get('source') or '') > 0:
-                    duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['dx_20240122__remote_files', aac_record['metadata']['record']['source']])
+                    duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"dx_20240122__remote_files: {aac_record['metadata']['record']['source']}")
                 if len(aac_record['metadata']['record'].get('dx_id') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['dxid_multiple'].append(aac_record['metadata']['record']['dx_id'])
                 if len(aac_record['metadata']['record'].get('md5') or '') > 0:
@@ -2939,7 +2949,7 @@ def get_duxiu_dicts(session, key, values):
                             'pdg_broken_files_len': len(aac_record['metadata']['record']['pdg_broken_files']),
                         })
 
-                duxiu_dict['aa_duxiu_derived']['source_multiple'].append(['aa_catalog_files'])
+                duxiu_dict['aa_duxiu_derived']['source_multiple'].append("aa_catalog_files")
 
                 aa_derived_ini_values = aac_record['metadata']['record']['aa_derived_ini_values']
                 for aa_derived_ini_values_list in aa_derived_ini_values.values():
@@ -2995,6 +3005,7 @@ def get_duxiu_dicts(session, key, values):
 
         allthethings.utils.init_identifiers_and_classification_unified(duxiu_dict['aa_duxiu_derived'])
         allthethings.utils.add_isbns_unified(duxiu_dict['aa_duxiu_derived'], duxiu_dict['aa_duxiu_derived']['isbn_multiple'])
+        allthethings.utils.add_isbns_unified(duxiu_dict['aa_duxiu_derived'], isbnlib.get_isbnlike('\n'.join(duxiu_dict['aa_duxiu_derived']['filepath_multiple'] + duxiu_dict['aa_duxiu_derived']['description_cumulative'] + duxiu_dict['aa_duxiu_derived']['comments_cumulative']) , 'normal'))
         for duxiu_ssid in duxiu_dict['aa_duxiu_derived']['duxiu_ssid_multiple']:
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'duxiu_ssid', duxiu_ssid)
         for cadal_ssno in duxiu_dict['aa_duxiu_derived']['cadal_ssno_multiple']:
@@ -3036,8 +3047,8 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict['aa_duxiu_derived']['description_best'] = '\n\n'.join(list(dict.fromkeys(duxiu_dict['aa_duxiu_derived']['description_cumulative'])))
         duxiu_dict['aa_duxiu_derived']['combined_comments'] = list(dict.fromkeys(filter(len, duxiu_dict['aa_duxiu_derived']['comments_cumulative'] + [
             # TODO: pass through comments metadata in a structured way so we can add proper translations.
-            f"sources: {duxiu_dict['aa_duxiu_derived']['source_multiple']}" if len(duxiu_dict['aa_duxiu_derived']['source_multiple']) > 0 else "",
-            f"original file paths: {duxiu_dict['aa_duxiu_derived']['filepath_multiple']}" if len(duxiu_dict['aa_duxiu_derived']['filepath_multiple']) > 0 else "",
+            f"sources: {' ; '.join(sort_by_length_and_filter_subsequences_with_longest_string(duxiu_dict['aa_duxiu_derived']['source_multiple']))}" if len(duxiu_dict['aa_duxiu_derived']['source_multiple']) > 0 else "",
+            f"original file paths: {' ; '.join(sort_by_length_and_filter_subsequences_with_longest_string(duxiu_dict['aa_duxiu_derived']['filepath_multiple']))}" if len(duxiu_dict['aa_duxiu_derived']['filepath_multiple']) > 0 else "",
         ])))
         duxiu_dict['aa_duxiu_derived']['edition_varia_normalized'] = ', '.join(list(dict.fromkeys(filter(len, [
             next(iter(duxiu_dict['aa_duxiu_derived']['series_multiple']), ''),
@@ -3129,6 +3140,235 @@ def duxiu_md5_json(md5):
         if len(duxiu_dicts) == 0:
             return "{}", 404
         return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
+
+def upload_book_exiftool_append(newlist, record, fieldname):
+    field = (record['metadata'].get('exiftool_output') or {}).get(fieldname)
+    if field is None:
+        pass
+    elif isinstance(field, str):
+        field = field.strip()
+        if len(field) > 0:
+            newlist.append(field)
+    elif isinstance(field, int) or isinstance(field, float):
+        newlist.append(str(field))
+    elif isinstance(field, list):
+        field = ",".join([str(item).strip() for item in field])
+        if len(field) > 0:
+            newlist.append(field)
+    else:
+        raise Exception(f"Unexpected field in upload_book_exiftool_append: {record=} {fieldname=} {field=}")
+
+def get_aac_upload_book_dicts(session, key, values):
+    if len(values) == 0:
+        return []
+    if key == 'md5':
+        aac_key = 'annas_archive_meta__aacid__upload_records.md5'
+    else:
+        raise Exception(f"Unexpected 'key' in get_aac_upload_book_dicts: '{key}'")
+    
+    aac_upload_book_dicts_raw = []
+    try:
+        session.connection().connection.ping(reconnect=True)
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(f'SELECT annas_archive_meta__aacid__upload_records.byte_offset AS record_byte_offset, annas_archive_meta__aacid__upload_records.byte_length AS record_byte_length, annas_archive_meta__aacid__upload_files.byte_offset AS file_byte_offset, annas_archive_meta__aacid__upload_files.byte_length AS file_byte_length, annas_archive_meta__aacid__upload_records.md5 AS md5 FROM annas_archive_meta__aacid__upload_records LEFT JOIN annas_archive_meta__aacid__upload_files ON (annas_archive_meta__aacid__upload_records.md5 = annas_archive_meta__aacid__upload_files.primary_id) WHERE {aac_key} IN %(values)s', { "values": [str(value) for value in values] })
+    
+        upload_records_indexes = []
+        upload_records_offsets_and_lengths = []
+        upload_files_indexes = []
+        upload_files_offsets_and_lengths = []
+        records_by_md5 = collections.defaultdict(dict)
+        files_by_md5 = collections.defaultdict(dict)
+        for row_index, row in enumerate(cursor.fetchall()):
+            upload_records_indexes.append(row_index)
+            upload_records_offsets_and_lengths.append((row['record_byte_offset'], row['record_byte_length']))
+            if row.get('file_byte_offset') is not None:
+                upload_files_indexes.append(row_index)
+                upload_files_offsets_and_lengths.append((row['file_byte_offset'], row['file_byte_length']))
+        for index, line_bytes in enumerate(allthethings.utils.get_lines_from_aac_file(cursor, 'upload_records', upload_records_offsets_and_lengths)):
+            record = orjson.loads(line_bytes)
+            records_by_md5[record['metadata']['md5']][record['aacid']] = record
+        for index, line_bytes in enumerate(allthethings.utils.get_lines_from_aac_file(cursor, 'upload_files', upload_files_offsets_and_lengths)):
+            file = orjson.loads(line_bytes)
+            files_by_md5[file['metadata']['md5']][file['aacid']] = file
+        for md5 in set(list(records_by_md5.keys()) + list(files_by_md5.keys())):
+            aac_upload_book_dicts_raw.append({
+                "md5": md5,
+                "records": list(records_by_md5[md5].values()),
+                "files": list(files_by_md5[md5].values()),
+            })
+    except Exception as err:
+        print(f"Error in get_aac_upload_book_dicts_raw when querying {key}; {values}")
+        print(repr(err))
+        traceback.print_tb(err.__traceback__)
+
+    aac_upload_book_dicts = []
+    for aac_upload_book_dict_raw in aac_upload_book_dicts_raw:
+        aac_upload_book_dict = {
+            "md5": aac_upload_book_dict_raw['md5'],
+            "aa_upload_derived": {},
+            "records": aac_upload_book_dict_raw['records'],
+            "files": aac_upload_book_dict_raw['files'],
+        }
+        aac_upload_book_dict['aa_upload_derived']['subcollection_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['filename_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['filesize_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['extension_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['title_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['author_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['publisher_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['pages_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['source_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['producer_multiple'] = []
+        aac_upload_book_dict['aa_upload_derived']['description_cumulative'] = []
+        aac_upload_book_dict['aa_upload_derived']['comments_cumulative'] = []
+        aac_upload_book_dict['aa_upload_derived']['language_codes'] = []
+        aac_upload_book_dict['aa_upload_derived']['problems_infos'] = []
+        aac_upload_book_dict['aa_upload_derived']['content_type'] = ''
+        aac_upload_book_dict['aa_upload_derived']['added_date_unified'] = {}
+        allthethings.utils.init_identifiers_and_classification_unified(aac_upload_book_dict['aa_upload_derived'])
+
+        for record in aac_upload_book_dict['records']:
+            subcollection = record['aacid'].split('__')[1].replace('upload_records_', '')
+            aac_upload_book_dict['aa_upload_derived']['subcollection_multiple'].append(subcollection)
+            aac_upload_book_dict['aa_upload_derived']['filename_multiple'].append(f"{subcollection}/{record['metadata']['filepath']}")
+            aac_upload_book_dict['aa_upload_derived']['filesize_multiple'].append(int(record['metadata']['filesize']))
+
+            if '.' in record['metadata']['filepath']:
+                extension = record['metadata']['filepath'].rsplit('.', 1)[-1]
+                if (len(extension) <= 4) and (extension not in ['bin']):
+                    aac_upload_book_dict['aa_upload_derived']['extension_multiple'].append(extension)
+            # Note that exiftool detects comic books as zip, so actual filename extension is still preferable in most cases.
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['extension_multiple'], record, 'FileTypeExtension')
+
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['title_multiple'], record, 'Title')
+            if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Title') or '').strip()) > 0:
+                aac_upload_book_dict['aa_upload_derived']['title_multiple'].append(record['metadata']['pikepdf_docinfo']['/Title'].strip())
+
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['author_multiple'], record, 'Author')
+            if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Author') or '').strip()) > 0:
+                aac_upload_book_dict['aa_upload_derived']['author_multiple'].append(record['metadata']['pikepdf_docinfo']['/Author'].strip())
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['author_multiple'], record, 'Creator')
+
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['publisher_multiple'], record, 'Publisher')
+            if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Publisher') or '').strip()) > 0:
+                aac_upload_book_dict['aa_upload_derived']['publisher_multiple'].append(record['metadata']['pikepdf_docinfo']['/Publisher'].strip())
+
+            if (record['metadata'].get('total_pages') or 0) > 0:
+                aac_upload_book_dict['aa_upload_derived']['pages_multiple'].append(str(record['metadata']['total_pages']))
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['pages_multiple'], record, 'PageCount')
+
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['description_cumulative'], record, 'Description')
+            if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Description') or '').strip()) > 0:
+                aac_upload_book_dict['aa_upload_derived']['description_cumulative'].append(record['metadata']['pikepdf_docinfo']['/Description'].strip())
+            if len((record['metadata'].get('pdftoc_output2_stdout') or '')) > 0:
+                aac_upload_book_dict['aa_upload_derived']['description_cumulative'].append(record['metadata']['pdftoc_output2_stdout'].strip())
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['description_cumulative'], record, 'Keywords')
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['description_cumulative'], record, 'Subject')
+
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['source_multiple'], record, 'Source')
+
+            upload_book_exiftool_append(aac_upload_book_dict['aa_upload_derived']['producer_multiple'], record, 'Producer')
+
+            if record['metadata'].get('exiftool_failed') or False:
+                aac_upload_book_dict['aa_upload_derived']['problems_infos'].append({
+                    'upload_problem_type': 'exiftool_failed',
+                })
+
+            potential_languages = []
+            upload_book_exiftool_append(potential_languages, record, 'Language')
+            upload_book_exiftool_append(potential_languages, record, 'Languages')
+            if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Language') or '').strip()) > 0:
+                potential_languages.append(record['metadata']['pikepdf_docinfo']['/Language'] or '')
+            if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Languages') or '').strip()) > 0:
+                potential_languages.append(record['metadata']['pikepdf_docinfo']['/Languages'] or '')
+            if 'japanese_manga' in subcollection:
+                potential_languages.append('Japanese')
+            if len(potential_languages) > 0:
+                aac_upload_book_dict['aa_upload_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(language) for language in potential_languages])
+
+            if len(str((record['metadata'].get('exiftool_output') or {}).get('Identifier') or '').strip()) > 0:
+                allthethings.utils.add_isbns_unified(aac_upload_book_dict['aa_upload_derived'], isbnlib.get_isbnlike(str(record['metadata']['exiftool_output']['Identifier'] or ''), 'normal'))
+            allthethings.utils.add_isbns_unified(aac_upload_book_dict['aa_upload_derived'], isbnlib.get_isbnlike('\n'.join([record['metadata']['filepath']] + aac_upload_book_dict['aa_upload_derived']['title_multiple'] + aac_upload_book_dict['aa_upload_derived']['description_cumulative']) , 'normal'))
+
+            doi_from_filepath = allthethings.utils.extract_doi_from_filepath(record['metadata']['filepath'])
+            if doi_from_filepath is not None:
+                allthethings.utils.add_identifier_unified(aac_upload_book_dict['aa_upload_derived'], 'doi', doi_from_filepath)
+
+            if 'bpb9v_cadal' in subcollection:
+                cadal_ssno_filename = allthethings.utils.extract_ssid_or_ssno_from_filepath(record['metadata']['filepath'])
+                if cadal_ssno_filename is not None:
+                    allthethings.utils.add_identifier_unified(aac_upload_book_dict['aa_upload_derived'], 'cadal_ssno', cadal_ssno_filename)
+            if 'duxiu' in subcollection:
+                duxiu_ssid_filename = allthethings.utils.extract_ssid_or_ssno_from_filepath(record['metadata']['filepath'])
+                if duxiu_ssid_filename is not None:
+                    allthethings.utils.add_identifier_unified(aac_upload_book_dict['aa_upload_derived'], 'duxiu_ssid', duxiu_ssid_filename)
+
+            upload_record_date = datetime.datetime.strptime(record['aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat()
+            aac_upload_book_dict['aa_upload_derived']['added_date_unified']['upload_record_date'] = min(upload_record_date, aac_upload_book_dict['aa_upload_derived']['added_date_unified'].get('upload_record_date') or upload_record_date)
+
+            file_created_date = None
+            create_date_field = (record['metadata'].get('exiftool_output') or {}).get('CreateDate') or ''
+            if create_date_field != '':
+                try:
+                    file_created_date = datetime.datetime.strptime(create_date_field, "%Y:%m:%d %H:%M:%S%z").astimezone(datetime.timezone.utc).replace(tzinfo=None).isoformat()
+                except:
+                    try:
+                        file_created_date = datetime.datetime.strptime(create_date_field, "%Y:%m:%d %H:%M:%S").isoformat()
+                    except:
+                        pass
+            if file_created_date is not None:
+                aac_upload_book_dict['aa_upload_derived']['added_date_unified']['file_created_date'] = min(file_created_date, aac_upload_book_dict['aa_upload_derived']['added_date_unified'].get('file_created_date') or file_created_date)
+
+        aac_upload_book_dict['aa_upload_derived']['filename_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['filename_multiple']), '')
+        aac_upload_book_dict['aa_upload_derived']['filesize_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['filesize_multiple']), '')
+        aac_upload_book_dict['aa_upload_derived']['extension_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['extension_multiple']), '')
+        aac_upload_book_dict['aa_upload_derived']['title_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['title_multiple']), '')
+        aac_upload_book_dict['aa_upload_derived']['author_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['author_multiple']), '')
+        aac_upload_book_dict['aa_upload_derived']['publisher_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['publisher_multiple']), '')
+        aac_upload_book_dict['aa_upload_derived']['pages_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['pages_multiple']), '')
+        aac_upload_book_dict['aa_upload_derived']['description_best'] = '\n\n'.join(list(dict.fromkeys(aac_upload_book_dict['aa_upload_derived']['description_cumulative'])))        
+        aac_upload_book_dict['aa_upload_derived']['combined_comments'] = list(dict.fromkeys(filter(len, aac_upload_book_dict['aa_upload_derived']['comments_cumulative'] + [
+            # TODO: pass through comments metadata in a structured way so we can add proper translations.
+            f"sources: {' ; '.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['source_multiple']))}" if len(aac_upload_book_dict['aa_upload_derived']['source_multiple']) > 0 else "",
+            f"producers: {' ; '.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['producer_multiple']))}" if len(aac_upload_book_dict['aa_upload_derived']['producer_multiple']) > 0 else "",
+            f"original file paths: {' ; '.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['filename_multiple']))}" if len(aac_upload_book_dict['aa_upload_derived']['filename_multiple']) > 0 else "",
+        ])))
+
+        for ocaid in allthethings.utils.extract_ia_archive_org_from_string(aac_upload_book_dict['aa_upload_derived']['description_best']):
+            allthethings.utils.add_identifier_unified(aac_upload_book_dict['aa_upload_derived'], 'ocaid', ocaid)
+
+        if 'acm' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:
+            aac_upload_book_dict['aa_upload_derived']['content_type'] = 'journal_article'
+        elif 'degruyter' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:
+            aac_upload_book_dict['aa_upload_derived']['content_type'] = 'book_nonfiction'
+        elif 'japanese_manga' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:
+            aac_upload_book_dict['aa_upload_derived']['content_type'] = 'book_comic'
+        elif 'magzdb' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:
+            aac_upload_book_dict['aa_upload_derived']['content_type'] = 'magazine'
+        elif 'longquan_archives' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:
+            aac_upload_book_dict['aa_upload_derived']['content_type'] = 'book_nonfiction'
+
+        aac_upload_dict_comments = {
+            **allthethings.utils.COMMON_DICT_COMMENTS,
+            "md5": ("before", ["This is a record of a file uploaded directly to Anna's Archive",
+                                "More details at https://annas-archive.org/datasets/upload",
+                                allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
+            "records": ("before", ["Metadata from inspecting the file."]),
+            "files": ("before", ["Short metadata on the file in our torrents."]),
+            "aa_upload_derived": ("before", "Derived metadata."),
+        }
+        aac_upload_book_dicts.append(add_comments_to_dict(aac_upload_book_dict, aac_upload_dict_comments))
+
+    return aac_upload_book_dicts
+
+@page.get("/db/aac_upload/<string:md5>.json")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
+def aac_upload_book_json(md5):
+    with Session(engine) as session:
+        aac_upload_book_dicts = get_aac_upload_book_dicts(session, "md5", [md5])
+        if len(aac_upload_book_dicts) == 0:
+            return "{}", 404
+        return allthethings.utils.nice_json(aac_upload_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_embeddings_for_aarecords(session, aarecords):
     aarecord_ids = [aarecord['id'] for aarecord in aarecords]
@@ -3296,6 +3536,7 @@ def aarecord_sources(aarecord):
         *(['oclc']      if (aarecord_id_split[0] == 'oclc' and len(aarecord['oclc'] or []) > 0) else []),
         *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
         *(['scihub']    if len(aarecord['scihub_doi']) > 0 else []),
+        *(['upload']    if aarecord['aac_upload'] is not None else []),
         *(['zlib']      if aarecord['aac_zlib3_book'] is not None else []),
         *(['zlib']      if aarecord['zlib_book'] is not None else []),
     ]))
@@ -3324,6 +3565,7 @@ def get_aarecords_mysql(session, aarecord_ids):
     duxiu_dicts = {('duxiu_ssid:' + item['duxiu_ssid']): item for item in get_duxiu_dicts(session, 'duxiu_ssid', split_ids['duxiu_ssid'])}
     duxiu_dicts2 = {('cadal_ssno:' + item['cadal_ssno']): item for item in get_duxiu_dicts(session, 'cadal_ssno', split_ids['cadal_ssno'])}
     duxiu_dicts3 = {('md5:' + item['md5']): item for item in get_duxiu_dicts(session, 'md5', split_ids['md5'])}
+    aac_upload_md5_dicts = {('md5:' + item['md5']): item for item in get_aac_upload_book_dicts(session, 'md5', split_ids['md5'])}
 
     # First pass, so we can fetch more dependencies.
     aarecords = []
@@ -3348,6 +3590,11 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['scihub_doi'] = list(scihub_doi_dicts.get(aarecord_id) or [])
         aarecord['oclc'] = list(oclc_dicts.get(aarecord_id) or [])
         aarecord['duxiu'] = duxiu_dicts.get(aarecord_id) or duxiu_dicts2.get(aarecord_id) or duxiu_dicts3.get(aarecord_id)
+        aarecord['aac_upload'] = aac_upload_md5_dicts.get(aarecord_id)
+        # TODO:
+        # duxiu metadata
+        # ia metadata (and ol transitively)
+        # oclc after all (see below)?
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -3365,6 +3612,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('identifiers_unified') or {}),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('identifiers_unified') or {}),
         ])
         # TODO: This `if` is not necessary if we make sure that the fields of the primary records get priority.
         if not allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]):
@@ -3475,11 +3723,13 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgli_file'] or {}).get('scimag_archive_path_decoded') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('original_filename') or '').strip(),
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_best') or '').strip(),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_best') or '').strip(),
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
         original_filename_multiple += [(scihub_doi['doi'].strip() + '.pdf') for scihub_doi in aarecord['scihub_doi']]
         original_filename_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_multiple') or [])
+        original_filename_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_multiple') or [])
         if aarecord['file_unified_data']['original_filename_best'] == '':
             original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
             aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
@@ -3519,6 +3769,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgrsfic_book'] or {}).get('extension') or '').strip().lower(),
             ((aarecord['lgli_file'] or {}).get('extension') or '').strip().lower(),
             (((aarecord['duxiu'] or {}).get('duxiu_file') or {}).get('extension') or '').strip().lower(),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('extension_best') or '').strip(),
             ('pdf' if aarecord_id_split[0] == 'doi' else ''),
         ]
         if "epub" in extension_multiple:
@@ -3540,6 +3791,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             (aarecord['lgrsfic_book'] or {}).get('filesize') or 0,
             (aarecord['lgli_file'] or {}).get('filesize') or 0,
             ((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filesize_best') or 0,
+            ((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filesize_best') or 0,
         ]
         aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
         if aarecord['ia_record'] is not None and len(aarecord['ia_record']['json']['aa_shorter_files']) > 0:
@@ -3551,6 +3803,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             # If we have a zlib_book with a `filesize`, then that is leading, since we measured it ourselves.
             aarecord['file_unified_data']['filesize_best'] = zlib_book_filesize
         filesize_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filesize_multiple') or [])
+        filesize_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filesize_multiple') or [])
         aarecord['file_unified_data']['filesize_additional'] = [s for s in dict.fromkeys(filter(lambda fz: fz > 0, filesize_multiple)) if s != aarecord['file_unified_data']['filesize_best']]
         if len(aarecord['file_unified_data']['filesize_additional']) == 0:
             del aarecord['file_unified_data']['filesize_additional']
@@ -3562,6 +3815,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('title') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('title') or '').strip(),
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('title_best') or '').strip(),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('title_best') or '').strip(),
         ]
         aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
@@ -3570,6 +3824,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         title_multiple += [(ol_book_dict.get('title_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         title_multiple += [(isbndb.get('title_normalized') or '').strip() for isbndb in aarecord['isbndb']]
         title_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('title_multiple') or [])
+        title_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('title_multiple') or [])
         for oclc in aarecord['oclc']:
             title_multiple += oclc['aa_oclc_derived']['title_multiple']
         if aarecord['file_unified_data']['title_best'] == '':
@@ -3585,12 +3840,14 @@ def get_aarecords_mysql(session, aarecord_ids):
             (aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('author', '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('author') or '').strip(),
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('author_best') or '').strip(),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('author_best') or '').strip(),
         ]
         aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
         author_multiple += [ol_book_dict['authors_normalized'] for ol_book_dict in aarecord['ol']]
         author_multiple += [", ".join(isbndb['json'].get('authors') or []) for isbndb in aarecord['isbndb']]
         author_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('author_multiple') or [])
+        author_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('author_multiple') or [])
         for oclc in aarecord['oclc']:
             author_multiple += oclc['aa_oclc_derived']['author_multiple']
         if aarecord['file_unified_data']['author_best'] == '':
@@ -3606,12 +3863,14 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('publisher') or '').strip(),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('publisher') or '').strip(),
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('publisher_best') or '').strip(),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('publisher_best') or '').strip(),
         ]
         aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
         publisher_multiple += [(ol_book_dict.get('publishers_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         publisher_multiple += [(isbndb['json'].get('publisher') or '').strip() for isbndb in aarecord['isbndb']]
         publisher_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('publisher_multiple') or [])
+        publisher_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('publisher_multiple') or [])
         for oclc in aarecord['oclc']:
             publisher_multiple += oclc['aa_oclc_derived']['publisher_multiple']
         if aarecord['file_unified_data']['publisher_best'] == '':
@@ -3679,6 +3938,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[note.strip() for note in (((lgli_single_edition or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.notes') or [])],
             *(((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('combined_comments') or []),
             *(((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('combined_comments') or []),
+            *(((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('combined_comments') or []),
         ]
         comments_multiple += [(edition.get('comments_normalized') or '').strip() for edition in lgli_all_editions]
         for edition in lgli_all_editions:
@@ -3699,6 +3959,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((lgli_single_edition or {}).get('stripped_description') or '').strip()[0:5000],
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('description_best') or '').strip(),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('description_best') or '').strip(),
         ]
         aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
@@ -3724,6 +3985,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('language_codes') or []),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('language_codes') or []),
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('language_codes') or []),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('language_codes') or []),
         ])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
@@ -3772,6 +4034,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('identifiers_unified') or {}),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('identifiers_unified') or {}),
         ])
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             ((aarecord['lgrsnf_book'] or {}).get('classifications_unified') or {}),
@@ -3782,6 +4045,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[isbndb['classifications_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['classifications_unified'] for ol_book_dict in aarecord['ol']],
             *[scihub_doi['classifications_unified'] for scihub_doi in aarecord['scihub_doi']],
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('classifications_unified') or {}),
         ])
 
         aarecord['file_unified_data']['added_date_unified'] = dict(collections.ChainMap(*[
@@ -3794,6 +4058,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[ol_book_dict['added_date_unified'] for ol_book_dict in aarecord['ol']],
             *[oclc['aa_oclc_derived']['added_date_unified'] for oclc in aarecord['oclc']],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('added_date_unified') or {}),
+            (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('added_date_unified') or {}),
         ]))
 
         aarecord['file_unified_data']['added_date_best'] = ''
@@ -3804,6 +4069,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 (aarecord['file_unified_data']['added_date_unified'].get('lgli_source') or ''),
                 (aarecord['file_unified_data']['added_date_unified'].get('lgrsfic_source') or ''),
                 (aarecord['file_unified_data']['added_date_unified'].get('lgrsnf_source') or ''),
+                (aarecord['file_unified_data']['added_date_unified'].get('upload_record_date') or ''),
                 (aarecord['file_unified_data']['added_date_unified'].get('zlib_source') or ''),
             ]))
             if len(potential_dates) > 0:
@@ -3849,6 +4115,12 @@ def get_aarecords_mysql(session, aarecord_ids):
                     aarecord['file_unified_data']['problems'].append({ 'type': 'duxiu_pdg_broken_files', 'descr': f"{duxiu_problem_info['pdg_broken_files_len']} affected pages", 'better_md5': '' })
                 else:
                     raise Exception(f"Unknown duxiu_problem_type: {duxiu_problem_info=}")
+        if len(((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('problems_infos') or []) > 0:
+            for upload_problem_info in (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('problems_infos') or []):
+                if upload_problem_info['upload_problem_type'] == 'exiftool_failed':
+                    aarecord['file_unified_data']['problems'].append({ 'type': 'upload_exiftool_failed', 'descr': '', 'better_md5': '' })
+                else:
+                    raise Exception(f"Unknown upload_problem_type: {upload_problem_info=}")
         # TODO: Reindex and use "removal reason" properly, and do some statistics to remove spurious removal reasons.
         # For now we only mark it as a problem on the basis of aac_zlib3 if there is no libgen record.
         if (((aarecord['aac_zlib3_book'] or {}).get('removed') or 0) == 1) and (aarecord['lgrsnf_book'] is None) and (aarecord['lgrsfic_book'] is None) and (aarecord['lgli_file'] is None):
@@ -3884,6 +4156,8 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if (aarecord_id_split[0] == 'oclc') or (oclc['aa_oclc_derived']['content_type'] != 'other'):
                     aarecord['file_unified_data']['content_type'] = oclc['aa_oclc_derived']['content_type']
                     break
+        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and ((((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('content_type') or '') != ''):
+            aarecord['file_unified_data']['content_type'] = aarecord['aac_upload']['aa_upload_derived']['content_type']
 
         if aarecord['lgrsnf_book'] is not None:
             aarecord['lgrsnf_book'] = {
@@ -3981,6 +4255,11 @@ def get_aarecords_mysql(session, aarecord_ids):
                 del aarecord['duxiu']['duxiu_ssid']
             if aarecord['duxiu']['cadal_ssno'] is None:
                 del aarecord['duxiu']['cadal_ssno']
+        if aarecord['aac_upload'] is not None:
+            aarecord['aac_upload'] = {
+                'md5': aarecord['aac_upload']['md5'],
+                'files': aarecord['aac_upload']['files'],
+            }
 
         search_content_type = aarecord['file_unified_data']['content_type']
         # Once we have the content type.
@@ -4077,6 +4356,7 @@ def get_md5_problem_type_mapping():
         "lgli_broken":            gettext("common.md5_problem_type_mapping.lgli_broken"),
         "zlib_missing":           gettext("common.md5_problem_type_mapping.zlib_missing"),
         "duxiu_pdg_broken_files": "Not all pages could be converted to PDF", # TODO:TRANSLATE
+        "upload_exiftool_failed": "Running exiftool failed on this file", # TODO:TRANSLATE
     }
 
 def get_md5_content_type_mapping(display_lang):
@@ -4118,6 +4398,7 @@ def get_record_sources_mapping(display_lang):
             "scihub": gettext("common.record_sources_mapping.scihub"),
             "oclc": gettext("common.record_sources_mapping.oclc"),
             "duxiu": gettext("common.record_sources_mapping.duxiu"),
+            "upload": "Uploads to AA" # TODO:TRANSLATE
         }
 
 def get_specific_search_fields_mapping(display_lang):
@@ -4342,6 +4623,16 @@ def get_additional_for_aarecord(aarecord):
         date = data_folder.split('__')[3][0:8]
         partner_path = f"{server}/duxiu_files/{date}/{data_folder}/{aarecord['duxiu']['duxiu_file']['aacid']}"
         add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
+    if (aarecord.get('aac_upload') is not None) and (len(aarecord['aac_upload']['files']) > 0):
+        for aac_upload_file in aarecord['aac_upload']['files']:
+            additional['torrent_paths'].append({ "collection": "upload", "torrent_path": f"managed_by_aa/annas_archive_data__aacid/{aac_upload_file['data_folder']}.torrent", "file_level1": aac_upload_file['aacid'], "file_level2": "" })
+            server = 'v'
+            if 'upload_files_misc' in aac_upload_file['data_folder']:
+                server = 'w'
+            data_folder_split = aac_upload_file['data_folder'].split('__')
+            directory = f"{data_folder_split[2]}_{data_folder_split[3][0:8]}"
+            partner_path = f"{server}/upload_files/{directory}/{aac_upload_file['data_folder']}/{aac_upload_file['aacid']}"
+            add_partner_servers(partner_path, 'aa_exclusive', aarecord, additional)
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         lgrsnf_torrent_path = f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"

@@ -924,29 +924,31 @@ UNIFIED_CLASSIFICATIONS = {
 }
 
 OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING = {
+    'abebooks,de': 'abebooks.de',
     'amazon': 'asin',
-    'amazon.co.uk_asin': 'asin',
     'amazon.ca_asin': 'asin',
+    'amazon.co.jp_asin': 'asin',
+    'amazon.co.uk_asin': 'asin',
     'amazon.de_asin': 'asin',
     'amazon.it_asin': 'asin',
-    'amazon.co.jp_asin': 'asin',
+    'annas_archive': 'md5', # TODO: Do reverse lookup based on this.
+    'bibliothèque_nationale_de_france_(bnf)': 'bibliothèque_nationale_de_france',
     'british_library': 'bl',
     'british_national_bibliography': 'bnb',
+    'depósito_legal_n.a.': 'depósito_legal',
+    'doi': 'doi', # TODO: Do reverse lookup based on this.
+    'gallica_(bnf)': 'bibliothèque_nationale_de_france',
     'google': 'gbook',
+    'harvard_university_library': 'harvard',
     'isbn_10': 'isbn10',
     'isbn_13': 'isbn13',
-    'national_diet_library,_japan': 'ndl',
-    'oclc_numbers': 'oclc',
     'isfdb': 'isfdbpubideditions',
     'lccn_permalink': 'lccn',
     'library_of_congress': 'lccn',
-    'library_of_congress_catalogue_number': 'lccn',
     'library_of_congress_catalog_no.': 'lccn',
-    'abebooks,de': 'abebooks.de',
-    'bibliothèque_nationale_de_france_(bnf)': 'bibliothèque_nationale_de_france',
-    'harvard_university_library': 'harvard',
-    'gallica_(bnf)': 'bibliothèque_nationale_de_france',
-    'depósito_legal_n.a.': 'depósito_legal',
+    'library_of_congress_catalogue_number': 'lccn',
+    'national_diet_library,_japan': 'ndl',
+    'oclc_numbers': 'oclc',
     **{key: key for key in UNIFIED_IDENTIFIERS.keys()},
     # Plus more added below!
 }
@@ -974,6 +976,7 @@ OPENLIB_LABELS = {
     "bibliothèque_nationale_de_france": "BnF",
     "bibsys": "Bibsys",
     "bodleian,_oxford_university": "Bodleian",
+    "bookbrainz": "BookBrainz",
     "booklocker.com": "BookLocker",
     "bookmooch": "Book Mooch",
     "booksforyou": "Books For You",
@@ -1002,6 +1005,7 @@ OPENLIB_LABELS = {
     "identificativo_sbn": "SBN",
     "ilmiolibro": "Ilmiolibro",
     "inducks": "INDUCKS",
+    "infosoup": "Infosoup",
     "issn": "ISSN",
     "istc": "ISTC",
     "lccn": "LCCN",
@@ -1012,16 +1016,20 @@ OPENLIB_LABELS = {
     "librivox": "LibriVox",
     "lulu": "Lulu",
     "magcloud": "Magcloud",
+    "musicbrainz": "MusicBrainz",
     "nbuv": "NBUV",
     "nla": "NLA",
     "nur": "NUR",
     "ocaid": "IA",
+    "open_alex": "OpenAlex",
+    "open_textbook_library": "OTL",
     "openstax": "OpenStax",
     "overdrive": "OverDrive",
     "paperback_swap": "Paperback Swap",
     "project_gutenberg": "Gutenberg",
     "publishamerica": "PublishAmerica",
     "rvk": "RVK",
+    "sab": "SAB",
     "scribd": "Scribd",
     "shelfari": "Shelfari",
     "siso": "SISO",
@@ -1126,6 +1134,8 @@ def normalize_isbn(string):
     return canonical_isbn13
 
 def add_isbns_unified(output_dict, potential_isbns):
+    if len(potential_isbns) == 0:
+        return
     isbn10s = set()
     isbn13s = set()
     csbns = set()
@@ -1622,7 +1632,12 @@ def get_lines_from_aac_file(cursor, collection, offsets_and_lengths):
     if collection not in file_cache:
         cursor.execute('SELECT filename FROM annas_archive_meta_aac_filenames WHERE collection = %(collection)s', { 'collection': collection })
         filename = cursor.fetchone()['filename']
-        file_cache[collection] = indexed_zstd.IndexedZstdFile(f'{aac_path_prefix()}{filename}')
+        full_filepath = f'{aac_path_prefix()}{filename}'
+        full_filepath_decompressed = full_filepath.replace('.seekable.zst', '')
+        if os.path.exists(full_filepath_decompressed):
+            file_cache[collection] = open(full_filepath_decompressed, 'rb')
+        else:
+            file_cache[collection] = indexed_zstd.IndexedZstdFile(full_filepath)
     file = file_cache[collection]
 
     lines = [None]*len(offsets_and_lengths)
@@ -1754,6 +1769,42 @@ def build_pagination_pages_with_dots(primary_hits_pages, page_value, large):
 
 def escape_mysql_like(input_string):
     return input_string.replace('%', '\\%').replace('_', '\\_')
+
+def extract_ssid_or_ssno_from_filepath(filepath):
+    for part in reversed(filepath.split('/')):
+        ssid_match_underscore = re.search(r'_(\d{8})(?:\D|$)', part)
+        if ssid_match_underscore is not None:
+            return ssid_match_underscore[1]
+    for part in reversed(filepath.split('/')):
+        ssid_match = re.search(r'(?:^|\D)(\d{8})(?:\D|$)', part)
+        if ssid_match is not None:
+            return ssid_match[1]
+    ssid_match_underscore = re.search(r'_(\d{8})(?:\D|$)', filepath)
+    if ssid_match_underscore is not None:
+        return ssid_match_underscore[1]
+    ssid_match = re.search(r'(?:^|\D)(\d{8})(?:\D|$)', filepath)
+    if ssid_match is not None:
+        return ssid_match[1]
+    return None
+
+def extract_doi_from_filepath(filepath):
+    filepath_without_extension = filepath
+    if '.' in filepath:
+        filepath_without_extension, extension = filepath.rsplit('.', 1)
+        if len(extension) > 4:
+            filepath_without_extension = filepath
+    filepath_without_extension_split = filepath_without_extension.split('/')
+    for index, part in reversed(list(enumerate(filepath_without_extension_split))):
+        if part.startswith('10.'):
+            if part == filepath_without_extension_split[-1]:
+                return part.replace('_', '/')
+            else:
+                return '/'.join(filepath_without_extension_split[index:])
+    return None
+
+def extract_ia_archive_org_from_string(string):
+    return list(dict.fromkeys(re.findall(r'archive.org\/details\/([^\n\r\/ ]+)', string)))
+
 
 
 

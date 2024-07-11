@@ -65,6 +65,11 @@
             "name": "identificativo_sbn",
             "notes": "",
             "website": "http://www.iccu.sbn.it/opencms/opencms/it/main/sbn/ (in italian)"
+        },
+        {
+            "label": "Swedish library classification (SAB)",
+            "name": "sab",
+            "notes": ""
         }
     ],
     "identifiers": [
@@ -79,7 +84,7 @@
             "label": "Al Kindi",
             "name": "dominican_institute_for_oriental_studies_library",
             "notes": "",
-            "url": "https://alkindi.ideo-cairo.org/controller.php?action=SearchNotice&noticeId=@@@",
+            "url": "https://alkindi.ideo-cairo.org/manifestation/@@@",
             "website": "https://www.ideo-cairo.org/"
         },
         {
@@ -93,6 +98,12 @@
             "name": "amazon",
             "notes": "ASIN",
             "url": "https://www.amazon.com/gp/product/@@@"
+        },
+        {
+            "label": "Anna's Archive",
+            "name": "annas_archive",
+            "notes": "Should be the number after md5/ in the link",
+            "url": "https://annas-archive.org/md5/@@@"
         },
         {
             "label": "Association for the Blind of Western Australia",
@@ -141,6 +152,12 @@
             "website": "https://www.bodleian.ox.ac.uk/"
         },
         {
+            "label": "BookBrainz",
+            "name": "bookbrainz",
+            "url": "https://bookbrainz.org/edition/@@@",
+            "website": "https://bookbrainz.org"
+        },
+        {
             "label": "Book Crossing ID (BCID)",
             "name": "bcid",
             "notes": "",
@@ -176,8 +193,8 @@
             "label": "Boston Public Library",
             "name": "boston_public_library",
             "notes": "",
-            "url": "https://bostonpl.bibliocommons.com/item/show/@@@",
-            "website": " https://bostonpl.bibliocommons.com"
+            "url": "https://bostonpl.bibliocommons.com/v2/record/@@@",
+            "website": "https://bostonpl.bibliocommons.com"
         },
         {
             "label": "British Library",
@@ -188,20 +205,23 @@
         {
             "label": "Cornell University ecommons",
             "name": "cornell_university_online_library",
-            "notes": "",
-            "website": "http://ecommons.library.cornell.edu/handle/1813/11665"
+            "notes": "Cornell's Digital Repository",
+            "url": "https://hdl.handle.net/1813/@@@",
+            "website": "https://ecommons.cornell.edu/"
         },
         {
-            "label": "Cornell University ecommons",
+            "label": "Cornell University Library Catalog",
             "name": "cornell_university_library",
-            "notes": ""
+            "notes": "Cornell University Library Catalog",
+            "url": "https://catalog.library.cornell.edu/catalog/@@@",
+            "website": "https://www.library.cornell.edu/"
         },
         {
             "label": "Canadian National Library Archive",
             "name": "canadian_national_library_archive",
             "notes": "Session-based IDs",
-            "website": "https://library-archives.canada.ca/",
-            "url": "https://central.bac-lac.gc.ca/.redirect?app=fonandcol&id=@@@&lang=eng"
+            "url": "https://central.bac-lac.gc.ca/.redirect?app=fonandcol&id=@@@&lang=eng",
+            "website": "https://library-archives.canada.ca/"
         },
         {
             "label": "Choosebooks",
@@ -223,6 +243,13 @@
             "notes": "",
             "url": "http://zbc.ksiaznica.szczecin.pl/dlibra/docmetadata?id=@@@",
             "website": "http://zbc.ksiaznica.szczecin.pl"
+        },
+        {
+            "label": "Digital Object Identifier (DOI)",
+            "name": "doi",
+            "notes": "e.g. \"10.1007/978-3-030-03515-0\"",
+            "url": "https://doi.org/@@@",
+            "webste": "https://doi.org"
         },
         {
             "label": "Discovereads",
@@ -270,7 +297,7 @@
         {
             "label": "Harvard University Library",
             "name": "harvard",
-            "url": "https://hollis.harvard.edu/primo_library/libweb/action/display.do?doc=HVD_ALEPH@@@",
+            "url": "https://id.lib.harvard.edu/alma/@@@/catalog",
             "website": "https://library.harvard.edu"
         },
         {
@@ -351,6 +378,12 @@
             "notes": "",
             "url": "http://www.magcloud.com/browse/Issue/@@@",
             "website": "http://www.magcloud.com"
+        },
+        {
+            "label": "MusicBrainz",
+            "name": "musicbrainz",
+            "url": "https://musicbrainz.org/release/@@@",
+            "website": "https://musicbrainz.org"
         },
         {
             "label": "National Diet Library, Japan",
@@ -511,10 +544,21 @@
             "url": "https://librivox.org/@@@"
         },
         {
+            "label": "OpenAlex",
+            "name": "open_alex",
+            "notes": "e.g. https://openalex.org/W1502163132",
+            "url": "https://openalex.org/@@@"
+        },
+        {
             "label": "OpenStax",
             "name": "openstax",
             "notes": "Should be a human readable URL slug",
             "url": "https://openstax.org/details/books/@@@"
+        },
+        {
+            "label": "Open Textbook Library",
+            "name": "open_textbook_library",
+            "url": "https://open.umn.edu/opentextbooks/textbooks/@@@"
         },
         {
             "label": "Wikisource",
@@ -527,12 +571,19 @@
             "name": "yakaboo",
             "notes": "eg https://www.yakaboo.ua/ua/zelene-svitlo.html",
             "url": "https://www.yakaboo.ua/ua/@@@.html"
+        },
+        {
+            "label": "Infosoup",
+            "name": "infosoup",
+            "notes": "e.g. https://infosoup.bibliocommons.com/v2/record/",
+            "url": "https://infosoup.bibliocommons.com/v2/record/@@@"
         }
     ],
     "key": "/config/edition",
     "roles": [
-        "Adapted from original work by",
+        "Author name as appears on this edition",
         "Additional Author (this edition)",
+        "Adaptation of original work by",
         "Afterword",
         "Collected by",
         "Commentary",
@@ -698,79 +749,19 @@
         "",
         "",
         "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
         ""
     ],
     "type": {
         "key": "/type/object"
     },
-    "latest_revision": 917,
-    "revision": 917,
+    "latest_revision": 953,
+    "revision": 953,
     "created": {
         "type": "/type/datetime",
         "value": "2010-01-16T12:20:03.849458"
     },
     "last_modified": {
         "type": "/type/datetime",
-        "value": "2023-06-30T01:35:23.195353"
+        "value": "2024-06-17T20:47:42.285104"
     }
 }

@@ -8,5 +8,5 @@ set -Eeuxo pipefail
 
 cd /temp-dir/aac_duxiu_files
 
-rm /file-data/annas_archive_meta__aacid__duxiu_files__*
+rm -f /file-data/annas_archive_meta__aacid__duxiu_files__*
 mv annas_archive_meta__aacid__duxiu_files__*.jsonl.seekable.zst /file-data/

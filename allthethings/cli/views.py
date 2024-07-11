@@ -229,8 +229,16 @@ def mysql_build_aac_tables_internal():
             table_name = f'annas_archive_meta__aacid__{collection}'
             print(f"[{collection}] Reading from {filepath} to {table_name}")
 
-            file = indexed_zstd.IndexedZstdFile(filepath)
-            uncompressed_size = file.size()
+            filepath_decompressed = filepath.replace('.seekable.zst', '')
+            file = None
+            uncompressed_size = None
+            if os.path.exists(filepath_decompressed):
+                print(f"[{collection}] Found decompressed version, using that for performance: {filepath_decompressed}")
+                file = open(filepath_decompressed, 'rb')
+                uncompressed_size = os.path.getsize(filepath_decompressed)
+            else:
+                file = indexed_zstd.IndexedZstdFile(filepath)
+                uncompressed_size = file.size()
             print(f"[{collection}] {uncompressed_size=}")
 
             table_extra_fields = ''.join([f', {index_name} {index_type}' for index_name, index_type in extra_index_fields.items()])
@@ -333,6 +341,10 @@ def mysql_build_computed_all_md5s_internal():
     cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__duxiu_files')
     print("Inserting from 'annas_archive_meta__aacid__duxiu_files'")
     cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(primary_id), 11 FROM annas_archive_meta__aacid__duxiu_files WHERE primary_id IS NOT NULL')
+    print("Load indexes of annas_archive_meta__aacid__upload_records and annas_archive_meta__aacid__upload_files")
+    cursor.execute('LOAD INDEX INTO CACHE annas_archive_meta__aacid__upload_records, annas_archive_meta__aacid__upload_files')
+    print("Inserting from 'annas_archive_meta__aacid__upload_files'")
+    cursor.execute('INSERT IGNORE INTO computed_all_md5s (md5, first_source) SELECT UNHEX(annas_archive_meta__aacid__upload_files.primary_id), 12 FROM annas_archive_meta__aacid__upload_files JOIN annas_archive_meta__aacid__upload_records ON (annas_archive_meta__aacid__upload_records.md5 = annas_archive_meta__aacid__upload_files.primary_id) WHERE annas_archive_meta__aacid__upload_files.primary_id IS NOT NULL')
     cursor.close()
     print("Done mysql_build_computed_all_md5s_internal!")
     # engine_multi = create_engine(mariadb_url_no_timeout, connect_args={"client_flag": CLIENT.MULTI_STATEMENTS})
@@ -671,9 +683,9 @@ def elastic_build_aarecords_job_oclc(fields):
     allthethings.utils.set_worldcat_line_cache(fields)
     return elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
 
-THREADS = 60
-CHUNK_SIZE = 30
-BATCH_SIZE = 50000
+THREADS = 100
+CHUNK_SIZE = 300
+BATCH_SIZE = 100000
 
 # Locally
 if SLOW_DATA_IMPORTS:
@@ -998,8 +1010,21 @@ def elastic_build_aarecords_main_internal():
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
         cursor.execute('SELECT COUNT(md5) AS count FROM computed_all_md5s WHERE md5 > %(from)s ORDER BY md5 LIMIT 1', { "from": bytes.fromhex(before_first_md5) })
         total = list(cursor.fetchall())[0]['count']
-        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-            with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
+        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}', smoothing=0.01) as pbar:
+            with concurrent.futures.ProcessPoolExecutor(max_workers=THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
+                futures = set()
+                def process_future():
+                    # print(f"Futures waiting: {len(futures)}")
+                    (done, not_done) = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
+                    # print(f"Done!")
+                    for future_done in done:
+                        futures.remove(future_done)
+                        pbar.update(CHUNK_SIZE)
+                        err = future_done.exception()
+                        if err:
+                            print(f"ERROR IN FUTURE RESOLUTION!!!!! {repr(err)}\n\n/////\n\n{traceback.format_exc()}")
+                            raise err
+
                 current_md5 = bytes.fromhex(before_first_md5)
                 last_map = None
                 while True:
@@ -1013,10 +1038,16 @@ def elastic_build_aarecords_main_internal():
                             os._exit(1)
                     if len(batch) == 0:
                         break
-                    print(f"Processing with {THREADS=} {len(batch)=} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
-                    last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
-                    pbar.update(len(batch))
+                    print(f"Processing (ahead!) with {THREADS=} {len(batch)=} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
+                    for chunk in more_itertools.chunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE):
+                        futures.add(executor.submit(elastic_build_aarecords_job, chunk))
+                        if len(futures) > THREADS*5:
+                            process_future()
+                    # last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
+                    # pbar.update(len(batch))
                     current_md5 = batch[-1]['md5']
+                while len(futures) > 0:
+                    process_future()
 
             print("Processing from scihub_dois_without_matches")
             connection.connection.ping(reconnect=True)
@@ -1077,7 +1108,7 @@ def mysql_build_aarecords_codes_numbers_internal():
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes_new"')
+        cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes_new" LIMIT 1')
         total = cursor.fetchone()['table_rows']
         print(f"Found {total=} codes (approximately)")
 
