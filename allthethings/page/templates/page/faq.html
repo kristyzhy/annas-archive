@@ -16,7 +16,7 @@
   </ol>
 
   <p class="mb-4">
-    {{ gettext('page.home.intro.open_source', a_code=(' href="https://software.annas-archive.gs/" ' | safe), a_datasets=(' href="/datasets" ' | safe)) }}
+    {{ gettext('page.home.intro.open_source', a_code=(' href="https://software.annas-archive.se/" ' | safe), a_datasets=(' href="/datasets" ' | safe)) }}
   </p>
 
   <div class="bg-[#f2f2f2] p-4 pb-3 rounded-lg mb-4">
@@ -170,7 +170,7 @@
     <a href="/datasets">{{ gettext('page.faq.metadata.indeed') }}</a>
     {{ gettext('page.faq.metadata.inspiration1', a_openlib=(' href="https://en.wikipedia.org/wiki/Open_Library" ' | safe)) }}
     {{ gettext('page.faq.metadata.inspiration2') }}
-    {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-archive.gs/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
+    {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-archive.se/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
   </p>
 
   <!-- TODO:TRANSLATE everything below -->
@@ -201,7 +201,7 @@
   </p>
 
   <p class="mb-4">
-    For other use cases, such as iterating through all our files, building custom search, and so on, we recommend <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generating</a> or <a href="/torrents#aa_derived_mirror_metadata">downloading</a> our ElasticSearch and MariaDB databases. The raw data can be manually explored through JSON files such as <a href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">this</a>.
+    For other use cases, such as iterating through all our files, building custom search, and so on, we recommend <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generating</a> or <a href="/torrents#aa_derived_mirror_metadata">downloading</a> our ElasticSearch and MariaDB databases. The raw data can be manually explored through JSON files such as <a href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">this</a>.
   </p>
 
   <p class="mb-4">
@@ -222,7 +222,7 @@
 
   <p class="mb-4">
     <strong>Can I download only a subset of the files, like only a particular language or topic?</strong><br>
-    Most torrents contain the files directly, which means that you can instruct torrent clients to only download the required files. To determine which files to download, you can <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generate</a> our metadata, or <a href="/torrents#aa_derived_mirror_metadata">download</a> our ElasticSearch and MariaDB databases. Unfortunately, a number of torrent collections contain .zip or .tar files at the root, in which case you need to download the entire torrent before being able to select individual files.
+    Most torrents contain the files directly, which means that you can instruct torrent clients to only download the required files. To determine which files to download, you can <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generate</a> our metadata, or <a href="/torrents#aa_derived_mirror_metadata">download</a> our ElasticSearch and MariaDB databases. Unfortunately, a number of torrent collections contain .zip or .tar files at the root, in which case you need to download the entire torrent before being able to select individual files.
   </p>
 
   <p class="mb-4">
@@ -239,7 +239,7 @@
     <strong>I don’t see PDFs or EPUBs in the torrents, only binary files? What do I do?</strong><br>
     These are actually PDFs and EPUBs, they just don’t have an extension in many of our torrents. There are two places in which you can find the metadata for torrent files, including the file types/extensions:<br>
     1. Each collection or release has its own metadata. For example, <a href="/torrents#libgen_rs_non_fic">Libgen.rs torrents</a> have a corresponding metadata database hosted on the Libgen.rs website. We typically link to relevant metadata resources from each collection’s <a href="/datasets">dataset page</a>.<br>
-    2. We recommend <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generating</a> or <a href="/torrents#aa_derived_mirror_metadata">downloading</a> our ElasticSearch and MariaDB databases. These contains a mapping for each record in Anna’s Archive to its corresponding torrent files (if available), under "torrent_paths" in the ElasticSearch JSON.
+    2. We recommend <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generating</a> or <a href="/torrents#aa_derived_mirror_metadata">downloading</a> our ElasticSearch and MariaDB databases. These contains a mapping for each record in Anna’s Archive to its corresponding torrent files (if available), under "torrent_paths" in the ElasticSearch JSON.
   </p>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="security">Do you have a responsible disclosure program? <a href="#security" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
@@ -259,11 +259,11 @@
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="resources">Are there more resources about Anna’s Archive? <a href="#resources" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <ul class="list-inside mb-4">
-    <li class="list-disc"><a href="https://annas-archive.gs/blog">Anna’s Blog</a>, <a href="https://www.reddit.com/user/AnnaArchivist">Reddit</a>, <a href="https://www.reddit.com/r/Annas_Archive">Subreddit</a> — regular updates</li>
-    <li class="list-disc"><a href="https://software.annas-archive.gs">Anna’s Software</a> — our open source code</li>
-    <li class="list-disc"><a href="https://translate.annas-archive.gs">Translate on Anna’s Software</a> — our translation system</li>
+    <li class="list-disc"><a href="https://annas-archive.se/blog">Anna’s Blog</a>, <a href="https://www.reddit.com/user/AnnaArchivist">Reddit</a>, <a href="https://www.reddit.com/r/Annas_Archive">Subreddit</a> — regular updates</li>
+    <li class="list-disc"><a href="https://software.annas-archive.se">Anna’s Software</a> — our open source code</li>
+    <li class="list-disc"><a href="https://translate.annas-archive.se">Translate on Anna’s Software</a> — our translation system</li>
     <li class="list-disc"><a href="/datasets">Datasets</a> — about the data</li>
-    <li class="list-disc"><a href="https://annas-archive.gs">.gs</a>, <a href="https://annas-archive.se">.se</a> — alternative domains</li>
+    <li class="list-disc"><a href="https://annas-archive.se">.gs</a>, <a href="https://annas-archive.se">.se</a> — alternative domains</li>
     <li class="list-disc"><a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Wikipedia</a> — more about us (please help keep this page updated, or create one for your own language!)</li>
   </ul>
 

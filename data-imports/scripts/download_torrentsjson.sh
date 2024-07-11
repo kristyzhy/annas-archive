@@ -10,4 +10,4 @@ mkdir /temp-dir/torrents_json
 
 cd /temp-dir/torrents_json
 
-curl -O https://annas-archive.gs/dyn/torrents.json
+curl -O https://annas-archive.se/dyn/torrents.json

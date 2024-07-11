@@ -49,7 +49,7 @@ HASHED_DOWNLOADS_SECRET_KEY = hashlib.sha256(DOWNLOADS_SECRET_KEY.encode()).dige
 
 page = Blueprint("page", __name__, template_folder="templates")
 
-# Per https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/issues/37
+# Per https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/37
 search_filtered_bad_aarecord_ids = [
     "md5:b0647953a182171074873b61200c71dd",
     "md5:820a4f8961ae0a76ad265f1678b7dfa5",
@@ -984,7 +984,7 @@ def codes_page():
 zlib_book_dict_comments = {
     **allthethings.utils.COMMON_DICT_COMMENTS,
     "zlibrary_id": ("before", ["This is a file from the Z-Library collection of Anna's Archive.",
-                      "More details at https://annas-archive.gs/datasets/zlib",
+                      "More details at https://annas-archive.se/datasets/zlib",
                       "The source URL is http://loginzlib2vrak5zzpcocc3ouizykn6k5qecgj2tzlnab5wcbqhembyd.onion/md5/<md5_reported>",
                       allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
     "edition_varia_normalized": ("after", ["Anna's Archive version of the 'series', 'volume', 'edition', and 'year' fields; combining them into a single field for display and search."]),
@@ -1349,7 +1349,7 @@ def get_ia_record_dicts(session, key, values):
         aa_ia_derived_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "ia_id": ("before", ["This is an IA record, augmented by Anna's Archive.",
-                              "More details at https://annas-archive.gs/datasets/ia",
+                              "More details at https://annas-archive.se/datasets/ia",
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "cover_url": ("before", "Constructed directly from ia_id."),
@@ -1369,7 +1369,7 @@ def get_ia_record_dicts(session, key, values):
         ia_record_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "ia_id": ("before", ["This is an IA record, augmented by Anna's Archive.",
-                              "More details at https://annas-archive.gs/datasets/ia",
+                              "More details at https://annas-archive.se/datasets/ia",
                               "A lot of these fields are explained at https://archive.org/developers/metadata-schema/index.html",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "libgen_md5": ("after", "If the metadata refers to a Libgen MD5 from which IA imported, it will be filled in here."),
@@ -1769,7 +1769,7 @@ def get_lgrsnf_book_dicts(session, key, values):
         lgrs_book_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "id": ("before", ["This is a Libgen.rs Non-Fiction record, augmented by Anna's Archive.",
-                              "More details at https://annas-archive.gs/datasets/libgen_rs",
+                              "More details at https://annas-archive.se/datasets/libgen_rs",
                               "Most of these fields are explained at https://wiki.mhut.org/content:bibliographic_data",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
@@ -1835,7 +1835,7 @@ def get_lgrsfic_book_dicts(session, key, values):
         lgrs_book_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "id": ("before", ["This is a Libgen.rs Fiction record, augmented by Anna's Archive.",
-                              "More details at https://annas-archive.gs/datasets/libgen_rs",
+                              "More details at https://annas-archive.se/datasets/libgen_rs",
                               "Most of these fields are explained at https://wiki.mhut.org/content:bibliographic_data",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
@@ -2149,7 +2149,7 @@ def get_lgli_file_dicts(session, key, values):
         lgli_file_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "f_id": ("before", ["This is a Libgen.li file record, augmented by Anna's Archive.",
-                     "More details at https://annas-archive.gs/datasets/libgen_li",
+                     "More details at https://annas-archive.se/datasets/libgen_li",
                      "Most of these fields are explained at https://libgen.li/community/app.php/article/new-database-structure-published-o%CF%80y6%D0%BB%D0%B8%C4%B8o%D0%B2a%D0%BDa-%D0%BDo%D0%B2a%D1%8F-c%D1%82py%C4%B8%D1%82ypa-6a%D0%B7%C6%85i-%D0%B4a%D0%BD%D0%BD%C6%85ix",
                      "The source URL is https://libgen.li/file.php?id=<f_id>",
                      allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
@@ -2253,7 +2253,7 @@ def get_isbndb_dicts(session, canonical_isbn13s):
 
         isbndb_wrapper_comments = {
             "ean13": ("before", ["Metadata from our ISBNdb collection, augmented by Anna's Archive.",
-                               "More details at https://annas-archive.gs/datasets",
+                               "More details at https://annas-archive.se/datasets",
                                allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "isbndb": ("before", ["All matching records from the ISBNdb database."]),
         }
@@ -2296,7 +2296,7 @@ def get_scihub_doi_dicts(session, key, values):
         scihub_doi_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "doi": ("before", ["This is a file from Sci-Hub's dois-2022-02-12.7z dataset.",
-                              "More details at https://annas-archive.gs/datasets/scihub",
+                              "More details at https://annas-archive.se/datasets/scihub",
                               "The source URL is https://sci-hub.ru/datasets/dois-2022-02-12.7z",
                               allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
         }
@@ -2544,36 +2544,32 @@ def get_oclc_id_by_isbn13(session, isbn13s):
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        # TODO: Replace with aarecords_codes
-        cursor.execute('SELECT isbn13, oclc_id FROM isbn13_oclc WHERE isbn13 IN %(isbn13s)s', { "isbn13s": isbn13s })
+        cursor.execute('SELECT code, aarecord_id FROM aarecords_codes_oclc WHERE code IN %(codes)s', { "codes": [f"isbn13:{isbn13}" for isbn13 in isbn13s] })
         rows = cursor.fetchall()
         if len(rows) == 0:
             return {}
         oclc_ids_by_isbn13 = collections.defaultdict(list)
         for row in rows:
-            oclc_ids_by_isbn13[row['isbn13']].append(row['oclc_id'])
+            if not row['code'].startswith('isbn13:'):
+                raise Exception(f"Expected isbn13: prefix for {row['code']=}")
+            if not row['aarecord_id'].startswith('oclc:'):
+                raise Exception(f"Expected oclc: prefix for {row['aarecord_id']=}")
+            oclc_ids_by_isbn13[row['code'][len('isbn13:'):]].append(row['aarecord_id'][len('oclc:'):])
         return dict(oclc_ids_by_isbn13)
 
 def get_oclc_dicts_by_isbn13(session, isbn13s):
     if len(isbn13s) == 0:
         return {}
-    with engine.connect() as connection:
-        connection.connection.ping(reconnect=True)
-        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        # TODO: Replace with aarecords_codes
-        cursor.execute('SELECT isbn13, oclc_id FROM isbn13_oclc WHERE isbn13 IN %(isbn13s)s', { "isbn13s": isbn13s })
-        rows = cursor.fetchall()
-        if len(rows) == 0:
-            return {}
-        isbn13s_by_oclc_id = collections.defaultdict(list)
-        for row in rows:
-            isbn13s_by_oclc_id[row['oclc_id']].append(row['isbn13'])
-        oclc_dicts = get_oclc_dicts(session, 'oclc', list(isbn13s_by_oclc_id.keys()))
-        retval = collections.defaultdict(list)
-        for oclc_dict in oclc_dicts:
-            for isbn13 in isbn13s_by_oclc_id[oclc_dict['oclc_id']]:
-                retval[isbn13].append(oclc_dict)
-        return dict(retval)
+    isbn13s_by_oclc_id = collections.defaultdict(list)
+    for isbn13, oclc_ids in get_oclc_id_by_isbn13(session, isbn13s).items():
+        for oclc_id in oclc_ids:
+            isbn13s_by_oclc_id[oclc_id].append(isbn13)
+    oclc_dicts = get_oclc_dicts(session, 'oclc', list(isbn13s_by_oclc_id.keys()))
+    retval = collections.defaultdict(list)
+    for oclc_dict in oclc_dicts:
+        for isbn13 in isbn13s_by_oclc_id[oclc_dict['oclc_id']]:
+            retval[isbn13].append(oclc_dict)
+    return dict(retval)
 
 @page.get("/db/oclc/<path:oclc>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
@@ -3077,13 +3073,13 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "duxiu_ssid": ("before", ["This is a DuXiu metadata record.",
-                                "More details at https://annas-archive.gs/datasets/duxiu",
+                                "More details at https://annas-archive.se/datasets/duxiu",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "cadal_ssno": ("before", ["This is a CADAL metadata record.",
-                                "More details at https://annas-archive.gs/datasets/duxiu",
+                                "More details at https://annas-archive.se/datasets/duxiu",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "md5": ("before", ["This is a DuXiu/related metadata record.",
-                                "More details at https://annas-archive.gs/datasets/duxiu",
+                                "More details at https://annas-archive.se/datasets/duxiu",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "duxiu_file": ("before", ["Information on the actual file in our collection (see torrents)."]),
             "aa_duxiu_derived": ("before", "Derived metadata."),
@@ -3536,7 +3532,7 @@ def aarecord_sources(aarecord):
         *(['oclc']      if (aarecord_id_split[0] == 'oclc' and len(aarecord['oclc'] or []) > 0) else []),
         *(['ol']        if (aarecord_id_split[0] == 'ol' and len(aarecord['ol'] or []) > 0) else []),
         *(['scihub']    if len(aarecord['scihub_doi']) > 0 else []),
-        *(['upload']    if aarecord['aac_upload'] is not None else []),
+        *(['upload']    if aarecord.get('aac_upload') is not None else []),
         *(['zlib']      if aarecord['aac_zlib3_book'] is not None else []),
         *(['zlib']      if aarecord['zlib_book'] is not None else []),
     ]))
@@ -4255,7 +4251,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 del aarecord['duxiu']['duxiu_ssid']
             if aarecord['duxiu']['cadal_ssno'] is None:
                 del aarecord['duxiu']['cadal_ssno']
-        if aarecord['aac_upload'] is not None:
+        if aarecord.get('aac_upload') is not None:
             aarecord['aac_upload'] = {
                 'md5': aarecord['aac_upload']['md5'],
                 'files': aarecord['aac_upload']['files'],
@@ -5003,19 +4999,19 @@ def md5_json(aarecord_id):
     
     aarecord_comments = {
         "id": ("before", ["File from the combined collections of Anna's Archive.",
-                           "More details at https://annas-archive.gs/datasets",
+                           "More details at https://annas-archive.se/datasets",
                            allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
-        "lgrsnf_book": ("before", ["Source data at: https://annas-archive.gs/db/lgrsnf/<id>.json"]),
-        "lgrsfic_book": ("before", ["Source data at: https://annas-archive.gs/db/lgrsfic/<id>.json"]),
-        "lgli_file": ("before", ["Source data at: https://annas-archive.gs/db/lgli/<f_id>.json"]),
-        "zlib_book": ("before", ["Source data at: https://annas-archive.gs/db/zlib/<zlibrary_id>.json"]),
-        "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.gs/db/aac_zlib3/<zlibrary_id>.json"]),
-        "ia_record": ("before", ["Source data at: https://annas-archive.gs/db/ia/<ia_id>.json"]),
-        "isbndb": ("before", ["Source data at: https://annas-archive.gs/db/isbndb/<isbn13>.json"]),
-        "ol": ("before", ["Source data at: https://annas-archive.gs/db/ol/<ol_edition>.json"]),
-        "scihub_doi": ("before", ["Source data at: https://annas-archive.gs/db/scihub_doi/<doi>.json"]),
-        "oclc": ("before", ["Source data at: https://annas-archive.gs/db/oclc/<oclc>.json"]),
-        "duxiu": ("before", ["Source data at: https://annas-archive.gs/db/duxiu_ssid/<duxiu_ssid>.json or https://annas-archive.gs/db/cadal_ssno/<cadal_ssno>.json or https://annas-archive.gs/db/duxiu_md5/<md5>.json"]),
+        "lgrsnf_book": ("before", ["Source data at: https://annas-archive.se/db/lgrsnf/<id>.json"]),
+        "lgrsfic_book": ("before", ["Source data at: https://annas-archive.se/db/lgrsfic/<id>.json"]),
+        "lgli_file": ("before", ["Source data at: https://annas-archive.se/db/lgli/<f_id>.json"]),
+        "zlib_book": ("before", ["Source data at: https://annas-archive.se/db/zlib/<zlibrary_id>.json"]),
+        "aac_zlib3_book": ("before", ["Source data at: https://annas-archive.se/db/aac_zlib3/<zlibrary_id>.json"]),
+        "ia_record": ("before", ["Source data at: https://annas-archive.se/db/ia/<ia_id>.json"]),
+        "isbndb": ("before", ["Source data at: https://annas-archive.se/db/isbndb/<isbn13>.json"]),
+        "ol": ("before", ["Source data at: https://annas-archive.se/db/ol/<ol_edition>.json"]),
+        "scihub_doi": ("before", ["Source data at: https://annas-archive.se/db/scihub_doi/<doi>.json"]),
+        "oclc": ("before", ["Source data at: https://annas-archive.se/db/oclc/<oclc>.json"]),
+        "duxiu": ("before", ["Source data at: https://annas-archive.se/db/duxiu_ssid/<duxiu_ssid>.json or https://annas-archive.se/db/cadal_ssno/<cadal_ssno>.json or https://annas-archive.se/db/duxiu_md5/<md5>.json"]),
         "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
         "ipfs_infos": ("before", ["Data about the IPFS files."]),
         "search_only_fields": ("before", ["Data that is used during searching."]),

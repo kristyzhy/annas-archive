@@ -10,7 +10,7 @@ To get Anna's Archive running locally:
 
    In a terminal, clone the repository and set up your environment:
    ```bash
-   git clone https://software.annas-archive.gs/AnnaArchivist/annas-archive.git
+   git clone https://software.annas-archive.se/AnnaArchivist/annas-archive.git
    cd annas-archive
    cp .env.dev .env
    ```
@@ -109,9 +109,9 @@ To set up mariapersistreplica and mariabackup, check out `mariapersistreplica-co
     
 ## Contributing
 
-To report bugs or suggest new ideas, please file an ["issue"](https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/issues).
+To report bugs or suggest new ideas, please file an ["issue"](https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues).
 
-To contribute code, also file an [issue](https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/issues), and include your `git diff` inline (you can use \`\`\`diff to get some syntax highlighting on the diff). Merge requests are currently disabled for security purposes — if you make consistently useful contributions you might get access.
+To contribute code, also file an [issue](https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues), and include your `git diff` inline (you can use \`\`\`diff to get some syntax highlighting on the diff). Merge requests are currently disabled for security purposes — if you make consistently useful contributions you might get access.
 
 For larger projects, please contact Anna first on [Reddit](https://www.reddit.com/r/Annas_Archive/).
 ## License

@@ -7,7 +7,7 @@ Roughly the steps are:
 - Generate derived data (mostly ElasticSearch).
 - Swap out the new data in production.
 
-Many steps can be skipped by downloading our [precalculated data](https://annas-archive.gs/torrents#aa_derived_mirror_metadata). For more details on that, see below.
+Many steps can be skipped by downloading our [precalculated data](https://annas-archive.se/torrents#aa_derived_mirror_metadata). For more details on that, see below.
 
 ```bash
 [ -e ../../aa-data-import--allthethings-mysql-data ] && (echo '../../aa-data-import--allthethings-mysql-data already exists; aborting'; exit 1)
@@ -76,7 +76,9 @@ docker exec -it aa-data-import--web mariadb -u root -ppassword allthethings --sh
 docker exec -it aa-data-import--web /scripts/check_after_imports.sh
 
 # Sanity check to make sure the tables are filled.
-docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1000 / 1000 / 1000), 2) AS "Size (GB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
+docker exec -it aa-data-import--mariadb mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1000 / 1000 / 1000), 2) AS "Size (GB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
+# To manually keep an eye on things, run SHOW PROCESSLIST; in a MariaDB prompt:
+docker exec -it aa-data-import--mariadb mariadb -h aa-data-import--mariadb -u root -ppassword allthethings
 
 # Calculate derived data:
 docker exec -it aa-data-import--web flask cli mysql_reset_aac_tables # Can be skipped when using aa_derived_mirror_metadata. Only necessary for full reset.
@@ -121,7 +123,7 @@ docker compose logs --tail 20 --follow
 For answers to questions about this, please see [this Reddit post and comments](https://www.reddit.com/r/Annas_Archive/comments/1dtb4qz/comment/lbbo3ys/).
 
 ```bash
-# First, download the torrents from https://annas-archive.gs/torrents#aa_derived_mirror_metadata to aa-data-import--temp-dir/imports.
+# First, download the torrents from https://annas-archive.se/torrents#aa_derived_mirror_metadata to aa-data-import--temp-dir/imports.
 # Then run these:
 docker exec -it aa-data-import--web /scripts/load_elasticsearch.sh
 docker exec -it aa-data-import--web /scripts/load_elasticsearchaux.sh

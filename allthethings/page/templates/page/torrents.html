@@ -44,7 +44,7 @@
       </p>
 
       <p class="mb-4">
-        These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive">source code</a> and metadata (which can be <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases). We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
+        These torrents are not meant for downloading individual books. They are meant for long-term preservation. With these torrents you can set up a full mirror of Anna’s Archive, using our <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive">source code</a> and metadata (which can be <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases). We also have full lists of torrents, as <a href="/dyn/torrents.json">JSON</a>.
       </p>
 
       <p class="mb-4">
@@ -128,7 +128,7 @@
       <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list">Generate Torrent List</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
       <p class="mb-4">
-        Generate a list of torrents, sorted by <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/issues/157">(seeders + 0.1*leechers)*fraction-of-torrent-size-compared-to-average-size + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply keep adding torrents until max TB is reached).
+        Generate a list of torrents, sorted by <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/157">(seeders + 0.1*leechers)*fraction-of-torrent-size-compared-to-average-size + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply keep adding torrents until max TB is reached).
       </p>
 
       <form action="/dyn/generate_torrents" class="flex items-center mb-4">
@@ -163,7 +163,7 @@
           </p>
 
           <p class="mb-0">
-            Torrents with “aac” in the filename use the <a href="https://annas-archive.gs/blog/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents.
+            Torrents with “aac” in the filename use the <a href="https://annas-archive.se/blog/annas-archive-containers.html">Anna’s Archive Containers format</a>. Torrents that are crossed out have been superseded by newer torrents, for example because newer metadata has become available — we normally only do this with small metadata torrents.
             <!-- Some torrents that have messages in their filename are “adopted torrents”, which is a perk of our top tier <a href="/donate">“Amazing Archivist” membership</a>. -->
           </p>
         {% elif toplevel == 'external' %}
@@ -189,13 +189,13 @@
               {% if group == 'zlib' %}
                 <div class="mb-1 text-sm">Z-Library books. The different types of torrents in this list are cumulative — you need them all to get the full collection. *file count is lower than actual because of big .tar files. <a href="/torrents/zlib">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/zlib">dataset</a></div>
               {% elif group == 'isbndb' %}
-                <div class="mb-1 text-sm">ISBNdb metadata. <a href="/torrents/isbndb">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/isbndb">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.gs/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html">blog</a></div>
+                <div class="mb-1 text-sm">ISBNdb metadata. <a href="/torrents/isbndb">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/isbndb">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.se/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html">blog</a></div>
               {% elif group == 'libgenrs_covers' %}
-                <div class="mb-1 text-sm">Book covers from Libgen.rs. <a href="/torrents/libgenrs_covers">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.gs/blog/annas-update-open-source-elasticsearch-covers.html">blog</a></div>
+                <div class="mb-1 text-sm">Book covers from Libgen.rs. <a href="/torrents/libgenrs_covers">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.se/blog/annas-update-open-source-elasticsearch-covers.html">blog</a></div>
               {% elif group == 'ia' %}
                 <div class="mb-1 text-sm">IA Controlled Digital Lending books and magazines. The different types of torrents in this list are cumulative — you need them all to get the full collection. *file count is lower than actual because of big .tar files. <a href="/torrents/ia">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/ia">dataset</a></div>
               {% elif group == 'worldcat' %}
-                <div class="mb-1 text-sm">Metadata from OCLC/Worldcat. <a href="/torrents/worldcat">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/worldcat">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.gs/blog/worldcat-scrape.html">blog</a></div>
+                <div class="mb-1 text-sm">Metadata from OCLC/Worldcat. <a href="/torrents/worldcat">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/worldcat">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.se/blog/worldcat-scrape.html">blog</a></div>
               {% elif group == 'libgen_rs_non_fic' %}
                 <div class="mb-1 text-sm">Non-fiction book collection from Libgen.rs. <a href="/torrents/libgen_rs_non_fic">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/libgen_rs">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://libgen.rs/repository_torrent/">original</a><span class="text-xs text-gray-500"> / </span><a href="https://forum.mhut.org/viewtopic.php?f=17&t=6395&p=217286">new additions</a> (blocks IP ranges, VPN might be required)<span class="text-xs text-gray-500"> / </span><a href="https://data.ipdl.cat/torrent-archive/r/">ipdl.cat</a></div>
               {% elif group == 'libgen_rs_fic' %}
@@ -209,11 +209,11 @@
               {% elif group == 'scihub' %}
                 <div class="mb-1 text-sm">Sci-Hub / Libgen.rs “scimag” collection of academic papers. Currently not directly seeded by Anna’s Archive, but we keep a backup in extracted form. Note that the “smarch” torrents are <a href="https://www.reddit.com/r/libgen/comments/15qa5i0/what_are_smarch_files/">deprecated</a> and therefore not included in our list. *file count is lower than actual because of big .zip files. <a href="/torrents/scihub">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/scihub">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://libgen.rs/scimag/repository_torrent/">original</a></div>
               {% elif group == 'duxiu' %}
-                <div class="mb-1 text-sm">DuXiu and related. <a href="/torrents/duxiu">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/duxiu">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.gs/blog/duxiu-exclusive.html">blog</a></div>
+                <div class="mb-1 text-sm">DuXiu and related. <a href="/torrents/duxiu">full list</a><span class="text-xs text-gray-500"> / </span><a href="/datasets/duxiu">dataset</a><span class="text-xs text-gray-500"> / </span><a href="https://annas-archive.se/blog/duxiu-exclusive.html">blog</a></div>
               {% elif group == 'upload' %}
                 <div class="mb-1 text-sm">Sets of files that were uploaded to Anna’s Archive by volunteers, which are too small to warrant their own datasets page, but together make for a formidable collection. <a href="/torrents/upload">full list</a></div>
               {% elif group == 'aa_derived_mirror_metadata' %}
-                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MariaDB), published occasionally to make it easier to set up mirrors. All this data can be generated from scratch using our <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">open source code</a>, but this can take a while. At this time you do still need to run the AAC-related scripts. These files have been created using the data-imports/scripts/dump_*.sh scripts in our codebase. <a href="https://software.annas-archive.gs/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md#importing-from-aa_derived_mirror_metadata">This section</a> describes how to load them. Documentation for the ElasticSearch records can be found inline in our <a href="https://annas-archive.gs/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">example JSON</a>.</div>
+                <div class="mb-1 text-sm">Our raw metadata database (ElasticSearch and MariaDB), published occasionally to make it easier to set up mirrors. All this data can be generated from scratch using our <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">open source code</a>, but this can take a while. At this time you do still need to run the AAC-related scripts. These files have been created using the data-imports/scripts/dump_*.sh scripts in our codebase. <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md#importing-from-aa_derived_mirror_metadata">This section</a> describes how to load them. Documentation for the ElasticSearch records can be found inline in our <a href="https://annas-archive.se/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">example JSON</a>.</div>
               {% endif %}
             </td></tr>
 

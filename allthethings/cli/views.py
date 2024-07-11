@@ -153,8 +153,8 @@ def mysql_build_aac_tables_internal():
     for filename in os.listdir(allthethings.utils.aac_path_prefix()):
         if not (filename.startswith('annas_archive_meta__aacid__') and filename.endswith('.jsonl.seekable.zst')):
             continue
-        if 'worldcat' in filename:
-            continue
+        # if 'worldcat' in filename:
+        #     continue
         collection = filename.split('__')[2]
         file_data_files_by_collection[collection].append(filename)
 
@@ -234,6 +234,7 @@ def mysql_build_aac_tables_internal():
             uncompressed_size = None
             if os.path.exists(filepath_decompressed):
                 print(f"[{collection}] Found decompressed version, using that for performance: {filepath_decompressed}")
+                print("Note that using the compressed version for linear operations is sometimes faster than running into drive read limits (even with NVMe), so be sure to performance-test this on your machine if the files are large, and commenting out these lines if necessary.")
                 file = open(filepath_decompressed, 'rb')
                 uncompressed_size = os.path.getsize(filepath_decompressed)
             else:
@@ -417,7 +418,6 @@ es_create_index_body = {
                 },
             },
         },
-        "_source": { "excludes": ["search_only_fields.*"] },
     },
     "settings": {
         "index": {
@@ -467,35 +467,31 @@ def elastic_reset_aarecords_internal():
     with Session(engine) as session:
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('DROP TABLE IF EXISTS aarecords_all')
-        cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        # cursor.execute('CREATE TABLE aarecords_codes_new (hashed_code BINARY(16), hashed_aarecord_id BINARY(16) NOT NULL, code VARCHAR(200) NOT NULL, aarecord_id VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), row_number_order_by_code BIGINT DEFAULT 0, dense_rank_order_by_code BIGINT DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT DEFAULT 0, PRIMARY KEY (hashed_code, hashed_aarecord_id), INDEX code (code), INDEX aarecord_id_prefix_code (aarecord_id_prefix, code)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('DROP TABLE IF EXISTS aarecords_all') # Old
+        cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13') # Old
         cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        # cursor.execute('DROP TABLE IF EXISTS aarecords_codes_counts')
-        # cursor.execute('CREATE TABLE aarecords_codes_counts (code_prefix_length INT NOT NULL, code_prefix VARCHAR(200) NOT NULL, aarecord_id_prefix CHAR(20), child_count BIGINT, record_count BIGINT, PRIMARY KEY (code_prefix_length, code_prefix, aarecord_id_prefix)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13') # Old
-        # TODO: Replace with aarecords_codes
-        cursor.execute('DROP TABLE IF EXISTS isbn13_oclc')
-        cursor.execute('CREATE TABLE isbn13_oclc (isbn13 CHAR(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL, oclc_id BIGINT NOT NULL, PRIMARY KEY (isbn13, oclc_id)) ENGINE=MyISAM ROW_FORMAT=FIXED DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
-
-        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
-        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes_new')
-        new_tables_internal()    
+    new_tables_internal('aarecords_codes_ia')
+    new_tables_internal('aarecords_codes_isbndb')
+    new_tables_internal('aarecords_codes_ol')
+    new_tables_internal('aarecords_codes_duxiu')
+    new_tables_internal('aarecords_codes_oclc')
+    new_tables_internal('aarecords_codes_main')
 
 
 # These tables always need to be created new if they don't exist yet.
 # They should only be used when doing a full refresh, but things will
 # crash if they don't exist.
-def new_tables_internal():
-    print("Creating some new tables if necessary")
+def new_tables_internal(codes_table_name):
     with Session(engine) as session:
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes_new (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        print(f"Creating fresh table {codes_table_name}")
+        cursor.execute(f'DROP TABLE IF EXISTS {codes_table_name}')
+        # InnoDB for the key length.
+        cursor.execute(f'CREATE TABLE {codes_table_name} (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, PRIMARY KEY (code, aarecord_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
 #################################################################################################
@@ -519,6 +515,17 @@ def elastic_build_aarecords_job_init_pool():
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
     elastic_build_aarecords_compressor = zstandard.ZstdCompressor(level=3, dict_data=zstandard.ZstdCompressionDict(pathlib.Path(os.path.join(__location__, 'aarecords_dump_for_dictionary.bin')).read_bytes()))
 
+AARECORD_ID_PREFIX_TO_CODES_TABLE_NAME = {
+    'ia': 'aarecords_codes_ia',
+    'isbn': 'aarecords_codes_isbndb',
+    'ol': 'aarecords_codes_ol',
+    'duxiu_ssid': 'aarecords_codes_duxiu',
+    'cadal_ssno': 'aarecords_codes_duxiu',
+    'oclc': 'aarecords_codes_oclc',
+    'md5': 'aarecords_codes_main',
+    'doi': 'aarecords_codes_main',
+}
+
 def elastic_build_aarecords_job(aarecord_ids):
     global elastic_build_aarecords_job_app
     global elastic_build_aarecords_compressor
@@ -529,8 +536,6 @@ def elastic_build_aarecords_job(aarecord_ids):
             # print(f"[{os.getpid()}] elastic_build_aarecords_job start {len(aarecord_ids)}")
             with Session(engine) as session:
                 operations_by_es_handle = collections.defaultdict(list)
-                dois = []
-                isbn13_oclc_insert_data = []
                 session.connection().connection.ping(reconnect=True)
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
                 cursor.execute('SELECT 1')
@@ -539,38 +544,48 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # Filter out records that are filtered in get_isbndb_dicts, because there are some bad records there.
                 canonical_isbn13s = [aarecord_id[len('isbn:'):] for aarecord_id in aarecord_ids if aarecord_id.startswith('isbn:')]
                 bad_isbn13_aarecord_ids = set([f"isbn:{isbndb_dict['ean13']}" for isbndb_dict in get_isbndb_dicts(session, canonical_isbn13s) if len(isbndb_dict['isbndb']) == 0])
-                aarecord_ids = [aarecord_id for aarecord_id in aarecord_ids if aarecord_id not in bad_isbn13_aarecord_ids]
+
+                # Filter out "doi:" records that already have an md5. We don't need standalone records for those.
+                doi_codes_from_ids = [aarecord_id for aarecord_id in aarecord_ids if aarecord_id.startswith('doi:')]
+                doi_codes_with_md5 = set()
+                if len(doi_codes_from_ids) > 0:
+                    session.connection().connection.ping(reconnect=True)
+                    cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+                    cursor.execute('SELECT DISTINCT code FROM aarecords_codes_main WHERE code IN %(doi_codes_from_ids)s', { "doi_codes_from_ids": doi_codes_from_ids })
+                    doi_codes_with_md5 = set([row['code'] for row in cursor.fetchall()])
+
+                aarecord_ids = [aarecord_id for aarecord_id in aarecord_ids if (aarecord_id not in bad_isbn13_aarecord_ids) and (aarecord_id not in doi_codes_with_md5)]
                 if len(aarecord_ids) == 0:
                     return False
 
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job set up aa_records_all")
                 aarecords = get_aarecords_mysql(session, aarecord_ids)
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
-                aarecords_all_insert_data = []
-                aarecords_codes_insert_data = []
-                aarecords_codes_prefixes_insert_data = []
-                # aarecords_codes_counts_insert_data = []
+                aarecords_all_md5_insert_data = []
+                aarecords_codes_insert_data_by_codes_table_name = collections.defaultdict(list)
                 for aarecord in aarecords:
                     aarecord_id_split = aarecord['id'].split(':', 1)
                     hashed_aarecord_id = hashlib.md5(aarecord['id'].encode()).digest()
-                    aarecords_all_insert_data.append({
-                        'hashed_aarecord_id': hashed_aarecord_id,
-                        'aarecord_id': aarecord['id'],
-                        'md5': bytes.fromhex(aarecord_id_split[1]) if aarecord['id'].startswith('md5:') else None,
-                        'json_compressed': elastic_build_aarecords_compressor.compress(orjson.dumps({
-                            # Note: used in external code.
-                            'search_only_fields': {
-                                'search_access_types': aarecord['search_only_fields']['search_access_types'],
-                                'search_record_sources': aarecord['search_only_fields']['search_record_sources'],
-                                'search_bulk_torrents': aarecord['search_only_fields']['search_bulk_torrents'],
-                            }
-                        })),
-                    })
+                    if aarecord['id'].startswith('md5:'):
+                        # TODO: bring back for other records if necessary, but keep it possible to rerun
+                        # only _main with recreating the table, and not needing INSERT .. ON DUPLICATE KEY UPDATE (deadlocks).
+                        aarecords_all_md5_insert_data.append({
+                            # 'hashed_aarecord_id': hashed_aarecord_id,
+                            # 'aarecord_id': aarecord['id'],
+                            'md5': bytes.fromhex(aarecord_id_split[1]) if aarecord['id'].startswith('md5:') else None,
+                            'json_compressed': elastic_build_aarecords_compressor.compress(orjson.dumps({
+                                # Note: used in external code.
+                                'search_only_fields': {
+                                    'search_access_types': aarecord['search_only_fields']['search_access_types'],
+                                    'search_record_sources': aarecord['search_only_fields']['search_record_sources'],
+                                    'search_bulk_torrents': aarecord['search_only_fields']['search_bulk_torrents'],
+                                }
+                            })),
+                        })
+
                     for index in aarecord['indexes']:
                         virtshard = allthethings.utils.virtshard_for_hashed_aarecord_id(hashed_aarecord_id)
                         operations_by_es_handle[allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[index]].append({ **aarecord, '_op_type': 'index', '_index': f'{index}__{virtshard}', '_id': aarecord['id'] })
-                    for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
-                        dois.append(doi)
 
                     codes = []
                     for code_name in aarecord['file_unified_data']['identifiers_unified'].keys():
@@ -580,53 +595,10 @@ def elastic_build_aarecords_job(aarecord_ids):
                         for code_value in aarecord['file_unified_data']['classifications_unified'][code_name]:
                             codes.append(f"{code_name}:{code_value}")
                     for code in codes:
-                        aarecords_codes_insert_data.append({
-                            'code': code.encode(),
-                            'aarecord_id': aarecord['id'].encode(),
-                            'aarecord_id_prefix': aarecord_id_split[0].encode(),
-                        })
-                        aarecords_codes_prefixes_insert_data.append({
-                            'code_prefix': code.encode().split(b':', 1)[0],
-                        })
-                        # code_prefix = ''
-                        # # 18 is enough for "isbn13:" plus 11 of the 13 digits.
-                        # for code_letter in code[:min(18,len(code)-1)]:
-                        #     code_prefix += code_letter
-                        #     aarecords_codes_counts_insert_data.append({
-                        #         'code_prefix_length': len(code_prefix),
-                        #         'code_prefix': code_prefix,
-                        #         'aarecord_id_prefix': aarecord_id_split[0],
-                        #         'child_count_delta': 1,
-                        #         'record_count_delta': 0,
-                        #     })
-                        # aarecords_codes_counts_insert_data.append({
-                        #     'code_prefix_length': len(code),
-                        #     'code_prefix': code,
-                        #     'aarecord_id_prefix': aarecord_id_split[0],
-                        #     'child_count_delta': 0,
-                        #     'record_count_delta': 1,
-                        # })
+                        codes_table_name = AARECORD_ID_PREFIX_TO_CODES_TABLE_NAME[aarecord_id_split[0]]
+                        aarecords_codes_insert_data_by_codes_table_name[codes_table_name].append({ 'code': code.encode(), 'aarecord_id': aarecord['id'].encode() })
 
-                    # TODO: Replace with aarecords_codes
-                    if aarecord['id'].startswith('oclc:'):
-                        for isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-                            isbn13_oclc_insert_data.append({ "isbn13": isbn13, "oclc_id": int(aarecord_id_split[1]) })
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job finished for loop")
-
-                if (aarecord_ids[0].startswith('md5:')) and (len(dois) > 0):
-                    dois = list(set(dois))
-                    session.connection().connection.ping(reconnect=True)
-                    count = cursor.execute(f'DELETE FROM scihub_dois_without_matches WHERE doi IN %(dois)s', { "dois": dois })
-                    cursor.execute('COMMIT')
-                    # print(f'Deleted {count} DOIs')
-
-                # TODO: Replace with aarecords_codes
-                if len(isbn13_oclc_insert_data) > 0:
-                    session.connection().connection.ping(reconnect=True)
-                    cursor.executemany(f"INSERT INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s) ON DUPLICATE KEY UPDATE isbn13=VALUES(isbn13)", isbn13_oclc_insert_data)
-                    cursor.execute('COMMIT')
-
-                # print(f"[{os.getpid()}] elastic_build_aarecords_job processed incidental inserts")
                     
                 try:
                     for es_handle, operations in operations_by_es_handle.items():
@@ -649,24 +621,18 @@ def elastic_build_aarecords_job(aarecord_ids):
 
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into ES")
 
-                session.connection().connection.ping(reconnect=True)
-                cursor.executemany(f'INSERT INTO aarecords_all (hashed_aarecord_id, aarecord_id, md5, json_compressed) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(md5)s, %(json_compressed)s) ON DUPLICATE KEY UPDATE json_compressed=VALUES(json_compressed)', aarecords_all_insert_data)
-                cursor.execute('COMMIT')
+                if len(aarecords_all_md5_insert_data) > 0:
+                    session.connection().connection.ping(reconnect=True)
+                    # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
+                    cursor.executemany(f'INSERT DELAYED INTO aarecords_all_md5 (md5, json_compressed) VALUES (%(md5)s, %(json_compressed)s)', aarecords_all_md5_insert_data)
+                    cursor.execute('COMMIT')
 
-                if len(aarecords_codes_insert_data) > 0:
-                    session.connection().connection.ping(reconnect=True)
-                    # ON DUPLICATE KEY here is dummy, to avoid INSERT IGNORE which suppresses other errors
-                    cursor.executemany(f"INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) VALUES (%(code)s, %(aarecord_id)s, %(aarecord_id_prefix)s) ON DUPLICATE KEY UPDATE code=VALUES(code)", aarecords_codes_insert_data)
-                    cursor.execute('COMMIT')
-                if len(aarecords_codes_prefixes_insert_data) > 0:
-                    session.connection().connection.ping(reconnect=True)
-                    # We do use INSERT IGNORE here, because this table gets highly contested, so we prefer simple ignoring of errors.
-                    cursor.executemany(f"INSERT IGNORE INTO aarecords_codes_prefixes_new (code_prefix) VALUES (%(code_prefix)s)", aarecords_codes_prefixes_insert_data)
-                    cursor.execute('COMMIT')
-                # if len(aarecords_codes_counts_insert_data) > 0:
-                #     session.connection().connection.ping(reconnect=True)
-                #     cursor.executemany(f"INSERT INTO aarecords_codes_counts (code_prefix_length, code_prefix, aarecord_id_prefix, child_count, record_count) VALUES (%(code_prefix_length)s, %(code_prefix)s, %(aarecord_id_prefix)s, %(child_count_delta)s, %(record_count_delta)s) ON DUPLICATE KEY UPDATE child_count=child_count+VALUES(child_count), record_count=record_count+VALUES(record_count)", aarecords_codes_counts_insert_data)
-                #     cursor.execute('COMMIT')
+                for codes_table_name, aarecords_codes_insert_data in aarecords_codes_insert_data_by_codes_table_name.items():
+                    if len(aarecords_codes_insert_data) > 0:
+                        session.connection().connection.ping(reconnect=True)
+                        # Can't do INSERT DELAYED because of InnoDB.
+                        cursor.executemany(f"INSERT INTO {codes_table_name} (code, aarecord_id) VALUES (%(code)s, %(aarecord_id)s)", aarecords_codes_insert_data)
+                        cursor.execute('COMMIT')
 
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into aarecords_all")
                 # print(f"[{os.getpid()}] Processed {len(aarecords)} md5s")
@@ -683,8 +649,8 @@ def elastic_build_aarecords_job_oclc(fields):
     allthethings.utils.set_worldcat_line_cache(fields)
     return elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
 
-THREADS = 100
-CHUNK_SIZE = 300
+THREADS = 200
+CHUNK_SIZE = 500
 BATCH_SIZE = 100000
 
 # Locally
@@ -718,10 +684,11 @@ def elastic_build_aarecords_all_internal():
 # ./run flask cli elastic_build_aarecords_ia
 @cli.cli.command('elastic_build_aarecords_ia')
 def elastic_build_aarecords_ia():
-    new_tables_internal()
     elastic_build_aarecords_ia_internal()
 
 def elastic_build_aarecords_ia_internal():
+    new_tables_internal('aarecords_codes_ia')
+
     before_first_ia_id = ''
 
     if len(before_first_ia_id) > 0:
@@ -769,10 +736,11 @@ def elastic_build_aarecords_ia_internal():
 # ./run flask cli elastic_build_aarecords_isbndb
 @cli.cli.command('elastic_build_aarecords_isbndb')
 def elastic_build_aarecords_isbndb():
-    new_tables_internal()
     elastic_build_aarecords_isbndb_internal()
 
 def elastic_build_aarecords_isbndb_internal():
+    new_tables_internal('aarecords_codes_isbndb')
+
     before_first_isbn13 = ''
 
     if len(before_first_isbn13) > 0:
@@ -817,10 +785,11 @@ def elastic_build_aarecords_isbndb_internal():
 # ./run flask cli elastic_build_aarecords_ol
 @cli.cli.command('elastic_build_aarecords_ol')
 def elastic_build_aarecords_ol():
-    new_tables_internal()
     elastic_build_aarecords_ol_internal()
 
 def elastic_build_aarecords_ol_internal():
+    new_tables_internal('aarecords_codes_ol')
+
     before_first_ol_key = ''
     # before_first_ol_key = '/books/OL5624024M'
     with engine.connect() as connection:
@@ -854,10 +823,11 @@ def elastic_build_aarecords_ol_internal():
 # ./run flask cli elastic_build_aarecords_duxiu
 @cli.cli.command('elastic_build_aarecords_duxiu')
 def elastic_build_aarecords_duxiu():
-    new_tables_internal()
     elastic_build_aarecords_duxiu_internal()
 
 def elastic_build_aarecords_duxiu_internal():
+    new_tables_internal('aarecords_codes_duxiu')
+
     before_first_primary_id = ''
     # before_first_primary_id = 'duxiu_ssid_10000431'
     with engine.connect() as connection:
@@ -919,10 +889,11 @@ def elastic_build_aarecords_duxiu_internal():
 # ./run flask cli elastic_build_aarecords_oclc
 @cli.cli.command('elastic_build_aarecords_oclc')
 def elastic_build_aarecords_oclc():
-    new_tables_internal()
     elastic_build_aarecords_oclc_internal()
 
 def elastic_build_aarecords_oclc_internal():
+    new_tables_internal('aarecords_codes_oclc')
+
     MAX_WORLDCAT = 999999999999999
     if SLOW_DATA_IMPORTS:
         MAX_WORLDCAT = 1000
@@ -986,10 +957,19 @@ def elastic_build_aarecords_oclc_internal():
 # ./run flask cli elastic_build_aarecords_main
 @cli.cli.command('elastic_build_aarecords_main')
 def elastic_build_aarecords_main():
-    new_tables_internal()
     elastic_build_aarecords_main_internal()
 
 def elastic_build_aarecords_main_internal():
+    new_tables_internal('aarecords_codes_main')
+
+    with Session(engine) as session:
+        session.connection().connection.ping(reconnect=True)
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('DROP TABLE IF EXISTS aarecords_all_md5')
+        # cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE aarecords_all_md5 (md5 BINARY(16) NOT NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+
+
     before_first_md5 = ''
     # before_first_md5 = 'aaa5a4759e87b0192c1ecde213535ba1'
     before_first_doi = ''
@@ -1041,7 +1021,7 @@ def elastic_build_aarecords_main_internal():
                     print(f"Processing (ahead!) with {THREADS=} {len(batch)=} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
                     for chunk in more_itertools.chunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE):
                         futures.add(executor.submit(elastic_build_aarecords_job, chunk))
-                        if len(futures) > THREADS*5:
+                        if len(futures) > THREADS*2:
                             process_future()
                     # last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
                     # pbar.update(len(batch))
@@ -1049,10 +1029,10 @@ def elastic_build_aarecords_main_internal():
                 while len(futures) > 0:
                     process_future()
 
-            print("Processing from scihub_dois_without_matches")
+            print("Processing from scihub_dois")
             connection.connection.ping(reconnect=True)
             cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-            cursor.execute('SELECT COUNT(doi) AS count FROM scihub_dois_without_matches WHERE doi > %(from)s ORDER BY doi LIMIT 1', { "from": before_first_doi })
+            cursor.execute('SELECT COUNT(doi) AS count FROM scihub_dois WHERE doi > %(from)s ORDER BY doi LIMIT 1', { "from": before_first_doi })
             total = list(cursor.fetchall())[0]['count']
             with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
                 with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
@@ -1061,7 +1041,7 @@ def elastic_build_aarecords_main_internal():
                     while True:
                         connection.connection.ping(reconnect=True)
                         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                        cursor.execute('SELECT doi FROM scihub_dois_without_matches WHERE doi > %(from)s ORDER BY doi LIMIT %(limit)s', { "from": current_doi, "limit": BATCH_SIZE })
+                        cursor.execute('SELECT doi FROM scihub_dois WHERE doi > %(from)s ORDER BY doi LIMIT %(limit)s', { "from": current_doi, "limit": BATCH_SIZE })
                         batch = list(cursor.fetchall())
                         if last_map is not None:
                             if any(last_map.get()):
@@ -1069,7 +1049,7 @@ def elastic_build_aarecords_main_internal():
                                 os._exit(1)
                         if len(batch) == 0:
                             break
-                        print(f"Processing with {THREADS=} {len(batch)=} aarecords from scihub_dois_without_matches ( starting doi: {batch[0]['doi']}, ending doi: {batch[-1]['doi']} )...")
+                        print(f"Processing with {THREADS=} {len(batch)=} aarecords from scihub_dois ( starting doi: {batch[0]['doi']}, ending doi: {batch[-1]['doi']} )...")
                         last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
                         pbar.update(len(batch))
                         current_doi = batch[-1]['doi']
@@ -1108,6 +1088,27 @@ def mysql_build_aarecords_codes_numbers_internal():
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+
+        # InnoDB for the key length.
+        print("Creating fresh table aarecords_codes_new")
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
+        cursor.execute('CREATE TABLE aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        print("Inserting into aarecords_codes_new from aarecords_codes_ia")
+        cursor.execute('INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) FROM aarecords_codes_ia');
+        print("Inserting into aarecords_codes_new from aarecords_codes_isbndb")
+        cursor.execute('INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) FROM aarecords_codes_isbndb');
+        print("Inserting into aarecords_codes_new from aarecords_codes_ol")
+        cursor.execute('INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) FROM aarecords_codes_ol');
+        print("Inserting into aarecords_codes_new from aarecords_codes_duxiu")
+        cursor.execute('INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) FROM aarecords_codes_duxiu');
+        print("Inserting into aarecords_codes_new from aarecords_codes_oclc")
+        cursor.execute('INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) FROM aarecords_codes_oclc');
+        print("Inserting into aarecords_codes_new from aarecords_codes_main")
+        cursor.execute('INSERT INTO aarecords_codes_new (code, aarecord_id, aarecord_id_prefix) SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) FROM aarecords_codes_main');
+        print("Creating fresh table aarecords_codes_prefixes_new and inserting from aarecords_codes_new")
+        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes_new')
+        cursor.execute('CREATE TABLE aarecords_codes_prefixes_new (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT DISTINCT SUBSTRING_INDEX(code, ":", 1) AS code_prefix FROM aarecords_codes_new')
+
         cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes_new" LIMIT 1')
         total = cursor.fetchone()['table_rows']
         print(f"Found {total=} codes (approximately)")

@@ -39,15 +39,15 @@ ELASTICSEARCH_HOST_PREFERRED = os.getenv("ELASTICSEARCH_HOST_PREFERRED", "")
 ELASTICSEARCHAUX_HOST_PREFERRED = os.getenv("ELASTICSEARCHAUX_HOST_PREFERRED", "")
 
 
-MAIL_USERNAME = 'anna@annas-archive.gs'
-MAIL_DEFAULT_SENDER = ('Anna’s Archive', 'anna@annas-archive.gs')
+MAIL_USERNAME = 'anna@annas-archive.se'
+MAIL_DEFAULT_SENDER = ('Anna’s Archive', 'anna@annas-archive.se')
 MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
 if len(MAIL_PASSWORD) == 0:
     MAIL_SERVER = 'mailpit'
     MAIL_PORT = 1025
     MAIL_DEBUG = True
 else:
-    MAIL_SERVER = 'mail.annas-archive.gs'
+    MAIL_SERVER = 'mail.annas-archive.se'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
 
