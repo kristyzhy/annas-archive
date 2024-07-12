@@ -913,7 +913,10 @@ UNIFIED_IDENTIFIERS = {
     "lgli_scimag_id": { "label": "Libgen.li scimag_id", "description": "Repository ID for the 'scimag' repository in Libgen.li. Directly taken from the 'scimag_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
     "lgli_standarts_id": { "label": "Libgen.li standarts_id", "description": "Repository ID for the 'standarts' repository in Libgen.li. Directly taken from the 'standarts_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
     "lgli_magz_id": { "label": "Libgen.li magz_id", "description": "Repository ID for the 'magz' repository in Libgen.li. Directly taken from the 'magz_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
+    "filepath": { "label": "Filepath", "description": "Original filepath in source library." },
     "torrent": { "label": "Torrent", "url": "/dyn/small_file/torrents/%s", "description": "Bulk torrent for long-term preservation.", "website": "/torrents" },
+    "server_path": { "label": "Server Path", "description": "Path on Anna’s Archive partner servers." },
+    "collection": { "label": "Collection", "url": "/datasets/%s", "description": "The collection on Anna’s Archive that provided data for this record.", "website": "/datasets" },
     **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }
@@ -1170,9 +1173,23 @@ def make_code_for_display(key, value):
     return {
         'key': key,
         'value': value,
-        'masked_isbn': isbnlib.mask(value) if ['isbn10', 'isbn13'] and (isbnlib.is_isbn10(value) or isbnlib.is_isbn13(value)) else '',
+        'masked_isbn': isbnlib.mask(value) if (key in ['isbn10', 'isbn13']) and (isbnlib.is_isbn10(value) or isbnlib.is_isbn13(value)) else '',
         'info': UNIFIED_IDENTIFIERS.get(key) or UNIFIED_CLASSIFICATIONS.get(key) or {},
     }
+
+def get_isbnlike(text):
+    matches = set()
+    # Special regex that works on filenames as well.
+    for match in re.findall(r'(?:ISBN|isbn)[ _-]*([-_0-9X]{10,19})', text):
+        for potential_isbn in isbnlib.get_isbnlike(match):
+            if isbnlib.is_isbn13(potential_isbn) or isbnlib.is_isbn10(potential_isbn):
+                matches.add(potential_isbn)
+
+    for potential_isbn in isbnlib.get_isbnlike(text):
+        # Only extract ISBN-13 when using regular matching, ISBN-10 yields too many false positives.
+        if isbnlib.is_isbn13(potential_isbn):
+            matches.add(potential_isbn)
+    return list(matches)
 
 SEARCH_INDEX_SHORT_LONG_MAPPING = {
     '': 'aarecords',
@@ -1217,6 +1234,15 @@ def virtshard_for_aarecord_id(aarecord_id):
     return virtshard_for_hashed_aarecord_id(hashlib.md5(aarecord_id.encode()).digest())
 def all_virtshards_for_index(index_name):
     return [f'{index_name}__{virtshard}' for virtshard in range(0, ES_VIRTUAL_SHARDS_NUM)]
+
+def attempt_fix_chinese_uninterrupted_text(text):
+    try:
+        return text.encode().decode('gbk')
+    except:
+        return text
+
+def attempt_fix_chinese_filepath(filepath):
+    return '/'.join([attempt_fix_chinese_uninterrupted_text(part) for part in filepath.split('/')])
 
 # TODO: translate?
 def marc_country_code_to_english(marc_country_code):

@@ -50,8 +50,8 @@
     <div class="text-3xl font-bold">{{aarecord.additional.top_box.title}} {% if aarecord.additional.top_box.title %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.title | urlencode }}">🔍</a>{% endif %}</div>
     <div class="text-md">{{aarecord.additional.top_box.publisher_and_edition}}</div>
     <div class="italic">{{aarecord.additional.top_box.author}} {% if aarecord.additional.top_box.author %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.author | urlencode }}">🔍</a>{% endif %}</div>
-    <div class="mt-4 line-clamp-[6] js-md5-top-box-description">{% if aarecord.additional.top_box.description %}<div class="text-xs text-gray-500 uppercase">{{ gettext('page.md5.box.descr_title') }}</div><div class="mb-4">“{{aarecord.additional.top_box.description | escape | replace('\n', '<br>' | safe)}}”</div>{% endif %}{% if aarecord.additional.top_box.metadata_comments %}<div class="text-xs text-gray-500 uppercase">{{ gettext('page.md5.box.metadata_comments_title') }}</div><div class="mb-4">“{{aarecord.additional.top_box.metadata_comments | escape | replace('\n', '<br>' | safe)}}”</div>{% endif %}{% if aarecord.additional.added_date_best %}<div class="text-xs text-gray-500 uppercase">{{ gettext('page.md5.box.date_open_sourced_title') }}</div><div class="mb-4 text-sm">{{ aarecord.additional.added_date_best }}</div>{% endif %}</div>
-    <a href="#" class="mt-4 js-md5-top-box-description-link text-sm hidden" onclick="document.querySelector('.js-md5-top-box-description').classList.remove('line-clamp-[6]'); this.parentNode.removeChild(this); event.preventDefault(); return false;">{{ gettext('page.md5.box.descr_read_more') }}</a>
+    <div class="mt-4 line-clamp-[8] js-md5-top-box-description">{% for field in aarecord.additional.top_box.freeform_fields %}<div class="text-xs text-gray-500 uppercase">{{ field[0] }}</div><div class="mb-1">{{ field[1] | escape | replace('\n', '<br>' | safe)}}</div>{% endfor %}</div>
+    <a href="#" class="mt-4 js-md5-top-box-description-link text-sm hidden" onclick="document.querySelector('.js-md5-top-box-description').classList.remove('line-clamp-[8]'); this.parentNode.removeChild(this); event.preventDefault(); return false;">{{ gettext('page.md5.box.descr_read_more') }}</a>
     <script>
       (function() {
         const descriptionEl = document.querySelector('.js-md5-top-box-description');
@@ -63,7 +63,7 @@
 
     <div class="mt-4 text-xs flex flex-wrap js-md5-codes-tabs" role="tablist" aria-label="code tabs" aria-multiselectable="true">
       {% for code_item in aarecord.additional.codes %}
-        <a class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#aaa] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab" href="#" aria-selected="false" id="md5-codes-tab-{{ loop.index }}" aria-controls="md5-codes-panel-{{ loop.index }}" tabindex="0"><span class="py-0.5 bg-[#aaa] mr-1 px-1">{{ code_item.info.label or code_item.key }}</span><span class="py-0.5">{{ code_item.masked_isbn or code_item.value }}</span></a>
+        <a class="rounded-sm flex mb-1 mr-1 pr-1 border border-[#aaa] opacity-60 hover:opacity-80 aria-selected:opacity-100 custom-a js-md5-codes-tabs-tab max-w-[calc(50%-8px)]" href="#" aria-selected="false" id="md5-codes-tab-{{ loop.index }}" aria-controls="md5-codes-panel-{{ loop.index }}" tabindex="0"><span class="py-0.5 bg-[#aaa] mr-1 px-1 truncate max-w-[60px] sm:max-w-[120px] flex-shrink-0">{{ code_item.info.label or code_item.key }}</span><span class="py-0.5 truncate max-w-[100px] sm:max-w-[300px]">{{ code_item.masked_isbn or code_item.value }}</span></a>
       {% endfor %}
     </div>
     <div>
