@@ -40,6 +40,7 @@ delimiter ;
 -- ~37 mins
 ALTER TABLE allthethings.ol_base ADD PRIMARY KEY(ol_key);
 
+-- TODO: change to VARCHAR and ascii?
 -- Note that many books have only ISBN10.
 -- ~20mins
 DROP TABLE IF EXISTS allthethings.ol_isbn13;
@@ -47,4 +48,6 @@ CREATE TABLE allthethings.ol_isbn13 (isbn CHAR(13), ol_key CHAR(200), PRIMARY KE
 -- ~60mins
 INSERT IGNORE INTO allthethings.ol_isbn13 (isbn, ol_key) SELECT ISBN10to13(x.isbn) AS isbn, ol_key FROM allthethings.ol_base b CROSS JOIN JSON_TABLE(b.json, '$.isbn_10[*]' COLUMNS (isbn CHAR(10) PATH '$')) x WHERE ol_key LIKE '/books/OL%' AND LENGTH(x.isbn) = 10 AND x.isbn REGEXP '[0-9]{9}[0-9X]';
 
+-- ~10mins
+CREATE TABLE allthethings.ol_ocaid (ocaid VARCHAR(500), ol_key VARCHAR(200), PRIMARY KEY(ocaid, ol_key)) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin SELECT JSON_UNQUOTE(JSON_EXTRACT(json, '$.ocaid')) AS ocaid, ol_key FROM ol_base WHERE JSON_UNQUOTE(JSON_EXTRACT(json, '$.ocaid')) IS NOT NULL AND ol_key LIKE '/books/OL%';
 

@@ -2539,6 +2539,9 @@ INSERT INTO `ol_isbn13` VALUES
 /*!40000 ALTER TABLE `ol_isbn13` ENABLE KEYS */;
 UNLOCK TABLES;
 
+DROP TABLE IF EXISTS `ol_ocaid`;
+CREATE TABLE allthethings.ol_ocaid (ocaid VARCHAR(500), ol_key VARCHAR(200), PRIMARY KEY(ocaid, ol_key)) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin SELECT JSON_UNQUOTE(JSON_EXTRACT(json, '$.ocaid')) AS ocaid, ol_key FROM ol_base WHERE JSON_UNQUOTE(JSON_EXTRACT(json, '$.ocaid')) IS NOT NULL AND ol_key LIKE '/books/OL%';
+
 DROP TABLE IF EXISTS `zlib_book`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
