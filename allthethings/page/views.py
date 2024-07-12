@@ -1705,6 +1705,28 @@ def get_ol_book_dicts_by_isbn13(session, isbn13s):
                 retval[isbn13].append(ol_book_dict)
         return dict(retval)
 
+def get_ol_book_dicts_by_ia_id(session, ia_ids):
+    if len(ia_ids) == 0:
+        return {}
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT ol_key, ocaid FROM ol_ocaid WHERE ocaid IN %(ia_ids)s', { "ia_ids": ia_ids })
+        rows = cursor.fetchall()
+        if len(rows) == 0:
+            return {}
+        ia_ids_by_ol_edition = collections.defaultdict(list)
+        for row in rows:
+            if row['ol_key'].startswith('/books/OL') and row['ol_key'].endswith('M'):
+                ol_edition = row['ol_key'][len('/books/'):]
+                ia_ids_by_ol_edition[ol_edition].append(row['ocaid'])
+        ol_book_dicts = get_ol_book_dicts(session, 'ol_edition', list(ia_ids_by_ol_edition.keys()))
+        retval = collections.defaultdict(list)
+        for ol_book_dict in ol_book_dicts:
+            for ia_id in ia_ids_by_ol_edition[ol_book_dict['ol_edition']]: 
+                retval[ia_id].append(ol_book_dict)
+        return dict(retval)
+
 @page.get("/db/ol/<string:ol_edition>.json")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def ol_book_json(ol_edition):
@@ -2362,9 +2384,24 @@ def get_oclc_dicts(session, key, values):
     if key != 'oclc':
         raise Exception(f"Unexpected 'key' in get_oclc_dicts: '{key}'")
 
+    session.connection().connection.ping(reconnect=True)
+    cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+    cursor.execute('SELECT primary_id, byte_offset, byte_length FROM annas_archive_meta__aacid__worldcat WHERE primary_id IN %(values)s ORDER BY byte_offset', { "values": [str(val) for val in values] })
+
+    worldcat_oclc_ids = []
+    worldcat_offsets_and_lengths = []
+    for row in cursor.fetchall():
+        worldcat_oclc_ids.append(str(row['primary_id']))
+        worldcat_offsets_and_lengths.append((row['byte_offset'], row['byte_length']))
+
+    aac_records_by_oclc_id = collections.defaultdict(list)
+    for index, line_bytes in enumerate(allthethings.utils.get_lines_from_aac_file(cursor, 'worldcat', worldcat_offsets_and_lengths)):
+        aac_records_by_oclc_id[worldcat_oclc_ids[index]].append(orjson.loads(line_bytes))
+
     oclc_dicts = []
     for oclc_id in values:
-        aac_records = allthethings.utils.get_worldcat_records(oclc_id)
+        oclc_id = str(oclc_id)
+        aac_records = aac_records_by_oclc_id[oclc_id]
 
         oclc_dict = {}
         oclc_dict["oclc_id"] = oclc_id
@@ -3459,7 +3496,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
     global number_of_get_aarecords_elasticsearch_exceptions
 
     if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
-        raise Exception("Invalid aarecord_ids")
+        raise Exception(f"Invalid aarecord_ids {aarecord_ids=}")
 
     # Filter out bad data
     aarecord_ids = [val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]
@@ -3565,7 +3602,7 @@ def aarecord_sources(aarecord):
 
 def get_aarecords_mysql(session, aarecord_ids):
     if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
-        raise Exception("Invalid aarecord_ids")
+        raise Exception(f"Invalid aarecord_ids {aarecord_ids=}")
 
     # Filter out bad data
     aarecord_ids = list(dict.fromkeys([val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]))
@@ -3595,6 +3632,7 @@ def get_aarecords_mysql(session, aarecord_ids):
     ol_editions = []
     dois = []
     oclc_ids = []
+    ia_ids = []
     for aarecord_id in aarecord_ids:
         aarecord_id_split = aarecord_id.split(':', 1)
         aarecord = {}
@@ -3645,10 +3683,12 @@ def get_aarecords_mysql(session, aarecord_ids):
             for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('ol') or []):
                 if allthethings.utils.validate_ol_editions([potential_ol_edition]):
                     ol_editions.append(potential_ol_edition)
-            for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
-                dois.append(doi)
-            for oclc_id in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
-                oclc_ids.append(oclc_id)
+            for code in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
+                dois.append(code)
+            for code in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
+                oclc_ids.append(code)
+            for code in (aarecord['file_unified_data']['identifiers_unified'].get('ocaid') or []):
+                ia_ids.append(code)
 
         aarecords.append(aarecord)
 
@@ -3656,6 +3696,10 @@ def get_aarecords_mysql(session, aarecord_ids):
     ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(dict.fromkeys(ol_editions)))}
     ol_book_dicts2_for_isbn13 = get_ol_book_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
     scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(dict.fromkeys(dois)))}
+
+    # NEW:
+    # ia_record_dicts3 = dict(('ia:' + item['ia_id'], item) for item in get_ia_record_dicts(session, "ia_id", list(dict.fromkeys(ia_ids))) if item.get('aa_ia_file') is None)
+    # ol_book_dicts2_for_ia_id = get_ol_book_dicts_by_ia_id(session, list(dict.fromkeys(ia_ids)))
 
     # Too expensive.. TODO: enable combining results from ES?
     # oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(dict.fromkeys(oclc_ids)))}

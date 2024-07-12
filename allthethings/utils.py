@@ -1662,7 +1662,7 @@ aac_file_thread_local = threading.local()
 def get_lines_from_aac_file(cursor, collection, offsets_and_lengths):
     file_cache = getattr(aac_file_thread_local, 'file_cache', None)
     if file_cache is None:
-        file_cache = worldcat_thread_local.file_cache = {}
+        file_cache = aac_file_thread_local.file_cache = {}
 
     if collection not in file_cache:
         cursor.execute('SELECT filename FROM annas_archive_meta_aac_filenames WHERE collection = %(collection)s', { 'collection': collection })
@@ -1689,84 +1689,6 @@ def get_lines_from_aac_file(cursor, collection, offsets_and_lengths):
         #     raise Exception(f"Bad JSON: {collection=} {byte_offset=} {byte_length=} {index=} {line_bytes=}")
         lines[index] = line_bytes
     return lines
-
-
-worldcat_thread_local = threading.local()
-worldcat_line_cache = {}
-
-def set_worldcat_line_cache(parsed_lines):
-    global worldcat_line_cache
-    worldcat_line_cache.clear()
-    for oclc_id, lines in parsed_lines:
-        worldcat_line_cache[oclc_id] = lines
-
-def get_worldcat_pos_before_id(oclc_id):
-    oclc_id = int(oclc_id)
-
-    file = getattr(worldcat_thread_local, 'file', None)
-    if file is None:
-        file = worldcat_thread_local.file = indexed_zstd.IndexedZstdFile(f'{aac_path_prefix()}annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
-
-    low = 0
-    high = file.size()
-    mid = 0
-    last_mid = -1
-
-    while low < high:
-        mid = (low+high) // 2
-        file.seek(mid)
-        line = file.readline()
-        if not line.startswith(b'{"aacid":"aacid__worldcat__'):
-            mid = file.tell()
-            line = file.readline()
-
-        if mid == last_mid:
-            mid = low
-            high = low
-            file.seek(mid)
-            line = file.readline()
-        last_mid = mid
-
-        # print(line[0:100])
-        # print("low", low)
-        # print("high", high)
-        # print("mid", mid)
-        if line == b'':
-            current_id = 999999999999
-        else:
-            current_id = int(line[len(b'{"aacid":"aacid__worldcat__20231001T025039Z__'):].split(b'__', 1)[0])
-        if current_id >= oclc_id:
-            high = mid
-        else:
-            low = mid
-
-    return mid
-
-def get_worldcat_records(oclc_id):
-    global worldcat_line_cache
-    oclc_id = int(oclc_id)
-
-    if oclc_id in worldcat_line_cache:
-        return [orjson.loads(line) for line in worldcat_line_cache[oclc_id]]
-    # else:
-    #     print(f"Cache miss: {oclc_id}")
-
-    pos = get_worldcat_pos_before_id(oclc_id)
-    file = worldcat_thread_local.file
-    file.seek(pos)
-    lines = []
-    while True:
-        line = file.readline()
-        if line == b'':
-            current_id = 999999999999
-        else:
-            current_id = int(line[len(b'{"aacid":"aacid__worldcat__20231001T025039Z__'):].split(b'__', 1)[0])
-        if current_id < oclc_id:
-            pass
-        elif current_id == oclc_id:
-            lines.append(line)
-        else:
-            return [orjson.loads(line) for line in lines]
 
 def aa_currently_seeding(metadata):
     return ((datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.strptime(metadata['seeding_at'], "%Y-%m-%dT%H:%M:%S%z")) < datetime.timedelta(days=7)) if ('seeding_at' in metadata) else False

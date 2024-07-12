@@ -644,11 +644,6 @@ def elastic_build_aarecords_job(aarecord_ids):
             traceback.print_tb(err.__traceback__)
             return True
 
-def elastic_build_aarecords_job_oclc(fields):
-    fields = list(fields)
-    allthethings.utils.set_worldcat_line_cache(fields)
-    return elastic_build_aarecords_job([f"oclc:{field[0]}" for field in fields])
-
 THREADS = 200
 CHUNK_SIZE = 500
 BATCH_SIZE = 100000
@@ -894,64 +889,37 @@ def elastic_build_aarecords_oclc():
 def elastic_build_aarecords_oclc_internal():
     new_tables_internal('aarecords_codes_oclc')
 
-    MAX_WORLDCAT = 999999999999999
-    if SLOW_DATA_IMPORTS:
-        MAX_WORLDCAT = 1000
+    before_first_primary_id = ''
+    # before_first_primary_id = '123'
+    oclc_done_already = 0 # To get a proper total count. A real query with primary_id>before_first_primary_id would take too long.
+    # oclc_done_already = 456
 
-    FIRST_OCLC_ID = None
-    # FIRST_OCLC_ID = 123
-    OCLC_DONE_ALREADY = 0
-    # OCLC_DONE_ALREADY = 100000
-
-    if FIRST_OCLC_ID is not None:
-        print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
-        print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
-        print(f'WARNING!!!!! FIRST_OCLC_ID is set to {FIRST_OCLC_ID}')
-
-    with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
-        print("Processing from oclc")
-        oclc_file = indexed_zstd.IndexedZstdFile(f'{allthethings.utils.aac_path_prefix()}annas_archive_meta__aacid__worldcat__20231001T025039Z--20231001T235839Z.jsonl.seekable.zst')
-        if FIRST_OCLC_ID is not None:
-            oclc_file.seek(allthethings.utils.get_worldcat_pos_before_id(FIRST_OCLC_ID))
-        with tqdm.tqdm(total=min(MAX_WORLDCAT, 765200000-OCLC_DONE_ALREADY), bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-            last_map = None
-            total = 0
-            last_seen_id = -1
-            extra_line = None
-            while True:
-                batch = collections.defaultdict(list)
+    with engine.connect() as connection:
+        print("Processing from annas_archive_meta__aacid__worldcat")
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        cursor.execute('SELECT COUNT(*) AS count FROM annas_archive_meta__aacid__worldcat LIMIT 1')
+        total = list(cursor.fetchall())[0]['count'] - oclc_done_already
+        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+            with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
+                current_primary_id = before_first_primary_id
+                last_map = None
                 while True:
-                    if extra_line is not None:
-                        line = extra_line
-                        extra_line = None
-                    else:
-                        line = oclc_file.readline()
-                    if len(line) == 0:
+                    connection.connection.ping(reconnect=True)
+                    cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+                    cursor.execute('SELECT primary_id, COUNT(*) AS count FROM annas_archive_meta__aacid__worldcat WHERE primary_id > %(from)s GROUP BY primary_id ORDER BY primary_id LIMIT %(limit)s', { "from": current_primary_id, "limit": BATCH_SIZE })
+                    batch = list(cursor.fetchall())
+                    if last_map is not None:
+                        if any(last_map.get()):
+                            print("Error detected; exiting")
+                            os._exit(1)
+                    if len(batch) == 0:
                         break
-                    if (b'not_found_title_json' in line) or (b'redirect_title_json' in line):
-                        continue
-                    oclc_id = int(line[len(b'{"aacid":"aacid__worldcat__20231001T025039Z__'):].split(b'__', 1)[0])
-                    if oclc_id != last_seen_id: # Don't break when we're still processing the same id
-                        if len(batch) >= BATCH_SIZE:
-                            extra_line = line
-                            break
-                    batch[oclc_id].append(line)
-                    last_seen_id = oclc_id
-                batch = list(batch.items())
-
-                if last_map is not None:
-                    if any(last_map.get()):
-                        print("Error detected; exiting")
-                        os._exit(1)
-                if len(batch) == 0:
-                    break
-                if total >= MAX_WORLDCAT:
-                    break
-                print(f"Processing with {THREADS=} {len(batch)=} aarecords from oclc (worldcat) file ( starting oclc_id: {batch[0][0]} )...")
-                last_map = executor.map_async(elastic_build_aarecords_job_oclc, more_itertools.ichunked(batch, CHUNK_SIZE))
-                pbar.update(len(batch))
-                total += len(batch)
-    print(f"Done with WorldCat!")
+                    print(f"Processing with {THREADS=} {len(batch)=} aarecords from annas_archive_meta__aacid__worldcat ( starting primary_id: {batch[0]['primary_id']} , ending primary_id: {batch[-1]['primary_id']} )...")
+                    last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"oclc:{row['primary_id']}" for row in batch], CHUNK_SIZE))
+                    pbar.update(sum([row['count'] for row in batch]))
+                    current_primary_id = batch[-1]['primary_id']
+        print(f"Done with annas_archive_meta__aacid__worldcat!")
 
 #################################################################################################
 # ./run flask cli elastic_build_aarecords_main
