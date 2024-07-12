@@ -1244,6 +1244,15 @@ def attempt_fix_chinese_uninterrupted_text(text):
 def attempt_fix_chinese_filepath(filepath):
     return '/'.join([attempt_fix_chinese_uninterrupted_text(part) for part in filepath.split('/')])
 
+def prefix_filepath(prefix, filepath):
+    if filepath.startswith('\\'):
+        return f"{prefix}/{filepath[1:]}"
+    elif filepath.startswith('/'):
+        return f"{prefix}{filepath}"
+    else:
+        return f"{prefix}/{filepath}"
+
+
 # TODO: translate?
 def marc_country_code_to_english(marc_country_code):
     marc_country_code = marc_country_code.strip()

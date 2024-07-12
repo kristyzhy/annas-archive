@@ -3740,20 +3740,20 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['ipfs_infos'].append({ 'ipfs_cid': aarecord['lgrsfic_book']['ipfs_cid'].lower(), 'from': 'lgrsfic' })
 
         original_filename_multiple = [
-            *[f"lgrsnf/{filepath}" for filepath in filter(len, [((aarecord['lgrsnf_book'] or {}).get('locator') or '').strip()])],
-            *[f"lgrsfic/{filepath}" for filepath in filter(len, [((aarecord['lgrsfic_book'] or {}).get('locator') or '').strip()])],
-            *[f"lgli/{filepath}" for filepath in filter(len, [((aarecord['lgli_file'] or {}).get('locator') or '').strip()])],
-            *[f"lgli/{filename.strip()}" for filename in (((aarecord['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename') or [])],
-            *[f"scimag/{filepath}" for filepath in filter(len, [((aarecord['lgli_file'] or {}).get('scimag_archive_path_decoded') or '').strip()])],
-            *[f"ia/{filepath}" for filepath in filter(len, [(((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('original_filename') or '').strip()])],
-            *[f"duxiu/{filepath}" for filepath in filter(len, [(((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_best') or '').strip()])],
-            *[f"upload/{filepath}" for filepath in filter(len, [(((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_best') or '').strip()])],
+            *[allthethings.utils.prefix_filepath('lgrsnf', filepath) for filepath in filter(len, [((aarecord['lgrsnf_book'] or {}).get('locator') or '').strip()])],
+            *[allthethings.utils.prefix_filepath('lgrsfic', filepath) for filepath in filter(len, [((aarecord['lgrsfic_book'] or {}).get('locator') or '').strip()])],
+            *[allthethings.utils.prefix_filepath('lgli', filepath) for filepath in filter(len, [((aarecord['lgli_file'] or {}).get('locator') or '').strip()])],
+            *[allthethings.utils.prefix_filepath('lgli', filename.strip()) for filename in (((aarecord['lgli_file'] or {}).get('descriptions_mapped') or {}).get('library_filename') or [])],
+            *[allthethings.utils.prefix_filepath('scimag', filepath) for filepath in filter(len, [((aarecord['lgli_file'] or {}).get('scimag_archive_path_decoded') or '').strip()])],
+            *[allthethings.utils.prefix_filepath('ia', filepath) for filepath in filter(len, [(((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('original_filename') or '').strip()])],
+            *[allthethings.utils.prefix_filepath('duxiu', filepath) for filepath in filter(len, [(((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_best') or '').strip()])],
+            *[allthethings.utils.prefix_filepath('upload', filepath) for filepath in filter(len, [(((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_best') or '').strip()])],
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
-        original_filename_multiple += [f"scihub/{scihub_doi['doi'].strip()}.pdf" for scihub_doi in aarecord['scihub_doi']]
-        original_filename_multiple += [f"duxiu/{filepath}" for filepath in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_multiple') or [])]
-        original_filename_multiple += [f"upload/{filepath}" for filepath in (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_multiple') or [])]
+        original_filename_multiple += [allthethings.utils.prefix_filepath('scihub', f"{scihub_doi['doi'].strip()}.pdf") for scihub_doi in aarecord['scihub_doi']]
+        original_filename_multiple += [allthethings.utils.prefix_filepath('duxiu', filepath) for filepath in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_multiple') or [])]
+        original_filename_multiple += [allthethings.utils.prefix_filepath('upload', filepath) for filepath in (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_multiple') or [])]
         if aarecord['file_unified_data']['original_filename_best'] == '':
             original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
             aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
