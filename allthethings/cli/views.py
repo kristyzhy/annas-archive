@@ -697,12 +697,17 @@ def elastic_build_aarecords_ia_internal():
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
 
         # Sanity check: we assume that in annas_archive_meta__aacid__ia2_records we have no libgen-imported records.
-        cursor.execute('SELECT COUNT(*) AS count, ia_id FROM aa_ia_2023_06_metadata JOIN annas_archive_meta__aacid__ia2_records ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_records.primary_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NOT NULL LIMIT 1')
-        sanity_check_result = cursor.fetchone()
-        if sanity_check_result['count'] > 0:
+        print("Running sanity check on aa_ia_2023_06_metadata")
+        cursor.execute('SELECT ia_id FROM aa_ia_2023_06_metadata JOIN annas_archive_meta__aacid__ia2_records ON (aa_ia_2023_06_metadata.ia_id = annas_archive_meta__aacid__ia2_records.primary_id) WHERE aa_ia_2023_06_metadata.libgen_md5 IS NOT NULL LIMIT 500')
+        sanity_check_result = list(cursor.fetchall())
+        if len(sanity_check_result) > 0:
             raise Exception(f"Sanity check failed: libgen records found in annas_archive_meta__aacid__ia2_records {sanity_check_result=}")
 
-        cursor.execute('SELECT COUNT(ia_id) AS count FROM (SELECT ia_id, libgen_md5 FROM aa_ia_2023_06_metadata UNION SELECT primary_id AS ia_id, NULL AS libgen_md5 FROM annas_archive_meta__aacid__ia2_records) combined LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (combined.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE combined.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND combined.libgen_md5 IS NULL ORDER BY ia_id LIMIT 1', { "from": before_first_ia_id })
+        print(f"Generating table temp_ia_ids")
+        cursor.execute('DROP TABLE IF EXISTS temp_ia_ids')
+        cursor.execute('CREATE TABLE temp_ia_ids (ia_id VARCHAR(250) NOT NULL, PRIMARY KEY(ia_id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT ia_id FROM (SELECT ia_id, libgen_md5 FROM aa_ia_2023_06_metadata UNION SELECT primary_id AS ia_id, NULL AS libgen_md5 FROM annas_archive_meta__aacid__ia2_records) combined LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (combined.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND combined.libgen_md5 IS NULL')
+
+        cursor.execute('SELECT COUNT(ia_id) AS count FROM temp_ia_ids WHERE ia_id > %(from)s ORDER BY ia_id LIMIT 1', { "from": before_first_ia_id })
         total = cursor.fetchone()['count']
         current_ia_id = before_first_ia_id
         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
@@ -711,7 +716,7 @@ def elastic_build_aarecords_ia_internal():
                 while True:
                     connection.connection.ping(reconnect=True)
                     cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                    cursor.execute('SELECT ia_id FROM (SELECT ia_id, libgen_md5 FROM aa_ia_2023_06_metadata UNION SELECT primary_id AS ia_id, NULL AS libgen_md5 FROM annas_archive_meta__aacid__ia2_records) combined LEFT JOIN aa_ia_2023_06_files USING (ia_id) LEFT JOIN annas_archive_meta__aacid__ia2_acsmpdf_files ON (combined.ia_id = annas_archive_meta__aacid__ia2_acsmpdf_files.primary_id) WHERE combined.ia_id > %(from)s AND aa_ia_2023_06_files.md5 IS NULL AND annas_archive_meta__aacid__ia2_acsmpdf_files.md5 IS NULL AND combined.libgen_md5 IS NULL ORDER BY ia_id LIMIT %(limit)s', { "from": current_ia_id, "limit": BATCH_SIZE })
+                    cursor.execute('SELECT ia_id FROM temp_ia_ids WHERE ia_id > %(from)s ORDER BY ia_id LIMIT %(limit)s', { "from": current_ia_id, "limit": BATCH_SIZE })
                     batch = list(cursor.fetchall())
                     if last_map is not None:
                         if any(last_map.get()):
@@ -724,6 +729,8 @@ def elastic_build_aarecords_ia_internal():
                     pbar.update(len(batch))
                     current_ia_id = batch[-1]['ia_id']
 
+        print(f"Removing table temp_ia_ids")
+        cursor.execute('DROP TABLE IF EXISTS temp_ia_ids')
         print(f"Done with IA!")
 
 

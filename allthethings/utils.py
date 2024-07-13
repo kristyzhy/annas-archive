@@ -917,6 +917,7 @@ UNIFIED_IDENTIFIERS = {
     "torrent": { "label": "Torrent", "url": "/dyn/small_file/torrents/%s", "description": "Bulk torrent for long-term preservation.", "website": "/torrents" },
     "server_path": { "label": "Server Path", "description": "Path on Anna’s Archive partner servers." },
     "collection": { "label": "Collection", "url": "/datasets/%s", "description": "The collection on Anna’s Archive that provided data for this record.", "website": "/datasets" },
+    "ia_collection": { "label": "IA Collection", "url": "https://archive.org/details/%s", "description": "Internet Archive collection which this file is part of.", "website": "https://help.archive.org/help/collections-a-basic-guide/" },
     **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }

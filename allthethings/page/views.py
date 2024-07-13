@@ -1285,8 +1285,10 @@ def get_ia_record_dicts(session, key, values):
                 }
                 added_date_unified_file = { "ia_file_scrape": datetime.datetime.strptime(ia2_acsmpdf_file_dict['aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat() }
 
+        ia_collections = ((ia_record_dict['json'].get('metadata') or {}).get('collection') or [])
+
         ia_record_dict['aa_ia_derived'] = {}
-        ia_record_dict['aa_ia_derived']['printdisabled_only'] = 'inlibrary' not in ((ia_record_dict['json'].get('metadata') or {}).get('collection') or [])
+        ia_record_dict['aa_ia_derived']['printdisabled_only'] = 'inlibrary' not in ia_collections
         ia_record_dict['aa_ia_derived']['original_filename'] = (ia_record_dict['ia_id'] + '.pdf') if ia_record_dict['aa_ia_file'] is not None else None
         ia_record_dict['aa_ia_derived']['cover_url'] = f"https://archive.org/download/{ia_record_dict['ia_id']}/__ia_thumb.jpg"
         ia_record_dict['aa_ia_derived']['title'] = (' '.join(extract_list_from_ia_json_field(ia_record_dict, 'title'))).replace(' : ', ': ')
@@ -1338,17 +1340,23 @@ def get_ia_record_dicts(session, key, values):
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ol', item)
         for item in extract_list_from_ia_json_field(ia_record_dict, 'item'):
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'lccn', item)
+        for item in ia_collections:
+            allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ia_collection', item)
 
-        isbns = extract_list_from_ia_json_field(ia_record_dict, 'isbn')
         for urn in extract_list_from_ia_json_field(ia_record_dict, 'external-identifier'):
             if urn.startswith('urn:oclc:record:'):
                 allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'oclc', urn[len('urn:oclc:record:'):])
             elif urn.startswith('urn:oclc:'):
                 allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'oclc', urn[len('urn:oclc:'):])
-            elif urn.startswith('urn:isbn:'):
-                isbns.append(urn[len('urn:isbn:'):])
-        allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], isbns)
-        allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], allthethings.utils.get_isbnlike('\n'.join([ia_record_dict['ia_id'], ia_record_dict['aa_ia_derived']['title'], ia_record_dict['aa_ia_derived']['stripped_description_and_references']] + ia_record_dict['aa_ia_derived']['combined_comments'])))
+
+        # Items in this collection have an insane number of ISBNs, unclear what for exactly. E.g. https://archive.org/details/240524-CL-aa
+        if 'specialproject_exclude_list' not in ia_collections:
+            isbns = extract_list_from_ia_json_field(ia_record_dict, 'isbn')
+            for urn in extract_list_from_ia_json_field(ia_record_dict, 'external-identifier'):
+                if urn.startswith('urn:isbn:'):
+                    isbns.append(urn[len('urn:isbn:'):])
+            allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], isbns)
+            allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], allthethings.utils.get_isbnlike('\n'.join([ia_record_dict['ia_id'], ia_record_dict['aa_ia_derived']['title'], ia_record_dict['aa_ia_derived']['stripped_description_and_references']] + ia_record_dict['aa_ia_derived']['combined_comments'])))
 
         # Clear out title if it only contains the ISBN, but only *after* extracting ISBN from it.
         if ia_record_dict['aa_ia_derived']['title'].strip().lower() == ia_record_dict['ia_id'].strip().lower():
@@ -3661,8 +3669,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['oclc'] = list(oclc_dicts.get(aarecord_id) or [])
         aarecord['duxiu'] = duxiu_dicts.get(aarecord_id) or duxiu_dicts2.get(aarecord_id) or duxiu_dicts3.get(aarecord_id)
         aarecord['aac_upload'] = aac_upload_md5_dicts.get(aarecord_id)
-        # TODO:
-        # duxiu metadata (duxiu_ssid, cadal_ssno, but also match through isbn!)
+        aarecord['duxius_nontransitive_meta_only'] = []
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -3684,11 +3691,14 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('identifiers_unified') or {}),
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('identifiers_unified') or {}),
+            *[duxiu_record['aa_upload_derived']['identifiers_unified'] for duxiu_record in aarecord['duxius_nontransitive_meta_only']],
         ])
         # TODO: This `if` is not necessary if we make sure that the fields of the primary records get priority.
         if not allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]):
-            for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-                canonical_isbn13s.append(canonical_isbn13)
+            current_record_isbn13s = aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []
+            if len(current_record_isbn13s) < 10: # Filter out obscenely long ISBN lists, e.g. https://archive.org/details/240524-CL-aa
+                for canonical_isbn13 in current_record_isbn13s:
+                    canonical_isbn13s.append(canonical_isbn13)
             for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('ol') or []):
                 if allthethings.utils.validate_ol_editions([potential_ol_edition]):
                     ol_editions.append(potential_ol_edition)
@@ -3701,16 +3711,17 @@ def get_aarecords_mysql(session, aarecord_ids):
 
         aarecords.append(aarecord)
 
-    isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(dict.fromkeys(canonical_isbn13s)))}
-    ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(dict.fromkeys(ol_editions)))}
-    ol_book_dicts2_for_isbn13 = get_ol_book_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
-    ol_book_dicts2_for_ia_id = get_ol_book_dicts_by_ia_id(session, list(dict.fromkeys(ia_ids)))
-    ia_record_dicts3 = {item['ia_id']: item for item in get_ia_record_dicts(session, "ia_id", list(dict.fromkeys(ia_ids))) if item.get('aa_ia_file') is None}
-    scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(dict.fromkeys(dois)))}
-    oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(dict.fromkeys(oclc_ids)))}
-    oclc_dicts2_for_isbn13 = get_oclc_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
-    # TODO: remove if the other OCLC stuff works well enough.
-    # oclc_id_by_isbn13 = get_oclc_id_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
+    if not allthethings.utils.get_aarecord_id_prefix_is_metadata(aarecord_id_split[0]):
+        isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(dict.fromkeys(canonical_isbn13s)))}
+        ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(dict.fromkeys(ol_editions)))}
+        ol_book_dicts2_for_isbn13 = get_ol_book_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
+        ol_book_dicts2_for_ia_id = get_ol_book_dicts_by_ia_id(session, list(dict.fromkeys(ia_ids)))
+        ia_record_dicts3 = {item['ia_id']: item for item in get_ia_record_dicts(session, "ia_id", list(dict.fromkeys(ia_ids))) if item.get('aa_ia_file') is None}
+        scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(dict.fromkeys(dois)))}
+        oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(dict.fromkeys(oclc_ids)))}
+        oclc_dicts2_for_isbn13 = get_oclc_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
+        # TODO: remove if the other OCLC stuff works well enough.
+        # oclc_id_by_isbn13 = get_oclc_id_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
 
     # Second pass
     for aarecord in aarecords:
@@ -3723,9 +3734,10 @@ def get_aarecords_mysql(session, aarecord_ids):
             isbndb_all = []
             existing_isbn13s = set([isbndb['isbn13'] for isbndb in aarecord['isbndb']])
             for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-                if canonical_isbn13 not in existing_isbn13s:
+                if (canonical_isbn13 in isbndb_dicts2) and (canonical_isbn13 not in existing_isbn13s):
                     for isbndb in isbndb_dicts2[canonical_isbn13]['isbndb']:
                         isbndb_all.append(isbndb)
+                    # No need to add to existing_isbn13s here.
             if len(isbndb_all) > 5:
                 isbndb_all = []
             aarecord['isbndb'] = (aarecord['isbndb'] + isbndb_all)
@@ -3735,6 +3747,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             for potential_ol_edition in (aarecord['file_unified_data']['identifiers_unified'].get('ol') or []):
                 if (potential_ol_edition in ol_book_dicts2) and (potential_ol_edition not in existing_ol_editions):
                     ol_book_dicts_all.append(ol_book_dicts2[potential_ol_edition])
+                    # No need to add to existing_ol_editions here.
             if len(ol_book_dicts_all) > 3:
                 ol_book_dicts_all = []
             aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
@@ -3771,9 +3784,10 @@ def get_aarecords_mysql(session, aarecord_ids):
 
             ia_record_dicts_all = []
             existing_ia_ids = set([aarecord['ia_record']['ia_id']] if aarecord['ia_record'] is not None else [])
-            for potential_ia_ids in (aarecord['file_unified_data']['identifiers_unified'].get('ocaid') or []):
-                if (potential_ia_ids in ia_record_dicts3) and (potential_ia_ids not in existing_ia_ids):
-                    ia_record_dicts_all.append(ia_record_dicts3[potential_ia_ids])
+            for potential_ia_id in (aarecord['file_unified_data']['identifiers_unified'].get('ocaid') or []):
+                if (potential_ia_id in ia_record_dicts3) and (potential_ia_id not in existing_ia_ids):
+                    ia_record_dicts_all.append(ia_record_dicts3[potential_ia_id])
+                    # No need to add to existing_ia_ids here.
             if len(ia_record_dicts_all) > 3:
                 ia_record_dicts_all = []
             aarecord['ia_records_meta_only'] = (aarecord['ia_records_meta_only'] + ia_record_dicts_all)
@@ -3783,6 +3797,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             for doi in (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []):
                 if (doi in scihub_doi_dicts2) and (doi not in existing_dois):
                     scihub_doi_all.append(scihub_doi_dicts2[doi])
+                    # No need to add to existing_dois here.
             if len(scihub_doi_all) > 3:
                 scihub_doi_all = []
             aarecord['scihub_doi'] = (aarecord['scihub_doi'] + scihub_doi_all)
@@ -3792,6 +3807,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             for oclc_id in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
                 if (oclc_id in oclc_dicts2) and (oclc_id not in existing_oclc_ids):
                     oclc_all.append(oclc_dicts2[oclc_id])
+                    # No need to add to existing_oclc_ids here.
             if len(oclc_all) > 3:
                 oclc_all = []
             aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
@@ -4158,6 +4174,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('identifiers_unified') or {}),
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('identifiers_unified') or {}),
+            *[duxiu_record['aa_upload_derived']['identifiers_unified'] for duxiu_record in aarecord['duxius_nontransitive_meta_only']],
         ])
         aarecord['file_unified_data']['classifications_unified'] = allthethings.utils.merge_unified_fields([
             aarecord['file_unified_data']['classifications_unified'],
