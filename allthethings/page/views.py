@@ -2639,7 +2639,7 @@ def oclc_oclc_json(oclc):
             return "{}", 404
         return allthethings.utils.nice_json(oclc_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
-def get_duxiu_dicts(session, key, values):
+def get_duxiu_dicts(session, key, values, include_deep_transitive_md5s_size_path):
     if len(values) == 0:
         return []
     if key not in ['duxiu_ssid', 'cadal_ssno', 'md5', 'filename_decoded_basename']:
@@ -2739,7 +2739,7 @@ def get_duxiu_dicts(session, key, values):
                     aa_derived_duxiu_ssids_to_primary_ids[aac_record["metadata"]["record"]["aa_derived_duxiu_ssid"]].append(primary_id)
         if len(aa_derived_duxiu_ssids_to_primary_ids) > 0:
             # Careful! Make sure this recursion doesn't loop infinitely.
-            for record in get_duxiu_dicts(session, 'duxiu_ssid', list(aa_derived_duxiu_ssids_to_primary_ids.keys())):
+            for record in get_duxiu_dicts(session, 'duxiu_ssid', list(aa_derived_duxiu_ssids_to_primary_ids.keys()), include_deep_transitive_md5s_size_path=include_deep_transitive_md5s_size_path):
                 for primary_id in aa_derived_duxiu_ssids_to_primary_ids[record['duxiu_ssid']]:
                     for aac_record in record['aac_records']:
                         # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
@@ -2759,7 +2759,7 @@ def get_duxiu_dicts(session, key, values):
                         filename_decoded_basename_to_primary_ids[basename].append(primary_id)
         if len(filename_decoded_basename_to_primary_ids) > 0:
             # Careful! Make sure this recursion doesn't loop infinitely.
-            for record in get_duxiu_dicts(session, 'filename_decoded_basename', list(filename_decoded_basename_to_primary_ids.keys())):
+            for record in get_duxiu_dicts(session, 'filename_decoded_basename', list(filename_decoded_basename_to_primary_ids.keys()), include_deep_transitive_md5s_size_path=include_deep_transitive_md5s_size_path):
                 for primary_id in filename_decoded_basename_to_primary_ids[record['filename_decoded_basename']]:
                     for aac_record in record['aac_records']:
                         # NOTE: It's important that we append these aac_records at the end, since we select the "best" records
@@ -2803,7 +2803,6 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict['aa_duxiu_derived']['dxid_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['md5_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = []
-        duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['filepath_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['ini_values_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['description_cumulative'] = []
@@ -2827,12 +2826,14 @@ def get_duxiu_dicts(session, key, values):
             if aac_record['metadata']['type'] == 'dx_20240122__books':
                 # 512w_final_csv has a bunch of incorrect records from dx_20240122__books deleted, so skip these entirely.
                 # if len(aac_record['metadata']['record'].get('source') or '') > 0:
-                #     duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"dx_20240122__books: {aac_record['metadata']['record']['source']}")
+                #     duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"dx_20240122__books: {aac_record['metadata']['record']['source']} {aac_record['aacid']}")
                 pass
             elif aac_record['metadata']['type'] in ['512w_final_csv', 'DX_corrections240209_csv']:
                 if aac_record['metadata']['type'] == '512w_final_csv' and any([record['metadata']['type'] == 'DX_corrections240209_csv' for record in aac_records.values()]):
                     # Skip if there is also a correction.
                     pass
+
+                duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"{aac_record['metadata']['type']}: {aac_record['aacid']}")
 
                 if len(aac_record['metadata']['record'].get('title') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['title_multiple'].append(aac_record['metadata']['record']['title'])
@@ -2869,39 +2870,35 @@ def get_duxiu_dicts(session, key, values):
                             raise Exception(f"Unknown type of duxiu 512w_final_csv isbn_type {identifier_type=}")
             elif aac_record['metadata']['type'] == 'dx_20240122__remote_files':
                 if len(aac_record['metadata']['record'].get('source') or '') > 0:
-                    duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"dx_20240122__remote_files: {aac_record['metadata']['record']['source']}")
+                    duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"dx_20240122__remote_files: {aac_record['metadata']['record']['source']} {aac_record['aacid']}")
+                else:
+                    duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"dx_20240122__remote_files: {aac_record['aacid']}")
                 if len(aac_record['metadata']['record'].get('dx_id') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['dxid_multiple'].append(aac_record['metadata']['record']['dx_id'])
-                if len(aac_record['metadata']['record'].get('md5') or '') > 0:
-                    duxiu_dict['aa_duxiu_derived']['md5_multiple'].append(aac_record['metadata']['record']['md5'])
-                if (aac_record['metadata']['record'].get('size') or 0) > 0:
-                    duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(aac_record['metadata']['record']['size'])
+                if include_deep_transitive_md5s_size_path:
+                    if len(aac_record['metadata']['record'].get('md5') or '') > 0:
+                        duxiu_dict['aa_duxiu_derived']['md5_multiple'].append(aac_record['metadata']['record']['md5'])
+                    if (aac_record['metadata']['record'].get('size') or 0) > 0:
+                        duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(aac_record['metadata']['record']['size'])
 
-                filepath_components = []
-                if len(aac_record['metadata']['record'].get('path') or '') > 0:
-                    filepath_components.append(aac_record['metadata']['record']['path'])
-                    if not aac_record['metadata']['record']['path'].endswith('/'):
-                        filepath_components.append('/')
-                if len(aac_record['metadata']['record'].get('filename') or '') > 0:
-                    filepath_components.append(aac_record['metadata']['record']['filename'])
-                if len(filepath_components) > 0:
-                    duxiu_dict['aa_duxiu_derived']['filepath_multiple'].append(''.join(filepath_components))
-
-                if (len(aac_record['metadata']['record'].get('md5') or '') > 0) and ((aac_record['metadata']['record'].get('size') or 0) > 0) and (len(aac_record['metadata']['record'].get('filename') or '') > 0):
-                    miaochuan_link_parts = []
-                    miaochuan_link_parts.append(aac_record['metadata']['record']['md5'])
-                    if len(aac_record['metadata']['record'].get('header_md5') or '') > 0:
-                        miaochuan_link_parts.append(aac_record['metadata']['record']['header_md5'])
-                    miaochuan_link_parts.append(str(aac_record['metadata']['record']['size']))
-                    miaochuan_link_parts.append(aac_record['metadata']['record']['filename'])
-                    duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'].append('#'.join(miaochuan_link_parts))
+                    filepath_components = []
+                    if len(aac_record['metadata']['record'].get('path') or '') > 0:
+                        filepath_components.append(aac_record['metadata']['record']['path'])
+                        if not aac_record['metadata']['record']['path'].endswith('/'):
+                            filepath_components.append('/')
+                    if len(aac_record['metadata']['record'].get('filename') or '') > 0:
+                        filepath_components.append(aac_record['metadata']['record']['filename'])
+                    if len(filepath_components) > 0:
+                        duxiu_dict['aa_duxiu_derived']['filepath_multiple'].append(''.join(filepath_components))
             elif aac_record['metadata']['type'] == 'dx_toc_db__dx_toc':
+                duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"dx_toc_db__dx_toc: {aac_record['aacid']}")
                 # TODO: Better parsing; maintain tree structure.
                 toc_xml = (aac_record['metadata']['record'].get('toc_xml') or '')
                 toc_matches = re.findall(r'id="([^"]+)" Caption="([^"]+)" PageNumber="([^"]+)"', toc_xml)
                 if len(toc_matches) > 0:
                     duxiu_dict['aa_duxiu_derived']['description_cumulative'].append('\n'.join([f"{match[2]} ({match[0]}): {match[1]}" for match in toc_matches]))
             elif aac_record['metadata']['type'] == 'cadal_table__books_detail':
+                duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"cadal_table__books_detail: {aac_record['aacid']}")
                 if len(aac_record['metadata']['record'].get('title') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['title_multiple'].append(aac_record['metadata']['record']['title'])
                 if len(aac_record['metadata']['record'].get('creator') or '') > 0:
@@ -2931,6 +2928,7 @@ def get_duxiu_dicts(session, key, values):
                 if len(aac_record['metadata']['record'].get('type') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['comments_cumulative'].append(aac_record['metadata']['record']['type'])
             elif aac_record['metadata']['type'] == 'cadal_table__books_solr':
+                duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"cadal_table__books_solr: {aac_record['aacid']}")
                 if len(aac_record['metadata']['record'].get('Title') or '') > 0:
                     duxiu_dict['aa_duxiu_derived']['title_multiple'].append(aac_record['metadata']['record']['Title'])
                 if len(aac_record['metadata']['record'].get('CreateDate') or '') > 0:
@@ -2992,9 +2990,12 @@ def get_duxiu_dicts(session, key, values):
                         "extension": 'pdf',
                     }
                     # Make sure to prepend these, in case there is another 'aa_catalog_files' entry without a generated_file.
-                    duxiu_dict['aa_duxiu_derived']['md5_multiple'] = [aac_record['generated_file_metadata']['md5']] + duxiu_dict['aa_duxiu_derived']['md5_multiple']
-                    duxiu_dict['aa_duxiu_derived']['md5_multiple'] = [aac_record['generated_file_metadata']['original_md5']] + duxiu_dict['aa_duxiu_derived']['md5_multiple']
+                    # No need to check for include_deep_transitive_md5s_size_path here, because generated_file_aacid only exists
+                    # for the primary (non-transitive) md5 record.
+                    duxiu_dict['aa_duxiu_derived']['md5_multiple'] = [aac_record['generated_file_metadata']['md5'], aac_record['generated_file_metadata']['original_md5']] + duxiu_dict['aa_duxiu_derived']['md5_multiple']
                     duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = [int(aac_record['generated_file_metadata']['filesize'])] + duxiu_dict['aa_duxiu_derived']['filesize_multiple']
+                    duxiu_dict['aa_duxiu_derived']['filepath_multiple'] = [aac_record['metadata']['record']['filename_decoded']] + duxiu_dict['aa_duxiu_derived']['filepath_multiple']
+
                     duxiu_dict['aa_duxiu_derived']['added_date_unified']['duxiu_filegen'] = datetime.datetime.strptime(aac_record['generated_file_aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat()
 
                     # Only check for problems when we have generated_file_aacid, since that indicates this is the main file record.
@@ -3004,7 +3005,7 @@ def get_duxiu_dicts(session, key, values):
                             'pdg_broken_files_len': len(aac_record['metadata']['record']['pdg_broken_files']),
                         })
 
-                duxiu_dict['aa_duxiu_derived']['source_multiple'].append("aa_catalog_files")
+                duxiu_dict['aa_duxiu_derived']['source_multiple'].append(f"aa_catalog_files: {aac_record['aacid']}")
 
                 aa_derived_ini_values = aac_record['metadata']['record']['aa_derived_ini_values']
                 for aa_derived_ini_values_list in aa_derived_ini_values.values():
@@ -3043,15 +3044,10 @@ def get_duxiu_dicts(session, key, values):
                 for ini_value in (aa_derived_ini_values.get('Keywords') or []):
                     duxiu_dict['aa_duxiu_derived']['comments_cumulative'].append(ini_value['value'])
 
-                miaochuan_link_parts = [
-                    aac_record['metadata']['record']['md5'],
-                    aac_record['metadata']['record']['header_md5'],
-                    str(aac_record['metadata']['record']['filesize']),
-                    aac_record['metadata']['record']['filename_decoded'],
-                ]
-                duxiu_dict['aa_duxiu_derived']['miaochuan_links_multiple'].append('#'.join(miaochuan_link_parts))
-                duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(int(aac_record['metadata']['record']['filesize']))
-                duxiu_dict['aa_duxiu_derived']['filepath_multiple'].append(aac_record['metadata']['record']['filename_decoded'])
+                if include_deep_transitive_md5s_size_path:
+                    duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(int(aac_record['metadata']['record']['filesize']))
+                    duxiu_dict['aa_duxiu_derived']['filepath_multiple'].append(aac_record['metadata']['record']['filename_decoded'])
+                    duxiu_dict['aa_duxiu_derived']['md5_multiple'].append(aac_record['metadata']['record']['md5'])
 
                 if 'aa_derived_duxiu_ssid' in aac_record['metadata']['record']:
                     duxiu_dict['aa_duxiu_derived']['duxiu_ssid_multiple'].append(aac_record['metadata']['record']['aa_derived_duxiu_ssid'])
@@ -3118,7 +3114,6 @@ def get_duxiu_dicts(session, key, values):
             "md5_multiple": ("before", ["Includes both our generated MD5, and the original file MD5."]),
             "filesize_multiple": ("before", ["Includes both our generated file’s size, and the original filesize.",
                                 "Our generated filesize should be the first listed."]),
-            "miaochuan_links_multiple": ("before", ["For use with BaiduYun, though apparently now discontinued."]),
             "filepath_multiple": ("before", ["Original filenames."]),
             "ini_values_multiple": ("before", ["Extracted .ini-style entries from serialized_files."]),
             "language_codes": ("before", ["Our inferred language codes (BCP 47).",
@@ -3174,7 +3169,7 @@ def get_duxiu_dicts(session, key, values):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def duxiu_ssid_json(duxiu_ssid):
     with Session(engine) as session:
-        duxiu_dicts = get_duxiu_dicts(session, 'duxiu_ssid', [duxiu_ssid])
+        duxiu_dicts = get_duxiu_dicts(session, 'duxiu_ssid', [duxiu_ssid], include_deep_transitive_md5s_size_path=True)
         if len(duxiu_dicts) == 0:
             return "{}", 404
         return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
@@ -3183,7 +3178,7 @@ def duxiu_ssid_json(duxiu_ssid):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def cadal_ssno_json(cadal_ssno):
     with Session(engine) as session:
-        duxiu_dicts = get_duxiu_dicts(session, 'cadal_ssno', [cadal_ssno])
+        duxiu_dicts = get_duxiu_dicts(session, 'cadal_ssno', [cadal_ssno], include_deep_transitive_md5s_size_path=True)
         if len(duxiu_dicts) == 0:
             return "{}", 404
         return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
@@ -3192,7 +3187,7 @@ def cadal_ssno_json(cadal_ssno):
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def duxiu_md5_json(md5):
     with Session(engine) as session:
-        duxiu_dicts = get_duxiu_dicts(session, 'md5', [md5])
+        duxiu_dicts = get_duxiu_dicts(session, 'md5', [md5], include_deep_transitive_md5s_size_path=False)
         if len(duxiu_dicts) == 0:
             return "{}", 404
         return allthethings.utils.nice_json(duxiu_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
@@ -3517,8 +3512,8 @@ def get_aarecords_elasticsearch(aarecord_ids):
         return []
 
     # Uncomment the following lines to use MySQL directly; useful for local development.
-    # with Session(engine) as session:
-    #     return [add_additional_to_aarecord({ '_source': aarecord }) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
+    with Session(engine) as session:
+        return [add_additional_to_aarecord({ '_source': aarecord }) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
     docs_by_es_handle = collections.defaultdict(list)
     for aarecord_id in aarecord_ids:
@@ -3633,9 +3628,9 @@ def get_aarecords_mysql(session, aarecord_ids):
     ol_book_dicts = {('ol:' + item['ol_edition']): [item] for item in get_ol_book_dicts(session, 'ol_edition', split_ids['ol'])}
     scihub_doi_dicts = {('doi:' + item['doi']): [item] for item in get_scihub_doi_dicts(session, 'doi', split_ids['doi'])}
     oclc_dicts = {('oclc:' + item['oclc_id']): [item] for item in get_oclc_dicts(session, 'oclc', split_ids['oclc'])}
-    duxiu_dicts = {('duxiu_ssid:' + item['duxiu_ssid']): item for item in get_duxiu_dicts(session, 'duxiu_ssid', split_ids['duxiu_ssid'])}
-    duxiu_dicts2 = {('cadal_ssno:' + item['cadal_ssno']): item for item in get_duxiu_dicts(session, 'cadal_ssno', split_ids['cadal_ssno'])}
-    duxiu_dicts3 = {('md5:' + item['md5']): item for item in get_duxiu_dicts(session, 'md5', split_ids['md5'])}
+    duxiu_dicts = {('duxiu_ssid:' + item['duxiu_ssid']): item for item in get_duxiu_dicts(session, 'duxiu_ssid', split_ids['duxiu_ssid'], include_deep_transitive_md5s_size_path=True)}
+    duxiu_dicts2 = {('cadal_ssno:' + item['cadal_ssno']): item for item in get_duxiu_dicts(session, 'cadal_ssno', split_ids['cadal_ssno'], include_deep_transitive_md5s_size_path=True)}
+    duxiu_dicts3 = {('md5:' + item['md5']): item for item in get_duxiu_dicts(session, 'md5', split_ids['md5'], include_deep_transitive_md5s_size_path=False)}
     aac_upload_md5_dicts = {('md5:' + item['md5']): item for item in get_aac_upload_book_dicts(session, 'md5', split_ids['md5'])}
 
     # First pass, so we can fetch more dependencies.
@@ -4384,9 +4379,6 @@ def get_aarecords_mysql(session, aarecord_ids):
                 'cadal_ssno': aarecord['duxiu'].get('cadal_ssno'),
                 'md5': aarecord['duxiu'].get('md5'),
                 'duxiu_file': aarecord['duxiu'].get('duxiu_file'),
-                'aa_duxiu_derived': {
-                    'miaochuan_links_multiple': aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple'],
-                }
             }
             if aarecord['duxiu']['duxiu_ssid'] is None:
                 del aarecord['duxiu']['duxiu_ssid']
@@ -4941,10 +4933,6 @@ def get_additional_for_aarecord(aarecord):
         if 'duxiu_dxid' in aarecord['file_unified_data']['identifiers_unified']:
             for duxiu_dxid in aarecord['file_unified_data']['identifiers_unified']['duxiu_dxid']:
                 additional['download_urls'].append((gettext('page.md5.box.download.aa_dxid'), f'/search?q="duxiu_dxid:{duxiu_dxid}"', ""))
-        # Not supported by BaiduYun anymore.
-        # if aarecord.get('duxiu') is not None and len(aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']) > 0:
-        #     for miaochuan_link in aarecord['duxiu']['aa_duxiu_derived']['miaochuan_links_multiple']:
-        #         additional['download_urls'].append(('', '', f"Miaochuan link 秒传: {miaochuan_link} (for use with BaiduYun)"))
 
     additional['has_scidb'] = 0
     scidb_info = allthethings.utils.scidb_info(aarecord, additional)
