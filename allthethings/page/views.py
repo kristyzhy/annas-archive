@@ -2604,16 +2604,18 @@ def get_oclc_id_by_isbn13(session, isbn13s):
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT code, aarecord_id FROM aarecords_codes_oclc WHERE code IN %(codes)s', { "codes": [f"isbn13:{isbn13}" for isbn13 in isbn13s] })
-        rows = cursor.fetchall()
+        rows = list(cursor.fetchall())
         if len(rows) == 0:
             return {}
         oclc_ids_by_isbn13 = collections.defaultdict(list)
         for row in rows:
-            if not row['code'].startswith('isbn13:'):
-                raise Exception(f"Expected isbn13: prefix for {row['code']=}")
-            if not row['aarecord_id'].startswith('oclc:'):
-                raise Exception(f"Expected oclc: prefix for {row['aarecord_id']=}")
-            oclc_ids_by_isbn13[row['code'][len('isbn13:'):]].append(row['aarecord_id'][len('oclc:'):])
+            code = row['code'].decode(errors='replace')
+            aarecord_id = row['aarecord_id'].decode(errors='replace')
+            if not code.startswith('isbn13:'):
+                raise Exception(f"Expected isbn13: prefix for {code=}")
+            if not aarecord_id.startswith('oclc:'):
+                raise Exception(f"Expected oclc: prefix for {aarecord_id=}")
+            oclc_ids_by_isbn13[code[len('isbn13:'):]].append(aarecord_id[len('oclc:'):])
         return dict(oclc_ids_by_isbn13)
 
 def get_oclc_dicts_by_isbn13(session, isbn13s):
@@ -3512,8 +3514,8 @@ def get_aarecords_elasticsearch(aarecord_ids):
         return []
 
     # Uncomment the following lines to use MySQL directly; useful for local development.
-    with Session(engine) as session:
-        return [add_additional_to_aarecord({ '_source': aarecord }) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
+    # with Session(engine) as session:
+    #     return [add_additional_to_aarecord({ '_source': aarecord }) for aarecord in get_aarecords_mysql(session, aarecord_ids)]
 
     docs_by_es_handle = collections.defaultdict(list)
     for aarecord_id in aarecord_ids:
