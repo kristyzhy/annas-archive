@@ -3645,6 +3645,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['zlib_book'] = zlib_book_dicts1.get(aarecord_id) or zlib_book_dicts2.get(aarecord_id)
         aarecord['aac_zlib3_book'] = aac_zlib3_book_dicts1.get(aarecord_id) or aac_zlib3_book_dicts2.get(aarecord_id)
         aarecord['ia_record'] = ia_record_dicts.get(aarecord_id) or ia_record_dicts2.get(aarecord_id)
+        aarecord['ia_records_meta_only'] = []
         aarecord['isbndb'] = list(isbndb_dicts.get(aarecord_id) or [])
         aarecord['ol'] = list(ol_book_dicts.get(aarecord_id) or [])
         aarecord['scihub_doi'] = list(scihub_doi_dicts.get(aarecord_id) or [])
@@ -3653,8 +3654,6 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['aac_upload'] = aac_upload_md5_dicts.get(aarecord_id)
         # TODO:
         # duxiu metadata
-        # ia metadata (and ol transitively)
-        # oclc after all (see below)?
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
@@ -3669,6 +3668,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
             *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
+            *[ia_record['aa_ia_derived']['identifiers_unified'] for ia_record in aarecord['ia_records_meta_only']],
             *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
@@ -3695,16 +3695,13 @@ def get_aarecords_mysql(session, aarecord_ids):
     isbndb_dicts2 = {item['ean13']: item for item in get_isbndb_dicts(session, list(dict.fromkeys(canonical_isbn13s)))}
     ol_book_dicts2 = {item['ol_edition']: item for item in get_ol_book_dicts(session, 'ol_edition', list(dict.fromkeys(ol_editions)))}
     ol_book_dicts2_for_isbn13 = get_ol_book_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
+    ol_book_dicts2_for_ia_id = get_ol_book_dicts_by_ia_id(session, list(dict.fromkeys(ia_ids)))
+    ia_record_dicts3 = {item['ia_id']: item for item in get_ia_record_dicts(session, "ia_id", list(dict.fromkeys(ia_ids))) if item.get('aa_ia_file') is None}
     scihub_doi_dicts2 = {item['doi']: item for item in get_scihub_doi_dicts(session, 'doi', list(dict.fromkeys(dois)))}
-
-    # NEW:
-    # ia_record_dicts3 = dict(('ia:' + item['ia_id'], item) for item in get_ia_record_dicts(session, "ia_id", list(dict.fromkeys(ia_ids))) if item.get('aa_ia_file') is None)
-    # ol_book_dicts2_for_ia_id = get_ol_book_dicts_by_ia_id(session, list(dict.fromkeys(ia_ids)))
-
-    # Too expensive.. TODO: enable combining results from ES?
-    # oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(dict.fromkeys(oclc_ids)))}
-    # oclc_dicts2_for_isbn13 = get_oclc_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
-    oclc_id_by_isbn13 = get_oclc_id_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
+    oclc_dicts2 = {item['oclc_id']: item for item in get_oclc_dicts(session, 'oclc', list(dict.fromkeys(oclc_ids)))}
+    oclc_dicts2_for_isbn13 = get_oclc_dicts_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
+    # TODO: remove if the other OCLC stuff works well enough.
+    # oclc_id_by_isbn13 = get_oclc_id_by_isbn13(session, list(dict.fromkeys(canonical_isbn13s)))
 
     # Second pass
     for aarecord in aarecords:
@@ -3739,10 +3736,38 @@ def get_aarecords_mysql(session, aarecord_ids):
                 for ol_book_dict in (ol_book_dicts2_for_isbn13.get(canonical_isbn13) or []):
                     if ol_book_dict['ol_edition'] not in existing_ol_editions:
                         ol_book_dicts_all.append(ol_book_dict)
-                        existing_ol_editions.add(ol_book_dict['ol_edition']) # TODO: restructure others to also do something similar?
+                        existing_ol_editions.add(ol_book_dict['ol_edition'])
             if len(ol_book_dicts_all) > 3:
                 ol_book_dicts_all = []
+            else:
+                # Since these come from isbn13, we don't have the ol codes yet.
+                for ol_book_dict in ol_book_dicts_all:
+                    allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'ol', ol_book_dict['ol_edition'])
             aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
+
+            ol_book_dicts_all = []
+            existing_ol_editions = set([ol_book_dict['ol_edition'] for ol_book_dict in aarecord['ol']])
+            for ia_id in (aarecord['file_unified_data']['identifiers_unified'].get('ocaid') or []):
+                for ol_book_dict in (ol_book_dicts2_for_ia_id.get(ia_id) or []):
+                    if ol_book_dict['ol_edition'] not in existing_ol_editions:
+                        ol_book_dicts_all.append(ol_book_dict)
+                        existing_ol_editions.add(ol_book_dict['ol_edition'])
+            if len(ol_book_dicts_all) > 3:
+                ol_book_dicts_all = []
+            else:
+                # Since these come from ocaid (ia_id), we don't have the ol codes yet.
+                for ol_book_dict in ol_book_dicts_all:
+                    allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'ol', ol_book_dict['ol_edition'])
+            aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
+
+            ia_record_dicts_all = []
+            existing_ia_ids = set([aarecord['ia_record']['ia_id']] if aarecord['ia_record'] is not None else [])
+            for potential_ia_ids in (aarecord['file_unified_data']['identifiers_unified'].get('ocaid') or []):
+                if (potential_ia_ids in ia_record_dicts3) and (potential_ia_ids not in existing_ia_ids):
+                    ia_record_dicts_all.append(ia_record_dicts3[potential_ia_ids])
+            if len(ia_record_dicts_all) > 3:
+                ia_record_dicts_all = []
+            aarecord['ia_records_meta_only'] = (aarecord['ia_records_meta_only'] + ia_record_dicts_all)
 
             scihub_doi_all = []
             existing_dois = set([scihub_doi['doi'] for scihub_doi in aarecord['scihub_doi']])
@@ -3753,29 +3778,34 @@ def get_aarecords_mysql(session, aarecord_ids):
                 scihub_doi_all = []
             aarecord['scihub_doi'] = (aarecord['scihub_doi'] + scihub_doi_all)
 
-            # oclc_all = []
-            # existing_oclc_ids = set([oclc['oclc_id'] for oclc in aarecord['oclc']])
-            # for oclc_id in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
-            #     if (oclc_id in oclc_dicts2) and (oclc_id not in existing_oclc_ids):
-            #         oclc_all.append(oclc_dicts2[oclc_id])
-            # if len(oclc_all) > 3:
-            #     oclc_all = []
-            # aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
+            oclc_all = []
+            existing_oclc_ids = set([oclc['oclc_id'] for oclc in aarecord['oclc']])
+            for oclc_id in (aarecord['file_unified_data']['identifiers_unified'].get('oclc') or []):
+                if (oclc_id in oclc_dicts2) and (oclc_id not in existing_oclc_ids):
+                    oclc_all.append(oclc_dicts2[oclc_id])
+            if len(oclc_all) > 3:
+                oclc_all = []
+            aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
 
-            # oclc_all = []
-            # existing_oclc_ids = set([oclc['oclc_id'] for oclc in aarecord['oclc']])
-            # for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-            #     for oclc_dict in (oclc_dicts2_for_isbn13.get(canonical_isbn13) or []):
-            #         if oclc_dict['oclc_id'] not in existing_oclc_ids:
-            #             oclc_all.append(oclc_dict)
-            #             existing_oclc_ids.add(oclc_dict['oclc_id']) # TODO: restructure others to also do something similar?
-            # if len(oclc_all) > 3:
-            #     oclc_all = []
-            # aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
-
+            oclc_all = []
+            existing_oclc_ids = set([oclc['oclc_id'] for oclc in aarecord['oclc']])
             for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
-                for oclc_id in (oclc_id_by_isbn13.get(canonical_isbn13) or []):
-                    allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'oclc', oclc_id)            
+                for oclc_dict in (oclc_dicts2_for_isbn13.get(canonical_isbn13) or []):
+                    if oclc_dict['oclc_id'] not in existing_oclc_ids:
+                        oclc_all.append(oclc_dict)
+                        existing_oclc_ids.add(oclc_dict['oclc_id'])
+            if len(oclc_all) > 3:
+                oclc_all = []
+            else:
+                # Since these come from isbn13, we don't have the oclc codes yet.
+                for oclc_dict in oclc_all:
+                    allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'oclc', oclc_dict['oclc_id'])
+            aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
+
+            # TODO: remove if the other OCLC stuff works well enough.
+            # for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
+            #     for oclc_id in (oclc_id_by_isbn13.get(canonical_isbn13) or []):
+            #         allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'oclc', oclc_id)            
 
         aarecord['ipfs_infos'] = []
         if aarecord['lgrsnf_book'] and len(aarecord['lgrsnf_book'].get('ipfs_cid') or '') > 0:
@@ -3795,6 +3825,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
+        original_filename_multiple += [allthethings.utils.prefix_filepath('ia', filepath) for filepath in filter(len, [ia_record['aa_ia_derived']['original_filename'].strip() for ia_record in aarecord['ia_records_meta_only']])]
         original_filename_multiple += [allthethings.utils.prefix_filepath('scihub', f"{scihub_doi['doi'].strip()}.pdf") for scihub_doi in aarecord['scihub_doi']]
         original_filename_multiple += [allthethings.utils.prefix_filepath('duxiu', filepath) for filepath in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_multiple') or [])]
         original_filename_multiple += [allthethings.utils.prefix_filepath('upload', filepath) for filepath in (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_multiple') or [])]
@@ -3811,6 +3842,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         # Select the cover_url_normalized in order of what is likely to be the best one: ia, lgrsnf, lgrsfic, lgli, zlib.
         cover_url_multiple = [
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('cover_url') or '').strip(),
+            *[ia_record['aa_ia_derived']['cover_url'].strip() for ia_record in aarecord['ia_records_meta_only']],
             ((aarecord['lgrsnf_book'] or {}).get('cover_url_normalized') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('cover_url_normalized') or '').strip(),
             ((aarecord['lgli_file'] or {}).get('cover_url_guess_normalized') or '').strip(),
@@ -3866,6 +3898,9 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
         if aarecord['ia_record'] is not None and len(aarecord['ia_record']['json']['aa_shorter_files']) > 0:
             filesize_multiple.append(max(int(file.get('size') or '0') for file in aarecord['ia_record']['json']['aa_shorter_files']))
+        for ia_record in aarecord['ia_records_meta_only']:
+            if len(ia_record['json']['aa_shorter_files']) > 0:
+                filesize_multiple.append(max(int(file.get('size') or '0') for file in ia_record['json']['aa_shorter_files']))
         if aarecord['file_unified_data']['filesize_best'] == 0:
             aarecord['file_unified_data']['filesize_best'] = max(filesize_multiple)
         zlib_book_filesize = (aarecord['zlib_book'] or {}).get('filesize') or 0
@@ -3893,6 +3928,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or [])]
         title_multiple += [(ol_book_dict.get('title_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         title_multiple += [(isbndb.get('title_normalized') or '').strip() for isbndb in aarecord['isbndb']]
+        title_multiple += [ia_record['aa_ia_derived']['title'].strip() for ia_record in aarecord['ia_records_meta_only']]
         title_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('title_multiple') or [])
         title_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('title_multiple') or [])
         for oclc in aarecord['oclc']:
@@ -3916,6 +3952,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
         author_multiple += [ol_book_dict['authors_normalized'] for ol_book_dict in aarecord['ol']]
         author_multiple += [", ".join(isbndb['json'].get('authors') or []) for isbndb in aarecord['isbndb']]
+        author_multiple += [ia_record['aa_ia_derived']['author'].strip() for ia_record in aarecord['ia_records_meta_only']]
         author_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('author_multiple') or [])
         author_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('author_multiple') or [])
         for oclc in aarecord['oclc']:
@@ -3939,6 +3976,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
         publisher_multiple += [(ol_book_dict.get('publishers_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         publisher_multiple += [(isbndb['json'].get('publisher') or '').strip() for isbndb in aarecord['isbndb']]
+        publisher_multiple += [ia_record['aa_ia_derived']['publisher'].strip() for ia_record in aarecord['ia_records_meta_only']]
         publisher_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('publisher_multiple') or [])
         publisher_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('publisher_multiple') or [])
         for oclc in aarecord['oclc']:
@@ -3961,6 +3999,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
         edition_varia_multiple += [(ol_book_dict.get('edition_varia_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         edition_varia_multiple += [(isbndb.get('edition_varia_normalized') or '').strip() for isbndb in aarecord['isbndb']]
+        edition_varia_multiple += [ia_record['aa_ia_derived']['edition_varia_normalized'].strip() for ia_record in aarecord['ia_records_meta_only']]
         edition_varia_multiple += [oclc['aa_oclc_derived']['edition_varia_normalized'] for oclc in aarecord['oclc']]
         if aarecord['file_unified_data']['edition_varia_best'] == '':
             aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
@@ -3983,6 +4022,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         year_multiple += [(edition.get('year_normalized') or '').strip() for edition in lgli_all_editions]
         year_multiple += [(ol_book_dict.get('year_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         year_multiple += [(isbndb.get('year_normalized') or '').strip() for isbndb in aarecord['isbndb']]
+        year_multiple += [ia_record['aa_ia_derived']['year'].strip() for ia_record in aarecord['ia_records_meta_only']]
         year_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('year_multiple') or [])
         for oclc in aarecord['oclc']:
             year_multiple += oclc['aa_oclc_derived']['year_multiple']
@@ -4007,6 +4047,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((lgli_single_edition or {}).get('commentary') or '').strip(),
             *[note.strip() for note in (((lgli_single_edition or {}).get('descriptions_mapped') or {}).get('descriptions_mapped.notes') or [])],
             *(((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('combined_comments') or []),
+            *[comment for ia_record in aarecord['ia_records_meta_only'] for comment in ia_record['aa_ia_derived']['combined_comments']],
             *(((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('combined_comments') or []),
             *(((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('combined_comments') or []),
         ]
@@ -4036,14 +4077,13 @@ def get_aarecords_mysql(session, aarecord_ids):
         stripped_description_multiple += [ol_book_dict['stripped_description'].strip()[0:5000] for ol_book_dict in aarecord['ol']]
         stripped_description_multiple += [(isbndb['json'].get('synopsis') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
         stripped_description_multiple += [(isbndb['json'].get('overview') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
+        # Don't make ia_record's description a primary choice here, since it's often not very good.
+        stripped_description_multiple += [(((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000]]
+        stripped_description_multiple += [ia_record['aa_ia_derived']['stripped_description_and_references'].strip()[0:5000] for ia_record in aarecord['ia_records_meta_only']]
         for oclc in aarecord['oclc']:
             stripped_description_multiple += oclc['aa_oclc_derived']['stripped_description_multiple']
         if aarecord['file_unified_data']['stripped_description_best'] == '':
             aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
-        ia_descr = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('stripped_description_and_references') or '').strip()[0:5000]
-        if len(ia_descr) > 0:
-            stripped_description_multiple += [ia_descr]
-            aarecord['file_unified_data']['stripped_description_best'] = (aarecord['file_unified_data']['stripped_description_best'] + '\n\n' + ia_descr).strip()
         aarecord['file_unified_data']['stripped_description_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(stripped_description_multiple) if s != aarecord['file_unified_data']['stripped_description_best']]
         if len(aarecord['file_unified_data']['stripped_description_additional']) == 0:
             del aarecord['file_unified_data']['stripped_description_additional']
@@ -4061,6 +4101,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(ol_book_dict.get('language_codes') or []) for ol_book_dict in aarecord['ol']])
+        if len(aarecord['file_unified_data']['language_codes']) == 0:
+            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([ia_record['aa_ia_derived']['language_codes'] for ia_record in aarecord['ia_records_meta_only']])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(isbndb.get('language_codes') or []) for isbndb in aarecord['isbndb']])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
@@ -4100,6 +4142,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['lgli_file'] or {}).get('identifiers_unified') or {}),
             *[(edition['identifiers_unified'].get('identifiers_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('identifiers_unified') or {}),
+            *[ia_record['aa_ia_derived']['identifiers_unified'] for ia_record in aarecord['ia_records_meta_only']],
             *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
@@ -4114,6 +4157,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('classifications_unified') or {}),
             *[(edition.get('classifications_unified') or {}) for edition in lgli_all_editions],
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('classifications_unified') or {}),
+            *[ia_record['aa_ia_derived']['classifications_unified'] for ia_record in aarecord['ia_records_meta_only']],
             *[isbndb['classifications_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['classifications_unified'] for ol_book_dict in aarecord['ol']],
             *[scihub_doi['classifications_unified'] for scihub_doi in aarecord['scihub_doi']],
@@ -4126,6 +4170,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             ((aarecord['aac_zlib3_book'] or aarecord['zlib_book'] or {}).get('added_date_unified') or {}),
             ((aarecord['lgli_file'] or {}).get('added_date_unified') or {}),
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('added_date_unified') or {}),
+            *[ia_record['aa_ia_derived']['added_date_unified'] for ia_record in aarecord['ia_records_meta_only']],
             *[isbndb['added_date_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['added_date_unified'] for ol_book_dict in aarecord['ol']],
             *[oclc['aa_oclc_derived']['added_date_unified'] for oclc in aarecord['oclc']],
@@ -4219,6 +4264,9 @@ def get_aarecords_mysql(session, aarecord_ids):
         if (not aarecord['lgrsnf_book']) and aarecord['lgrsfic_book']:
             aarecord['file_unified_data']['content_type'] = 'book_fiction'
         ia_content_type = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('content_type') or 'book_unknown')
+        for ia_record in aarecord['ia_records_meta_only']:
+            if ia_content_type == 'book_unknown':
+                ia_content_type = ia_record['aa_ia_derived']['content_type']
         if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (ia_content_type != 'book_unknown'):
             aarecord['file_unified_data']['content_type'] = ia_content_type
         if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (len(aarecord['scihub_doi']) > 0):
@@ -4292,6 +4340,11 @@ def get_aarecords_mysql(session, aarecord_ids):
                 'aa_ia_derived': {
                     'printdisabled_only': aarecord['ia_record']['aa_ia_derived']['printdisabled_only'],
                 }
+            }
+        aarecord['ia_records_meta_only'] = aarecord.get('ia_records_meta_only') or []
+        for index, item in enumerate(aarecord['ia_records_meta_only']):
+            aarecord['ia_records_meta_only'][index] = {
+                'ia_id': aarecord['ia_records_meta_only'][index]['ia_id'],
             }
         aarecord['isbndb'] = aarecord.get('isbndb') or []
         for index, item in enumerate(aarecord['isbndb']):

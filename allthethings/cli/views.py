@@ -666,11 +666,11 @@ def elastic_build_aarecords_all():
     elastic_build_aarecords_all_internal()
 
 def elastic_build_aarecords_all_internal():
+    elastic_build_aarecords_oclc_internal() # OCLC first since we use aarecords_codes_oclc in later steps.
     elastic_build_aarecords_ia_internal()
     elastic_build_aarecords_isbndb_internal()
     elastic_build_aarecords_ol_internal()
     elastic_build_aarecords_duxiu_internal()
-    elastic_build_aarecords_oclc_internal()
     elastic_build_aarecords_main_internal()
     elastic_build_aarecords_forcemerge_internal()
 
