@@ -1348,7 +1348,16 @@ def get_ia_record_dicts(session, key, values):
             elif urn.startswith('urn:isbn:'):
                 isbns.append(urn[len('urn:isbn:'):])
         allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], isbns)
-        allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], allthethings.utils.get_isbnlike('\n'.join([ia_record_dict['ia_id'], ia_record_dict['aa_ia_derived']['stripped_description_and_references']] + ia_record_dict['aa_ia_derived']['combined_comments'])))
+        allthethings.utils.add_isbns_unified(ia_record_dict['aa_ia_derived'], allthethings.utils.get_isbnlike('\n'.join([ia_record_dict['ia_id'], ia_record_dict['aa_ia_derived']['title'], ia_record_dict['aa_ia_derived']['stripped_description_and_references']] + ia_record_dict['aa_ia_derived']['combined_comments'])))
+
+        # Clear out title if it only contains the ISBN, but only *after* extracting ISBN from it.
+        if ia_record_dict['aa_ia_derived']['title'].strip().lower() == ia_record_dict['ia_id'].strip().lower():
+            ia_record_dict['aa_ia_derived']['title'] = ''
+        condensed_title = ia_record_dict['aa_ia_derived']['title'].strip().lower().replace(' ', '').replace('_', '')
+        if condensed_title.startswith('isbn') or condensed_title.startswith('bookisbn'):
+            ia_record_dict['aa_ia_derived']['title'] = ''
+
+        # TODO: add "reviews" array info as comments.
 
         aa_ia_derived_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
@@ -3653,7 +3662,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['duxiu'] = duxiu_dicts.get(aarecord_id) or duxiu_dicts2.get(aarecord_id) or duxiu_dicts3.get(aarecord_id)
         aarecord['aac_upload'] = aac_upload_md5_dicts.get(aarecord_id)
         # TODO:
-        # duxiu metadata
+        # duxiu metadata (duxiu_ssid, cadal_ssno, but also match through isbn!)
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
 
