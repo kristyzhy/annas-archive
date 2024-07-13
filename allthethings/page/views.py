@@ -3101,9 +3101,10 @@ def get_duxiu_dicts(session, key, values):
         duxiu_dict['aa_duxiu_derived']['filesize_best'] = next(iter(duxiu_dict['aa_duxiu_derived']['filesize_multiple']), 0)
         duxiu_dict['aa_duxiu_derived']['filepath_best'] = next(iter(duxiu_dict['aa_duxiu_derived']['filepath_multiple']), '')
         duxiu_dict['aa_duxiu_derived']['description_best'] = '\n\n'.join(list(dict.fromkeys(duxiu_dict['aa_duxiu_derived']['description_cumulative'])))
+        sources_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string(duxiu_dict['aa_duxiu_derived']['source_multiple']))
         duxiu_dict['aa_duxiu_derived']['combined_comments'] = list(dict.fromkeys(filter(len, duxiu_dict['aa_duxiu_derived']['comments_cumulative'] + [
             # TODO: pass through comments metadata in a structured way so we can add proper translations.
-            f"sources: {' ; '.join(sort_by_length_and_filter_subsequences_with_longest_string(duxiu_dict['aa_duxiu_derived']['source_multiple']))}" if len(duxiu_dict['aa_duxiu_derived']['source_multiple']) > 0 else "",
+            f"sources:\n{sources_joined}" if sources_joined != "" else "",
         ])))
         duxiu_dict['aa_duxiu_derived']['edition_varia_normalized'] = ', '.join(list(dict.fromkeys(filter(len, [
             next(iter(duxiu_dict['aa_duxiu_derived']['series_multiple']), ''),
@@ -3393,10 +3394,12 @@ def get_aac_upload_book_dicts(session, key, values):
         aac_upload_book_dict['aa_upload_derived']['publisher_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['publisher_multiple']), '')
         aac_upload_book_dict['aa_upload_derived']['pages_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['pages_multiple']), '')
         aac_upload_book_dict['aa_upload_derived']['description_best'] = '\n\n'.join(list(dict.fromkeys(aac_upload_book_dict['aa_upload_derived']['description_cumulative'])))        
+        sources_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['source_multiple']))
+        producers_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['producer_multiple']))
         aac_upload_book_dict['aa_upload_derived']['combined_comments'] = list(dict.fromkeys(filter(len, aac_upload_book_dict['aa_upload_derived']['comments_cumulative'] + [
             # TODO: pass through comments metadata in a structured way so we can add proper translations.
-            f"sources: {' ; '.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['source_multiple']))}" if len(aac_upload_book_dict['aa_upload_derived']['source_multiple']) > 0 else "",
-            f"producers: {' ; '.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['producer_multiple']))}" if len(aac_upload_book_dict['aa_upload_derived']['producer_multiple']) > 0 else "",
+            f"sources:\n{sources_joined}" if sources_joined != "" else "",
+            f"producers:\n{producers_joined}" if producers_joined != "" else "",
         ])))
 
         for ocaid in allthethings.utils.extract_ia_archive_org_from_string(aac_upload_book_dict['aa_upload_derived']['description_best']):
