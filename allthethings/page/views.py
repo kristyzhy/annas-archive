@@ -552,9 +552,9 @@ def get_torrents_data():
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         # cursor.execute('SELECT mariapersist_small_files.created, mariapersist_small_files.file_path, mariapersist_small_files.metadata, s.metadata AS scrape_metadata, s.created AS scrape_created FROM mariapersist_small_files LEFT JOIN (SELECT mariapersist_torrent_scrapes.* FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)) s USING (file_path) WHERE mariapersist_small_files.file_path LIKE "torrents/managed_by_aa/%" GROUP BY mariapersist_small_files.file_path ORDER BY created ASC, scrape_created DESC LIMIT 50000')
         cursor.execute('SELECT created, file_path, metadata FROM mariapersist_small_files WHERE mariapersist_small_files.file_path LIKE "torrents/%" ORDER BY created, file_path LIMIT 50000')
-        small_files = cursor.fetchall()
+        small_files = list(cursor.fetchall())
         cursor.execute('SELECT * FROM mariapersist_torrent_scrapes INNER JOIN (SELECT file_path, MAX(created) AS max_created FROM mariapersist_torrent_scrapes GROUP BY file_path) s2 ON (mariapersist_torrent_scrapes.file_path = s2.file_path AND mariapersist_torrent_scrapes.created = s2.max_created)')
-        scrapes_by_file_path = { row['file_path']: row for row in cursor.fetchall() }
+        scrapes_by_file_path = { row['file_path']: row for row in list(cursor.fetchall()) }
 
         group_sizes = collections.defaultdict(int)
         group_num_files = collections.defaultdict(int)
@@ -813,7 +813,7 @@ def torrents_page():
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT * FROM mariapersist_torrent_scrapes_histogram WHERE day > DATE_FORMAT(NOW() - INTERVAL 60 DAY, "%Y-%m-%d") AND day < DATE_FORMAT(NOW() - INTERVAL 1 DAY, "%Y-%m-%d") ORDER BY day, seeder_group LIMIT 500')
-        histogram = cursor.fetchall()
+        histogram = list(cursor.fetchall())
 
         return render_template(
             "page/torrents.html",
@@ -909,11 +909,11 @@ def codes_page():
 
         if prefix_bytes == b'':
             cursor.execute('SELECT code_prefix FROM aarecords_codes_prefixes')
-            new_prefixes = [row['code_prefix'] + b':' for row in cursor.fetchall()]
+            new_prefixes = [row['code_prefix'] + b':' for row in list(cursor.fetchall())]
         else:
             max_exact_matches = 10000
             cursor.execute('SELECT aarecord_id FROM aarecords_codes WHERE code = %(prefix)s ORDER BY code, aarecord_id LIMIT %(max_exact_matches)s', { "prefix": prefix_bytes, "max_exact_matches": max_exact_matches })
-            for row in cursor.fetchall():
+            for row in list(cursor.fetchall()):
                 aarecord_id = row['aarecord_id'].decode()
                 exact_matches.append({
                     "label": aarecord_id,
@@ -924,7 +924,7 @@ def codes_page():
 
             # cursor.execute('SELECT CONCAT(%(prefix)s, IF(@r > 0, CHAR(@r USING utf8), "")) AS new_prefix, @r := fn_get_next_codepoint(IF(@r > 0, @r, ORD(" ")), %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
             cursor.execute('SELECT CONCAT(%(prefix)s, CHAR(@r USING binary)) AS new_prefix, @r := fn_get_next_codepoint(@r, %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code > %(prefix)s AND code LIKE CONCAT(REPLACE(REPLACE(%(prefix)s, "%%", "\\%%"), "_", "\\_"), "%%") ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 10000) iterator WHERE @r != 0', { "prefix": prefix_bytes })
-            new_prefixes_raw = cursor.fetchall()
+            new_prefixes_raw = list(cursor.fetchall())
             new_prefixes = [row['new_prefix'] for row in new_prefixes_raw]
             # print(f"{new_prefixes_raw=}")
 
@@ -1074,7 +1074,7 @@ def get_aac_zlib3_book_dicts(session, key, values):
         zlib3_records_offsets_and_lengths = []
         zlib3_files_indexes = []
         zlib3_files_offsets_and_lengths = []
-        for row_index, row in enumerate(cursor.fetchall()):
+        for row_index, row in enumerate(list(cursor.fetchall())):
             zlib3_records_indexes.append(row_index)
             zlib3_records_offsets_and_lengths.append((row['record_byte_offset'], row['record_byte_length']))
             if row.get('file_byte_offset') is not None:
@@ -1699,7 +1699,7 @@ def get_ol_book_dicts_by_isbn13(session, isbn13s):
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT ol_key, isbn FROM ol_isbn13 WHERE isbn IN %(isbn13s)s', { "isbn13s": isbn13s })
-        rows = cursor.fetchall()
+        rows = list(cursor.fetchall())
         if len(rows) == 0:
             return {}
         isbn13s_by_ol_edition = collections.defaultdict(list)
@@ -1721,7 +1721,7 @@ def get_ol_book_dicts_by_ia_id(session, ia_ids):
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT ol_key, ocaid FROM ol_ocaid WHERE ocaid IN %(ia_ids)s', { "ia_ids": ia_ids })
-        rows = cursor.fetchall()
+        rows = list(cursor.fetchall())
         if len(rows) == 0:
             return {}
         ia_ids_by_ol_edition = collections.defaultdict(list)
@@ -2324,7 +2324,7 @@ def get_scihub_doi_dicts(session, key, values):
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute(f'SELECT doi FROM scihub_dois WHERE doi IN %(values)s', { "values": [str(value) for value in values] })
-        scihub_dois = cursor.fetchall()
+        scihub_dois = list(cursor.fetchall())
     except Exception as err:
         print(f"Error in get_scihub_doi_dicts when querying {key}; {values}")
         print(repr(err))
@@ -2399,7 +2399,7 @@ def get_oclc_dicts(session, key, values):
 
     worldcat_oclc_ids = []
     worldcat_offsets_and_lengths = []
-    for row in cursor.fetchall():
+    for row in list(cursor.fetchall()):
         worldcat_oclc_ids.append(str(row['primary_id']))
         worldcat_offsets_and_lengths.append((row['byte_offset'], row['byte_length']))
 
@@ -2669,7 +2669,7 @@ def get_duxiu_dicts(session, key, values, include_deep_transitive_md5s_size_path
     duxiu_records_offsets_and_lengths = []
     duxiu_files_indexes = []
     duxiu_files_offsets_and_lengths = []
-    for row_index, row in enumerate(cursor.fetchall()):
+    for row_index, row in enumerate(list(cursor.fetchall())):
         duxiu_records_indexes.append(row_index)
         duxiu_records_offsets_and_lengths.append((row['byte_offset'], row['byte_length']))
         if row.get('generated_file_byte_offset') is not None:
@@ -3231,7 +3231,7 @@ def get_aac_upload_book_dicts(session, key, values):
         upload_files_offsets_and_lengths = []
         records_by_md5 = collections.defaultdict(dict)
         files_by_md5 = collections.defaultdict(dict)
-        for row_index, row in enumerate(cursor.fetchall()):
+        for row_index, row in enumerate(list(cursor.fetchall())):
             upload_records_indexes.append(row_index)
             upload_records_offsets_and_lengths.append((row['record_byte_offset'], row['record_byte_length']))
             if row.get('file_byte_offset') is not None:
@@ -3451,7 +3451,7 @@ def get_embeddings_for_aarecords(session, aarecords):
     session.connection().connection.ping(reconnect=True)
     cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
     cursor.execute(f'SELECT * FROM model_cache WHERE model_name = "e5_small_query" AND hashed_aarecord_id IN %(hashed_aarecord_ids)s', { "hashed_aarecord_ids": hashed_aarecord_ids })
-    rows_by_aarecord_id = { row['aarecord_id']: row for row in cursor.fetchall() }
+    rows_by_aarecord_id = { row['aarecord_id']: row for row in list(cursor.fetchall()) }
 
     embeddings = []
     insert_data_e5_small_query = []
@@ -5258,7 +5258,7 @@ def md5_slow_download(md5_input, path_index, domain_index):
                 return redirect(f"/md5/{md5_input}", code=302)
 
             cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)
-            cursor.execute('SELECT SUM(count) AS count FROM mariapersist_slow_download_access_pseudo_ipv4_hourly WHERE pseudo_ipv4 = %(pseudo_ipv4)s AND hour_since_epoch > %(hour_since_epoch)s', { "pseudo_ipv4": data_pseudo_ipv4, "hour_since_epoch": data_hour_since_epoch-24 })
+            cursor.execute('SELECT SUM(count) AS count FROM mariapersist_slow_download_access_pseudo_ipv4_hourly WHERE pseudo_ipv4 = %(pseudo_ipv4)s AND hour_since_epoch > %(hour_since_epoch)s LIMIT 1', { "pseudo_ipv4": data_pseudo_ipv4, "hour_since_epoch": data_hour_since_epoch-24 })
             daily_download_count_from_ip = ((cursor.fetchone() or {}).get('count') or 0)
             # minimum = 10
             # maximum = 100

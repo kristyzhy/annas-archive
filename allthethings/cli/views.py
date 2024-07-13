@@ -539,7 +539,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 session.connection().connection.ping(reconnect=True)
                 cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
                 cursor.execute('SELECT 1')
-                cursor.fetchall()
+                list(cursor.fetchall())
 
                 # Filter out records that are filtered in get_isbndb_dicts, because there are some bad records there.
                 canonical_isbn13s = [aarecord_id[len('isbn:'):] for aarecord_id in aarecord_ids if aarecord_id.startswith('isbn:')]
