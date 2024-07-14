@@ -490,8 +490,7 @@ def new_tables_internal(codes_table_name):
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         print(f"Creating fresh table {codes_table_name}")
         cursor.execute(f'DROP TABLE IF EXISTS {codes_table_name}')
-        # InnoDB for the key length.
-        cursor.execute(f'CREATE TABLE {codes_table_name} (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, PRIMARY KEY (code, aarecord_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute(f'CREATE TABLE {codes_table_name} (id BIGINT NOT NULL AUTO_INCREMENT, code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
 #################################################################################################
@@ -562,11 +561,12 @@ def elastic_build_aarecords_job(aarecord_ids):
                 aarecords = get_aarecords_mysql(session, aarecord_ids)
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
                 aarecords_all_md5_insert_data = []
+                isbn13_oclc_insert_data = []
                 aarecords_codes_insert_data_by_codes_table_name = collections.defaultdict(list)
                 for aarecord in aarecords:
                     aarecord_id_split = aarecord['id'].split(':', 1)
                     hashed_aarecord_id = hashlib.md5(aarecord['id'].encode()).digest()
-                    if aarecord['id'].startswith('md5:'):
+                    if aarecord_id_split[0] == 'md5':
                         # TODO: bring back for other records if necessary, but keep it possible to rerun
                         # only _main with recreating the table, and not needing INSERT .. ON DUPLICATE KEY UPDATE (deadlocks).
                         aarecords_all_md5_insert_data.append({
@@ -582,6 +582,14 @@ def elastic_build_aarecords_job(aarecord_ids):
                                 }
                             })),
                         })
+                    elif aarecord_id_split[0] == 'oclc':
+                        isbn13s = aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []
+                        if len(isbn13s) < 10: # Remove excessive lists.
+                            for isbn13 in isbn13s:
+                                isbn13_oclc_insert_data.append({
+                                    'isbn13': isbn13,
+                                    'oclc_id': int(aarecord_id_split[1]),
+                                })
 
                     for index in aarecord['indexes']:
                         virtshard = allthethings.utils.virtshard_for_hashed_aarecord_id(hashed_aarecord_id)
@@ -627,11 +635,17 @@ def elastic_build_aarecords_job(aarecord_ids):
                     cursor.executemany(f'INSERT DELAYED INTO aarecords_all_md5 (md5, json_compressed) VALUES (%(md5)s, %(json_compressed)s)', aarecords_all_md5_insert_data)
                     cursor.execute('COMMIT')
 
+                if len(isbn13_oclc_insert_data) > 0:
+                    session.connection().connection.ping(reconnect=True)
+                    # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
+                    cursor.executemany(f'INSERT DELAYED INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s)', isbn13_oclc_insert_data)
+                    cursor.execute('COMMIT')
+
                 for codes_table_name, aarecords_codes_insert_data in aarecords_codes_insert_data_by_codes_table_name.items():
                     if len(aarecords_codes_insert_data) > 0:
                         session.connection().connection.ping(reconnect=True)
-                        # Can't do INSERT DELAYED because of InnoDB.
-                        cursor.executemany(f"INSERT INTO {codes_table_name} (code, aarecord_id) VALUES (%(code)s, %(aarecord_id)s)", aarecords_codes_insert_data)
+                        # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
+                        cursor.executemany(f"INSERT DELAYED INTO {codes_table_name} (code, aarecord_id) VALUES (%(code)s, %(aarecord_id)s)", aarecords_codes_insert_data)
                         cursor.execute('COMMIT')
 
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job inserted into aarecords_all")
@@ -666,7 +680,7 @@ def elastic_build_aarecords_all():
     elastic_build_aarecords_all_internal()
 
 def elastic_build_aarecords_all_internal():
-    elastic_build_aarecords_oclc_internal() # OCLC first since we use aarecords_codes_oclc in later steps.
+    elastic_build_aarecords_oclc_internal() # OCLC first since we use isbn13_oclc table in later steps.
     elastic_build_aarecords_ia_internal()
     elastic_build_aarecords_isbndb_internal()
     elastic_build_aarecords_ol_internal()
@@ -896,6 +910,12 @@ def elastic_build_aarecords_oclc():
 def elastic_build_aarecords_oclc_internal():
     new_tables_internal('aarecords_codes_oclc')
 
+    with Session(engine) as session:
+        session.connection().connection.ping(reconnect=True)
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('DROP TABLE IF EXISTS isbn13_oclc')
+        cursor.execute('CREATE TABLE isbn13_oclc (isbn13 CHAR(13) NOT NULL, oclc_id BIGINT NOT NULL, PRIMARY KEY (isbn13, oclc_id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=FIXED')
+
     before_first_primary_id = ''
     # before_first_primary_id = '123'
     oclc_done_already = 0 # To get a proper total count. A real query with primary_id>before_first_primary_id would take too long.
@@ -979,6 +999,10 @@ def elastic_build_aarecords_main_internal():
                         if err:
                             print(f"ERROR IN FUTURE RESOLUTION!!!!! {repr(err)}\n\n/////\n\n{traceback.format_exc()}")
                             raise err
+                        result = future_done.result()
+                        if result:
+                            print("Error detected; exiting")
+                            os._exit(1)
 
                 current_md5 = bytes.fromhex(before_first_md5)
                 last_map = None

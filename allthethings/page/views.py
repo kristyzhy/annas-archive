@@ -1728,7 +1728,7 @@ def get_ol_book_dicts_by_ia_id(session, ia_ids):
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT ol_key, ocaid FROM ol_ocaid WHERE ocaid IN %(ia_ids)s', { "ia_ids": ia_ids })
+        cursor.execute('SELECT ol_key, ocaid FROM ol_ocaid WHERE ocaid IN %(ia_ids)s', { "ia_ids": [ia_id for ia_id in ia_ids if ia_id.isascii()] })
         rows = list(cursor.fetchall())
         if len(rows) == 0:
             return {}
@@ -2611,19 +2611,13 @@ def get_oclc_id_by_isbn13(session, isbn13s):
     with engine.connect() as connection:
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT code, aarecord_id FROM aarecords_codes_oclc WHERE code IN %(codes)s', { "codes": [f"isbn13:{isbn13}" for isbn13 in isbn13s] })
+        cursor.execute('SELECT isbn13, oclc_id FROM isbn13_oclc WHERE isbn13 IN %(isbn13s)s', { "isbn13s": isbn13s })
         rows = list(cursor.fetchall())
         if len(rows) == 0:
             return {}
         oclc_ids_by_isbn13 = collections.defaultdict(list)
         for row in rows:
-            code = row['code'].decode(errors='replace')
-            aarecord_id = row['aarecord_id'].decode(errors='replace')
-            if not code.startswith('isbn13:'):
-                raise Exception(f"Expected isbn13: prefix for {code=}")
-            if not aarecord_id.startswith('oclc:'):
-                raise Exception(f"Expected oclc: prefix for {aarecord_id=}")
-            oclc_ids_by_isbn13[code[len('isbn13:'):]].append(aarecord_id[len('oclc:'):])
+            oclc_ids_by_isbn13[row['isbn13']].append(str(row['oclc_id']))
         return dict(oclc_ids_by_isbn13)
 
 def get_oclc_dicts_by_isbn13(session, isbn13s):
@@ -3897,7 +3891,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
-        original_filename_multiple += [allthethings.utils.prefix_filepath('ia', filepath) for filepath in filter(len, [ia_record['aa_ia_derived']['original_filename'].strip() for ia_record in aarecord['ia_records_meta_only']])]
+        original_filename_multiple += [allthethings.utils.prefix_filepath('ia', filepath) for filepath in filter(len, [(ia_record['aa_ia_derived']['original_filename'] or '').strip() for ia_record in aarecord['ia_records_meta_only']])]
         original_filename_multiple += [allthethings.utils.prefix_filepath('scihub', f"{scihub_doi['doi'].strip()}.pdf") for scihub_doi in aarecord['scihub_doi']]
         original_filename_multiple += [allthethings.utils.prefix_filepath('duxiu', filepath) for filepath in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_multiple') or [])]
         original_filename_multiple += [allthethings.utils.prefix_filepath('upload', filepath) for filepath in (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_multiple') or [])]
