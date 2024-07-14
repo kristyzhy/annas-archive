@@ -545,13 +545,13 @@ def elastic_build_aarecords_job(aarecord_ids):
                 bad_isbn13_aarecord_ids = set([f"isbn:{isbndb_dict['ean13']}" for isbndb_dict in get_isbndb_dicts(session, canonical_isbn13s) if len(isbndb_dict['isbndb']) == 0])
 
                 # Filter out "doi:" records that already have an md5. We don't need standalone records for those.
-                doi_codes_from_ids = [aarecord_id for aarecord_id in aarecord_ids if aarecord_id.startswith('doi:')]
+                dois_from_ids = [aarecord_id[4:].encode() for aarecord_id in aarecord_ids if aarecord_id.startswith('doi:')]
                 doi_codes_with_md5 = set()
-                if len(doi_codes_from_ids) > 0:
+                if len(dois_from_ids) > 0:
                     session.connection().connection.ping(reconnect=True)
                     cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-                    cursor.execute('SELECT DISTINCT code FROM aarecords_codes_main WHERE code IN %(doi_codes_from_ids)s', { "doi_codes_from_ids": doi_codes_from_ids })
-                    doi_codes_with_md5 = set([row['code'] for row in cursor.fetchall()])
+                    cursor.execute('SELECT doi FROM md5_with_doi_seen WHERE doi IN %(dois_from_ids)s', { "dois_from_ids": dois_from_ids })
+                    doi_codes_with_md5 = set([f"doi:{row['doi'].decode(errors='replace')}" for row in cursor.fetchall()])
 
                 aarecord_ids = [aarecord_id for aarecord_id in aarecord_ids if (aarecord_id not in bad_isbn13_aarecord_ids) and (aarecord_id not in doi_codes_with_md5)]
                 if len(aarecord_ids) == 0:
@@ -562,6 +562,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
                 aarecords_all_md5_insert_data = []
                 isbn13_oclc_insert_data = []
+                md5_with_doi_seen_insert_data = []
                 aarecords_codes_insert_data_by_codes_table_name = collections.defaultdict(list)
                 for aarecord in aarecords:
                     aarecord_id_split = aarecord['id'].split(':', 1)
@@ -582,6 +583,8 @@ def elastic_build_aarecords_job(aarecord_ids):
                                 }
                             })),
                         })
+                        for doi in aarecord['file_unified_data']['identifiers_unified'].get('doi') or []:
+                            md5_with_doi_seen_insert_data.append({ "doi": doi.encode() })
                     elif aarecord_id_split[0] == 'oclc':
                         isbn13s = aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []
                         if len(isbn13s) < 10: # Remove excessive lists.
@@ -639,6 +642,12 @@ def elastic_build_aarecords_job(aarecord_ids):
                     session.connection().connection.ping(reconnect=True)
                     # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
                     cursor.executemany(f'INSERT DELAYED INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s)', isbn13_oclc_insert_data)
+                    cursor.execute('COMMIT')
+
+                if len(md5_with_doi_seen_insert_data) > 0:
+                    session.connection().connection.ping(reconnect=True)
+                    # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
+                    cursor.executemany(f'INSERT DELAYED INTO md5_with_doi_seen (doi) VALUES (%(doi)s)', md5_with_doi_seen_insert_data)
                     cursor.execute('COMMIT')
 
                 for codes_table_name, aarecords_codes_insert_data in aarecords_codes_insert_data_by_codes_table_name.items():
@@ -961,8 +970,9 @@ def elastic_build_aarecords_main_internal():
         session.connection().connection.ping(reconnect=True)
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_all_md5')
-        # cursor.execute('CREATE TABLE aarecords_all (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, md5 BINARY(16) NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (hashed_aarecord_id), UNIQUE INDEX (aarecord_id), UNIQUE INDEX (md5)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE aarecords_all_md5 (md5 BINARY(16) NOT NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('DROP TABLE IF EXISTS md5_with_doi_seen')
+        cursor.execute('CREATE TABLE md5_with_doi_seen (doi VARBINARY(1000), PRIMARY KEY (doi)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
 
 
     before_first_md5 = ''
