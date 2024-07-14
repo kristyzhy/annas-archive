@@ -635,18 +635,24 @@ def elastic_build_aarecords_job(aarecord_ids):
                 if len(aarecords_all_md5_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
                     # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
+                    # WARNING: when trying to optimize this (e.g. if you see this in SHOW PROCESSLIST) know that this is a bit of a bottleneck, but
+                    # not a huge one. Commenting out all these inserts doesn't speed up the job by that much.
                     cursor.executemany(f'INSERT DELAYED INTO aarecords_all_md5 (md5, json_compressed) VALUES (%(md5)s, %(json_compressed)s)', aarecords_all_md5_insert_data)
                     cursor.execute('COMMIT')
 
                 if len(isbn13_oclc_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
                     # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
+                    # WARNING: when trying to optimize this (e.g. if you see this in SHOW PROCESSLIST) know that this is a bit of a bottleneck, but
+                    # not a huge one. Commenting out all these inserts doesn't speed up the job by that much.
                     cursor.executemany(f'INSERT DELAYED INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s)', isbn13_oclc_insert_data)
                     cursor.execute('COMMIT')
 
                 if len(temp_md5_with_doi_seen_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
                     # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
+                    # WARNING: when trying to optimize this (e.g. if you see this in SHOW PROCESSLIST) know that this is a bit of a bottleneck, but
+                    # not a huge one. Commenting out all these inserts doesn't speed up the job by that much.
                     cursor.executemany(f'INSERT DELAYED INTO temp_md5_with_doi_seen (doi) VALUES (%(doi)s)', temp_md5_with_doi_seen_insert_data)
                     cursor.execute('COMMIT')
 
@@ -654,6 +660,8 @@ def elastic_build_aarecords_job(aarecord_ids):
                     if len(aarecords_codes_insert_data) > 0:
                         session.connection().connection.ping(reconnect=True)
                         # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
+                        # WARNING: when trying to optimize this (e.g. if you see this in SHOW PROCESSLIST) know that this is a bit of a bottleneck, but
+                        # not a huge one. Commenting out all these inserts doesn't speed up the job by that much.
                         cursor.executemany(f"INSERT DELAYED INTO {codes_table_name} (code, aarecord_id) VALUES (%(code)s, %(aarecord_id)s)", aarecords_codes_insert_data)
                         cursor.execute('COMMIT')
 
