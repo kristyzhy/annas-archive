@@ -550,7 +550,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 if len(dois_from_ids) > 0:
                     session.connection().connection.ping(reconnect=True)
                     cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-                    cursor.execute('SELECT doi FROM md5_with_doi_seen WHERE doi IN %(dois_from_ids)s', { "dois_from_ids": dois_from_ids })
+                    cursor.execute('SELECT doi FROM temp_md5_with_doi_seen WHERE doi IN %(dois_from_ids)s', { "dois_from_ids": dois_from_ids })
                     doi_codes_with_md5 = set([f"doi:{row['doi'].decode(errors='replace')}" for row in cursor.fetchall()])
 
                 aarecord_ids = [aarecord_id for aarecord_id in aarecord_ids if (aarecord_id not in bad_isbn13_aarecord_ids) and (aarecord_id not in doi_codes_with_md5)]
@@ -562,7 +562,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                 # print(f"[{os.getpid()}] elastic_build_aarecords_job got aarecords {len(aarecords)}")
                 aarecords_all_md5_insert_data = []
                 isbn13_oclc_insert_data = []
-                md5_with_doi_seen_insert_data = []
+                temp_md5_with_doi_seen_insert_data = []
                 aarecords_codes_insert_data_by_codes_table_name = collections.defaultdict(list)
                 for aarecord in aarecords:
                     aarecord_id_split = aarecord['id'].split(':', 1)
@@ -584,7 +584,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                             })),
                         })
                         for doi in aarecord['file_unified_data']['identifiers_unified'].get('doi') or []:
-                            md5_with_doi_seen_insert_data.append({ "doi": doi.encode() })
+                            temp_md5_with_doi_seen_insert_data.append({ "doi": doi.encode() })
                     elif aarecord_id_split[0] == 'oclc':
                         isbn13s = aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []
                         if len(isbn13s) < 10: # Remove excessive lists.
@@ -644,10 +644,10 @@ def elastic_build_aarecords_job(aarecord_ids):
                     cursor.executemany(f'INSERT DELAYED INTO isbn13_oclc (isbn13, oclc_id) VALUES (%(isbn13)s, %(oclc_id)s)', isbn13_oclc_insert_data)
                     cursor.execute('COMMIT')
 
-                if len(md5_with_doi_seen_insert_data) > 0:
+                if len(temp_md5_with_doi_seen_insert_data) > 0:
                     session.connection().connection.ping(reconnect=True)
                     # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
-                    cursor.executemany(f'INSERT DELAYED INTO md5_with_doi_seen (doi) VALUES (%(doi)s)', md5_with_doi_seen_insert_data)
+                    cursor.executemany(f'INSERT DELAYED INTO temp_md5_with_doi_seen (doi) VALUES (%(doi)s)', temp_md5_with_doi_seen_insert_data)
                     cursor.execute('COMMIT')
 
                 for codes_table_name, aarecords_codes_insert_data in aarecords_codes_insert_data_by_codes_table_name.items():
@@ -971,9 +971,8 @@ def elastic_build_aarecords_main_internal():
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_all_md5')
         cursor.execute('CREATE TABLE aarecords_all_md5 (md5 BINARY(16) NOT NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('DROP TABLE IF EXISTS md5_with_doi_seen')
-        cursor.execute('CREATE TABLE md5_with_doi_seen (doi VARBINARY(1000), PRIMARY KEY (doi)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-
+        cursor.execute('DROP TABLE IF EXISTS temp_md5_with_doi_seen')
+        cursor.execute('CREATE TABLE temp_md5_with_doi_seen (doi VARBINARY(1000), PRIMARY KEY (doi)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
 
     before_first_md5 = ''
     # before_first_md5 = 'aaa5a4759e87b0192c1ecde213535ba1'
@@ -1063,7 +1062,12 @@ def elastic_build_aarecords_main_internal():
                         pbar.update(len(batch))
                         current_doi = batch[-1]['doi']
 
-        print(f"Done with main!")
+    with Session(engine) as session:
+        session.connection().connection.ping(reconnect=True)
+        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('DROP TABLE temp_md5_with_doi_seen')
+
+    print(f"Done with main!")
 
 #################################################################################################
 # ./run flask cli elastic_build_aarecords_forcemerge
