@@ -199,7 +199,7 @@ def extensions(app):
 
         g.app_debug = app.debug
         g.base_domain = 'annas-archive.se'
-        valid_other_domains = ['annas-archive.li', 'annas-archive.gs', 'annas-archive.org']
+        valid_other_domains = ['annas-archive.li', 'annas-archive.org']
         if app.debug:
             valid_other_domains.append('localtest.me:8000')
         # Not just for app.debug, but also for Docker health check.
