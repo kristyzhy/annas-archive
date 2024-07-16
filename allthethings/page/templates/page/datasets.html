@@ -5,7 +5,7 @@
 {% macro stats_row(label, dict, updated, mirrored_note) -%}
   <td class="p-2 align-top">{{ label }}</td>
   <td class="p-2 align-top">{{ dict.count | numberformat }} files<br>{{ dict.filesize | filesizeformat }}</td>
-  <td class="p-2 align-top whitespace-nowrap">{{ (dict.aa_count/dict.count*100.0) | decimalformat }}% / {{ (dict.torrent_count/dict.count*100.0) | decimalformat }}%{% if mirrored_note %}<div class="text-sm text-gray-500 whitespace-normal font-normal">{{ mirrored_note | safe }}</div>{% endif %}</td>
+  <td class="p-2 align-top whitespace-nowrap">{{ (dict.aa_count/(dict.count+1)*100.0) | decimalformat }}% / {{ (dict.torrent_count/(dict.count+1)*100.0) | decimalformat }}%{% if mirrored_note %}<div class="text-sm text-gray-500 whitespace-normal font-normal">{{ mirrored_note | safe }}</div>{% endif %}</td>
   <td class="p-2 align-top whitespace-nowrap">{{ updated }}</td>
 {%- endmacro %}
 

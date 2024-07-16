@@ -463,8 +463,17 @@ def get_stats_data():
             raise Exception("One of the 'get_stats_data' responses timed out")
 
         # print(f'{orjson.dumps(stats_data_es)=}')
+        print(f'{orjson.dumps(stats_data_esaux)=}')
 
-        stats_by_group = {}
+        stats_by_group = {
+            'lgrs': {'count': 0, 'filesize': 0, 'aa_count': 0, 'torrent_count': 0},
+            'journals': {'count': 0, 'filesize': 0, 'aa_count': 0, 'torrent_count': 0},
+            'lgli': {'count': 0, 'filesize': 0, 'aa_count': 0, 'torrent_count': 0},
+            'zlib': {'count': 0, 'filesize': 0, 'aa_count': 0, 'torrent_count': 0},
+            'ia': {'count': 0, 'filesize': 0, 'aa_count': 0, 'torrent_count': 0},
+            'duxiu': {'count': 0, 'filesize': 0, 'aa_count': 0, 'torrent_count': 0},
+            'upload': {'count': 0, 'filesize': 0, 'aa_count': 0, 'torrent_count': 0},
+        }
         for bucket in stats_data_es['responses'][2]['aggregations']['search_record_sources']['buckets']:
             stats_by_group[bucket['key']] = {
                 'count': bucket['doc_count'],
@@ -475,14 +484,14 @@ def get_stats_data():
         stats_by_group['journals'] = {
             'count': stats_data_esaux['responses'][2]['hits']['total']['value'],
             'filesize': stats_data_esaux['responses'][2]['aggregations']['search_filesize']['value'],
-            'aa_count': stats_data_esaux['responses'][3]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
+            'aa_count': stats_data_esaux['responses'][3]['aggregations']['search_access_types']['buckets'][0]['doc_count'] if len(stats_data_esaux['responses'][3]['aggregations']['search_access_types']['buckets']) > 0 else 0,
             'torrent_count': stats_data_esaux['responses'][3]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count'] if len(stats_data_esaux['responses'][3]['aggregations']['search_bulk_torrents']['buckets']) > 0 else 0,
         }
         stats_by_group['total'] = {
             'count': stats_data_es['responses'][0]['hits']['total']['value']+stats_data_esaux['responses'][0]['hits']['total']['value'],
             'filesize': stats_data_es['responses'][0]['aggregations']['total_filesize']['value']+stats_data_esaux['responses'][0]['aggregations']['total_filesize']['value'],
-            'aa_count': stats_data_es['responses'][1]['aggregations']['search_access_types']['buckets'][0]['doc_count']+stats_data_esaux['responses'][1]['aggregations']['search_access_types']['buckets'][0]['doc_count'],
-            'torrent_count': (stats_data_es['responses'][1]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count']+stats_data_esaux['responses'][1]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count']) if (len(stats_data_es['responses'][1]['aggregations']['search_bulk_torrents']['buckets'])+len(stats_data_esaux['responses'][1]['aggregations']['search_bulk_torrents']['buckets'])) > 0 else 0,
+            'aa_count': (stats_data_es['responses'][1]['aggregations']['search_access_types']['buckets'][0]['doc_count'] if len(stats_data_es['responses'][1]['aggregations']['search_access_types']['buckets']) > 0 else 0)+(stats_data_esaux['responses'][1]['aggregations']['search_access_types']['buckets'][0]['doc_count'] if len(stats_data_esaux['responses'][1]['aggregations']['search_access_types']['buckets']) > 0 else 0),
+            'torrent_count': (stats_data_es['responses'][1]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count'] if len(stats_data_es['responses'][1]['aggregations']['search_bulk_torrents']['buckets']) > 0 else 0)+(stats_data_esaux['responses'][1]['aggregations']['search_bulk_torrents']['buckets'][0]['doc_count'] if len(stats_data_esaux['responses'][1]['aggregations']['search_bulk_torrents']['buckets']) > 0 else 0),
         }
         stats_by_group['ia']['count'] += stats_data_esaux['responses'][4]['hits']['total']['value']
         stats_by_group['total']['count'] += stats_data_esaux['responses'][4]['hits']['total']['value']
