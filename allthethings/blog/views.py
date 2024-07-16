@@ -165,7 +165,7 @@ def rss_xml():
             pubDate = datetime.datetime(2023,11,4),
         ),
         Item(
-            title = "The critical window of pirate libraries",
+            title = "The critical window of shadow libraries",
             link = "https://annas-archive.se/blog/critical-window.html",
             description = "How can we claim to preserve our collections in perpetuity, when they are already approaching 1 PB?",
             author = "Anna and the team",

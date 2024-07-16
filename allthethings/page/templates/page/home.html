@@ -40,6 +40,42 @@
       <!-- <div class="mb-1 text-sm text-gray-500">Contains all of Sci-Hub, and more. <a class="" href="/scidb">{{ gettext('layout.index.header.learn_more') }}</a></div> -->
     </form>
 
+    <h2 class="mt-8 text-xl font-bold">🏛️ {{ gettext('page.home.archive.header') }}</h2>
+
+    <p class="mb-4">
+      {{ gettext('page.home.archive.body', a_datasets=(' href="/datasets" ' | safe)) }}
+    </p>
+
+    <div class="mt-4 -mx-2 bg-yellow-100 p-2 rounded text-sm">
+      <p class="mb-1">{{ gettext('page.home.torrents.body', a_torrents=(' href="/torrents" ' | safe)) }}</p>
+
+      <table class="mb-1 text-sm">
+        <tr><td>🔴 {{ torrents_data.seeder_size_strings[0] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_less', count=4) }}</td></tr>
+        <tr><td>🟡 {{ torrents_data.seeder_size_strings[1] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_range', count_min=4, count_max=10) }}</td></tr>
+        <tr><td>🟢 {{ torrents_data.seeder_size_strings[2] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_greater', count=10) }}</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="lg:w-[485px]">
+    {% if g.domain_lang_code == 'zh' %}
+      <!-- <p class="mt-8 -mx-2 bg-yellow-100 p-2 rounded text-sm">
+        [广告] 还在担心打不开各种学术网站？嘎嘎快加速器，加速全球，又快又稳。<a target="_blank" href="https://sososofast.com/">立即试用。</a>使用优惠码“annas-archive”在结账时立享9折优惠！
+      </p> -->
+    {% endif %}
+
+    <!-- <h2 class="mt-8 text-xl font-bold">🤖 {{ gettext('page.home.llm.header') }}</h2>
+
+    <p class="mb-4">
+      {{ gettext('page.home.llm.body', a_llm=(' href="/llm" ' | safe)) }}
+    </p> -->
+
+    <h2 class="mt-8 text-xl font-bold">{{ gettext('page.home.mirrors.header') }}</h2>
+
+    <p class="mb-4">
+      {{ gettext('page.home.mirrors.body', a_mirrors=(' href="/mirrors" ' | safe)) }}
+    </p>
+
     {% if g.domain_lang_code == 'zh' %}
       <!-- Volunteers -->
       <!-- <p class="mt-8 bg-yellow-100 p-2 rounded text-sm">
@@ -63,41 +99,30 @@
         Anna’s Archive acquired a unique collection of 7.5 million / 350TB non-fiction books — larger than Library Genesis. We’re willing to give an LLM company exclusive access, in exchange for high-quality OCR and text extraction. <a class="text-xs" href="https://annas-archive.se/blog/duxiu-exclusive.html">Learn more…</a>
       </p> -->
     {% endif %}
-  </div>
 
-  <div class="lg:w-[485px]">
-    {% if g.domain_lang_code == 'zh' %}
-      <p class="mt-8 -mx-2 bg-yellow-100 p-2 rounded text-sm">
-        [广告] 还在担心打不开各种学术网站？嘎嘎快加速器，加速全球，又快又稳。<a target="_blank" href="https://sososofast.com/">立即试用。</a>使用优惠码“annas-archive”在结账时立享9折优惠！
-      </p>
-    {% endif %}
+    <h2 class="mt-8 text-xl font-bold">📄 {{ gettext('layout.index.header.nav.annasblog') | replace('↗', '') }}</h2>
 
-    <h2 class="mt-8 text-xl font-bold">🏛️ {{ gettext('page.home.archive.header') }}</h2>
+    <table cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
+    <tr>
+      <td style="padding: 4px; vertical-align: top; margin: 0 8px;">{% if g.domain_lang_code == 'zh' %}<a href="/blog/critical-window-chinese.html">海盗图书馆的关键时期</a>{% else %}<a href="/blog/critical-window.html">The critical window of shadow libraries</a>{% endif %}</td>
+      <td style="padding: 4px; white-space: nowrap; vertical-align: top;">2024-07-16</td>
+    </tr>
+    <tr style="background: #f2f2f2">
+      <td style="padding: 4px; vertical-align: top; margin: 0 8px;">{% if g.domain_lang_code == 'zh' %}<a href="/blog/duxiu-exclusive.html">独家访问：全球最大的中文非虚构图书馆藏，仅限LLM公司使用</a>{% else %}<a href="/blog/duxiu-exclusive.html">Exclusive access for LLM companies to largest Chinese non-fiction book collection in the world</a>{% endif %}</td>
+      <td style="padding: 4px; white-space: nowrap; vertical-align: top;">2023-11-04</td>
+    </tr>
+    <tr>
+      <td style="padding: 4px; vertical-align: top; margin: 0 8px;"><a href="/blog/worldcat-scrape.html">1.3B WorldCat scrape & data science mini-competition</a></td>
+      <td style="padding: 4px; white-space: nowrap; vertical-align: top;">2023-10-03</td>
+    </tr>
+    <tr style="background: #f2f2f2">
+      <td style="padding: 4px; vertical-align: top; margin: 0 8px;"><a href="/blog/annas-archive-containers.html">Anna’s Archive Containers (AAC): standardizing releases from the world’s largest shadow library</a></td>
+      <td style="padding: 4px; white-space: nowrap; vertical-align: top;">2023-08-15</td>
+    </tr>
+    </table>
 
-    <p class="mb-4">
-      {{ gettext('page.home.archive.body', a_datasets=(' href="/datasets" ' | safe)) }}
-    </p>
-
-    <div class="mt-4 -mx-2 bg-yellow-100 p-2 rounded text-sm">
-      <p class="mb-1">{{ gettext('page.home.torrents.body', a_torrents=(' href="/torrents" ' | safe)) }}</p>
-
-      <table class="mb-1 text-sm">
-        <tr><td>🔴 {{ torrents_data.seeder_size_strings[0] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_less', count=4) }}</td></tr>
-        <tr><td>🟡 {{ torrents_data.seeder_size_strings[1] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_range', count_min=4, count_max=10) }}</td></tr>
-        <tr><td>🟢 {{ torrents_data.seeder_size_strings[2] }}</td><td class="text-xs text-gray-500 pl-4">{{ gettext('page.home.torrents.legend_greater', count=10) }}</td></tr>
-      </table>
-    </div>
-
-    <!-- <h2 class="mt-8 text-xl font-bold">🤖 {{ gettext('page.home.llm.header') }}</h2>
-
-    <p class="mb-4">
-      {{ gettext('page.home.llm.body', a_llm=(' href="/llm" ' | safe)) }}
-    </p> -->
-
-    <h2 class="mt-8 text-xl font-bold">{{ gettext('page.home.mirrors.header') }}</h2>
-
-    <p class="mb-4">
-      {{ gettext('page.home.mirrors.body', a_mirrors=(' href="/mirrors" ' | safe)) }}
+    <p class="mb-4 mt-1">
+      <a class="text-sm" href="/blog">{{ gettext('layout.index.header.learn_more') }}</a>
     </p>
   </div>
 </div>
