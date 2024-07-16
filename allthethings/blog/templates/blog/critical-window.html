@@ -1,0 +1,157 @@
+{% extends "layouts/blog.html" %}
+
+{% block title %}The critical window of shadow libraries{% endblock %}
+
+{% block meta_tags %}
+<meta name="description" content="How can we claim to preserve our collections in perpetuity, when they are already approaching 1 PB?" />
+<meta name="twitter:card" value="summary">
+<meta property="og:title" content="The critical window of shadow libraries" />
+<meta property="og:image" content="https://annas-archive.se/blog/growth.png" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://annas-archive.se/blog/critical-window.html" />
+<meta property="og:description" content="How can we claim to preserve our collections in perpetuity, when they are already approaching 1 PB?" />
+<style>
+  figcaption {
+    margin-top: 0;
+    font-style: italic;
+    text-align: center;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+  <h1 style="font-size: 26px; margin-bottom: 0.25em">The critical window of shadow libraries</h1>
+  <p style="font-style: italic; margin-top: 0">
+    annas-archive.se/blog, 2024-07-16, <a href="critical-window-chinese.html">Chinese version 中文版</a>
+  </p>
+
+  <p>At Anna’s Archive, we are often asked how we can claim to preserve our collections in perpetuity, when the total size is already approaching 1 Petabyte (1000 TB), and is still growing. In this article we’ll look at our philosophy, and see why the next decade is critical for our mission of preserving humanity’s knowledge and culture.</p>
+
+  <a href="https://annas-archive.se/torrents#stats"><img src="growth.png" style="max-width: 100%; margin-top: 0.5em; margin-bottom: 0.25em"></a>
+  <figcaption>The <a href="https://annas-archive.se/torrents#stats">total size</a> of our collections, over the last few months, broken down by number of torrent seeders.</figcaption>
+
+  <h2 style="margin-top: 1.5em;">Priorities</h2>
+
+  <p>Why do we care so much about papers and books? Let’s set aside our fundamental belief in preservation in general — we might write another post about that. So why papers and books specifically? The answer is simple: <strong>information density</strong>.</p>
+
+  <p>Per megabyte of storage, written text stores the most information out of all media. While we care about both knowledge and culture, we do care more about the former. Overall, we find a hierarchy of information density and importance of preservation that looks roughly like this:</p>
+
+  <ul>
+    <li>Academic papers, journals, reports</li>
+    <li>Organic data like DNA sequences, plant seeds, or microbial samples</li>
+    <li>Non-fiction books</li>
+    <li>Science & engineering software code</li>
+    <li>Measurement data like scientific measurements, economic data, corporate reports</li>
+    <li>Science & engineering websites, online discussions</li>
+    <li>Non-fiction magazines, newspapers, manuals</li>
+    <li>Non-fiction transcripts of talks, documentaries, podcasts</li>
+    <li>Internal data from corporations or governments (leaks)</li>
+    <li>Metadata records generally (of non-fiction and fiction; of other media, art, people, etc; including reviews)</li>
+    <li>Geographic data (e.g. maps, geological surveys)</li>
+    <li>Transcripts of legal or court proceedings</li>
+    <li>Fictional or entertainment versions of all of the above</li>
+  </ul>
+
+  <p>The ranking in this list is somewhat arbitrary — several items are ties or have disagreements within our team — and we’re probably forgetting some important categories. But this is roughly how we prioritize.</p>
+
+  <p>Some of these items are too different from the others for us to worry about (or are already taken care of by other institutions), such as organic data or geographic data. But most of the items in this list are actually important to us.</p>
+
+  <p>Another big factor in our prioritization is how much at risk a certain work is. We prefer to focus on works that are:
+
+  <ul>
+    <li>Rare</li>
+    <li>Uniquely underfocused</li>
+    <li>Uniquely at risk of destruction (e.g. by war, funding cuts, lawsuits, or political persecution)</li>
+  </ul>
+
+  <p>Finally, we care about scale. We have limited time and money, so we’d rather spend a month saving 1,0000 books than 1,000 books — if they’re about equally valuable and at risk.</p>
+
+  <h2>Shadow libraries</h2>
+
+  <p>There are many organizations that have similar missions, and similar priorities. Indeed, there are libraries, archives, labs, museums, and other institutions tasked with preservation of this kind. Many of those are well-funded, by governments, individuals, or corporations. But they have one massive blind spot: the legal system.</p>
+
+  <p>Herein lies the unique role of shadow libraries, and the reason Anna’s Archive exists. We can do things that other institutions are not allowed to do. Now, it’s not (often) that we can archive materials that are illegal to preserve elsewhere. No, it’s legal in many places to build an archive with any books, papers, magazines, and so on.</p>
+
+  <p>But what legal archives often lack is <strong>redundancy and longevity</strong>. There exist books of which only one copy exists in some physical library somewhere. There exist metadata records guarded by a single corporation. There exist newspapers only preserved on microfilm in a single archive. Libraries can get funding cuts, corporations can go bankrupt, archives can be bombed and burned to the ground. This is not hypothetical — this happens all the time.</p>
+
+  <p>The thing we can uniquely do at Anna’s Archive is store many copies of works, at scale. We can collect papers, books, magazines, and more, and distribute them in bulk. We currently do this through torrents, but the exact technologies don’t matter and will change over time. The important part is getting many copies distributed across the world. This quote from over 200 years ago still rings true:</p>
+
+  <p style="background: rgb(254 249 195); border-radius: .25rem; padding: 16px">
+    <em>“The lost cannot be recovered; but let us save what remains: not by vaults and locks which fence them from the public eye and use, in consigning them to the waste of time, but by such a multiplication of copies, as shall place them beyond the reach of accident.”&nbsp;</em>—&nbsp;Thomas Jefferson, 1791
+  </p>
+
+  <p>A quick note about public domain. Since Anna’s Archive uniquely focus on activities that are illegal in many places around the world, we don’t bother with widely available collections, such as public domain books. Legal entities often already take good care of that. However, there are considerations which make us sometimes work on publicly available collections:
+
+  <ul>
+    <li>Metadata records can be freely viewed on the Worldcat website, but not downloaded in bulk (until we <a href="worldcat-scrape.html">scraped</a> them)</li>
+    <li>Code can be open source on Github, but Github as a whole cannot be easily mirrored and thus preserved (though in this particular case there are sufficiently distributed copies of most code repositories)</li>
+    <li>Reddit is free to use, but has recently put up stringent anti-scraping measures, in the wake of data-hungry LLM training (more about that later)</li>
+  </ul>
+
+  <h2>A multiplication of copies</h2>
+
+  <p>Back to our original question: how can we claim to preserve our collections in perpetuity? The main problem here is that our collection has been <a href="/torrents#stats">growing</a> at a rapid clip, by scraping and open-sourcing some massive collections (on top of the amazing work already done by other open-data shadow libraries like Sci-Hub and Library Genesis).</p>
+
+  <p>This growth in data makes it harder for the collections to be mirrored around the world. Data storage is expensive! But we are optimistic, especially when observing the following three trends.</p>
+
+  <p><strong>1. We’ve plucked the low-hanging fruit</strong></p>
+
+  <p>This one follow directly from our priorities discussed above. We prefer to work on liberating large collections first. Now that we’ve secured some of the largest collections in the world, we expect our growth to be much slower.</p>
+
+  <p>There is still a long tail of smaller collections, and new books get scanned or published every day, but the rate will likely be much slower. We might still double or even triple in size, but over a longer time period.</p>
+
+  <p><strong>2. Storage costs continue to drop exponentially</strong></p>
+
+  <p>As of the time of writing, <a href="https://diskprices.com/">disk prices</a> per TB are around $12 for new disks, $8 for used disks, and $4 for tape. If we’re conservative and look only at new disks, that means that storing a petabyte costs about $12,000. If we assume our library will triple from 900TB to 2.7TB, that would mean $32,400 to mirror our entire library. Adding electricity, cost of other hardware, and so on, let’s round it up to $40,000. Or with tape more like $15,000–$20,000.</p>
+
+  <p>On one hand <strong>$15,000–$40,000 for the sum of all human knowledge is a steal</strong>. On the other hand, it is a bit steep to expect tons of full copies, especially if we’d also like those people to keep seeding their torrents for the benefit of others.</p>
+
+  <p>That is today. But progress marches forwards:</p>
+
+  <p>Hard drive costs per TB have been roughly slashed in third over the last 10 years, and will likely continue to drop at a similar pace. Tape appears to be on a similar trajectory. SSD prices are dropping even faster, and might take over HDD prices by the end of the decade.</p>
+
+  <div style="display: flex; flex-wrap: wrap; margin-bottom: 8px;">
+    <a style="display: inline-block; max-width: 53%" href="https://en.wikipedia.org/wiki/History_of_hard_disk_drives"><img src="wikipedia-harddrives.svg" style="width: 100%"></a>
+    <a style="display: inline-block; max-width: 47%" href="https://thecuberesearch.com/qlc-flash-hamrs-hdd/"><img src="wikibon-hdd.png" style="width: 100%"></a>
+    <a style="display: inline-block; max-width: 45.5%" href="https://annas-archive.se/scidb/10.1063/1.5130404"><img src="tapeinthecloud.png" style="width: 100%"></a>
+    <a style="display: inline-block; max-width: 54.5%" href="https://www.reddit.com/r/DataHoarder/comments/17sljc1/as_requested_an_improved_chart_of_ssd_vs_hdd/"><img src="reddit-hdd.png" style="width: 100%"></a>
+  </div>
+  <figcaption>HDD price trends from different sources (click to view study).</figcaption>
+
+  <p>If this holds, then in 10 years we might be looking at only $5,000–$13,000 to mirror our entire collection (1/3rd), or even less if we grow less in size. While still a lot of money, this will be attainable for many people. And it might be even better because of the next point…</p>
+
+  <p><strong>3. Improvements in information density</strong></p>
+
+  <p>We currently store books in the raw formats that they are given to us. Sure, they are compressed, but often they are still large scans or photographs of pages.</p>
+
+  <p>Until now, the only options to shrink the total size of our collection has been through more aggressive compression, or deduplication. However, to get significant enough savings, both are too lossy for our taste. Heavy compression of photos can make text barely readable. And deduplication requires high confidence of books being exactly the same, which is often too inaccurate, especially if the contents are the same but the scans are made on different occasions.</p>
+
+  <p>There has always been a third option, but its quality has been so abysmal that we never considered it: <strong>OCR, or Optical Character Recognition</strong>. This is the process of converting photos into plain text, by using AI to detect the characters in the photos. Tools for this have long existed, and have been pretty decent, but “pretty decent” is not enough for preservation purposes.</p>
+
+  <p>However, recent multi-modal deep-learning models have made extremely rapid progress, though still at high costs. We expect both accuracy and costs to improve dramatically in coming years, to the point where it will become realistic to apply to our entire library.</p>
+
+  <a href="https://paperswithcode.com/sota/optical-character-recognition-on-benchmarking"><img src="chinese-ocr.png" style="max-width: 100%"></a>
+  <figcaption>OCR improvements.</figcaption>
+
+  <p>When that happens, we will likely still preserve the original files, but in addition we could have a much smaller version of our library that most people will want to mirror. The kicker is that raw text itself compresses even better, and is much easier to deduplicate, giving us even more savings.</p>
+
+  <p>Overall it’s not unrealistic to expect at least a 5-10x reduction in total file size, perhaps even more. Even with a conservative 5x reduction, we’d be looking at <strong>$1,000–$3,000 in 10 years even if our library triples in size</strong>.</p>
+
+  <h2>Critical window</h2>
+
+  <p>If these forecasts are accurate, we <strong>just need to wait a couple of years</strong> before our entire collection will be widely mirrored. Thus, in the words of Thomas Jefferson, “placed beyond the reach of accident.”</p>
+
+  <p>Unfortunately, the advent of LLMs, and their data-hungry training, has put a lot of copyright holders on the defensive. Even more than they already were. Many websites are making it harder to scrape and archive, lawsuits are flying around, and all the while physical libraries and archives continue to be neglected.</p>
+
+  <p>We can only expect these trends to continue to worsen, and many works to be lost well before they enter the public domain.</p>
+
+  <p><strong>We are on the eve of a revolution in preservation, but “the lost cannot be recovered.”</strong> We have a critical window of about 5-10 years during which it’s still fairly expensive to operate a shadow library and create many mirrors around the world, and during which access has not been completely shut down yet.</p>
+
+  <p>If we can bridge this window, then we’ll indeed have preserved humanity’s knowledge and culture in perpetuity. We should not let this time go to waste. We should not let this critical window close on us.</p>
+
+  <p>Let’s go.</p>
+
+  <p>
+    - Anna and the team (<a href="https://www.reddit.com/r/Annas_Archive/">Reddit</a>, <a href="https://t.me/annasarchiveorg">Telegram</a>)
+  </p>
+{% endblock %}

@@ -204,9 +204,10 @@
                   <!-- payment processors, ads -->
                   <!-- 我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。此外，我们正在寻找希望放置小而别致广告的公司。 -->
                   <!-- payment processors -->
-                  我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。 <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a>
+                  <!-- 我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。 <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a> -->
                   <!-- long live annas-archive.se -->
                   <!-- ❌ 更新您的书签吧:annas-archive.org 已不复存在,欢迎访问annas-archive.se! 🎉 -->
+                  📄 新博客文章: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/blog/critical-window-chinese.html">海盗图书馆的关键时期</a>
                 </div>
                 <div>
                   <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
@@ -220,15 +221,18 @@
                 <!-- <div>
                   🎄 <strong>{{ gettext('layout.index.header.banner.holiday_gift') }}</strong> ❄️ {{ gettext('layout.index.header.banner.surprise') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a>
                 </div> -->
-                <div>
+                <!-- <div>
                   {{ gettext('layout.index.header.banner.mirrors') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/mirrors">{{ gettext('layout.index.header.learn_more') }}</a>
-                </div>
+                </div> -->
                 <!-- <div>
                   ❌ Update your bookmarks: annas-archive.org is no more, long live annas-archive.se! 🎉
                 </div> -->
                 <!-- <div>
                   {{ gettext('layout.index.header.banner.valentine_gift') }} {{ gettext('layout.index.header.banner.refer', percentage=50) }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/refer">{{ gettext('layout.index.header.learn_more') }}</a>
                 </div> -->
+                <div>
+                  📄 New blog post: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/blog/critical-window.html">The critical window of shadow libraries</a>
+                </div>
                 <div>
                   <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
                 </div>
@@ -282,7 +286,7 @@
           <script>
             (function() {
               if (document.querySelector('.js-top-banner')) {
-                var latestTopBannerType = '13';
+                var latestTopBannerType = '14';
                 var topBannerMatch = document.cookie.match(/top_banner_hidden=([^$ ;}]+)/);
                 var topBannerType = '';
                 if (topBannerMatch) {

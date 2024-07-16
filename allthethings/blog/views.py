@@ -11,6 +11,14 @@ blog = Blueprint("blog", __name__, template_folder="templates", url_prefix="/blo
 def index():
     return render_template("blog/index.html")
 
+@blog.get("/critical-window.html")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
+def critical_window():
+    return render_template("blog/critical-window.html")
+@blog.get("/critical-window-chinese.html")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
+def critical_window_chinese():
+    return render_template("blog/critical-window-chinese.html")
 @blog.get("/duxiu-exclusive.html")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def duxiu_exclusive():
@@ -155,6 +163,13 @@ def rss_xml():
             description = "Anna’s Archive acquired a unique collection of 7.5 million / 350TB Chinese non-fiction books — larger than Library Genesis. We’re willing to give an LLM company exclusive access, in exchange for high-quality OCR and text extraction.",
             author = "Anna and the team",
             pubDate = datetime.datetime(2023,11,4),
+        ),
+        Item(
+            title = "The critical window of pirate libraries",
+            link = "https://annas-archive.se/blog/critical-window.html",
+            description = "How can we claim to preserve our collections in perpetuity, when they are already approaching 1 PB?",
+            author = "Anna and the team",
+            pubDate = datetime.datetime(2024,7,16),
         ),
     ]
 
