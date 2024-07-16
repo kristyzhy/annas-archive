@@ -49,6 +49,30 @@ SCIDB_FAST_DOWNLOAD_DOMAINS = [FAST_PARTNER_SERVER1 if FAST_PARTNER_SERVER1 is n
 
 DOWN_FOR_MAINTENANCE = False
 
+# Per https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/37
+SEARCH_FILTERED_BAD_AARECORD_IDS = [
+    "md5:d41d8cd98f00b204e9800998ecf8427e", # empty md5
+
+    "md5:b0647953a182171074873b61200c71dd",
+    "md5:820a4f8961ae0a76ad265f1678b7dfa5",
+
+    # Likely CSAM
+    "md5:d897ffc4e64cbaeae53a6005b6f155cc",
+    "md5:8ae28a86719e3a4400145ac18b621efd",
+    "md5:285171dbb2d1d56aa405ad3f5e1bc718",
+    "md5:8ac4facd6562c28d7583d251aa2c9020",
+    "md5:6c1b1ea486960a1ad548cd5c02c465a1",
+    "md5:414e8f3a8bc0f63de37cd52bd6d8701e",
+    "md5:c6cddcf83c558b758094e06b97067c89",
+    "md5:5457b152ef9a91ca3e2d8b3a2309a106",
+    "md5:02973f6d111c140510fcdf84b1d00c35",
+    "md5:d4c01f9370c5ac93eb5ee5c2037ac794",
+    "md5:08499f336fbf8d31f8e7fadaaa517477",
+    "md5:351024f9b101ac7797c648ff43dcf76e",
+    "md5:ffdbec06986b84f24fc786d89ce46528",
+    "md5:ca10d6b2ee5c758955ff468591ad67d9",
+]
+
 def validate_canonical_md5s(canonical_md5s):
     return all([bool(re.match(r"^[a-f\d]{32}$", canonical_md5)) for canonical_md5 in canonical_md5s])
 

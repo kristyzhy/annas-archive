@@ -553,7 +553,7 @@ def elastic_build_aarecords_job(aarecord_ids):
                     cursor.execute('SELECT doi FROM temp_md5_with_doi_seen WHERE doi IN %(dois_from_ids)s', { "dois_from_ids": dois_from_ids })
                     doi_codes_with_md5 = set([f"doi:{row['doi'].decode(errors='replace')}" for row in cursor.fetchall()])
 
-                aarecord_ids = [aarecord_id for aarecord_id in aarecord_ids if (aarecord_id not in bad_isbn13_aarecord_ids) and (aarecord_id not in doi_codes_with_md5)]
+                aarecord_ids = [aarecord_id for aarecord_id in aarecord_ids if (aarecord_id not in bad_isbn13_aarecord_ids) and (aarecord_id not in doi_codes_with_md5) and (aarecord_id not in allthethings.utils.SEARCH_FILTERED_BAD_AARECORD_IDS)]
                 if len(aarecord_ids) == 0:
                     return False
 

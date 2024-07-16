@@ -49,28 +49,6 @@ HASHED_DOWNLOADS_SECRET_KEY = hashlib.sha256(DOWNLOADS_SECRET_KEY.encode()).dige
 
 page = Blueprint("page", __name__, template_folder="templates")
 
-# Per https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/37
-search_filtered_bad_aarecord_ids = [
-    "md5:b0647953a182171074873b61200c71dd",
-    "md5:820a4f8961ae0a76ad265f1678b7dfa5",
-
-    # Likely CSAM
-    "md5:d897ffc4e64cbaeae53a6005b6f155cc",
-    "md5:8ae28a86719e3a4400145ac18b621efd",
-    "md5:285171dbb2d1d56aa405ad3f5e1bc718",
-    "md5:8ac4facd6562c28d7583d251aa2c9020",
-    "md5:6c1b1ea486960a1ad548cd5c02c465a1",
-    "md5:414e8f3a8bc0f63de37cd52bd6d8701e",
-    "md5:c6cddcf83c558b758094e06b97067c89",
-    "md5:5457b152ef9a91ca3e2d8b3a2309a106",
-    "md5:02973f6d111c140510fcdf84b1d00c35",
-    "md5:d4c01f9370c5ac93eb5ee5c2037ac794",
-    "md5:08499f336fbf8d31f8e7fadaaa517477",
-    "md5:351024f9b101ac7797c648ff43dcf76e",
-    "md5:ffdbec06986b84f24fc786d89ce46528",
-    "md5:ca10d6b2ee5c758955ff468591ad67d9",
-]
-
 ES_TIMEOUT_PRIMARY = "200ms"
 ES_TIMEOUT_ALL_AGG = "20s"
 ES_TIMEOUT = "100ms"
@@ -3310,6 +3288,10 @@ def get_aac_upload_book_dicts(session, key, values):
         allthethings.utils.add_identifier_unified(aac_upload_book_dict['aa_upload_derived'], 'collection', 'upload')
 
         for record in aac_upload_book_dict['records']:
+            if 'filesize' not in record['metadata']:
+                print(f"WARNING: filesize missing in aac_upload_record: {record=}")
+                continue
+
             subcollection = record['aacid'].split('__')[1].replace('upload_records_', '')
             aac_upload_book_dict['aa_upload_derived']['subcollection_multiple'].append(subcollection)
             aac_upload_book_dict['aa_upload_derived']['filename_multiple'].append(f"{subcollection}/{record['metadata']['filepath']}")
@@ -3536,7 +3518,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
         raise Exception(f"Invalid aarecord_ids {aarecord_ids=}")
 
     # Filter out bad data
-    aarecord_ids = [val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]
+    aarecord_ids = [val for val in aarecord_ids if val not in allthethings.utils.SEARCH_FILTERED_BAD_AARECORD_IDS]
 
     if len(aarecord_ids) == 0:
         return []
@@ -3568,7 +3550,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
                         print("Haven't reached number_of_get_aarecords_elasticsearch_exceptions limit yet, so not raising")
                         return None
         number_of_get_aarecords_elasticsearch_exceptions = 0
-    return [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw if aarecord_raw.get('found') and (aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids)]
+    return [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_results_raw if aarecord_raw.get('found') and (aarecord_raw['_id'] not in allthethings.utils.SEARCH_FILTERED_BAD_AARECORD_IDS)]
 
 
 def aarecord_score_base(aarecord):
@@ -3642,7 +3624,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         raise Exception(f"Invalid aarecord_ids {aarecord_ids=}")
 
     # Filter out bad data
-    aarecord_ids = list(dict.fromkeys([val for val in aarecord_ids if val not in search_filtered_bad_aarecord_ids]))
+    aarecord_ids = list(dict.fromkeys([val for val in aarecord_ids if val not in allthethings.utils.SEARCH_FILTERED_BAD_AARECORD_IDS]))
 
     split_ids = allthethings.utils.split_aarecord_ids(aarecord_ids)
     lgrsnf_book_dicts = dict(('md5:' + item['md5'].lower(), item) for item in get_lgrsnf_book_dicts(session, "MD5", split_ids['md5']))
@@ -5767,7 +5749,7 @@ def search_page():
     search_aarecords = []
     primary_hits_total_obj = { 'value': 0, 'relation': 'eq' }
     if 'hits' in primary_response_raw:
-        search_aarecords = [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in primary_response_raw['hits']['hits'] if aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+        search_aarecords = [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in primary_response_raw['hits']['hits'] if aarecord_raw['_id'] not in allthethings.utils.SEARCH_FILTERED_BAD_AARECORD_IDS]
         primary_hits_total_obj = primary_response_raw['hits']['total']
 
     additional_search_aarecords = []
@@ -5828,19 +5810,19 @@ def search_page():
         seen_ids = set([aarecord['id'] for aarecord in search_aarecords])
         search_result2_raw = search_results_raw2['responses'][0]
         if 'hits' in search_result2_raw:
-            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result2_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+            additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result2_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in allthethings.utils.SEARCH_FILTERED_BAD_AARECORD_IDS]
 
         if len(additional_search_aarecords) < additional_display_results:
             seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
             search_result3_raw = search_results_raw2['responses'][1]
             if 'hits' in search_result3_raw:
-                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result3_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+                additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result3_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in allthethings.utils.SEARCH_FILTERED_BAD_AARECORD_IDS]
 
             if len(additional_search_aarecords) < additional_display_results:
                 seen_ids = seen_ids.union(set([aarecord['id'] for aarecord in additional_search_aarecords]))
                 search_result4_raw = search_results_raw2['responses'][2]
                 if 'hits' in search_result4_raw:
-                    additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result4_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in search_filtered_bad_aarecord_ids]
+                    additional_search_aarecords += [add_additional_to_aarecord(aarecord_raw) for aarecord_raw in search_result4_raw['hits']['hits'] if aarecord_raw['_id'] not in seen_ids and aarecord_raw['_id'] not in allthethings.utils.SEARCH_FILTERED_BAD_AARECORD_IDS]
 
     es_stats.append({ 'name': 'search_page_timer', 'took': (time.perf_counter() - search_page_timer) * 1000, 'timed_out': False })
 
