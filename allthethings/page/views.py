@@ -689,6 +689,17 @@ def datasets_duxiu_page():
             return "Error with datasets page, please try again.", 503
         raise
 
+@page.get("/datasets/upload")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
+def datasets_upload_page():
+    try:
+        stats_data = get_stats_data()
+        return render_template("page/datasets_upload.html", header_active="home/datasets", stats_data=stats_data)
+    except Exception as e:
+        if 'timed out' in str(e):
+            return "Error with datasets page, please try again.", 503
+        raise
+
 @page.get("/datasets/zlib")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def datasets_zlib_page():
@@ -866,12 +877,12 @@ def member_codes_page():
 
 @page.get("/codes")
 @page.post("/codes")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
+@allthethings.utils.no_cache()
 def codes_page():
     account_id = allthethings.utils.get_account_id(request.cookies)
     if account_id is None:
         return render_template("page/login_to_view.html", header_active="")
-        
+
     with engine.connect() as connection:
         prefix_arg = request.args.get('prefix') or ''
         if len(prefix_arg) > 0:
@@ -3453,7 +3464,7 @@ def get_aac_upload_book_dicts(session, key, values):
         aac_upload_dict_comments = {
             **allthethings.utils.COMMON_DICT_COMMENTS,
             "md5": ("before", ["This is a record of a file uploaded directly to Anna's Archive",
-                                "More details at https://annas-archive.org/datasets/upload",
+                                "More details at https://annas-archive.se/datasets/upload",
                                 allthethings.utils.DICT_COMMENTS_NO_API_DISCLAIMER]),
             "records": ("before", ["Metadata from inspecting the file."]),
             "files": ("before", ["Short metadata on the file in our torrents."]),
@@ -5245,6 +5256,7 @@ def md5_json(aarecord_id):
         "scihub_doi": ("before", ["Source data at: https://annas-archive.se/db/scihub_doi/<doi>.json"]),
         "oclc": ("before", ["Source data at: https://annas-archive.se/db/oclc/<oclc>.json"]),
         "duxiu": ("before", ["Source data at: https://annas-archive.se/db/duxiu_ssid/<duxiu_ssid>.json or https://annas-archive.se/db/cadal_ssno/<cadal_ssno>.json or https://annas-archive.se/db/duxiu_md5/<md5>.json"]),
+        "aac_upload": ("before", ["Source data at: https://annas-archive.se/db/aac_upload/<md5>.json"]),
         "file_unified_data": ("before", ["Combined data by Anna's Archive from the various source collections, attempting to get pick the best field where possible."]),
         "ipfs_infos": ("before", ["Data about the IPFS files."]),
         "search_only_fields": ("before", ["Data that is used during searching."]),

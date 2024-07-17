@@ -1271,7 +1271,10 @@ def attempt_fix_chinese_filepath(filepath):
     return '/'.join([attempt_fix_chinese_uninterrupted_text(part) for part in filepath.split('/')])
 
 def prefix_filepath(prefix, filepath):
-    if filepath.startswith('\\'):
+    filepath = filepath.strip()
+    if filepath == '':
+        return ""
+    elif filepath.startswith('\\'):
         return f"{prefix}/{filepath[1:]}"
     elif filepath.startswith('/'):
         return f"{prefix}{filepath}"
