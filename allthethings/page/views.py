@@ -3377,12 +3377,13 @@ def get_aac_upload_book_dicts(session, key, values):
                 })
 
             potential_languages = []
-            upload_book_exiftool_append(potential_languages, record, 'Language')
-            upload_book_exiftool_append(potential_languages, record, 'Languages')
-            if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Language') or '').strip()) > 0:
-                potential_languages.append(record['metadata']['pikepdf_docinfo']['/Language'] or '')
-            if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Languages') or '').strip()) > 0:
-                potential_languages.append(record['metadata']['pikepdf_docinfo']['/Languages'] or '')
+            # Sadly metadata doesn’t often have reliable information about languages. Many tools seem to default to tagging with English when writing PDFs.
+            # upload_book_exiftool_append(potential_languages, record, 'Language')
+            # upload_book_exiftool_append(potential_languages, record, 'Languages')
+            # if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Language') or '').strip()) > 0:
+            #     potential_languages.append(record['metadata']['pikepdf_docinfo']['/Language'] or '')
+            # if len(((record['metadata'].get('pikepdf_docinfo') or {}).get('/Languages') or '').strip()) > 0:
+            #     potential_languages.append(record['metadata']['pikepdf_docinfo']['/Languages'] or '')
             if 'japanese_manga' in subcollection:
                 potential_languages.append('Japanese')
             if len(potential_languages) > 0:
@@ -3395,6 +3396,9 @@ def get_aac_upload_book_dicts(session, key, values):
             doi_from_filepath = allthethings.utils.extract_doi_from_filepath(record['metadata']['filepath'])
             if doi_from_filepath is not None:
                 allthethings.utils.add_identifier_unified(aac_upload_book_dict['aa_upload_derived'], 'doi', doi_from_filepath)
+            doi_from_text = allthethings.utils.find_doi_in_text('\n'.join([record['metadata']['filepath']] + aac_upload_book_dict['aa_upload_derived']['title_multiple'] + aac_upload_book_dict['aa_upload_derived']['description_cumulative']))
+            if doi_from_text is not None:
+                allthethings.utils.add_identifier_unified(aac_upload_book_dict['aa_upload_derived'], 'doi', doi_from_text)
 
             if 'bpb9v_cadal' in subcollection:
                 cadal_ssno_filename = allthethings.utils.extract_ssid_or_ssno_from_filepath(record['metadata']['filepath'])
@@ -3431,6 +3435,9 @@ def get_aac_upload_book_dicts(session, key, values):
             aac_upload_book_dict['aa_upload_derived']['description_cumulative'] = [allthethings.utils.attempt_fix_chinese_uninterrupted_text(text) for text in aac_upload_book_dict['aa_upload_derived']['description_cumulative']]
             aac_upload_book_dict['aa_upload_derived']['comments_cumulative'] = [allthethings.utils.attempt_fix_chinese_uninterrupted_text(text) for text in aac_upload_book_dict['aa_upload_derived']['comments_cumulative']]
 
+        if any(['degruyter' in subcollection for subcollection in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']]):
+            aac_upload_book_dict['aa_upload_derived']['title_multiple'] = [title for title in aac_upload_book_dict['aa_upload_derived']['title_multiple'] if title != 'Page not found']
+
         aac_upload_book_dict['aa_upload_derived']['filename_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['filename_multiple']), '')
         aac_upload_book_dict['aa_upload_derived']['filesize_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['filesize_multiple']), '')
         aac_upload_book_dict['aa_upload_derived']['extension_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['extension_multiple']), '')
@@ -3453,7 +3460,10 @@ def get_aac_upload_book_dicts(session, key, values):
         if 'acm' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:
             aac_upload_book_dict['aa_upload_derived']['content_type'] = 'journal_article'
         elif 'degruyter' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:
-            aac_upload_book_dict['aa_upload_derived']['content_type'] = 'book_nonfiction'
+            if 'DeGruyter Journals' in aac_upload_book_dict['aa_upload_derived']['filename_best']:
+                aac_upload_book_dict['aa_upload_derived']['content_type'] = 'journal_article'
+            else:
+                aac_upload_book_dict['aa_upload_derived']['content_type'] = 'book_nonfiction'
         elif 'japanese_manga' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:
             aac_upload_book_dict['aa_upload_derived']['content_type'] = 'book_comic'
         elif 'magzdb' in aac_upload_book_dict['aa_upload_derived']['subcollection_multiple']:

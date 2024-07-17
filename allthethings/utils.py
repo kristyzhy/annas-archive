@@ -1788,6 +1788,52 @@ def extract_doi_from_filepath(filepath):
                 return '/'.join(filepath_without_extension_split[index:])
     return None
 
+# Taken from https://github.com/alejandrogallo/python-doi/blob/03d51be3c1f4e362523f4912058ca3cb01b98e91/src/doi/__init__.py#L82C1-L95C15
+def get_clean_doi(doi):
+    """Check if doi is actually a url and in that case just get
+    the exact doi.
+
+    :doi: String containing a doi
+    :returns: The pure doi
+    """
+    doi = re.sub(r'%2F', '/', doi)
+    # For pdfs
+    doi = re.sub(r'\)>', ' ', doi)
+    doi = re.sub(r'\)/S/URI', ' ', doi)
+    doi = re.sub(r'(/abstract)', '', doi)
+    doi = re.sub(r'\)$', '', doi)
+    return doi
+
+# Taken from https://github.com/alejandrogallo/python-doi/blob/03d51be3c1f4e362523f4912058ca3cb01b98e91/src/doi/__init__.py#L98C1-L125C16
+def find_doi_in_text(text):
+    """
+    Try to find a doi in a text
+    """
+    text = get_clean_doi(text)
+    forbidden_doi_characters = r'"\s%$^\'<>@,;:#?&'
+    # Sometimes it is in the javascript defined
+    var_doi = re.compile(
+        r'doi(.org)?'
+        r'\s*(=|:|/|\()\s*'
+        r'("|\')?'
+        r'(?P<doi>[^{fc}]+)'
+        r'("|\'|\))?'
+        .format(
+            fc=forbidden_doi_characters
+        ), re.I
+    )
+
+    for regex in [var_doi]:
+        miter = regex.finditer(text)
+        try:
+            m = next(miter)
+            if m:
+                doi = m.group('doi')
+                return get_clean_doi(doi)
+        except StopIteration:
+            pass
+    return None
+
 def extract_ia_archive_org_from_string(string):
     return list(dict.fromkeys(re.findall(r'archive.org\/details\/([^\n\r\/ ]+)', string)))
 
