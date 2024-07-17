@@ -3784,8 +3784,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                     for isbndb in isbndb_dicts2[canonical_isbn13]['isbndb']:
                         isbndb_all.append(isbndb)
                     # No need to add to existing_isbn13s here.
-            if len(isbndb_all) > 5:
-                isbndb_all = []
+            isbndb_all = isbndb_all[0:5]
             aarecord['isbndb'] = (aarecord['isbndb'] + isbndb_all)
 
             ol_book_dicts_all = []
@@ -3794,8 +3793,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if (potential_ol_edition in ol_book_dicts2) and (potential_ol_edition not in existing_ol_editions):
                     ol_book_dicts_all.append(ol_book_dicts2[potential_ol_edition])
                     # No need to add to existing_ol_editions here.
-            if len(ol_book_dicts_all) > 3:
-                ol_book_dicts_all = []
+            ol_book_dicts_all = ol_book_dicts_all[0:5]
             aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
 
             ol_book_dicts_all = []
@@ -3805,12 +3803,10 @@ def get_aarecords_mysql(session, aarecord_ids):
                     if ol_book_dict['ol_edition'] not in existing_ol_editions:
                         ol_book_dicts_all.append(ol_book_dict)
                         existing_ol_editions.add(ol_book_dict['ol_edition'])
-            if len(ol_book_dicts_all) > 3:
-                ol_book_dicts_all = []
-            else:
-                # Since these come from isbn13, we don't have the ol codes yet.
-                for ol_book_dict in ol_book_dicts_all:
-                    allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'ol', ol_book_dict['ol_edition'])
+            ol_book_dicts_all = ol_book_dicts_all[0:5]
+            # Since these come from isbn13, we don't have the ol codes yet.
+            for ol_book_dict in ol_book_dicts_all:
+                allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'ol', ol_book_dict['ol_edition'])
             aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
 
             ol_book_dicts_all = []
@@ -3820,12 +3816,10 @@ def get_aarecords_mysql(session, aarecord_ids):
                     if ol_book_dict['ol_edition'] not in existing_ol_editions:
                         ol_book_dicts_all.append(ol_book_dict)
                         existing_ol_editions.add(ol_book_dict['ol_edition'])
-            if len(ol_book_dicts_all) > 3:
-                ol_book_dicts_all = []
-            else:
-                # Since these come from ocaid (ia_id), we don't have the ol codes yet.
-                for ol_book_dict in ol_book_dicts_all:
-                    allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'ol', ol_book_dict['ol_edition'])
+            ol_book_dicts_all = ol_book_dicts_all[0:5]
+            # Since these come from ocaid (ia_id), we don't have the ol codes yet.
+            for ol_book_dict in ol_book_dicts_all:
+                allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'ol', ol_book_dict['ol_edition'])
             aarecord['ol'] = (aarecord['ol'] + ol_book_dicts_all)
 
             ia_record_dicts_all = []
@@ -3834,8 +3828,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if (potential_ia_id in ia_record_dicts3) and (potential_ia_id not in existing_ia_ids):
                     ia_record_dicts_all.append(ia_record_dicts3[potential_ia_id])
                     # No need to add to existing_ia_ids here.
-            if len(ia_record_dicts_all) > 3:
-                ia_record_dicts_all = []
+            ia_record_dicts_all = ia_record_dicts_all[0:5]
             aarecord['ia_records_meta_only'] = (aarecord['ia_records_meta_only'] + ia_record_dicts_all)
 
             scihub_doi_all = []
@@ -3844,8 +3837,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if (doi in scihub_doi_dicts2) and (doi not in existing_dois):
                     scihub_doi_all.append(scihub_doi_dicts2[doi])
                     # No need to add to existing_dois here.
-            if len(scihub_doi_all) > 3:
-                scihub_doi_all = []
+            scihub_doi_all = scihub_doi_all[0:5]
             aarecord['scihub_doi'] = (aarecord['scihub_doi'] + scihub_doi_all)
 
             oclc_all = []
@@ -3854,8 +3846,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if (oclc_id in oclc_dicts2) and (oclc_id not in existing_oclc_ids):
                     oclc_all.append(oclc_dicts2[oclc_id])
                     # No need to add to existing_oclc_ids here.
-            if len(oclc_all) > 3:
-                oclc_all = []
+            oclc_all = oclc_all[0:5]
             aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
 
             oclc_all = []
@@ -3865,12 +3856,10 @@ def get_aarecords_mysql(session, aarecord_ids):
                     if oclc_dict['oclc_id'] not in existing_oclc_ids:
                         oclc_all.append(oclc_dict)
                         existing_oclc_ids.add(oclc_dict['oclc_id'])
-            if len(oclc_all) > 3:
-                oclc_all = []
-            else:
-                # Since these come from isbn13, we don't have the oclc codes yet.
-                for oclc_dict in oclc_all:
-                    allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'oclc', oclc_dict['oclc_id'])
+            oclc_all = oclc_all[0:5]
+            # Since these come from isbn13, we don't have the oclc codes yet.
+            for oclc_dict in oclc_all:
+                allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'oclc', oclc_dict['oclc_id'])
             aarecord['oclc'] = (aarecord['oclc'] + oclc_all)
 
             duxiu_all = []
@@ -3879,8 +3868,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if (duxiu_ssid in duxiu_dicts4) and (duxiu_ssid not in existing_duxiu_ssids):
                     duxiu_all.append(duxiu_dicts4[duxiu_ssid])
                     # No need to add to existing_duxiu_ssids here.
-            if len(duxiu_all) > 3:
-                duxiu_all = []
+            duxiu_all = duxiu_all[0:5]
             aarecord['duxius_nontransitive_meta_only'] = (aarecord['duxius_nontransitive_meta_only'] + duxiu_all)
 
             duxiu_all = []
@@ -3889,8 +3877,7 @@ def get_aarecords_mysql(session, aarecord_ids):
                 if (cadal_ssno in duxiu_dicts5) and (cadal_ssno not in existing_cadal_ssnos):
                     duxiu_all.append(duxiu_dicts5[cadal_ssno])
                     # No need to add to existing_cadal_ssnos here.
-            if len(duxiu_all) > 3:
-                duxiu_all = []
+            duxiu_all = duxiu_all[0:5]
             aarecord['duxius_nontransitive_meta_only'] = (aarecord['duxius_nontransitive_meta_only'] + duxiu_all)
 
         aarecord['ipfs_infos'] = []
