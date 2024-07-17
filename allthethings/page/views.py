@@ -382,6 +382,16 @@ def get_stats_data():
             if len(zlib_aac_lines) > 0:
                 zlib_date = orjson.loads(zlib_aac_lines[0])['metadata']['date_modified']
 
+        cursor.execute('SELECT aacid FROM annas_archive_meta__aacid__duxiu_files ORDER BY aacid DESC LIMIT 1')
+        duxiu_file_aacid = cursor.fetchone()['aacid']
+        duxiu_file_date_raw = duxiu_file_aacid.split('__')[2][0:8]
+        duxiu_file_date = f"{duxiu_file_date_raw[0:4]}-{duxiu_file_date_raw[4:6]}-{duxiu_file_date_raw[6:8]}"
+
+        cursor.execute('SELECT aacid FROM annas_archive_meta__aacid__upload_files ORDER BY aacid DESC LIMIT 1')
+        upload_file_aacid = cursor.fetchone()['aacid']
+        upload_file_date_raw = upload_file_aacid.split('__')[2][0:8]
+        upload_file_date = f"{upload_file_date_raw[0:4]}-{upload_file_date_raw[4:6]}-{upload_file_date_raw[6:8]}"
+
         stats_data_es = dict(es.msearch(
             request_timeout=30,
             max_concurrent_searches=10,
@@ -505,7 +515,8 @@ def get_stats_data():
         'openlib_date': openlib_date,
         'zlib_date': zlib_date,
         'ia_date': ia_date,
-        'duxiu_date': '~2023',
+        'upload_file_date': upload_file_date,
+        'duxiu_date': duxiu_file_date,
         'isbndb_date': '2022-09-01',
         'isbn_country_date': '2022-02-11',
         'oclc_date': '2023-10-01',
@@ -843,6 +854,9 @@ def member_codes_page():
         return redirect(f"/member_codes?prefix_b64={prefix_b64_redirect}", code=301)
 
     account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return render_template("page/login_to_view.html", header_active="")
+
     with Session(mariapersist_engine) as mariapersist_session:
         account_fast_download_info = allthethings.utils.get_account_fast_download_info(mariapersist_session, account_id)
         if account_fast_download_info is None:
@@ -854,6 +868,10 @@ def member_codes_page():
 @page.post("/codes")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60)
 def codes_page():
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return render_template("page/login_to_view.html", header_active="")
+        
     with engine.connect() as connection:
         prefix_arg = request.args.get('prefix') or ''
         if len(prefix_arg) > 0:
