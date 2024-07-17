@@ -190,6 +190,10 @@ def mysql_build_aac_tables_internal():
                 # data_folder = matches[3]
                 primary_id = matches[4].replace(b'"', b'')
 
+                if collection == 'worldcat':
+                    if (b'not_found_title_json' in line) or (b'redirect_title_json' in line):
+                        return None
+
                 md5 = matches[6]
                 if ('duxiu_files' in collection and b'"original_md5"' in line):
                     # For duxiu_files, md5 is the primary id, so we stick original_md5 in the md5 column so we can query that as well.
@@ -259,7 +263,9 @@ def mysql_build_aac_tables_internal():
                     insert_data = [] 
                     for line in lines:
                         allthethings.utils.aac_spot_check_line_bytes(line, {})
-                        insert_data.append(build_insert_data(line, byte_offset))
+                        insert_data_line = build_insert_data(line, byte_offset)
+                        if insert_data_line is not None:
+                            insert_data.append(insert_data_line)
                         line_len = len(line)
                         byte_offset += line_len
                         bytes_in_batch += line_len
@@ -267,8 +273,9 @@ def mysql_build_aac_tables_internal():
                     if collection == 'duxiu_records':
                         # This collection inadvertently has a bunch of exact duplicate lines.
                         action = 'REPLACE'
-                    connection.connection.ping(reconnect=True)
-                    cursor.executemany(f'{action} INTO {table_name} (aacid, primary_id, md5, byte_offset, byte_length {insert_extra_names}) VALUES (%(aacid)s, %(primary_id)s, %(md5)s, %(byte_offset)s, %(byte_length)s {insert_extra_values})', insert_data)
+                    if len(insert_data) > 0:
+                        connection.connection.ping(reconnect=True)
+                        cursor.executemany(f'{action} INTO {table_name} (aacid, primary_id, md5, byte_offset, byte_length {insert_extra_names}) VALUES (%(aacid)s, %(primary_id)s, %(md5)s, %(byte_offset)s, %(byte_length)s {insert_extra_values})', insert_data)
                     pbar.update(bytes_in_batch)
             connection.connection.ping(reconnect=True)
             cursor.execute(f"UNLOCK TABLES")
@@ -973,6 +980,18 @@ def elastic_build_aarecords_main():
 
 def elastic_build_aarecords_main_internal():
     new_tables_internal('aarecords_codes_main')
+
+    print("Deleting main ES indices")
+    for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+        if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
+            es_handle.options(ignore_status=[400,404]).indices.delete(index=index_name) # Old
+            for virtshard in range(0, 100): # Out of abundance, delete up to a large number
+                es_handle.options(ignore_status=[400,404]).indices.delete(index=f'{index_name}__{virtshard}')
+    print("Creating main ES indices")
+    for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+        if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
+            for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
+                es_handle.indices.create(index=full_index_name, body=es_create_index_body)
 
     with Session(engine) as session:
         session.connection().connection.ping(reconnect=True)

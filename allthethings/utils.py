@@ -1251,6 +1251,7 @@ SEARCH_INDEX_TO_ES_MAPPING = {
     'aarecords_digital_lending': es_aux,
     'aarecords_metadata': es_aux,
 }
+MAIN_SEARCH_INDEXES = ['aarecords', 'aarecords_journals']
 # TODO: Look into https://discuss.elastic.co/t/score-and-relevance-across-the-shards/5371
 ES_VIRTUAL_SHARDS_NUM = 12
 def virtshard_for_hashed_aarecord_id(hashed_aarecord_id):
