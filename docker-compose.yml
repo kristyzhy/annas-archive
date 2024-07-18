@@ -180,7 +180,7 @@ services:
       test: "${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:8000/dyn/up/}"
       interval: "60s"
       timeout: "3s"
-      start_period: "5s"
+      start_period: "180s"
       retries: 3
     profiles: ["web"]
 
