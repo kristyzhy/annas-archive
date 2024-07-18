@@ -4870,7 +4870,7 @@ def get_additional_for_aarecord(aarecord):
         for aac_upload_file in aarecord['aac_upload']['files']:
             additional['torrent_paths'].append({ "collection": "upload", "torrent_path": f"managed_by_aa/annas_archive_data__aacid/{aac_upload_file['data_folder']}.torrent", "file_level1": aac_upload_file['aacid'], "file_level2": "" })
             server = 'v'
-            if 'upload_files_misc' in aac_upload_file['data_folder']:
+            if 'upload_files_misc__20240510' in aac_upload_file['data_folder']:
                 server = 'w'
             data_folder_split = aac_upload_file['data_folder'].split('__')
             directory = f"{data_folder_split[2]}_{data_folder_split[3][0:8]}" # Different than make_temp_anon_aac_path!

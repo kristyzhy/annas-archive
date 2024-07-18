@@ -488,7 +488,7 @@ def get_account_fast_download_info(mariapersist_session, account_id):
     downloads_per_day += bonus_downloads
 
     downloads_left = downloads_per_day
-    recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(50000)).scalars()]
+    recently_downloaded_md5s = [md5.hex() for md5 in mariapersist_session.connection().execute(select(MariapersistFastDownloadAccess.md5).where((MariapersistFastDownloadAccess.timestamp >= datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(hours=18)) & (MariapersistFastDownloadAccess.account_id == account_id)).limit(50000)).scalars()]
     downloads_left -= len(recently_downloaded_md5s)
 
     max_tier = str(max([int(membership['membership_tier']) for membership in memberships]))
