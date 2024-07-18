@@ -3386,6 +3386,8 @@ def get_aac_upload_book_dicts(session, key, values):
             #     potential_languages.append(record['metadata']['pikepdf_docinfo']['/Languages'] or '')
             if 'japanese_manga' in subcollection:
                 potential_languages.append('Japanese')
+            if 'polish' in subcollection:
+                potential_languages.append('Polish')
             if len(potential_languages) > 0:
                 aac_upload_book_dict['aa_upload_derived']['language_codes'] = combine_bcp47_lang_codes([get_bcp47_lang_codes(language) for language in potential_languages])
 
