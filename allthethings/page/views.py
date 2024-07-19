@@ -347,11 +347,6 @@ def mobile_page():
 def llm_page():
     return render_template("page/llm.html", header_active="home/llm")
 
-@page.get("/mirrors")
-@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
-def mirrors_page():
-    return render_template("page/mirrors.html", header_active="home/mirrors")
-
 @page.get("/browser_verification")
 @allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
 def browser_verification_page():
@@ -794,6 +789,16 @@ def copyright_page():
     if account_id is None:
         return render_template("page/login_to_view.html", header_active="")
     return render_template("page/copyright.html", header_active="")
+
+@page.get("/volunteering")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
+def volunteering_page():
+    return render_template("page/volunteering.html", header_active="home/volunteering")
+
+@page.get("/metadata")
+@allthethings.utils.public_cache(minutes=5, cloudflare_minutes=60*3)
+def metadata_page():
+    return render_template("page/metadata.html", header_active="home/metadata")
 
 @page.get("/contact")
 @allthethings.utils.no_cache()

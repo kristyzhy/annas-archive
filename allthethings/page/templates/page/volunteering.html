@@ -1,0 +1,103 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Volunteering & Bounties{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+  
+  <div lang="en">
+    <h2 class="mt-4 mb-4 text-3xl font-bold">Volunteering & Bounties</h2>
+
+    <p class="mb-4">
+      Anna’s Archive relies on volunteers like you. We welcome all commitment levels, and have two main categories of help we’re looking for:
+    </p>
+
+    <ul class="list-inside mb-4">
+      <li class="list-disc"><strong>Light volunteering work:</strong> if you can only spare a few hours here and there, there are still plenty of ways you can help out. We reward consistent volunteers with <strong>🤝 memberships to Anna’s Archive</strong>.</li>
+      <li class="list-disc"><strong>Heavy volunteering work ($50-$5,000 bounties):</strong> if you’re able to dedicate lots of time and/or resources to our mission, we’d love to work more closely with you. Eventually you can join the inner team. Though we have a tight budget, we’re able to award <strong>💰 monetary bounties</strong> for the most intense work.</li>
+    </ul>
+
+    <p class="mb-4">
+      If you’re unable to volunteer your time, you can still help us a lot by <a href="/donate">donating money</a>, <a href="/torrents">seeding our torrents</a>, <a href="/faq#upload">uploading books</a>, or <a href="/faq#help">telling your friends about Anna’s Archive</a>.
+    </p>
+
+    <p class="mb-4">
+      <strong>Companies: </strong> we offer high-speed direct access to our collections in exchange for enterprise-level donation or exchange for new collections (e.g. new scans, OCR’ed datasets, enriching our data). <a href="/contact">Contact us</a> if this is you. See also our <a href="/llm">LLM page</a>.
+    </p>
+
+    <h3 class="group mt-8 mb-1 text-xl font-bold" id="light">Light volunteering <a href="#light" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+
+    <p class="mb-4">
+      If you have a few hours to spare, you can help out in a number of ways. Be sure to join the <a href="https://t.me/+GNQxkFPt1xkzY2Zk">volunteers chat on Telegram</a>.
+    </p>
+
+    <p class="mb-4">
+      As a token of appreciation, we typically give out 6 months of “Lucky Librarian” for basic milestones, and more for continued volunteering work. All milestones require high quality work — sloppy work hurts us more than it helps and we’ll reject it. Please <a href="/contact">email us</a> when you reach a milestone.
+    </p>
+
+    <table class="mb-4 w-full">
+      <tr class="even:bg-[#f2f2f2]">
+        <th class="align-bottom px-4 py-1 w-[60%]">Task</th>
+        <th class="align-bottom px-4 py-1 ">Milestone</th>
+      </tr>
+      <tr class="even:bg-[#f2f2f2]">
+        <td class="p-4">Improve metadata by <a href="/metadata">linking</a> with Open Library.</td>
+        <td class="p-4">30 links of records you improved</td>
+      </tr>
+      <tr class="even:bg-[#f2f2f2]">
+        <td class="p-4"><a href="https://translate.annas-archive.se/">Translating</a> the website.</td>
+        <td class="p-4">Fully translated a language (if it wasn’t close to completion already)</td>
+      </tr>
+      <tr class="even:bg-[#f2f2f2]">
+        <td class="p-4">Spreading the word of Anna’s Archive on social media and online forums, by recommending book or lists on AA, or answering questions.</td>
+        <td class="p-4">100 links or screenshots</td>
+      </tr>
+      <tr class="even:bg-[#f2f2f2]">
+        <td class="p-4">Improve the Wikipedia page for Anna’s Archive in your language. Include information from AA’s Wikipedia page in other languages, and from our website and blog. Add references to AA on other relevant pages.</td>
+        <td class="p-4">Link to edit history showing you made significant contributions</td>
+      </tr>
+      <tr class="even:bg-[#f2f2f2]">
+        <td class="p-4">Fulfilling book (or paper, etc) requests on the Z-Library or the Library Genesis forums. We don’t have our own book request system, but we mirror those libraries, so making them better makes Anna’s Archive better too.</td>
+        <td class="p-4">30 links or screenshots of requests you fulfilled</td>
+      </tr>
+      <!-- TODO: fixing file or formatting issues? -->
+      <tr class="even:bg-[#f2f2f2]">
+        <td class="p-4">Small tasks posted on our <a href="https://t.me/+GNQxkFPt1xkzY2Zk">volunteers chat on Telegram</a>. Usually for membership, sometimes for small bounties.</td>
+        <td class="p-4">Depends on the task</td>
+      </tr>
+    </table>
+
+    <h3 class="group mt-8 mb-1 text-xl font-bold" id="bounties">Bounties <a href="#bounties" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+
+    <p class="mb-4">
+      We’re always looking for people with solid programming or offensive security skills to get involved. You can make a serious dent in preserving humanity’s legacy.
+    </p>
+
+    <p class="mb-4">
+      As a thank you, we give away membership for solid contributions. As a huge thank you, we give away monetary bounties for particularly important and difficult tasks. This shouldn’t be viewed as a replacement for a job, but it is an extra incentive and can help with incurred costs.
+    </p>
+
+    <p class="mb-4">Most of our code is open source, and we’ll ask that of your code as well when awarding the bounty. There are some exceptions which we can discuss on an individual basis.</p>
+
+
+    <p class="mb-4">For the larger bounties, please contact us when you’ve completed ~5% of it, and you’re confident that your method will scale to the full milestone. You will have to share your method with us so we can give feedback. Also, this way we can decide what to do if there are multiple people getting close to a bounty, such as potentially awarding it to multiple people, encouraging people to team up, etc.</p>
+
+    <p class="mb-4">
+      WARNING: the high-bounty tasks are <strong>difficult</strong> — it might be wise to start with easier ones.
+    </p>
+
+    <p class="mb-4">
+      Go to our <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/">Gitlab issues list</a> and sort by “Label priority”. This shows roughly the order of tasks we care about. Tasks without explicit bounties are still eligible for membership, especially those marked “Accepted” and “Anna’s favorite”. You might want to start with a “Starter project”.
+    </p>
+
+    <div class="overflow-hidden h-[1500px]">
+      <iframe credentialless scrolling="no" allow="vertical-scroll none" sandbox="allow-scripts allow-same-origin" class="mt-[-150px] h-[calc(1500px+150px)] w-full overflow-hidden pointer-events-none" src="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/?sort=created_asc&state=opened&label_name%5B%5D=2-Bounty&first_page_size=100"></iframe>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+

@@ -42,7 +42,9 @@
   {% endif %}
 
   <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
-    <div class="float-right w-1/4 ml-4 aspect-[0.64] relative">
+    <!-- TODO:TRANSLATE -->
+    <a href="/metadata" class="float-right max-w-[25%] inline-block mb-2 text-xs text-right">Improve metadata</a>
+    <div class="float-right clear-both w-[25%] ml-4 aspect-[0.64] relative">
       <img class="w-full max-h-full absolute" src="{{aarecord.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" loading="lazy" decoding="async"/>
       <div class="w-full aspect-[0.85] mt-[7%]" style="background-color: hsl({{ aarecord.additional.top_box.cover_missing_hue_deg }}deg 43% 73%)"></div>
     </div>
@@ -339,9 +341,10 @@
 
             <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-metadata">
               <p class="mb-4">
-                Please report metadata errors at the source library. If there are multiple source libraries, know that we pull metadata from top to bottom, so the first one might be sufficient.
+                Learn how to <a href="/metadata">improve the metadata</a> for this file.
               </p>
-
+              
+              <!-- 
               {% if aarecord.lgrsnf_book %}
                 - <strong>Libgen.rs Non-Fiction:</strong> Reply to <a href="https://forum.mhut.org/viewtopic.php?t=6423" target="_blank">this forum thread</a> and mention the following URL:<br>
                 <a href="http://library.lol/main/{{aarecord['lgrsnf_book']['md5'].lower()}}" target="_blank">http://library.lol/main/{{aarecord['lgrsnf_book']['md5'].lower()}}</a><br>
@@ -355,7 +358,7 @@
               {% endif %}
               {% if aarecord.zlib_book %}
                 - <strong>Z-Library:</strong> Go to <a href="https://libgen.li/file.php?md5=http://loginzlib2vrak5zzpcocc3ouizykn6k5qecgj2tzlnab5wcbqhembyd.onion/md5/{{aarecord['zlib_book']['md5_reported'].lower()}}" target="_blank">this page</a> (requires TOR browser), and click on “Something wrong?” => “Suggest correction”.<br>
-              {% endif %}
+              {% endif %} -->
             </div>
 
             <div class="hidden mb-4 js-report-file-issues-submenu js-report-file-issues-submenu-download js-report-file-issues-submenu-broken js-report-file-issues-submenu-pages js-report-file-issues-submenu-spam js-report-file-issues-submenu-other">

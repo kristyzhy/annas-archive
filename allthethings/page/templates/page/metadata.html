@@ -1,0 +1,94 @@
+{% extends "layouts/index.html" %}
+
+{% block title %}Improve metadata{% endblock %}
+
+{% block body %}
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+  
+  <div lang="en">
+    <h2 class="mt-4 mb-4 text-3xl font-bold">Improve metadata</h2>
+
+    <p class="mb-4">
+      You can help out preservation of books by improving metadata! First, read the background about metadata on Anna’s Archive, and then learn how to improve metadata through linking with Open Library, and earn free membership on Anna’s Archive.
+    </p>
+
+    <h3 class="group mt-4 mb-1 text-xl font-bold" id="background">Background <a href="#background" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+
+    <p class="mb-4">
+      When you look at a book on Anna’s Archive, you can see various fields: title, author, publisher, edition, year, description, filename, and more. All those pieces of information are called <em>metadata</em>.
+    </p>
+
+    <p class="mb-4">
+      Since we combine books from various <em>source libraries</em>, we show whatever metadata is available in that source library. For example, for a book that we got from Library Genesis, we’ll show the title from Library Genesis’ database.
+    </p>
+
+    <p class="mb-4">
+      Sometimes a book is present in <em>multiple</em> source libraries, which might have different metadata fields. In that case, we simply show the longest version of each field, since that one hopefully contains the most useful information! We’ll still show the other fields below the description, e.g. as ”alternative title” (but only if they are different).
+    </p>
+
+    <p class="mb-4">
+      We also extract <em>codes</em> such as identifiers and classifiers from the source library. <em>Identifiers</em> uniquely represent a particular edition of a book; examples are ISBN, DOI, Open Library ID, Google Books ID, or Amazon ID. <em>Classifiers</em> group together multiple similar books; examples are Dewey Decimal (DCC), UDC, LCC, RVK, or GOST. Sometimes these codes are explicitly linked in source libraries, and sometimes we can extract them from the filename or description (primarily ISBN and DOI).
+    </p>
+
+    <p class="mb-4">
+      We can use identifiers to find records in <em>metadata-only collections</em>, such as OpenLibrary, ISBNdb, or WorldCat/OCLC. There is a specific <em>metadata tab</em> in our search engine if you’d like to browse those collections. We use matching records to fill in missing metadata fields (e.g. if a title is missing), or e.g. as “alternative title” (if there is an existing title).
+    </p>
+
+    <p class="mb-4">
+      To see exactly where metadata of a book came from, see the <em>“Technical details” tab</em> on a book page. It has a link to the raw JSON for that book, with pointers to the raw JSON of the original records. 
+    </p>
+
+    <p class="mb-4">
+      For more information, see the following pages: <a href="/datasets">Datasets</a>, <a href="/search?index=meta">Search (metadata tab)</a>, <a href="/member_codes">Codes Explorer</a>, and <a href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">Example metadata JSON</a>. Finally, all our metadata can be <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases.
+    </p>
+
+    <h3 class="group mt-4 mb-1 text-xl font-bold" id="openlib">Open Library linking <a href="#openlib" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+
+    <p class="mb-4">
+      So if you encounter a file with bad metadata, how should you fix it? You can go to the source library and follow its procedures for fixing metadata, but what to do if a file is present in multiple source libraries?
+    </p>
+
+    <p class="mb-4">
+      There is one identifier that is treated special on Anna’s Archive. <strong>The annas_archive md5 field on Open Library always overrides all other metadata!</strong> Let’s back up a bit first and learn about Open Library.
+    </p>
+
+    <p class="mb-4">
+      Open Library was founded in 2006 by Aaron Swartz with the goal of “one web page for every book ever published”. It is kind of a Wikipedia for book metadata: everyone can edit it, it is freely licensed, and can be downloaded in bulk. It’s a book database that is most aligned with our mission — in fact, Anna’s Archive has been inspired by Aaron Swartz’ vision and life.
+    </p>
+
+    <p class="">
+      Instead of reinventing the wheel, we decided to redirect our volunteers towards Open Library. If you see a book that has incorrect metadata, you can help out in the following way:
+    </p>
+
+    <ul class="list-inside mb-4">
+      <li class="list-disc">Go to the <a href="https://openlibrary.org/">Open Library website</a>.</li>
+      <li class="list-disc">Find the correct book record. <strong>WARNING:</strong> be sure to select the correct <strong>edition</strong>. In Open Library, you have “works” and “editions”.
+        <ul class="list-inside ml-4">
+          <li class="list-disc">A “work” could be “Harry Potter and the Philosopher's Stone”.</li>
+          <li class="list-disc">An “edition” could be:
+            <ul class="list-inside ml-4">
+              <li class="list-disc">The 1997 first edition published by Bloomsbery with 256 pages.</li>
+              <li class="list-disc">The 2003 paperback edition published by Raincoast Books with 223 pages.</li>
+              <li class="list-disc">The 2000 Polish translation “Harry Potter I Kamie Filozoficzn” by Media Rodzina with 328 pages.</li>
+            </ul>
+          </li>
+          <li class="list-disc">All of those editions have different ISBNs and different contents, so be sure to select the right one!</li>
+        </ul>
+      </li>
+      <li class="list-disc">Edit the record (or create it if none exist), and add as much as useful information as you can! You’re here now anyway, might as well make the record really amazing.</li>
+      <li class="list-disc">Under “ID Numbers” select “Anna’s Archive” and add the MD5 of the book from Anna’s Archive. This is the long string of letters and numbers after “/md5/” in the URL.
+        <ul class="list-inside ml-4">
+          <li class="list-disc">Try to find other files in Anna’s Archive that also match this record, and add those as well. In the future we can group those as duplicates on Anna’s Archive search page.
+          </li>
+        </ul>
+      </li>
+      <li class="list-disc">When you’re done, write down the URL that you just updated. Once you’ve updated at least 30 records with Anna’s Archive MD5s, send us an <a href="/contact">email</a> and send us the list. We’ll give you a free membership for Anna’s Archive, so you can more easily do this work (and as a thank you for your help). These have to be high quality edits that add substantial amounts of information, otherwise your request will be rejected. Your request will also be rejected if any of the edits get reverted or corrected by Open Library moderators.
+    </ul>
+
+    <p class="mb-4">
+      Note that this only works for books, not academic papers or other types of files. For other types of files we still recommend finding the source library. It might take a few weeks for changes to be included in Anna’s Archive, since we need to download the latest Open Library data dump, and regenerate our search index.
+    </p>
+  </div>
+{% endblock %}

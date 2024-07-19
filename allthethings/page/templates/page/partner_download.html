@@ -50,7 +50,7 @@
           if (partnerReload) {
             window.localStorage.partner_reload = "1";
             partnerTimeout = setTimeout(function() {
-              window.location.reload();
+              window.location.assign(window.location.href);;
             }, 5000);
           } else {
             window.localStorage.partner_reload = "0";

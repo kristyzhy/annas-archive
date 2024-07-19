@@ -411,10 +411,11 @@
                   {% if header_active == 'home/search' %}{{ gettext('layout.index.header.nav.search') }}
                   {% elif header_active == 'home/scidb' %}🧬&nbsp;{{ gettext('page.home.scidb.header') }}
                   {% elif header_active == 'home/faq' %}{{ gettext('layout.index.header.nav.faq') }}
+                  {% elif header_active == 'home/metadata' %}Improve metadata <!-- TODO:TRANSLATE -->
+                  {% elif header_active == 'home/volunteering' %}Volunteering & Bounties <!-- TODO:TRANSLATE -->
                   {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                   {% elif header_active == 'home/torrents' %}{{ gettext('layout.index.header.nav.torrents') }}
                   {% elif header_active == 'home/codes' %}<!-- TODO:TRANSLATE -->Codes Explorer
-                  {% elif header_active == 'home/mirrors' %}{{ gettext('layout.index.header.nav.mirrors') }}
                   {% elif header_active == 'home/llm' %}{{ gettext('layout.index.header.nav.llm_data') }}
                   {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
@@ -423,25 +424,27 @@
                   {% if header_active == 'home/search' %}{{ gettext('layout.index.header.nav.search') }}
                   {% elif header_active == 'home/scidb' %}🧬&nbsp;{{ gettext('page.home.scidb.header') }}
                   {% elif header_active == 'home/faq' %}{{ gettext('layout.index.header.nav.faq') }}
+                  {% elif header_active == 'home/metadata' %}Improve metadata <!-- TODO:TRANSLATE -->
+                  {% elif header_active == 'home/volunteering' %}Volunteering & Bounties <!-- TODO:TRANSLATE -->
                   {% elif header_active == 'home/datasets' %}{{ gettext('layout.index.header.nav.datasets') }}
                   {% elif header_active == 'home/torrents' %}{{ gettext('layout.index.header.nav.torrents') }}
                   {% elif header_active == 'home/codes' %}<!-- TODO:TRANSLATE -->Codes Explorer
-                  {% elif header_active == 'home/mirrors' %}{{ gettext('layout.index.header.nav.mirrors') }}
                   {% elif header_active == 'home/llm' %}{{ gettext('layout.index.header.nav.llm_data') }}
                   {% else %}{{ gettext('layout.index.header.nav.home') }}{% endif %}
                   <span class="icon-[material-symbols--arrow-drop-down] absolute text-lg mt-[3px] -ml-px"></span>
                 </span>
               </a>
               <div class="absolute left-0 top-full bg-[#f2f2f2] px-4 shadow js-top-menu-home hidden">
-                <a class="custom-a block py-1 {% if header_active == 'home/home'     %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/search'   %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/search">{{ gettext('layout.index.header.nav.search') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/scidb'   %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/scidb">🧬&nbsp;{{ gettext('page.home.scidb.header') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/faq'      %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/faq">{{ gettext('layout.index.header.nav.faq') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/datasets' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/torrents' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/codes' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/member_codes"><!-- TODO:TRANSLATE -->Codes Explorer</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/mirrors' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/mirrors">{{ gettext('layout.index.header.nav.mirrors') }}</a>
-                <a class="custom-a block py-1 {% if header_active == 'home/llm' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/home'         %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/">{{ gettext('layout.index.header.nav.home') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/search'       %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/search">{{ gettext('layout.index.header.nav.search') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/scidb'        %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/scidb">🧬&nbsp;{{ gettext('page.home.scidb.header') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/faq'          %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/faq">{{ gettext('layout.index.header.nav.faq') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/metadata'     %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/metadata">Improve metadata <!-- TODO:TRANSLATE --></a>
+                <a class="custom-a block py-1 {% if header_active == 'home/volunteering' %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/volunteering">Volunteering & Bounties <!-- TODO:TRANSLATE --></a>
+                <a class="custom-a block py-1 {% if header_active == 'home/datasets'     %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/torrents'     %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/codes'        %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/member_codes"><!-- TODO:TRANSLATE -->Codes Explorer</a>
+                <a class="custom-a block py-1 {% if header_active == 'home/llm'          %}font-bold text-black{% else %}text-black/64{% endif %} hover:text-black" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="/blog" target="_blank">{{ gettext('layout.index.header.nav.annasblog') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://software.annas-archive.se" target="_blank">{{ gettext('layout.index.header.nav.annassoftware') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://translate.annas-archive.se" target="_blank">{{ gettext('layout.index.header.nav.translate') }}</a>
@@ -503,6 +506,8 @@
             <a class="custom-a hover:text-[#333]" href="/search">{{ gettext('layout.index.header.nav.search') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/scidb">🧬&nbsp;{{ gettext('page.home.scidb.header') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/faq">{{ gettext('layout.index.header.nav.faq') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/metadata">Improve metadata <!-- TODO:TRANSLATE --></a><br>
+            <a class="custom-a hover:text-[#333]" href="/volunteering">Volunteering & Bounties <!-- TODO:TRANSLATE --></a><br>
             <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a><br>
             <select class="p-1 rounded text-gray-500 mt-1 max-w-[110px]" onchange="handleChangeLang(event)">
               {% for lang_code, lang_name in g.languages %}
@@ -532,7 +537,6 @@
             <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/member_codes"><!-- TODO:TRANSLATE -->Codes Explorer</a><br>
-            <a class="custom-a hover:text-[#333]" href="/mirrors">{{ gettext('layout.index.header.nav.mirrors') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/llm">{{ gettext('layout.index.header.nav.llm_data') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/faq#security">{{ gettext('layout.index.header.nav.security') }}</a><br>
           </div>

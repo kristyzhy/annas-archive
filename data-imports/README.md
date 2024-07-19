@@ -128,11 +128,12 @@ For answers to questions about this, please see [this Reddit post and comments](
 
 ```bash
 # First, download the torrents from https://annas-archive.se/torrents#aa_derived_mirror_metadata to aa-data-import--temp-dir/imports.
-# Then run these:
+# Then run these before the commands mentioned above:
 docker exec -it aa-data-import--web /scripts/load_elasticsearch.sh
 docker exec -it aa-data-import--web /scripts/load_elasticsearchaux.sh
 docker exec -it aa-data-import--web /scripts/load_mariadb.sh
-# Make sure to still run the download_aac_*, load_aac_*, and mysql_build_aac_tables scripts, since those download and move into position the AAC files,
+# Make sure to still run the download_aac_*, load_aac_* (download_aac_* and load_aac_* can be run in parallel with the 3 scripts above),
+# and mysql_build_aac_tables scripts (can NOT be run in parallel), since those download and move into position the AAC files,
 # which are necessary for some more unusual operations (such as the /db endpoints). This will not rebuild any MariaDB tables, since the system
 # will detect that the AAC files are already up to date (unless there have since been newer AAC files) and will use the imported AAC
 # tables (which point to byte offsets in the compressed AAC files).
