@@ -357,7 +357,7 @@ def donation_id_to_receipt_id(donation_id):
 def receipt_id_to_donation_id(receipt_id):
     return shortuuid.encode(shortuuid.ShortUUID(alphabet="23456789abcdefghijkmnopqrstuvwxyz").decode(receipt_id))
 
-@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=6*60*60))
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=6*60*60), lock=threading.Lock())
 def usd_currency_rates_cached():
     # try:
     #     return forex_python.converter.CurrencyRates().get_rates('USD')
@@ -545,7 +545,7 @@ def membership_format_native_currency(locale, native_currency_code, cost_cents_n
                 'cost_cents_native_currency_str_donation_page_instructions': f"{format_currency(cost_cents_native_currency, 'USD', locale)}",
             }
 
-@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=60*60))
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=60*60), lock=threading.Lock())
 def membership_costs_data(locale):
     usd_currency_rates = usd_currency_rates_cached()
 

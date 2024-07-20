@@ -13,8 +13,9 @@ rm -rf /exports/elasticsearchaux
 mkdir /exports/elasticsearchaux
 # https://github.com/elasticsearch-dump/elasticsearch-dump/issues/651#issuecomment-564545317
 export NODE_OPTIONS="--max-old-space-size=16384"
+# Very verbose without --quiet
 # Don't set parallel= too high, might run out of memory.
-multielasticdump --input=${ELASTICSEARCHAUX_HOST:-http://elasticsearchaux:9201} --output=/exports/elasticsearchaux --match='aarecords.*' --parallel=6 --limit=10000 --fsCompress --includeType=data,mapping,analyzer,alias,settings,template
+multielasticdump --quiet --input=${ELASTICSEARCHAUX_HOST:-http://elasticsearchaux:9201} --output=/exports/elasticsearchaux --match='aarecords.*' --parallel=20 --limit=3000 --fsCompress --includeType=data,mapping,analyzer,alias,settings,template
 # WARNING: multielasticdump doesn't properly handle children getting out of memory errors.
 # Check valid gzips as a workaround. Still somewhat fragile though!
 zcat /exports/elasticsearchaux/*.json.gz | wc -l

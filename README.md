@@ -113,6 +113,10 @@ rsync --exclude=.git --exclude=.env --exclude=.DS_Store --exclude=docker-compose
 ```
 
 To set up mariapersistreplica and mariabackup, check out `mariapersistreplica-conf/README.txt`.
+
+## Scraping
+
+Scraping of new datasets is not in scope for this repo, but we nonetheless have a guide here: [SCRAPING.md](SCRAPING.md).
     
 ## Contributing
 

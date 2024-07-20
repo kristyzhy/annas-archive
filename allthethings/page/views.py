@@ -352,7 +352,7 @@ def llm_page():
 def browser_verification_page():
     return render_template("page/browser_verification.html", header_active="home/search")
 
-@cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=24*60*60))
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=24*60*60), lock=threading.Lock())
 def get_stats_data():
     with engine.connect() as connection:
         libgenrs_time = connection.execute(select(LibgenrsUpdated.TimeLastModified).order_by(LibgenrsUpdated.ID.desc()).limit(1)).scalars().first()
@@ -538,7 +538,7 @@ def torrent_group_data_from_file_path(file_path):
 
     return { 'group': group, 'aac_meta_group': aac_meta_group }
 
-@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=30*60))
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=1024, ttl=30*60), lock=threading.Lock())
 def get_torrents_data():
     with mariapersist_engine.connect() as connection:
         connection.connection.ping(reconnect=True)
@@ -5466,7 +5466,7 @@ def search_query_aggs(search_index_long):
         "search_most_likely_language_code": { "terms": { "field": "search_only_fields.search_most_likely_language_code", "size": 70 } },
     }
 
-@cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=60*60))
+@cachetools.cached(cache=cachetools.TTLCache(maxsize=30000, ttl=60*60), lock=threading.Lock())
 def all_search_aggs(display_lang, search_index_long):
     try:
         search_results_raw = allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING[search_index_long].search(index=allthethings.utils.all_virtshards_for_index(search_index_long), size=0, aggs=search_query_aggs(search_index_long), timeout=ES_TIMEOUT_ALL_AGG)
