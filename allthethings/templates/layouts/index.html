@@ -506,8 +506,6 @@
             <a class="custom-a hover:text-[#333]" href="/search">{{ gettext('layout.index.header.nav.search') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/scidb">🧬&nbsp;{{ gettext('page.home.scidb.header') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/faq">{{ gettext('layout.index.header.nav.faq') }}</a><br>
-            <a class="custom-a hover:text-[#333]" href="/metadata">Improve metadata <!-- TODO:TRANSLATE --></a><br>
-            <a class="custom-a hover:text-[#333]" href="/volunteering">Volunteering & Bounties <!-- TODO:TRANSLATE --></a><br>
             <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a><br>
             <select class="p-1 rounded text-gray-500 mt-1 max-w-[110px]" onchange="handleChangeLang(event)">
               {% for lang_code, lang_name in g.languages %}
@@ -534,6 +532,8 @@
           <div class="mr-4 mb-4 grow">
             <strong class="font-bold text-black">Advanced</strong><br>
             <a class="custom-a hover:text-[#333]" href="/faq">{{ gettext('layout.index.header.nav.faq') }}</a><br>
+            <a class="custom-a hover:text-[#333]" href="/metadata">Improve metadata <!-- TODO:TRANSLATE --></a><br>
+            <a class="custom-a hover:text-[#333]" href="/volunteering">Volunteering & Bounties <!-- TODO:TRANSLATE --></a><br>
             <a class="custom-a hover:text-[#333]" href="/datasets">{{ gettext('layout.index.header.nav.datasets') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/torrents">{{ gettext('layout.index.header.nav.torrents') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/member_codes"><!-- TODO:TRANSLATE -->Codes Explorer</a><br>
