@@ -115,15 +115,15 @@ msgstr "Datahoarder Stupefacente"
 msgid "common.membership.tier_name.5"
 msgstr "Archivista Straordinario"
 
-#: allthethings/utils.py:528
+#: allthethings/utils.py:531
 msgid "common.membership.format_currency.total_with_usd"
 msgstr "%(amount)s (%(amount_usd)s) totale"
 
-#: allthethings/utils.py:530 allthethings/utils.py:531
+#: allthethings/utils.py:533 allthethings/utils.py:534
 msgid "common.membership.format_currency.amount_with_usd"
 msgstr "%(amount)s (%(amount_usd)s)"
 
-#: allthethings/utils.py:542
+#: allthethings/utils.py:545
 msgid "common.membership.format_currency.total"
 msgstr "%(amount)s totale"
 
@@ -131,27 +131,27 @@ msgstr "%(amount)s totale"
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s bonus)"
 
-#: allthethings/account/views.py:303
+#: allthethings/account/views.py:304
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "non retribuito"
 
-#: allthethings/account/views.py:304
+#: allthethings/account/views.py:305
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "retribuito"
 
-#: allthethings/account/views.py:305
+#: allthethings/account/views.py:306
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "annullato"
 
-#: allthethings/account/views.py:306
+#: allthethings/account/views.py:307
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "scaduto"
 
-#: allthethings/account/views.py:307
+#: allthethings/account/views.py:308
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "in attesa di conferma da Anna"
 
-#: allthethings/account/views.py:308
+#: allthethings/account/views.py:309
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "non valido"
 
@@ -218,6 +218,13 @@ msgstr "fino al %(percentage)s%% di sconto"
 #: allthethings/account/templates/account/donate.html:92
 msgid "page.donate.perks.fast_downloads"
 msgstr "%(number)s download veloci al giorno"
+
+#: allthethings/account/templates/account/donate.html:47
+#: allthethings/account/templates/account/donate.html:64
+#: allthethings/account/templates/account/donate.html:78
+#: allthethings/account/templates/account/donate.html:92
+msgid "page.donate.perks.only_this_month"
+msgstr ""
 
 #: allthethings/account/templates/account/donate.html:48
 msgid "page.donate.perks.scidb"
@@ -305,9 +312,9 @@ msgstr "Per donazioni superiori ai 5000$, per favore contattaci direttamente a %
 #: allthethings/page/templates/page/home.html:96
 #: allthethings/page/templates/page/search.html:244
 #: allthethings/page/templates/page/search.html:321
-#: allthethings/templates/layouts/index.html:203
-#: allthethings/templates/layouts/index.html:207
-#: allthethings/templates/layouts/index.html:524
+#: allthethings/templates/layouts/index.html:219
+#: allthethings/templates/layouts/index.html:223
+#: allthethings/templates/layouts/index.html:560
 msgid "page.contact.title"
 msgstr "Email di contatto"
 
@@ -1198,23 +1205,23 @@ msgid "page.account.logged_in.membership_multiple"
 msgstr "Puoi combinare più abbonamenti (i download veloci saranno aggiunti insieme per 24 ore)."
 
 #: allthethings/account/templates/account/index.html:41
-#: allthethings/templates/layouts/index.html:476
-#: allthethings/templates/layouts/index.html:483
-#: allthethings/templates/layouts/index.html:492
+#: allthethings/templates/layouts/index.html:512
+#: allthethings/templates/layouts/index.html:519
+#: allthethings/templates/layouts/index.html:528
 msgid "layout.index.header.nav.public_profile"
 msgstr "Profilo pubblico"
 
 #: allthethings/account/templates/account/index.html:42
-#: allthethings/templates/layouts/index.html:477
-#: allthethings/templates/layouts/index.html:484
-#: allthethings/templates/layouts/index.html:493
+#: allthethings/templates/layouts/index.html:513
+#: allthethings/templates/layouts/index.html:520
+#: allthethings/templates/layouts/index.html:529
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "File scaricati"
 
 #: allthethings/account/templates/account/index.html:43
-#: allthethings/templates/layouts/index.html:478
-#: allthethings/templates/layouts/index.html:485
-#: allthethings/templates/layouts/index.html:494
+#: allthethings/templates/layouts/index.html:514
+#: allthethings/templates/layouts/index.html:521
+#: allthethings/templates/layouts/index.html:530
 msgid "layout.index.header.nav.my_donations"
 msgstr "Le mie donazioni"
 
@@ -1849,7 +1856,7 @@ msgid "page.md5.box.download.option"
 msgstr "Opzione #%(num)d: %(link)s %(extra)s"
 
 #: allthethings/page/templates/page/aarecord.html:219
-#: allthethings/templates/layouts/index.html:231
+#: allthethings/templates/layouts/index.html:247
 msgid "layout.index.header.banner.refer"
 msgstr "Segnala un amico/a ed entrambi/e avrete il %(percentage)s%% di bonus di download rapidi!"
 
@@ -1860,11 +1867,11 @@ msgstr "Segnala un amico/a ed entrambi/e avrete il %(percentage)s%% di bonus di 
 #: allthethings/page/templates/page/home.html:126
 #: allthethings/page/templates/page/search.html:256
 #: allthethings/page/templates/page/search.html:313
-#: allthethings/templates/layouts/index.html:225
-#: allthethings/templates/layouts/index.html:231
-#: allthethings/templates/layouts/index.html:322
-#: allthethings/templates/layouts/index.html:323
-#: allthethings/templates/layouts/index.html:324
+#: allthethings/templates/layouts/index.html:241
+#: allthethings/templates/layouts/index.html:247
+#: allthethings/templates/layouts/index.html:358
+#: allthethings/templates/layouts/index.html:359
+#: allthethings/templates/layouts/index.html:360
 msgid "layout.index.header.learn_more"
 msgstr "Maggiori informazioni…"
 
@@ -2444,15 +2451,15 @@ msgstr "Cerca"
 #: allthethings/page/templates/page/home.html:19
 #: allthethings/page/templates/page/scidb_home.html:3
 #: allthethings/page/templates/page/scidb_home.html:6
-#: allthethings/templates/layouts/index.html:412
-#: allthethings/templates/layouts/index.html:425
-#: allthethings/templates/layouts/index.html:440
-#: allthethings/templates/layouts/index.html:507
+#: allthethings/templates/layouts/index.html:448
+#: allthethings/templates/layouts/index.html:461
+#: allthethings/templates/layouts/index.html:476
+#: allthethings/templates/layouts/index.html:543
 msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
-#: allthethings/templates/layouts/index.html:460
+#: allthethings/templates/layouts/index.html:496
 msgid "layout.index.header.nav.beta"
 msgstr "beta"
 
@@ -2539,8 +2546,8 @@ msgid "page.home.payment_processor.body"
 msgstr "Se gestisci un sistema di pagamento anonimo ad alto rischio, contattaci. Siamo anche alla ricerca di persone che vogliano pubblicare piccoli annunci \"di buon gusto\". Tutti i proventi sono destinati al nostro impegno per la conservazione e tutela del sapere."
 
 #: allthethings/page/templates/page/home.html:104
-#: allthethings/templates/layouts/index.html:448
-#: allthethings/templates/layouts/index.html:527
+#: allthethings/templates/layouts/index.html:484
+#: allthethings/templates/layouts/index.html:563
 msgid "layout.index.header.nav.annasblog"
 msgstr "Blog di Anna ↗"
 
@@ -2639,7 +2646,7 @@ msgid "page.partner_download.warning_many_downloads2"
 msgstr ""
 
 #: allthethings/page/templates/page/scidb.html:14
-#: allthethings/templates/layouts/index.html:312
+#: allthethings/templates/layouts/index.html:348
 msgid "layout.index.header.title"
 msgstr "Anna’s Archive"
 
@@ -2716,7 +2723,7 @@ msgid "page.search.tabs.metadata"
 msgstr "Metadata"
 
 #: allthethings/page/templates/page/search.html:66
-#: allthethings/templates/layouts/index.html:456
+#: allthethings/templates/layouts/index.html:492
 msgid "common.search.placeholder"
 msgstr "Titolo, autore, DOI, ISBN, MD5, …"
 
@@ -2970,155 +2977,168 @@ msgstr "La più grande biblioteca open-source e open-data al mondo. Mirror di Sc
 msgid "layout.index.meta.opensearch"
 msgstr "Cerca in Anna’s Archive"
 
-#: allthethings/templates/layouts/index.html:222
-msgid "layout.index.header.banner.holiday_gift"
-msgstr "Salvare la conoscenza umana: un fantastico regalo per le feste!"
+#: allthethings/templates/layouts/index.html:201
+msgid "layout.index.header.banner.fundraiser.help"
+msgstr ""
 
-#: allthethings/templates/layouts/index.html:222
-msgid "layout.index.header.banner.surprise"
-msgstr "Sorprendi una persona cara e regalale un abbonamento."
+#: allthethings/templates/layouts/index.html:202
+msgid "layout.index.header.banner.fundraiser.takedown"
+msgstr ""
 
-#: allthethings/templates/layouts/index.html:222
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:509
+#: allthethings/templates/layouts/index.html:204
+msgid "layout.index.header.banner.fundraiser.this_month"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:204
+#: allthethings/templates/layouts/index.html:238
+#: allthethings/templates/layouts/index.html:488
+#: allthethings/templates/layouts/index.html:545
 msgid "layout.index.header.nav.donate"
 msgstr "Donare"
 
-#: allthethings/templates/layouts/index.html:225
+#: allthethings/templates/layouts/index.html:238
+msgid "layout.index.header.banner.holiday_gift"
+msgstr "Salvare la conoscenza umana: un fantastico regalo per le feste!"
+
+#: allthethings/templates/layouts/index.html:238
+msgid "layout.index.header.banner.surprise"
+msgstr "Sorprendi una persona cara e regalale un abbonamento."
+
+#: allthethings/templates/layouts/index.html:241
 msgid "layout.index.header.banner.mirrors"
 msgstr "Per aumentare la resilienza di Anna's Archive, stiamo cercando volontari e volontarie per gestire i mirror."
 
-#: allthethings/templates/layouts/index.html:231
+#: allthethings/templates/layouts/index.html:247
 msgid "layout.index.header.banner.valentine_gift"
 msgstr "Il regalo perfetto per San Valentino!"
 
-#: allthethings/templates/layouts/index.html:250
+#: allthethings/templates/layouts/index.html:266
 msgid "layout.index.header.banner.new_donation_method"
 msgstr "Abbiamo un nuovo metodo di donazione:%(method_name)s. Prendi in considerazione l'idea di %(donate_link_open_tag)sdonare</a>: non è economico far funzionare questo sito e la tua donazione può fare una grande differenza. Grazie mille."
 
-#: allthethings/templates/layouts/index.html:257
+#: allthethings/templates/layouts/index.html:273
 msgid "layout.index.banners.comics_fundraiser.text"
 msgstr "Stiamo organizzando una raccolta fondi per <a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">sostenere</a> la più grande biblioteca ombra di fumetti al mondo. Grazie per sostegno che ci darai! <a href=\"/donate\">Dona ora.</a> Se non puoi donare, prendi in considerazione l'idea di supportarci spargendo la voce e di seguirci su <a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a> o su <a href=\"https://t.me/annasarchiveorg\">Telegram </a>."
 
-#: allthethings/templates/layouts/index.html:328
+#: allthethings/templates/layouts/index.html:364
 msgid "layout.index.header.recent_downloads"
 msgstr "Download recenti:"
 
-#: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:424
-#: allthethings/templates/layouts/index.html:439
-#: allthethings/templates/layouts/index.html:506
+#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:460
+#: allthethings/templates/layouts/index.html:475
+#: allthethings/templates/layouts/index.html:542
 msgid "layout.index.header.nav.search"
 msgstr "Cerca"
 
-#: allthethings/templates/layouts/index.html:413
-#: allthethings/templates/layouts/index.html:426
-#: allthethings/templates/layouts/index.html:441
-#: allthethings/templates/layouts/index.html:508
-#: allthethings/templates/layouts/index.html:534
+#: allthethings/templates/layouts/index.html:449
+#: allthethings/templates/layouts/index.html:462
+#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:544
+#: allthethings/templates/layouts/index.html:570
 msgid "layout.index.header.nav.faq"
 msgstr "FAQ"
 
-#: allthethings/templates/layouts/index.html:414
-#: allthethings/templates/layouts/index.html:427
-#: allthethings/templates/layouts/index.html:442
-#: allthethings/templates/layouts/index.html:535
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:571
 msgid "layout.index.header.nav.improve_metadata"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:415
-#: allthethings/templates/layouts/index.html:428
-#: allthethings/templates/layouts/index.html:443
-#: allthethings/templates/layouts/index.html:536
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:572
 msgid "layout.index.header.nav.volunteering"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:416
-#: allthethings/templates/layouts/index.html:429
-#: allthethings/templates/layouts/index.html:444
-#: allthethings/templates/layouts/index.html:537
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:465
+#: allthethings/templates/layouts/index.html:480
+#: allthethings/templates/layouts/index.html:573
 msgid "layout.index.header.nav.datasets"
 msgstr "Set di dati"
 
-#: allthethings/templates/layouts/index.html:417
-#: allthethings/templates/layouts/index.html:430
-#: allthethings/templates/layouts/index.html:445
-#: allthethings/templates/layouts/index.html:538
+#: allthethings/templates/layouts/index.html:453
+#: allthethings/templates/layouts/index.html:466
+#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:574
 msgid "layout.index.header.nav.torrents"
 msgstr "Torrent"
 
-#: allthethings/templates/layouts/index.html:418
-#: allthethings/templates/layouts/index.html:431
-#: allthethings/templates/layouts/index.html:446
-#: allthethings/templates/layouts/index.html:539
+#: allthethings/templates/layouts/index.html:454
+#: allthethings/templates/layouts/index.html:467
+#: allthethings/templates/layouts/index.html:482
+#: allthethings/templates/layouts/index.html:575
 msgid "layout.index.header.nav.codes"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:419
-#: allthethings/templates/layouts/index.html:432
-#: allthethings/templates/layouts/index.html:447
-#: allthethings/templates/layouts/index.html:540
+#: allthethings/templates/layouts/index.html:455
+#: allthethings/templates/layouts/index.html:468
+#: allthethings/templates/layouts/index.html:483
+#: allthethings/templates/layouts/index.html:576
 msgid "layout.index.header.nav.llm_data"
 msgstr "Dati LLM"
 
-#: allthethings/templates/layouts/index.html:420
-#: allthethings/templates/layouts/index.html:433
-#: allthethings/templates/layouts/index.html:438
-#: allthethings/templates/layouts/index.html:505
+#: allthethings/templates/layouts/index.html:456
+#: allthethings/templates/layouts/index.html:469
+#: allthethings/templates/layouts/index.html:474
+#: allthethings/templates/layouts/index.html:541
 msgid "layout.index.header.nav.home"
 msgstr "Home"
 
-#: allthethings/templates/layouts/index.html:449
-#: allthethings/templates/layouts/index.html:528
+#: allthethings/templates/layouts/index.html:485
+#: allthethings/templates/layouts/index.html:564
 msgid "layout.index.header.nav.annassoftware"
 msgstr "Software di Anna ↗"
 
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:529
+#: allthethings/templates/layouts/index.html:486
+#: allthethings/templates/layouts/index.html:565
 msgid "layout.index.header.nav.translate"
 msgstr "Traduci ↗"
 
-#: allthethings/templates/layouts/index.html:463
-#: allthethings/templates/layouts/index.html:467
-#: allthethings/templates/layouts/index.html:472
+#: allthethings/templates/layouts/index.html:499
+#: allthethings/templates/layouts/index.html:503
+#: allthethings/templates/layouts/index.html:508
 msgid "layout.index.header.nav.login_register"
 msgstr "Accedi/Registrati"
 
-#: allthethings/templates/layouts/index.html:479
-#: allthethings/templates/layouts/index.html:486
-#: allthethings/templates/layouts/index.html:491
+#: allthethings/templates/layouts/index.html:515
+#: allthethings/templates/layouts/index.html:522
+#: allthethings/templates/layouts/index.html:527
 msgid "layout.index.header.nav.account"
 msgstr "Account"
 
-#: allthethings/templates/layouts/index.html:504
+#: allthethings/templates/layouts/index.html:540
 msgid "layout.index.footer.list1.header"
 msgstr "Anna’s Archive"
 
-#: allthethings/templates/layouts/index.html:523
+#: allthethings/templates/layouts/index.html:559
 msgid "layout.index.footer.list2.header"
 msgstr "Restare in contatto"
 
-#: allthethings/templates/layouts/index.html:525
+#: allthethings/templates/layouts/index.html:561
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA/reclami per copyright"
 
-#: allthethings/templates/layouts/index.html:526
+#: allthethings/templates/layouts/index.html:562
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:526
+#: allthethings/templates/layouts/index.html:562
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:533
+#: allthethings/templates/layouts/index.html:569
 msgid "layout.index.header.nav.advanced"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:541
+#: allthethings/templates/layouts/index.html:577
 msgid "layout.index.header.nav.security"
 msgstr "Sicurezza"
 
-#: allthethings/templates/layouts/index.html:545
+#: allthethings/templates/layouts/index.html:581
 msgid "layout.index.footer.list3.header"
 msgstr "Alternative"
 
