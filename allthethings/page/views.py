@@ -34,6 +34,7 @@ import time
 import sentence_transformers
 import struct
 import natsort
+import unicodedata
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
 from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaIa202306Metadata, AaIa202306Files, Ia2Records, Ia2AcsmpdfFiles, MariapersistSmallFiles
@@ -3145,8 +3146,8 @@ def get_duxiu_dicts(session, key, values, include_deep_transitive_md5s_size_path
         duxiu_dict['aa_duxiu_derived']['filesize_best'] = next(iter(duxiu_dict['aa_duxiu_derived']['filesize_multiple']), 0)
         duxiu_dict['aa_duxiu_derived']['filepath_best'] = next(iter(duxiu_dict['aa_duxiu_derived']['filepath_multiple']), '')
         duxiu_dict['aa_duxiu_derived']['description_best'] = '\n\n'.join(list(dict.fromkeys(duxiu_dict['aa_duxiu_derived']['description_cumulative'])))
-        sources_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string(duxiu_dict['aa_duxiu_derived']['source_multiple']))
-        related_files_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string([" — ".join([f"{key}:{related_file[key]}" for key in ["filepath", "md5", "filesize"] if related_file[key] is not None]) for related_file in duxiu_dict['aa_duxiu_derived']['related_files']]))
+        sources_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(duxiu_dict['aa_duxiu_derived']['source_multiple']))
+        related_files_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode([" — ".join([f"{key}:{related_file[key]}" for key in ["filepath", "md5", "filesize"] if related_file[key] is not None]) for related_file in duxiu_dict['aa_duxiu_derived']['related_files']]))
         duxiu_dict['aa_duxiu_derived']['combined_comments'] = list(dict.fromkeys(filter(len, duxiu_dict['aa_duxiu_derived']['comments_cumulative'] + [
             # TODO: pass through comments metadata in a structured way so we can add proper translations.
             # For now remove sources, it's not useful enough and it's still in the JSON.
@@ -3453,8 +3454,8 @@ def get_aac_upload_book_dicts(session, key, values):
         aac_upload_book_dict['aa_upload_derived']['publisher_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['publisher_multiple']), '')
         aac_upload_book_dict['aa_upload_derived']['pages_best'] = next(iter(aac_upload_book_dict['aa_upload_derived']['pages_multiple']), '')
         aac_upload_book_dict['aa_upload_derived']['description_best'] = '\n\n'.join(list(dict.fromkeys(aac_upload_book_dict['aa_upload_derived']['description_cumulative'])))        
-        sources_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['source_multiple']))
-        producers_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string(aac_upload_book_dict['aa_upload_derived']['producer_multiple']))
+        sources_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(aac_upload_book_dict['aa_upload_derived']['source_multiple']))
+        producers_joined = '\n'.join(sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(aac_upload_book_dict['aa_upload_derived']['producer_multiple']))
         aac_upload_book_dict['aa_upload_derived']['combined_comments'] = list(dict.fromkeys(filter(len, aac_upload_book_dict['aa_upload_derived']['comments_cumulative'] + [
             # TODO: pass through comments metadata in a structured way so we can add proper translations.
             f"sources:\n{sources_joined}" if sources_joined != "" else "",
@@ -3554,8 +3555,9 @@ def is_string_subsequence(needle, haystack):
         i_haystack += 1
     return i_needle == len(needle)
 
-def sort_by_length_and_filter_subsequences_with_longest_string(strings):
-    strings = [string for string in sorted(set(strings), key=len, reverse=True) if len(string) > 0]
+def sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(strings):
+    # WARNING: we depend on this being stable sorted, e.g. when calling max(.., key=len).
+    strings = [unicodedata.normalize('NFKC', string) for string in sorted(strings, key=len, reverse=True) if string != '']
     if len(strings) == 0:
         return []
     strings_filtered = []
@@ -3913,7 +3915,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[allthethings.utils.prefix_filepath('duxiu', filepath) for filepath in filter(len, [(((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filepath_best') or '').strip()])],
             *[allthethings.utils.prefix_filepath('upload', filepath) for filepath in filter(len, [(((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filename_best') or '').strip()])],
         ]
-        original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
+        original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(original_filename_multiple) # Before selecting best, since the best might otherwise get filtered.
         aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
         original_filename_multiple += [allthethings.utils.prefix_filepath('ia', filepath) for filepath in filter(len, [(ia_record['aa_ia_derived']['original_filename'] or '').strip() for ia_record in aarecord['ia_records_meta_only']])]
         original_filename_multiple += [allthethings.utils.prefix_filepath('scihub', f"{scihub_doi['doi'].strip()}.pdf") for scihub_doi in aarecord['scihub_doi']]
@@ -3922,12 +3924,10 @@ def get_aarecords_mysql(session, aarecord_ids):
         for duxiu_record in aarecord['duxius_nontransitive_meta_only']:
             original_filename_multiple += [allthethings.utils.prefix_filepath('duxiu', filepath) for filepath in duxiu_record['aa_duxiu_derived']['filepath_multiple']]
         if aarecord['file_unified_data']['original_filename_best'] == '':
-            original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string(original_filename_multiple)
+            original_filename_multiple_processed = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(original_filename_multiple) # Before selecting best, since the best might otherwise get filtered.
             aarecord['file_unified_data']['original_filename_best'] = min(original_filename_multiple_processed, key=len) if len(original_filename_multiple_processed) > 0 else ''
         aarecord['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != aarecord['file_unified_data']['original_filename_best']]
         aarecord['file_unified_data']['original_filename_best_name_only'] = re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1] if not aarecord['file_unified_data']['original_filename_best'].startswith('10.') else aarecord['file_unified_data']['original_filename_best']
-        if len(aarecord['file_unified_data']['original_filename_additional']) == 0:
-            del aarecord['file_unified_data']['original_filename_additional']
         for filepath in original_filename_multiple:
             allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'filepath', filepath)
 
@@ -3953,8 +3953,6 @@ def get_aarecords_mysql(session, aarecord_ids):
             cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
             aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
             aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
-        if len(aarecord['file_unified_data']['cover_url_additional']) == 0:
-            del aarecord['file_unified_data']['cover_url_additional']
 
         extension_multiple = [
             (((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('extension') or '').strip().lower(),
@@ -3971,10 +3969,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         elif "pdf" in extension_multiple:
             aarecord['file_unified_data']['extension_best'] = "pdf"
         else:
-            aarecord['file_unified_data']['extension_best'] = max(extension_multiple, key=len)
+            aarecord['file_unified_data']['extension_best'] = max(extension_multiple + [''], key=len)
         aarecord['file_unified_data']['extension_additional'] = [s for s in dict.fromkeys(filter(len, extension_multiple)) if s != aarecord['file_unified_data']['extension_best']]
-        if len(aarecord['file_unified_data']['extension_additional']) == 0:
-            del aarecord['file_unified_data']['extension_additional']
 
         filesize_multiple = [
             ((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('filesize') or 0,
@@ -4002,8 +3998,6 @@ def get_aarecords_mysql(session, aarecord_ids):
         filesize_multiple += (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('filesize_multiple') or [])
         filesize_multiple += (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('filesize_multiple') or [])
         aarecord['file_unified_data']['filesize_additional'] = [s for s in dict.fromkeys(filter(lambda fz: fz > 0, filesize_multiple)) if s != aarecord['file_unified_data']['filesize_best']]
-        if len(aarecord['file_unified_data']['filesize_additional']) == 0:
-            del aarecord['file_unified_data']['filesize_additional']
 
         title_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('title') or '').strip(),
@@ -4014,7 +4008,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('title_best') or '').strip(),
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('title_best') or '').strip(),
         ]
-        aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
+        title_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(title_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['title_best'] = max(title_multiple + [''], key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage') or [])]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or [])]
@@ -4027,11 +4022,10 @@ def get_aarecords_mysql(session, aarecord_ids):
             title_multiple += oclc['aa_oclc_derived']['title_multiple']
         for duxiu_record in aarecord['duxius_nontransitive_meta_only']:
             title_multiple += duxiu_record['aa_duxiu_derived']['title_multiple']
+        title_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(title_multiple) # Before selecting best, since the best might otherwise get filtered.
         if aarecord['file_unified_data']['title_best'] == '':
-            aarecord['file_unified_data']['title_best'] = max(title_multiple, key=len)
-        aarecord['file_unified_data']['title_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(title_multiple) if s != aarecord['file_unified_data']['title_best']]
-        if len(aarecord['file_unified_data']['title_additional']) == 0:
-            del aarecord['file_unified_data']['title_additional']
+            aarecord['file_unified_data']['title_best'] = max(title_multiple + [''], key=len)
+        aarecord['file_unified_data']['title_additional'] = [s for s in title_multiple if s != aarecord['file_unified_data']['title_best']]
 
         author_multiple = [
             (aarecord['lgrsnf_book'] or {}).get('author', '').strip(),
@@ -4042,7 +4036,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('author_best') or '').strip(),
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('author_best') or '').strip(),
         ]
-        aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
+        author_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(author_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['author_best'] = max(author_multiple + [''], key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
         author_multiple += [ol_book_dict['authors_normalized'] for ol_book_dict in aarecord['ol']]
         author_multiple += [", ".join(isbndb['json'].get('authors') or []) for isbndb in aarecord['isbndb']]
@@ -4053,11 +4048,10 @@ def get_aarecords_mysql(session, aarecord_ids):
             author_multiple += oclc['aa_oclc_derived']['author_multiple']
         for duxiu_record in aarecord['duxius_nontransitive_meta_only']:
             author_multiple += duxiu_record['aa_duxiu_derived']['author_multiple']
+        author_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(author_multiple) # Before selecting best, since the best might otherwise get filtered.
         if aarecord['file_unified_data']['author_best'] == '':
-            aarecord['file_unified_data']['author_best'] = max(author_multiple, key=len)
-        aarecord['file_unified_data']['author_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(author_multiple) if s != aarecord['file_unified_data']['author_best']]
-        if len(aarecord['file_unified_data']['author_additional']) == 0:
-            del aarecord['file_unified_data']['author_additional']
+            aarecord['file_unified_data']['author_best'] = max(author_multiple + [''], key=len)
+        aarecord['file_unified_data']['author_additional'] = [s for s in author_multiple if s != aarecord['file_unified_data']['author_best']]
 
         publisher_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('publisher') or '').strip(),
@@ -4068,7 +4062,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('publisher_best') or '').strip(),
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('publisher_best') or '').strip(),
         ]
-        aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
+        publisher_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(publisher_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple + [''], key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
         publisher_multiple += [(ol_book_dict.get('publishers_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         publisher_multiple += [(isbndb['json'].get('publisher') or '').strip() for isbndb in aarecord['isbndb']]
@@ -4079,11 +4074,10 @@ def get_aarecords_mysql(session, aarecord_ids):
             publisher_multiple += oclc['aa_oclc_derived']['publisher_multiple']
         for duxiu_record in aarecord['duxius_nontransitive_meta_only']:
             publisher_multiple += duxiu_record['aa_duxiu_derived']['publisher_multiple']
+        publisher_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(publisher_multiple) # Before selecting best, since the best might otherwise get filtered.
         if aarecord['file_unified_data']['publisher_best'] == '':
-            aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple, key=len)
-        aarecord['file_unified_data']['publisher_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(publisher_multiple) if s != aarecord['file_unified_data']['publisher_best']]
-        if len(aarecord['file_unified_data']['publisher_additional']) == 0:
-            del aarecord['file_unified_data']['publisher_additional']
+            aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple + [''], key=len)
+        aarecord['file_unified_data']['publisher_additional'] = [s for s in publisher_multiple if s != aarecord['file_unified_data']['publisher_best']]
 
         edition_varia_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('edition_varia_normalized') or '').strip(),
@@ -4093,18 +4087,18 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('edition_varia_normalized') or '').strip(),
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('edition_varia_normalized') or '').strip(),
         ]
-        aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
+        edition_varia_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(edition_varia_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple + [''], key=len)
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
         edition_varia_multiple += [(ol_book_dict.get('edition_varia_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         edition_varia_multiple += [(isbndb.get('edition_varia_normalized') or '').strip() for isbndb in aarecord['isbndb']]
         edition_varia_multiple += [ia_record['aa_ia_derived']['edition_varia_normalized'].strip() for ia_record in aarecord['ia_records_meta_only']]
         edition_varia_multiple += [oclc['aa_oclc_derived']['edition_varia_normalized'] for oclc in aarecord['oclc']]
         edition_varia_multiple += [duxiu_record['aa_duxiu_derived']['edition_varia_normalized'] for duxiu_record in aarecord['duxius_nontransitive_meta_only']]
+        edition_varia_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(edition_varia_multiple) # Before selecting best, since the best might otherwise get filtered.
         if aarecord['file_unified_data']['edition_varia_best'] == '':
-            aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple, key=len)
-        aarecord['file_unified_data']['edition_varia_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(edition_varia_multiple) if s != aarecord['file_unified_data']['edition_varia_best']]
-        if len(aarecord['file_unified_data']['edition_varia_additional']) == 0:
-            del aarecord['file_unified_data']['edition_varia_additional']
+            aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple + [''], key=len)
+        aarecord['file_unified_data']['edition_varia_additional'] = [s for s in edition_varia_multiple if s != aarecord['file_unified_data']['edition_varia_best']]
 
         year_multiple_raw = [
             ((aarecord['lgrsnf_book'] or {}).get('year') or '').strip(),
@@ -4117,7 +4111,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         ]
         # Filter out years in for which we surely don't have books (famous last words..)
         year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple_raw]
-        aarecord['file_unified_data']['year_best'] = max(year_multiple, key=len)
+        year_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(year_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['year_best'] = max(year_multiple + [''], key=len)
         year_multiple += [(edition.get('year_normalized') or '').strip() for edition in lgli_all_editions]
         year_multiple += [(ol_book_dict.get('year_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         year_multiple += [(isbndb.get('year_normalized') or '').strip() for isbndb in aarecord['isbndb']]
@@ -4131,11 +4126,10 @@ def get_aarecords_mysql(session, aarecord_ids):
             # If a year appears in edition_varia_best, then use that, for consistency.
             if year != '' and year in aarecord['file_unified_data']['edition_varia_best']:
                 aarecord['file_unified_data']['year_best'] = year
+        year_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(year_multiple) # Before selecting best, since the best might otherwise get filtered.
         if aarecord['file_unified_data']['year_best'] == '':
-            aarecord['file_unified_data']['year_best'] = max(year_multiple, key=len)
-        aarecord['file_unified_data']['year_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(year_multiple) if s != aarecord['file_unified_data']['year_best']]
-        if len(aarecord['file_unified_data']['year_additional']) == 0:
-            del aarecord['file_unified_data']['year_additional']
+            aarecord['file_unified_data']['year_best'] = max(year_multiple + [''], key=len)
+        aarecord['file_unified_data']['year_additional'] = [s for s in year_multiple if s != aarecord['file_unified_data']['year_best']]
 
         comments_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('commentary') or '').strip(),
@@ -4164,9 +4158,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         for duxiu_record in aarecord['duxius_nontransitive_meta_only']:
             for comment in duxiu_record.get('combined_comments') or []:
                 comments_multiple.append(comment.strip())
-        aarecord['file_unified_data']['comments_multiple'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(comments_multiple)]
-        if len(aarecord['file_unified_data']['comments_multiple']) == 0:
-            del aarecord['file_unified_data']['comments_multiple']
+        aarecord['file_unified_data']['comments_multiple'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(comments_multiple)]
 
         stripped_description_multiple = [
             ((aarecord['lgrsnf_book'] or {}).get('stripped_description') or '').strip()[0:5000],
@@ -4176,7 +4168,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('description_best') or '').strip(),
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('description_best') or '').strip(),
         ]
-        aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
+        stripped_description_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(stripped_description_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple + [''], key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
         stripped_description_multiple += [ol_book_dict['stripped_description'].strip()[0:5000] for ol_book_dict in aarecord['ol']]
         stripped_description_multiple += [(isbndb['json'].get('synopsis') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
@@ -4187,11 +4180,10 @@ def get_aarecords_mysql(session, aarecord_ids):
         for oclc in aarecord['oclc']:
             stripped_description_multiple += oclc['aa_oclc_derived']['stripped_description_multiple']
         stripped_description_multiple += [duxiu_record['aa_duxiu_derived']['description_best'] for duxiu_record in aarecord['duxius_nontransitive_meta_only']]
+        stripped_description_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(stripped_description_multiple) # Before selecting best, since the best might otherwise get filtered.
         if aarecord['file_unified_data']['stripped_description_best'] == '':
-            aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple, key=len)
-        aarecord['file_unified_data']['stripped_description_additional'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string(stripped_description_multiple) if s != aarecord['file_unified_data']['stripped_description_best']]
-        if len(aarecord['file_unified_data']['stripped_description_additional']) == 0:
-            del aarecord['file_unified_data']['stripped_description_additional']
+            aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple + [''], key=len)
+        aarecord['file_unified_data']['stripped_description_additional'] = [s for s in stripped_description_multiple if s != aarecord['file_unified_data']['stripped_description_best']]
 
         aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
             ((aarecord['lgrsnf_book'] or {}).get('language_codes') or []),
