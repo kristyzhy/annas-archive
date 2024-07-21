@@ -1,10 +1,8 @@
 {% extends "layouts/index.html" %}
 
 {% block body %}
-  <!-- TODO:TRANSLATE -->
-  <h2 class="mt-12 mb-1 text-3xl font-bold">🔥 Issue loading this page</h2>
+  <h2 class="mt-12 mb-1 text-3xl font-bold">{{ gettext('page.aarecord_issue.title') }}</h2>
   <p class="mb-4">
-    Please refresh to try again.
-    <a href="/contact">Contact us</a> if the issue persists for multiple hours.
+    {{ gettext('page.aarecord_issue.text', a_contact=(' href="/contact" | safe')) }}
   </p>
 {% endblock %}

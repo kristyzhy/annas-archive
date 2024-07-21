@@ -27,14 +27,13 @@
 
   {% if wait_seconds %}
     <p>
-      <!-- TODO:TRANSLATE -->
-      ⏰ In order to give everyone an opportunity to download files for free, you need to wait <strong>{{ wait_seconds }} seconds</strong> before you can download this file. 
+      ⏰ {{ gettext('page.partner_download.text1', wait_seconds=wait_seconds) }}
     </p>
     <ul class="mb-4">
-      <li>- Feel free to continue browsing Anna’s Archive in a different tab while waiting (if your browser supports refreshing background tabs).</li>
-      <li>- Feel free to wait for multiple download pages to load at the same time (but please only download one file at the same time per server).</li>
-      <li>- Once you get a download link it is valid for several hours.</li>
-      <li>- Thanks for waiting, this keeps the website accessible for free for everyone! 😊</li>
+      <li>- {{ gettext('page.partner_download.li1') }}</li>
+      <li>- {{ gettext('page.partner_download.li2') }}</li>
+      <li>- {{ gettext('page.partner_download.li3') }}</li>
+      <li>- {{ gettext('page.partner_download.li4') }}</li>
       <li><label class="cursor-pointer"><input class="js-partner-reload mr-1" type="checkbox" maxlength="200"> Automatically refresh page. If you miss the download window, the timer restarts, so automatic refreshing is recommended.</label></li>
     </ul>
     <script>
@@ -79,14 +78,11 @@
     <p class="mb-4 font-bold">
       ⛔️ {{ gettext('page.partner_download.warning_many_downloads') }}
       <!-- {% if daily_download_count_from_ip %} {{ gettext('page.partner_download.downloads_last_24_hours', count=daily_download_count_from_ip) }}{% endif %} -->
-      <!-- TODO:TRANSLATE -->
-      If you’re using a VPN, shared internet connection, or your ISP shares IPs, this warning this might be due to that.
+      {{ gettext('page.partner_download.warning_many_downloads2') }}
     </p>
   {% endif %}
 
   <p class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    <!-- 🚀 To get faster downloads, skip the browser checks, and skip waitlists, <a href="/donate">become a member</a>. -->
     {{ gettext('page.partner_download.faster_downloads', a_membership=(' href="/donate"' | safe)) }}
   </p>
 

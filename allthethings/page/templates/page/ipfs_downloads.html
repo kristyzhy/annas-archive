@@ -1,15 +1,13 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}IPFS downloads{% endblock %}
+{% block title %}{{ gettext('page.ipfs_downloads.title') }}{% endblock %}
 
 {% block meta_tags %}
   <meta property="robots" content="noindex" />
 {% endblock %}
 
 {% block body %}
-  <!-- TODO:TRANSLATE -->
-
-  <h2 class="mt-4 mb-4 text-3xl font-bold">IPFS downloads</h2>
+  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.ipfs_downloads.title') }}</h2>
 
   <p class="mb-4">
     {{ gettext('page.partner_download.main_page', a_main=((' href="/md5/' + canonical_md5 + '"') | safe)) }}

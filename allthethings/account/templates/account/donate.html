@@ -17,7 +17,7 @@
   <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.donate.title') }}</h2>
 
   <p class="mb-4">
-    {{ gettext('page.donate.header.text1') }} {{ gettext('page.donate.header.text2') }}
+    {{ gettext('page.donate.header.text1') }} {{ gettext('page.donate.header.text2', a_donate=(' href="/donation_faq"' | safe)) }}
   </p>
 
   <!-- <p class="mb-4">
@@ -46,9 +46,8 @@
         <ul class="pl-5">
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 🚀 {{ gettext('page.donate.perks.fast_downloads', number=(('<strong>' + (MEMBERSHIP_DOWNLOADS_PER_DAY['2'] | string) + '</strong>') | safe)) }}</li>
           <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 🧬&nbsp;{{ gettext('page.donate.perks.scidb') }}</li>
-          <!-- TODO:TRANSLATE -->
-          <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 👩‍💻 <a href="/faq#api">JSON API</a> access</li>
-          <!-- <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 💁‍♀️ {{ gettext('page.donate.perks.refer', percentage=50) }}</li> -->
+          <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 👩‍💻 {{ gettext('page.donate.perks.jsonapi', a_api=(' href="/faq#api"' | safe)) }}</li>
+          <!-- <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> 💁‍♀️ {{ gettext('page.donate.perks.refer', percentage=50, a_refer=(' href="/refer"' | safe)) }}</li> -->
           <!-- <li class="relative mb-1"><span class="icon-[ion--checkmark-outline] absolute top-1 -left-5"></span> {{ gettext('page.donate.perks.credits') }}</li> -->
         </ul>
       </div>
@@ -146,8 +145,7 @@
       <button class="js-membership-method js-membership-method-payment2cashapp self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('payment2cashapp')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.cashapp') }} <span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="absolute left-1/2 -top-3.5 -translate-x-1/2 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=10) }}</span></button>
       <!-- <button class="js-membership-method js-membership-method-payment2paypal self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('payment2paypal')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.paypal_plain') }} <span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="hidden absolute left-1/2 -top-3.5 -translate-x-1/2 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=10) }}</span></button> -->
       <button class="js-membership-method js-membership-method-ccexp self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('ccexp')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.credit_debit') }}</button>
-      <!-- TODO:TRANSLATE -->
-      <!-- <button class="js-membership-method js-membership-method-hoodpay self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('hoodpay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.credit_debit') }} (backup)</button> -->
+      <!-- <button class="js-membership-method js-membership-method-hoodpay self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('hoodpay')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.credit_debit_backup') }}</button> -->
       <!-- <button class="js-membership-method js-membership-method-payment2cc self-center text-xs relative mb-1 bg-gray-500 hover:bg-gray-600 aria-selected:bg-[#09008e] px-2 py-1 rounded-md text-white mr-1" aria-selected="false" onclick="window.membershipMethodToggle('payment2cc')"><span class="[[aria-selected=false]_&]:hidden"><span class="icon-[ion--checkmark-circle-sharp] text-sm align-text-bottom"></span> </span>{{ gettext('page.donate.payment.buttons.credit_debit2') }} <span class="hidden icon-[mdi--bitcoin] text-lg align-text-bottom"></span><span class="hidden absolute left-1/2 -top-3.5 -translate-x-1/2 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 rounded">{{ gettext('page.donate.discount', percentage=10) }}</span></button> -->
 
       
@@ -235,11 +233,11 @@
 
     <div class="js-membership-descr js-membership-descr-binance">
       <p class="mb-4">
-        With Binance, you buy Bitcoin with a credit/debit card or bank account, and then donate that Bitcoin to us. That way we can remain secure and anonymous when accepting your donation.
+        {{ gettext('page.donate.payment.desc.binance_p1') }}
       </p>
-
+      
       <p class="mb-4">
-        Binance is available in almost every country, and supports most banks and credit/debit cards. This is currently our main recommendation. We appreciate you taking the time to learn how to donate using this method, since it helps us out a lot.
+        {{ gettext('page.donate.payment.desc.binance_p2') }}
       </p>
     </div>
 
@@ -263,7 +261,7 @@
 
     <div class="js-membership-descr js-membership-descr-givebutter">
       <p class="mb-4">
-        Donate using credit/debit card, PayPal, or Venmo. You can choose between these on the next page.
+        {{ gettext('page.donate.payment.desc.givebutter') }}
       </p>
     </div>
 
@@ -281,20 +279,17 @@
     <div class="js-membership-descr js-membership-descr-hoodpay">
       <p class="mb-4">
         {{ gettext('page.donate.payment.desc.credit_debit') }}
-        <!-- TODO:TRANSLATE -->
-        This method uses a cryptocurrency provider as an intermediate conversion.
-        This can be a bit confusing, so please only use this method if other payment methods don’t work.
-        It also doesn’t work in all countries.
+        {{ gettext('page.donate.payment.desc.credit_debit_backup') }}
       </p>
     </div>
 
     <div class="js-membership-descr js-membership-descr-ccexp">
       <p class="mb-4">
-        We can’t support credit/debit cards directly, because banks don’t want to work with us. :(
+        {{ gettext('page.donate.payment.desc.credit_debit_p1') }}
       </p>
 
       <p class="mb-4">
-        However, there are several ways to use credit/debit cards anyway, using our other payment methods:
+        {{ gettext('page.donate.payment.desc.credit_debit_p2') }}
       </p>
 
       <ol class="list-decimal list-inside mb-4">
@@ -306,7 +301,7 @@
 
     <!-- <div class="js-membership-descr js-membership-descr-bmc">
       <p class="mb-4">
-        For credit cards, debit cards, Apple Pay, and Google Pay, we use “Buy Me a Coffee” (BMC <span class="icon-[ph--coffee-fill] text-lg align-text-bottom"></span>). In their system, one “coffee” is equal to $5, so your donation will be rounded to the nearest multiple of 5.
+        {{ gettext('page.donate.payment.desc.bmc') }}
       </p>
     </div> -->
   </div>
@@ -333,11 +328,11 @@
       <fieldset class="mb-2">
         <div class="js-membership-donate-minimum mb-4 hidden">
           <span class="js-membership-donate-minimum-text">{{ gettext('page.donate.payment.minimum_method', amount=('<span class="js-membership-donate-minimum-amount"></span>' | safe)) }}</span>
-          <div class="mt-2"><button class="bg-[#ddd] hover:bg-[#ccc] px-4 py-1 text-sm rounded-md text-white mb-1" onclick="event.preventDefault(); alert(document.querySelector('.js-membership-donate-minimum-text').innerText); return false;">Donate</button></div>
+          <div class="mt-2"><button class="bg-[#ddd] hover:bg-[#ccc] px-4 py-1 text-sm rounded-md text-white mb-1" onclick="event.preventDefault(); alert(document.querySelector('.js-membership-donate-minimum-text').innerText); return false;">{{ gettext('page.donate.buttons.donate') }}</button></div>
         </div>
         <div class="js-membership-donate-maximum mb-4 hidden">
           <span class="js-membership-donate-maximum-text">{{ gettext('page.donate.payment.maximum_method', amount=('<span class="js-membership-donate-maximum-amount"></span>' | safe)) }}</span>
-          <div class="mt-2"><button class="bg-[#ddd] hover:bg-[#ccc] px-4 py-1 text-sm rounded-md text-white mb-1" onclick="event.preventDefault(); alert(document.querySelector('.js-membership-donate-maximum-text').innerText); return false;">Donate</button></div>
+          <div class="mt-2"><button class="bg-[#ddd] hover:bg-[#ccc] px-4 py-1 text-sm rounded-md text-white mb-1" onclick="event.preventDefault(); alert(document.querySelector('.js-membership-donate-maximum-text').innerText); return false;">{{ gettext('page.donate.buttons.donate') }}</button></div>
         </div>
 
         <div class="js-membership-donate-submit-confirmation">

@@ -5,11 +5,12 @@
 {% block body %}
   <h2 class="mt-4 mb-1 text-3xl font-bold">🧬&nbsp;{{ gettext('page.home.scidb.header') }}</h2>
 
-  <!-- TODO:TRANSLATE -->
+  <p class="mb-4">
+    {{ gettext('page.home.scidb.text1', a_closed=(' href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank" rel="noopener noreferrer nofollow"' | safe)) }}
+  </p>
 
   <p class="mb-4">
-    Sci-Hub has <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank">paused</a> uploading of new papers.
-    🧬&nbsp;SciDB is a continuation of Sci-Hub, with its familiar interface and direct viewing of PDFs. Enter your DOI to view.
+    {{ gettext('page.home.scidb.text2') }}
   </p>
 
   <div class="mb-4">
@@ -22,6 +23,6 @@
   </div>
 
   <p class="mb-4">
-    We have the full Sci-Hub collection, as well as new papers. Most can be viewed directly with a familiar interface, similar to Sci-Hub. Some can be downloaded through external sources, in which case we show links to those.
+    {{ gettext('page.home.scidb.text3') }}
   </p>
 {% endblock %}

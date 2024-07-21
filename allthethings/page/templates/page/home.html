@@ -72,10 +72,9 @@
 
     <!-- <h2 class="mt-8 text-xl font-bold">{{ gettext('page.home.mirrors.header') }}</h2> -->
 
-    <!-- TODO:TRANSLATE -->
-    <h2 class="mt-8 text-xl font-bold">🤝 Looking for volunteers</h2>
+    <h2 class="mt-8 text-xl font-bold">{{ gettext('page.home.volunteering.header') }}</h2>
     <p class="mb-4">
-      As a non-profit, open-source project, we’re always looking for people to help out. <a class="text-sm" href="/volunteering">{{ gettext('layout.index.header.learn_more') }}</a>  
+      {{ gettext('page.home.volunteering.help_out') }} <a class="text-sm" href="/volunteering">{{ gettext('layout.index.header.learn_more') }}</a>  
     </p>
 
     {% if g.domain_lang_code == 'zh' %}

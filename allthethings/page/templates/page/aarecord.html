@@ -42,11 +42,10 @@
   {% endif %}
 
   <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
-    <!-- TODO:TRANSLATE -->
     <div class="float-right w-[25%] ml-4 pb-4 aspect-[0.64] relative">
       <img class="w-full max-h-full absolute" src="{{aarecord.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" onload="cbg = document.querySelector('.js-cover-background'); cbg.style.aspectRatio = this.clientWidth / this.clientHeight; cbg.style.marginTop = 0" loading="lazy" decoding="async"/>
       <div class="w-full aspect-[0.85] mt-[7%] js-cover-background" style="background-color: hsl({{ aarecord.additional.top_box.cover_missing_hue_deg }}deg 43% 73%)"></div>
-      <a href="/metadata" class="block mt-2 text-xs text-right">Improve metadata</a>
+      <a href="/metadata" class="block mt-2 text-xs text-right">{{ gettext('page.md5.header.improve_metadata') }}</a>
     </div>
     <div class="text-sm text-gray-500">{{aarecord.additional.top_box.top_row}}</div>
     <div class="text-3xl font-bold">{{aarecord.additional.top_box.title}} {% if aarecord.additional.top_box.title %}<a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.title | urlencode }}">🔍</a>{% endif %}</div>
@@ -77,7 +76,7 @@
           {% if code_item.info.url %}<div class="">{{ gettext('page.md5.codes.url') }} <a href="{{ code_item.info.url | replace('%s', code_item.value) }}" rel="noopener noreferrer nofollow">{{ code_item.info.url | replace('%s', code_item.value) }}</a></div>{% endif %}
           {% if code_item.info.website %}<div class="">{{ gettext('page.md5.codes.website') }} <a href="{{ code_item.info.website }}" rel="noopener noreferrer nofollow">{{ code_item.info.website }}</a></div>{% endif %}
           <div>{{ gettext('page.md5.codes.aa_abbr') }} <a href='/search?q="{{ code_item.key | urlencode }}:{{ code_item.value | urlencode }}"'>{{ gettext('page.md5.codes.aa_search', name=(code_item.key + ':' + code_item.value)) }}</a></div>
-          <div><!--TODO:TRANSLATE-->Codes Explorer: <a href="/member_codes?prefix={{(code_item.key + ':' + code_item.value)}}"><!--TODO:TRANSLATE-->View in Codes Explorer “{{ (code_item.key + ':' + code_item.value) }}”</a></div>
+          <div>{{ gettext('page.md5.codes.code_explorer') }} <a href="/member_codes?prefix={{(code_item.key + ':' + code_item.value)}}">{{ gettext('page.md5.codes.code_search', name=(code_item.key + ':' + code_item.value)) }}</a></div>
         </div>
       {% endfor %}
     </div>
@@ -223,8 +222,7 @@
     {% endif %}
 
     {% if (aarecord.additional.slow_partner_urls | length) > 0 %}
-      <!-- TODO:TRANSLATE -->
-      <div><span class="font-bold">{{ gettext('page.md5.box.download.header_slow_only') }}</span> {{ gettext('page.md5.box.download.trusted_partners') }} More information in the <a href="/faq#slow">FAQ</a>. {{ gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification" ') }}</div>
+      <div><span class="font-bold">{{ gettext('page.md5.box.download.header_slow_only') }}</span> {{ gettext('page.md5.box.download.trusted_partners') }} {{ gettext('page.md5.box.download.slow_faq', a_slow=(' href="/faq#slow"' | safe)) }} {{ gettext("common.md5.servers.browser_verification_unlimited", a_browser=' href="/browser_verification" ' | safe) }}</div>
       <ul class="mb-4">
         {% for label, url, extra in aarecord.additional.slow_partner_urls %}
           {% if label %}
@@ -239,9 +237,8 @@
     {% if aarecord_id_split[0] in ['md5','doi'] %}
       <div>
         <ul class="mb-4">
-          <li>- {{ gettext('page.md5.box.download.convert') }}</li>
-          <!-- TODO:TRANSLATE -->
-          <li>- {{ gettext('page.md5.box.download.kindle') }} Helpful tools: <a href="https://send.djazz.se/" rel="noopener noreferrer nofollow">1</a>.</li>
+          <li>- {{ gettext('page.md5.box.download.convert', a_cloudconvert=(' href="https://cloudconvert.com/epub-to-pdf" rel="noopener noreferrer nofollow"' | safe)) }}</li>
+          <li>- {{ gettext('page.md5.box.download.kindle', a_kindle=(' href="https://www.amazon.com/sendtokindle" rel="noopener noreferrer nofollow"' | safe), a_kobosend=(' href="https://send.djazz.se/" rel="noopener noreferrer nofollow"' | safe)) }}</li>
           <li>- {{ gettext('page.md5.box.download.support_authors') }}</li>
           <li>- {{ gettext('page.md5.box.download.support_libraries') }}</li>
         </ul>

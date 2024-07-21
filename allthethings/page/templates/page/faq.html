@@ -100,16 +100,15 @@
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="slow">Why are the slow downloads so slow? <a href="#slow" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    We literally do not have enough resources to give everyone in the world high-speed downloads, as much as we’d like to. If a rich benefactor would like to step up and provide this for us, that would be incredible, but until then, we’re trying our best. We’re a non-profit project that can barely sustain itself through donations.
+    {{ gettext('page.faq.slow.text1') }}
   </p>
 
   <p class="mb-4">
-    This is why we implemented two systems for free downloads, with our partners: shared servers with slow downloads, and slightly faster servers with a waitlist (to reduce the number of people downloading at the same time).
+    {{ gettext('page.faq.slow.text2') }}
   </p>
 
   <p class="mb-4">
-    We also have <a href="/browser_verification">browser verification</a> for our slow downloads, because otherwise bots and scrapers will abuse them, making things even slower for legitimate users.
+    {{ gettext('page.faq.slow.text3', a_verification=(' href="/browser_verification"' | safe)) }}
   </p>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="donate">{{ gettext('page.donate.faq.title') }} <a href="#donate" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
@@ -131,9 +130,7 @@
   </div>
 
   <div class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    <div class="font-bold">Can I make a donation without becoming a member?</div>
-    Sure thing. We accept donations of any amount on this Monero (XMR) address: <span class="text-xs">8C1Tdvfhj6wHHPtvMHyAmn3jgt9vF9qSdKCYFy8U9ioB2Z16tEhjLSaB8qMSfzsnQeSrbohpYAiMgcW1acmmvCHQ4YGmZip</span>
+    {{ gettext('page.donate.faq.non_member_donation', div_question=(' class="font-bold" ' | safe), address=('<span class="text-xs break-all"> 8C1Tdvfhj6wHHPtvMHyAmn3jgt9vF9qSdKCYFy8U9ioB2Z16tEhjLSaB8qMSfzsnQeSrbohpYAiMgcW1acmmvCHQ4YGmZip</span>' | safe)) }}
   </div>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="upload">{{ gettext('page.faq.upload.title') }} <a href="#upload" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
@@ -141,15 +138,15 @@
   <p class="mb-4">
     {{ gettext('page.upload.text1', a_guide=(' href="https://wiki.mhut.org/content:how_to_upload" rel="noopener noreferrer" target="_blank"' | safe)) }}
     {{ gettext('common.libgen.email', a_mail=(' href="https://proton.me/" rel="noopener noreferrer" target="_blank"' | safe), a_manual=(' href="https://forum.mhut.org/viewtopic.php?f=6&t=29" rel="noopener noreferrer" target="_blank"' | safe)) }}
-    Note that mhut.org blocks certain IP ranges, so a VPN might be required.
+    {{ gettext('page.faq.mhut_upload') }}
   </p>
 
   <p class="mb-4">
-    {{ gettext('page.upload.zlib.text', a_upload=(' href="https://z-lib.gs/book-add.php" rel="noopener noreferrer" target="_blank"' | safe)) }}
+    {{ gettext('page.upload.zlib.text1', a_upload=(' href="https://z-lib.gs/book-add.php" rel="noopener noreferrer" target="_blank"' | safe)) }}
   </p>
 
   <p class="mb-4">
-    To upload academic papers, please also (in addition to Library Genesis) upload to <a href="https://www.reddit.com/r/science_nexus/">STC Nexus</a>. They are the best shadow library for new papers. We haven’t integrated them yet, but we will at some point. You can use their <a href="https://t.me/nexus_aaron">upload bot on Telegram</a>, or contact the address listed in their pinned message if you have too many files to upload this way.
+    {{ gettext('page.upload.zlib.text2', a_stc_nexus=(' href="https://www.reddit.com/r/science_nexus/" rel="noopener noreferrer" target="_blank"' | safe), a_telegram=(' href="https://t.me/nexus_aaron"' | safe)) }}
   </p>
 
   <p class="mb-4">
@@ -173,125 +170,129 @@
     {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-archive.se/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
   </p>
 
-  <!-- TODO:TRANSLATE everything below -->
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="1984">I downloaded 1984 by George Orwell, will the police come at my door? <a href="#1984" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="1984">{{ gettext('page.faq.1984.title') }} <a href="#1984" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-    Don’t worry too much, there are many people downloading from websites linked to by us, and it’s extremely rare to get into trouble. However, to stay safe we recommend using a VPN (paid), or <a href="https://www.torproject.org/download/">Tor</a> (free).
+    {{ gettext('page.faq.1984.text', a_tor=(' href="https://www.torproject.org/download/"' | safe)) }}
   </p>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="save_search">How do I save my search settings? <a href="#save_search" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="save_search">{{ gettext('page.faq.save_search.title') }} <a href="#save_search" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-    Select the settings you like, keep the search box empty, click “Search”, and then bookmark the page using your browser’s bookmark feature.
+    {{ gettext('page.faq.save_search.text1') }}
   </p>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="mobile">Do you have a mobile app? <a href="#mobile" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="mobile">{{ gettext('page.faq.mobile.title') }} <a href="#mobile" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-      We don’t have an official mobile app, but you can install this website as an app.<br>
-      <strong>Android:</strong> Click the three-dot menu in the top right, and select “Add to Home Screen”.<br>
-      <strong>iOS:</strong> Click the “Share” button at the bottom, and select “Add to Home Screen”.
+    {{ gettext('page.faq.mobile.text1') }}<br>
+    {{ gettext('page.faq.mobile.android') }}<br>
+    {{ gettext('page.faq.mobile.ios') }}
   </p>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="api">Do you have an API? <a href="#api" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="api">{{ gettext('page.faq.api.title') }} <a href="#api" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-    We have one stable JSON API for members, for getting a fast download URL: <a href="/dyn/api/fast_download.json">/dyn/api/fast_download.json</a> (documentation within JSON itself).
-  </p>
-
-  <p class="mb-4">
-    For other use cases, such as iterating through all our files, building custom search, and so on, we recommend <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generating</a> or <a href="/torrents#aa_derived_mirror_metadata">downloading</a> our ElasticSearch and MariaDB databases. The raw data can be manually explored through JSON files such as <a href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">this</a>.
+    {{ gettext('page.faq.api.text1', a_fast_download=(' href="/dyn/api/fast_download.json"' | safe)) }}
   </p>
 
   <p class="mb-4">
-    Our raw torrents list can be downloaded as <a href="/dyn/torrents.json">JSON</a> as well.
-  </p>
-
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="torrents">Torrents FAQ <a href="#torrents" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
-
-  <p class="mb-4">
-    <strong>I would like to help seed, but I don’t have much disk space.</strong><br>
-    Use the <a href="/torrents#generate_torrent_list">torrent list generator</a> to generate a list of torrents that are most in need of torrenting, within your storage space limits.
+    {{ gettext('page.faq.api.text2', a_generate=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md"' | safe), a_download=(' href="/torrents#aa_derived_mirror_metadata"' | safe), a_explore=(' href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json"' | safe)) }}
   </p>
 
   <p class="mb-4">
-    <strong>The torrents are too slow, can I download the data directly from you?</strong><br>
-    Yes, see the <a href="/llm">LLM data</a> page.
+    {{ gettext('page.faq.api.text3', a_torrents=(' href="/dyn/torrents.json" | safe')) }}
+  </p>
+
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="torrents">{{ gettext('page.faq.torrents.title') }} <a href="#torrents" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+
+  <p class="mb-4">
+    <strong>{{ gettext('page.faq.torrents.q1') }}</strong>
+    <br>
+    {{ gettext('page.faq.torrents.a1', a_list=(' href="/torrents#generate_torrent_list"' | safe)) }}
   </p>
 
   <p class="mb-4">
-    <strong>Can I download only a subset of the files, like only a particular language or topic?</strong><br>
-    Most torrents contain the files directly, which means that you can instruct torrent clients to only download the required files. To determine which files to download, you can <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generate</a> our metadata, or <a href="/torrents#aa_derived_mirror_metadata">download</a> our ElasticSearch and MariaDB databases. Unfortunately, a number of torrent collections contain .zip or .tar files at the root, in which case you need to download the entire torrent before being able to select individual files.
+    <strong>{{ gettext('page.faq.torrents.q2') }}</strong>
+    <br>
+    {{ gettext('page.faq.torrents.a2', a_llm=(' href="/llm"' | safe)) }}
   </p>
 
   <p class="mb-4">
-    <strong>How do you handle duplicates in the torrents?</strong><br>
-    We try to keep minimal duplication or overlap between the torrents in this list, but this can’t always be achieved, and depends heavily on the policies of the source libraries. For libraries that put out their own torrents, it’s out of our hands. For torrents released by Anna’s Archive, we deduplicate only based on MD5 hash, which means that different versions of the same book don’t get deduplicated.
+    <strong>{{ gettext('page.faq.torrents.q3') }}</strong>
+    <br>
+    {{ gettext('page.faq.torrents.a3', a_generate=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md"' | safe), a_download=(' href="/torrents#aa_derived_mirror_metadata"' | safe)) }}
   </p>
 
   <p class="mb-4">
-    <strong>Can I get the torrent list as JSON?</strong><br>
-    <a href="/dyn/torrents.json">Yes</a>.
+    <strong>{{ gettext('page.faq.torrents.q4') }}</strong>
+    <br>
+    {{ gettext('page.faq.torrents.a4') }}
   </p>
 
   <p class="mb-4">
-    <strong>I don’t see PDFs or EPUBs in the torrents, only binary files? What do I do?</strong><br>
-    These are actually PDFs and EPUBs, they just don’t have an extension in many of our torrents. There are two places in which you can find the metadata for torrent files, including the file types/extensions:<br>
-    1. Each collection or release has its own metadata. For example, <a href="/torrents#libgen_rs_non_fic">Libgen.rs torrents</a> have a corresponding metadata database hosted on the Libgen.rs website. We typically link to relevant metadata resources from each collection’s <a href="/datasets">dataset page</a>.<br>
-    2. We recommend <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generating</a> or <a href="/torrents#aa_derived_mirror_metadata">downloading</a> our ElasticSearch and MariaDB databases. These contains a mapping for each record in Anna’s Archive to its corresponding torrent files (if available), under "torrent_paths" in the ElasticSearch JSON.
-  </p>
-
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="security">Do you have a responsible disclosure program? <a href="#security" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
-
-  <p class="mb-4">
-    We welcome security researchers to search for vulnerabilities in our systems. We are big proponents of responsible disclosure. Contact us <a href="/contact">here</a>.
+    <strong>{{ gettext('page.faq.torrents.q5') }}</strong>
+    <br>
+    
+    <strong></strong><br>
+    <a href="/dyn/torrents.json">{{ gettext('page.faq.torrents.a5') }}</a>
   </p>
 
   <p class="mb-4">
-    We are currently unable to award bug bounties, except for vulnerabilities that have the <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/194">potential to compromise our anonymity</a>, for which we offer bounties in the $10k-50k range. We’d like to offer wider scope for bug bounties in the future! Please note that social engineering attacks are out of scope.
+    <strong>{{ gettext('page.faq.torrents.q6') }}</strong>
+    <br>
+    {{ gettext('page.faq.torrents.a6') }}
+    <br>
+    {{ gettext('page.faq.torrents.a6.li1', a_libgen_nonfic=(' href="/torrents#libgen_rs_non_fic"' | safe), a_download=(' href="/torrents#aa_derived_mirror_metadata"' | safe), a_datasets=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md"' | safe)) }}
+    <br>
+    {{ gettext('page.faq.torrents.a6.li2', a_generate=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md"' | safe), a_download=(' href="/datasets"' | safe)) }}    
+  </p>
+
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="security">{{ gettext('page.faq.security.title') }} <a href="#security" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+
+  <p class="mb-4">
+    {{ gettext('page.faq.security.text1', a_contact=(' href="/contact"' | safe)) }}
   </p>
 
   <p class="mb-4">
-    If you are interested in offensive security, and want to help archive the world’s knowledge and culture, be sure to contact us. There are many ways in which you can help.
+    {{ gettext('page.faq.security.text2', a_link=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/194" ' | safe)) }}
   </p>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="resources">Are there more resources about Anna’s Archive? <a href="#resources" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <p class="mb-4">
+    {{ gettext('page.faq.security.text3') }}
+  </p>
+
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="resources">{{ gettext('page.faq.resources.title') }} <a href="#resources" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <ul class="list-inside mb-4">
-    <li class="list-disc"><a href="https://annas-archive.se/blog">Anna’s Blog</a>, <a href="https://www.reddit.com/user/AnnaArchivist">Reddit</a>, <a href="https://www.reddit.com/r/Annas_Archive">Subreddit</a> — regular updates</li>
-    <li class="list-disc"><a href="https://software.annas-archive.se">Anna’s Software</a> — our open source code</li>
-    <li class="list-disc"><a href="https://translate.annas-archive.se">Translate on Anna’s Software</a> — our translation system</li>
-    <li class="list-disc"><a href="/datasets">Datasets</a> — about the data</li>
-    <li class="list-disc"><a href="https://annas-archive.li">.li</a>, <a href="https://annas-archive.se">.se</a>, <a href="https://annas-archive.org">.org</a> — alternative domains</li>
-    <li class="list-disc"><a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Wikipedia</a> — more about us (please help keep this page updated, or create one for your own language!)</li>
+    <li class="list-disc">{{ gettext('page.faq.resources.annas_blog', a_blog=(' href="https://annas-archive.se/blog"' | safe), a_reddit_u=(' href="https://www.reddit.com/user/AnnaArchivist"' | safe), a_reddit_r=(' href="https://www.reddit.com/r/Annas_Archive"' | safe)) }}</li>
+    <li class="list-disc">{{ gettext('page.faq.resources.annas_software', a_software=(' href="https://software.annas-archive.se"' | safe)) }}</li>
+    <li class="list-disc">{{ gettext('page.faq.resources.translate', a_translate=(' href="https://translate.annas-archive.se"' | safe)) }}</li>
+    <li class="list-disc">{{ gettext('page.faq.resources.datasets', a_datasets=(' href="/datasets"' | safe)) }}</li>
+    <li class="list-disc">{{ gettext('page.faq.resources.domains', a_li=(' href="https://annas-archive.li"' | safe), a_se=(' href="https://annas-archive.se"' | safe), a_org=(' href="https://annas-archive.org"' | safe)) }}</li>
+    <li class="list-disc">{{ gettext('page.faq.resources.wikipedia', a_wikipedia=(' href="https://en.wikipedia.org/wiki/Anna%27s_Archive"' | safe)) }}</li>
   </ul>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="copyright">How do I report copyright infringement? <a href="#copyright" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="copyright">{{ gettext('page.faq.copyright.title') }} <a href="#copyright" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-    We do not host any copyrighted materials here. We are a search engine, and as such only index metadata that is already publicly available.
-    When downloading from these external sources, we would suggest to check the laws in your jurisdiction with respect to what is allowed.
-    We are not responsible for content hosted by others.
+    {{ gettext('page.faq.copyright.text1') }}
   </p>
 
   <p class="mb-4">
-    If you have complaints about what you see on here, your best bet is to contact the original website.
-    We regularly pull their changes into our database.
-    If you really do think you have a valid DMCA complaint we should respond to, please fill out the <a href="/copyright">DMCA / Copyright claim form</a>.
-    We take your complaints seriously, and will get back to you as soon as possible.
+    {{ gettext('page.faq.copyright.text2', a_copyright=(' href="/copyright"' | safe)) }}
   </p>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="hate">I hate how you’re running this project! <a href="#hate" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="hate">{{ gettext('page.faq.hate.title') }} <a href="#hate" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-    We would also like to remind everyone that all our code and data is completely open source. This is unique for projects like ours — we're not aware of any other project with a similarly massive catalog that is fully open source as well. We very much welcome anyone who thinks we run our project poorly to take our code and data and set up their own shadow library! We're not saying this out of spite or something — we genuinely think this would be awesome since it would raise the bar for everyone, and better preserve humanity's legacy.
+    {{ gettext('page.faq.hate.text1') }}
   </p>
 
-  <h3 class="group mt-4 mb-1 text-xl font-bold" id="favorite">What are your favorite books? <a href="#favorite" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-4 mb-1 text-xl font-bold" id="favorite">{{ gettext('page.faq.favorite.title') }} <a href="#favorite" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <p class="mb-4">
-    Here are some books that carry special significance to the world of shadow libraries and digital preservation.
+    {{ gettext('page.faq.favorite.text1') }}
   </p>
 
   {% for aarecord in aarecords %}

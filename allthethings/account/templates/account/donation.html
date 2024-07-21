@@ -409,7 +409,7 @@
       <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
 
       <p class="mb-4">
-        {{ gettext('page.donation.payment.alipay.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=(' href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
+        {{ gettext('page.donation.payment.alipay.text1_new', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=(' href="https://gotopaypay.top/Home/pay?method=alipay" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe)) }}
       </p>
 
       <p class="mb-4">
@@ -426,11 +426,11 @@
         <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
 
         <p class="mb-4">
-          {{ gettext('page.donation.payment.alipay.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=((' href="' | safe) + (donation_dict.json.payment3_request.data.url | safe) + ('" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe) | safe)) }}</a> <!-- Oops! Translation is missing </a> -->
+          {{ gettext('page.donation.payment.alipay.text1_new', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=((' href="' | safe) + (donation_dict.json.payment3_request.data.url | safe) + ('" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe) | safe)) }}
         </p>
 
         <!-- <p class="mb-4">
-          Unfortunately the Alipay page is often only accessible from <strong>mainland China</strong>. You might need to temporarily disable your VPN, or use a VPN to mainland China (or Hong Kong also works sometimes).
+          {{ gettext('page.donation.payment.alipay.error') }}
         </p> -->
 
         <!-- <p class="mb-4">
@@ -456,14 +456,12 @@
           {{ gettext('page.donation.expired') }}
         </p>
       {% else %}
-        <h2 class="mt-4 mb-4 text-xl font-bold">WeChat instructions <!-- TODO:TRANSLATE --></h2>
+        <h2 class="mt-4 mb-4 text-xl font-bold">{{ gettext('page.donation.payment.wechat.top_header') }}</h2>
 
-        <!-- <p class="mb-4 font-bold">{{ gettext('page.donation.payment.alipay.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p> -->
-        <p class="mb-4 font-bold"><span class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5">1</span>Donate on WeChat <!--TODO:TRANSLATE --></p>
+        <p class="mb-4 font-bold">{{ gettext('page.donation.payment.wechat.header1', span_circle=(' class="inline-block font-light rounded-full text-white bg-[#0195ff] w-[1.5em] h-[1.5em] text-center mr-1.5"' | safe)) }}</p>
 
         <p class="mb-4">
-          <!-- TODO:TRANSLATE -->
-          Donate the total amount of {{ donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions }} using <a href="{{ donation_dict.json.payment3_request.data.url }}" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank">this WeChat account</a>.
+          {{ gettext('page.donation.payment.wechat.text1', total=donation_dict.formatted_native_currency.cost_cents_native_currency_str_donation_page_instructions, a_account=((' href="' | safe) + (donation_dict.json.payment3_request.data.url | safe) + ('" class="font-bold" style="color: #0095ff" rel="noopener noreferrer nofollow" target="_blank"' | safe) | safe)) }}
         </p>
 
         <p class="mb-4">

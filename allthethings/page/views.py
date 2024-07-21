@@ -4337,8 +4337,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         if len(((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('problems_infos') or []) > 0:
             for duxiu_problem_info in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('problems_infos') or []):
                 if duxiu_problem_info['duxiu_problem_type'] == 'pdg_broken_files':
-                    # TODO:TRANSLATE
-                    aarecord['file_unified_data']['problems'].append({ 'type': 'duxiu_pdg_broken_files', 'descr': f"{duxiu_problem_info['pdg_broken_files_len']} affected pages", 'better_md5': '' })
+                    aarecord['file_unified_data']['problems'].append({ 'type': 'duxiu_pdg_broken_files', 'descr': gettext('page.md5.box.download.affected_files', count=duxiu_problem_info['pdg_broken_files_len']), 'better_md5': '' })
                 else:
                     raise Exception(f"Unknown duxiu_problem_type: {duxiu_problem_info=}")
         if len(((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('problems_infos') or []) > 0:
@@ -4592,8 +4591,8 @@ def get_md5_problem_type_mapping():
         "lgli_visible":           gettext("common.md5_problem_type_mapping.lgli_visible"),
         "lgli_broken":            gettext("common.md5_problem_type_mapping.lgli_broken"),
         "zlib_missing":           gettext("common.md5_problem_type_mapping.zlib_missing"),
-        "duxiu_pdg_broken_files": "Not all pages could be converted to PDF", # TODO:TRANSLATE
-        "upload_exiftool_failed": "Running exiftool failed on this file", # TODO:TRANSLATE
+        "duxiu_pdg_broken_files": gettext("common.md5_problem_type_mapping.duxiu_pdg_broken_files"),
+        "upload_exiftool_failed": gettext("common.md5_problem_type_mapping.upload_exiftool_failed"),
     }
 
 def get_md5_content_type_mapping(display_lang):
@@ -4614,7 +4613,7 @@ def get_access_types_mapping(display_lang):
     with force_locale(display_lang):
         return {
             "aa_download": gettext("common.access_types_mapping.aa_download"),
-            "aa_scidb": "🧬 SciDB", # TODO:TRANSLATE
+            "aa_scidb": "🧬 " + gettext("common.access_types_mapping.aa_scidb"),
             "external_download": gettext("common.access_types_mapping.external_download"),
             "external_borrow": gettext("common.access_types_mapping.external_borrow"),
             "external_borrow_printdisabled": gettext("common.access_types_mapping.external_borrow_printdisabled"),
@@ -4628,14 +4627,13 @@ def get_record_sources_mapping(display_lang):
             "lgrs": gettext("common.record_sources_mapping.lgrs"),
             "lgli": gettext("common.record_sources_mapping.lgli"),
             "zlib": gettext("common.record_sources_mapping.zlib"),
-            "ia": "IA", # TODO:TRANSLATE
-            # "ia": gettext("common.record_sources_mapping.ia"),
+            "ia": gettext("common.record_sources_mapping.ia"),
             "isbndb": gettext("common.record_sources_mapping.isbndb"),
             "ol": gettext("common.record_sources_mapping.ol"),
             "scihub": gettext("common.record_sources_mapping.scihub"),
             "oclc": gettext("common.record_sources_mapping.oclc"),
             "duxiu": gettext("common.record_sources_mapping.duxiu"),
-            "upload": "Uploads to AA" # TODO:TRANSLATE
+            "upload": gettext("common.record_sources_mapping.uploads"),
         }
 
 def get_specific_search_fields_mapping(display_lang):
@@ -4645,7 +4643,7 @@ def get_specific_search_fields_mapping(display_lang):
             'author': gettext('common.specific_search_fields.author'),
             'publisher': gettext('common.specific_search_fields.publisher'),
             'edition_varia': gettext('common.specific_search_fields.edition_varia'),
-            'year': "Year published", # TODO:TRANSLATE
+            'year': gettext('common.specific_search_fields.year'),
             'original_filename': gettext('common.specific_search_fields.original_filename'),
             'description_comments': gettext('common.specific_search_fields.description_comments'),
         }
@@ -4672,14 +4670,12 @@ def add_partner_servers(path, modifier, aarecord, additional):
         targeted_seconds = 10
     # When changing the domains, don't forget to change md5_fast_download and md5_slow_download.
     for index in range(len(allthethings.utils.FAST_DOWNLOAD_DOMAINS)):
-        gettext("common.md5.servers.no_browser_verification")
-        additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), '(no browser verification or waitlists)' if len(additional['fast_partner_urls']) == 0 else ''))
+        additional['fast_partner_urls'].append((gettext("common.md5.servers.fast_partner", number=len(additional['fast_partner_urls'])+1), '/fast_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), gettext("common.md5.servers.no_browser_verification_or_waitlists") if len(additional['fast_partner_urls']) == 0 else ''))
     for index in range(len(allthethings.utils.SLOW_DOWNLOAD_DOMAINS)):
         if allthethings.utils.SLOW_DOWNLOAD_DOMAINS_SLIGHTLY_FASTER[index]:
-            # TODO:TRANSLATE
-            additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), '(slightly faster but with waitlist)'))
+            additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), gettext("common.md5.servers.faster_with_waitlist")))
         else:
-            additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), '(no waitlist, but can be very slow)'))
+            additional['slow_partner_urls'].append((gettext("common.md5.servers.slow_partner", number=len(additional['slow_partner_urls'])+1), '/slow_download/' + aarecord['id'][len("md5:"):] + '/' + str(len(additional['partner_url_paths'])) + '/' + str(index), gettext("common.md5.servers.slow_no_waitlist")))
     additional['partner_url_paths'].append({ 'path': path, 'targeted_seconds': targeted_seconds })
 
 def max_length_with_word_boundary(sentence, max_len):
@@ -4770,14 +4766,13 @@ def get_additional_for_aarecord(aarecord):
         'freeform_fields': [item for item in [
             (gettext('page.md5.box.descr_title'), strip_description(aarecord['file_unified_data'].get('stripped_description_best') or '')),
             *[(gettext('page.md5.box.metadata_comments_title'), strip_description(comment)) for comment in (aarecord['file_unified_data'].get('comments_multiple') or [])],
-            # TODO:TRANSLATE
-            *[("Alternative title", row) for row in (aarecord['file_unified_data'].get('title_additional') or '')],
-            *[("Alternative author", row) for row in (aarecord['file_unified_data'].get('author_additional') or '')],
-            *[("Alternative publisher", row) for row in (aarecord['file_unified_data'].get('publisher_additional') or '')],
-            *[("Alternative edition", row) for row in (aarecord['file_unified_data'].get('edition_varia_additional') or '')],
-            *[("Alternative description", row) for row in (aarecord['file_unified_data'].get('stripped_description_additional') or '')],
-            *[("Alternative filename", row) for row in (aarecord['file_unified_data'].get('original_filename_additional') or '')],
-            *[("Alternative extension", row) for row in (aarecord['file_unified_data'].get('extension_additional') or '')],
+            *[(gettext('page.md5.box.alternative_title'), row) for row in (aarecord['file_unified_data'].get('title_additional') or '')],
+            *[(gettext('page.md5.box.alternative_author'), row) for row in (aarecord['file_unified_data'].get('author_additional') or '')],
+            *[(gettext('page.md5.box.alternative_publisher'), row) for row in (aarecord['file_unified_data'].get('publisher_additional') or '')],
+            *[(gettext('page.md5.box.alternative_edition'), row) for row in (aarecord['file_unified_data'].get('edition_varia_additional') or '')],
+            *[(gettext('page.md5.box.alternative_description'), row) for row in (aarecord['file_unified_data'].get('stripped_description_additional') or '')],
+            *[(gettext('page.md5.box.alternative_filename'), row) for row in (aarecord['file_unified_data'].get('original_filename_additional') or '')],
+            *[(gettext('page.md5.box.alternative_extension'), row) for row in (aarecord['file_unified_data'].get('extension_additional') or '')],
             (gettext('page.md5.box.date_open_sourced_title'), additional['added_date_best'].strip()),
         ] if item[1] != ''],
     }
@@ -4952,8 +4947,7 @@ def get_additional_for_aarecord(aarecord):
             if lglimagz_id < 1000000:
                 additional['torrent_paths'].append({ "collection": "libgen_li_magazines", "torrent_path": f"external/libgen_li_magazines/m_{lglimagz_thousands_dir}.torrent", "file_level1": lglimagz_filename, "file_level2": "" }) # Note: no leading zero
 
-        # TODO:TRANSLATE
-        additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", (gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')) + ' <div style="margin-left: 24px" class="text-sm text-gray-500">their ads are known to contain malicious software, so use an ad blocker or don’t click ads</div>'))
+        additional['download_urls'].append((gettext('page.md5.box.download.lgli'), f"http://libgen.li/ads.php?md5={aarecord['lgli_file']['md5'].lower()}", (gettext('page.md5.box.download.extra_also_click_get') if shown_click_get else gettext('page.md5.box.download.extra_click_get')) + ' <div style="margin-left: 24px" class="text-sm text-gray-500">' + gettext('page.md5.box.download.libgen_ads') + '</div>'))
         shown_click_get = True
     if (len(aarecord.get('ipfs_infos') or []) > 0) and (aarecord_id_split[0] == 'md5'):
         # additional['download_urls'].append((gettext('page.md5.box.download.ipfs_gateway', num=1), f"https://ipfs.eth.aragon.network/ipfs/{aarecord['ipfs_infos'][0]['ipfs_cid'].lower()}?filename={additional['filename_without_annas_archive']}", gettext('page.md5.box.download.ipfs_gateway_extra')))
@@ -5008,8 +5002,9 @@ def get_additional_for_aarecord(aarecord):
             # path = "/torrents"
             # group = torrent_group_data_from_file_path(f"torrents/{torrent_path}")['group']
             # path += f"#{group}"
-            # TODO:TRANSLATE
-            files_html = f'collection <a href="/torrents#{torrent_path["collection"]}">“{torrent_path["collection"]}”</a> → torrent <a href="/dyn/small_file/torrents/{torrent_path["torrent_path"]}">“{torrent_path["torrent_path"].rsplit("/", 1)[-1]}”</a>'
+            collection_text = gettext("page.md5.box.download.collection") # Separate line
+            torrent_text = gettext("page.md5.box.download.torrent") # Separate line
+            files_html = f'{collection_text} <a href="/torrents#{torrent_path["collection"]}">“{torrent_path["collection"]}”</a> → {torrent_text} <a href="/dyn/small_file/torrents/{torrent_path["torrent_path"]}">“{torrent_path["torrent_path"].rsplit("/", 1)[-1]}”</a>'
             if len(torrent_path['file_level1']) > 0:
                 files_html += f" →&nbsp;file&nbsp;“{torrent_path['file_level1']}”"
             if len(torrent_path['file_level2']) > 0:
