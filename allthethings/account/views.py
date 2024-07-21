@@ -31,6 +31,7 @@ import allthethings.utils
 account = Blueprint("account", __name__, template_folder="templates")
 
 
+@account.get("/account")
 @account.get("/account/")
 @allthethings.utils.no_cache()
 def account_index_page():
@@ -77,6 +78,19 @@ def account_index_page():
             account_secret_key=allthethings.utils.secret_key_from_account_id(account_id),
         )
 
+@account.get("/account/secret_key")
+@allthethings.utils.no_cache()
+def account_secret_key_page():
+    account_id = allthethings.utils.get_account_id(request.cookies)
+    if account_id is None:
+        return ''
+
+    with Session(mariapersist_engine) as mariapersist_session:
+        account = mariapersist_session.connection().execute(select(MariapersistAccounts).where(MariapersistAccounts.account_id == account_id).limit(1)).first()
+        if account is None:
+            raise Exception("Valid account_id was not found in db!")
+
+    return allthethings.utils.secret_key_from_account_id(account_id)
 
 @account.get("/account/downloaded")
 @allthethings.utils.no_cache()
@@ -102,8 +116,8 @@ def account_downloaded_page():
 
         return render_template("account/downloaded.html", header_active="account/downloaded", aarecords_downloaded_last_18h=aarecords_downloaded_last_18h, aarecords_downloaded_later=aarecords_downloaded_later)
 
-
 @account.post("/account/")
+@account.post("/account")
 @allthethings.utils.no_cache()
 def account_index_post_page():
     account_id = allthethings.utils.account_id_from_secret_key(request.form['key'])
@@ -469,6 +483,7 @@ def donation_page(donation_id):
         )
 
 
+@account.get("/account/donations")
 @account.get("/account/donations/")
 @allthethings.utils.no_cache()
 def donations_page():
