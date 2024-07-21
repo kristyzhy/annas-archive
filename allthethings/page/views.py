@@ -5202,8 +5202,6 @@ def scidb_page(doi_input):
 
         aarecord, scidb_info = aarecords_and_infos[0]
 
-        print(f"{aarecords_and_infos=}")
-
         pdf_url = None
         download_url = None
         path_info = scidb_info['path_info']
