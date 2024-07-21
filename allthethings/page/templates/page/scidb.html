@@ -56,7 +56,7 @@
     {% elif scihub_link %}
       <iframe class="w-full" src="{{ scihub_link }}">
     {% else %}
-      <div class="p-8">{{ gettext('page.scidb.no_preview', aarecord_path=aarecord.additional.path) }}</div>
+      <div class="p-8">{{ gettext('page.scidb.no_preview_new', a_path=((' href="' + aarecord.additional.path + '"') | safe)) }}</div>
     {% endif %}
   </div>
 {% endblock %}

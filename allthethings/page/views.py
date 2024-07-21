@@ -5193,7 +5193,7 @@ def scidb_page(doi_input):
             )
         except Exception as err:
             return redirect(f'/search?index=journals&q="doi:{doi_input}"', code=302)
-        aarecords = [add_additional_to_aarecord(aarecord) for aarecord in search_results_raw1['hits']['hits']+search_results_raw2['hits']['hits']]
+        aarecords = [add_additional_to_aarecord(aarecord) for aarecord in (search_results_raw1['hits']['hits']+search_results_raw2['hits']['hits'])]
         aarecords_and_infos = [(aarecord, allthethings.utils.scidb_info(aarecord)) for aarecord in aarecords if allthethings.utils.scidb_info(aarecord) is not None]
         aarecords_and_infos.sort(key=lambda aarecord_and_info: aarecord_and_info[1]['priority'])
 
@@ -5201,6 +5201,8 @@ def scidb_page(doi_input):
             return redirect(f'/search?index=journals&q="doi:{doi_input}"', code=302)
 
         aarecord, scidb_info = aarecords_and_infos[0]
+
+        print(f"{aarecords_and_infos=}")
 
         pdf_url = None
         download_url = None
