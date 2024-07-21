@@ -67,63 +67,63 @@ msgstr "📚 世界で最も大きなオープンソース・オープンデー�
 msgid "layout.index.header.tagline_short"
 msgstr "📚 世界で最も大きなオープンソース・オープンデータの図書館。<br> ⭐️ Mirrors Scihub、 Libgen、 Zlib、他にも多数。"
 
-#: allthethings/utils.py:316
+#: allthethings/utils.py:340
 msgid "common.md5_report_type_mapping.metadata"
 msgstr "正しくない メタデータ (例: タイトル、説明、カバー画像)"
 
-#: allthethings/utils.py:317
+#: allthethings/utils.py:341
 msgid "common.md5_report_type_mapping.download"
 msgstr "ダウンロードに関する問題が発生しました。(例 : 接続ができない、回線速度が遅い、エラーメッセージ)"
 
-#: allthethings/utils.py:318
+#: allthethings/utils.py:342
 msgid "common.md5_report_type_mapping.broken"
 msgstr "ファイルを開けません(例 : ファイルの破損、DRM)"
 
-#: allthethings/utils.py:319
+#: allthethings/utils.py:343
 msgid "common.md5_report_type_mapping.pages"
 msgstr "状態の良くないデータ(例：フォーマットの問題、スキャン品質、足りないページ)"
 
-#: allthethings/utils.py:320
+#: allthethings/utils.py:344
 msgid "common.md5_report_type_mapping.spam"
 msgstr "スパムファイルは削除されます。(例：広告、公序良俗に反するもの)"
 
-#: allthethings/utils.py:321
+#: allthethings/utils.py:345
 msgid "common.md5_report_type_mapping.copyright"
 msgstr "著作権を主張"
 
-#: allthethings/utils.py:322
+#: allthethings/utils.py:346
 msgid "common.md5_report_type_mapping.other"
 msgstr "その他"
 
-#: allthethings/utils.py:349
+#: allthethings/utils.py:373
 msgid "common.membership.tier_name.bonus"
 msgstr ""
 
-#: allthethings/utils.py:350
+#: allthethings/utils.py:374
 msgid "common.membership.tier_name.2"
 msgstr "華麗なる本の虫"
 
-#: allthethings/utils.py:351
+#: allthethings/utils.py:375
 msgid "common.membership.tier_name.3"
 msgstr "幸運の司書"
 
-#: allthethings/utils.py:352
+#: allthethings/utils.py:376
 msgid "common.membership.tier_name.4"
 msgstr "まばゆき情報保持者"
 
-#: allthethings/utils.py:353
+#: allthethings/utils.py:377
 msgid "common.membership.tier_name.5"
 msgstr "驚異のアーカイビスト"
 
-#: allthethings/utils.py:501
+#: allthethings/utils.py:528
 msgid "common.membership.format_currency.total_with_usd"
 msgstr "%(amount)s (%(amount_usd)s) 合計"
 
-#: allthethings/utils.py:503 allthethings/utils.py:504
+#: allthethings/utils.py:530 allthethings/utils.py:531
 msgid "common.membership.format_currency.amount_with_usd"
 msgstr "%(amount)s (%(amount_usd)s)"
 
-#: allthethings/utils.py:515
+#: allthethings/utils.py:542
 msgid "common.membership.format_currency.total"
 msgstr "合計%(amount)s"
 
@@ -191,30 +191,30 @@ msgid "page.donate.bonus_downloads.period"
 msgstr ""
 
 #: allthethings/account/templates/account/donate.html:42
-#: allthethings/account/templates/account/donate.html:59
-#: allthethings/account/templates/account/donate.html:73
-#: allthethings/account/templates/account/donate.html:87
+#: allthethings/account/templates/account/donate.html:58
+#: allthethings/account/templates/account/donate.html:72
+#: allthethings/account/templates/account/donate.html:86
 msgid "page.donate.buttons.join"
 msgstr "参加"
 
 #: allthethings/account/templates/account/donate.html:43
-#: allthethings/account/templates/account/donate.html:60
-#: allthethings/account/templates/account/donate.html:74
-#: allthethings/account/templates/account/donate.html:88
+#: allthethings/account/templates/account/donate.html:59
+#: allthethings/account/templates/account/donate.html:73
+#: allthethings/account/templates/account/donate.html:87
 msgid "page.donate.buttons.selected"
 msgstr "選択済み"
 
 #: allthethings/account/templates/account/donate.html:45
-#: allthethings/account/templates/account/donate.html:62
-#: allthethings/account/templates/account/donate.html:76
-#: allthethings/account/templates/account/donate.html:90
+#: allthethings/account/templates/account/donate.html:61
+#: allthethings/account/templates/account/donate.html:75
+#: allthethings/account/templates/account/donate.html:89
 msgid "page.donate.buttons.up_to_discounts"
 msgstr "最大%(percentage)s%%の割引"
 
 #: allthethings/account/templates/account/donate.html:47
-#: allthethings/account/templates/account/donate.html:65
-#: allthethings/account/templates/account/donate.html:79
-#: allthethings/account/templates/account/donate.html:93
+#: allthethings/account/templates/account/donate.html:64
+#: allthethings/account/templates/account/donate.html:78
+#: allthethings/account/templates/account/donate.html:92
 msgid "page.donate.perks.fast_downloads"
 msgstr "一日あたり%(number)s回の高速ダウンロード"
 
@@ -222,164 +222,171 @@ msgstr "一日あたり%(number)s回の高速ダウンロード"
 msgid "page.donate.perks.scidb"
 msgstr "SciDBの論文を認証無しで<strong>無制限に</strong>"
 
-#: allthethings/account/templates/account/donate.html:51
+#: allthethings/account/templates/account/donate.html:49
+msgid "page.donate.perks.jsonapi"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:50
 msgid "page.donate.perks.refer"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:52
+#: allthethings/account/templates/account/donate.html:51
 msgid "page.donate.perks.credits"
 msgstr "あなたのユーザーネームまたは匿名の情報がクレジットに記載されます"
 
-#: allthethings/account/templates/account/donate.html:64
-#: allthethings/account/templates/account/donate.html:78
-#: allthethings/account/templates/account/donate.html:92
+#: allthethings/account/templates/account/donate.html:63
+#: allthethings/account/templates/account/donate.html:77
+#: allthethings/account/templates/account/donate.html:91
 msgid "page.donate.perks.previous_plus"
 msgstr "これまでの特典と、さらに追加で:"
 
-#: allthethings/account/templates/account/donate.html:66
+#: allthethings/account/templates/account/donate.html:65
 msgid "page.donate.perks.early_access"
 msgstr "新機能への早期アクセス"
 
-#: allthethings/account/templates/account/donate.html:80
+#: allthethings/account/templates/account/donate.html:79
 msgid "page.donate.perks.exclusive_telegram"
 msgstr "舞台裏を伝える独占テレグラム"
 
-#: allthethings/account/templates/account/donate.html:94
+#: allthethings/account/templates/account/donate.html:93
 msgid "page.donate.perks.adopt"
 msgstr "“トレントを採用”：あなたのユーザー名またはメッセージをトレントのファイル名に挿入できます<div %(div_months)s>メンバーシップ12ヶ月ごと</div>"
 
-#: allthethings/account/templates/account/donate.html:95
+#: allthethings/account/templates/account/donate.html:94
 msgid "page.donate.perks.legendary"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:102
+#: allthethings/account/templates/account/donate.html:101
 msgid "page.donate.expert.title"
 msgstr "エキスパートアクセス"
 
-#: allthethings/account/templates/account/donate.html:103
+#: allthethings/account/templates/account/donate.html:102
 msgid "page.donate.expert.contact_us"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:104
-#: allthethings/account/templates/account/donation.html:552
-#: allthethings/page/templates/page/contact.html:23
+#: allthethings/account/templates/account/donate.html:103
+#: allthethings/account/templates/account/donation.html:579
+#: allthethings/page/templates/page/contact.html:22
 msgid "page.donate.small_team"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:107
+#: allthethings/account/templates/account/donate.html:106
 msgid "page.donate.expert.unlimited_access"
 msgstr "<strong> 無制限の </strong>高ダウンロード速度"
 
-#: allthethings/account/templates/account/donate.html:108
+#: allthethings/account/templates/account/donate.html:107
 msgid "page.donate.expert.direct_sftp"
 msgstr "ダイレクトな<strong> SFTP </strong> サーバー"
 
-#: allthethings/account/templates/account/donate.html:111
+#: allthethings/account/templates/account/donate.html:110
 msgid "page.donate.expert.enterprise_donation"
 msgstr "エンタープライズレベルの寄付や、 新たな蔵書のかわりに。(例:新たなスキャン、OCRデータセットなど)"
 
-#: allthethings/account/templates/account/donate.html:116
+#: allthethings/account/templates/account/donate.html:115
 msgid "page.donate.header.large_donations_wealthy"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:117
+#: allthethings/account/templates/account/donate.html:116
 msgid "page.donate.header.large_donations"
 msgstr "$5000以上の寄付は私達に直接ご連絡ください。%(email)s."
 
-#: allthethings/account/templates/account/donate.html:117
+#: allthethings/account/templates/account/donate.html:116
 #: allthethings/account/templates/account/index.html:36
 #: allthethings/page/templates/page/contact.html:3
 #: allthethings/page/templates/page/contact.html:7
 #: allthethings/page/templates/page/faq.html:84
-#: allthethings/page/templates/page/faq.html:122
-#: allthethings/page/templates/page/faq.html:130
-#: allthethings/page/templates/page/faq.html:156
-#: allthethings/page/templates/page/home.html:46
-#: allthethings/page/templates/page/home.html:51
-#: allthethings/page/templates/page/home.html:59
-#: allthethings/page/templates/page/search.html:242
-#: allthethings/page/templates/page/search.html:319
+#: allthethings/page/templates/page/faq.html:121
+#: allthethings/page/templates/page/faq.html:129
+#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/home.html:83
+#: allthethings/page/templates/page/home.html:88
+#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/search.html:244
+#: allthethings/page/templates/page/search.html:321
 #: allthethings/templates/layouts/index.html:203
 #: allthethings/templates/layouts/index.html:207
-#: allthethings/templates/layouts/index.html:514
+#: allthethings/templates/layouts/index.html:524
 msgid "page.contact.title"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:118
+#: allthethings/account/templates/account/donate.html:117
 msgid "page.donate.without_membership"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:124
+#: allthethings/account/templates/account/donate.html:123
 msgid "page.donate.payment.intro"
 msgstr "支払い方法を選択してください。暗号通貨%(bitcoin_icon)sでのお支払いには手数料が(かなり)少ないため割引を適用しております。"
 
-#: allthethings/account/templates/account/donate.html:125
+#: allthethings/account/templates/account/donate.html:124
 msgid "page.donate.payment.intro2"
 msgstr "支払いオプションを選択してください。現在、暗号ベースの支払い%(bitcoin_icon)sのみ取り扱っております。"
 
-#: allthethings/account/templates/account/donate.html:127
+#: allthethings/account/templates/account/donate.html:126
 msgid "page.donate.payment.select_method"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:131
-#: allthethings/account/templates/account/donate.html:299
+#: allthethings/account/templates/account/donate.html:130
+#: allthethings/account/templates/account/donate.html:296
 msgid "page.donate.payment.buttons.amazon"
 msgstr "アマゾンギフト券"
 
-#: allthethings/account/templates/account/donate.html:132
-#: allthethings/account/templates/account/donate.html:142
-#: allthethings/account/templates/account/donate.html:301
+#: allthethings/account/templates/account/donate.html:131
+#: allthethings/account/templates/account/donate.html:141
+#: allthethings/account/templates/account/donate.html:298
 msgid "page.donate.payment.buttons.crypto"
 msgstr "暗号通貨%(bitcoin_icon)s"
 
+#: allthethings/account/templates/account/donate.html:131
 #: allthethings/account/templates/account/donate.html:132
 #: allthethings/account/templates/account/donate.html:133
-#: allthethings/account/templates/account/donate.html:134
+#: allthethings/account/templates/account/donate.html:141
 #: allthethings/account/templates/account/donate.html:142
-#: allthethings/account/templates/account/donate.html:143
+#: allthethings/account/templates/account/donate.html:145
 #: allthethings/account/templates/account/donate.html:146
-#: allthethings/account/templates/account/donate.html:147
-#: allthethings/account/templates/account/donate.html:150
-#: allthethings/account/templates/account/donate.html:153
+#: allthethings/account/templates/account/donate.html:149
+#: allthethings/account/templates/account/donate.html:152
+#: allthethings/account/templates/account/donate.html:317
+#: allthethings/account/templates/account/donate.html:318
+#: allthethings/account/templates/account/donate.html:319
 #: allthethings/account/templates/account/donate.html:320
-#: allthethings/account/templates/account/donate.html:321
-#: allthethings/account/templates/account/donate.html:322
-#: allthethings/account/templates/account/donate.html:323
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:134
+#: allthethings/account/templates/account/donate.html:133
 msgid "page.donate.payment.buttons.paypal"
 msgstr "PayPal %(bitcoin_icon)s"
 
-#: allthethings/account/templates/account/donate.html:140
-#: allthethings/account/templates/account/donate.html:156
+#: allthethings/account/templates/account/donate.html:139
+#: allthethings/account/templates/account/donate.html:155
 #: allthethings/account/templates/account/donate.html:162
 msgid "page.donate.payment.buttons.alipay"
 msgstr "Alipay"
 
-#: allthethings/account/templates/account/donate.html:141
+#: allthethings/account/templates/account/donate.html:140
 msgid "page.donate.payment.buttons.pix"
 msgstr "Pix(ブラジルのみ)"
 
-#: allthethings/account/templates/account/donate.html:146
+#: allthethings/account/templates/account/donate.html:145
 msgid "page.donate.payment.buttons.cashapp"
 msgstr "Cash App"
 
-#: allthethings/account/templates/account/donate.html:147
+#: allthethings/account/templates/account/donate.html:146
 msgid "page.donate.payment.buttons.paypal_plain"
 msgstr "PayPal"
 
-#: allthethings/account/templates/account/donate.html:148
-#: allthethings/account/templates/account/donate.html:149
+#: allthethings/account/templates/account/donate.html:147
 msgid "page.donate.payment.buttons.credit_debit"
 msgstr "クレジット/デビットカード"
 
-#: allthethings/account/templates/account/donate.html:150
+#: allthethings/account/templates/account/donate.html:148
+msgid "page.donate.payment.buttons.credit_debit_backup"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:149
 msgid "page.donate.payment.buttons.credit_debit2"
 msgstr "クレジット/デビットカード2"
 
-#: allthethings/account/templates/account/donate.html:157
+#: allthethings/account/templates/account/donate.html:156
 #: allthethings/account/templates/account/donate.html:164
 #: allthethings/account/templates/account/donate.html:173
 #: allthethings/account/templates/account/donate.html:181
@@ -387,8 +394,9 @@ msgstr "クレジット/デビットカード2"
 msgid "page.donate.payment.buttons.alipay_wechat"
 msgstr "Alipay 支付宝 / WeChat 微信"
 
+#: allthethings/account/templates/account/donate.html:157
 #: allthethings/account/templates/account/donate.html:163
-#: allthethings/account/templates/account/donate.html:300
+#: allthethings/account/templates/account/donate.html:297
 msgid "page.donate.payment.buttons.wechat"
 msgstr ""
 
@@ -405,7 +413,7 @@ msgid "page.donate.payment.desc.crypto2"
 msgstr "BTC、ETH、XMRなどで暗号通貨での寄付が行なえます。"
 
 #: allthethings/account/templates/account/donate.html:205
-#: allthethings/account/templates/account/donate.html:301
+#: allthethings/account/templates/account/donate.html:298
 msgid "page.donate.payment.desc.crypto_suggestion"
 msgstr "もし暗号資産を初めて購入する場合、%(option1)s、%(option2)s、%(option3)sでビットコイン(最もよく使用される暗号通貨)を購入することをお勧めします。"
 
@@ -446,10 +454,22 @@ msgstr "クレジットカードで少額の寄付を行う場合、%(discount)s
 msgid "page.donate.payment.desc.longer_subs"
 msgstr "少額の寄付を行う場合、手数料が高額になる場合がございますので長期のサブスクリプションをお勧めします。"
 
+#: allthethings/account/templates/account/donate.html:236
+msgid "page.donate.payment.desc.binance_p1"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:240
+msgid "page.donate.payment.desc.binance_p2"
+msgstr ""
+
 #: allthethings/account/templates/account/donate.html:252
 #: allthethings/account/templates/account/donate.html:258
 msgid "page.donate.payment.desc.alipay_wechat"
 msgstr "寄付にAlipay又はWeChatを使用します。次のページで選択が可能です。"
+
+#: allthethings/account/templates/account/donate.html:264
+msgid "page.donate.payment.desc.givebutter"
+msgstr ""
 
 #: allthethings/account/templates/account/donate.html:270
 msgid "page.donate.payment.desc.amazon"
@@ -464,138 +484,159 @@ msgstr "販売店が認める金額(最低%(minimum)s単位)に四捨五入す�
 msgid "page.donate.payment.desc.amazon_com"
 msgstr "<strong>重要：</strong>Amazon.comにのみ対応しております。Amazon.co.jp等の他のアマゾンには対応していません。"
 
-#: allthethings/account/templates/account/donate.html:299
+#: allthethings/account/templates/account/donate.html:282
+msgid "page.donate.payment.desc.credit_debit_backup"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:288
+msgid "page.donate.payment.desc.credit_debit_p1"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:292
+msgid "page.donate.payment.desc.credit_debit_p2"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:296
 msgid "page.donate.ccexp.amazon_com"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:300
+#: allthethings/account/templates/account/donate.html:297
 msgid "page.donate.ccexp.wechat"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:301
+#: allthethings/account/templates/account/donate.html:298
 msgid "page.donate.ccexp.crypto"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:314
+#: allthethings/account/templates/account/donate.html:304
+msgid "page.donate.payment.desc.bmc"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:311
 msgid "page.donate.duration.intro"
 msgstr "購読(サブスクライブ)期間を選択してください。"
 
-#: allthethings/account/templates/account/donate.html:319
+#: allthethings/account/templates/account/donate.html:316
 msgid "page.donate.duration.1_mo"
 msgstr "1か月間"
 
-#: allthethings/account/templates/account/donate.html:320
+#: allthethings/account/templates/account/donate.html:317
 msgid "page.donate.duration.3_mo"
 msgstr "3か月間"
 
-#: allthethings/account/templates/account/donate.html:321
+#: allthethings/account/templates/account/donate.html:318
 msgid "page.donate.duration.6_mo"
 msgstr "6か月間"
 
-#: allthethings/account/templates/account/donate.html:322
+#: allthethings/account/templates/account/donate.html:319
 msgid "page.donate.duration.12_mo"
 msgstr "12か月間"
 
-#: allthethings/account/templates/account/donate.html:323
+#: allthethings/account/templates/account/donate.html:320
 msgid "page.donate.duration.24_mo"
 msgstr "24か月間"
 
-#: allthethings/account/templates/account/donate.html:326
+#: allthethings/account/templates/account/donate.html:323
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>以降<span %(span_discount)s></span>割引</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:333
+#: allthethings/account/templates/account/donate.html:330
 msgid "page.donate.payment.minimum_method"
 msgstr "この決済では%(amount)s以上の取引のみ対応しております。異なる期間、決済方法を選択してください。"
 
-#: allthethings/account/templates/account/donate.html:337
+#: allthethings/account/templates/account/donate.html:331
+#: allthethings/account/templates/account/donate.html:335
+msgid "page.donate.buttons.donate"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:334
 msgid "page.donate.payment.maximum_method"
 msgstr "この決済では%(amount)s以下の取引のみ対応しております。異なる期間、決済方法を選択してください。"
 
-#: allthethings/account/templates/account/donate.html:344
+#: allthethings/account/templates/account/donate.html:341
 msgid "page.donate.login2"
 msgstr "メンバーになるには<a %(a_login)s>ログイン・登録</a>が必要です。ご支援感謝いたします！"
 
-#: allthethings/account/templates/account/donate.html:351
+#: allthethings/account/templates/account/donate.html:348
 msgid "page.donate.payment.crypto_select"
 msgstr "お支払いに利用される通貨を選択してください："
 
-#: allthethings/account/templates/account/donate.html:356
+#: allthethings/account/templates/account/donate.html:353
 msgid "page.donate.currency_lowest_minimum"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:370
-#: allthethings/account/templates/account/donate.html:371
-#: allthethings/account/templates/account/donate.html:375
-#: allthethings/account/templates/account/donate.html:377
+#: allthethings/account/templates/account/donate.html:367
+#: allthethings/account/templates/account/donate.html:368
+#: allthethings/account/templates/account/donate.html:372
+#: allthethings/account/templates/account/donate.html:374
 msgid "page.donate.currency_warning_high_minimum"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:385
+#: allthethings/account/templates/account/donate.html:383
 msgid "page.donate.submit.confirm"
 msgstr "寄付ボタンをクリックして寄付を承認。"
 
-#: allthethings/account/templates/account/donate.html:393
+#: allthethings/account/templates/account/donate.html:391
 msgid "page.donate.submit.button"
 msgstr "<span %(span_cost)s></span> <span %(span_label)s></span>を寄付"
 
-#: allthethings/account/templates/account/donate.html:398
+#: allthethings/account/templates/account/donate.html:396
 msgid "page.donate.submit.cancel_note"
 msgstr "チェックアウト時に寄付をキャンセルできます。"
 
-#: allthethings/account/templates/account/donate.html:402
+#: allthethings/account/templates/account/donate.html:400
 msgid "page.donate.submit.success"
 msgstr "✅寄付ページへリダイレクト中…"
 
-#: allthethings/account/templates/account/donate.html:403
+#: allthethings/account/templates/account/donate.html:401
 msgid "page.donate.submit.failure"
 msgstr "❌エラーが発生しました。ページを再読込みしてもう一度試してみてください。"
 
-#: allthethings/account/templates/account/donate.html:463
+#: allthethings/account/templates/account/donate.html:461
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:464
+#: allthethings/account/templates/account/donate.html:462
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "%(monthly_cost)s/1か月"
 
-#: allthethings/account/templates/account/donate.html:467
+#: allthethings/account/templates/account/donate.html:465
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1か月間"
 
-#: allthethings/account/templates/account/donate.html:468
+#: allthethings/account/templates/account/donate.html:466
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3か月間"
 
-#: allthethings/account/templates/account/donate.html:469
+#: allthethings/account/templates/account/donate.html:467
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6か月間"
 
-#: allthethings/account/templates/account/donate.html:470
+#: allthethings/account/templates/account/donate.html:468
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12か月間"
 
-#: allthethings/account/templates/account/donate.html:471
+#: allthethings/account/templates/account/donate.html:469
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24か月間"
 
-#: allthethings/account/templates/account/donate.html:475
+#: allthethings/account/templates/account/donate.html:473
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "１か月の\"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:476
+#: allthethings/account/templates/account/donate.html:474
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "３か月の\"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:477
+#: allthethings/account/templates/account/donate.html:475
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6か月の\"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:478
+#: allthethings/account/templates/account/donate.html:476
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12か月の\"%(tier_name)s\""
 
-#: allthethings/account/templates/account/donate.html:479
+#: allthethings/account/templates/account/donate.html:477
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24か月の\"%(tier_name)s\""
 
@@ -693,7 +734,8 @@ msgstr "<strong>重要な注意:</strong> 暗号通貨の価格は大きく変�
 #: allthethings/account/templates/account/donation.html:388
 #: allthethings/account/templates/account/donation.html:404
 #: allthethings/account/templates/account/donation.html:421
-#: allthethings/account/templates/account/donation.html:455
+#: allthethings/account/templates/account/donation.html:456
+#: allthethings/account/templates/account/donation.html:482
 msgid "page.donation.expired"
 msgstr "この寄付は期限切れです。キャンセルして、もう一度やり直してください。"
 
@@ -758,6 +800,7 @@ msgstr "ページ下部のステップ・バイ・ステップガイドを参照
 #: allthethings/account/templates/account/donation.html:304
 #: allthethings/account/templates/account/donation.html:335
 #: allthethings/account/templates/account/donation.html:441
+#: allthethings/account/templates/account/donation.html:468
 msgid "page.donation.status_header"
 msgstr "状態："
 
@@ -767,6 +810,7 @@ msgstr "状態："
 #: allthethings/account/templates/account/donation.html:275
 #: allthethings/account/templates/account/donation.html:304
 #: allthethings/account/templates/account/donation.html:441
+#: allthethings/account/templates/account/donation.html:468
 msgid "page.donation.waiting_for_confirmation_refresh"
 msgstr "認証を待機中(ページをリフレッシュして確認)…"
 
@@ -776,6 +820,7 @@ msgstr "認証を待機中(ページをリフレッシュして確認)…"
 #: allthethings/account/templates/account/donation.html:275
 #: allthethings/account/templates/account/donation.html:304
 #: allthethings/account/templates/account/donation.html:441
+#: allthethings/account/templates/account/donation.html:468
 msgid "page.donation.waiting_for_transfer_refresh"
 msgstr "譲渡を待機中(ページをリフレッシュして確認)…"
 
@@ -785,6 +830,7 @@ msgstr "譲渡を待機中(ページをリフレッシュして確認)…"
 #: allthethings/account/templates/account/donation.html:276
 #: allthethings/account/templates/account/donation.html:305
 #: allthethings/account/templates/account/donation.html:442
+#: allthethings/account/templates/account/donation.html:469
 msgid "page.donation.time_left_header"
 msgstr "残り時間："
 
@@ -794,6 +840,7 @@ msgstr "残り時間："
 #: allthethings/account/templates/account/donation.html:276
 #: allthethings/account/templates/account/donation.html:305
 #: allthethings/account/templates/account/donation.html:442
+#: allthethings/account/templates/account/donation.html:469
 msgid "page.donation.might_want_to_cancel"
 msgstr "(キャンセルを行い、新たに寄付を行う)"
 
@@ -803,6 +850,7 @@ msgstr "(キャンセルを行い、新たに寄付を行う)"
 #: allthethings/account/templates/account/donation.html:280
 #: allthethings/account/templates/account/donation.html:309
 #: allthethings/account/templates/account/donation.html:446
+#: allthethings/account/templates/account/donation.html:473
 msgid "page.donation.reset_timer"
 msgstr "タイマーをリセットするには、新たに寄付を行ってください。"
 
@@ -813,11 +861,12 @@ msgstr "タイマーをリセットするには、新たに寄付を行ってく
 #: allthethings/account/templates/account/donation.html:313
 #: allthethings/account/templates/account/donation.html:339
 #: allthethings/account/templates/account/donation.html:450
+#: allthethings/account/templates/account/donation.html:477
 msgid "page.donation.refresh_status"
 msgstr "状態を更新"
 
 #: allthethings/account/templates/account/donation.html:161
-#: allthethings/account/templates/account/donation.html:550
+#: allthethings/account/templates/account/donation.html:577
 msgid "page.donation.footer.issues_contact"
 msgstr "問題が発生した場合は%(email)sまでご連絡ください。またできるだけ多くの情報(スクリーンショットなど)を添付してください。"
 
@@ -895,7 +944,7 @@ msgstr "例："
 #: allthethings/account/templates/account/donation.html:400
 #: allthethings/account/templates/account/donation.html:416
 #: allthethings/account/templates/account/donation.html:437
-#: allthethings/account/templates/account/donation.html:467
+#: allthethings/account/templates/account/donation.html:494
 msgid "page.donate.strange_account"
 msgstr "なお、アカウント名や画像が変になる場合があります。ご安心ください！これらのアカウントは、私たちの寄付先によって管理されています。ハッキングされたことはありません。"
 
@@ -911,86 +960,102 @@ msgstr "<span %(span_circle)s>1</span>Aripayで寄付"
 
 #: allthethings/account/templates/account/donation.html:412
 #: allthethings/account/templates/account/donation.html:429
-msgid "page.donation.payment.alipay.text1"
-msgstr "<a %(a_account)s>このAripayアカウントを使用して%(total)sを寄付"
+msgid "page.donation.payment.alipay.text1_new"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:458
+#: allthethings/account/templates/account/donation.html:433
+msgid "page.donation.payment.alipay.error"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:459
+msgid "page.donation.payment.wechat.top_header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:461
+msgid "page.donation.payment.wechat.header1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:464
+msgid "page.donation.payment.wechat.text1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:485
 msgid "page.donation.payment.pix.top_header"
 msgstr "Pixのインストラクション"
 
-#: allthethings/account/templates/account/donation.html:460
+#: allthethings/account/templates/account/donation.html:487
 msgid "page.donation.payment.pix.header1"
 msgstr "<span %(span_circle)s>1</span>Pixで寄付"
 
-#: allthethings/account/templates/account/donation.html:463
+#: allthethings/account/templates/account/donation.html:490
 msgid "page.donation.payment.pix.text1"
 msgstr "<a %(a_account)s>このPixアカウントを使用して%(total)sを寄付"
 
-#: allthethings/account/templates/account/donation.html:472
+#: allthethings/account/templates/account/donation.html:499
 msgid "page.donation.footer.header"
 msgstr "<span %(span_circle)s>%(circle_number)s</span>領収書をEメールで我々に送信してください"
 
-#: allthethings/account/templates/account/donation.html:478
+#: allthethings/account/templates/account/donation.html:505
 msgid "page.donation.footer.text1"
 msgstr "領収書もしくはあなたの認証番号のスクリーンショットを送信してください。"
 
-#: allthethings/account/templates/account/donation.html:488
+#: allthethings/account/templates/account/donation.html:515
 msgid "page.donation.footer.crypto_note"
 msgstr "寄付中に暗号通貨のレートが変動した場合は元のレートを示す領収書を必ず添付してください。暗号通貨をご利用いただいたことにとても感謝しており、とても助かっています!!"
 
-#: allthethings/account/templates/account/donation.html:493
+#: allthethings/account/templates/account/donation.html:520
 msgid "page.donation.footer.text2"
 msgstr "領収書を我々にEメールで送信したらこのボタンを押してください。アンナが手動でレビューを行います(この処理には数日かかることがあります)："
 
-#: allthethings/account/templates/account/donation.html:503
+#: allthethings/account/templates/account/donation.html:530
 msgid "page.donation.footer.button"
 msgstr "はい。私は領収書を送信しました"
 
-#: allthethings/account/templates/account/donation.html:506
+#: allthethings/account/templates/account/donation.html:533
 msgid "page.donation.footer.success"
 msgstr "✅寄付ありがとうございます。アンナが手動であなたのメンバーシップを有効化するまで数日ほどお待ち下さい。"
 
-#: allthethings/account/templates/account/donation.html:507
+#: allthethings/account/templates/account/donation.html:534
 msgid "page.donation.footer.failure"
 msgstr "❌エラーが発生しました。ページを再読込みしてもう一度試してみてください。"
 
-#: allthethings/account/templates/account/donation.html:512
+#: allthethings/account/templates/account/donation.html:539
 msgid "page.donation.stepbystep"
 msgstr "ステップ・バイ・ステップガイド"
 
-#: allthethings/account/templates/account/donation.html:514
+#: allthethings/account/templates/account/donation.html:541
 msgid "page.donation.crypto_dont_worry"
 msgstr "手順の一部では暗号通貨ウォレットについて言及していますが、心配しないでください。この手順の為に暗号通貨を学ぶ必要はありません。"
 
-#: allthethings/account/templates/account/donation.html:516
+#: allthethings/account/templates/account/donation.html:543
 msgid "page.donation.hoodpay.step1"
 msgstr "1. あなたのメールアドレスを入力"
 
-#: allthethings/account/templates/account/donation.html:522
+#: allthethings/account/templates/account/donation.html:549
 msgid "page.donation.hoodpay.step2"
 msgstr "2. 支払方法を選択"
 
-#: allthethings/account/templates/account/donation.html:528
+#: allthethings/account/templates/account/donation.html:555
 msgid "page.donation.hoodpay.step3"
 msgstr "3. 再度支払方法を選択"
 
-#: allthethings/account/templates/account/donation.html:534
+#: allthethings/account/templates/account/donation.html:561
 msgid "page.donation.hoodpay.step4"
 msgstr "4. 「Self-hosted」を選択"
 
-#: allthethings/account/templates/account/donation.html:540
+#: allthethings/account/templates/account/donation.html:567
 msgid "page.donation.hoodpay.step5"
 msgstr "5. 「I confirm ownership」をクリック。"
 
-#: allthethings/account/templates/account/donation.html:546
+#: allthethings/account/templates/account/donation.html:573
 msgid "page.donation.hoodpay.step6"
 msgstr "6.電子メールで領収書が届きます。それを私たちに送ってください。できるだけ早く寄付を確認します。"
 
-#: allthethings/account/templates/account/donation.html:551
+#: allthethings/account/templates/account/donation.html:578
 msgid "page.donate.wait"
 msgstr ""
 
-#: allthethings/account/templates/account/donation.html:552
+#: allthethings/account/templates/account/donation.html:579
 msgid "page.donate.mistake"
 msgstr ""
 
@@ -1105,23 +1170,23 @@ msgid "page.account.logged_in.membership_multiple"
 msgstr ""
 
 #: allthethings/account/templates/account/index.html:41
-#: allthethings/templates/layouts/index.html:466
-#: allthethings/templates/layouts/index.html:473
-#: allthethings/templates/layouts/index.html:482
+#: allthethings/templates/layouts/index.html:476
+#: allthethings/templates/layouts/index.html:483
+#: allthethings/templates/layouts/index.html:492
 msgid "layout.index.header.nav.public_profile"
 msgstr "公開プロフィール"
 
 #: allthethings/account/templates/account/index.html:42
-#: allthethings/templates/layouts/index.html:467
-#: allthethings/templates/layouts/index.html:474
-#: allthethings/templates/layouts/index.html:483
+#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:484
+#: allthethings/templates/layouts/index.html:493
 msgid "layout.index.header.nav.downloaded_files"
 msgstr "ダウンロード済みのファイル"
 
 #: allthethings/account/templates/account/index.html:43
-#: allthethings/templates/layouts/index.html:468
-#: allthethings/templates/layouts/index.html:475
-#: allthethings/templates/layouts/index.html:484
+#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:485
+#: allthethings/templates/layouts/index.html:494
 msgid "layout.index.header.nav.my_donations"
 msgstr "私の寄付"
 
@@ -1265,273 +1330,364 @@ msgstr "まだリストがありません"
 msgid "page.profile.lists.new_list"
 msgstr "ファイルを探し、「リスト」タブを開いて新しくリストを作成。"
 
-#: allthethings/dyn/views.py:850 allthethings/dyn/views.py:879
-#: allthethings/dyn/views.py:890
+#: allthethings/dyn/views.py:851 allthethings/dyn/views.py:880
+#: allthethings/dyn/views.py:891
 msgid "dyn.buy_membership.error.unknown"
 msgstr "不明なエラーが発生しました。%(email)s にスクリーンショットとともに連絡をください。"
 
-#: allthethings/dyn/views.py:876
+#: allthethings/dyn/views.py:877
 msgid "dyn.buy_membership.error.try_again"
 msgstr "リクエストを完了できませんでした。数分後にもう一度お試しください。引き続きこのエラーが起きる場合は%(email)sにスクリーンショットを添付しご連絡ください。"
 
-#: allthethings/dyn/views.py:884
+#: allthethings/dyn/views.py:885
 msgid "dyn.buy_membership.error.minimum"
 msgstr "このコインの最小値は他のコインよりも高くなります。別の期間、又別のコインを選択してください。"
 
-#: allthethings/dyn/views.py:887
+#: allthethings/dyn/views.py:888
 msgid "dyn.buy_membership.error.wait"
 msgstr ""
 
-#: allthethings/page/views.py:4031
+#: allthethings/page/views.py:4340
+msgid "page.md5.box.download.affected_files"
+msgstr ""
+
+#: allthethings/page/views.py:4589
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Libgen.rs のノンフィクションでは見ることができません"
 
-#: allthethings/page/views.py:4032
+#: allthethings/page/views.py:4590
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Libgen,rs フィクションでは見ることができません"
 
-#: allthethings/page/views.py:4033
+#: allthethings/page/views.py:4591
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "libgen.li では見ることができません"
 
-#: allthethings/page/views.py:4034
+#: allthethings/page/views.py:4592
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Libgen.li で壊れたと見なされました"
 
-#: allthethings/page/views.py:4035
+#: allthethings/page/views.py:4593
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Z-Libraryから消えています"
 
-#: allthethings/page/views.py:4042
+#: allthethings/page/views.py:4594
+msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
+msgstr ""
+
+#: allthethings/page/views.py:4595
+msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
+msgstr ""
+
+#: allthethings/page/views.py:4601
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "本 (不明)"
 
-#: allthethings/page/views.py:4043
+#: allthethings/page/views.py:4602
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "本 (ノンフィクション)"
 
-#: allthethings/page/views.py:4044
+#: allthethings/page/views.py:4603
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "本 (フィクション)"
 
-#: allthethings/page/views.py:4045
+#: allthethings/page/views.py:4604
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "学術雑誌"
 
-#: allthethings/page/views.py:4046
+#: allthethings/page/views.py:4605
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "標準書式"
 
-#: allthethings/page/views.py:4047
+#: allthethings/page/views.py:4606
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "雑誌"
 
-#: allthethings/page/views.py:4048
+#: allthethings/page/views.py:4607
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "漫画"
 
-#: allthethings/page/views.py:4049
+#: allthethings/page/views.py:4608
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "音源"
 
-#: allthethings/page/views.py:4050
+#: allthethings/page/views.py:4609
 msgid "common.md5_content_type_mapping.other"
 msgstr "その他"
 
-#: allthethings/page/views.py:4056
+#: allthethings/page/views.py:4615
 msgid "common.access_types_mapping.aa_download"
 msgstr "パートナーサーバーからダウンロード"
 
-#: allthethings/page/views.py:4058
+#: allthethings/page/views.py:4616
+msgid "common.access_types_mapping.aa_scidb"
+msgstr ""
+
+#: allthethings/page/views.py:4617
 msgid "common.access_types_mapping.external_download"
 msgstr "外部ダウンロード"
 
-#: allthethings/page/views.py:4059
+#: allthethings/page/views.py:4618
 msgid "common.access_types_mapping.external_borrow"
 msgstr "外部借入"
 
-#: allthethings/page/views.py:4060
+#: allthethings/page/views.py:4619
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "外部借入(印刷不可)"
 
-#: allthethings/page/views.py:4061
+#: allthethings/page/views.py:4620
 msgid "common.access_types_mapping.meta_explore"
 msgstr "メタデータを検索する"
 
-#: allthethings/page/views.py:4062
+#: allthethings/page/views.py:4621
 msgid "common.access_types_mapping.torrents_available"
 msgstr ""
 
-#: allthethings/page/views.py:4068
+#: allthethings/page/views.py:4627
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:4069
+#: allthethings/page/views.py:4628
 msgid "common.record_sources_mapping.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:4070
+#: allthethings/page/views.py:4629
 msgid "common.record_sources_mapping.zlib"
 msgstr "Z-Library"
 
-#: allthethings/page/views.py:4073
+#: allthethings/page/views.py:4630
+msgid "common.record_sources_mapping.ia"
+msgstr ""
+
+#: allthethings/page/views.py:4631
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:4074
+#: allthethings/page/views.py:4632
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:4075
+#: allthethings/page/views.py:4633
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:4076
+#: allthethings/page/views.py:4634
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat(ワールドキャット)"
 
-#: allthethings/page/views.py:4077
+#: allthethings/page/views.py:4635
 msgid "common.record_sources_mapping.duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:4083
+#: allthethings/page/views.py:4636
+msgid "common.record_sources_mapping.uploads"
+msgstr ""
+
+#: allthethings/page/views.py:4642
 msgid "common.specific_search_fields.title"
 msgstr ""
 
-#: allthethings/page/views.py:4084
+#: allthethings/page/views.py:4643
 msgid "common.specific_search_fields.author"
 msgstr ""
 
-#: allthethings/page/views.py:4085
+#: allthethings/page/views.py:4644
 msgid "common.specific_search_fields.publisher"
 msgstr ""
 
-#: allthethings/page/views.py:4086
+#: allthethings/page/views.py:4645
 msgid "common.specific_search_fields.edition_varia"
 msgstr ""
 
-#: allthethings/page/views.py:4088
+#: allthethings/page/views.py:4646
+msgid "common.specific_search_fields.year"
+msgstr ""
+
+#: allthethings/page/views.py:4647
 msgid "common.specific_search_fields.original_filename"
 msgstr ""
 
-#: allthethings/page/views.py:4089
+#: allthethings/page/views.py:4648
 msgid "common.specific_search_fields.description_comments"
 msgstr ""
 
-#: allthethings/page/views.py:4114 allthethings/page/views.py:4486
-#: allthethings/page/views.py:4487
-msgid "common.md5.servers.no_browser_verification"
-msgstr "(ブラウザの認証は不要)"
-
-#: allthethings/page/views.py:4115
+#: allthethings/page/views.py:4673
 msgid "common.md5.servers.fast_partner"
 msgstr "高速な内部のサーバー#%(number)s"
 
-#: allthethings/page/views.py:4119 allthethings/page/views.py:4121
+#: allthethings/page/views.py:4673
+msgid "common.md5.servers.no_browser_verification_or_waitlists"
+msgstr ""
+
+#: allthethings/page/views.py:4676 allthethings/page/views.py:4678
 msgid "common.md5.servers.slow_partner"
 msgstr "低速な内部のサーバー#%(number)s"
 
-#: allthethings/page/views.py:4262
+#: allthethings/page/views.py:4676
+msgid "common.md5.servers.faster_with_waitlist"
+msgstr ""
+
+#: allthethings/page/views.py:4678
+msgid "common.md5.servers.slow_no_waitlist"
+msgstr ""
+
+#: allthethings/page/views.py:4767
+msgid "page.md5.box.descr_title"
+msgstr ""
+
+#: allthethings/page/views.py:4768
+msgid "page.md5.box.metadata_comments_title"
+msgstr ""
+
+#: allthethings/page/views.py:4769
+msgid "page.md5.box.alternative_title"
+msgstr ""
+
+#: allthethings/page/views.py:4770
+msgid "page.md5.box.alternative_author"
+msgstr ""
+
+#: allthethings/page/views.py:4771
+msgid "page.md5.box.alternative_publisher"
+msgstr ""
+
+#: allthethings/page/views.py:4772
+msgid "page.md5.box.alternative_edition"
+msgstr ""
+
+#: allthethings/page/views.py:4773
+msgid "page.md5.box.alternative_description"
+msgstr ""
+
+#: allthethings/page/views.py:4774
+msgid "page.md5.box.alternative_filename"
+msgstr ""
+
+#: allthethings/page/views.py:4775
+msgid "page.md5.box.alternative_extension"
+msgstr ""
+
+#: allthethings/page/views.py:4776
+msgid "page.md5.box.date_open_sourced_title"
+msgstr ""
+
+#: allthethings/page/views.py:4812
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr ""
 
-#: allthethings/page/views.py:4266 allthethings/page/views.py:4438
+#: allthethings/page/views.py:4816 allthethings/page/views.py:4999
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:4328
+#: allthethings/page/views.py:4890
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Library.rs ノンフィクション"
 
-#: allthethings/page/views.py:4328 allthethings/page/views.py:4341
-#: allthethings/page/views.py:4389
+#: allthethings/page/views.py:4890 allthethings/page/views.py:4903
+#: allthethings/page/views.py:4950
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(上部の「GET」もクリック)"
 
-#: allthethings/page/views.py:4328 allthethings/page/views.py:4341
-#: allthethings/page/views.py:4389
+#: allthethings/page/views.py:4890 allthethings/page/views.py:4903
+#: allthethings/page/views.py:4950
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(上部の「GET」をクリック)"
 
-#: allthethings/page/views.py:4341
+#: allthethings/page/views.py:4903
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Library.rs フィクション"
 
-#: allthethings/page/views.py:4389
+#: allthethings/page/views.py:4950
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:4435
+#: allthethings/page/views.py:4950
+msgid "page.md5.box.download.libgen_ads"
+msgstr ""
+
+#: allthethings/page/views.py:4996
 msgid "page.md5.box.download.ia_borrow"
 msgstr "インターネットアーカイブからの情報"
 
-#: allthethings/page/views.py:4435
+#: allthethings/page/views.py:4996
 msgid "page.md5.box.download.print_disabled_only"
 msgstr ""
 
-#: allthethings/page/views.py:4438
+#: allthethings/page/views.py:4999
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(関連するDOIはSci-Hubで公開されていない可能性があります)"
 
-#: allthethings/page/views.py:4450
+#: allthethings/page/views.py:5005
+msgid "page.md5.box.download.collection"
+msgstr ""
+
+#: allthethings/page/views.py:5006
+msgid "page.md5.box.download.torrent"
+msgstr ""
+
+#: allthethings/page/views.py:5012
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "トレントの一括ダウンロード"
 
-#: allthethings/page/views.py:4450
+#: allthethings/page/views.py:5012
 msgid "page.md5.box.download.experts_only"
 msgstr "(技術者のみ)"
 
-#: allthethings/page/views.py:4457
+#: allthethings/page/views.py:5019
 msgid "page.md5.box.download.aa_isbn"
 msgstr "ISBNでAnna's Archiveを検索"
 
-#: allthethings/page/views.py:4458
+#: allthethings/page/views.py:5020
 msgid "page.md5.box.download.other_isbn"
 msgstr "ISBNでその他のデータベースを検索"
 
-#: allthethings/page/views.py:4460
+#: allthethings/page/views.py:5022
 msgid "page.md5.box.download.original_isbndb"
 msgstr "ISBNdbでオリジナルのレコードを探す"
 
-#: allthethings/page/views.py:4462
+#: allthethings/page/views.py:5024
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Open Library IDでAnna's Archiveを検索"
 
-#: allthethings/page/views.py:4464
+#: allthethings/page/views.py:5026
 msgid "page.md5.box.download.original_openlib"
 msgstr "Open Libraryでオリジナルのレコードを検索"
 
-#: allthethings/page/views.py:4466
+#: allthethings/page/views.py:5028
 msgid "page.md5.box.download.aa_oclc"
 msgstr "アンナのアーカイブでOCLC(Worldcat)番号で検索"
 
-#: allthethings/page/views.py:4467
+#: allthethings/page/views.py:5029
 msgid "page.md5.box.download.original_oclc"
 msgstr ""
 
-#: allthethings/page/views.py:4469
+#: allthethings/page/views.py:5031
 msgid "page.md5.box.download.aa_duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:4470
+#: allthethings/page/views.py:5032
 msgid "page.md5.box.download.original_duxiu"
 msgstr ""
 
-#: allthethings/page/views.py:4472
+#: allthethings/page/views.py:5034
 msgid "page.md5.box.download.aa_cadal"
 msgstr ""
 
-#: allthethings/page/views.py:4473
+#: allthethings/page/views.py:5035
 msgid "page.md5.box.download.original_cadal"
 msgstr ""
 
-#: allthethings/page/views.py:4477
+#: allthethings/page/views.py:5039
 msgid "page.md5.box.download.aa_dxid"
 msgstr ""
 
-#: allthethings/page/views.py:4486 allthethings/page/views.py:4487
+#: allthethings/page/views.py:5044 allthethings/page/views.py:5045
 msgid "page.md5.box.download.scidb"
 msgstr "Anna's Archive 🧬SciDB"
+
+#: allthethings/page/views.py:5044 allthethings/page/views.py:5045
+msgid "common.md5.servers.no_browser_verification"
+msgstr "(ブラウザの認証は不要)"
 
 #: allthethings/page/templates/page/aarecord.html:14
 msgid "page.md5.header.scihub"
@@ -1574,127 +1730,133 @@ msgstr ""
 msgid "page.md5.header.meta_desc"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:53
-msgid "page.md5.box.descr_title"
+#: allthethings/page/templates/page/aarecord.html:48
+msgid "page.md5.header.improve_metadata"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:53
-msgid "page.md5.box.metadata_comments_title"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:53
-msgid "page.md5.box.date_open_sourced_title"
-msgstr ""
-
-#: allthethings/page/templates/page/aarecord.html:54
+#: allthethings/page/templates/page/aarecord.html:55
 msgid "page.md5.box.descr_read_more"
 msgstr "もっと読む…"
 
-#: allthethings/page/templates/page/aarecord.html:75
+#: allthethings/page/templates/page/aarecord.html:76
 msgid "page.md5.codes.url"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:76
+#: allthethings/page/templates/page/aarecord.html:77
 msgid "page.md5.codes.website"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:77
+#: allthethings/page/templates/page/aarecord.html:78
 msgid "page.md5.codes.aa_abbr"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:77
+#: allthethings/page/templates/page/aarecord.html:78
 msgid "page.md5.codes.aa_search"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:110
+#: allthethings/page/templates/page/aarecord.html:79
+msgid "page.md5.codes.code_explorer"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:79
+msgid "page.md5.codes.code_search"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:112
 msgid "page.md5.tabs.downloads"
 msgstr "ダウンロード(%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:110
+#: allthethings/page/templates/page/aarecord.html:112
 msgid "page.md5.tabs.borrow"
 msgstr "貸出(%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:110
+#: allthethings/page/templates/page/aarecord.html:112
 msgid "page.md5.tabs.explore_metadata"
 msgstr "メタデータを探索(%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:112
+#: allthethings/page/templates/page/aarecord.html:114
 msgid "page.md5.tabs.lists"
 msgstr "リスト(%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:113
+#: allthethings/page/templates/page/aarecord.html:115
 msgid "page.md5.tabs.stats"
 msgstr "状態(%(count)s)"
 
-#: allthethings/page/templates/page/aarecord.html:115
+#: allthethings/page/templates/page/aarecord.html:117
 msgid "common.tech_details"
 msgstr "技術詳細 (英語)"
 
-#: allthethings/page/templates/page/aarecord.html:193
+#: allthethings/page/templates/page/aarecord.html:195
 msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ このファイルには問題がある可能性があり、ソースライブラリから隠されています。</span> これは著作権者の要求によるもので、より良い代替品が利用できるためですが、ファイル自体の問題である場合もあります。ダウンロードしても問題ないかもしれませんが、まずは代替ファイルを検索することをお勧めします。詳細はこちら:"
 
-#: allthethings/page/templates/page/aarecord.html:198
+#: allthethings/page/templates/page/aarecord.html:200
 msgid "page.md5.box.download.better_file"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:203
+#: allthethings/page/templates/page/aarecord.html:205
 msgid "page.md5.box.issues.text2"
 msgstr "このファイルをダウンロードする場合は、信頼できる最新のソフトウェアのみを使用してファイルを開くようにしてください。"
 
-#: allthethings/page/templates/page/aarecord.html:208
+#: allthethings/page/templates/page/aarecord.html:210
 msgid "page.md5.box.download.header_fast_no_member"
 msgstr "<strong>🚀 高速ダウンロード</strong><a %(a_membership)s>メンバー</a>になることで書籍や論文などの長期保存を支援することができます。私達からそのご支援への感謝の気持ちを込めて、高速ダウンロードがご利用可能です。❤️"
 
-#: allthethings/page/templates/page/aarecord.html:209
+#: allthethings/page/templates/page/aarecord.html:211
 msgid "page.md5.box.download.header_fast_member"
 msgstr "今日はあと%(remaining)s回<strong>🚀高速ダウンロード</strong>が使用できます。メンバーになってくれてありがとう！❤️"
 
-#: allthethings/page/templates/page/aarecord.html:210
+#: allthethings/page/templates/page/aarecord.html:212
 msgid "page.md5.box.download.header_fast_member_no_remaining_new"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:211
+#: allthethings/page/templates/page/aarecord.html:213
 msgid "page.md5.box.download.header_fast_member_valid_for"
 msgstr "<strong>🚀高速ダウンロード</strong>あなたはこのファイルを最近ダウンロードしました。リンクはしばらく有効です。"
 
-#: allthethings/page/templates/page/aarecord.html:215
-#: allthethings/page/templates/page/aarecord.html:228
+#: allthethings/page/templates/page/aarecord.html:217
+#: allthethings/page/templates/page/aarecord.html:229
 #: allthethings/page/templates/page/aarecord.html:263
 msgid "page.md5.box.download.option"
 msgstr "オプション #%(num)d: %(link)s %(extra)s"
 
-#: allthethings/page/templates/page/aarecord.html:217
-#: allthethings/templates/layouts/index.html:230
+#: allthethings/page/templates/page/aarecord.html:219
+#: allthethings/templates/layouts/index.html:231
 msgid "layout.index.header.banner.refer"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:217
+#: allthethings/page/templates/page/aarecord.html:219
 #: allthethings/page/templates/page/home.html:30
 #: allthethings/page/templates/page/home.html:40
-#: allthethings/page/templates/page/search.html:254
-#: allthethings/page/templates/page/search.html:311
-#: allthethings/templates/layouts/index.html:224
-#: allthethings/templates/layouts/index.html:230
-#: allthethings/templates/layouts/index.html:318
-#: allthethings/templates/layouts/index.html:319
-#: allthethings/templates/layouts/index.html:320
+#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:126
+#: allthethings/page/templates/page/search.html:256
+#: allthethings/page/templates/page/search.html:313
+#: allthethings/templates/layouts/index.html:225
+#: allthethings/templates/layouts/index.html:231
+#: allthethings/templates/layouts/index.html:322
+#: allthethings/templates/layouts/index.html:323
+#: allthethings/templates/layouts/index.html:324
 msgid "layout.index.header.learn_more"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:224
+#: allthethings/page/templates/page/aarecord.html:225
 msgid "page.md5.box.download.header_slow_only"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:224
+#: allthethings/page/templates/page/aarecord.html:225
 msgid "page.md5.box.download.trusted_partners"
 msgstr ""
 
-#: allthethings/page/templates/page/aarecord.html:224
+#: allthethings/page/templates/page/aarecord.html:225
+msgid "page.md5.box.download.slow_faq"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord.html:225
 msgid "common.md5.servers.browser_verification_unlimited"
 msgstr "(<a %(a_browser)s>ブラウザの認証</a>が必要な場合がございます。— ダウンロード無制限！)"
 
-#: allthethings/page/templates/page/aarecord.html:239
+#: allthethings/page/templates/page/aarecord.html:240
 msgid "page.md5.box.download.convert"
 msgstr ""
 
@@ -1732,12 +1894,12 @@ msgstr "すべてのミラーは同じファイルを提供するため、安全
 
 #: allthethings/page/templates/page/aarecord.html:302
 #: allthethings/page/templates/page/aarecord.html:303
-#: allthethings/page/templates/page/aarecord.html:404
 #: allthethings/page/templates/page/aarecord.html:405
-#: allthethings/page/templates/page/aarecord.html:424
+#: allthethings/page/templates/page/aarecord.html:406
 #: allthethings/page/templates/page/aarecord.html:425
-#: allthethings/page/templates/page/codes.html:6
-#: allthethings/page/templates/page/codes.html:7
+#: allthethings/page/templates/page/aarecord.html:426
+#: allthethings/page/templates/page/codes.html:8
+#: allthethings/page/templates/page/codes.html:9
 #: allthethings/page/templates/page/copyright.html:6
 #: allthethings/page/templates/page/copyright.html:7
 #: allthethings/page/templates/page/datasets.html:13
@@ -1758,18 +1920,32 @@ msgstr "すべてのミラーは同じファイルを提供するため、安全
 #: allthethings/page/templates/page/datasets_openlib.html:7
 #: allthethings/page/templates/page/datasets_scihub.html:6
 #: allthethings/page/templates/page/datasets_scihub.html:7
+#: allthethings/page/templates/page/datasets_upload.html:6
+#: allthethings/page/templates/page/datasets_upload.html:7
 #: allthethings/page/templates/page/datasets_worldcat.html:6
 #: allthethings/page/templates/page/datasets_worldcat.html:7
 #: allthethings/page/templates/page/datasets_zlib.html:6
 #: allthethings/page/templates/page/datasets_zlib.html:7
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
+#: allthethings/page/templates/page/metadata.html:6
+#: allthethings/page/templates/page/metadata.html:7
 #: allthethings/page/templates/page/mirrors.html:7
 #: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/torrents.html:26
 #: allthethings/page/templates/page/torrents.html:27
+#: allthethings/page/templates/page/volunteering.html:6
+#: allthethings/page/templates/page/volunteering.html:7
 msgid "common.english_only"
 msgstr "テキストは英語で以下に続きます。"
+
+#: allthethings/page/templates/page/aarecord_issue.html:4
+msgid "page.aarecord_issue.title"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord_issue.html:6
+msgid "page.aarecord_issue.text"
+msgstr ""
 
 #: allthethings/page/templates/page/aarecord_not_found.html:4
 msgid "page.md5.invalid.header"
@@ -1784,6 +1960,10 @@ msgstr "\"%(md5_input)s\" は、私たちのデータベースで見つかりま
 #: allthethings/page/templates/page/login.html:6
 msgid "page.login.title"
 msgstr "ログイン/登録"
+
+#: allthethings/page/templates/page/browser_verification.html:6
+msgid "page.browserverification.header"
+msgstr ""
 
 #: allthethings/page/templates/page/browser_verification.html:9
 #: allthethings/page/templates/page/login.html:9
@@ -1823,25 +2003,29 @@ msgstr ""
 msgid "layout.index.footer.dont_email"
 msgstr ""
 
-#: allthethings/page/templates/page/contact.html:24
+#: allthethings/page/templates/page/contact.html:21
+msgid "page.donate.please_include"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:23
 msgid "page.contact.checkboxes.show_email_button"
 msgstr ""
 
-#: allthethings/page/templates/page/datasets.html:154
-#: allthethings/page/templates/page/faq.html:171
-#: allthethings/page/templates/page/search.html:283
+#: allthethings/page/templates/page/datasets.html:161
+#: allthethings/page/templates/page/faq.html:168
+#: allthethings/page/templates/page/search.html:285
 msgid "page.faq.metadata.inspiration1"
 msgstr ""
 
-#: allthethings/page/templates/page/datasets.html:155
-#: allthethings/page/templates/page/faq.html:172
-#: allthethings/page/templates/page/search.html:284
+#: allthethings/page/templates/page/datasets.html:162
+#: allthethings/page/templates/page/faq.html:169
+#: allthethings/page/templates/page/search.html:286
 msgid "page.faq.metadata.inspiration2"
 msgstr ""
 
-#: allthethings/page/templates/page/datasets.html:156
-#: allthethings/page/templates/page/faq.html:173
-#: allthethings/page/templates/page/search.html:285
+#: allthethings/page/templates/page/datasets.html:163
+#: allthethings/page/templates/page/faq.html:170
+#: allthethings/page/templates/page/search.html:287
 msgid "page.faq.metadata.inspiration3"
 msgstr ""
 
@@ -1938,68 +2122,272 @@ msgstr ""
 msgid "page.faq.help.mirrors"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:115
+#: allthethings/page/templates/page/faq.html:103
+msgid "page.faq.slow.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:107
+msgid "page.faq.slow.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:111
+msgid "page.faq.slow.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:114
 msgid "page.donate.faq.title"
 msgstr "寄付のFAQ"
 
-#: allthethings/page/templates/page/faq.html:118
+#: allthethings/page/templates/page/faq.html:117
 msgid "page.donate.faq.renew"
 msgstr "<div %(div_question)s>メンバーシップは自動で継続されますか？</div>メンバーシップは<strong>決して</strong>自動で継続されません。好きなだけ参加することも、短期間のみ参加することも可能です。"
 
-#: allthethings/page/templates/page/faq.html:122
+#: allthethings/page/templates/page/faq.html:121
 msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>他の支払い方法はありますか？</div>現在はありません。多くの人がこのようなアーカイブの存在を望んでいませんので、慎重にならざるを得ません。もしあなたが他の（より便利な）支払い方法を安全に設定するのを手伝ってくれるなら、%(email)sに連絡してください。"
 
-#: allthethings/page/templates/page/faq.html:126
+#: allthethings/page/templates/page/faq.html:125
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>寄付されたお金は何に使用されますか？</div>その100%%が世界の知識と文化を保存し、アクセスできるようにするために使われています。現在、私たちはそのほとんどをサーバーやストレージ、帯域幅に費やしております。どのチームメンバーにも個人的にお金が行くことは決してありません。"
 
-#: allthethings/page/templates/page/faq.html:130
+#: allthethings/page/templates/page/faq.html:129
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>多額の寄付をすることはできますか？</div> それは素晴らしいことだと思います！数千ドル以上の寄付は、%(email)sに直接ご連絡ください。"
 
-#: allthethings/page/templates/page/faq.html:139
+#: allthethings/page/templates/page/faq.html:133
+msgid "page.donate.faq.non_member_donation"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:136
 msgid "page.faq.upload.title"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:142
+#: allthethings/page/templates/page/faq.html:139
 msgid "page.upload.text1"
 msgstr "今のところ、私達はGenesis forksへアップロードすることを提案します。<a %(a_guide)s>こちら</a>がハンディガイドです。このウェブサイトでインデックスしているforkはどちらもこの同じアップロードシステムから引っ張ってきていることに注意してください。"
 
-#: allthethings/page/templates/page/faq.html:143
+#: allthethings/page/templates/page/faq.html:140
 msgid "common.libgen.email"
 msgstr "Libgen forumsでEメールが動作しない場合、わたしたちは<a %(a_mail)s>Proton Mail</a>(無料)を推奨します。あなたのアカウントを有効にするために<a %(a_manual)s>手動リクエスト</a>を行うことも可能です。"
 
-#: allthethings/page/templates/page/faq.html:148
-msgid "page.upload.zlib.text"
+#: allthethings/page/templates/page/faq.html:141
+msgid "page.faq.mhut_upload"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:156
+#: allthethings/page/templates/page/faq.html:145
+msgid "page.upload.zlib.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:149
+msgid "page.upload.zlib.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:153
 msgid "page.upload.large.text"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:159
+#: allthethings/page/templates/page/faq.html:156
 msgid "page.faq.request.title"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:162
+#: allthethings/page/templates/page/faq.html:159
 msgid "page.request.cannot_accomodate"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:163
+#: allthethings/page/templates/page/faq.html:160
 msgid "page.request.forums"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:164
+#: allthethings/page/templates/page/faq.html:161
 msgid "page.request.dont_email"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:167
+#: allthethings/page/templates/page/faq.html:164
 msgid "page.faq.metadata.title"
 msgstr ""
 
-#: allthethings/page/templates/page/faq.html:170
+#: allthethings/page/templates/page/faq.html:167
 msgid "page.faq.metadata.indeed"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:173
+msgid "page.faq.1984.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:176
+msgid "page.faq.1984.text"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:179
+msgid "page.faq.save_search.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:182
+msgid "page.faq.save_search.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:185
+msgid "page.faq.mobile.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:188
+msgid "page.faq.mobile.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:189
+msgid "page.faq.mobile.android"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:190
+msgid "page.faq.mobile.ios"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:193
+msgid "page.faq.api.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:196
+msgid "page.faq.api.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:200
+msgid "page.faq.api.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:204
+msgid "page.faq.api.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:207
+msgid "page.faq.torrents.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:210
+msgid "page.faq.torrents.q1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:212
+msgid "page.faq.torrents.a1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:216
+msgid "page.faq.torrents.q2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:218
+msgid "page.faq.torrents.a2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:222
+msgid "page.faq.torrents.q3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:224
+msgid "page.faq.torrents.a3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:228
+msgid "page.faq.torrents.q4"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:230
+msgid "page.faq.torrents.a4"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:234
+msgid "page.faq.torrents.q5"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:238
+msgid "page.faq.torrents.a5"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:242
+msgid "page.faq.torrents.q6"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:244
+msgid "page.faq.torrents.a6"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:246
+msgid "page.faq.torrents.a6.li1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:248
+msgid "page.faq.torrents.a6.li2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:251
+msgid "page.faq.security.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:254
+msgid "page.faq.security.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:258
+msgid "page.faq.security.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:262
+msgid "page.faq.security.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:265
+msgid "page.faq.resources.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:268
+msgid "page.faq.resources.annas_blog"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:269
+msgid "page.faq.resources.annas_software"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:270
+msgid "page.faq.resources.translate"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:271
+msgid "page.faq.resources.datasets"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:272
+msgid "page.faq.resources.domains"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:273
+msgid "page.faq.resources.wikipedia"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:276
+msgid "page.faq.copyright.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:279
+msgid "page.faq.copyright.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:283
+msgid "page.faq.copyright.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:286
+msgid "page.faq.hate.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:289
+msgid "page.faq.hate.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:292
+msgid "page.faq.favorite.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:295
+msgid "page.faq.favorite.text1"
 msgstr ""
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
@@ -2025,27 +2413,27 @@ msgstr ""
 #: allthethings/page/templates/page/home.html:19
 #: allthethings/page/templates/page/scidb_home.html:3
 #: allthethings/page/templates/page/scidb_home.html:6
-#: allthethings/templates/layouts/index.html:408
-#: allthethings/templates/layouts/index.html:419
-#: allthethings/templates/layouts/index.html:432
-#: allthethings/templates/layouts/index.html:497
+#: allthethings/templates/layouts/index.html:412
+#: allthethings/templates/layouts/index.html:425
+#: allthethings/templates/layouts/index.html:440
+#: allthethings/templates/layouts/index.html:507
 msgid "page.home.scidb.header"
 msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
-#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:460
 msgid "layout.index.header.nav.beta"
 msgstr "ベータ"
 
 #: allthethings/page/templates/page/home.html:27
-#: allthethings/page/templates/page/search.html:252
-#: allthethings/page/templates/page/search.html:309
+#: allthethings/page/templates/page/search.html:254
+#: allthethings/page/templates/page/search.html:311
 msgid "page.home.scidb.scihub_paused"
 msgstr ""
 
 #: allthethings/page/templates/page/home.html:28
-#: allthethings/page/templates/page/search.html:253
-#: allthethings/page/templates/page/search.html:310
+#: allthethings/page/templates/page/search.html:255
+#: allthethings/page/templates/page/search.html:312
 msgid "page.home.scidb.continuation"
 msgstr ""
 
@@ -2055,12 +2443,12 @@ msgid "page.home.scidb.subtitle"
 msgstr ""
 
 #: allthethings/page/templates/page/home.html:36
-#: allthethings/page/templates/page/scidb_home.html:18
+#: allthethings/page/templates/page/scidb_home.html:19
 msgid "page.home.scidb.placeholder_doi"
 msgstr "DOI"
 
 #: allthethings/page/templates/page/home.html:37
-#: allthethings/page/templates/page/scidb_home.html:19
+#: allthethings/page/templates/page/scidb_home.html:20
 msgid "page.home.scidb.open"
 msgstr "開く"
 
@@ -2068,73 +2456,88 @@ msgstr "開く"
 msgid "page.home.scidb.browser_verification"
 msgstr "もし<a %(a_member)s>メンバー</a>ならブラウザの認証は必要ありません。"
 
-#: allthethings/page/templates/page/home.html:59
-msgid "page.home.payment_processor.body"
-msgstr ""
-
-#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/home.html:43
 msgid "page.home.archive.header"
 msgstr "長期アーカイブ"
 
-#: allthethings/page/templates/page/home.html:78
+#: allthethings/page/templates/page/home.html:46
 msgid "page.home.archive.body"
 msgstr "アンナのアーカイブで使用されるデータセットは完全にオープンソースであり、torrentsを使用して一括でミラーリングできます。%(a_datasets)sもっと詳しく…</a>"
 
-#: allthethings/page/templates/page/home.html:82
+#: allthethings/page/templates/page/home.html:50
 msgid "page.home.torrents.body"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:85
+#: allthethings/page/templates/page/home.html:53
 #: allthethings/page/templates/page/torrents.html:86
 msgid "page.home.torrents.legend_less"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:86
+#: allthethings/page/templates/page/home.html:54
 #: allthethings/page/templates/page/torrents.html:87
 msgid "page.home.torrents.legend_range"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:87
+#: allthethings/page/templates/page/home.html:55
 #: allthethings/page/templates/page/torrents.html:88
 msgid "page.home.torrents.legend_greater"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:91
+#: allthethings/page/templates/page/home.html:67
 msgid "page.home.llm.header"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:94
+#: allthethings/page/templates/page/home.html:70
 msgid "page.home.llm.body"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:97
+#: allthethings/page/templates/page/home.html:73
 msgid "page.home.mirrors.header"
 msgstr ""
 
-#: allthethings/page/templates/page/home.html:100
-msgid "page.home.mirrors.body"
+#: allthethings/page/templates/page/home.html:75
+msgid "page.home.volunteering.header"
 msgstr ""
 
-#: allthethings/page/templates/page/ipfs_downloads.html:15
+#: allthethings/page/templates/page/home.html:77
+msgid "page.home.volunteering.help_out"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:96
+msgid "page.home.payment_processor.body"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:104
+#: allthethings/templates/layouts/index.html:448
+#: allthethings/templates/layouts/index.html:527
+msgid "layout.index.header.nav.annasblog"
+msgstr "アンナのブログ↗"
+
+#: allthethings/page/templates/page/ipfs_downloads.html:3
+#: allthethings/page/templates/page/ipfs_downloads.html:10
+msgid "page.ipfs_downloads.title"
+msgstr ""
+
+#: allthethings/page/templates/page/ipfs_downloads.html:13
 #: allthethings/page/templates/page/partner_download.html:25
 msgid "page.partner_download.main_page"
 msgstr ""
 
-#: allthethings/page/templates/page/ipfs_downloads.html:20
+#: allthethings/page/templates/page/ipfs_downloads.html:18
 msgid "page.md5.box.download.ipfs_gateway"
 msgstr "IPFSゲートウェイ #%(num)d"
 
-#: allthethings/page/templates/page/ipfs_downloads.html:20
+#: allthethings/page/templates/page/ipfs_downloads.html:18
 msgid "page.md5.box.download.ipfs_gateway_extra"
 msgstr "(IPFS で複数回試す必要があるかもしれません)"
 
-#: allthethings/page/templates/page/ipfs_downloads.html:25
-#: allthethings/page/templates/page/partner_download.html:90
+#: allthethings/page/templates/page/ipfs_downloads.html:23
+#: allthethings/page/templates/page/partner_download.html:86
 msgid "page.partner_download.faster_downloads"
 msgstr "🚀高速ダウンロードを使用するには<a %(a_membership)s>メンバーシップ</a>に入る必要があります。"
 
-#: allthethings/page/templates/page/ipfs_downloads.html:29
-#: allthethings/page/templates/page/partner_download.html:94
+#: allthethings/page/templates/page/ipfs_downloads.html:27
+#: allthethings/page/templates/page/partner_download.html:90
 msgid "page.partner_download.bulk_mirroring"
 msgstr "📡すべてのコレクションをミラーリングする場合は、<a %(a_datasets)s>データセット</a>及び<a %(a_torrents)s>トレント</a>ページを参照してください。"
 
@@ -2144,6 +2547,11 @@ msgstr "継続する"
 
 #: allthethings/page/templates/page/login_to_view.html:8
 msgid "page.login.please"
+msgstr ""
+
+#: allthethings/page/templates/page/maintenance.html:8
+#: allthethings/page/templates/page/maintenance.html:13
+msgid "page.maintenance.header"
 msgstr ""
 
 #: allthethings/page/templates/page/partner_download.html:3
@@ -2159,24 +2567,48 @@ msgstr ""
 msgid "page.partner_download.slow_downloads_cloudflare"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:74
+#: allthethings/page/templates/page/partner_download.html:30
+msgid "page.partner_download.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:33
+msgid "page.partner_download.li1"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:34
+msgid "page.partner_download.li2"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:35
+msgid "page.partner_download.li3"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:36
+msgid "page.partner_download.li4"
+msgstr ""
+
+#: allthethings/page/templates/page/partner_download.html:73
 msgid "page.partner_download.url"
 msgstr "📚<a %(a_download)s>ここ</a>からダウンロード。"
 
-#: allthethings/page/templates/page/partner_download.html:74
+#: allthethings/page/templates/page/partner_download.html:73
 msgid "page.partner_download.download_now"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:80
+#: allthethings/page/templates/page/partner_download.html:79
 msgid "page.partner_download.warning_many_downloads"
 msgstr ""
 
-#: allthethings/page/templates/page/partner_download.html:81
+#: allthethings/page/templates/page/partner_download.html:80
 msgid "page.partner_download.downloads_last_24_hours"
 msgstr ""
 
+#: allthethings/page/templates/page/partner_download.html:81
+msgid "page.partner_download.warning_many_downloads2"
+msgstr ""
+
 #: allthethings/page/templates/page/scidb.html:14
-#: allthethings/templates/layouts/index.html:308
+#: allthethings/templates/layouts/index.html:312
 msgid "layout.index.header.title"
 msgstr "アンナのアーカイブ"
 
@@ -2200,8 +2632,32 @@ msgstr ""
 msgid "page.scidb.scihub"
 msgstr ""
 
-#: allthethings/page/templates/page/scidb.html:46
+#: allthethings/page/templates/page/scidb.html:38
+msgid "page.scidb.please_donate"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:41
+msgid "page.scidb.please_donate_bonus"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:45
 msgid "page.scidb.refresh"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb.html:59
+msgid "page.scidb.no_preview"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb_home.html:9
+msgid "page.home.scidb.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb_home.html:13
+msgid "page.home.scidb.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/scidb_home.html:26
+msgid "page.home.scidb.text3"
 msgstr ""
 
 #: allthethings/page/templates/page/search.html:8
@@ -2229,7 +2685,7 @@ msgid "page.search.tabs.metadata"
 msgstr ""
 
 #: allthethings/page/templates/page/search.html:66
-#: allthethings/templates/layouts/index.html:446
+#: allthethings/templates/layouts/index.html:456
 msgid "common.search.placeholder"
 msgstr "タイトル、著者、DOI、ISBN、MD5…"
 
@@ -2327,7 +2783,7 @@ msgid "page.search.too_long_broad_query"
 msgstr ""
 
 #: allthethings/page/templates/page/search.html:119
-#: allthethings/page/templates/page/search.html:323
+#: allthethings/page/templates/page/search.html:325
 msgid "page.search.too_inaccurate"
 msgstr ""
 
@@ -2341,6 +2797,10 @@ msgstr ""
 
 #: allthethings/page/templates/page/search.html:141
 msgid "common.specific_search_fields.select"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:141
+msgid "page.search.advanced.field.year_published"
 msgstr ""
 
 #: allthethings/page/templates/page/search.html:197
@@ -2359,111 +2819,111 @@ msgstr ""
 msgid "page.search.header.update_info"
 msgstr "この検索インデックスは毎月更新されます。現在、%(last_data_refresh_date)sまでのエントリーが含まれています。より詳細な技術情報については、%(link_open_tag)sデータセットのページ</a>をご覧ください。"
 
-#: allthethings/page/templates/page/search.html:235
+#: allthethings/page/templates/page/search.html:237
 msgid "page.search.results.search_downloads"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:236
+#: allthethings/page/templates/page/search.html:238
 msgid "page.search.results.help_preserve"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:239
+#: allthethings/page/templates/page/search.html:241
 msgid "page.search.results.most_comprehensive"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:242
+#: allthethings/page/templates/page/search.html:244
 msgid "page.search.results.other_shadow_libs"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:243
+#: allthethings/page/templates/page/search.html:245
 msgid "page.search.results.dmca"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:247
-#: allthethings/page/templates/page/search.html:272
-#: allthethings/page/templates/page/search.html:293
-#: allthethings/page/templates/page/search.html:301
+#: allthethings/page/templates/page/search.html:249
+#: allthethings/page/templates/page/search.html:274
+#: allthethings/page/templates/page/search.html:295
+#: allthethings/page/templates/page/search.html:303
 msgid "page.search.results.shortcuts"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:251
-#: allthethings/page/templates/page/search.html:308
+#: allthethings/page/templates/page/search.html:253
+#: allthethings/page/templates/page/search.html:310
 msgid "page.search.results.looking_for_papers"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:258
+#: allthethings/page/templates/page/search.html:260
 msgid "page.search.results.search_journals"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:262
+#: allthethings/page/templates/page/search.html:264
 msgid "page.search.results.search_digital_lending"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:265
+#: allthethings/page/templates/page/search.html:267
 msgid "page.search.results.digital_lending_info"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:268
+#: allthethings/page/templates/page/search.html:270
 msgid "page.search.results.digital_lending_info_more"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:276
+#: allthethings/page/templates/page/search.html:278
 msgid "page.search.results.search_metadata"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:278
+#: allthethings/page/templates/page/search.html:280
 msgid "page.search.results.metadata_info"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:279
+#: allthethings/page/templates/page/search.html:281
 msgid "page.search.results.metadata_no_merging"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:289
+#: allthethings/page/templates/page/search.html:291
 msgid "page.search.results.metadata_info_more"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:297
+#: allthethings/page/templates/page/search.html:299
 msgid "page.search.results.search_generic"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:317
+#: allthethings/page/templates/page/search.html:319
 msgid "page.search.results.error.header"
 msgstr "検索中にエラーが発生しました。"
 
-#: allthethings/page/templates/page/search.html:319
+#: allthethings/page/templates/page/search.html:321
 msgid "page.search.results.error.unknown"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:328
+#: allthethings/page/templates/page/search.html:330
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">ファイルが見つかりません。</span> 検索語やフィルタの数を減らすか、ローマ字など別のものを試してみてください。"
 
-#: allthethings/page/templates/page/search.html:332
+#: allthethings/page/templates/page/search.html:334
 msgid "page.search.found_matches.main"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:332
+#: allthethings/page/templates/page/search.html:334
 msgid "page.search.found_matches.journals"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:332
+#: allthethings/page/templates/page/search.html:334
 msgid "page.search.found_matches.digital_lending"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:332
+#: allthethings/page/templates/page/search.html:334
 msgid "page.search.found_matches.metadata"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:339
+#: allthethings/page/templates/page/search.html:341
 msgid "page.search.results.numbers_pages"
 msgstr ""
 
-#: allthethings/page/templates/page/search.html:350
+#: allthethings/page/templates/page/search.html:352
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ 部分一致"
 
-#: allthethings/page/templates/page/search.html:350
+#: allthethings/page/templates/page/search.html:352
 msgid "page.search.results.partial"
 msgstr "%(num)d 部分一致"
 
@@ -2479,140 +2939,155 @@ msgstr "世界最大のオープンソース、オープンデータの図書館
 msgid "layout.index.meta.opensearch"
 msgstr "アンナのアーカイブを検索"
 
-#: allthethings/templates/layouts/index.html:221
+#: allthethings/templates/layouts/index.html:222
 msgid "layout.index.header.banner.holiday_gift"
 msgstr "人類の知識を保存する: 素晴らしいホリデーギフトです!"
 
-#: allthethings/templates/layouts/index.html:221
+#: allthethings/templates/layouts/index.html:222
 msgid "layout.index.header.banner.surprise"
 msgstr "愛する人を驚かせて、メンバーシップ付きのアカウントをプレゼントしましょう。"
 
-#: allthethings/templates/layouts/index.html:221
-#: allthethings/templates/layouts/index.html:442
-#: allthethings/templates/layouts/index.html:499
+#: allthethings/templates/layouts/index.html:222
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:509
 msgid "layout.index.header.nav.donate"
 msgstr "寄付"
 
-#: allthethings/templates/layouts/index.html:224
+#: allthethings/templates/layouts/index.html:225
 msgid "layout.index.header.banner.mirrors"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:230
+#: allthethings/templates/layouts/index.html:231
 msgid "layout.index.header.banner.valentine_gift"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:246
+#: allthethings/templates/layouts/index.html:250
 msgid "layout.index.header.banner.new_donation_method"
 msgstr "%(method_name)s という新しい寄付の方法をご用意しました。%(donate_link_open_tag)s寄付</a>を検討していただけるとありがたいです。 - このウェブサイトを運営するのは決して安くはありません。ありがとうございます。"
 
-#: allthethings/templates/layouts/index.html:253
+#: allthethings/templates/layouts/index.html:257
 msgid "layout.index.banners.comics_fundraiser.text"
 msgstr "世界最大のコミックの影の図書館を<a href=\"https://annas-blog.org/backed-up-the-worlds-largest-comics-shadow-lib.html\">支援</a>するための募金活動を行っております。貴方の協力に感謝いたします！<a href=\"/donate\">寄付</a>もし寄付ができなければ、あなたの友達に伝えることや、<a href=\"https://www.reddit.com/r/Annas_Archive\">Reddit</a>、<a href=\"https://t.me/annasarchiveorg\">Telegram</a>で私達をフォローすることも考えていただけると幸いです。"
 
-#: allthethings/templates/layouts/index.html:324
+#: allthethings/templates/layouts/index.html:328
 msgid "layout.index.header.recent_downloads"
 msgstr "最近のダウンロード："
 
-#: allthethings/templates/layouts/index.html:407
-#: allthethings/templates/layouts/index.html:418
-#: allthethings/templates/layouts/index.html:431
-#: allthethings/templates/layouts/index.html:496
+#: allthethings/templates/layouts/index.html:411
+#: allthethings/templates/layouts/index.html:424
+#: allthethings/templates/layouts/index.html:439
+#: allthethings/templates/layouts/index.html:506
 msgid "layout.index.header.nav.search"
 msgstr "検索"
 
-#: allthethings/templates/layouts/index.html:409
-#: allthethings/templates/layouts/index.html:420
-#: allthethings/templates/layouts/index.html:433
-#: allthethings/templates/layouts/index.html:498
-#: allthethings/templates/layouts/index.html:524
+#: allthethings/templates/layouts/index.html:413
+#: allthethings/templates/layouts/index.html:426
+#: allthethings/templates/layouts/index.html:441
+#: allthethings/templates/layouts/index.html:508
+#: allthethings/templates/layouts/index.html:534
 msgid "layout.index.header.nav.faq"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:410
-#: allthethings/templates/layouts/index.html:421
-#: allthethings/templates/layouts/index.html:434
-#: allthethings/templates/layouts/index.html:525
+#: allthethings/templates/layouts/index.html:414
+#: allthethings/templates/layouts/index.html:427
+#: allthethings/templates/layouts/index.html:442
+#: allthethings/templates/layouts/index.html:535
+msgid "layout.index.header.nav.improve_metadata"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:415
+#: allthethings/templates/layouts/index.html:428
+#: allthethings/templates/layouts/index.html:443
+#: allthethings/templates/layouts/index.html:536
+msgid "layout.index.header.nav.volunteering"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:416
+#: allthethings/templates/layouts/index.html:429
+#: allthethings/templates/layouts/index.html:444
+#: allthethings/templates/layouts/index.html:537
 msgid "layout.index.header.nav.datasets"
 msgstr "データセット"
 
-#: allthethings/templates/layouts/index.html:411
-#: allthethings/templates/layouts/index.html:422
-#: allthethings/templates/layouts/index.html:435
-#: allthethings/templates/layouts/index.html:526
+#: allthethings/templates/layouts/index.html:417
+#: allthethings/templates/layouts/index.html:430
+#: allthethings/templates/layouts/index.html:445
+#: allthethings/templates/layouts/index.html:538
 msgid "layout.index.header.nav.torrents"
 msgstr "Torrents"
 
-#: allthethings/templates/layouts/index.html:412
-#: allthethings/templates/layouts/index.html:423
-#: allthethings/templates/layouts/index.html:436
-#: allthethings/templates/layouts/index.html:527
-msgid "layout.index.header.nav.mirrors"
+#: allthethings/templates/layouts/index.html:418
+#: allthethings/templates/layouts/index.html:431
+#: allthethings/templates/layouts/index.html:446
+#: allthethings/templates/layouts/index.html:539
+msgid "layout.index.header.nav.codes"
 msgstr ""
 
-#: allthethings/templates/layouts/index.html:413
-#: allthethings/templates/layouts/index.html:424
-#: allthethings/templates/layouts/index.html:437
-#: allthethings/templates/layouts/index.html:528
+#: allthethings/templates/layouts/index.html:419
+#: allthethings/templates/layouts/index.html:432
+#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:540
 msgid "layout.index.header.nav.llm_data"
 msgstr "LLMデータ"
 
-#: allthethings/templates/layouts/index.html:414
-#: allthethings/templates/layouts/index.html:425
-#: allthethings/templates/layouts/index.html:430
-#: allthethings/templates/layouts/index.html:495
+#: allthethings/templates/layouts/index.html:420
+#: allthethings/templates/layouts/index.html:433
+#: allthethings/templates/layouts/index.html:438
+#: allthethings/templates/layouts/index.html:505
 msgid "layout.index.header.nav.home"
 msgstr "ホーム"
 
-#: allthethings/templates/layouts/index.html:438
-#: allthethings/templates/layouts/index.html:517
-msgid "layout.index.header.nav.annasblog"
-msgstr "アンナのブログ↗"
-
-#: allthethings/templates/layouts/index.html:439
-#: allthethings/templates/layouts/index.html:518
+#: allthethings/templates/layouts/index.html:449
+#: allthethings/templates/layouts/index.html:528
 msgid "layout.index.header.nav.annassoftware"
 msgstr "アンナのソフトウェア↗"
 
-#: allthethings/templates/layouts/index.html:440
-#: allthethings/templates/layouts/index.html:519
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:529
 msgid "layout.index.header.nav.translate"
 msgstr "翻訳する ↗"
 
-#: allthethings/templates/layouts/index.html:453
-#: allthethings/templates/layouts/index.html:457
-#: allthethings/templates/layouts/index.html:462
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:467
+#: allthethings/templates/layouts/index.html:472
 msgid "layout.index.header.nav.login_register"
 msgstr "ログイン/登録"
 
-#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:486
+#: allthethings/templates/layouts/index.html:491
 msgid "layout.index.header.nav.account"
 msgstr "アカウント"
 
-#: allthethings/templates/layouts/index.html:494
+#: allthethings/templates/layouts/index.html:504
 msgid "layout.index.footer.list1.header"
 msgstr "アンナのアーカイブ"
 
-#: allthethings/templates/layouts/index.html:513
+#: allthethings/templates/layouts/index.html:523
 msgid "layout.index.footer.list2.header"
 msgstr "連絡を取る"
 
-#: allthethings/templates/layouts/index.html:515
+#: allthethings/templates/layouts/index.html:525
 msgid "layout.index.footer.list2.dmca_copyright"
 msgstr "DMCA/著作権主張"
 
-#: allthethings/templates/layouts/index.html:516
+#: allthethings/templates/layouts/index.html:526
 msgid "layout.index.footer.list2.reddit"
 msgstr "Reddit"
 
-#: allthethings/templates/layouts/index.html:516
+#: allthethings/templates/layouts/index.html:526
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
-#: allthethings/templates/layouts/index.html:529
+#: allthethings/templates/layouts/index.html:533
+msgid "layout.index.header.nav.advanced"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:541
 msgid "layout.index.header.nav.security"
 msgstr "セキュリティ"
 
-#: allthethings/templates/layouts/index.html:533
+#: allthethings/templates/layouts/index.html:545
 msgid "layout.index.footer.list3.header"
 msgstr "ミラーサイト"
 
@@ -3063,4 +3538,16 @@ msgstr ""
 
 #~ msgid "common.record_sources_mapping.ia"
 #~ msgstr "Internet Archive"
+
+#~ msgid "page.donation.payment.alipay.text1"
+#~ msgstr "<a %(a_account)s>このAripayアカウントを使用して%(total)sを寄付"
+
+#~ msgid "page.upload.zlib.text"
+#~ msgstr ""
+
+#~ msgid "page.home.mirrors.body"
+#~ msgstr ""
+
+#~ msgid "layout.index.header.nav.mirrors"
+#~ msgstr ""
 
