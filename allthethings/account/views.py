@@ -288,6 +288,7 @@ def donate_page():
             MEMBERSHIP_MAX_BONUS_DOWNLOADS=allthethings.utils.MEMBERSHIP_MAX_BONUS_DOWNLOADS,
             days_parity=(datetime.datetime.utcnow() - datetime.datetime(1970,1,1)).days,
             # ref_account_dict=ref_account_dict,
+            downloads_double=allthethings.utils.get_is_membership_double(),
         )
 
 

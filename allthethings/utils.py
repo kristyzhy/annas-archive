@@ -469,6 +469,9 @@ MEMBERSHIP_MAX_BONUS_DOWNLOADS = 10000
 
 MEMBERSHIP_EXCHANGE_RATE_RMB = 7.25
 
+def get_is_membership_double():
+    return False
+
 def get_account_fast_download_info(mariapersist_session, account_id):
     mariapersist_session.connection().connection.ping(reconnect=True)
     cursor = mariapersist_session.connection().connection.cursor(pymysql.cursors.DictCursor)

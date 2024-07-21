@@ -193,21 +193,15 @@
     {% block main %}
       <div class="header" role="navigation">
         <div>
-        <!-- <div class="[html:not(.aa-logged-in)_&]:hidden"> -->
-          {% if g.domain_lang_code == 'zh' %}
-            <!-- blue -->
-            <div class="bg-[#0195ff] hidden js-top-banner">
+          {% if g.is_membership_double %}
+            <div class="bg-[#ff005b] hidden js-fundraiser-banner">
               <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
                 <div>
-                  <!-- GFW, payment processors, ads -->
-                  <!-- 我们正在寻找专业服务，可以帮助可靠地绕过GFW，例如通过设置定期更改的代理和域名，或其他技巧。如果您确实具有此方面的实际专业经验，请与我们联系。<strong>我们愿意为此付出代价。</strong><a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a> -->
-                  <!-- payment processors, ads -->
-                  <!-- 我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。此外，我们正在寻找希望放置小而别致广告的公司。 -->
-                  <!-- payment processors -->
-                  <!-- 我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。 <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a> -->
-                  <!-- long live annas-archive.se -->
-                  <!-- ❌ 更新您的书签吧:annas-archive.org 已不复存在,欢迎访问annas-archive.se! 🎉 -->
-                  📄 新博客文章: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/blog/critical-window-chinese.html">海盗图书馆的关键时期</a>
+                  <div>
+                    {{ gettext('layout.index.header.banner.fundraiser.help') }}
+                    {{ gettext('layout.index.header.banner.fundraiser.takedown') }}
+                  </div>
+                  <div>{{ gettext('layout.index.header.banner.fundraiser.this_month') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a></div>
                 </div>
                 <div>
                   <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
@@ -215,74 +209,97 @@
               </div>
             </div>
           {% else %}
+            <!-- <div class="[html:not(.aa-logged-in)_&]:hidden"> -->
+            {% if g.domain_lang_code == 'zh' %}
+              <!-- blue -->
+              <div class="bg-[#0195ff] hidden js-top-banner">
+                <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
+                  <div>
+                    <!-- GFW, payment processors, ads -->
+                    <!-- 我们正在寻找专业服务，可以帮助可靠地绕过GFW，例如通过设置定期更改的代理和域名，或其他技巧。如果您确实具有此方面的实际专业经验，请与我们联系。<strong>我们愿意为此付出代价。</strong><a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a> -->
+                    <!-- payment processors, ads -->
+                    <!-- 我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。此外，我们正在寻找希望放置小而别致广告的公司。 -->
+                    <!-- payment processors -->
+                    <!-- 我们还在寻找能够让我们保持匿名的专业支付宝/微信支付处理器，使用加密货币。 <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/contact">{{ gettext('page.contact.title') }}</a> -->
+                    <!-- long live annas-archive.se -->
+                    <!-- ❌ 更新您的书签吧:annas-archive.org 已不复存在,欢迎访问annas-archive.se! 🎉 -->
+                    📄 新博客文章: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/blog/critical-window-chinese.html">海盗图书馆的关键时期</a>
+                  </div>
+                  <div>
+                    <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <!-- blue -->
+              <div class="bg-[#0195ff] hidden js-top-banner">
+                <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
+                  <!-- <div>
+                    🎄 <strong>{{ gettext('layout.index.header.banner.holiday_gift') }}</strong> ❄️ {{ gettext('layout.index.header.banner.surprise') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a>
+                  </div> -->
+                  <!-- <div>
+                    {{ gettext('layout.index.header.banner.mirrors') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/mirrors">{{ gettext('layout.index.header.learn_more') }}</a>
+                  </div> -->
+                  <!-- <div>
+                    ❌ Update your bookmarks: annas-archive.org is no more, long live annas-archive.se! 🎉
+                  </div> -->
+                  <!-- <div>
+                    {{ gettext('layout.index.header.banner.valentine_gift') }} {{ gettext('layout.index.header.banner.refer', percentage=50) }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/refer">{{ gettext('layout.index.header.learn_more') }}</a>
+                  </div> -->
+                  <div>
+                    📄 New blog post: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/blog/critical-window.html">The critical window of shadow libraries</a> — <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://torrentfreak.com/annas-archive-loses-gs-domain-name-but-remains-resilient-240718/">TorrentFreak coverage</a>
+                  </div>
+                  <div>
+                    <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+
             <!-- blue -->
-            <div class="bg-[#0195ff] hidden js-top-banner">
-              <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
-                <!-- <div>
-                  🎄 <strong>{{ gettext('layout.index.header.banner.holiday_gift') }}</strong> ❄️ {{ gettext('layout.index.header.banner.surprise') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a>
-                </div> -->
-                <!-- <div>
-                  {{ gettext('layout.index.header.banner.mirrors') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/mirrors">{{ gettext('layout.index.header.learn_more') }}</a>
-                </div> -->
-                <!-- <div>
-                  ❌ Update your bookmarks: annas-archive.org is no more, long live annas-archive.se! 🎉
-                </div> -->
-                <!-- <div>
-                  {{ gettext('layout.index.header.banner.valentine_gift') }} {{ gettext('layout.index.header.banner.refer', percentage=50) }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline text-xs" href="/refer">{{ gettext('layout.index.header.learn_more') }}</a>
-                </div> -->
+            <!-- <div class="bg-[#0195ff] hidden js-top-banner">  -->
+            <!-- purple -->
+            <!-- <div class="bg-[#7f01ff] hidden js-top-banner">  -->
+            <!-- <div class="hidden js-top-banner text-xs sm:text-base [html:not(.aa-logged-in)_&]:hidden"> -->
+              <!-- <div>
+                {{ gettext('layout.index.header.banner.new_donation_method', method_name=('<strong>Paypal</strong>' | safe), donate_link_open_tag=('<a href="/donate" class="custom-a text-[#fff] hover:text-[#ddd] underline">' | safe)) }}
+              </div> -->
+              <!-- <div>
+                We now have a <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://t.me/annasarchiveorg">Telegram</a> channel. Join us and discuss the future of Anna’s Archive.<br/>You can still also follow us on <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://www.reddit.com/r/Annas_Archive">Reddit</a>.
+              </div> -->
+              <!-- <div class="max-w-[1050px] mx-auto px-4 py-2">
+                <div class="flex justify-between mb-2">
+                  <div>{{ gettext('layout.index.banners.comics_fundraiser.text') | replace ('https://annas-blog.org', '/blog') }}</div>
+                  <div><a href="#" class="custom-a text-[#777] hover:text-black js-top-banner-close">✕</a></div>
+                </div>
+                <div style="background: #fff; padding: 8px; border-radius: 8px; box-shadow: 0px 2px 4px 0px #00000020">
+                  {% include 'macros/fundraiser.html' %}
+                </div>
+              </div> -->
+              <!-- <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between bg-[#0160a7]">
                 <div>
-                  📄 New blog post: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/blog/critical-window.html">The critical window of shadow libraries</a> — <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://torrentfreak.com/annas-archive-loses-gs-domain-name-but-remains-resilient-240718/">TorrentFreak coverage</a>
+                  Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please <a class="custom-a text-[#fff] hover:text-[#ddd] underline break-all" href="/contact">contact us</a>.
                 </div>
                 <div>
-                  <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
-                </div>
-              </div>
-            </div>
-          {% endif %}
-
-
-          <!-- blue -->
-          <!-- <div class="bg-[#0195ff] hidden js-top-banner">  -->
-          <!-- purple -->
-          <!-- <div class="bg-[#7f01ff] hidden js-top-banner">  -->
-          <!-- <div class="hidden js-top-banner text-xs sm:text-base [html:not(.aa-logged-in)_&]:hidden"> -->
-            <!-- <div>
-              {{ gettext('layout.index.header.banner.new_donation_method', method_name=('<strong>Paypal</strong>' | safe), donate_link_open_tag=('<a href="/donate" class="custom-a text-[#fff] hover:text-[#ddd] underline">' | safe)) }}
-            </div> -->
-            <!-- <div>
-              We now have a <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://t.me/annasarchiveorg">Telegram</a> channel. Join us and discuss the future of Anna’s Archive.<br/>You can still also follow us on <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="https://www.reddit.com/r/Annas_Archive">Reddit</a>.
-            </div> -->
-            <!-- <div class="max-w-[1050px] mx-auto px-4 py-2">
-              <div class="flex justify-between mb-2">
-                <div>{{ gettext('layout.index.banners.comics_fundraiser.text') | replace ('https://annas-blog.org', '/blog') }}</div>
-                <div><a href="#" class="custom-a text-[#777] hover:text-black js-top-banner-close">✕</a></div>
-              </div>
-              <div style="background: #fff; padding: 8px; border-radius: 8px; box-shadow: 0px 2px 4px 0px #00000020">
-                {% include 'macros/fundraiser.html' %}
-              </div>
-            </div> -->
-            <!-- <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between bg-[#0160a7]">
-              <div>
-                Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please <a class="custom-a text-[#fff] hover:text-[#ddd] underline break-all" href="/contact">contact us</a>.
-              </div>
-              <div>
-                <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
-              </div>
-            </div> -->
-            <!-- <div class="max-w-[1050px] mx-auto text-[#fff] bg-[#0160a7]">
-              <div class="flex justify-between">
-                <div class="px-4 py-2">
-                  New technical blog post: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/blog/annas-archive-containers.html">Anna’s Archive Containers (AAC): standardizing releases from the world’s largest shadow library</a>
-                </div>
-                <div class="px-4 py-2">
                   <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
                 </div>
-              </div>
-              <div class="px-4 py-2 bg-green-500">
-                Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please <a class="custom-a text-[#fff] hover:text-[#ddd] underline break-all" href="/contact">contact us</a>.
-              </div>
-            </div> -->
-          <!-- </div> -->
+              </div> -->
+              <!-- <div class="max-w-[1050px] mx-auto text-[#fff] bg-[#0160a7]">
+                <div class="flex justify-between">
+                  <div class="px-4 py-2">
+                    New technical blog post: <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/blog/annas-archive-containers.html">Anna’s Archive Containers (AAC): standardizing releases from the world’s largest shadow library</a>
+                  </div>
+                  <div class="px-4 py-2">
+                    <a href="#" class="custom-a text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>
+                  </div>
+                </div>
+                <div class="px-4 py-2 bg-green-500">
+                  Do you know experts in <strong>anonymous merchant payments</strong>? Can you help us add more convenient ways to donate? PayPal, Alipay, credit cards, gift cards. Please <a class="custom-a text-[#fff] hover:text-[#ddd] underline break-all" href="/contact">contact us</a>.
+                </div>
+              </div> -->
+            <!-- </div> -->
+          {% endif %}
           <script>
             (function() {
               if (document.querySelector('.js-top-banner')) {
@@ -299,6 +316,25 @@
                   document.querySelector('.js-top-banner-close').addEventListener('click', function(event) {
                     document.querySelector('.js-top-banner').style.display = 'none';
                     document.cookie = 'top_banner_hidden=' + latestTopBannerType + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT';
+                    event.preventDefault();
+                    return false;
+                  });
+                }
+              }
+              if (document.querySelector('.js-fundraiser-banner')) {
+                var latestFundraiserBannerType = '1';
+                var fundraiserBannerMatch = document.cookie.match(/fundraiser_banner_hidden=([^$ ;}]+)/);
+                var fundraiserBannerType = '';
+                if (fundraiserBannerMatch) {
+                  fundraiserBannerType = fundraiserBannerMatch[1];
+                  // Refresh cookie.
+                  document.cookie = 'fundraiser_banner_hidden=' + fundraiserBannerType + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT';
+                }
+                if (fundraiserBannerType !== latestFundraiserBannerType) {
+                  document.querySelector('.js-fundraiser-banner').style.display = 'block';
+                  document.querySelector('.js-fundraiser-banner-close').addEventListener('click', function(event) {
+                    document.querySelector('.js-fundraiser-banner').style.display = 'none';
+                    document.cookie = 'fundraiser_banner_hidden=' + latestFundraiserBannerType + ';path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT';
                     event.preventDefault();
                     return false;
                   });

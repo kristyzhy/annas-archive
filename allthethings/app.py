@@ -280,6 +280,8 @@ def extensions(app):
                 g.header_tagline_mid = gettext('layout.index.header.tagline', **g.header_stats)
                 g.header_tagline_short = gettext('layout.index.header.tagline_short')
 
+        g.is_membership_double = allthethings.utils.get_is_membership_double()
+
     return None
 
 
