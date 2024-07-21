@@ -127,31 +127,31 @@ msgstr "%(amount)s (%(amount_usd)s)"
 msgid "common.membership.format_currency.total"
 msgstr "总共 %(amount)s"
 
-#: allthethings/account/views.py:64
+#: allthethings/account/views.py:65
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s 次奖励加速)"
 
-#: allthethings/account/views.py:289
+#: allthethings/account/views.py:303
 msgid "common.donation.order_processing_status_labels.0"
 msgstr "未支付"
 
-#: allthethings/account/views.py:290
+#: allthethings/account/views.py:304
 msgid "common.donation.order_processing_status_labels.1"
 msgstr "已支付"
 
-#: allthethings/account/views.py:291
+#: allthethings/account/views.py:305
 msgid "common.donation.order_processing_status_labels.2"
 msgstr "已取消"
 
-#: allthethings/account/views.py:292
+#: allthethings/account/views.py:306
 msgid "common.donation.order_processing_status_labels.3"
 msgstr "已过期"
 
-#: allthethings/account/views.py:293
+#: allthethings/account/views.py:307
 msgid "common.donation.order_processing_status_labels.4"
 msgstr "等待安娜确认中"
 
-#: allthethings/account/views.py:294
+#: allthethings/account/views.py:308
 msgid "common.donation.order_processing_status_labels.5"
 msgstr "无效的"
 
@@ -351,6 +351,8 @@ msgstr "加密货币 %(bitcoin_icon)s"
 #: allthethings/account/templates/account/donate.html:318
 #: allthethings/account/templates/account/donate.html:319
 #: allthethings/account/templates/account/donate.html:320
+#: allthethings/account/templates/account/donate.html:321
+#: allthethings/account/templates/account/donate.html:322
 msgid "page.donate.discount"
 msgstr "-%(percentage)s%%"
 
@@ -538,109 +540,133 @@ msgstr "12 个月"
 msgid "page.donate.duration.24_mo"
 msgstr "24 个月"
 
-#: allthethings/account/templates/account/donate.html:323
+#: allthethings/account/templates/account/donate.html:321
+msgid "page.donate.duration.48_mo"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:322
+msgid "page.donate.duration.96_mo"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:325
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>折扣 <span %(span_discount)s></span></div><div %(div_total)s></div><div %(div_duration)s></div>"
 
-#: allthethings/account/templates/account/donate.html:330
+#: allthethings/account/templates/account/donate.html:332
 msgid "page.donate.payment.minimum_method"
 msgstr "这种支付方式最低需要 %(amount)s。请选择其他订阅时长或换一种支付方式。"
 
-#: allthethings/account/templates/account/donate.html:331
-#: allthethings/account/templates/account/donate.html:335
+#: allthethings/account/templates/account/donate.html:333
+#: allthethings/account/templates/account/donate.html:337
 msgid "page.donate.buttons.donate"
 msgstr ""
 
-#: allthethings/account/templates/account/donate.html:334
+#: allthethings/account/templates/account/donate.html:336
 msgid "page.donate.payment.maximum_method"
 msgstr "这种支付方式最高限额 %(amount)s。请选择其他订阅时长或换一种支付方式。"
 
-#: allthethings/account/templates/account/donate.html:341
+#: allthethings/account/templates/account/donate.html:343
 msgid "page.donate.login2"
 msgstr "加入会员，请<a %(a_login)s>登录或注册</a>。感谢您的支持！"
 
-#: allthethings/account/templates/account/donate.html:348
+#: allthethings/account/templates/account/donate.html:350
 msgid "page.donate.payment.crypto_select"
 msgstr "选择您喜欢的加密货币："
 
-#: allthethings/account/templates/account/donate.html:353
+#: allthethings/account/templates/account/donate.html:355
 msgid "page.donate.currency_lowest_minimum"
 msgstr "（最低金额）"
 
-#: allthethings/account/templates/account/donate.html:367
-#: allthethings/account/templates/account/donate.html:368
-#: allthethings/account/templates/account/donate.html:372
+#: allthethings/account/templates/account/donate.html:369
+#: allthethings/account/templates/account/donate.html:370
 #: allthethings/account/templates/account/donate.html:374
+#: allthethings/account/templates/account/donate.html:376
 msgid "page.donate.currency_warning_high_minimum"
 msgstr "（警告：最低金额较高）"
 
-#: allthethings/account/templates/account/donate.html:383
+#: allthethings/account/templates/account/donate.html:385
 msgid "page.donate.submit.confirm"
 msgstr "点击“捐赠”按钮确认此捐赠。"
 
-#: allthethings/account/templates/account/donate.html:391
+#: allthethings/account/templates/account/donate.html:393
 msgid "page.donate.submit.button"
 msgstr "捐赠 <span %(span_cost)s></span> <span %(span_label)s></span>"
 
-#: allthethings/account/templates/account/donate.html:396
+#: allthethings/account/templates/account/donate.html:398
 msgid "page.donate.submit.cancel_note"
 msgstr "您仍然可以在结帐时取消捐赠。"
 
-#: allthethings/account/templates/account/donate.html:400
+#: allthethings/account/templates/account/donate.html:402
 msgid "page.donate.submit.success"
 msgstr "✅ 跳转到捐赠页面…"
 
-#: allthethings/account/templates/account/donate.html:401
+#: allthethings/account/templates/account/donate.html:403
 msgid "page.donate.submit.failure"
 msgstr "❌ 出问题了。请重新加载页面并再试一次。"
 
-#: allthethings/account/templates/account/donate.html:461
+#: allthethings/account/templates/account/donate.html:463
 msgid "page.donate.duration.summary.discount"
 msgstr "%(percentage)s%%"
 
-#: allthethings/account/templates/account/donate.html:462
+#: allthethings/account/templates/account/donate.html:464
 msgid "page.donate.duration.summary.monthly_cost"
 msgstr "每月 %(monthly_cost)s"
 
-#: allthethings/account/templates/account/donate.html:465
+#: allthethings/account/templates/account/donate.html:467
 msgid "page.donate.duration.summary.duration.1_mo"
 msgstr "1 个月"
 
-#: allthethings/account/templates/account/donate.html:466
+#: allthethings/account/templates/account/donate.html:468
 msgid "page.donate.duration.summary.duration.3_mo"
 msgstr "3 个月"
 
-#: allthethings/account/templates/account/donate.html:467
+#: allthethings/account/templates/account/donate.html:469
 msgid "page.donate.duration.summary.duration.6_mo"
 msgstr "6 个月"
 
-#: allthethings/account/templates/account/donate.html:468
+#: allthethings/account/templates/account/donate.html:470
 msgid "page.donate.duration.summary.duration.12_mo"
 msgstr "12 个月"
 
-#: allthethings/account/templates/account/donate.html:469
+#: allthethings/account/templates/account/donate.html:471
 msgid "page.donate.duration.summary.duration.24_mo"
 msgstr "24 个月"
 
+#: allthethings/account/templates/account/donate.html:472
+msgid "page.donate.duration.summary.duration.48_mo"
+msgstr ""
+
 #: allthethings/account/templates/account/donate.html:473
+msgid "page.donate.duration.summary.duration.96_mo"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:477
 msgid "page.donate.submit.button.label.1_mo"
 msgstr "1 个月 “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:474
+#: allthethings/account/templates/account/donate.html:478
 msgid "page.donate.submit.button.label.3_mo"
 msgstr "3 个月 “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:475
+#: allthethings/account/templates/account/donate.html:479
 msgid "page.donate.submit.button.label.6_mo"
 msgstr "6 个月“%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:476
+#: allthethings/account/templates/account/donate.html:480
 msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 个月 “%(tier_name)s”"
 
-#: allthethings/account/templates/account/donate.html:477
+#: allthethings/account/templates/account/donate.html:481
 msgid "page.donate.submit.button.label.24_mo"
 msgstr "24 个月“%(tier_name)s”"
+
+#: allthethings/account/templates/account/donate.html:482
+msgid "page.donate.submit.button.label.48_mo"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:483
+msgid "page.donate.submit.button.label.96_mo"
+msgstr ""
 
 #: allthethings/account/templates/account/donation.html:3
 #: allthethings/account/templates/account/donation.html:9
@@ -1349,345 +1375,345 @@ msgstr "这种币的最低金额比其他的要高。请选择其他订阅时长
 msgid "dyn.buy_membership.error.wait"
 msgstr "支付处理错误。请等待一会然后重试。如果该问题持续了超过 24 小时，请通过 %(email)s 联系我们，并附上截图。"
 
-#: allthethings/page/views.py:4340
+#: allthethings/page/views.py:4332
 msgid "page.md5.box.download.affected_files"
 msgstr ""
 
-#: allthethings/page/views.py:4589
+#: allthethings/page/views.py:4581
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "在 Libgen.rs 的非虚构文学板块中不可见"
 
-#: allthethings/page/views.py:4590
+#: allthethings/page/views.py:4582
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "在 Libgen.rs 的小说板块中不可见"
 
-#: allthethings/page/views.py:4591
+#: allthethings/page/views.py:4583
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "在 Libgen.li 中不可见"
 
-#: allthethings/page/views.py:4592
+#: allthethings/page/views.py:4584
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "在 Libgen.li 中被标记为损坏"
 
-#: allthethings/page/views.py:4593
+#: allthethings/page/views.py:4585
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "在 Z-Library 中被标记为丢失"
 
-#: allthethings/page/views.py:4594
+#: allthethings/page/views.py:4586
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
 msgstr ""
 
-#: allthethings/page/views.py:4595
+#: allthethings/page/views.py:4587
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
 msgstr ""
 
-#: allthethings/page/views.py:4601
+#: allthethings/page/views.py:4593
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "未知类型的图书"
 
-#: allthethings/page/views.py:4602
+#: allthethings/page/views.py:4594
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "非小说类图书"
 
-#: allthethings/page/views.py:4603
+#: allthethings/page/views.py:4595
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "小说类图书"
 
-#: allthethings/page/views.py:4604
+#: allthethings/page/views.py:4596
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "期刊文章"
 
-#: allthethings/page/views.py:4605
+#: allthethings/page/views.py:4597
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "标准文档"
 
-#: allthethings/page/views.py:4606
+#: allthethings/page/views.py:4598
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "杂志"
 
-#: allthethings/page/views.py:4607
+#: allthethings/page/views.py:4599
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "漫画"
 
-#: allthethings/page/views.py:4608
+#: allthethings/page/views.py:4600
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "乐谱"
 
-#: allthethings/page/views.py:4609
+#: allthethings/page/views.py:4601
 msgid "common.md5_content_type_mapping.other"
 msgstr "其他"
 
-#: allthethings/page/views.py:4615
+#: allthethings/page/views.py:4607
 msgid "common.access_types_mapping.aa_download"
 msgstr "合作服务器下载"
 
-#: allthethings/page/views.py:4616
+#: allthethings/page/views.py:4608
 msgid "common.access_types_mapping.aa_scidb"
 msgstr ""
 
-#: allthethings/page/views.py:4617
+#: allthethings/page/views.py:4609
 msgid "common.access_types_mapping.external_download"
 msgstr "外部下载"
 
-#: allthethings/page/views.py:4618
+#: allthethings/page/views.py:4610
 msgid "common.access_types_mapping.external_borrow"
 msgstr "外部借阅"
 
-#: allthethings/page/views.py:4619
+#: allthethings/page/views.py:4611
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "外部借阅（无法打印）"
 
-#: allthethings/page/views.py:4620
+#: allthethings/page/views.py:4612
 msgid "common.access_types_mapping.meta_explore"
 msgstr "查阅元数据"
 
-#: allthethings/page/views.py:4621
+#: allthethings/page/views.py:4613
 msgid "common.access_types_mapping.torrents_available"
 msgstr "包含在种子中"
 
-#: allthethings/page/views.py:4627
+#: allthethings/page/views.py:4619
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:4628
+#: allthethings/page/views.py:4620
 msgid "common.record_sources_mapping.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:4629
+#: allthethings/page/views.py:4621
 msgid "common.record_sources_mapping.zlib"
 msgstr "Z图书馆"
 
-#: allthethings/page/views.py:4630
+#: allthethings/page/views.py:4622
 msgid "common.record_sources_mapping.ia"
 msgstr ""
 
-#: allthethings/page/views.py:4631
+#: allthethings/page/views.py:4623
 msgid "common.record_sources_mapping.isbndb"
 msgstr "国际标准书号数据库"
 
-#: allthethings/page/views.py:4632
+#: allthethings/page/views.py:4624
 msgid "common.record_sources_mapping.ol"
 msgstr "开放图书馆"
 
-#: allthethings/page/views.py:4633
+#: allthethings/page/views.py:4625
 msgid "common.record_sources_mapping.scihub"
 msgstr "科学中心"
 
-#: allthethings/page/views.py:4634
+#: allthethings/page/views.py:4626
 msgid "common.record_sources_mapping.oclc"
 msgstr "世界图书馆联合目录"
 
-#: allthethings/page/views.py:4635
+#: allthethings/page/views.py:4627
 msgid "common.record_sources_mapping.duxiu"
 msgstr "读秀"
 
-#: allthethings/page/views.py:4636
+#: allthethings/page/views.py:4628
 msgid "common.record_sources_mapping.uploads"
 msgstr ""
 
-#: allthethings/page/views.py:4642
+#: allthethings/page/views.py:4634
 msgid "common.specific_search_fields.title"
 msgstr "标题"
 
-#: allthethings/page/views.py:4643
+#: allthethings/page/views.py:4635
 msgid "common.specific_search_fields.author"
 msgstr "作者"
 
-#: allthethings/page/views.py:4644
+#: allthethings/page/views.py:4636
 msgid "common.specific_search_fields.publisher"
 msgstr "出版者"
 
-#: allthethings/page/views.py:4645
+#: allthethings/page/views.py:4637
 msgid "common.specific_search_fields.edition_varia"
 msgstr "版本"
 
-#: allthethings/page/views.py:4646
+#: allthethings/page/views.py:4638
 msgid "common.specific_search_fields.year"
 msgstr ""
 
-#: allthethings/page/views.py:4647
+#: allthethings/page/views.py:4639
 msgid "common.specific_search_fields.original_filename"
 msgstr "原文件名"
 
-#: allthethings/page/views.py:4648
+#: allthethings/page/views.py:4640
 msgid "common.specific_search_fields.description_comments"
 msgstr "描述和元数据中的注释"
 
-#: allthethings/page/views.py:4673
+#: allthethings/page/views.py:4665
 msgid "common.md5.servers.fast_partner"
 msgstr "高速服务器（合作方提供） #%(number)s"
 
-#: allthethings/page/views.py:4673
+#: allthethings/page/views.py:4665
 msgid "common.md5.servers.no_browser_verification_or_waitlists"
 msgstr ""
 
-#: allthethings/page/views.py:4676 allthethings/page/views.py:4678
+#: allthethings/page/views.py:4668 allthethings/page/views.py:4670
 msgid "common.md5.servers.slow_partner"
 msgstr "低速服务器（合作方提供） #%(number)s"
 
-#: allthethings/page/views.py:4676
+#: allthethings/page/views.py:4668
 msgid "common.md5.servers.faster_with_waitlist"
 msgstr ""
 
-#: allthethings/page/views.py:4678
+#: allthethings/page/views.py:4670
 msgid "common.md5.servers.slow_no_waitlist"
 msgstr ""
 
-#: allthethings/page/views.py:4767
+#: allthethings/page/views.py:4759
 msgid "page.md5.box.descr_title"
 msgstr "描述"
 
-#: allthethings/page/views.py:4768
+#: allthethings/page/views.py:4760
 msgid "page.md5.box.metadata_comments_title"
 msgstr "元数据中的注释"
 
-#: allthethings/page/views.py:4769
+#: allthethings/page/views.py:4761
 msgid "page.md5.box.alternative_title"
 msgstr ""
 
-#: allthethings/page/views.py:4770
+#: allthethings/page/views.py:4762
 msgid "page.md5.box.alternative_author"
 msgstr ""
 
-#: allthethings/page/views.py:4771
+#: allthethings/page/views.py:4763
 msgid "page.md5.box.alternative_publisher"
 msgstr ""
 
-#: allthethings/page/views.py:4772
+#: allthethings/page/views.py:4764
 msgid "page.md5.box.alternative_edition"
 msgstr ""
 
-#: allthethings/page/views.py:4773
+#: allthethings/page/views.py:4765
 msgid "page.md5.box.alternative_description"
 msgstr ""
 
-#: allthethings/page/views.py:4774
+#: allthethings/page/views.py:4766
 msgid "page.md5.box.alternative_filename"
 msgstr ""
 
-#: allthethings/page/views.py:4775
+#: allthethings/page/views.py:4767
 msgid "page.md5.box.alternative_extension"
 msgstr ""
 
-#: allthethings/page/views.py:4776
+#: allthethings/page/views.py:4768
 msgid "page.md5.box.date_open_sourced_title"
 msgstr "开源日期"
 
-#: allthethings/page/views.py:4812
+#: allthethings/page/views.py:4804
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "此文件暂时无法通过合作方服务器下载。"
 
-#: allthethings/page/views.py:4816 allthethings/page/views.py:4999
+#: allthethings/page/views.py:4808 allthethings/page/views.py:4991
 msgid "page.md5.box.download.scihub"
 msgstr "科学中心: %(doi)s"
 
-#: allthethings/page/views.py:4890
+#: allthethings/page/views.py:4882
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs 非虚构文学板块"
 
-#: allthethings/page/views.py:4890 allthethings/page/views.py:4903
-#: allthethings/page/views.py:4950
+#: allthethings/page/views.py:4882 allthethings/page/views.py:4895
+#: allthethings/page/views.py:4942
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "（也可以点击顶部的“GET”）"
 
-#: allthethings/page/views.py:4890 allthethings/page/views.py:4903
-#: allthethings/page/views.py:4950
+#: allthethings/page/views.py:4882 allthethings/page/views.py:4895
+#: allthethings/page/views.py:4942
 msgid "page.md5.box.download.extra_click_get"
 msgstr "（点击顶部的“GET”）"
 
-#: allthethings/page/views.py:4903
+#: allthethings/page/views.py:4895
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs 的小说板块"
 
-#: allthethings/page/views.py:4950
+#: allthethings/page/views.py:4942
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:4950
+#: allthethings/page/views.py:4942
 msgid "page.md5.box.download.libgen_ads"
 msgstr ""
 
-#: allthethings/page/views.py:4996
+#: allthethings/page/views.py:4988
 msgid "page.md5.box.download.ia_borrow"
 msgstr "从互联网档案馆借阅"
 
-#: allthethings/page/views.py:4996
+#: allthethings/page/views.py:4988
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "（禁止打印，仅赞助人可用）"
 
-#: allthethings/page/views.py:4999
+#: allthethings/page/views.py:4991
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "（相关DOI在Sci-Hub中可能不可用）"
 
-#: allthethings/page/views.py:5005
+#: allthethings/page/views.py:4997
 msgid "page.md5.box.download.collection"
 msgstr ""
 
-#: allthethings/page/views.py:5006
+#: allthethings/page/views.py:4998
 msgid "page.md5.box.download.torrent"
 msgstr ""
 
-#: allthethings/page/views.py:5012
+#: allthethings/page/views.py:5004
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "批量种子下载"
 
-#: allthethings/page/views.py:5012
+#: allthethings/page/views.py:5004
 msgid "page.md5.box.download.experts_only"
 msgstr "（仅限专家）"
 
-#: allthethings/page/views.py:5019
+#: allthethings/page/views.py:5011
 msgid "page.md5.box.download.aa_isbn"
 msgstr "在安娜的档案中检索 ISBN 书号"
 
-#: allthethings/page/views.py:5020
+#: allthethings/page/views.py:5012
 msgid "page.md5.box.download.other_isbn"
 msgstr "在各种其他数据库中检索 ISBN 书号"
 
-#: allthethings/page/views.py:5022
+#: allthethings/page/views.py:5014
 msgid "page.md5.box.download.original_isbndb"
 msgstr "在 ISBNdb 中查找原始记录"
 
-#: allthethings/page/views.py:5024
+#: allthethings/page/views.py:5016
 msgid "page.md5.box.download.aa_openlib"
 msgstr "在安娜的档案中检索 Open Library ID"
 
-#: allthethings/page/views.py:5026
+#: allthethings/page/views.py:5018
 msgid "page.md5.box.download.original_openlib"
 msgstr "在 Open Library 中查找原始记录"
 
-#: allthethings/page/views.py:5028
+#: allthethings/page/views.py:5020
 msgid "page.md5.box.download.aa_oclc"
 msgstr "在安娜的档案中检索 OCLC (WorldCat) 编号"
 
-#: allthethings/page/views.py:5029
+#: allthethings/page/views.py:5021
 msgid "page.md5.box.download.original_oclc"
 msgstr "在 WorldCat 中查找原始记录"
 
-#: allthethings/page/views.py:5031
+#: allthethings/page/views.py:5023
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "在安娜的档案中搜索读秀 SSID 号"
 
-#: allthethings/page/views.py:5032
+#: allthethings/page/views.py:5024
 msgid "page.md5.box.download.original_duxiu"
 msgstr "手动在读秀网站上搜索"
 
-#: allthethings/page/views.py:5034
+#: allthethings/page/views.py:5026
 msgid "page.md5.box.download.aa_cadal"
 msgstr "在安娜的档案中搜索 CADAL SSNO 号"
 
-#: allthethings/page/views.py:5035
+#: allthethings/page/views.py:5027
 msgid "page.md5.box.download.original_cadal"
 msgstr "在 CADAL 中查找原始记录"
 
-#: allthethings/page/views.py:5039
+#: allthethings/page/views.py:5031
 msgid "page.md5.box.download.aa_dxid"
 msgstr "在安娜的档案中搜索读秀 DXID 号"
 
-#: allthethings/page/views.py:5044 allthethings/page/views.py:5045
+#: allthethings/page/views.py:5036 allthethings/page/views.py:5037
 msgid "page.md5.box.download.scidb"
 msgstr "安娜的档案 🧬 SciDB"
 
-#: allthethings/page/views.py:5044 allthethings/page/views.py:5045
+#: allthethings/page/views.py:5036 allthethings/page/views.py:5037
 msgid "common.md5.servers.no_browser_verification"
 msgstr "（无需验证浏览器）"
 

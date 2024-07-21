@@ -418,7 +418,7 @@ MEMBERSHIP_METHOD_DISCOUNTS = {
 }
 MEMBERSHIP_DURATION_DISCOUNTS = {
     # Note: keep manually in sync with HTML.
-    "1": 0, "3": 5, "6": 10, "12": 25, "24": 40,
+    "1": 0, "3": 5, "6": 10, "12": 20, "24": 30, "48": 40, "96": 50,
 }
 MEMBERSHIP_DOWNLOADS_PER_DAY = {
     "1": 0, "2": 25, "3": 50, "4": 200, "5": 1000,
