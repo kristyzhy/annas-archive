@@ -318,8 +318,8 @@ def public_cache(cloudflare_minutes=0, minutes=0):
                 r.headers.add('Cache-Control', f"public,max-age={int(60 * minutes)},s-maxage={int(60 * minutes)}")
                 r.headers.add('Cloudflare-CDN-Cache-Control', f"max-age={int(60 * cloudflare_minutes)}")
             else:
-                r.headers.add('Cache-Control', 'no-cache')
-                r.headers.add('Cloudflare-CDN-Cache-Control', 'no-cache')
+                r.headers.add('Cache-Control', 'no-cache,must-revalidate,max-age=0,stale-if-error=0')
+                r.headers.add('Cloudflare-CDN-Cache-Control', 'no-cache,must-revalidate,max-age=0,stale-if-error=0')
             return r
         return wrapped_f
     return fwrap
@@ -329,8 +329,8 @@ def no_cache():
         @functools.wraps(f)
         def wrapped_f(*args, **kwargs):
             r = flask.make_response(f(*args, **kwargs))
-            r.headers.add('Cache-Control', 'no-cache')
-            r.headers.add('Cloudflare-CDN-Cache-Control', 'no-cache')
+            r.headers.add('Cache-Control', 'no-cache,must-revalidate,max-age=0,stale-if-error=0')
+            r.headers.add('Cloudflare-CDN-Cache-Control', 'no-cache,must-revalidate,max-age=0,stale-if-error=0')
             return r
         return wrapped_f
     return fwrap
