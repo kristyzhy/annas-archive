@@ -562,7 +562,7 @@ def download_file(claim, client):
         
         print(f"[{zlibrary_id}] Found {download_url=}")
 
-        for attempt in [1,2,3]:
+        for attempt in range(1, 100):
             with client.stream("GET", download_url, headers={'User-Agent': USER_AGENT, 'COOKIE': COOKIE}) as response:
                 if response.status_code == 404:
                     return { "success": f"404 status_code for {download_url=}" }

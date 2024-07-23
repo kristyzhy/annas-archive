@@ -3619,7 +3619,7 @@ def get_aarecords_elasticsearch(aarecord_ids):
 
     search_results_raw = []
     for es_handle, docs in docs_by_es_handle.items():
-        for attempt in [1,2,3]:
+        for attempt in range(1, 100):
             try:
                 search_results_raw += es_handle.mget(docs=docs)['docs']
                 break
@@ -5774,7 +5774,7 @@ def search_page():
 
     search_names = ['search1_primary']
     search_results_raw = {'responses': [{} for search_name in search_names]}
-    for attempt in [1, 2]:
+    for attempt in range(1, 100):
         try:
             search_results_raw = dict(es_handle.msearch(
                 request_timeout=5,
@@ -5882,7 +5882,7 @@ def search_page():
     if (page_value == 1) and (additional_display_results > 0) and (len(specific_search_fields) == 0):
         search_names2 = ['search2', 'search3', 'search4']
         search_results_raw2 = {'responses': [{} for search_name in search_names2]}
-        for attempt in [1, 2]:
+        for attempt in range(1, 100):
             try:
                 search_results_raw2 = dict(es_handle.msearch(
                     request_timeout=4,
@@ -5927,6 +5927,7 @@ def search_page():
                 else:
                     had_es_timeout = True
                     print(f"Warning: issue during secondary ES search {search_input=}")
+                    break
         for num, response in enumerate(search_results_raw2['responses']):
             es_stats.append({ 'name': search_names2[num], 'took': response.get('took'), 'timed_out': response.get('timed_out') })
             if response.get('timed_out'):

@@ -320,14 +320,20 @@
 
           <p class="mt-4">{{ gettext('page.search.results.error.unknown', a_reload=(' href="javascript:location.reload()" ' | safe), email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}</p>
         {% else %}
-          {% if search_dict.had_es_timeout and (not search_dict.max_search_aarecords_reached) %}
+          {% if search_dict.had_es_timeout and (not search_dict.max_search_aarecords_reached) and ((search_dict.search_aarecords | length) > 0) %}
             <div class="mt-4 text-sm text-gray-500 sm:hidden">
               {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
             </div>
           {% endif %}
 
           {% if (search_dict.search_aarecords | length) == 0 %}
-            <div class="mt-4">{{ gettext('page.search.results.none') }}</div>
+            <div class="mt-4">
+              {% if search_dict.had_es_timeout %}
+                {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
+              {% else %}
+                {{ gettext('page.search.results.none') }}
+              {% endif %}
+            </div>
 
             {% if search_dict.search_index_short == '' %}
               <div class="mt-4 js-not-found-additional hidden">

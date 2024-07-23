@@ -696,7 +696,7 @@ def payment2_check(cursor, payment_id):
 
 def payment3_check(cursor, donation_id):
     payment3_status = None
-    for attempt in [1,2,3,4,5]:
+    for attempt in range(1, 100):
         try:
             data = {
                 # Note that these are sorted by key.

@@ -484,7 +484,7 @@ def elastic_reset_aarecords_internal():
         cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
-    # BE SURE to update dump_mariadb_omit_tables.txt
+    # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
     new_tables_internal('aarecords_codes_ia')
     new_tables_internal('aarecords_codes_isbndb')
     new_tables_internal('aarecords_codes_ol')
@@ -1139,6 +1139,7 @@ def mysql_build_aarecords_codes_numbers_internal():
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
 
         # InnoDB for the key length.
+        # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
         print("Creating fresh table aarecords_codes_new")
         cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
         cursor.execute('CREATE TABLE aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
