@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-  <form action="/search" method="get" role="search" class="js-search-form">
+  <form action="/search" method="get" role="search" class="js-search-form" onsubmit="for (el of document.querySelectorAll('.js-spinner')) { el.classList.remove('hidden'); }">
     <input type="hidden" name="index" value="{{ search_dict.search_index_short }}" class="js-search-form-index">
     <input type="hidden" name="page" value="1">
 
@@ -65,6 +65,7 @@
       <a href="#" class="custom-a sm:hidden text-lg mr-2 opacity-50 hover:opacity-100" alt="Filter settings" title="Filter settings" onclick="event.preventDefault(); document.querySelector('.js-search-filter-settings').classList.remove('max-sm:hidden'); document.body.style.overflow = 'hidden'"><span class="icon-[mingcute--settings-6-line]"></span></a>
       <input type="search" name="q" placeholder="{{ gettext('common.search.placeholder') }}" value="{{search_input}}" class="js-slash-focus grow bg-black/6.7 px-2 py-1 mr-2 rounded" {% if search_input == '' %}autofocus{% endif %}>
       <button class="sm:hidden px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('common.search.submit') }}</button>
+      <span class="sm:hidden"><span class="js-spinner hidden opacity-50 mb-[-0px] ml-2 text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span></span>
     </div>
 
     <div class="text-xs flex flex-wrap mb-4 sm:hidden">
@@ -109,6 +110,7 @@
           </div>
 
           <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 mb-4" type="submit">{{ gettext('page.search.submit') }}</button>
+          <span class="js-spinner hidden opacity-50 mb-[-5px] ml-1 text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
 
           {% if search_dict.had_primary_es_timeout and search_dict.max_search_aarecords_reached %}
             <div class="mb-4 text-xs text-gray-500">
@@ -220,6 +222,7 @@
           {% endif %}
           
           <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600 mb-2" type="submit">{{ gettext('page.search.submit') }}</button>
+          <span class="js-spinner hidden opacity-50 mb-[-5px] ml-1 text-xl text-[#555] inline-block icon-[svg-spinners--ring-resize]"></span>
 
           {% if g.last_data_refresh_date %}
             <div class="mt-4 mb-2" style="font-size: 90%; color: #555">{{ gettext('page.search.header.update_info', last_data_refresh_date=(g.last_data_refresh_date | dateformat('long')), link_open_tag=('<a href="/datasets">' | safe)) }}</div>
