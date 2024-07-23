@@ -36,6 +36,7 @@ BEGIN
     RETURN isbn13;
 END //
 delimiter ;
+# DELIMITER FOR cli/views.py
 
 -- ~37 mins
 ALTER TABLE allthethings.ol_base ADD PRIMARY KEY(ol_key);
@@ -52,3 +53,5 @@ INSERT IGNORE INTO allthethings.ol_isbn13 (isbn, ol_key) SELECT ISBN10to13(x.isb
 DROP TABLE IF EXISTS allthethings.ol_ocaid;
 CREATE TABLE allthethings.ol_ocaid (ocaid VARCHAR(500), ol_key VARCHAR(200), PRIMARY KEY(ocaid, ol_key)) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin SELECT JSON_UNQUOTE(JSON_EXTRACT(json, '$.ocaid')) AS ocaid, ol_key FROM ol_base WHERE JSON_UNQUOTE(JSON_EXTRACT(json, '$.ocaid')) IS NOT NULL AND ol_key LIKE '/books/OL%';
 
+DROP TABLE IF EXISTS allthethings.ol_annas_archive;
+CREATE TABLE allthethings.ol_annas_archive (annas_archive_md5 CHAR(32), ol_key CHAR(200), PRIMARY KEY(annas_archive_md5, ol_key)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin IGNORE SELECT LOWER(x.annas_archive_md5) AS annas_archive_md5, ol_key FROM allthethings.ol_base b CROSS JOIN JSON_TABLE(b.json, '$.identifiers.annas_archive[*]' COLUMNS (annas_archive_md5 VARCHAR(100) PATH '$')) x WHERE ol_key LIKE '/books/OL%' AND LENGTH(x.annas_archive_md5) = 32 AND x.annas_archive_md5 REGEXP '[0-9A-Fa-f]{32}';

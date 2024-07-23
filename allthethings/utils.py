@@ -926,7 +926,7 @@ UNIFIED_IDENTIFIERS = {
     "lgrsnf": { "label": "Libgen.rs Non-Fiction", "url": "https://libgen.rs/json.php?fields=*&ids=%s", "description": "Repository ID for the non-fiction ('libgen') repository in Libgen.rs. Directly taken from the 'id' field in the 'updated' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_rs" },
     "lgrsfic": { "label": "Libgen.rs Fiction", "url": "https://libgen.rs/fiction/", "description": "Repository ID for the fiction repository in Libgen.rs. Directly taken from the 'id' field in the 'fiction' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_rs" },
     "lgli": { "label": "Libgen.li File", "url": "https://libgen.li/file.php?id=%s", "description": "Global file ID in Libgen.li. Directly taken from the 'f_id' field in the 'files' table.", "website": "/datasets/libgen_li" },
-    "zlib": { "label": "Z-Library", "url": "https://zlibrary-sk.se/", "description": "", "website": "/datasets/zlib" },
+    "zlib": { "label": "Z-Library", "url": "https://z-lib.gs/", "description": "", "website": "/datasets/zlib" },
     # TODO: Add URL/description for these.
     "csbn": { "label": "CSBN", "url": "", "description": "China Standard Book Number, predecessor of ISBN in China", "website": "https://zh.wikipedia.org/zh-cn/%E7%BB%9F%E4%B8%80%E4%B9%A6%E5%8F%B7" },
     "ean13": { "label": "EAN-13", "url": "", "description": "", "website": "https://en.wikipedia.org/wiki/International_Article_Number" },

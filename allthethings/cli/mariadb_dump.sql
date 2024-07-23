@@ -2284,8 +2284,7 @@ CREATE TABLE `ol_base` (
   `ol_key` char(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `revision` int(11) NOT NULL,
   `last_modified` datetime NOT NULL,
-  `json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`json`)),
-  PRIMARY KEY (`ol_key`)
+  `json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`json`))
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2346,7 +2345,7 @@ INSERT INTO `ol_base` VALUES
 ('/type/edition','/books/OL10000047M',2,'2010-03-12 00:00:48','{\"publishers\": [\"Stationery Office Books\"], \"physical_format\": \"Paperback\", \"subjects\": [\"Central government\", \"United Kingdom, Great Britain\"], \"created\": {\"type\": \"/type/datetime\", \"value\": \"2008-04-30T09:38:13.731961\"}, \"isbn_10\": [\"0107717301\"], \"number_of_pages\": 8, \"isbn_13\": [\"9780107717308\"], \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2010-03-12T00:00:48.298004\"}, \"publish_date\": \"May 16, 1998\", \"key\": \"/books/OL10000047M\", \"authors\": [{\"key\": \"/authors/OL46053A\"}], \"title\": \"Index to the House of Lords Parliamentary Debates\", \"latest_revision\": 2, \"works\": [{\"key\": \"/works/OL14903346W\"}], \"type\": {\"key\": \"/type/edition\"}, \"revision\": 2}'),
 ('/type/edition','/books/OL10000048M',2,'2010-03-12 00:00:48','{\"publishers\": [\"Stationery Office Books\"], \"physical_format\": \"Paperback\", \"subjects\": [\"Central government\", \"United Kingdom, Great Britain\"], \"created\": {\"type\": \"/type/datetime\", \"value\": \"2008-04-30T09:38:13.731961\"}, \"isbn_10\": [\"010771731X\"], \"number_of_pages\": 8, \"isbn_13\": [\"9780107717315\"], \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2010-03-12T00:00:48.298004\"}, \"publish_date\": \"May 29, 1998\", \"key\": \"/books/OL10000048M\", \"authors\": [{\"key\": \"/authors/OL46053A\"}], \"title\": \"Index to the House of Lords Parliamentary Debates\", \"latest_revision\": 2, \"works\": [{\"key\": \"/works/OL14903346W\"}], \"type\": {\"key\": \"/type/edition\"}, \"revision\": 2}'),
 ('/type/edition','/books/OL10000049M',2,'2010-03-12 00:00:48','{\"publishers\": [\"Stationery Office Books\"], \"physical_format\": \"Paperback\", \"subjects\": [\"Central government\", \"United Kingdom, Great Britain\"], \"created\": {\"type\": \"/type/datetime\", \"value\": \"2008-04-30T09:38:13.731961\"}, \"isbn_10\": [\"0107717328\"], \"number_of_pages\": 8, \"isbn_13\": [\"9780107717322\"], \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2010-03-12T00:00:48.298004\"}, \"publish_date\": \"May 29, 1998\", \"key\": \"/books/OL10000049M\", \"authors\": [{\"key\": \"/authors/OL46053A\"}], \"title\": \"Index to the House of Lords Parliamentary Debates\", \"latest_revision\": 2, \"works\": [{\"key\": \"/works/OL14903346W\"}], \"type\": {\"key\": \"/type/edition\"}, \"revision\": 2}'),
-('/type/edition','/books/OL1000004M',9,'2022-11-15 11:25:41','{\"publishers\": [\"Thomson\"], \"number_of_pages\": 395, \"isbn_10\": [\"186152367X\"], \"covers\": [2067550], \"lc_classifications\": [\"HF5691 .W3445 1997\", \"\"], \"key\": \"/books/OL1000004M\", \"authors\": [{\"key\": \"/authors/OL540735A\"}], \"publish_places\": [\"London\"], \"contributions\": [\"Parramore, Keith.\"], \"languages\": [{\"key\": \"/languages/eng\"}], \"pagination\": \"x, 395 p. :\", \"source_records\": [\"bwb:9781861523679\", \"marc:marc_loc_2016/BooksAll.2016.part25.utf8:103776964:1050\", \"amazon:186152367X\"], \"title\": \"Quantitative methods in finance\", \"dewey_decimal_class\": [\"519/.024/332\"], \"notes\": {\"type\": \"/type/text\", \"value\": \"Includes bibliographical references and index.\"}, \"identifiers\": {\"librarything\": [\"9313184\"], \"goodreads\": [\"1178398\"]}, \"edition_name\": \"1st ed.\", \"lccn\": [\"96038878\"], \"subjects\": [\"Business mathematics.\", \"Finance.\"], \"publish_date\": \"1997\", \"publish_country\": \"enk\", \"by_statement\": \"Terry J. Watsham, Keith Parramore.\", \"works\": [{\"key\": \"/works/OL3336528W\"}], \"type\": {\"key\": \"/type/edition\"}, \"latest_revision\": 9, \"revision\": 9, \"created\": {\"type\": \"/type/datetime\", \"value\": \"2008-04-01T03:28:50.625462\"}, \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2022-11-15T11:25:41.821759\"}}'),
+('/type/edition','/books/OL1000004M',9,'2022-11-15 11:25:41','{\"publishers\": [\"Thomson\"], \"number_of_pages\": 395, \"isbn_10\": [\"186152367X\"], \"covers\": [2067550], \"lc_classifications\": [\"HF5691 .W3445 1997\", \"\"], \"key\": \"/books/OL1000004M\", \"authors\": [{\"key\": \"/authors/OL540735A\"}], \"publish_places\": [\"London\"], \"contributions\": [\"Parramore, Keith.\"], \"languages\": [{\"key\": \"/languages/eng\"}], \"pagination\": \"x, 395 p. :\", \"source_records\": [\"bwb:9781861523679\", \"marc:marc_loc_2016/BooksAll.2016.part25.utf8:103776964:1050\", \"amazon:186152367X\"], \"title\": \"Quantitative methods in finance\", \"dewey_decimal_class\": [\"519/.024/332\"], \"notes\": {\"type\": \"/type/text\", \"value\": \"Includes bibliographical references and index.\"}, \"identifiers\": {\"annas_archive\": [\"a50f2e8f2963888a976899e2c4675d70\"],\"librarything\": [\"9313184\"], \"goodreads\": [\"1178398\"]}, \"edition_name\": \"1st ed.\", \"lccn\": [\"96038878\"], \"subjects\": [\"Business mathematics.\", \"Finance.\"], \"publish_date\": \"1997\", \"publish_country\": \"enk\", \"by_statement\": \"Terry J. Watsham, Keith Parramore.\", \"works\": [{\"key\": \"/works/OL3336528W\"}], \"type\": {\"key\": \"/type/edition\"}, \"latest_revision\": 9, \"revision\": 9, \"created\": {\"type\": \"/type/datetime\", \"value\": \"2008-04-01T03:28:50.625462\"}, \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2022-11-15T11:25:41.821759\"}}'),
 ('/type/edition','/books/OL10000050M',2,'2010-03-12 00:00:48','{\"publishers\": [\"Stationery Office Books\"], \"physical_format\": \"Paperback\", \"subjects\": [\"Central government\", \"United Kingdom, Great Britain\"], \"created\": {\"type\": \"/type/datetime\", \"value\": \"2008-04-30T09:38:13.731961\"}, \"isbn_10\": [\"0107717336\"], \"number_of_pages\": 10, \"isbn_13\": [\"9780107717339\"], \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2010-03-12T00:00:48.298004\"}, \"publish_date\": \"June 12, 1998\", \"key\": \"/books/OL10000050M\", \"authors\": [{\"key\": \"/authors/OL46053A\"}], \"title\": \"Index to the House of Lords Parliamentary Debates\", \"latest_revision\": 2, \"works\": [{\"key\": \"/works/OL14903346W\"}], \"type\": {\"key\": \"/type/edition\"}, \"revision\": 2}'),
 ('/type/edition','/books/OL10000051M',2,'2010-03-12 00:00:48','{\"publishers\": [\"Stationery Office Books\"], \"physical_format\": \"Paperback\", \"subjects\": [\"Central government\", \"United Kingdom, Great Britain\"], \"created\": {\"type\": \"/type/datetime\", \"value\": \"2008-04-30T09:38:13.731961\"}, \"isbn_10\": [\"0107717344\"], \"number_of_pages\": 10, \"isbn_13\": [\"9780107717346\"], \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2010-03-12T00:00:48.298004\"}, \"publish_date\": \"June 17, 1998\", \"key\": \"/books/OL10000051M\", \"authors\": [{\"key\": \"/authors/OL46053A\"}], \"title\": \"Index to the House of Lords Parliamentary Debates\", \"latest_revision\": 2, \"works\": [{\"key\": \"/works/OL14903346W\"}], \"type\": {\"key\": \"/type/edition\"}, \"revision\": 2}'),
 ('/type/edition','/books/OL10000052M',2,'2010-03-12 00:00:48','{\"publishers\": [\"Stationery Office Books\"], \"physical_format\": \"Paperback\", \"subjects\": [\"Central government\", \"United Kingdom, Great Britain\"], \"created\": {\"type\": \"/type/datetime\", \"value\": \"2008-04-30T09:38:13.731961\"}, \"isbn_10\": [\"0107717352\"], \"number_of_pages\": 9, \"isbn_13\": [\"9780107717353\"], \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2010-03-12T00:00:48.298004\"}, \"publish_date\": \"June 25, 1998\", \"key\": \"/books/OL10000052M\", \"authors\": [{\"key\": \"/authors/OL46053A\"}], \"title\": \"Index to the House of Lords Parliamentary Debates\", \"latest_revision\": 2, \"works\": [{\"key\": \"/works/OL14903346W\"}], \"type\": {\"key\": \"/type/edition\"}, \"revision\": 2}'),
@@ -2421,126 +2420,6 @@ INSERT INTO `ol_base` VALUES
 ('/type/author','/authors/OL62871A',2,'2008-09-08 05:16:55','{\"name\": \"Dale Maharidge\", \"personal_name\": \"Dale Maharidge\", \"last_modified\": {\"type\": \"/type/datetime\", \"value\": \"2008-09-08T05:16:55.914499\"}, \"key\": \"/authors/OL62871A\", \"type\": {\"key\": \"/type/author\"}, \"revision\": 2}');
 /*!40000 ALTER TABLE `ol_base` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `ol_isbn13`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ol_isbn13` (
-  `isbn` char(13) NOT NULL,
-  `ol_key` char(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  PRIMARY KEY (`isbn`,`ol_key`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-LOCK TABLES `ol_isbn13` WRITE;
-/*!40000 ALTER TABLE `ol_isbn13` DISABLE KEYS */;
-INSERT INTO `ol_isbn13` VALUES
-('9780107716806','/books/OL10000000M'),
-('9780107716813','/books/OL10000001M'),
-('9780107716820','/books/OL10000002M'),
-('9780107716837','/books/OL10000003M'),
-('9780107716844','/books/OL10000004M'),
-('9780107716851','/books/OL10000005M'),
-('9780107716868','/books/OL10000006M'),
-('9780107716875','/books/OL10000007M'),
-('9780107716882','/books/OL10000008M'),
-('9780107716899','/books/OL10000009M'),
-('9780107716905','/books/OL10000010M'),
-('9780107716912','/books/OL10000011M'),
-('9780107716929','/books/OL10000012M'),
-('9780107716936','/books/OL10000013M'),
-('9780107716943','/books/OL10000014M'),
-('9780107716950','/books/OL10000015M'),
-('9780107716967','/books/OL10000016M'),
-('9780107716974','/books/OL10000017M'),
-('9780107716981','/books/OL10000018M'),
-('9780107716998','/books/OL10000019M'),
-('9780107717001','/books/OL10000020M'),
-('9780107717018','/books/OL10000021M'),
-('9780107717025','/books/OL10000022M'),
-('9780107717032','/books/OL10000023M'),
-('9780107717049','/books/OL10000024M'),
-('9780107717056','/books/OL10000025M'),
-('9780107717070','/books/OL10000026M'),
-('9780107717100','/books/OL10000027M'),
-('9780107717117','/books/OL10000028M'),
-('9780107717124','/books/OL10000029M'),
-('9780107717131','/books/OL10000030M'),
-('9780107717148','/books/OL10000031M'),
-('9780107717155','/books/OL10000032M'),
-('9780107717162','/books/OL10000033M'),
-('9780107717179','/books/OL10000034M'),
-('9780107717186','/books/OL10000035M'),
-('9780107717193','/books/OL10000036M'),
-('9780107717209','/books/OL10000037M'),
-('9780107717216','/books/OL10000038M'),
-('9780107717223','/books/OL10000039M'),
-('9780107717230','/books/OL10000040M'),
-('9780107717247','/books/OL10000041M'),
-('9780107717254','/books/OL10000042M'),
-('9780107717261','/books/OL10000043M'),
-('9780107717278','/books/OL10000044M'),
-('9780107717285','/books/OL10000045M'),
-('9780107717292','/books/OL10000046M'),
-('9780107717308','/books/OL10000047M'),
-('9780107717315','/books/OL10000048M'),
-('9780107717322','/books/OL10000049M'),
-('9780107717339','/books/OL10000050M'),
-('9780107717346','/books/OL10000051M'),
-('9780107717353','/books/OL10000052M'),
-('9780107717360','/books/OL10000053M'),
-('9780107717377','/books/OL10000054M'),
-('9780107717384','/books/OL10000055M'),
-('9780107717391','/books/OL10000056M'),
-('9780107717407','/books/OL10000057M'),
-('9780107717414','/books/OL10000058M'),
-('9780107717421','/books/OL10000059M'),
-('9780107717438','/books/OL10000060M'),
-('9780107717445','/books/OL10000061M'),
-('9780107717452','/books/OL10000062M'),
-('9780107717469','/books/OL10000063M'),
-('9780107717476','/books/OL10000064M'),
-('9780107717483','/books/OL10000065M'),
-('9780107717490','/books/OL10000066M'),
-('9780107717506','/books/OL10000067M'),
-('9780107717513','/books/OL10000068M'),
-('9780107717520','/books/OL10000069M'),
-('9780107717537','/books/OL10000070M'),
-('9780107717544','/books/OL10000071M'),
-('9780107717551','/books/OL10000072M'),
-('9780107717568','/books/OL10000073M'),
-('9780107717575','/books/OL10000074M'),
-('9780107717582','/books/OL10000075M'),
-('9780107717599','/books/OL10000076M'),
-('9780107717605','/books/OL10000077M'),
-('9780107717612','/books/OL10000078M'),
-('9780107717629','/books/OL10000079M'),
-('9780107717636','/books/OL10000080M'),
-('9780107717643','/books/OL10000081M'),
-('9780107717650','/books/OL10000082M'),
-('9780107717667','/books/OL10000083M'),
-('9780107717674','/books/OL10000084M'),
-('9780107717681','/books/OL10000085M'),
-('9780107717698','/books/OL10000086M'),
-('9780107717704','/books/OL10000087M'),
-('9780107717711','/books/OL10000088M'),
-('9780107717728','/books/OL10000089M'),
-('9780107717735','/books/OL10000090M'),
-('9780412597206','/books/OL1000002M'),
-('9780412737602','/books/OL1000005M'),
-('9780415103183','/books/OL1000006M'),
-('9780415125024','/books/OL1000008M'),
-('9780415135665','/books/OL1000007M'),
-('9780786882045','/books/OL1000001M'),
-('9781560918516','/books/OL1000005M'),
-('9781861523501','/books/OL1000003M'),
-('9781861523679','/books/OL1000004M'),
-('9781885119407','/books/OL1000000M');
-/*!40000 ALTER TABLE `ol_isbn13` ENABLE KEYS */;
-UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `ol_ocaid`;
-CREATE TABLE allthethings.ol_ocaid (ocaid VARCHAR(500), ol_key VARCHAR(200), PRIMARY KEY(ocaid, ol_key)) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin SELECT JSON_UNQUOTE(JSON_EXTRACT(json, '$.ocaid')) AS ocaid, ol_key FROM ol_base WHERE JSON_UNQUOTE(JSON_EXTRACT(json, '$.ocaid')) IS NOT NULL AND ol_key LIKE '/books/OL%';
 
 DROP TABLE IF EXISTS `zlib_book`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

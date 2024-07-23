@@ -84,8 +84,12 @@ def nonpersistent_dbreset_internal():
 
     # Generated with `docker compose exec mariadb mysqldump -u allthethings -ppassword --opt --where="1 limit 100" --skip-comments --ignore-table=computed_all_md5s allthethings > mariadb_dump.sql`
     mariadb_dump = pathlib.Path(os.path.join(__location__, 'mariadb_dump.sql')).read_text()
-    for sql in mariadb_dump.split('# DELIMITER'):
+    for sql in mariadb_dump.split('# DELIMITER FOR cli/views.py'):
         cursor.execute(sql)
+
+    openlib_final_sql = pathlib.Path(os.path.join(__location__, '../../data-imports/scripts/helpers/openlib_final.sql')).read_text()
+    for sql in openlib_final_sql.split('# DELIMITER FOR cli/views.py'):
+        cursor.execute(sql.replace('delimiter //', '').replace('delimiter ;', '').replace('END //', 'END'))
 
     torrents_json = pathlib.Path(os.path.join(__location__, 'torrents.json')).read_text()
     cursor.execute('DROP TABLE IF EXISTS torrents_json; CREATE TABLE torrents_json (json JSON NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin; INSERT INTO torrents_json (json) VALUES (%(json)s); COMMIT', {'json': torrents_json})
@@ -1118,6 +1122,10 @@ def elastic_build_aarecords_forcemerge_internal():
 #
 # TODO: This command takes very long, can we make it parallel somehow? Perhaps by relaxing some
 # continuity on the numbers (e.g. they're only valid within prefixes of length 1 or 2)?
+#
+# Scratchpad:
+# CREATE TABLE aarecords_codes_new2 (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_ia UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_isbndb UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_ol UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_duxiu UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_oclc UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_main;
+# Pretty fast: select count(distinct code) from aarecords_codes use index(aarecord_id_prefix) where code like 'zlib:%' and aarecord_id_prefix = 'isbn';
 #
 # ./run flask cli mysql_build_aarecords_codes_numbers
 @cli.cli.command('mysql_build_aarecords_codes_numbers')

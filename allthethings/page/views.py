@@ -145,6 +145,7 @@ for language in ol_languages_json:
 # * http://localhost:8000/isbndb/9780001055506
 # * http://localhost:8000/isbndb/9780316769174
 # * http://localhost:8000/md5/8fcb740b8c13f202e89e05c4937c09ac
+# * http://localhost:8000/md5/a50f2e8f2963888a976899e2c4675d70 (sacrificed for OpenLibrary annas_archive tagging testing)
 
 def normalize_doi(string):
     if not (('/' in string) and (' ' not in string)):
@@ -263,12 +264,13 @@ def get_bcp47_lang_codes(string):
     potential_codes.discard('')
     return list(potential_codes)
 
+# Stable, since we rely on the first remaining the first.
 def combine_bcp47_lang_codes(sets_of_codes):
-    combined_codes = set()
+    combined_codes = {}
     for codes in sets_of_codes:
         for code in codes:
-            combined_codes.add(code)
-    return list(combined_codes)
+            combined_codes[code] = 1
+    return list(combined_codes.keys())
 
 @functools.cache
 def get_display_name_for_lang(lang_code, display_lang):
@@ -1582,6 +1584,8 @@ def get_ol_book_dicts(session, key, values):
                 for item in (ol_book_dict['work']['json'].get('dewey_number') or []):
                     allthethings.utils.add_classification_unified(ol_book_dict['work'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_number'], item)
                 for classification_type, items in (ol_book_dict['work']['json'].get('classifications') or {}).items():
+                    if classification_type == 'annas_archive':
+                        print(f"Warning: annas_archive field mistakenly put in 'classifications' on work {ol_book_dict['work']['ol_key']=}")
                     if classification_type in allthethings.utils.OPENLIB_TO_UNIFIED_IDENTIFIERS_MAPPING:
                         # Sometimes identifiers are incorrectly in the classifications list
                         for item in items:
@@ -1764,6 +1768,28 @@ def get_ol_book_dicts_by_ia_id(session, ia_ids):
         for ol_book_dict in ol_book_dicts:
             for ia_id in ia_ids_by_ol_edition[ol_book_dict['ol_edition']]: 
                 retval[ia_id].append(ol_book_dict)
+        return dict(retval)
+
+def get_ol_book_dicts_by_annas_archive_md5(session, annas_archive_md5s):
+    if len(annas_archive_md5s) == 0:
+        return {}
+    with engine.connect() as connection:
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT ol_key, annas_archive_md5 FROM ol_annas_archive WHERE annas_archive_md5 IN %(annas_archive_md5s)s', { "annas_archive_md5s": annas_archive_md5s })
+        rows = list(cursor.fetchall())
+        if len(rows) == 0:
+            return {}
+        annas_archive_md5s_by_ol_edition = collections.defaultdict(list)
+        for row in rows:
+            if row['ol_key'].startswith('/books/OL') and row['ol_key'].endswith('M'):
+                ol_edition = row['ol_key'][len('/books/'):]
+                annas_archive_md5s_by_ol_edition[ol_edition].append(row['annas_archive_md5'])
+        ol_book_dicts = get_ol_book_dicts(session, 'ol_edition', list(annas_archive_md5s_by_ol_edition.keys()))
+        retval = collections.defaultdict(list)
+        for ol_book_dict in ol_book_dicts:
+            for annas_archive_md5 in annas_archive_md5s_by_ol_edition[ol_book_dict['ol_edition']]: 
+                retval[annas_archive_md5].append(ol_book_dict)
         return dict(retval)
 
 @page.get("/db/ol/<string:ol_edition>.json")
@@ -3701,6 +3727,7 @@ def get_aarecords_mysql(session, aarecord_ids):
     duxiu_dicts2 = {('cadal_ssno:' + item['cadal_ssno']): item for item in get_duxiu_dicts(session, 'cadal_ssno', split_ids['cadal_ssno'], include_deep_transitive_md5s_size_path=True)}
     duxiu_dicts3 = {('md5:' + item['md5']): item for item in get_duxiu_dicts(session, 'md5', split_ids['md5'], include_deep_transitive_md5s_size_path=False)}
     aac_upload_md5_dicts = {('md5:' + item['md5']): item for item in get_aac_upload_book_dicts(session, 'md5', split_ids['md5'])}
+    ol_book_dicts_primary_linked = {('md5:' + md5): item for md5, item in get_ol_book_dicts_by_annas_archive_md5(session, split_ids['md5']).items()}
 
     # First pass, so we can fetch more dependencies.
     aarecords = []
@@ -3730,6 +3757,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['oclc'] = list(oclc_dicts.get(aarecord_id) or [])
         aarecord['duxiu'] = duxiu_dicts.get(aarecord_id) or duxiu_dicts2.get(aarecord_id) or duxiu_dicts3.get(aarecord_id)
         aarecord['aac_upload'] = aac_upload_md5_dicts.get(aarecord_id)
+        aarecord['ol_book_dicts_primary_linked'] = list(ol_book_dicts_primary_linked.get(aarecord_id) or [])
         aarecord['duxius_nontransitive_meta_only'] = []
         
         lgli_all_editions = aarecord['lgli_file']['editions'] if aarecord.get('lgli_file') else []
@@ -3748,6 +3776,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[ia_record['aa_ia_derived']['identifiers_unified'] for ia_record in aarecord['ia_records_meta_only']],
             *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
+            *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('identifiers_unified') or {}),
@@ -3931,8 +3960,13 @@ def get_aarecords_mysql(session, aarecord_ids):
         for filepath in original_filename_multiple:
             allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'filepath', filepath)
 
-        # Select the cover_url_normalized in order of what is likely to be the best one: ia, lgrsnf, lgrsfic, lgli, zlib.
         cover_url_multiple = [
+            *[ol_book_dict['cover_url_normalized'] for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
+        ]
+        cover_url_multiple = list(dict.fromkeys(filter(len, cover_url_multiple)))
+        aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple + [''])[0]
+        # Select the cover_url_normalized in order of what is likely to be the best one: ia, lgrsnf, lgrsfic, lgli, zlib.
+        cover_url_multiple += [
             (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('cover_url') or '').strip(),
             *[ia_record['aa_ia_derived']['cover_url'].strip() for ia_record in aarecord['ia_records_meta_only']],
             ((aarecord['lgrsnf_book'] or {}).get('cover_url_normalized') or '').strip(),
@@ -3942,17 +3976,18 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[ol_book_dict['cover_url_normalized'] for ol_book_dict in aarecord['ol']],
             *[(isbndb['json'].get('image') or '').strip() for isbndb in aarecord['isbndb']],
         ]
-        cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
-        aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
-        aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
+        cover_url_multiple = list(dict.fromkeys(filter(len, cover_url_multiple)))
+        if aarecord['file_unified_data']['cover_url_best'] == '':
+            aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple + [''])[0]
+        aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple if s != aarecord['file_unified_data']['cover_url_best']]
         if aarecord['file_unified_data']['cover_url_best'] == '':
             cover_url_multiple += [isbndb['cover_url_guess'] for isbndb in aarecord['isbndb']]
             # For now, keep out cover urls from zlib entirely, and only add them ad-hoc from aac_zlib3_book.cover_path.
             # cover_url_multiple.append(((aarecord['aac_zlib3_book'] or {}).get('cover_url_guess') or '').strip())
             # cover_url_multiple.append(((aarecord['zlib_book'] or {}).get('cover_url_guess') or '').strip())
-            cover_url_multiple_processed = list(dict.fromkeys(filter(len, cover_url_multiple)))
-            aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple_processed + [''])[0]
-            aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple_processed if s != aarecord['file_unified_data']['cover_url_best']]
+            cover_url_multiple = list(dict.fromkeys(filter(len, cover_url_multiple)))
+            aarecord['file_unified_data']['cover_url_best'] = (cover_url_multiple + [''])[0]
+            aarecord['file_unified_data']['cover_url_additional'] = [s for s in cover_url_multiple if s != aarecord['file_unified_data']['cover_url_best']]
 
         extension_multiple = [
             (((aarecord['ia_record'] or {}).get('aa_ia_file') or {}).get('extension') or '').strip().lower(),
@@ -4000,6 +4035,11 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['filesize_additional'] = [s for s in dict.fromkeys(filter(lambda fz: fz > 0, filesize_multiple)) if s != aarecord['file_unified_data']['filesize_best']]
 
         title_multiple = [
+            *[(ol_book_dict.get('title_normalized') or '').strip() for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
+        ]
+        title_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(title_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['title_best'] = max(title_multiple + [''], key=len)
+        title_multiple += [
             ((aarecord['lgrsnf_book'] or {}).get('title') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('title') or '').strip(),
             ((lgli_single_edition or {}).get('title') or '').strip(),
@@ -4009,7 +4049,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('title_best') or '').strip(),
         ]
         title_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(title_multiple) # Before selecting best, since the best might otherwise get filtered.
-        aarecord['file_unified_data']['title_best'] = max(title_multiple + [''], key=len)
+        if aarecord['file_unified_data']['title_best'] == '':
+            aarecord['file_unified_data']['title_best'] = max(title_multiple + [''], key=len)
         title_multiple += [(edition.get('title') or '').strip() for edition in lgli_all_editions]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonoriginallanguage') or [])]
         title_multiple += [title.strip() for edition in lgli_all_editions for title in (edition['descriptions_mapped'].get('maintitleonenglishtranslate') or [])]
@@ -4028,6 +4069,11 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['title_additional'] = [s for s in title_multiple if s != aarecord['file_unified_data']['title_best']]
 
         author_multiple = [
+            *[(ol_book_dict.get('authors_normalized') or '').strip() for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
+        ]
+        author_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(author_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['author_best'] = max(author_multiple + [''], key=len)
+        author_multiple += [
             (aarecord['lgrsnf_book'] or {}).get('author', '').strip(),
             (aarecord['lgrsfic_book'] or {}).get('author', '').strip(),
             (lgli_single_edition or {}).get('authors_normalized', '').strip(),
@@ -4037,7 +4083,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('author_best') or '').strip(),
         ]
         author_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(author_multiple) # Before selecting best, since the best might otherwise get filtered.
-        aarecord['file_unified_data']['author_best'] = max(author_multiple + [''], key=len)
+        if aarecord['file_unified_data']['author_best'] == '':
+            aarecord['file_unified_data']['author_best'] = max(author_multiple + [''], key=len)
         author_multiple += [edition.get('authors_normalized', '').strip() for edition in lgli_all_editions]
         author_multiple += [ol_book_dict['authors_normalized'] for ol_book_dict in aarecord['ol']]
         author_multiple += [", ".join(isbndb['json'].get('authors') or []) for isbndb in aarecord['isbndb']]
@@ -4054,6 +4101,11 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['author_additional'] = [s for s in author_multiple if s != aarecord['file_unified_data']['author_best']]
 
         publisher_multiple = [
+            *[(ol_book_dict.get('publishers_normalized') or '').strip() for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
+        ]
+        publisher_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(publisher_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple + [''], key=len)
+        publisher_multiple += [
             ((aarecord['lgrsnf_book'] or {}).get('publisher') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('publisher') or '').strip(),
             ((lgli_single_edition or {}).get('publisher_normalized') or '').strip(),
@@ -4063,7 +4115,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('publisher_best') or '').strip(),
         ]
         publisher_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(publisher_multiple) # Before selecting best, since the best might otherwise get filtered.
-        aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple + [''], key=len)
+        if aarecord['file_unified_data']['publisher_best'] == '':
+            aarecord['file_unified_data']['publisher_best'] = max(publisher_multiple + [''], key=len)
         publisher_multiple += [(edition.get('publisher_normalized') or '').strip() for edition in lgli_all_editions]
         publisher_multiple += [(ol_book_dict.get('publishers_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         publisher_multiple += [(isbndb['json'].get('publisher') or '').strip() for isbndb in aarecord['isbndb']]
@@ -4080,6 +4133,11 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['publisher_additional'] = [s for s in publisher_multiple if s != aarecord['file_unified_data']['publisher_best']]
 
         edition_varia_multiple = [
+            *[(ol_book_dict.get('edition_varia_normalized') or '').strip() for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
+        ]
+        edition_varia_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(edition_varia_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple + [''], key=len)
+        edition_varia_multiple += [
             ((aarecord['lgrsnf_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('edition_varia_normalized') or '').strip(),
             ((lgli_single_edition or {}).get('edition_varia_normalized') or '').strip(),
@@ -4088,7 +4146,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('edition_varia_normalized') or '').strip(),
         ]
         edition_varia_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(edition_varia_multiple) # Before selecting best, since the best might otherwise get filtered.
-        aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple + [''], key=len)
+        if aarecord['file_unified_data']['edition_varia_best'] == '':
+            aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple + [''], key=len)
         edition_varia_multiple += [(edition.get('edition_varia_normalized') or '').strip() for edition in lgli_all_editions]
         edition_varia_multiple += [(ol_book_dict.get('edition_varia_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         edition_varia_multiple += [(isbndb.get('edition_varia_normalized') or '').strip() for isbndb in aarecord['isbndb']]
@@ -4100,7 +4159,15 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['edition_varia_best'] = max(edition_varia_multiple + [''], key=len)
         aarecord['file_unified_data']['edition_varia_additional'] = [s for s in edition_varia_multiple if s != aarecord['file_unified_data']['edition_varia_best']]
 
-        year_multiple_raw = [
+        year_multiple = [
+            *[(ol_book_dict.get('year_normalized') or '').strip() for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
+        ]
+        # Filter out years in for which we surely don't have books (famous last words..)
+        # WARNING duplicated below
+        year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple]
+        year_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(year_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['year_best'] = max(year_multiple + [''], key=len)
+        year_multiple += [
             ((aarecord['lgrsnf_book'] or {}).get('year') or '').strip(),
             ((aarecord['lgrsfic_book'] or {}).get('year') or '').strip(),
             ((lgli_single_edition or {}).get('year') or '').strip(),
@@ -4110,9 +4177,11 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('year_best') or '').strip(),
         ]
         # Filter out years in for which we surely don't have books (famous last words..)
-        year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple_raw]
+        # WARNING duplicated above
+        year_multiple = [(year if year.isdigit() and int(year) >= 1600 and int(year) < 2100 else '') for year in year_multiple]
         year_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(year_multiple) # Before selecting best, since the best might otherwise get filtered.
-        aarecord['file_unified_data']['year_best'] = max(year_multiple + [''], key=len)
+        if aarecord['file_unified_data']['year_best'] == '':
+            aarecord['file_unified_data']['year_best'] = max(year_multiple + [''], key=len)
         year_multiple += [(edition.get('year_normalized') or '').strip() for edition in lgli_all_editions]
         year_multiple += [(ol_book_dict.get('year_normalized') or '').strip() for ol_book_dict in aarecord['ol']]
         year_multiple += [(isbndb.get('year_normalized') or '').strip() for isbndb in aarecord['isbndb']]
@@ -4155,12 +4224,20 @@ def get_aarecords_mysql(session, aarecord_ids):
         for ol_book_dict in aarecord['ol']:
             for comment in ol_book_dict.get('comments_normalized') or []:
                 comments_multiple.append(comment.strip())
+        for ol_book_dict in aarecord['ol_book_dicts_primary_linked']:
+            for comment in ol_book_dict.get('comments_normalized') or []:
+                comments_multiple.append(comment.strip())
         for duxiu_record in aarecord['duxius_nontransitive_meta_only']:
             for comment in duxiu_record.get('combined_comments') or []:
                 comments_multiple.append(comment.strip())
         aarecord['file_unified_data']['comments_multiple'] = [s for s in sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(comments_multiple)]
 
         stripped_description_multiple = [
+            *[(ol_book_dict.get('stripped_description') or '').strip() for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
+        ]
+        stripped_description_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(stripped_description_multiple) # Before selecting best, since the best might otherwise get filtered.
+        aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple + [''], key=len)
+        stripped_description_multiple += [
             ((aarecord['lgrsnf_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((aarecord['lgrsfic_book'] or {}).get('stripped_description') or '').strip()[0:5000],
             ((lgli_single_edition or {}).get('stripped_description') or '').strip()[0:5000],
@@ -4169,7 +4246,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('description_best') or '').strip(),
         ]
         stripped_description_multiple = sort_by_length_and_filter_subsequences_with_longest_string_and_normalize_unicode(stripped_description_multiple) # Before selecting best, since the best might otherwise get filtered.
-        aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple + [''], key=len)
+        if aarecord['file_unified_data']['stripped_description_best'] == '':
+            aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple + [''], key=len)
         stripped_description_multiple += [(edition.get('stripped_description') or '').strip()[0:5000] for edition in lgli_all_editions]
         stripped_description_multiple += [ol_book_dict['stripped_description'].strip()[0:5000] for ol_book_dict in aarecord['ol']]
         stripped_description_multiple += [(isbndb['json'].get('synopsis') or '').strip()[0:5000] for isbndb in aarecord['isbndb']]
@@ -4186,6 +4264,9 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['stripped_description_additional'] = [s for s in stripped_description_multiple if s != aarecord['file_unified_data']['stripped_description_best']]
 
         aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
+            # Still lump in other language codes with ol_book_dicts_primary_linked. We use the
+            # fact that combine_bcp47_lang_codes is stable (preserves order).
+            *[(ol_book_dict.get('language_codes') or []) for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
             ((aarecord['lgrsnf_book'] or {}).get('language_codes') or []),
             ((aarecord['lgrsfic_book'] or {}).get('language_codes') or []),
             ((lgli_single_edition or {}).get('language_codes') or []),
@@ -4244,6 +4325,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[ia_record['aa_ia_derived']['identifiers_unified'] for ia_record in aarecord['ia_records_meta_only']],
             *[isbndb['identifiers_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol']],
+            *[ol_book_dict['identifiers_unified'] for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
             *[scihub_doi['identifiers_unified'] for scihub_doi in aarecord['scihub_doi']],
             *[oclc['aa_oclc_derived']['identifiers_unified'] for oclc in aarecord['oclc']],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('identifiers_unified') or {}),
@@ -4260,6 +4342,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[ia_record['aa_ia_derived']['classifications_unified'] for ia_record in aarecord['ia_records_meta_only']],
             *[isbndb['classifications_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['classifications_unified'] for ol_book_dict in aarecord['ol']],
+            *[ol_book_dict['classifications_unified'] for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
             *[scihub_doi['classifications_unified'] for scihub_doi in aarecord['scihub_doi']],
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('classifications_unified') or {}),
             *[duxiu_record['aa_duxiu_derived']['classifications_unified'] for duxiu_record in aarecord['duxius_nontransitive_meta_only']],
@@ -4274,6 +4357,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             *[ia_record['aa_ia_derived']['added_date_unified'] for ia_record in aarecord['ia_records_meta_only']],
             *[isbndb['added_date_unified'] for isbndb in aarecord['isbndb']],
             *[ol_book_dict['added_date_unified'] for ol_book_dict in aarecord['ol']],
+            *[ol_book_dict['added_date_unified'] for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
             *[oclc['aa_oclc_derived']['added_date_unified'] for oclc in aarecord['oclc']],
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('added_date_unified') or {}),
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('added_date_unified') or {}),
@@ -4343,8 +4427,8 @@ def get_aarecords_mysql(session, aarecord_ids):
         if (((aarecord['aac_zlib3_book'] or {}).get('removed') or 0) == 1) and (aarecord['lgrsnf_book'] is None) and (aarecord['lgrsfic_book'] is None) and (aarecord['lgli_file'] is None):
             aarecord['file_unified_data']['problems'].append({ 'type': 'zlib_missing', 'descr': '', 'better_md5': '' })
 
-        aarecord['file_unified_data']['content_type'] = 'book_unknown'
-        if aarecord['lgli_file'] is not None:
+        aarecord['file_unified_data']['content_type'] = None
+        if (aarecord['file_unified_data']['content_type'] is None) and (aarecord['lgli_file'] is not None):
             if aarecord['lgli_file']['libgen_topic'] == 'l':
                 aarecord['file_unified_data']['content_type'] = 'book_nonfiction'
             if aarecord['lgli_file']['libgen_topic'] == 'f':
@@ -4359,25 +4443,31 @@ def get_aarecords_mysql(session, aarecord_ids):
                 aarecord['file_unified_data']['content_type'] = 'magazine'
             if aarecord['lgli_file']['libgen_topic'] == 'c':
                 aarecord['file_unified_data']['content_type'] = 'book_comic'
-        if aarecord['lgrsnf_book'] and (not aarecord['lgrsfic_book']):
+        if (aarecord['file_unified_data']['content_type'] is None) and aarecord['lgrsnf_book'] and (not aarecord['lgrsfic_book']):
             aarecord['file_unified_data']['content_type'] = 'book_nonfiction'
-        if (not aarecord['lgrsnf_book']) and aarecord['lgrsfic_book']:
+        if (aarecord['file_unified_data']['content_type'] is None) and (not aarecord['lgrsnf_book']) and aarecord['lgrsfic_book']:
             aarecord['file_unified_data']['content_type'] = 'book_fiction'
-        ia_content_type = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('content_type') or 'book_unknown')
-        for ia_record in aarecord['ia_records_meta_only']:
-            if ia_content_type == 'book_unknown':
-                ia_content_type = ia_record['aa_ia_derived']['content_type']
-        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (ia_content_type != 'book_unknown'):
-            aarecord['file_unified_data']['content_type'] = ia_content_type
-        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (len(aarecord['scihub_doi']) > 0):
+        if aarecord['file_unified_data']['content_type'] is None:
+            ia_content_type = (((aarecord['ia_record'] or {}).get('aa_ia_derived') or {}).get('content_type') or 'book_unknown')
+            for ia_record in aarecord['ia_records_meta_only']:
+                if ia_content_type == 'book_unknown':
+                    ia_content_type = ia_record['aa_ia_derived']['content_type']
+            if (aarecord['file_unified_data']['content_type'] is None) and (ia_content_type != 'book_unknown'):
+                aarecord['file_unified_data']['content_type'] = ia_content_type
+        # TODO: pull non-fiction vs fiction from "subjects" in ol_book_dicts_primary_linked, and make that more leading?
+        if (aarecord['file_unified_data']['content_type'] is None) and (len(aarecord['ol_book_dicts_primary_linked']) > 0):
+            aarecord['file_unified_data']['content_type'] = 'book_unknown'
+        if (aarecord['file_unified_data']['content_type'] is None) and (len(aarecord['scihub_doi']) > 0):
             aarecord['file_unified_data']['content_type'] = 'journal_article'
-        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and (len(aarecord['oclc']) > 0):
+        if (aarecord['file_unified_data']['content_type'] is None) and (len(aarecord['oclc']) > 0):
             for oclc in aarecord['oclc']:
                 if (aarecord_id_split[0] == 'oclc') or (oclc['aa_oclc_derived']['content_type'] != 'other'):
                     aarecord['file_unified_data']['content_type'] = oclc['aa_oclc_derived']['content_type']
                     break
-        if (aarecord['file_unified_data']['content_type'] == 'book_unknown') and ((((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('content_type') or '') != ''):
+        if (aarecord['file_unified_data']['content_type'] is None) and ((((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('content_type') or '') != ''):
             aarecord['file_unified_data']['content_type'] = aarecord['aac_upload']['aa_upload_derived']['content_type']
+        if aarecord['file_unified_data']['content_type'] is None:
+            aarecord['file_unified_data']['content_type'] = 'book_unknown'
 
         if aarecord['lgrsnf_book'] is not None:
             aarecord['lgrsnf_book'] = {
@@ -4450,6 +4540,11 @@ def get_aarecords_mysql(session, aarecord_ids):
         for index, item in enumerate(aarecord['isbndb']):
             aarecord['isbndb'][index] = {
                 'isbn13': aarecord['isbndb'][index]['isbn13'],
+            }
+        aarecord['ol_book_dicts_primary_linked'] = aarecord.get('ol_book_dicts_primary_linked') or []
+        for index, item in enumerate(aarecord['ol_book_dicts_primary_linked']):
+            aarecord['ol_book_dicts_primary_linked'][index] = {
+                'ol_edition': aarecord['ol_book_dicts_primary_linked'][index]['ol_edition'],
             }
         aarecord['ol'] = aarecord.get('ol') or []
         for index, item in enumerate(aarecord['ol']):
@@ -4736,7 +4831,7 @@ def get_additional_for_aarecord(aarecord):
             ] if item != ''],
         'cover_missing_hue_deg': int(hashlib.md5(aarecord['id'].encode()).hexdigest(), 16) % 360,
         'cover_url': cover_url,
-        'top_row': ", ".join([item for item in [
+        'top_row': ("✅ " if len(aarecord['ol_book_dicts_primary_linked']) > 0 else "") + ", ".join([item for item in [
                 additional['most_likely_language_name'],
                 f".{aarecord['file_unified_data']['extension_best']}" if len(aarecord['file_unified_data']['extension_best']) > 0 else '',
                 "/".join(filter(len,["🚀" if (aarecord['file_unified_data'].get('has_aa_downloads') == 1) else "", *aarecord_sources(aarecord)])),
@@ -5889,6 +5984,6 @@ def search_page():
             search_input=search_input,
             search_dict=search_dict,
         ), 200))
-    if had_es_timeout:
+    if had_es_timeout or (len(search_aarecords) == 0):
         r.headers.add('Cache-Control', 'no-cache')
     return r

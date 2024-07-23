@@ -45,7 +45,23 @@
     <div class="float-right w-[25%] ml-4 pb-4 aspect-[0.64] relative">
       <img class="w-full max-h-full absolute" src="{{aarecord.additional.top_box.cover_url}}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.removeChild(this)" onload="cbg = document.querySelector('.js-cover-background'); cbg.style.aspectRatio = this.clientWidth / this.clientHeight; cbg.style.marginTop = 0" loading="lazy" decoding="async"/>
       <div class="w-full aspect-[0.85] mt-[7%] js-cover-background" style="background-color: hsl({{ aarecord.additional.top_box.cover_missing_hue_deg }}deg 43% 73%)"></div>
-      <a href="/metadata" class="block mt-2 text-xs text-right">{{ gettext('page.md5.header.improve_metadata') }}</a>
+      {% if aarecord.ol_book_dicts_primary_linked | length > 0 %}
+        <div class="mt-2 text-xs text-right">
+          <!-- TODO:TRANSLATE -->
+          <div>✅ Metadata from linked record</div>
+          <a href="https://openlibrary.org/books/{{ aarecord.ol_book_dicts_primary_linked[0].ol_edition }}" class="block">Improve metadata on Open Library</a>
+          {% if aarecord.ol_book_dicts_primary_linked | length > 1 %}
+            <div>
+              Warning: multiple linked records:
+              {% for ol_linked in aarecord.ol_book_dicts_primary_linked %}
+                <a href="https://openlibrary.org/books/{{ ol_linked.ol_edition }}">[{{ loop.index }}]</a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% else %}
+        <a href="/metadata" class="block mt-2 text-xs text-right">{{ gettext('page.md5.header.improve_metadata') }}</a>
+      {% endif %}
     </div>
     <div class="text-sm text-gray-500">{{aarecord.additional.top_box.top_row}}</div>
     <div class="text-3xl font-bold">{{aarecord.additional.top_box.title}}{% if aarecord.additional.top_box.title %}<span class="select-none"> <a class="custom-a text-xs align-[2px] opacity-80 hover:opacity-100" href="/search?q={{ aarecord.additional.top_box.title | urlencode }}">🔍</a></span>{% endif %}</div>
