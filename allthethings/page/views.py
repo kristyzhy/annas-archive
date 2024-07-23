@@ -4831,7 +4831,7 @@ def get_additional_for_aarecord(aarecord):
             ] if item != ''],
         'cover_missing_hue_deg': int(hashlib.md5(aarecord['id'].encode()).hexdigest(), 16) % 360,
         'cover_url': cover_url,
-        'top_row': ("✅ " if len(aarecord['ol_book_dicts_primary_linked']) > 0 else "") + ", ".join([item for item in [
+        'top_row': ("✅ " if len(aarecord.get('ol_book_dicts_primary_linked') or []) > 0 else "") + ", ".join([item for item in [
                 additional['most_likely_language_name'],
                 f".{aarecord['file_unified_data']['extension_best']}" if len(aarecord['file_unified_data']['extension_best']) > 0 else '',
                 "/".join(filter(len,["🚀" if (aarecord['file_unified_data'].get('has_aa_downloads') == 1) else "", *aarecord_sources(aarecord)])),
