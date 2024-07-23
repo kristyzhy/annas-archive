@@ -1,3 +1,19 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-24 15:15+0000\n"
+"PO-Revision-Date: 2024-07-24 15:15+0000\n"
+"Last-Translator: Matias <l0b0@users.noreply.translate.annas-software.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
 #: allthethings/app.py:191
 msgid "layout.index.invalid_request"
 msgstr "Solicitud no válida. Visita %(websites)s."
@@ -173,9 +189,8 @@ msgid "page.donate.header.text1"
 msgstr "El Archivo de Anna es un proyecto de código abierto, datos abiertos y sin fines de lucro. Donando y haciéndote miembro nos ayudas con el desarrollo y las operaciones. ¡Gracias a todos nuestros miembros por ayudarnos a seguir! ❤️"
 
 #: allthethings/account/templates/account/donate.html:20
-#, fuzzy
 msgid "page.donate.header.text2"
-msgstr "Para más información, revisa la sección <a href=\"/donation_faq\">Preguntas frecuentes sobre donaciones </a>."
+msgstr "Para más información, revisa la sección <a %(a_donate)s>Preguntas frecuentes sobre donaciones </a>."
 
 #: allthethings/account/templates/account/donate.html:24
 msgid "page.donate.refer.text1"
@@ -224,7 +239,7 @@ msgstr "%(number)s descargas rápidas diarias"
 #: allthethings/account/templates/account/donate.html:78
 #: allthethings/account/templates/account/donate.html:92
 msgid "page.donate.perks.only_this_month"
-msgstr ""
+msgstr "solo este mes!"
 
 #: allthethings/account/templates/account/donate.html:48
 msgid "page.donate.perks.scidb"
@@ -232,12 +247,11 @@ msgstr "Artículos SciDB <strong>ilimitados</strong> sin verificación"
 
 #: allthethings/account/templates/account/donate.html:49
 msgid "page.donate.perks.jsonapi"
-msgstr ""
+msgstr "acceso a <a %(a_api)s>JSON API</a>"
 
 #: allthethings/account/templates/account/donate.html:50
-#, fuzzy
 msgid "page.donate.perks.refer"
-msgstr "Gana un <strong>%(percentage)s%% de descargas adicionales</strong> <a href=\"/refer\">refiriendo a amigos</a>."
+msgstr "Gana un <strong>%(percentage)s%% de descargas adicionales</strong> <a %(a_refer)s>refiriendo a amigos</a>."
 
 #: allthethings/account/templates/account/donate.html:51
 msgid "page.donate.perks.credits"
@@ -391,7 +405,7 @@ msgstr "Tarjeta de crédito/débito"
 
 #: allthethings/account/templates/account/donate.html:148
 msgid "page.donate.payment.buttons.credit_debit_backup"
-msgstr ""
+msgstr "Tarjeta de Crédito/Débito (backup)"
 
 #: allthethings/account/templates/account/donate.html:149
 msgid "page.donate.payment.buttons.credit_debit2"
@@ -467,11 +481,11 @@ msgstr "Ten en cuenta que para pequeñas donaciones las tarifas son elevadas, po
 
 #: allthethings/account/templates/account/donate.html:236
 msgid "page.donate.payment.desc.binance_p1"
-msgstr ""
+msgstr "Con Binance, podes comprar Bitcoin con una tarjeta de crédito/débito o una cuenta bancaria y luego nos podes donar esos Bitcoin. De esa manera podemos permanecer seguros y anónimos al aceptar tu donación."
 
 #: allthethings/account/templates/account/donate.html:240
 msgid "page.donate.payment.desc.binance_p2"
-msgstr ""
+msgstr "Binance está disponible en casi todos los países y es compatible con la mayoría de los bancos y tarjetas de crédito/débito. Esta es actualmente nuestra principal recomendación. Agradecemos que te tomes el tiempo de aprender cómo donar usando este método, ya que nos ayuda mucho."
 
 #: allthethings/account/templates/account/donate.html:252
 #: allthethings/account/templates/account/donate.html:258
@@ -480,7 +494,7 @@ msgstr "Dona usando Alipay o WeChat. Puedes elegir entre estos en la página sig
 
 #: allthethings/account/templates/account/donate.html:264
 msgid "page.donate.payment.desc.givebutter"
-msgstr ""
+msgstr "Done utilizando tarjeta de crédito/débito, PayPal o Venmo. Puedes elegir entre estas opciones en la siguiente página."
 
 #: allthethings/account/templates/account/donate.html:270
 msgid "page.donate.payment.desc.amazon"
@@ -497,15 +511,15 @@ msgstr "<strong>IMPORTANTE:</strong> Solo admitimos Amazon.com, no otros sitios 
 
 #: allthethings/account/templates/account/donate.html:282
 msgid "page.donate.payment.desc.credit_debit_backup"
-msgstr ""
+msgstr "Este método utiliza un proveedor de criptomonedas como intermediario. Esto puede resultar un poco confuso, así que utiliza este método únicamente si otros métodos de pago no funcionan. Tampoco funciona en todos los países."
 
 #: allthethings/account/templates/account/donate.html:288
 msgid "page.donate.payment.desc.credit_debit_p1"
-msgstr ""
+msgstr "No podemos admitir tarjetas de crédito/débito directamente porque los bancos no quieren trabajar con nosotros. :("
 
 #: allthethings/account/templates/account/donate.html:292
 msgid "page.donate.payment.desc.credit_debit_p2"
-msgstr ""
+msgstr "Sin embargo, existen varias formas de utilizar tarjetas de crédito/débito, utilizando nuestros otros métodos de pago:"
 
 #: allthethings/account/templates/account/donate.html:296
 msgid "page.donate.ccexp.amazon_com"
@@ -521,7 +535,7 @@ msgstr "Puedes comprar cripto usando tu tarjeta de crédito/débito."
 
 #: allthethings/account/templates/account/donate.html:304
 msgid "page.donate.payment.desc.bmc"
-msgstr ""
+msgstr "Para tarjetas de crédito, tarjetas de débito, Apple Pay y Google Pay, utilizamos \"Cómprame un café\" (BMC <span class=\"icon-[ph--coffee-fill] text-lg align-text-bottom\"></span>). En su sistema, un “café” equivale a $5, por lo que tu donación se redondeará al múltiplo de 5 más cercano."
 
 #: allthethings/account/templates/account/donate.html:311
 msgid "page.donate.duration.intro"
@@ -549,11 +563,11 @@ msgstr "24 meses"
 
 #: allthethings/account/templates/account/donate.html:321
 msgid "page.donate.duration.48_mo"
-msgstr ""
+msgstr "48 meses"
 
 #: allthethings/account/templates/account/donate.html:322
 msgid "page.donate.duration.96_mo"
-msgstr ""
+msgstr "96 meses"
 
 #: allthethings/account/templates/account/donate.html:325
 msgid "page.donate.duration.summary"
@@ -566,7 +580,7 @@ msgstr "Este método de pago requiere un mínimo de %(amount)s. Selecciona una d
 #: allthethings/account/templates/account/donate.html:333
 #: allthethings/account/templates/account/donate.html:337
 msgid "page.donate.buttons.donate"
-msgstr ""
+msgstr "Donar"
 
 #: allthethings/account/templates/account/donate.html:336
 msgid "page.donate.payment.maximum_method"
@@ -641,11 +655,11 @@ msgstr "por 24 meses"
 
 #: allthethings/account/templates/account/donate.html:472
 msgid "page.donate.duration.summary.duration.48_mo"
-msgstr ""
+msgstr "por 48 meses"
 
 #: allthethings/account/templates/account/donate.html:473
 msgid "page.donate.duration.summary.duration.96_mo"
-msgstr ""
+msgstr "por 96 meses"
 
 #: allthethings/account/templates/account/donate.html:477
 msgid "page.donate.submit.button.label.1_mo"
@@ -669,11 +683,11 @@ msgstr "por 24 meses “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:482
 msgid "page.donate.submit.button.label.48_mo"
-msgstr ""
+msgstr "por 48 meses “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:483
 msgid "page.donate.submit.button.label.96_mo"
-msgstr ""
+msgstr "por 96 meses “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donation.html:3
 #: allthethings/account/templates/account/donation.html:9
@@ -996,23 +1010,23 @@ msgstr "<span %(span_circle)s>1</span>Donar con Alipay"
 #: allthethings/account/templates/account/donation.html:412
 #: allthethings/account/templates/account/donation.html:429
 msgid "page.donation.payment.alipay.text1_new"
-msgstr ""
+msgstr "Doná la cantidad total de %(total)s utilizando <a %(a_account)s>esta cuenta de Alipay</a>"
 
 #: allthethings/account/templates/account/donation.html:433
 msgid "page.donation.payment.alipay.error"
-msgstr ""
+msgstr "Lamentablemente, a menudo solo se puede acceder a la página de Alipay desde <strong>China continental</strong>. Es posible que tengas que desactivar temporalmente tu VPN o usar una VPN para China continental (o Hong Kong también funciona a veces)."
 
 #: allthethings/account/templates/account/donation.html:459
 msgid "page.donation.payment.wechat.top_header"
-msgstr ""
+msgstr "instrucciones para WeChat"
 
 #: allthethings/account/templates/account/donation.html:461
 msgid "page.donation.payment.wechat.header1"
-msgstr ""
+msgstr "<span %(span_circle)s>1</span>Donar con WeChat"
 
 #: allthethings/account/templates/account/donation.html:464
 msgid "page.donation.payment.wechat.text1"
-msgstr ""
+msgstr "Done la cantidad total de %(total)s utilizando <a %(a_account)s>esta cuenta WeChat</a>"
 
 #: allthethings/account/templates/account/donation.html:485
 msgid "page.donation.payment.pix.top_header"
@@ -1384,7 +1398,7 @@ msgstr "Error en el procesamiento del pago. Por favor espera un momento y vuelve
 
 #: allthethings/page/views.py:4332
 msgid "page.md5.box.download.affected_files"
-msgstr ""
+msgstr "%(count)s páginas afectadas"
 
 #: allthethings/page/views.py:4581
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1408,11 +1422,11 @@ msgstr "Falta en Z-Library"
 
 #: allthethings/page/views.py:4586
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
-msgstr ""
+msgstr "No todas las páginas pueden ser convertidas a PDF"
 
 #: allthethings/page/views.py:4587
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
-msgstr ""
+msgstr "La ejecución de exiftool falló en este archivo"
 
 #: allthethings/page/views.py:4593
 msgid "common.md5_content_type_mapping.book_unknown"
@@ -1456,7 +1470,7 @@ msgstr "Descarga del servidor asociado"
 
 #: allthethings/page/views.py:4608
 msgid "common.access_types_mapping.aa_scidb"
-msgstr ""
+msgstr "SciDB"
 
 #: allthethings/page/views.py:4609
 msgid "common.access_types_mapping.external_download"
@@ -1492,7 +1506,7 @@ msgstr "Z-Library"
 
 #: allthethings/page/views.py:4622
 msgid "common.record_sources_mapping.ia"
-msgstr ""
+msgstr "IA"
 
 #: allthethings/page/views.py:4623
 msgid "common.record_sources_mapping.isbndb"
@@ -1537,7 +1551,7 @@ msgstr "Edición"
 
 #: allthethings/page/views.py:4638
 msgid "common.specific_search_fields.year"
-msgstr ""
+msgstr "Año publicado"
 
 #: allthethings/page/views.py:4639
 msgid "common.specific_search_fields.original_filename"
@@ -3605,4 +3619,3 @@ msgstr "Próximo"
 
 #~ msgid "page.scidb.no_preview"
 #~ msgstr ""
-
