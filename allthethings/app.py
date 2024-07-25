@@ -108,20 +108,30 @@ def extensions(app):
             with Session(mariapersist_engine) as mariapersist_session:
                 mariapersist_session.execute('SELECT 1')
         except:
-            print("mariapersist not yet online, continuing since it's optional")
+            if os.getenv("DATA_IMPORTS_MODE", "") == "1":
+                print("Ignoring mariapersist not being online because DATA_IMPORTS_MODE=1")
+            else:
+                print("mariapersist not yet online, restarting")
+                time.sleep(3)
+                sys.exit(1)
 
         try:
             Reflected.prepare(engine)
         except:
             if os.getenv("DATA_IMPORTS_MODE", "") == "1":
-                print("Ignoring db error because DATA_IMPORTS_MODE=1")
+                print("Ignoring mariadb error because DATA_IMPORTS_MODE=1")
             else:
-                print("Error in loading tables; reset using './run flask cli dbreset'")
+                print("Error in loading mariadb tables; reset using './run flask cli dbreset'")
+                raise
 
         try:
             ReflectedMariapersist.prepare(mariapersist_engine)
         except:
-            print("Error in loading 'mariapersist' db; continuing since it's optional")
+            if os.getenv("DATA_IMPORTS_MODE", "") == "1":
+                print("Ignoring mariapersist error because DATA_IMPORTS_MODE=1")
+            else:
+                print("Error in loading mariapersist tables")
+                raise
     mail.init_app(app)
 
     def localeselector():
