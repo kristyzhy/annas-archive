@@ -1,24 +1,3 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2024-07-27 14:40+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language: ht\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
-
-#: allthethings/utils.py:375
-#, fuzzy
-msgid "common.membership.tier_name.3"
-msgstr "Bibliyotekè Chans"
-
-#: allthethings/utils.py:376
-#, fuzzy
-msgid "common.membership.tier_name.4"
-msgstr "Done Koleksyon"
-
 #: allthethings/app.py:201
 #, fuzzy
 msgid "layout.index.invalid_request"
@@ -149,6 +128,16 @@ msgstr "Bonis telechajman"
 #, fuzzy
 msgid "common.membership.tier_name.2"
 msgstr "Bèl Bibyotèkè"
+
+#: allthethings/utils.py:375
+#, fuzzy
+msgid "common.membership.tier_name.3"
+msgstr "Bibliyotekè Chans"
+
+#: allthethings/utils.py:376
+#, fuzzy
+msgid "common.membership.tier_name.4"
+msgstr "Done Koleksyon"
 
 #: allthethings/utils.py:377
 #, fuzzy
@@ -308,11 +297,6 @@ msgstr "Genyen <strong>%(percentage)s%% bonis telechajman</strong> lè w <a %(a_
 msgid "page.donate.perks.credits"
 msgstr "Non itilizatè ou oswa mansyon anonim nan kredi yo"
 
-#: allthethings/account/templates/account/donate.html:140
-#, fuzzy
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (Brazil)"
-
 #: allthethings/account/templates/account/donate.html:63
 #: allthethings/account/templates/account/donate.html:77
 #: allthethings/account/templates/account/donate.html:91
@@ -465,6 +449,11 @@ msgstr "PayPal (US) %(bitcoin_icon)s"
 #, fuzzy
 msgid "page.donate.payment.buttons.alipay"
 msgstr "Alipay"
+
+#: allthethings/account/templates/account/donate.html:140
+#, fuzzy
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (Brazil)"
 
 #: allthethings/account/templates/account/donate.html:145
 #, fuzzy
@@ -1045,11 +1034,6 @@ msgstr "Estati:"
 msgid "page.donation.waiting_for_confirmation_refresh"
 msgstr "Ap tann konfimasyon (rafrechi paj la pou tcheke)…"
 
-#: allthethings/account/templates/account/profile.html:15
-#, fuzzy
-msgid "page.profile.change_display_name.button"
-msgstr "Sere"
-
 #: allthethings/account/templates/account/donation.html:148
 #: allthethings/account/templates/account/donation.html:191
 #: allthethings/account/templates/account/donation.html:234
@@ -1188,11 +1172,6 @@ msgstr "Ap tann kat kado… (rafrechi paj la pou tcheke)"
 #, fuzzy
 msgid "page.donation.amazon.confirm_automated"
 msgstr "Apre ou fin voye kat kado ou, sistèm otomatik nou an ap konfime li nan kèk minit. Si sa pa mache, eseye voye kat kado ou ankò (<a %(a_instr)s>enstriksyon</a>)."
-
-#: allthethings/page/views.py:4715
-#, fuzzy
-msgid "common.record_sources_mapping.lgli"
-msgstr "Libgen.li"
 
 #: allthethings/account/templates/account/donation.html:344
 #, fuzzy
@@ -1335,11 +1314,6 @@ msgstr "4. Chwazi bous “Self-hosted”."
 #, fuzzy
 msgid "page.donation.hoodpay.step5"
 msgstr "5. Klike sou “Mwen konfime pwopriyetè”."
-
-#: allthethings/page/views.py:4716
-#, fuzzy
-msgid "common.record_sources_mapping.zlib"
-msgstr "Z-Library"
 
 #: allthethings/account/templates/account/donation.html:573
 #, fuzzy
@@ -1491,11 +1465,6 @@ msgstr "Kontakte Anna nan %(email)s si w enterese nan mete ajou manm ou a yon ni
 #, fuzzy
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Ou ka konbine plizyè manm (telechajman rapid pou chak 24 èdtan ap ajoute ansanm)."
-
-#: allthethings/account/templates/account/profile.html:14
-#, fuzzy
-msgid "page.profile.change_display_name.text"
-msgstr "Chanje non afichaj ou. Idantifyan ou (pati ki vin apre “#”) pa ka chanje."
 
 #: allthethings/account/templates/account/index.html:41
 #: allthethings/templates/layouts/index.html:512
@@ -1656,10 +1625,15 @@ msgstr "Pwofil pa jwenn."
 msgid "page.profile.header.edit"
 msgstr "modifye"
 
-#: allthethings/page/views.py:4717
+#: allthethings/account/templates/account/profile.html:14
 #, fuzzy
-msgid "common.record_sources_mapping.ia"
-msgstr "IA"
+msgid "page.profile.change_display_name.text"
+msgstr "Chanje non afichaj ou. Idantifyan ou (pati ki vin apre “#”) pa ka chanje."
+
+#: allthethings/account/templates/account/profile.html:15
+#, fuzzy
+msgid "page.profile.change_display_name.button"
+msgstr "Sere"
 
 #: allthethings/account/templates/account/profile.html:18
 #, fuzzy
@@ -1712,414 +1686,429 @@ msgstr "Pyès monnen sa a gen yon minimòm ki pi wo pase nòmal. Tanpri chwazi y
 msgid "dyn.buy_membership.error.wait"
 msgstr "Erè nan pwosesis peman. Tanpri tann yon moman epi eseye ankò. Si pwoblèm nan pèsiste pou plis pase 24 èdtan, tanpri kontakte nou nan %(email)s ak yon ekran."
 
-#: allthethings/page/views.py:4416
+#: allthethings/page/views.py:3782
 #, fuzzy
 msgid "page.md5.box.download.affected_files"
 msgstr "%(count)s paj afekte"
 
-#: allthethings/page/views.py:4676
+#: allthethings/page/views.py:4762
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Pa vizib nan Libgen.rs Non-Fiction"
 
-#: allthethings/page/views.py:4677
+#: allthethings/page/views.py:4763
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Pa vizib nan Libgen.rs Fiction"
 
-#: allthethings/page/views.py:4678
+#: allthethings/page/views.py:4764
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Pa vizib nan Libgen.li"
 
-#: allthethings/page/views.py:4679
+#: allthethings/page/views.py:4765
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Make kòm kase nan Libgen.li"
 
-#: allthethings/page/views.py:4680
+#: allthethings/page/views.py:4766
 #, fuzzy
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Manke nan Z-Library"
 
-#: allthethings/page/views.py:4681
+#: allthethings/page/views.py:4767
 #, fuzzy
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
 msgstr "Pa tout paj yo te ka konvèti an PDF"
 
-#: allthethings/page/views.py:4682
+#: allthethings/page/views.py:4768
 #, fuzzy
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
 msgstr "Kouri exiftool echwe sou fichye sa a"
 
-#: allthethings/page/views.py:4688
+#: allthethings/page/views.py:4774
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Liv (enkoni)"
 
-#: allthethings/page/views.py:4689
+#: allthethings/page/views.py:4775
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Liv (non-fiksyon)"
 
-#: allthethings/page/views.py:4690
+#: allthethings/page/views.py:4776
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Liv (fiksyon)"
 
-#: allthethings/page/views.py:4691
+#: allthethings/page/views.py:4777
 #, fuzzy
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Atik jounal"
 
-#: allthethings/page/views.py:4692
+#: allthethings/page/views.py:4778
 #, fuzzy
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Dokiman estanda"
 
-#: allthethings/page/views.py:4693
+#: allthethings/page/views.py:4779
 #, fuzzy
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Revi"
 
-#: allthethings/page/views.py:4694
+#: allthethings/page/views.py:4780
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Liv komik"
 
-#: allthethings/page/views.py:4695
+#: allthethings/page/views.py:4781
 #, fuzzy
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "Nòt mizikal"
 
-#: allthethings/page/views.py:4696
+#: allthethings/page/views.py:4782
 #, fuzzy
 msgid "common.md5_content_type_mapping.other"
 msgstr "Lòt"
 
-#: allthethings/page/views.py:4702
+#: allthethings/page/views.py:4788
 #, fuzzy
 msgid "common.access_types_mapping.aa_download"
 msgstr "Telechajman sèvè patnè"
 
-#: allthethings/page/views.py:4703
+#: allthethings/page/views.py:4789
 #, fuzzy
 msgid "common.access_types_mapping.aa_scidb"
 msgstr "SciDB"
 
-#: allthethings/page/views.py:4704
+#: allthethings/page/views.py:4790
 #, fuzzy
 msgid "common.access_types_mapping.external_download"
 msgstr "Telechajman ekstèn"
 
-#: allthethings/page/views.py:4705
+#: allthethings/page/views.py:4791
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow"
 msgstr "Prete ekstèn"
 
-#: allthethings/page/views.py:4706
+#: allthethings/page/views.py:4792
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "Prete ekstèn (enprime dezaktive)"
 
-#: allthethings/page/views.py:4707
+#: allthethings/page/views.py:4793
 #, fuzzy
 msgid "common.access_types_mapping.meta_explore"
 msgstr "Eksplore metadata"
 
-#: allthethings/page/views.py:4708
+#: allthethings/page/views.py:4794
 #, fuzzy
 msgid "common.access_types_mapping.torrents_available"
 msgstr "Enkli nan torrents"
 
-#: allthethings/page/views.py:4714
+#: allthethings/page/views.py:4800
 #, fuzzy
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:4718
+#: allthethings/page/views.py:4801
+#, fuzzy
+msgid "common.record_sources_mapping.lgli"
+msgstr "Libgen.li"
+
+#: allthethings/page/views.py:4802
+#, fuzzy
+msgid "common.record_sources_mapping.zlib"
+msgstr "Z-Library"
+
+#: allthethings/page/views.py:4803
+#, fuzzy
+msgid "common.record_sources_mapping.ia"
+msgstr "IA"
+
+#: allthethings/page/views.py:4804
 #, fuzzy
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:4719
+#: allthethings/page/views.py:4805
 #, fuzzy
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:4720
+#: allthethings/page/views.py:4806
 #, fuzzy
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:4721
+#: allthethings/page/views.py:4807
 #, fuzzy
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
-#: allthethings/page/views.py:4722
+#: allthethings/page/views.py:4808
 #, fuzzy
 msgid "common.record_sources_mapping.duxiu"
 msgstr "DuXiu 读秀"
 
-#: allthethings/page/views.py:4723
+#: allthethings/page/views.py:4809
 #, fuzzy
 msgid "common.record_sources_mapping.uploads"
 msgstr "Telechajman nan AA"
 
-#: allthethings/page/views.py:4729
+#: allthethings/page/views.py:4815
 #, fuzzy
 msgid "common.specific_search_fields.title"
 msgstr "Tit"
 
-#: allthethings/page/views.py:4730
+#: allthethings/page/views.py:4816
 #, fuzzy
 msgid "common.specific_search_fields.author"
 msgstr "Oteur"
 
-#: allthethings/page/views.py:4731
+#: allthethings/page/views.py:4817
 #, fuzzy
 msgid "common.specific_search_fields.publisher"
 msgstr "Piblikatè"
 
-#: allthethings/page/views.py:4732
+#: allthethings/page/views.py:4818
 #, fuzzy
 msgid "common.specific_search_fields.edition_varia"
 msgstr "Edisyon"
 
-#: allthethings/page/views.py:4733
+#: allthethings/page/views.py:4819
 #, fuzzy
 msgid "common.specific_search_fields.year"
 msgstr "Ane piblikasyon"
 
-#: allthethings/page/views.py:4734
+#: allthethings/page/views.py:4820
 #, fuzzy
 msgid "common.specific_search_fields.original_filename"
 msgstr "Non orijinal fichye a"
 
-#: allthethings/page/views.py:4735
+#: allthethings/page/views.py:4821
 #, fuzzy
 msgid "common.specific_search_fields.description_comments"
 msgstr "Deskripsyon ak kòmantè metadata"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.fast_partner"
 msgstr "Sèvè Patnè Rapid #%(number)s"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification_or_waitlists"
 msgstr "(pa gen verifikasyon navigatè oswa lis tann)"
 
-#: allthethings/page/views.py:4763 allthethings/page/views.py:4765
+#: allthethings/page/views.py:4849 allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_partner"
 msgstr "Sèvè Patnè Ralanti #%(number)s"
 
-#: allthethings/page/views.py:4763
+#: allthethings/page/views.py:4849
 #, fuzzy
 msgid "common.md5.servers.faster_with_waitlist"
 msgstr "(yon ti kras pi rapid men ak lis tann)"
 
-#: allthethings/page/views.py:4765
+#: allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_no_waitlist"
 msgstr "(pa gen lis tann, men ka trè ralanti)"
 
-#: allthethings/page/views.py:4854
+#: allthethings/page/views.py:4940
 #, fuzzy
 msgid "page.md5.box.descr_title"
 msgstr "deskripsyon"
 
-#: allthethings/page/views.py:4855
+#: allthethings/page/views.py:4941
 #, fuzzy
 msgid "page.md5.box.metadata_comments_title"
 msgstr "kòmantè metadata"
 
-#: allthethings/page/views.py:4856
+#: allthethings/page/views.py:4942
 #, fuzzy
 msgid "page.md5.box.alternative_title"
 msgstr "Tit altènatif"
 
-#: allthethings/page/views.py:4857
+#: allthethings/page/views.py:4943
 #, fuzzy
 msgid "page.md5.box.alternative_author"
 msgstr "Oteur altènatif"
 
-#: allthethings/page/views.py:4858
+#: allthethings/page/views.py:4944
 #, fuzzy
 msgid "page.md5.box.alternative_publisher"
 msgstr "Piblikatè altènatif"
 
-#: allthethings/page/views.py:4859
+#: allthethings/page/views.py:4945
 #, fuzzy
 msgid "page.md5.box.alternative_edition"
 msgstr "Edisyon altènatif"
 
-#: allthethings/page/views.py:4860
+#: allthethings/page/views.py:4946
 #, fuzzy
 msgid "page.md5.box.alternative_description"
 msgstr "Deskripsyon altènatif"
 
-#: allthethings/page/views.py:4861
+#: allthethings/page/views.py:4947
 #, fuzzy
 msgid "page.md5.box.alternative_filename"
 msgstr "Non altènatif fichye a"
 
-#: allthethings/page/views.py:4862
+#: allthethings/page/views.py:4948
 #, fuzzy
 msgid "page.md5.box.alternative_extension"
 msgstr "Altènatif ekstansyon"
 
-#: allthethings/page/views.py:4863
+#: allthethings/page/views.py:4949
 #, fuzzy
 msgid "page.md5.box.date_open_sourced_title"
 msgstr "dat louvri sous"
 
-#: allthethings/page/views.py:4899
+#: allthethings/page/views.py:4985
 #, fuzzy
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "Telechajman Sèvè Patnè yo pa disponib pou fichye sa a pou kounye a."
 
-#: allthethings/page/views.py:4903 allthethings/page/views.py:5086
+#: allthethings/page/views.py:4989 allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:4977
+#: allthethings/page/views.py:5063
 #, fuzzy
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Non-Fiksyon"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(klike tou sou \"GET\" anwo a)"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(klike sou \"GET\" anwo a)"
 
-#: allthethings/page/views.py:4990
+#: allthethings/page/views.py:5076
 #, fuzzy
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Fiksyon"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.libgen_ads"
 msgstr "piblisite yo konnen pou gen lojisyèl malveyan, kidonk itilize yon bloke piblisite oswa pa klike sou piblisite yo"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Prete nan Internet Archive"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(sèlman pou moun ki gen andikap enprime)"
 
-#: allthethings/page/views.py:5086
+#: allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(DOI ki asosye a ka pa disponib nan Sci-Hub)"
 
-#: allthethings/page/views.py:5092
+#: allthethings/page/views.py:5178
 #, fuzzy
 msgid "page.md5.box.download.collection"
 msgstr "koleksyon"
 
-#: allthethings/page/views.py:5093
+#: allthethings/page/views.py:5179
 #, fuzzy
 msgid "page.md5.box.download.torrent"
 msgstr "torrent"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Telechajman torrent an gwo"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.experts_only"
 msgstr "(sèlman pou ekspè)"
 
-#: allthethings/page/views.py:5106
+#: allthethings/page/views.py:5192
 #, fuzzy
 msgid "page.md5.box.download.aa_isbn"
 msgstr "Chèche Anna’s Archive pou ISBN"
 
-#: allthethings/page/views.py:5107
+#: allthethings/page/views.py:5193
 #, fuzzy
 msgid "page.md5.box.download.other_isbn"
 msgstr "Chèche plizyè lòt baz done pou ISBN"
 
-#: allthethings/page/views.py:5109
+#: allthethings/page/views.py:5195
 #, fuzzy
 msgid "page.md5.box.download.original_isbndb"
 msgstr "Jwenn dosye orijinal nan ISBNdb"
 
-#: allthethings/page/views.py:5111
+#: allthethings/page/views.py:5197
 #, fuzzy
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Chèche Achiv Anna pou ID Open Library"
 
-#: allthethings/page/views.py:5113
+#: allthethings/page/views.py:5199
 #, fuzzy
 msgid "page.md5.box.download.original_openlib"
 msgstr "Jwenn dosye orijinal nan Open Library"
 
-#: allthethings/page/views.py:5115
+#: allthethings/page/views.py:5201
 #, fuzzy
 msgid "page.md5.box.download.aa_oclc"
 msgstr "Chèche Achiv Anna pou nimewo OCLC (WorldCat)"
 
-#: allthethings/page/views.py:5116
+#: allthethings/page/views.py:5202
 #, fuzzy
 msgid "page.md5.box.download.original_oclc"
 msgstr "Jwenn dosye orijinal nan WorldCat"
 
-#: allthethings/page/views.py:5118
+#: allthethings/page/views.py:5204
 #, fuzzy
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "Chèche Achiv Anna pou nimewo SSID DuXiu"
 
-#: allthethings/page/views.py:5119
+#: allthethings/page/views.py:5205
 #, fuzzy
 msgid "page.md5.box.download.original_duxiu"
 msgstr "Chèche manyèlman sou DuXiu"
 
-#: allthethings/page/views.py:5121
+#: allthethings/page/views.py:5207
 #, fuzzy
 msgid "page.md5.box.download.aa_cadal"
 msgstr "Chèche Achiv Anna pou nimewo SSNO CADAL"
 
-#: allthethings/page/views.py:5122
+#: allthethings/page/views.py:5208
 #, fuzzy
 msgid "page.md5.box.download.original_cadal"
 msgstr "Jwenn dosye orijinal nan CADAL"
 
-#: allthethings/page/views.py:5126
+#: allthethings/page/views.py:5212
 #, fuzzy
 msgid "page.md5.box.download.aa_dxid"
 msgstr "Chèche Achiv Anna pou nimewo DXID DuXiu"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "page.md5.box.download.scidb"
 msgstr "Achiv Anna 🧬 SciDB"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(pa gen verifikasyon navigatè nesesè)"
@@ -2339,11 +2328,6 @@ msgstr "Konvèti: itilize zouti sou entènèt pou konvèti ant fòma yo. Pa egza
 msgid "page.md5.box.download.kindle"
 msgstr "Kindle: telechaje fichye a (pdf oswa epub sipòte), lè sa a <a %(a_kindle)s>voye li nan Kindle</a> lè l sèvi avèk entènèt, app, oswa imèl. Zouti itil: <a %(a_kobosend)s rel=\"noopener noreferrer nofollow\">1</a>."
 
-#: allthethings/page/templates/page/faq.html:161
-#, fuzzy
-msgid "page.request.dont_email"
-msgstr "Pa voye demann liv ou yo pa imèl."
-
 #: allthethings/page/templates/page/aarecord.html:258
 #, fuzzy
 msgid "page.md5.box.download.support_authors"
@@ -2522,11 +2506,6 @@ msgstr "Montre imèl"
 #, fuzzy
 msgid "page.faq.metadata.inspiration1"
 msgstr "Enspirasyon nou pou kolekte metadata se objektif Aaron Swartz pou “yon paj entènèt pou chak liv ki janm pibliye”, pou ki li te kreye <a %(a_openlib)s>Open Library</a>."
-
-#: allthethings/page/templates/page/faq.html:164
-#, fuzzy
-msgid "page.faq.metadata.title"
-msgstr "Èske ou kolekte metadata?"
 
 #: allthethings/page/templates/page/datasets.html:162
 #: allthethings/page/templates/page/faq.html:169
@@ -2752,6 +2731,16 @@ msgstr "Pou kounye a, nou pa ka akomode demann liv."
 #, fuzzy
 msgid "page.request.forums"
 msgstr "Tanpri fè demann ou yo sou fowòm Z-Library oswa Libgen."
+
+#: allthethings/page/templates/page/faq.html:161
+#, fuzzy
+msgid "page.request.dont_email"
+msgstr "Pa voye demann liv ou yo pa imèl."
+
+#: allthethings/page/templates/page/faq.html:164
+#, fuzzy
+msgid "page.faq.metadata.title"
+msgstr "Èske ou kolekte metadata?"
 
 #: allthethings/page/templates/page/faq.html:167
 #, fuzzy
@@ -2997,11 +2986,6 @@ msgstr "Vin yon manm pou itilize telechajman rapid."
 #, fuzzy
 msgid "page.home.full_database.header"
 msgstr "Baz done konplè"
-
-#: allthethings/page/templates/page/search.html:143
-#, fuzzy
-msgid "page.search.advanced.field.year_published"
-msgstr "Ane pibliye"
 
 #: allthethings/page/templates/page/home.html:12
 #, fuzzy
@@ -3488,6 +3472,11 @@ msgstr "Ajoute jaden rechèch espesifik"
 msgid "common.specific_search_fields.select"
 msgstr "(rechèch jaden espesifik)"
 
+#: allthethings/page/templates/page/search.html:143
+#, fuzzy
+msgid "page.search.advanced.field.year_published"
+msgstr "Ane pibliye"
+
 #: allthethings/page/templates/page/search.html:199
 #, fuzzy
 msgid "page.search.filters.source.scraped"
@@ -3895,3 +3884,4 @@ msgstr "…"
 #, fuzzy
 msgid "page.search.pagination.next"
 msgstr "Pwochen"
+

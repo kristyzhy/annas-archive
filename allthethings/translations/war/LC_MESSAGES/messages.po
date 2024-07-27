@@ -1,18 +1,27 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2024-07-27 14:40+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language: war\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
-
-#: allthethings/page/templates/page/aarecord.html:18
+#: allthethings/app.py:201
 #, fuzzy
-msgid "page.md5.header.ia"
-msgstr "Internet Archive Controlled Digital Lending file “%(id)s”"
+msgid "layout.index.invalid_request"
+msgstr "Diri nga hangyo. Bisitaha %(websites)s."
+
+#: allthethings/app.py:262
+#, fuzzy
+msgid "layout.index.header.tagline_scihub"
+msgstr "Sci-Hub"
+
+#: allthethings/app.py:263
+#, fuzzy
+msgid "layout.index.header.tagline_libgen"
+msgstr "LibGen"
+
+#: allthethings/app.py:264
+#, fuzzy
+msgid "layout.index.header.tagline_zlib"
+msgstr "Z-Lib"
+
+#: allthethings/app.py:265
+#, fuzzy
+msgid "layout.index.header.tagline_openlib"
+msgstr "OpenLib"
 
 #: allthethings/app.py:266
 #, fuzzy
@@ -53,525 +62,6 @@ msgstr "Gin-scrape ngan gin-open-source namon %(scraped)s."
 #, fuzzy
 msgid "layout.index.header.tagline_open_source"
 msgstr "An ngatanan namon nga code ngan data bug-os nga open source."
-
-#: allthethings/account/templates/account/donate.html:147
-#, fuzzy
-msgid "page.donate.payment.buttons.credit_debit"
-msgstr "Tarheta de crédito/débito"
-
-#: allthethings/account/templates/account/donate.html:148
-#, fuzzy
-msgid "page.donate.payment.buttons.credit_debit_backup"
-msgstr "Tarheta de crédito/débito (respaldo)"
-
-#: allthethings/account/templates/account/donate.html:149
-#, fuzzy
-msgid "page.donate.payment.buttons.credit_debit2"
-msgstr "Tarheta de crédito/débito 2"
-
-#: allthethings/account/templates/account/donation.html:3
-#: allthethings/account/templates/account/donation.html:9
-#, fuzzy
-msgid "page.donation.title"
-msgstr "Donasyon"
-
-#: allthethings/account/templates/account/donation.html:10
-#, fuzzy
-msgid "page.donation.header.id"
-msgstr "Identifier: %(id)s"
-
-#: allthethings/account/templates/account/donation.html:11
-#, fuzzy
-msgid "page.donation.header.date"
-msgstr "Petsa: %(date)s"
-
-#: allthethings/account/templates/account/donation.html:14
-#, fuzzy
-msgid "page.donation.header.total_including_discount"
-msgstr "Kabuuan: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / buwan ha %(duration)s bulan, upod an %(discounts)s%% diskwento)</span>"
-
-#: allthethings/account/templates/account/donation.html:16
-#, fuzzy
-msgid "page.donation.header.total_without_discount"
-msgstr "Kabuuan: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / buwan ha %(duration)s bulan)</span>"
-
-#: allthethings/account/templates/account/donation.html:27
-#, fuzzy
-msgid "page.donation.header.status"
-msgstr "Status: <span %(span_label)s>%(label)s</span>"
-
-#: allthethings/account/templates/account/donation.html:33
-#, fuzzy
-msgid "page.donation.header.cancel.button"
-msgstr "Kanselahin"
-
-#: allthethings/account/templates/account/donation.html:34
-#, fuzzy
-msgid "page.donation.header.cancel.confirm.msg"
-msgstr "Sigurado ka ba nga karuyag mo magkansela? Ayaw pagkansela kun nagbayad ka na."
-
-#: allthethings/account/templates/account/donation.html:34
-#, fuzzy
-msgid "page.donation.header.cancel.confirm.button"
-msgstr "Oo, pakikansela"
-
-#: allthethings/account/templates/account/donation.html:36
-#, fuzzy
-msgid "page.donation.header.cancel.success"
-msgstr "✅ An donasyon mo in kanselado."
-
-#: allthethings/account/templates/account/donation.html:36
-#, fuzzy
-msgid "page.donation.header.cancel.new_donation"
-msgstr "Maghimo hin bag-o nga donasyon"
-
-#: allthethings/account/templates/account/donation.html:37
-#, fuzzy
-msgid "page.donation.header.cancel.failure"
-msgstr "❌ Mayda problema. Paki-reload an pahina ngan sunda utro."
-
-#: allthethings/account/templates/account/donation.html:41
-#, fuzzy
-msgid "page.donation.header.reorder"
-msgstr "Reorder"
-
-#: allthethings/account/templates/account/donation.html:48
-#, fuzzy
-msgid "page.donation.old_instructions.intro_paid"
-msgstr "Nabayad ka na. Kun karuyag mo la gihapon basahon an mga instruksyon ha pagbayad, pinduta dinhi:"
-
-#: allthethings/account/templates/account/donation.html:51
-#: allthethings/account/templates/account/donation.html:67
-#, fuzzy
-msgid "page.donation.old_instructions.show_button"
-msgstr "Ipakita an daan nga mga instruksyon ha pagbayad"
-
-#: allthethings/account/templates/account/donation.html:56
-#, fuzzy
-msgid "page.donation.thank_you_donation"
-msgstr "Salamat ha imo donasyon!"
-
-#: allthethings/account/templates/account/donation.html:60
-#, fuzzy
-msgid "page.donation.thank_you.secret_key"
-msgstr "Kun waray ka pa, isurat an imo sekreto nga yawe para ha pag-log in:"
-
-#: allthethings/account/templates/account/donation.html:62
-#, fuzzy
-msgid "page.donation.thank_you.locked_out"
-msgstr "Kay kun diri, mahimo ka ma-lock out hini nga akawnt!"
-
-#: allthethings/account/templates/account/donation.html:66
-#, fuzzy
-msgid "page.donation.old_instructions.intro_outdated"
-msgstr "An mga instruksyon ha pagbayad yana daan na. Kun karuyag mo maghimo hin bag-o nga donasyon, gamita an “Reorder” nga buton ha igbaw."
-
-#: allthethings/page/views.py:4899
-#, fuzzy
-msgid "page.md5.box.download.temporarily_unavailable"
-msgstr "Ang mga pag-download mula sa Partner Server ay pansamantalang hindi magagamit para sa file na ito."
-
-#: allthethings/page/views.py:4903 allthethings/page/views.py:5086
-#, fuzzy
-msgid "page.md5.box.download.scihub"
-msgstr "Sci-Hub: %(doi)s"
-
-#: allthethings/page/views.py:4977
-#, fuzzy
-msgid "page.md5.box.download.lgrsnf"
-msgstr "Libgen.rs Non-Fiction"
-
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
-#, fuzzy
-msgid "page.md5.box.download.extra_also_click_get"
-msgstr "(pindutin din ang “GET” sa itaas)"
-
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
-#, fuzzy
-msgid "page.md5.box.download.extra_click_get"
-msgstr "(pindutin ang “GET” sa itaas)"
-
-#: allthethings/page/views.py:4990
-#, fuzzy
-msgid "page.md5.box.download.lgrsfic"
-msgstr "Libgen.rs Fiction"
-
-#: allthethings/page/views.py:5037
-#, fuzzy
-msgid "page.md5.box.download.lgli"
-msgstr "Libgen.li"
-
-#: allthethings/page/views.py:5037
-#, fuzzy
-msgid "page.md5.box.download.libgen_ads"
-msgstr "ang kanilang mga ad ay kilalang naglalaman ng malisyosong software, kaya gumamit ng ad blocker o huwag mag-click sa mga ad"
-
-#: allthethings/page/views.py:5083
-#, fuzzy
-msgid "page.md5.box.download.ia_borrow"
-msgstr "Hiramin mula sa Internet Archive"
-
-#: allthethings/page/views.py:5083
-#, fuzzy
-msgid "page.md5.box.download.print_disabled_only"
-msgstr "(para lamang sa mga patron na may kapansanan sa pag-print)"
-
-#: allthethings/page/views.py:5086
-#, fuzzy
-msgid "page.md5.box.download.scihub_maybe"
-msgstr "(maaaring hindi magagamit ang kaugnay na DOI sa Sci-Hub)"
-
-#: allthethings/page/views.py:5092
-#, fuzzy
-msgid "page.md5.box.download.collection"
-msgstr "koleksyon"
-
-#: allthethings/page/views.py:5093
-#, fuzzy
-msgid "page.md5.box.download.torrent"
-msgstr "torrent"
-
-#: allthethings/page/views.py:5099
-#, fuzzy
-msgid "page.md5.box.download.bulk_torrents"
-msgstr "Maramihang pag-download ng torrent"
-
-#: allthethings/page/views.py:5099
-#, fuzzy
-msgid "page.md5.box.download.experts_only"
-msgstr "(para lamang sa mga eksperto)"
-
-#: allthethings/page/views.py:5106
-#, fuzzy
-msgid "page.md5.box.download.aa_isbn"
-msgstr "Maghanap sa Anna’s Archive para sa ISBN"
-
-#: allthethings/page/views.py:5107
-#, fuzzy
-msgid "page.md5.box.download.other_isbn"
-msgstr "Maghanap sa iba't ibang mga database para sa ISBN"
-
-#: allthethings/page/views.py:5109
-#, fuzzy
-msgid "page.md5.box.download.original_isbndb"
-msgstr "Hanapin ang orihinal na rekord sa ISBNdb"
-
-#: allthethings/page/views.py:5111
-#, fuzzy
-msgid "page.md5.box.download.aa_openlib"
-msgstr "Búska ha Anna’s Archive para Open Library ID"
-
-#: allthethings/page/views.py:5113
-#, fuzzy
-msgid "page.md5.box.download.original_openlib"
-msgstr "Bilinga an orihinal nga rekord ha Open Library"
-
-#: allthethings/page/views.py:5115
-#, fuzzy
-msgid "page.md5.box.download.aa_oclc"
-msgstr "Búska ha Anna’s Archive para OCLC (WorldCat) numero"
-
-#: allthethings/page/views.py:5116
-#, fuzzy
-msgid "page.md5.box.download.original_oclc"
-msgstr "Bilinga an orihinal nga rekord ha WorldCat"
-
-#: allthethings/page/views.py:5118
-#, fuzzy
-msgid "page.md5.box.download.aa_duxiu"
-msgstr "Búska ha Anna’s Archive para DuXiu SSID numero"
-
-#: allthethings/page/views.py:5119
-#, fuzzy
-msgid "page.md5.box.download.original_duxiu"
-msgstr "Búska manwal ha DuXiu"
-
-#: allthethings/page/views.py:5121
-#, fuzzy
-msgid "page.md5.box.download.aa_cadal"
-msgstr "Búska ha Anna’s Archive para CADAL SSNO numero"
-
-#: allthethings/page/views.py:5122
-#, fuzzy
-msgid "page.md5.box.download.original_cadal"
-msgstr "Bilinga an orihinal nga rekord ha CADAL"
-
-#: allthethings/page/views.py:5126
-#, fuzzy
-msgid "page.md5.box.download.aa_dxid"
-msgstr "Búska ha Anna’s Archive para DuXiu DXID numero"
-
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
-#, fuzzy
-msgid "page.md5.box.download.scidb"
-msgstr "Anna’s Archive 🧬 SciDB"
-
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
-#, fuzzy
-msgid "common.md5.servers.no_browser_verification"
-msgstr "(waray kinahanglan nga browser verification)"
-
-#: allthethings/page/templates/page/aarecord.html:14
-#, fuzzy
-msgid "page.md5.header.scihub"
-msgstr "Sci-Hub file “%(id)s”"
-
-#: allthethings/account/templates/account/donation.html:144
-#, fuzzy
-msgid "page.donation.stepbystep_below"
-msgstr "Kitaa an step-by-step nga giya ha ubos."
-
-#: allthethings/page/views.py:4705
-#, fuzzy
-msgid "common.access_types_mapping.external_borrow"
-msgstr "Eksternal nga paghiram"
-
-#: allthethings/page/views.py:4706
-#, fuzzy
-msgid "common.access_types_mapping.external_borrow_printdisabled"
-msgstr "Eksternal nga paghiram (print disabled)"
-
-#: allthethings/page/views.py:4707
-#, fuzzy
-msgid "common.access_types_mapping.meta_explore"
-msgstr "Eksplora metadata"
-
-#: allthethings/page/views.py:4708
-#, fuzzy
-msgid "common.access_types_mapping.torrents_available"
-msgstr "Nakapaloob ha mga torrents"
-
-#: allthethings/page/views.py:4714
-#, fuzzy
-msgid "common.record_sources_mapping.lgrs"
-msgstr "Libgen.rs"
-
-#: allthethings/page/views.py:4715
-#, fuzzy
-msgid "common.record_sources_mapping.lgli"
-msgstr "Libgen.li"
-
-#: allthethings/page/views.py:4716
-#, fuzzy
-msgid "common.record_sources_mapping.zlib"
-msgstr "Z-Library"
-
-#: allthethings/page/views.py:4717
-#, fuzzy
-msgid "common.record_sources_mapping.ia"
-msgstr "IA"
-
-#: allthethings/page/views.py:4718
-#, fuzzy
-msgid "common.record_sources_mapping.isbndb"
-msgstr "ISBNdb"
-
-#: allthethings/page/views.py:4719
-#, fuzzy
-msgid "common.record_sources_mapping.ol"
-msgstr "OpenLibrary"
-
-#: allthethings/page/views.py:4720
-#, fuzzy
-msgid "common.record_sources_mapping.scihub"
-msgstr "Sci-Hub"
-
-#: allthethings/page/views.py:4721
-#, fuzzy
-msgid "common.record_sources_mapping.oclc"
-msgstr "OCLC (WorldCat)"
-
-#: allthethings/page/views.py:4722
-#, fuzzy
-msgid "common.record_sources_mapping.duxiu"
-msgstr "DuXiu 读秀"
-
-#: allthethings/page/views.py:4723
-#, fuzzy
-msgid "common.record_sources_mapping.uploads"
-msgstr "Mga Upload ha AA"
-
-#: allthethings/page/views.py:4729
-#, fuzzy
-msgid "common.specific_search_fields.title"
-msgstr "Titulo"
-
-#: allthethings/page/views.py:4730
-#, fuzzy
-msgid "common.specific_search_fields.author"
-msgstr "Awtor"
-
-#: allthethings/page/views.py:4731
-#, fuzzy
-msgid "common.specific_search_fields.publisher"
-msgstr "Tagpublikar"
-
-#: allthethings/page/views.py:4732
-#, fuzzy
-msgid "common.specific_search_fields.edition_varia"
-msgstr "Edisyon"
-
-#: allthethings/page/views.py:4733
-#, fuzzy
-msgid "common.specific_search_fields.year"
-msgstr "Tuig nga gipatik"
-
-#: allthethings/page/views.py:4734
-#, fuzzy
-msgid "common.specific_search_fields.original_filename"
-msgstr "Orihinal nga filename"
-
-#: allthethings/page/views.py:4735
-#, fuzzy
-msgid "common.specific_search_fields.description_comments"
-msgstr "Deskripsyon ug mga komento sa metadata"
-
-#: allthethings/page/views.py:4760
-#, fuzzy
-msgid "common.md5.servers.fast_partner"
-msgstr "Pas-pas nga Partner Server #%(number)s"
-
-#: allthethings/page/views.py:4760
-#, fuzzy
-msgid "common.md5.servers.no_browser_verification_or_waitlists"
-msgstr "(walay browser verification o waitlists)"
-
-#: allthethings/page/views.py:4763 allthethings/page/views.py:4765
-#, fuzzy
-msgid "common.md5.servers.slow_partner"
-msgstr "Hinay nga Partner Server #%(number)s"
-
-#: allthethings/page/views.py:4763
-#, fuzzy
-msgid "common.md5.servers.faster_with_waitlist"
-msgstr "(medyo pas-pas apan adunay waitlist)"
-
-#: allthethings/page/views.py:4765
-#, fuzzy
-msgid "common.md5.servers.slow_no_waitlist"
-msgstr "(walay waitlist, apan mahimong hinay kaayo)"
-
-#: allthethings/page/views.py:4854
-#, fuzzy
-msgid "page.md5.box.descr_title"
-msgstr "deskripsyon"
-
-#: allthethings/page/views.py:4855
-#, fuzzy
-msgid "page.md5.box.metadata_comments_title"
-msgstr "mga komento sa metadata"
-
-#: allthethings/page/views.py:4856
-#, fuzzy
-msgid "page.md5.box.alternative_title"
-msgstr "Alternatibong titulo"
-
-#: allthethings/page/views.py:4857
-#, fuzzy
-msgid "page.md5.box.alternative_author"
-msgstr "Alternatibong awtor"
-
-#: allthethings/page/views.py:4858
-#, fuzzy
-msgid "page.md5.box.alternative_publisher"
-msgstr "Alternatibong tagpublikar"
-
-#: allthethings/page/views.py:4859
-#, fuzzy
-msgid "page.md5.box.alternative_edition"
-msgstr "Alternatibong edisyon"
-
-#: allthethings/page/views.py:4860
-#, fuzzy
-msgid "page.md5.box.alternative_description"
-msgstr "Alternatibong deskripsyon"
-
-#: allthethings/page/views.py:4861
-#, fuzzy
-msgid "page.md5.box.alternative_filename"
-msgstr "Alternatibong filename"
-
-#: allthethings/page/views.py:4862
-#, fuzzy
-msgid "page.md5.box.alternative_extension"
-msgstr "Alternatibong ekstensyon"
-
-#: allthethings/page/views.py:4863
-#, fuzzy
-msgid "page.md5.box.date_open_sourced_title"
-msgstr "petsa ng pagbubukas ng source"
-
-#: allthethings/app.py:201
-#, fuzzy
-msgid "layout.index.invalid_request"
-msgstr "Diri nga hangyo. Bisitaha %(websites)s."
-
-#: allthethings/app.py:262
-#, fuzzy
-msgid "layout.index.header.tagline_scihub"
-msgstr "Sci-Hub"
-
-#: allthethings/app.py:263
-#, fuzzy
-msgid "layout.index.header.tagline_libgen"
-msgstr "LibGen"
-
-#: allthethings/app.py:264
-#, fuzzy
-msgid "layout.index.header.tagline_zlib"
-msgstr "Z-Lib"
-
-#: allthethings/app.py:265
-#, fuzzy
-msgid "layout.index.header.tagline_openlib"
-msgstr "OpenLib"
-
-#: allthethings/templates/layouts/index.html:577
-#, fuzzy
-msgid "layout.index.header.nav.security"
-msgstr "Seguridad"
-
-#: allthethings/templates/layouts/index.html:581
-#, fuzzy
-msgid "layout.index.footer.list3.header"
-msgstr "Mga Alternatibo"
-
-#: allthethings/templates/macros/aarecord_list.html:66
-#, fuzzy
-msgid "page.search.results.download_time"
-msgstr "Oras ng pag-download"
-
-#: allthethings/templates/macros/aarecord_list.html:66
-#, fuzzy
-msgid "page.search.results.fast_download"
-msgstr "Mabilis na pag-download"
-
-#: allthethings/templates/macros/aarecord_list.html:75
-#, fuzzy
-msgid "page.search.results.issues"
-msgstr "❌ Maaaring may mga isyu ang file na ito."
-
-#: allthethings/templates/macros/copy_button.html:2
-#, fuzzy
-msgid "page.donate.copy"
-msgstr "kopya"
-
-#: allthethings/templates/macros/copy_button.html:2
-#, fuzzy
-msgid "page.donate.copied"
-msgstr "nakopya!"
-
-#: allthethings/account/templates/account/donate.html:102
-#, fuzzy
-msgid "page.donate.expert.contact_us"
-msgstr "kontaka kami"
-
-#: allthethings/page/views.py:4696
-#, fuzzy
-msgid "common.md5_content_type_mapping.other"
-msgstr "Iba pa"
 
 #: allthethings/app.py:281 allthethings/app.py:283 allthethings/app.py:284
 #: allthethings/app.py:287
@@ -710,11 +200,6 @@ msgstr "diri balido"
 msgid "page.donate.title"
 msgstr "Mag-donar"
 
-#: allthethings/account/templates/account/donate.html:94
-#, fuzzy
-msgid "page.donate.perks.legendary"
-msgstr "Legendaryo nga kahimtang ha pagpreserba han kahibaro ngan kultura han katawhan"
-
 #: allthethings/account/templates/account/donate.html:11
 #, fuzzy
 msgid "page.donate.header.existing_unpaid_donation"
@@ -834,10 +319,20 @@ msgstr "Eksklusibo nga Telegram nga may mga updates sa likod sang eksena"
 msgid "page.donate.perks.adopt"
 msgstr "“Adopt a torrent”: imo username o mensahe sa torrent filename <div %(div_months)s>kada 12 ka bulan nga membership</div>"
 
+#: allthethings/account/templates/account/donate.html:94
+#, fuzzy
+msgid "page.donate.perks.legendary"
+msgstr "Legendaryo nga kahimtang ha pagpreserba han kahibaro ngan kultura han katawhan"
+
 #: allthethings/account/templates/account/donate.html:101
 #, fuzzy
 msgid "page.donate.expert.title"
 msgstr "Eksperto nga Pag-access"
+
+#: allthethings/account/templates/account/donate.html:102
+#, fuzzy
+msgid "page.donate.expert.contact_us"
+msgstr "kontaka kami"
 
 #: allthethings/account/templates/account/donate.html:103
 #: allthethings/account/templates/account/donation.html:579
@@ -969,6 +464,21 @@ msgstr "Cash App"
 #, fuzzy
 msgid "page.donate.payment.buttons.paypal_plain"
 msgstr "PayPal"
+
+#: allthethings/account/templates/account/donate.html:147
+#, fuzzy
+msgid "page.donate.payment.buttons.credit_debit"
+msgstr "Tarheta de crédito/débito"
+
+#: allthethings/account/templates/account/donate.html:148
+#, fuzzy
+msgid "page.donate.payment.buttons.credit_debit_backup"
+msgstr "Tarheta de crédito/débito (respaldo)"
+
+#: allthethings/account/templates/account/donate.html:149
+#, fuzzy
+msgid "page.donate.payment.buttons.credit_debit2"
+msgstr "Tarheta de crédito/débito 2"
 
 #: allthethings/account/templates/account/donate.html:156
 #: allthethings/account/templates/account/donate.html:164
@@ -1119,11 +629,6 @@ msgstr "Sinusuportahan ng WeChat (Weixin Pay) ang mga international credit/debit
 #, fuzzy
 msgid "page.donate.ccexp.crypto"
 msgstr "Maaari kang bumili ng crypto gamit ang mga credit/debit card."
-
-#: allthethings/account/templates/account/donate.html:477
-#, fuzzy
-msgid "page.donate.submit.button.label.1_mo"
-msgstr "para sa 1 buwan “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:304
 #, fuzzy
@@ -1284,6 +789,11 @@ msgstr "ha 48 bulan"
 msgid "page.donate.duration.summary.duration.96_mo"
 msgstr "ha 96 bulan"
 
+#: allthethings/account/templates/account/donate.html:477
+#, fuzzy
+msgid "page.donate.submit.button.label.1_mo"
+msgstr "para sa 1 buwan “%(tier_name)s”"
+
 #: allthethings/account/templates/account/donate.html:478
 #, fuzzy
 msgid "page.donate.submit.button.label.3_mo"
@@ -1314,26 +824,107 @@ msgstr "ha 48 bulan “%(tier_name)s”"
 msgid "page.donate.submit.button.label.96_mo"
 msgstr "ha 96 bulan “%(tier_name)s”"
 
+#: allthethings/account/templates/account/donation.html:3
+#: allthethings/account/templates/account/donation.html:9
+#, fuzzy
+msgid "page.donation.title"
+msgstr "Donasyon"
+
+#: allthethings/account/templates/account/donation.html:10
+#, fuzzy
+msgid "page.donation.header.id"
+msgstr "Identifier: %(id)s"
+
+#: allthethings/account/templates/account/donation.html:11
+#, fuzzy
+msgid "page.donation.header.date"
+msgstr "Petsa: %(date)s"
+
+#: allthethings/account/templates/account/donation.html:14
+#, fuzzy
+msgid "page.donation.header.total_including_discount"
+msgstr "Kabuuan: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / buwan ha %(duration)s bulan, upod an %(discounts)s%% diskwento)</span>"
+
+#: allthethings/account/templates/account/donation.html:16
+#, fuzzy
+msgid "page.donation.header.total_without_discount"
+msgstr "Kabuuan: %(total)s <span %(span_details)s>(%(monthly_amount_usd)s / buwan ha %(duration)s bulan)</span>"
+
+#: allthethings/account/templates/account/donation.html:27
+#, fuzzy
+msgid "page.donation.header.status"
+msgstr "Status: <span %(span_label)s>%(label)s</span>"
+
+#: allthethings/account/templates/account/donation.html:33
+#, fuzzy
+msgid "page.donation.header.cancel.button"
+msgstr "Kanselahin"
+
+#: allthethings/account/templates/account/donation.html:34
+#, fuzzy
+msgid "page.donation.header.cancel.confirm.msg"
+msgstr "Sigurado ka ba nga karuyag mo magkansela? Ayaw pagkansela kun nagbayad ka na."
+
+#: allthethings/account/templates/account/donation.html:34
+#, fuzzy
+msgid "page.donation.header.cancel.confirm.button"
+msgstr "Oo, pakikansela"
+
+#: allthethings/account/templates/account/donation.html:36
+#, fuzzy
+msgid "page.donation.header.cancel.success"
+msgstr "✅ An donasyon mo in kanselado."
+
+#: allthethings/account/templates/account/donation.html:36
+#, fuzzy
+msgid "page.donation.header.cancel.new_donation"
+msgstr "Maghimo hin bag-o nga donasyon"
+
+#: allthethings/account/templates/account/donation.html:37
+#, fuzzy
+msgid "page.donation.header.cancel.failure"
+msgstr "❌ Mayda problema. Paki-reload an pahina ngan sunda utro."
+
+#: allthethings/account/templates/account/donation.html:41
+#, fuzzy
+msgid "page.donation.header.reorder"
+msgstr "Reorder"
+
+#: allthethings/account/templates/account/donation.html:48
+#, fuzzy
+msgid "page.donation.old_instructions.intro_paid"
+msgstr "Nabayad ka na. Kun karuyag mo la gihapon basahon an mga instruksyon ha pagbayad, pinduta dinhi:"
+
+#: allthethings/account/templates/account/donation.html:51
+#: allthethings/account/templates/account/donation.html:67
+#, fuzzy
+msgid "page.donation.old_instructions.show_button"
+msgstr "Ipakita an daan nga mga instruksyon ha pagbayad"
+
+#: allthethings/account/templates/account/donation.html:56
+#, fuzzy
+msgid "page.donation.thank_you_donation"
+msgstr "Salamat ha imo donasyon!"
+
+#: allthethings/account/templates/account/donation.html:60
+#, fuzzy
+msgid "page.donation.thank_you.secret_key"
+msgstr "Kun waray ka pa, isurat an imo sekreto nga yawe para ha pag-log in:"
+
+#: allthethings/account/templates/account/donation.html:62
+#, fuzzy
+msgid "page.donation.thank_you.locked_out"
+msgstr "Kay kun diri, mahimo ka ma-lock out hini nga akawnt!"
+
+#: allthethings/account/templates/account/donation.html:66
+#, fuzzy
+msgid "page.donation.old_instructions.intro_outdated"
+msgstr "An mga instruksyon ha pagbayad yana daan na. Kun karuyag mo maghimo hin bag-o nga donasyon, gamita an “Reorder” nga buton ha igbaw."
+
 #: allthethings/account/templates/account/donation.html:75
 #, fuzzy
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>Importante nga pahimatngon:</strong> An mga presyo han Crypto mahimo magbag-o hin dako, usahay bisan pa 20%% ha pipira la nga minuto. Ini mas guti-ay pa kay han mga fees nga amon ginbabaydan ha damo nga mga payment providers, nga agsob mag-charge hin 50-60%% para ha pagtrabaho hin “shadow charity” sugad ha amon. <u>Kun imo ipadara ha amon an resibo nga mayda orihinal nga presyo nga imo ginbaydan, amon la gihapon i-credit an imo akawnt para han pinili nga membership</u> (basta an resibo diri mas magurang hin pipira ka oras). Dako an amon pagpasalamat nga andam ka mag-antos hin sugad hini nga mga butang para la masuportahan kami! ❤️"
-
-#: allthethings/account/templates/account/donation.html:153
-#: allthethings/account/templates/account/donation.html:196
-#: allthethings/account/templates/account/donation.html:239
-#: allthethings/account/templates/account/donation.html:280
-#: allthethings/account/templates/account/donation.html:309
-#: allthethings/account/templates/account/donation.html:446
-#: allthethings/account/templates/account/donation.html:473
-#, fuzzy
-msgid "page.donation.reset_timer"
-msgstr "Para i-reset an timer, maghimo la hin bag-o nga donasyon."
-
-#: allthethings/account/templates/account/downloaded.html:8
-#, fuzzy
-msgid "page.downloaded.times_utc"
-msgstr "An ngatanan nga oras aada ha UTC."
 
 #: allthethings/account/templates/account/donation.html:81
 #: allthethings/account/templates/account/donation.html:94
@@ -1415,6 +1006,11 @@ msgstr "Magdonar pinaagi han amon credit / debit card nga pahina"
 msgid "page.donation.donate_on_this_page"
 msgstr "Magdonar %(amount)s ha <a %(a_page)s>hini nga pahina</a>."
 
+#: allthethings/account/templates/account/donation.html:144
+#, fuzzy
+msgid "page.donation.stepbystep_below"
+msgstr "Kitaa an step-by-step nga giya ha ubos."
+
 #: allthethings/account/templates/account/donation.html:148
 #: allthethings/account/templates/account/donation.html:191
 #: allthethings/account/templates/account/donation.html:234
@@ -1471,10 +1067,16 @@ msgstr "Oras nga nahibilin:"
 msgid "page.donation.might_want_to_cancel"
 msgstr "(bangin karuyag mo kanselahon ngan maghimo hin bag-o nga donasyon)"
 
-#: allthethings/account/templates/account/donation.html:459
+#: allthethings/account/templates/account/donation.html:153
+#: allthethings/account/templates/account/donation.html:196
+#: allthethings/account/templates/account/donation.html:239
+#: allthethings/account/templates/account/donation.html:280
+#: allthethings/account/templates/account/donation.html:309
+#: allthethings/account/templates/account/donation.html:446
+#: allthethings/account/templates/account/donation.html:473
 #, fuzzy
-msgid "page.donation.payment.wechat.top_header"
-msgstr "Instruksyon para ha WeChat"
+msgid "page.donation.reset_timer"
+msgstr "Para i-reset an timer, maghimo la hin bag-o nga donasyon."
 
 #: allthethings/account/templates/account/donation.html:157
 #: allthethings/account/templates/account/donation.html:200
@@ -1535,11 +1137,6 @@ msgstr "Sinusuportahan lamang namin ang karaniwang bersyon ng mga crypto coin, w
 #, fuzzy
 msgid "page.donation.amazon.header"
 msgstr "Amazon gift card"
-
-#: allthethings/page/views.py:4702
-#, fuzzy
-msgid "common.access_types_mapping.aa_download"
-msgstr "Pag-download tikang ha Partner Server"
 
 #: allthethings/account/templates/account/donation.html:320
 #, fuzzy
@@ -1617,6 +1214,11 @@ msgstr "I-donate ang kabuuang halaga na %(total)s gamit ang <a %(a_account)s>acc
 #, fuzzy
 msgid "page.donation.payment.alipay.error"
 msgstr "Sa kasamaang palad, ang pahina ng Alipay ay madalas na naa-access lamang mula sa <strong>mainland China</strong>. Maaaring kailanganin mong pansamantalang i-disable ang iyong VPN, o gumamit ng VPN papunta sa mainland China (o minsan ay gumagana rin ang Hong Kong)."
+
+#: allthethings/account/templates/account/donation.html:459
+#, fuzzy
+msgid "page.donation.payment.wechat.top_header"
+msgstr "Instruksyon para ha WeChat"
 
 #: allthethings/account/templates/account/donation.html:461
 #, fuzzy
@@ -1772,6 +1374,11 @@ msgstr "An mga paspas nga download ha naglabay nga 24 oras nagkakaapi ha adlaw-a
 
 #: allthethings/account/templates/account/downloaded.html:8
 #, fuzzy
+msgid "page.downloaded.times_utc"
+msgstr "An ngatanan nga oras aada ha UTC."
+
+#: allthethings/account/templates/account/downloaded.html:8
+#, fuzzy
 msgid "page.downloaded.not_public"
 msgstr "An mga gin-download nga file diri iginpapakita ha publiko."
 
@@ -1892,11 +1499,6 @@ msgstr "Logout"
 #, fuzzy
 msgid "page.account.logged_in.logout.success"
 msgstr "✅ Nakalogout ka na yana. I-reload an pahina para makalogin utro."
-
-#: allthethings/page/views.py:4703
-#, fuzzy
-msgid "common.access_types_mapping.aa_scidb"
-msgstr "SciDB"
 
 #: allthethings/account/templates/account/index.html:52
 #, fuzzy
@@ -2023,11 +1625,6 @@ msgstr "Waray makita nga profile."
 msgid "page.profile.header.edit"
 msgstr "edit"
 
-#: allthethings/page/views.py:4704
-#, fuzzy
-msgid "common.access_types_mapping.external_download"
-msgstr "Eksternal nga pag-download"
-
 #: allthethings/account/templates/account/profile.html:14
 #, fuzzy
 msgid "page.profile.change_display_name.text"
@@ -2089,85 +1686,442 @@ msgstr "Ini nga coin may mas hitaas nga minimum. Paki-pili hin lain nga duration
 msgid "dyn.buy_membership.error.wait"
 msgstr "May sayop ha pagproseso han bayad. Paghulat anay hin pira ka minuto ngan paki-uliay. Kun an problema magpadayon ha sulod hin 24 oras, pakig-istorya ha amon ha %(email)s upod hin screenshot."
 
-#: allthethings/page/views.py:4416
+#: allthethings/page/views.py:3782
 #, fuzzy
 msgid "page.md5.box.download.affected_files"
 msgstr "%(count)s apektado nga mga pahina"
 
-#: allthethings/page/views.py:4676
+#: allthethings/page/views.py:4762
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Diri nakikita ha Libgen.rs Non-Fiction"
 
-#: allthethings/page/views.py:4677
+#: allthethings/page/views.py:4763
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Diri nakikita ha Libgen.rs Fiction"
 
-#: allthethings/page/views.py:4678
+#: allthethings/page/views.py:4764
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Diri nakikita ha Libgen.li"
 
-#: allthethings/page/views.py:4679
+#: allthethings/page/views.py:4765
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Gintandaan nga buak ha Libgen.li"
 
-#: allthethings/page/views.py:4680
+#: allthethings/page/views.py:4766
 #, fuzzy
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Nawawara ha Z-Library"
 
-#: allthethings/page/views.py:4681
+#: allthethings/page/views.py:4767
 #, fuzzy
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
 msgstr "Diri ngatanan nga mga pahina mahimo ma-convert ngadto ha PDF"
 
-#: allthethings/page/views.py:4682
+#: allthethings/page/views.py:4768
 #, fuzzy
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
 msgstr "Napakyas an pagpadalagan han exiftool hini nga file"
 
-#: allthethings/page/views.py:4688
+#: allthethings/page/views.py:4774
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Libro (diri kilala)"
 
-#: allthethings/page/views.py:4689
+#: allthethings/page/views.py:4775
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Libro (non-fiction)"
 
-#: allthethings/page/views.py:4690
+#: allthethings/page/views.py:4776
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Libro (fiction)"
 
-#: allthethings/page/views.py:4691
+#: allthethings/page/views.py:4777
 #, fuzzy
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Artikulo ha journal"
 
-#: allthethings/page/views.py:4692
+#: allthethings/page/views.py:4778
 #, fuzzy
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Dokumento han mga standard"
 
-#: allthethings/page/views.py:4693
+#: allthethings/page/views.py:4779
 #, fuzzy
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Magasin"
 
-#: allthethings/page/views.py:4694
+#: allthethings/page/views.py:4780
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Komik nga libro"
 
-#: allthethings/page/views.py:4695
+#: allthethings/page/views.py:4781
 #, fuzzy
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "Musikal nga nota"
+
+#: allthethings/page/views.py:4782
+#, fuzzy
+msgid "common.md5_content_type_mapping.other"
+msgstr "Iba pa"
+
+#: allthethings/page/views.py:4788
+#, fuzzy
+msgid "common.access_types_mapping.aa_download"
+msgstr "Pag-download tikang ha Partner Server"
+
+#: allthethings/page/views.py:4789
+#, fuzzy
+msgid "common.access_types_mapping.aa_scidb"
+msgstr "SciDB"
+
+#: allthethings/page/views.py:4790
+#, fuzzy
+msgid "common.access_types_mapping.external_download"
+msgstr "Eksternal nga pag-download"
+
+#: allthethings/page/views.py:4791
+#, fuzzy
+msgid "common.access_types_mapping.external_borrow"
+msgstr "Eksternal nga paghiram"
+
+#: allthethings/page/views.py:4792
+#, fuzzy
+msgid "common.access_types_mapping.external_borrow_printdisabled"
+msgstr "Eksternal nga paghiram (print disabled)"
+
+#: allthethings/page/views.py:4793
+#, fuzzy
+msgid "common.access_types_mapping.meta_explore"
+msgstr "Eksplora metadata"
+
+#: allthethings/page/views.py:4794
+#, fuzzy
+msgid "common.access_types_mapping.torrents_available"
+msgstr "Nakapaloob ha mga torrents"
+
+#: allthethings/page/views.py:4800
+#, fuzzy
+msgid "common.record_sources_mapping.lgrs"
+msgstr "Libgen.rs"
+
+#: allthethings/page/views.py:4801
+#, fuzzy
+msgid "common.record_sources_mapping.lgli"
+msgstr "Libgen.li"
+
+#: allthethings/page/views.py:4802
+#, fuzzy
+msgid "common.record_sources_mapping.zlib"
+msgstr "Z-Library"
+
+#: allthethings/page/views.py:4803
+#, fuzzy
+msgid "common.record_sources_mapping.ia"
+msgstr "IA"
+
+#: allthethings/page/views.py:4804
+#, fuzzy
+msgid "common.record_sources_mapping.isbndb"
+msgstr "ISBNdb"
+
+#: allthethings/page/views.py:4805
+#, fuzzy
+msgid "common.record_sources_mapping.ol"
+msgstr "OpenLibrary"
+
+#: allthethings/page/views.py:4806
+#, fuzzy
+msgid "common.record_sources_mapping.scihub"
+msgstr "Sci-Hub"
+
+#: allthethings/page/views.py:4807
+#, fuzzy
+msgid "common.record_sources_mapping.oclc"
+msgstr "OCLC (WorldCat)"
+
+#: allthethings/page/views.py:4808
+#, fuzzy
+msgid "common.record_sources_mapping.duxiu"
+msgstr "DuXiu 读秀"
+
+#: allthethings/page/views.py:4809
+#, fuzzy
+msgid "common.record_sources_mapping.uploads"
+msgstr "Mga Upload ha AA"
+
+#: allthethings/page/views.py:4815
+#, fuzzy
+msgid "common.specific_search_fields.title"
+msgstr "Titulo"
+
+#: allthethings/page/views.py:4816
+#, fuzzy
+msgid "common.specific_search_fields.author"
+msgstr "Awtor"
+
+#: allthethings/page/views.py:4817
+#, fuzzy
+msgid "common.specific_search_fields.publisher"
+msgstr "Tagpublikar"
+
+#: allthethings/page/views.py:4818
+#, fuzzy
+msgid "common.specific_search_fields.edition_varia"
+msgstr "Edisyon"
+
+#: allthethings/page/views.py:4819
+#, fuzzy
+msgid "common.specific_search_fields.year"
+msgstr "Tuig nga gipatik"
+
+#: allthethings/page/views.py:4820
+#, fuzzy
+msgid "common.specific_search_fields.original_filename"
+msgstr "Orihinal nga filename"
+
+#: allthethings/page/views.py:4821
+#, fuzzy
+msgid "common.specific_search_fields.description_comments"
+msgstr "Deskripsyon ug mga komento sa metadata"
+
+#: allthethings/page/views.py:4846
+#, fuzzy
+msgid "common.md5.servers.fast_partner"
+msgstr "Pas-pas nga Partner Server #%(number)s"
+
+#: allthethings/page/views.py:4846
+#, fuzzy
+msgid "common.md5.servers.no_browser_verification_or_waitlists"
+msgstr "(walay browser verification o waitlists)"
+
+#: allthethings/page/views.py:4849 allthethings/page/views.py:4851
+#, fuzzy
+msgid "common.md5.servers.slow_partner"
+msgstr "Hinay nga Partner Server #%(number)s"
+
+#: allthethings/page/views.py:4849
+#, fuzzy
+msgid "common.md5.servers.faster_with_waitlist"
+msgstr "(medyo pas-pas apan adunay waitlist)"
+
+#: allthethings/page/views.py:4851
+#, fuzzy
+msgid "common.md5.servers.slow_no_waitlist"
+msgstr "(walay waitlist, apan mahimong hinay kaayo)"
+
+#: allthethings/page/views.py:4940
+#, fuzzy
+msgid "page.md5.box.descr_title"
+msgstr "deskripsyon"
+
+#: allthethings/page/views.py:4941
+#, fuzzy
+msgid "page.md5.box.metadata_comments_title"
+msgstr "mga komento sa metadata"
+
+#: allthethings/page/views.py:4942
+#, fuzzy
+msgid "page.md5.box.alternative_title"
+msgstr "Alternatibong titulo"
+
+#: allthethings/page/views.py:4943
+#, fuzzy
+msgid "page.md5.box.alternative_author"
+msgstr "Alternatibong awtor"
+
+#: allthethings/page/views.py:4944
+#, fuzzy
+msgid "page.md5.box.alternative_publisher"
+msgstr "Alternatibong tagpublikar"
+
+#: allthethings/page/views.py:4945
+#, fuzzy
+msgid "page.md5.box.alternative_edition"
+msgstr "Alternatibong edisyon"
+
+#: allthethings/page/views.py:4946
+#, fuzzy
+msgid "page.md5.box.alternative_description"
+msgstr "Alternatibong deskripsyon"
+
+#: allthethings/page/views.py:4947
+#, fuzzy
+msgid "page.md5.box.alternative_filename"
+msgstr "Alternatibong filename"
+
+#: allthethings/page/views.py:4948
+#, fuzzy
+msgid "page.md5.box.alternative_extension"
+msgstr "Alternatibong ekstensyon"
+
+#: allthethings/page/views.py:4949
+#, fuzzy
+msgid "page.md5.box.date_open_sourced_title"
+msgstr "petsa ng pagbubukas ng source"
+
+#: allthethings/page/views.py:4985
+#, fuzzy
+msgid "page.md5.box.download.temporarily_unavailable"
+msgstr "Ang mga pag-download mula sa Partner Server ay pansamantalang hindi magagamit para sa file na ito."
+
+#: allthethings/page/views.py:4989 allthethings/page/views.py:5172
+#, fuzzy
+msgid "page.md5.box.download.scihub"
+msgstr "Sci-Hub: %(doi)s"
+
+#: allthethings/page/views.py:5063
+#, fuzzy
+msgid "page.md5.box.download.lgrsnf"
+msgstr "Libgen.rs Non-Fiction"
+
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
+#, fuzzy
+msgid "page.md5.box.download.extra_also_click_get"
+msgstr "(pindutin din ang “GET” sa itaas)"
+
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
+#, fuzzy
+msgid "page.md5.box.download.extra_click_get"
+msgstr "(pindutin ang “GET” sa itaas)"
+
+#: allthethings/page/views.py:5076
+#, fuzzy
+msgid "page.md5.box.download.lgrsfic"
+msgstr "Libgen.rs Fiction"
+
+#: allthethings/page/views.py:5123
+#, fuzzy
+msgid "page.md5.box.download.lgli"
+msgstr "Libgen.li"
+
+#: allthethings/page/views.py:5123
+#, fuzzy
+msgid "page.md5.box.download.libgen_ads"
+msgstr "ang kanilang mga ad ay kilalang naglalaman ng malisyosong software, kaya gumamit ng ad blocker o huwag mag-click sa mga ad"
+
+#: allthethings/page/views.py:5169
+#, fuzzy
+msgid "page.md5.box.download.ia_borrow"
+msgstr "Hiramin mula sa Internet Archive"
+
+#: allthethings/page/views.py:5169
+#, fuzzy
+msgid "page.md5.box.download.print_disabled_only"
+msgstr "(para lamang sa mga patron na may kapansanan sa pag-print)"
+
+#: allthethings/page/views.py:5172
+#, fuzzy
+msgid "page.md5.box.download.scihub_maybe"
+msgstr "(maaaring hindi magagamit ang kaugnay na DOI sa Sci-Hub)"
+
+#: allthethings/page/views.py:5178
+#, fuzzy
+msgid "page.md5.box.download.collection"
+msgstr "koleksyon"
+
+#: allthethings/page/views.py:5179
+#, fuzzy
+msgid "page.md5.box.download.torrent"
+msgstr "torrent"
+
+#: allthethings/page/views.py:5185
+#, fuzzy
+msgid "page.md5.box.download.bulk_torrents"
+msgstr "Maramihang pag-download ng torrent"
+
+#: allthethings/page/views.py:5185
+#, fuzzy
+msgid "page.md5.box.download.experts_only"
+msgstr "(para lamang sa mga eksperto)"
+
+#: allthethings/page/views.py:5192
+#, fuzzy
+msgid "page.md5.box.download.aa_isbn"
+msgstr "Maghanap sa Anna’s Archive para sa ISBN"
+
+#: allthethings/page/views.py:5193
+#, fuzzy
+msgid "page.md5.box.download.other_isbn"
+msgstr "Maghanap sa iba't ibang mga database para sa ISBN"
+
+#: allthethings/page/views.py:5195
+#, fuzzy
+msgid "page.md5.box.download.original_isbndb"
+msgstr "Hanapin ang orihinal na rekord sa ISBNdb"
+
+#: allthethings/page/views.py:5197
+#, fuzzy
+msgid "page.md5.box.download.aa_openlib"
+msgstr "Búska ha Anna’s Archive para Open Library ID"
+
+#: allthethings/page/views.py:5199
+#, fuzzy
+msgid "page.md5.box.download.original_openlib"
+msgstr "Bilinga an orihinal nga rekord ha Open Library"
+
+#: allthethings/page/views.py:5201
+#, fuzzy
+msgid "page.md5.box.download.aa_oclc"
+msgstr "Búska ha Anna’s Archive para OCLC (WorldCat) numero"
+
+#: allthethings/page/views.py:5202
+#, fuzzy
+msgid "page.md5.box.download.original_oclc"
+msgstr "Bilinga an orihinal nga rekord ha WorldCat"
+
+#: allthethings/page/views.py:5204
+#, fuzzy
+msgid "page.md5.box.download.aa_duxiu"
+msgstr "Búska ha Anna’s Archive para DuXiu SSID numero"
+
+#: allthethings/page/views.py:5205
+#, fuzzy
+msgid "page.md5.box.download.original_duxiu"
+msgstr "Búska manwal ha DuXiu"
+
+#: allthethings/page/views.py:5207
+#, fuzzy
+msgid "page.md5.box.download.aa_cadal"
+msgstr "Búska ha Anna’s Archive para CADAL SSNO numero"
+
+#: allthethings/page/views.py:5208
+#, fuzzy
+msgid "page.md5.box.download.original_cadal"
+msgstr "Bilinga an orihinal nga rekord ha CADAL"
+
+#: allthethings/page/views.py:5212
+#, fuzzy
+msgid "page.md5.box.download.aa_dxid"
+msgstr "Búska ha Anna’s Archive para DuXiu DXID numero"
+
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
+#, fuzzy
+msgid "page.md5.box.download.scidb"
+msgstr "Anna’s Archive 🧬 SciDB"
+
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
+#, fuzzy
+msgid "common.md5.servers.no_browser_verification"
+msgstr "(waray kinahanglan nga browser verification)"
+
+#: allthethings/page/templates/page/aarecord.html:14
+#, fuzzy
+msgid "page.md5.header.scihub"
+msgstr "Sci-Hub file “%(id)s”"
+
+#: allthethings/page/templates/page/aarecord.html:18
+#, fuzzy
+msgid "page.md5.header.ia"
+msgstr "Internet Archive Controlled Digital Lending file “%(id)s”"
 
 #: allthethings/page/templates/page/aarecord.html:21
 #, fuzzy
@@ -2295,11 +2249,6 @@ msgstr "Mayda mas maupay nga bersyon hini nga file ha %(link)s"
 msgid "page.md5.box.issues.text2"
 msgstr "Kon karuyag mo la gihapon i-download ini nga file, siguroha nga magamit la hin trusted, updated nga software para pag-abri hini."
 
-#: allthethings/page/templates/page/faq.html:292
-#, fuzzy
-msgid "page.faq.favorite.title"
-msgstr "Ano ang iyong mga paboritong libro?"
-
 #: allthethings/page/templates/page/aarecord.html:226
 #, fuzzy
 msgid "page.md5.box.download.header_fast_no_member"
@@ -2413,16 +2362,6 @@ msgstr "Waray nakit-an nga mga pag-download."
 #, fuzzy
 msgid "page.md5.box.download.no_issues_notice"
 msgstr "An ngatanan nga opsyon han pag-download may-ada pareho nga file, ngan sadang magin segurado nga gamiton. Pero, pirme magin maingat kun nagdada-download hin mga file tikang ha internet, labi na tikang ha mga site nga eksternal ha Anna’s Archive. Pananglitan, siguroha nga updated an imo mga device."
-
-#: allthethings/page/templates/page/faq.html:23
-#, fuzzy
-msgid "page.home.preservation.header"
-msgstr "Preserbasyon"
-
-#: allthethings/page/templates/page/faq.html:114
-#, fuzzy
-msgid "page.donate.faq.title"
-msgstr "Donasyon FAQ"
 
 #: allthethings/page/templates/page/aarecord.html:318
 #: allthethings/page/templates/page/aarecord.html:319
@@ -2608,6 +2547,11 @@ msgstr "<li><strong>Pagpreserba:</strong> Pag-backup han ngatanan nga kahibaro n
 msgid "page.home.intro.open_source"
 msgstr "An ngatanan namon nga <a %(a_code)s>code</a> ngan <a %(a_datasets)s>data</a> bug-os nga open source."
 
+#: allthethings/page/templates/page/faq.html:23
+#, fuzzy
+msgid "page.home.preservation.header"
+msgstr "Preserbasyon"
+
 #: allthethings/page/templates/page/faq.html:25
 #, fuzzy
 msgid "page.home.preservation.text1"
@@ -2707,6 +2651,11 @@ msgstr "Amo ini an rason nga nag-implementar kami hin duha nga sistema para ha l
 #, fuzzy
 msgid "page.faq.slow.text3"
 msgstr "May-ada liwat kami hin <a %(a_verification)s>browser verification</a> para ha amon hinay nga pag-download, kay kon diri, an mga bots ngan scrapers mag-aabuso hini, nga magpapahinay pa gud para ha mga lehitimo nga mga gumagamit."
+
+#: allthethings/page/templates/page/faq.html:114
+#, fuzzy
+msgid "page.donate.faq.title"
+msgstr "Donasyon FAQ"
 
 #: allthethings/page/templates/page/faq.html:117
 #, fuzzy
@@ -2868,12 +2817,6 @@ msgstr "Torrents FAQ"
 msgid "page.faq.torrents.q1"
 msgstr "Gusto kong tumulong sa pag-seed, ngunit wala akong masyadong disk space."
 
-#: allthethings/page/templates/page/search.html:66
-#: allthethings/templates/layouts/index.html:492
-#, fuzzy
-msgid "common.search.placeholder"
-msgstr "Title, author, DOI, ISBN, MD5, …"
-
 #: allthethings/page/templates/page/faq.html:212
 #, fuzzy
 msgid "page.faq.torrents.a1"
@@ -3019,6 +2962,11 @@ msgstr "Ayoko kung paano mo pinapatakbo ang proyektong ito!"
 msgid "page.faq.hate.text1"
 msgstr "Nais din naming ipaalala sa lahat na ang lahat ng aming code at data ay ganap na open source. Ito ay natatangi para sa mga proyekto tulad ng sa amin — hindi kami pamilyar sa anumang iba pang proyekto na may katulad na napakalaking katalogo na ganap na open source din. Malugod naming tinatanggap ang sinumang nag-iisip na masama ang pagpapatakbo namin ng aming proyekto na kunin ang aming code at data at mag-set up ng kanilang sariling shadow library! Hindi namin sinasabi ito dahil sa galit o kung ano pa man — taos-puso naming iniisip na magiging kahanga-hanga ito dahil itataas nito ang pamantayan para sa lahat, at mas mapapanatili ang pamana ng sangkatauhan."
 
+#: allthethings/page/templates/page/faq.html:292
+#, fuzzy
+msgid "page.faq.favorite.title"
+msgstr "Ano ang iyong mga paboritong libro?"
+
 #: allthethings/page/templates/page/faq.html:295
 #, fuzzy
 msgid "page.faq.favorite.text1"
@@ -3098,11 +3046,6 @@ msgstr "DOI"
 msgid "page.home.scidb.open"
 msgstr "Abri"
 
-#: allthethings/templates/layouts/index.html:569
-#, fuzzy
-msgid "layout.index.header.nav.advanced"
-msgstr "Avanzado"
-
 #: allthethings/page/templates/page/home.html:39
 #, fuzzy
 msgid "page.home.scidb.browser_verification"
@@ -3160,11 +3103,6 @@ msgstr "🪩 Espejos: llamado a voluntarios"
 #, fuzzy
 msgid "page.home.volunteering.header"
 msgstr "🤝 Buscando voluntarios"
-
-#: allthethings/page/templates/page/search.html:67
-#, fuzzy
-msgid "common.search.submit"
-msgstr "Search"
 
 #: allthethings/page/templates/page/home.html:77
 #, fuzzy
@@ -3253,12 +3191,6 @@ msgstr "❌ Ang mabagal na pag-download ay hindi magagamit sa pamamagitan ng Clo
 #, fuzzy
 msgid "page.partner_download.text1"
 msgstr "Upang mabigyan ang lahat ng pagkakataon na mag-download ng mga file nang libre, kailangan mong maghintay ng <strong>%(wait_seconds)s segundo</strong> bago mo ma-download ang file na ito."
-
-#: allthethings/page/templates/page/search.html:81
-#: allthethings/page/templates/page/search.html:176
-#, fuzzy
-msgid "page.search.filters.content.header"
-msgstr "Nilalaman"
 
 #: allthethings/page/templates/page/partner_download.html:33
 #, fuzzy
@@ -3401,11 +3333,28 @@ msgstr "Digital Lending"
 msgid "page.search.tabs.metadata"
 msgstr "Metadata"
 
+#: allthethings/page/templates/page/search.html:66
+#: allthethings/templates/layouts/index.html:492
+#, fuzzy
+msgid "common.search.placeholder"
+msgstr "Title, author, DOI, ISBN, MD5, …"
+
+#: allthethings/page/templates/page/search.html:67
+#, fuzzy
+msgid "common.search.submit"
+msgstr "Search"
+
 #: allthethings/page/templates/page/search.html:73
 #: allthethings/page/templates/page/search.html:127
 #, fuzzy
 msgid "page.search.advanced.description_comments"
 msgstr "Paghahanap ng mga paglalarawan at komento ng metadata"
+
+#: allthethings/page/templates/page/search.html:81
+#: allthethings/page/templates/page/search.html:176
+#, fuzzy
+msgid "page.search.filters.content.header"
+msgstr "Nilalaman"
 
 #: allthethings/page/templates/page/search.html:85
 #: allthethings/page/templates/page/search.html:183
@@ -3879,6 +3828,46 @@ msgstr "Reddit"
 msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
+#: allthethings/templates/layouts/index.html:569
+#, fuzzy
+msgid "layout.index.header.nav.advanced"
+msgstr "Avanzado"
+
+#: allthethings/templates/layouts/index.html:577
+#, fuzzy
+msgid "layout.index.header.nav.security"
+msgstr "Seguridad"
+
+#: allthethings/templates/layouts/index.html:581
+#, fuzzy
+msgid "layout.index.footer.list3.header"
+msgstr "Mga Alternatibo"
+
+#: allthethings/templates/macros/aarecord_list.html:66
+#, fuzzy
+msgid "page.search.results.download_time"
+msgstr "Oras ng pag-download"
+
+#: allthethings/templates/macros/aarecord_list.html:66
+#, fuzzy
+msgid "page.search.results.fast_download"
+msgstr "Mabilis na pag-download"
+
+#: allthethings/templates/macros/aarecord_list.html:75
+#, fuzzy
+msgid "page.search.results.issues"
+msgstr "❌ Maaaring may mga isyu ang file na ito."
+
+#: allthethings/templates/macros/copy_button.html:2
+#, fuzzy
+msgid "page.donate.copy"
+msgstr "kopya"
+
+#: allthethings/templates/macros/copy_button.html:2
+#, fuzzy
+msgid "page.donate.copied"
+msgstr "nakopya!"
+
 #: allthethings/templates/macros/pagination.html:24
 #: allthethings/templates/macros/pagination.html:29
 #, fuzzy
@@ -3895,3 +3884,4 @@ msgstr "…"
 #, fuzzy
 msgid "page.search.pagination.next"
 msgstr "Susunod"
+

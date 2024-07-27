@@ -1,13 +1,52 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2024-07-27 22:38+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language: dv\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+#: allthethings/app.py:201
+#, fuzzy
+msgid "layout.index.invalid_request"
+msgstr "އިންވަލިޑް ރިކުއެސްޓް. ވިޒިޓް %(websites)s."
+
+#: allthethings/app.py:262
+#, fuzzy
+msgid "layout.index.header.tagline_scihub"
+msgstr "Sci-Hub"
+
+#: allthethings/app.py:263
+#, fuzzy
+msgid "layout.index.header.tagline_libgen"
+msgstr "LibGen"
+
+#: allthethings/app.py:264
+#, fuzzy
+msgid "layout.index.header.tagline_zlib"
+msgstr "Z-Lib"
+
+#: allthethings/app.py:265
+#, fuzzy
+msgid "layout.index.header.tagline_openlib"
+msgstr "OpenLib"
+
+#: allthethings/app.py:266
+#, fuzzy
+msgid "layout.index.header.tagline_ia"
+msgstr "Internet Archive Lending Library"
+
+#: allthethings/app.py:267
+#, fuzzy
+msgid "layout.index.header.tagline_duxiu"
+msgstr "DuXiu"
+
+#: allthethings/app.py:268
+#, fuzzy
+msgid "layout.index.header.tagline_separator"
+msgstr "، "
+
+#: allthethings/app.py:269
+#, fuzzy
+msgid "layout.index.header.tagline_and"
+msgstr " އަދި "
+
+#: allthethings/app.py:270
+#, fuzzy
+msgid "layout.index.header.tagline_and_more"
+msgstr "އަދި އެއްޗެހެން"
 
 #: allthethings/app.py:278
 #, fuzzy
@@ -90,6 +129,16 @@ msgstr "ބޯނަސް ޑައުންލޯޑްތައް"
 msgid "common.membership.tier_name.2"
 msgstr "ބްރިލިއަންޓް ބުކްވޯމް"
 
+#: allthethings/utils.py:375
+#, fuzzy
+msgid "common.membership.tier_name.3"
+msgstr "ލަކި ލައިބްރަރިއަން"
+
+#: allthethings/utils.py:376
+#, fuzzy
+msgid "common.membership.tier_name.4"
+msgstr "ދަޒްލިން ޑޭޓާހޯޑަރް"
+
 #: allthethings/utils.py:377
 #, fuzzy
 msgid "common.membership.tier_name.5"
@@ -150,6 +199,241 @@ msgstr "އިންވެލިޑް"
 #, fuzzy
 msgid "page.donate.title"
 msgstr "ޑޮނޭޓް"
+
+#: allthethings/account/templates/account/donate.html:11
+#, fuzzy
+msgid "page.donate.header.existing_unpaid_donation"
+msgstr "ތަފްޞީލުވާ <a %(a_donation)s>ދިނުމަތްކުރާ ދިނުމަތް</a> އިން ހުރިހާރުކުރެވިފައިވާނެ. އަދި އައު ދިނުމަތްކުރެވިފައިވާނެ ނުވަތަ އަދި އައު ދިނުމަތްކުރެވިފައިވާނެ."
+
+#: allthethings/account/templates/account/donate.html:13
+#, fuzzy
+msgid "page.donate.header.existing_unpaid_donation_view_all"
+msgstr "<a %(a_all_donations)s>މިއަދުގެ ދިނުމަތްތައް ބަލާ</a>"
+
+#: allthethings/account/templates/account/donate.html:20
+#, fuzzy
+msgid "page.donate.header.text1"
+msgstr "އެންނާގެ އާރްކައިވް އެއް ނޮން-ޕްރޮފިޓް، އޯޕަން-ސޯސް، އޯޕަން-ޑޭޓާ ޕްރޮޖެކްޓް އެއްގެ ދަށުންނާނެ. ދިނުމަތްކުރާން އަދި މެމްބަރުކުރާން ކުރެވިފައިވާނެ، އައުގެ އޮޕަރޭޝަންތައް އަދި ޑެވެލޮޕްމަންޓް ސަޕޯޓްކުރެވިފައިވާނެ. މިހާރުގެ މެމްބަރުތަކުން: އަންނަންނަވާނެ އައުގެ ކުރިއަށް ދަންނަވާނެ! ❤️"
+
+#: allthethings/account/templates/account/donate.html:20
+#, fuzzy
+msgid "page.donate.header.text2"
+msgstr "އައުގެ އަދަދުތަކަށް އަދި އެންމެންޓްތަކަށް، <a %(a_donate)s>ދިނުމަތް އެފްއެކިއު</a> ބަލާ."
+
+#: allthethings/account/templates/account/donate.html:24
+#, fuzzy
+msgid "page.donate.refer.text1"
+msgstr "އައު އެއްގެ ޑައުންލޯޑްތަކަށް އެއްވެސް ކުރާން، <a %(a_refer)s>އައުގެ ދަރިވަރުތައް ރިފަރްކުރާ</a>!"
+
+#: allthethings/account/templates/account/donate.html:31
+#: allthethings/account/templates/account/donation.html:23
+#, fuzzy
+msgid "page.donate.bonus_downloads.main"
+msgstr "އައުގެ ދަރިވަރު %(profile_link)s ރިފަރްކުރެވިފައިވާނެ އަދި އައުގެ %(percentage)s%% ބޯނަސް ފާސްޓް ޑައުންލޯޑްތައް ކުރެވިފައިވާނެ."
+
+#: allthethings/account/templates/account/donate.html:32
+#: allthethings/account/templates/account/donation.html:24
+#, fuzzy
+msgid "page.donate.bonus_downloads.period"
+msgstr "މިހާރުގެ މެމްބަރުގައި ހުރިހާރުކުރެވިފައިވާނެ."
+
+#: allthethings/account/templates/account/donate.html:42
+#: allthethings/account/templates/account/donate.html:58
+#: allthethings/account/templates/account/donate.html:72
+#: allthethings/account/templates/account/donate.html:86
+#, fuzzy
+msgid "page.donate.buttons.join"
+msgstr "ދައްކާ"
+
+#: allthethings/account/templates/account/donate.html:43
+#: allthethings/account/templates/account/donate.html:59
+#: allthethings/account/templates/account/donate.html:73
+#: allthethings/account/templates/account/donate.html:87
+#, fuzzy
+msgid "page.donate.buttons.selected"
+msgstr "ނިމުންނާ"
+
+#: allthethings/account/templates/account/donate.html:45
+#: allthethings/account/templates/account/donate.html:61
+#: allthethings/account/templates/account/donate.html:75
+#: allthethings/account/templates/account/donate.html:89
+#, fuzzy
+msgid "page.donate.buttons.up_to_discounts"
+msgstr "ދައްކާ %(percentage)s%% ޑިސްކައުންޓްތައް"
+
+#: allthethings/account/templates/account/donate.html:47
+#: allthethings/account/templates/account/donate.html:64
+#: allthethings/account/templates/account/donate.html:78
+#: allthethings/account/templates/account/donate.html:92
+#, fuzzy
+msgid "page.donate.perks.fast_downloads"
+msgstr "%(number)s ފާސްޓް ޑައުންލޯޑްތައް ދުވަހުގައި"
+
+#: allthethings/account/templates/account/donate.html:47
+#: allthethings/account/templates/account/donate.html:64
+#: allthethings/account/templates/account/donate.html:78
+#: allthethings/account/templates/account/donate.html:92
+#, fuzzy
+msgid "page.donate.perks.only_this_month"
+msgstr "މި މަސްޓްއަށް އެއްވެސް!"
+
+#: allthethings/account/templates/account/donate.html:48
+#, fuzzy
+msgid "page.donate.perks.scidb"
+msgstr "ސައިޑީބީ ޕޭޕަރުތައް <strong>ނުވަތަ އަދިއެއްވެސް</strong> ވެރިފިކޭޝަންނުކުރެވިފައިވާނެ"
+
+#: allthethings/account/templates/account/donate.html:49
+#, fuzzy
+msgid "page.donate.perks.jsonapi"
+msgstr "<a %(a_api)s>ޖެސްއޯން އެޕީއައި</a> އެކްސެސް"
+
+#: allthethings/account/templates/account/donate.html:50
+#, fuzzy
+msgid "page.donate.perks.refer"
+msgstr "އައުގެ <strong>%(percentage)s%% ބޯނަސް ޑައުންލޯޑްތައް</strong> ކުރެވިފައިވާނެ <a %(a_refer)s>ދަރިވަރުތައް ރިފަރްކުރާ</a>."
+
+#: allthethings/account/templates/account/donate.html:51
+#, fuzzy
+msgid "page.donate.perks.credits"
+msgstr "އައުގެ ޔޫސަރނޭމު ނުވަތަ އެއްވެސް ކްރެޑިޓްސްގައި ނަމުގެ މެންޝަން"
+
+#: allthethings/account/templates/account/donate.html:63
+#: allthethings/account/templates/account/donate.html:77
+#: allthethings/account/templates/account/donate.html:91
+#, fuzzy
+msgid "page.donate.perks.previous_plus"
+msgstr "ކުރިއަށް ދަންނަވާ އަދަދުތަކަށް:"
+
+#: allthethings/account/templates/account/donate.html:65
+#, fuzzy
+msgid "page.donate.perks.early_access"
+msgstr "އައުގެ އަދަދުތައް އަދި އެންމެންޓްތައް"
+
+#: allthethings/account/templates/account/donate.html:79
+#, fuzzy
+msgid "page.donate.perks.exclusive_telegram"
+msgstr "އައުގެ ޓެލެގްރާމްގައި އެކްސްކްލުސިވް އަޕްޑޭޓްތައް ހުރިހާރުކުރެވިފައިވާނެ"
+
+#: allthethings/account/templates/account/donate.html:93
+msgid "page.donate.perks.adopt"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:94
+msgid "page.donate.perks.legendary"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:101
+msgid "page.donate.expert.title"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:102
+msgid "page.donate.expert.contact_us"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:103
+#: allthethings/account/templates/account/donation.html:579
+#: allthethings/page/templates/page/contact.html:22
+msgid "page.donate.small_team"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:106
+msgid "page.donate.expert.unlimited_access"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:107
+msgid "page.donate.expert.direct_sftp"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:110
+msgid "page.donate.expert.enterprise_donation"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:115
+msgid "page.donate.header.large_donations_wealthy"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:116
+msgid "page.donate.header.large_donations"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:116
+#: allthethings/account/templates/account/index.html:36
+#: allthethings/page/templates/page/contact.html:3
+#: allthethings/page/templates/page/contact.html:7
+#: allthethings/page/templates/page/faq.html:84
+#: allthethings/page/templates/page/faq.html:121
+#: allthethings/page/templates/page/faq.html:129
+#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/home.html:83
+#: allthethings/page/templates/page/home.html:88
+#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/search.html:247
+#: allthethings/page/templates/page/search.html:324
+#: allthethings/templates/layouts/index.html:219
+#: allthethings/templates/layouts/index.html:223
+#: allthethings/templates/layouts/index.html:560
+msgid "page.contact.title"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:117
+msgid "page.donate.without_membership"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:123
+msgid "page.donate.payment.intro"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:124
+msgid "page.donate.payment.intro2"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:126
+msgid "page.donate.payment.select_method"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:130
+#: allthethings/account/templates/account/donate.html:296
+msgid "page.donate.payment.buttons.amazon"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:131
+#: allthethings/account/templates/account/donate.html:141
+#: allthethings/account/templates/account/donate.html:298
+msgid "page.donate.payment.buttons.crypto"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:131
+#: allthethings/account/templates/account/donate.html:132
+#: allthethings/account/templates/account/donate.html:133
+#: allthethings/account/templates/account/donate.html:141
+#: allthethings/account/templates/account/donate.html:142
+#: allthethings/account/templates/account/donate.html:145
+#: allthethings/account/templates/account/donate.html:146
+#: allthethings/account/templates/account/donate.html:149
+#: allthethings/account/templates/account/donate.html:152
+#: allthethings/account/templates/account/donate.html:317
+#: allthethings/account/templates/account/donate.html:318
+#: allthethings/account/templates/account/donate.html:319
+#: allthethings/account/templates/account/donate.html:320
+#: allthethings/account/templates/account/donate.html:321
+#: allthethings/account/templates/account/donate.html:322
+msgid "page.donate.discount"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:133
+msgid "page.donate.payment.buttons.paypal"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:139
+#: allthethings/account/templates/account/donate.html:155
+#: allthethings/account/templates/account/donate.html:162
+msgid "page.donate.payment.buttons.alipay"
+msgstr ""
+
+#: allthethings/account/templates/account/donate.html:140
+#, fuzzy
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (Brazil)"
 
 #: allthethings/account/templates/account/donate.html:145
 #, fuzzy
@@ -361,6 +645,110 @@ msgstr "12 މަސް"
 msgid "page.donate.duration.24_mo"
 msgstr "24 މަސް"
 
+#: allthethings/account/templates/account/donate.html:321
+#, fuzzy
+msgid "page.donate.duration.48_mo"
+msgstr "48 މަސް"
+
+#: allthethings/account/templates/account/donate.html:322
+#, fuzzy
+msgid "page.donate.duration.96_mo"
+msgstr "96 މަސް"
+
+#: allthethings/account/templates/account/donate.html:325
+#, fuzzy
+msgid "page.donate.duration.summary"
+msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>އިންޓަރެސްޓްތަކުގެ <span %(span_discount)s></span> ފަހަރުގައި</div><div %(div_total)s></div><div %(div_duration)s></div>"
+
+#: allthethings/account/templates/account/donate.html:332
+#, fuzzy
+msgid "page.donate.payment.minimum_method"
+msgstr "މި ޕޭމަންޓް މެތަޑްގައި މިނިމަމް %(amount)s ދައްކާއިރުކުރެވޭނެ. އެހެން ދައްކާއިރުކުރެވޭ މަސް ނުވަތަ ޕޭމަންޓް މެތަޑް ނަމަވާން."
+
+#: allthethings/account/templates/account/donate.html:333
+#: allthethings/account/templates/account/donate.html:337
+#, fuzzy
+msgid "page.donate.buttons.donate"
+msgstr "ދައްކާއިރުކުރޭ"
+
+#: allthethings/account/templates/account/donate.html:336
+#, fuzzy
+msgid "page.donate.payment.maximum_method"
+msgstr "މި ޕޭމަންޓް މެތަޑް އައު %(amount)s ދައްކާއިރުކުރެވޭނެ. އެހެން ދައްކާއިރުކުރެވޭ މަސް ނުވަތަ ޕޭމަންޓް މެތަޑް ނަމަވާން."
+
+#: allthethings/account/templates/account/donate.html:343
+#, fuzzy
+msgid "page.donate.login2"
+msgstr "މެމްބަރު ވަންދާނެ، ކުރިއަށް <a %(a_login)s>ލޮގިން ނުވަތަ ރެޖިސްޓަރް</a> ކުރޭ. އަންނައަށް ޝުކުރިއްޔާ!"
+
+#: allthethings/account/templates/account/donate.html:350
+#, fuzzy
+msgid "page.donate.payment.crypto_select"
+msgstr "ކްރިޕްޓޮ ކޮއިން ނަމަވާން:"
+
+#: allthethings/account/templates/account/donate.html:355
+#, fuzzy
+msgid "page.donate.currency_lowest_minimum"
+msgstr "(ދައްކާއިރުކުރެވޭ އަދަދު އަދަދު އަދަދު)"
+
+#: allthethings/account/templates/account/donate.html:369
+#: allthethings/account/templates/account/donate.html:370
+#: allthethings/account/templates/account/donate.html:374
+#: allthethings/account/templates/account/donate.html:376
+#, fuzzy
+msgid "page.donate.currency_warning_high_minimum"
+msgstr "(އަދަދު އަދަދު އަދަދު: ދައްކާއިރުކުރެވޭ އަދަދު އަދަދު)"
+
+#: allthethings/account/templates/account/donate.html:385
+#, fuzzy
+msgid "page.donate.submit.confirm"
+msgstr "މި ދައްކާއިރުކުރެވޭ ދައްކާއިރު ކޮންފަރމް ކުރޭ."
+
+#: allthethings/account/templates/account/donate.html:393
+#, fuzzy
+msgid "page.donate.submit.button"
+msgstr "ދައްކާއިރުކުރޭ <span %(span_cost)s></span> <span %(span_label)s></span>"
+
+#: allthethings/account/templates/account/donate.html:398
+#, fuzzy
+msgid "page.donate.submit.cancel_note"
+msgstr "ކެންސަލް ކުރެވޭ ދައްކާއިރު ކައިލް ކުރަންވީ ކެޗްކައުޓްގައި."
+
+#: allthethings/account/templates/account/donate.html:402
+#, fuzzy
+msgid "page.donate.submit.success"
+msgstr "✅ ދައްކާއިރު ޞަފްޙާ ޞަފްޙާއިން އައުންނައިރުކުރެވޭ…"
+
+#: allthethings/account/templates/account/donate.html:403
+#, fuzzy
+msgid "page.donate.submit.failure"
+msgstr "❌ ކަމެއް ރަނގަޅެއްވެސް. ޞަފްޙާ އައުންނައިރުކުރޭ އަދި އައުންނައިރުކުރޭ."
+
+#: allthethings/account/templates/account/donate.html:463
+#, fuzzy
+msgid "page.donate.duration.summary.discount"
+msgstr "%(percentage)s%%"
+
+#: allthethings/account/templates/account/donate.html:464
+#, fuzzy
+msgid "page.donate.duration.summary.monthly_cost"
+msgstr "%(monthly_cost)s / މަސް"
+
+#: allthethings/account/templates/account/donate.html:467
+#, fuzzy
+msgid "page.donate.duration.summary.duration.1_mo"
+msgstr "1 މަސް އަދަދު"
+
+#: allthethings/account/templates/account/donate.html:468
+#, fuzzy
+msgid "page.donate.duration.summary.duration.3_mo"
+msgstr "3 މަސް އަދަދު"
+
+#: allthethings/account/templates/account/donate.html:469
+#, fuzzy
+msgid "page.donate.duration.summary.duration.6_mo"
+msgstr "6 މަސް އަދަދު"
+
 #: allthethings/account/templates/account/donate.html:470
 #, fuzzy
 msgid "page.donate.duration.summary.duration.12_mo"
@@ -461,6 +849,422 @@ msgstr "ކެންސަލްކުރަންތަ؟ ނުކެންސަލްކުރަން ނު
 #, fuzzy
 msgid "page.donation.header.cancel.confirm.button"
 msgstr "އާ، ކެންސަލްކުރަން ނުވަތަ"
+
+#: allthethings/account/templates/account/donation.html:36
+msgid "page.donation.header.cancel.success"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:36
+msgid "page.donation.header.cancel.new_donation"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:37
+msgid "page.donation.header.cancel.failure"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:41
+msgid "page.donation.header.reorder"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:48
+msgid "page.donation.old_instructions.intro_paid"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:51
+#: allthethings/account/templates/account/donation.html:67
+msgid "page.donation.old_instructions.show_button"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:56
+msgid "page.donation.thank_you_donation"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:60
+msgid "page.donation.thank_you.secret_key"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:62
+msgid "page.donation.thank_you.locked_out"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:66
+msgid "page.donation.old_instructions.intro_outdated"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:75
+msgid "page.donate.submit.crypto_note"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:81
+#: allthethings/account/templates/account/donation.html:94
+#: allthethings/account/templates/account/donation.html:115
+#: allthethings/account/templates/account/donation.html:166
+#: allthethings/account/templates/account/donation.html:206
+#: allthethings/account/templates/account/donation.html:251
+#: allthethings/account/templates/account/donation.html:292
+#: allthethings/account/templates/account/donation.html:354
+#: allthethings/account/templates/account/donation.html:370
+#: allthethings/account/templates/account/donation.html:388
+#: allthethings/account/templates/account/donation.html:404
+#: allthethings/account/templates/account/donation.html:421
+#: allthethings/account/templates/account/donation.html:456
+#: allthethings/account/templates/account/donation.html:482
+msgid "page.donation.expired"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:84
+msgid "page.donation.payment.crypto.top_header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:86
+msgid "page.donation.payment.crypto.header1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:89
+msgid "page.donation.payment.crypto.text1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:118
+msgid "page.donate.submit.header1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:121
+#: allthethings/account/templates/account/donation.html:172
+msgid "page.donate.one_time_payment.paypal.text2"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:125
+msgid "page.donation.payment.paypal.text3"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:128
+msgid "page.donate.submit.header2"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:131
+msgid "page.donate.one_time_payment.paypal.text4"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:135
+#, fuzzy
+msgid "page.donation.payment.paypal.text5"
+msgstr "މައިނަށް ބިޓްކޮއިން (BTC) އެޑްރެސް ލިޔުން، އަދި %(total)s އަދަދުން ލިޔެވިފައިވާ އިންސްޓްރަކްޝަންތައް ބަދަލުން:"
+
+#: allthethings/account/templates/account/donation.html:139
+#: allthethings/account/templates/account/donation.html:247
+#, fuzzy
+msgid "page.donation.credit_debit_card_instructions"
+msgstr "ކްރެޑިޓް / ޑީބިޓް ކާޑް އިންސްޓްރަކްޝަންތައް"
+
+#: allthethings/account/templates/account/donation.html:141
+#, fuzzy
+msgid "page.donation.credit_debit_card_our_page"
+msgstr "ކްރެޑިޓް / ޑީބިޓް ކާޑް ޞަފްޙާގައި ދަންނަން"
+
+#: allthethings/account/templates/account/donation.html:144
+#, fuzzy
+msgid "page.donation.donate_on_this_page"
+msgstr "%(amount)s ދަންނަން <a %(a_page)s>މި ޞަފްޙާގައި</a>."
+
+#: allthethings/account/templates/account/donation.html:144
+#, fuzzy
+msgid "page.donation.stepbystep_below"
+msgstr "ތަފްޞީލުތައް ބަދަލުން ދަންނަން."
+
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+#: allthethings/account/templates/account/donation.html:335
+#: allthethings/account/templates/account/donation.html:441
+#: allthethings/account/templates/account/donation.html:468
+#, fuzzy
+msgid "page.donation.status_header"
+msgstr "ސްޓެޓަސް:"
+
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+#: allthethings/account/templates/account/donation.html:441
+#: allthethings/account/templates/account/donation.html:468
+#, fuzzy
+msgid "page.donation.waiting_for_confirmation_refresh"
+msgstr "ކޮންފަރމޭޝަން އަދަދުން (ޞަފްޙާ އަކީ ބަލައިފައިވާ)…"
+
+#: allthethings/account/templates/account/donation.html:148
+#: allthethings/account/templates/account/donation.html:191
+#: allthethings/account/templates/account/donation.html:234
+#: allthethings/account/templates/account/donation.html:275
+#: allthethings/account/templates/account/donation.html:304
+#: allthethings/account/templates/account/donation.html:441
+#: allthethings/account/templates/account/donation.html:468
+#, fuzzy
+msgid "page.donation.waiting_for_transfer_refresh"
+msgstr "ޓްރާންސްފަރް އަދަދުން (ޞަފްޙާ އަކީ ބަލައިފައިވާ)…"
+
+#: allthethings/account/templates/account/donation.html:149
+#: allthethings/account/templates/account/donation.html:192
+#: allthethings/account/templates/account/donation.html:235
+#: allthethings/account/templates/account/donation.html:276
+#: allthethings/account/templates/account/donation.html:305
+#: allthethings/account/templates/account/donation.html:442
+#: allthethings/account/templates/account/donation.html:469
+#, fuzzy
+msgid "page.donation.time_left_header"
+msgstr "ހުރިހާ ވަގުތު:"
+
+#: allthethings/account/templates/account/donation.html:149
+#: allthethings/account/templates/account/donation.html:192
+#: allthethings/account/templates/account/donation.html:235
+#: allthethings/account/templates/account/donation.html:276
+#: allthethings/account/templates/account/donation.html:305
+#: allthethings/account/templates/account/donation.html:442
+#: allthethings/account/templates/account/donation.html:469
+#, fuzzy
+msgid "page.donation.might_want_to_cancel"
+msgstr "(މިހާރު ކެންސަލް ކުރަން އަދި އައު ދަންނަން ހުޅުވާނެ)"
+
+#: allthethings/account/templates/account/donation.html:153
+#: allthethings/account/templates/account/donation.html:196
+#: allthethings/account/templates/account/donation.html:239
+#: allthethings/account/templates/account/donation.html:280
+#: allthethings/account/templates/account/donation.html:309
+#: allthethings/account/templates/account/donation.html:446
+#: allthethings/account/templates/account/donation.html:473
+#, fuzzy
+msgid "page.donation.reset_timer"
+msgstr "ޓައިމަރު އަދަދުން ރިސެޓް ކުރަން، އައު ދަންނަން ހުޅުވާނެ."
+
+#: allthethings/account/templates/account/donation.html:157
+#: allthethings/account/templates/account/donation.html:200
+#: allthethings/account/templates/account/donation.html:243
+#: allthethings/account/templates/account/donation.html:284
+#: allthethings/account/templates/account/donation.html:313
+#: allthethings/account/templates/account/donation.html:339
+#: allthethings/account/templates/account/donation.html:450
+#: allthethings/account/templates/account/donation.html:477
+#, fuzzy
+msgid "page.donation.refresh_status"
+msgstr "ސްޓެޓަސް އަޕްޑޭޓް ކުރަން"
+
+#: allthethings/account/templates/account/donation.html:161
+#: allthethings/account/templates/account/donation.html:577
+#, fuzzy
+msgid "page.donation.footer.issues_contact"
+msgstr "ކޮންފަރމޭޝަން އަދަދުން ހުރިހާއިރު ނުވަތަ އެއްޗެއް ހަދާނެއެވެ. %(email)s އަށް ފޯމުކުރަން އަދި އެއްޗެއް ހަދާނެ (ސްކްރީންޝޮޓްތައް އަދި އެއްޗެއް ހަދާނެ)."
+
+#: allthethings/account/templates/account/donation.html:169
+#, fuzzy
+msgid "page.donation.buy_pyusd"
+msgstr "ޕީއުއެސްޑީ ކޮއިން ޕޭޕާލް އަށް ދަންނަން"
+
+#: allthethings/account/templates/account/donation.html:176
+#, fuzzy
+msgid "page.donation.pyusd.instructions"
+msgstr "ޕީއުއެސްޑީ ކޮއިން (ޕޭޕާލް އިއުއެސްޑީ) ދަންނަން އިންސްޓްރަކްޝަންތައް ބަދަލުން."
+
+#: allthethings/account/templates/account/donation.html:177
+#, fuzzy
+msgid "page.donation.pyusd.more"
+msgstr "ޓްރާންސްފަރް ފީތަކަށް ކަނޑައިފައިވާ އަދަދުން (%(more)s އަދަދުން) ދަންނަން އަދި އެއްޗެއް ހަދާނެ (%(amount)s) ދަންނަން. ހުރިހާ އެއްޗެއް ހަދާނެ."
+
+#: allthethings/account/templates/account/donation.html:183
+#, fuzzy
+msgid "page.donation.pyusd.transfer"
+msgstr "ޕޭޕާލް އެޕްޕް ނުވަތަ ވެބްސައިޓްގައި “ޕީއުއެސްޑީ” ޞަފްޙާއި ދަންނަން. “ޓްރާންސްފަރް” ބަޓަން %(icon)s އަދި “ސެންޑް” ބަޓަން ދަންނަން."
+
+#: allthethings/account/templates/account/donation.html:187
+#: allthethings/account/templates/account/donation.html:226
+#: allthethings/account/templates/account/donation.html:296
+#, fuzzy
+msgid "page.donation.transfer_amount_to"
+msgstr "%(amount)s އަދަދުން %(account)s އަށް ޓްރާންސްފަރް ކުރަން"
+
+#: allthethings/account/templates/account/donation.html:288
+#, fuzzy
+msgid "page.donation.crypto_instructions"
+msgstr "%(coin_name)s އިންސްޓްރަކްޝަންތައް"
+
+#: allthethings/account/templates/account/donation.html:300
+#, fuzzy
+msgid "page.donation.crypto_standard"
+msgstr "އައިންސްޓަންޑަރޑް ވަރޝަން އޮފް ކްރިޕްޓޮ ކޮއިންސް އަދި ނުވަތަ އިކްސޮޓިކް ނެޓްވަރކްސް ނުވަތަ ވަރޝަންސް އޮފް ކޮއިންސްއެއް ނުހިމެނޭ. ޓްރާންސެކްޝަން ކޮންފަރމް ކުރަން އެއްޗެހަށް އަދި ކޮއިންގެ ބަދަލުންނަށް ބައިވެރިންނަށް އަދި އަހަރެއްޗެހަށް އެއްޗެހަށް ލިބޭނެ."
+
+#: allthethings/account/templates/account/donation.html:317
+#, fuzzy
+msgid "page.donation.amazon.header"
+msgstr "އެމަޒޮން ގިފްޓް ކާޑް"
+
+#: allthethings/account/templates/account/donation.html:320
+#, fuzzy
+msgid "page.donation.amazon.form_instructions"
+msgstr "މަޢުލޫމާތު އެމަޒޮންގެ <a %(a_form)s>އޮފިޝަލް ފޯމް</a> އަށް ބަލައިގަން އެމަޒޮން ގިފްޓް ކާޑް %(amount)s އިން ތިބާގެ އީމެއިލް އެޑްރެސްއަށް ފޮނުވާން."
+
+#: allthethings/account/templates/account/donation.html:321
+#, fuzzy
+msgid "page.donation.amazon.only_official"
+msgstr "އެމަޒޮންގެ އޮފިޝަލް ފޯމް ނުބައިވަރު އެއްޗެހަށް ގިފްޓް ކާޑްތަކަށް އަންނަންނަވާނެ. <strong>އެމަޒޮންގެ އޮފިޝަލް ފޯމް ނުބައިވަރު އެއްޗެހަށް ގިފްޓް ކާޑް ނުހިމެނޭނެ. </strong>އެއްޗެހަށް އެމަޒޮންގެ އޮފިޝަލް ފޯމް ނުބައިވަރު ގިފްޓް ކާޑް ފޮނުވާންނަށް އަންނަންނަވާނެ."
+
+#: allthethings/account/templates/account/donation.html:326
+#, fuzzy
+msgid "page.donate.payment.desc.amazon_message"
+msgstr "މެސެޖެއް ނުލިޔާންޖެހޭ."
+
+#: allthethings/account/templates/account/donation.html:330
+#, fuzzy
+msgid "page.donation.amazon.form_to"
+msgstr "“އަށް” ރިސިޕިއެންޓް އީމެއިލް ފޯމްއަށް:"
+
+#: allthethings/account/templates/account/donation.html:331
+#, fuzzy
+msgid "page.donation.amazon.unique"
+msgstr "ތިބާގެ އައިންސްޓަންޓްއަށް އަދި ނުހަދާންޖެހޭ."
+
+#: allthethings/account/templates/account/donation.html:335
+#, fuzzy
+msgid "page.donation.amazon.waiting_gift_card"
+msgstr "ގިފްޓް ކާޑް ހުރިހާއިރު... (ޞަފްޙާގައި ޞަފްޙާ ކުރަންނަށް ބަލައިގަން)"
+
+#: allthethings/account/templates/account/donation.html:343
+#, fuzzy
+msgid "page.donation.amazon.confirm_automated"
+msgstr "ތިބާ ގިފްޓް ކާޑް ފޮނުވާނަމަށް، ތިބާގެ އޮޓޯމެޓެޑް ސިސްޓަމް އެއްޗެހަށް މިނިޓުތަކަށް ކޮންފަރމް ކުރޭނެ. އެއްޗެހަށް ނުހިމެންނަމަށް، ގިފްޓް ކާޑް އައުލައިން ފޮނުވާންނަށް އަންނަންނަވާނެ (<a %(a_instr)s>އިންސްޓްރަކްޝަންތައް</a>)."
+
+#: allthethings/account/templates/account/donation.html:344
+#, fuzzy
+msgid "page.donation.amazon.doesnt_work"
+msgstr "އެއްޗެހަށް ނުހިމެންނަމަށް އީމެއިލް ފޮނުވާންނަށް އަންނަންނަވާނެ އަދި އަނަ އެއްޗެހަށް މެނުއަލްއަށް ރިވިއު ކުރޭނެ (މިއަދު ދުވަހުގައި އެއްޗެހަށް އަދި އައުލައިން ފޮނުވާންނަށް މެންޝަން ކުރޭނެ)."
+
+#: allthethings/account/templates/account/donation.html:347
+#, fuzzy
+msgid "page.donation.amazon.example"
+msgstr "މިސައްތަ އެކްސާމްޕަލް:"
+
+#: allthethings/account/templates/account/donation.html:383
+#: allthethings/account/templates/account/donation.html:400
+#: allthethings/account/templates/account/donation.html:416
+#: allthethings/account/templates/account/donation.html:437
+#: allthethings/account/templates/account/donation.html:494
+#, fuzzy
+msgid "page.donate.strange_account"
+msgstr "އަކައުންޓްގެ ނަން ނުވަތަ ފޮޓޯ އަދި އެކްސަމްޕަލް އަކައުންޓްއެއް އަދި އެއްޗެހަށް އަދި އައުލައިން ފޮނުވާންނަށް މެންޝަން ކުރޭނެ. މި އަކައުންޓްތަކަށް އެއްޗެހަށް އަދި އައުލައިން ފޮނުވާންނަށް މެންޝަން ކުރޭނެ."
+
+#: allthethings/account/templates/account/donation.html:407
+#: allthethings/account/templates/account/donation.html:424
+#, fuzzy
+msgid "page.donation.payment.alipay.top_header"
+msgstr "އަލިޕޭ އިންސްޓްރަކްޝަންތައް"
+
+#: allthethings/account/templates/account/donation.html:409
+#: allthethings/account/templates/account/donation.html:426
+#, fuzzy
+msgid "page.donation.payment.alipay.header1"
+msgstr "<span %(span_circle)s>1</span>އަލިޕޭ އަށް ޑޯނޭޓް ކުރަން"
+
+#: allthethings/account/templates/account/donation.html:412
+#: allthethings/account/templates/account/donation.html:429
+#, fuzzy
+msgid "page.donation.payment.alipay.text1_new"
+msgstr "އަލިޕޭ އަށް ޑޯނޭޓް ކުރަން %(total)s އަދި <a %(a_account)s>މި އަލިޕޭ އެކައުންޓް</a> އަށް ބަލައިގަން"
+
+#: allthethings/account/templates/account/donation.html:433
+#, fuzzy
+msgid "page.donation.payment.alipay.error"
+msgstr "އަލިޕޭ ޞަފްޙާގެ ޞަފްޙާ އެއްޗެހަށް <strong>ކަންޓްރީގެ މެއިންލެންޑް ޗައިނާ</strong> އަށް އަދި އެއްޗެހަށް ވީޕީއެން ޑިސްއޭބަލް ކުރަންނަށް ނުހަދާންޖެހޭ، ނުވަތަ ކަންޓްރީގެ މެއިންލެންޑް ޗައިނާއިން (ނުވަތަ ހޮންގޮންގެއްޗެހަށް އެއްޗެހަށް އަދި އެއްޗެހަށް އަދި އައުލައިން ފޮނުވާންނަށް މެންޝަން ކުރޭނެ)."
+
+#: allthethings/account/templates/account/donation.html:459
+#, fuzzy
+msgid "page.donation.payment.wechat.top_header"
+msgstr "ވީޗާޓް އިންސްޓްރަކްޝަންތައް"
+
+#: allthethings/account/templates/account/donation.html:461
+#, fuzzy
+msgid "page.donation.payment.wechat.header1"
+msgstr "<span %(span_circle)s>1</span>ވީޗާޓް އަށް ޑޯނޭޓް ކުރަން"
+
+#: allthethings/account/templates/account/donation.html:464
+#, fuzzy
+msgid "page.donation.payment.wechat.text1"
+msgstr "ވީޗާޓް އަށް ޑޯނޭޓް ކުރަން %(total)s އަދި <a %(a_account)s>މި ވީޗާޓް އެކައުންޓް</a> އަށް ބަލައިގަން"
+
+#: allthethings/account/templates/account/donation.html:485
+msgid "page.donation.payment.pix.top_header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:487
+msgid "page.donation.payment.pix.header1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:490
+msgid "page.donation.payment.pix.text1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:499
+msgid "page.donation.footer.header"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:505
+msgid "page.donation.footer.text1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:515
+msgid "page.donation.footer.crypto_note"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:520
+msgid "page.donation.footer.text2"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:530
+msgid "page.donation.footer.button"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:533
+msgid "page.donation.footer.success"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:534
+msgid "page.donation.footer.failure"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:539
+msgid "page.donation.stepbystep"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:541
+msgid "page.donation.crypto_dont_worry"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:543
+msgid "page.donation.hoodpay.step1"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:549
+msgid "page.donation.hoodpay.step2"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:555
+msgid "page.donation.hoodpay.step3"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:561
+msgid "page.donation.hoodpay.step4"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:567
+msgid "page.donation.hoodpay.step5"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:573
+msgid "page.donation.hoodpay.step6"
+msgstr ""
+
+#: allthethings/account/templates/account/donation.html:578
+msgid "page.donate.wait"
+msgstr ""
 
 #: allthethings/account/templates/account/donation.html:579
 #, fuzzy
@@ -603,11 +1407,6 @@ msgstr "އަންނާއަށް %(email)s އަށް ކޮންޓެކްޓްކުރަން
 msgid "page.account.logged_in.membership_multiple"
 msgstr "އައު މެމްބަރޝިޕްތައް ކޮންބައިންކުރަންވާނަމަ (ފާސްޓް ޑައުންލޯޑްސް ފަންވަރު 24 ގަޑިއަށް އެއްކަން އައުކޮށްފައިވާނެއްވެސް)."
 
-#: allthethings/account/templates/account/profile.html:14
-#, fuzzy
-msgid "page.profile.change_display_name.text"
-msgstr "އައު ޑިސްޕްލޭ ނޭމް ބަދަލުކުރަން. އައު އައިޑެންޓިފަޔަރު (އައު ޕާޓް “#” ކުރެވިއްޖެން) ބަދަލުކުރެވޭނެއްނެތް."
-
 #: allthethings/account/templates/account/index.html:41
 #: allthethings/templates/layouts/index.html:512
 #: allthethings/templates/layouts/index.html:519
@@ -677,359 +1476,539 @@ msgstr "ސިކްރެޓް ކީ"
 msgid "page.account.logged_out.key_form.button"
 msgstr "ލޮގްއިން"
 
-#: allthethings/page/views.py:4691
+#: allthethings/account/templates/account/index.html:75
+msgid "page.account.logged_out.key_form.invalid_key"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:77
+msgid "page.account.logged_out.key_form.dont_lose_key"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:82
+msgid "page.account.logged_out.register.header"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:85
+msgid "page.account.logged_out.register.button"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:89
+msgid "page.login.lost_key"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:90
+msgid "page.login.lost_key_contact"
+msgstr ""
+
+#: allthethings/account/templates/account/index.html:93
+msgid "page.account.logged_out.old_email.button"
+msgstr ""
+
+#: allthethings/account/templates/account/list.html:3
+msgid "page.list.title"
+msgstr ""
+
+#: allthethings/account/templates/account/list.html:6
+msgid "page.list.header.edit.link"
+msgstr ""
+
+#: allthethings/account/templates/account/list.html:11
+msgid "page.list.edit.button"
+msgstr ""
+
+#: allthethings/account/templates/account/list.html:14
+msgid "page.list.edit.success"
+msgstr ""
+
+#: allthethings/account/templates/account/list.html:15
+msgid "page.list.edit.failure"
+msgstr ""
+
+#: allthethings/account/templates/account/list.html:19
+msgid "page.list.by_and_date"
+msgstr ""
+
+#: allthethings/account/templates/account/list.html:23
+msgid "page.list.empty"
+msgstr ""
+
+#: allthethings/account/templates/account/list.html:31
+msgid "page.list.new_item"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:3
+msgid "page.profile.title"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:7
+msgid "page.profile.not_found"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:9
+msgid "page.profile.header.edit"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:14
+#, fuzzy
+msgid "page.profile.change_display_name.text"
+msgstr "އައު ޑިސްޕްލޭ ނޭމް ބަދަލުކުރަން. އައު އައިޑެންޓިފަޔަރު (އައު ޕާޓް “#” ކުރެވިއްޖެން) ބަދަލުކުރެވޭނެއްނެތް."
+
+#: allthethings/account/templates/account/profile.html:15
+#, fuzzy
+msgid "page.profile.change_display_name.button"
+msgstr "ސޭވް"
+
+#: allthethings/account/templates/account/profile.html:18
+msgid "page.profile.change_display_name.success"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:19
+msgid "page.profile.change_display_name.failure"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:22
+msgid "page.profile.created_time"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:24
+msgid "page.profile.lists.header"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:29
+msgid "page.profile.lists.no_lists"
+msgstr ""
+
+#: allthethings/account/templates/account/profile.html:31
+msgid "page.profile.lists.new_list"
+msgstr ""
+
+#: allthethings/dyn/views.py:851 allthethings/dyn/views.py:880
+#: allthethings/dyn/views.py:891
+msgid "dyn.buy_membership.error.unknown"
+msgstr ""
+
+#: allthethings/dyn/views.py:877
+msgid "dyn.buy_membership.error.try_again"
+msgstr ""
+
+#: allthethings/dyn/views.py:885
+msgid "dyn.buy_membership.error.minimum"
+msgstr ""
+
+#: allthethings/dyn/views.py:888
+msgid "dyn.buy_membership.error.wait"
+msgstr ""
+
+#: allthethings/page/views.py:3782
+msgid "page.md5.box.download.affected_files"
+msgstr ""
+
+#: allthethings/page/views.py:4762
+msgid "common.md5_problem_type_mapping.lgrsnf_visible"
+msgstr ""
+
+#: allthethings/page/views.py:4763
+msgid "common.md5_problem_type_mapping.lgrsfic_visible"
+msgstr ""
+
+#: allthethings/page/views.py:4764
+msgid "common.md5_problem_type_mapping.lgli_visible"
+msgstr ""
+
+#: allthethings/page/views.py:4765
+msgid "common.md5_problem_type_mapping.lgli_broken"
+msgstr ""
+
+#: allthethings/page/views.py:4766
+msgid "common.md5_problem_type_mapping.zlib_missing"
+msgstr ""
+
+#: allthethings/page/views.py:4767
+msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
+msgstr ""
+
+#: allthethings/page/views.py:4768
+msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
+msgstr ""
+
+#: allthethings/page/views.py:4774
+msgid "common.md5_content_type_mapping.book_unknown"
+msgstr ""
+
+#: allthethings/page/views.py:4775
+msgid "common.md5_content_type_mapping.book_nonfiction"
+msgstr ""
+
+#: allthethings/page/views.py:4776
+msgid "common.md5_content_type_mapping.book_fiction"
+msgstr ""
+
+#: allthethings/page/views.py:4777
 #, fuzzy
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "ޖޯރނަލް އާޓިކަލް"
 
-#: allthethings/page/views.py:4692
+#: allthethings/page/views.py:4778
 #, fuzzy
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "ސްޓެންޑަރޑްސް ޑޮކިއުމަންޓް"
 
-#: allthethings/page/views.py:4693
+#: allthethings/page/views.py:4779
 #, fuzzy
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "މެގަޒީން"
 
-#: allthethings/page/views.py:4694
+#: allthethings/page/views.py:4780
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "ކޮމިކް ބުކް"
 
-#: allthethings/page/views.py:4695
+#: allthethings/page/views.py:4781
 #, fuzzy
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "މިއުޒިކަލް ސްކޯރް"
 
-#: allthethings/page/views.py:4696
+#: allthethings/page/views.py:4782
 #, fuzzy
 msgid "common.md5_content_type_mapping.other"
 msgstr "އެންތަރު"
 
-#: allthethings/page/views.py:4702
+#: allthethings/page/views.py:4788
 #, fuzzy
 msgid "common.access_types_mapping.aa_download"
 msgstr "ޕާޓްނަރ ސަރވަރ ޑައުންލޯޑް"
 
-#: allthethings/page/views.py:4703
+#: allthethings/page/views.py:4789
 #, fuzzy
 msgid "common.access_types_mapping.aa_scidb"
 msgstr "SciDB"
 
-#: allthethings/page/views.py:4704
+#: allthethings/page/views.py:4790
 #, fuzzy
 msgid "common.access_types_mapping.external_download"
 msgstr "އެކްސްޓަރނަލް ޑައުންލޯޑް"
 
-#: allthethings/page/views.py:4705
+#: allthethings/page/views.py:4791
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow"
 msgstr "އެކްސްޓަރނަލް ބޯރޯ"
 
-#: allthethings/page/views.py:4706
+#: allthethings/page/views.py:4792
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "އެކްސްޓަރނަލް ބޯރޯ (ޕްރިންޓް ޑިސޭބަލްޑް)"
 
-#: allthethings/page/views.py:4707
+#: allthethings/page/views.py:4793
 #, fuzzy
 msgid "common.access_types_mapping.meta_explore"
 msgstr "މެޓަޑޭޓާ އެކްސްޕްލޯރް"
 
-#: allthethings/page/views.py:4708
+#: allthethings/page/views.py:4794
 #, fuzzy
 msgid "common.access_types_mapping.torrents_available"
 msgstr "ޓޯރަންޓްސްގައި ހުރި"
 
-#: allthethings/page/views.py:4714
+#: allthethings/page/views.py:4800
 #, fuzzy
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:4718
+#: allthethings/page/views.py:4801
+#, fuzzy
+msgid "common.record_sources_mapping.lgli"
+msgstr "Libgen.li"
+
+#: allthethings/page/views.py:4802
+msgid "common.record_sources_mapping.zlib"
+msgstr ""
+
+#: allthethings/page/views.py:4803
+msgid "common.record_sources_mapping.ia"
+msgstr ""
+
+#: allthethings/page/views.py:4804
 #, fuzzy
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:4719
+#: allthethings/page/views.py:4805
 #, fuzzy
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:4720
+#: allthethings/page/views.py:4806
 #, fuzzy
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:4721
+#: allthethings/page/views.py:4807
 #, fuzzy
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
-#: allthethings/page/views.py:4722
+#: allthethings/page/views.py:4808
 #, fuzzy
 msgid "common.record_sources_mapping.duxiu"
 msgstr "DuXiu 读秀"
 
-#: allthethings/page/views.py:4723
+#: allthethings/page/views.py:4809
 #, fuzzy
 msgid "common.record_sources_mapping.uploads"
 msgstr "އެއެއްގައި އަޕްލޯޑްސް"
 
-#: allthethings/page/views.py:4729
+#: allthethings/page/views.py:4815
 #, fuzzy
 msgid "common.specific_search_fields.title"
 msgstr "ސުރުޚީ"
 
-#: allthethings/page/views.py:4730
+#: allthethings/page/views.py:4816
 #, fuzzy
 msgid "common.specific_search_fields.author"
 msgstr "ތަފްޞީލު"
 
-#: allthethings/page/views.py:4731
+#: allthethings/page/views.py:4817
 #, fuzzy
 msgid "common.specific_search_fields.publisher"
 msgstr "ޕަބްލިޝަރު"
 
-#: allthethings/page/views.py:4732
+#: allthethings/page/views.py:4818
 #, fuzzy
 msgid "common.specific_search_fields.edition_varia"
 msgstr "އެޑިޝަން"
 
-#: allthethings/page/views.py:4733
+#: allthethings/page/views.py:4819
 #, fuzzy
 msgid "common.specific_search_fields.year"
 msgstr "އަހަރުކޮށް ހިނގުމަށް ހުއްދަ"
 
-#: allthethings/page/views.py:4734
+#: allthethings/page/views.py:4820
 #, fuzzy
 msgid "common.specific_search_fields.original_filename"
 msgstr "އޮރިޖިނަލް ފައިލްނޭމު"
 
-#: allthethings/page/views.py:4735
+#: allthethings/page/views.py:4821
 #, fuzzy
 msgid "common.specific_search_fields.description_comments"
 msgstr "ތަފްޞީލުތައް އަދި މެޓަޑޭޓާ ކޮމެންޓްތައް"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.fast_partner"
 msgstr "ފާސްޓް ޕާޓްނަރ ސަރވަރ # %(number)s"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification_or_waitlists"
 msgstr "(ބްރައައުޒަރު ވެރިފިކޭޝަން ނުކުރެވޭ، އަދި ވެއިޓްލިސްޓްތައް ނުކުރެވޭ)"
 
-#: allthethings/page/views.py:4763 allthethings/page/views.py:4765
+#: allthethings/page/views.py:4849 allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_partner"
 msgstr "ސްލޯ ޕާޓްނަރ ސަރވަރ # %(number)s"
 
-#: allthethings/page/views.py:4763
+#: allthethings/page/views.py:4849
 #, fuzzy
 msgid "common.md5.servers.faster_with_waitlist"
 msgstr "(ދަރިވަރު އަދި ވެއިޓްލިސްޓްތައް އަށް އަދި ބައިވެރިން)"
 
-#: allthethings/page/views.py:4765
+#: allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_no_waitlist"
 msgstr "(ވެއިޓްލިސްޓްތައް ނުކުރެވޭ، އަދި ބައިވެރިން ސްލޯ)"
 
-#: allthethings/page/views.py:4854
+#: allthethings/page/views.py:4940
 #, fuzzy
 msgid "page.md5.box.descr_title"
 msgstr "ތަފްޞީލު"
 
-#: allthethings/page/views.py:4855
+#: allthethings/page/views.py:4941
 #, fuzzy
 msgid "page.md5.box.metadata_comments_title"
 msgstr "މެޓަޑޭޓާ ކޮމެންޓްތައް"
 
-#: allthethings/page/views.py:4856
+#: allthethings/page/views.py:4942
 #, fuzzy
 msgid "page.md5.box.alternative_title"
 msgstr "އެލްޓަނަޓިވް ސުރުޚީ"
 
-#: allthethings/page/views.py:4857
+#: allthethings/page/views.py:4943
 #, fuzzy
 msgid "page.md5.box.alternative_author"
 msgstr "އެލްޓަނަޓިވް ތަފްޞީލު"
 
-#: allthethings/page/views.py:4858
+#: allthethings/page/views.py:4944
 #, fuzzy
 msgid "page.md5.box.alternative_publisher"
 msgstr "އެލްޓަނަޓިވް ޕަބްލިޝަރު"
 
-#: allthethings/page/views.py:4859
+#: allthethings/page/views.py:4945
 #, fuzzy
 msgid "page.md5.box.alternative_edition"
 msgstr "އެލްޓަނަޓިވް އެޑިޝަން"
 
-#: allthethings/page/views.py:4860
+#: allthethings/page/views.py:4946
 #, fuzzy
 msgid "page.md5.box.alternative_description"
 msgstr "އެލްޓަނަޓިވް ތަފްޞީލު"
 
-#: allthethings/page/views.py:4861
+#: allthethings/page/views.py:4947
 #, fuzzy
 msgid "page.md5.box.alternative_filename"
 msgstr "އެލްޓަނަޓިވް ފައިލްނޭމު"
 
-#: allthethings/page/views.py:4862
+#: allthethings/page/views.py:4948
 #, fuzzy
 msgid "page.md5.box.alternative_extension"
 msgstr "އެލްޓަރނޭޓިވް އެކްސްޓެންޝަން"
 
-#: allthethings/page/views.py:4863
+#: allthethings/page/views.py:4949
 #, fuzzy
 msgid "page.md5.box.date_open_sourced_title"
 msgstr "އައުގައި އޮޕަން ސޯސްރްސް ކޮށްފައި"
 
-#: allthethings/page/views.py:4899
+#: allthethings/page/views.py:4985
 #, fuzzy
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "ޕާޓްނަރ ސަރވަރުގެ ޑައޯންލޯޑްތަކަށް އެންމެއަށް ނުވަތަ ފައިލްގެ އެވެ."
 
-#: allthethings/page/views.py:4903 allthethings/page/views.py:5086
+#: allthethings/page/views.py:4989 allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:4977
+#: allthethings/page/views.py:5063
 #, fuzzy
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs ނޮން-ފިކްޝަން"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(އައުގައި “GET” ހަދާ)"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(“GET” ހަދާ)"
 
-#: allthethings/page/views.py:4990
+#: allthethings/page/views.py:5076
 #, fuzzy
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs ފިކްޝަން"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.libgen_ads"
 msgstr "އަޑްތަކަށް އަޑް ބްލޮކަރ ނުވަތަ އަޑްތަކަށް ނުހިމެނޭނެއްޖެ، އަދި އަޑްތަކަށް ނުވަތަ ނުފިލާނެއްޖެ."
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.ia_borrow"
 msgstr "އިންޓަރނެޓް އާރްކައިވްގައިން ބޮރޯކަށް"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(ޕްރިންޓް ޑިސްއޭބަލް ޕޭޓްރަންސް އޮންލީ)"
 
-#: allthethings/page/views.py:5086
+#: allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(އެސޯސިއޭޓެޑް DOI ސައި-Hub އަށް ނުވަތަ)"
 
-#: allthethings/page/views.py:5092
+#: allthethings/page/views.py:5178
 #, fuzzy
 msgid "page.md5.box.download.collection"
 msgstr "ކަލެކްޝަން"
 
-#: allthethings/page/views.py:5093
+#: allthethings/page/views.py:5179
 #, fuzzy
 msgid "page.md5.box.download.torrent"
 msgstr "ޓޯރަންޓް"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "ބަލްކް ޓޯރަންޓް ޑައޯންލޯޑްތައް"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.experts_only"
 msgstr "(އެކްސްޕަރޓްސް އޮންލީ)"
 
-#: allthethings/page/views.py:5106
+#: allthethings/page/views.py:5192
 #, fuzzy
 msgid "page.md5.box.download.aa_isbn"
 msgstr "އިސްބީއެން އައުގައި އަންނައްސް އާރކައިވްގައި ހޯދަން"
 
-#: allthethings/page/views.py:5107
+#: allthethings/page/views.py:5193
 #, fuzzy
 msgid "page.md5.box.download.other_isbn"
 msgstr "އިސްބީއެން އައުގައި އެއަރަސް ޑޭޓަބޭސްތައް ހޯދަން"
 
-#: allthethings/page/views.py:5109
+#: allthethings/page/views.py:5195
 #, fuzzy
 msgid "page.md5.box.download.original_isbndb"
 msgstr "އިސްބީއެންޑީބީއެއްގައި އޮރިޖިނަލް ރެކޯޑް ފައިންޑްކުރަން"
 
-#: allthethings/page/views.py:5111
+#: allthethings/page/views.py:5197
 #, fuzzy
 msgid "page.md5.box.download.aa_openlib"
 msgstr "އަންނާއްސް އާރްކައިވް އަށް އޯޕަން ލަބްރަރީ އައިޑީ ހޯދަން"
 
-#: allthethings/page/views.py:5113
+#: allthethings/page/views.py:5199
 #, fuzzy
 msgid "page.md5.box.download.original_openlib"
 msgstr "އޯޕަން ލަބްރަރީގައި އޮރިޖިނަލް ރެކޯޑް ހޯދަން"
 
-#: allthethings/page/views.py:5115
+#: allthethings/page/views.py:5201
 #, fuzzy
 msgid "page.md5.box.download.aa_oclc"
 msgstr "އަންނާއްސް އާރްކައިވް އަށް އޯސީއެލް (ވޯލްޑްކެޓް) ނަންބަރު ހޯދަން"
 
-#: allthethings/page/views.py:5116
+#: allthethings/page/views.py:5202
 #, fuzzy
 msgid "page.md5.box.download.original_oclc"
 msgstr "ވޯލްޑްކެޓްގައި އޮރިޖިނަލް ރެކޯޑް ހޯދަން"
 
-#: allthethings/page/views.py:5118
+#: allthethings/page/views.py:5204
 #, fuzzy
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "އަންނާއްސް އާރްކައިވް އަށް ދުސިއު އެސްސިއެސް އައިޑީ ނަންބަރު ހޯދަން"
 
-#: allthethings/page/views.py:5119
+#: allthethings/page/views.py:5205
 #, fuzzy
 msgid "page.md5.box.download.original_duxiu"
 msgstr "ދުސިއުގައި މެނުއަލްލީ ހޯދަން"
 
-#: allthethings/page/views.py:5121
+#: allthethings/page/views.py:5207
 #, fuzzy
 msgid "page.md5.box.download.aa_cadal"
 msgstr "އަންނާއްސް އާރްކައިވް އަށް ކަޑަލް އެސްއެސްއެންއޯ ނަންބަރު ހޯދަން"
 
-#: allthethings/page/views.py:5122
+#: allthethings/page/views.py:5208
 #, fuzzy
 msgid "page.md5.box.download.original_cadal"
 msgstr "ކަޑަލްގައި އޮރިޖިނަލް ރެކޯޑް ހޯދަން"
 
-#: allthethings/page/views.py:5126
+#: allthethings/page/views.py:5212
 #, fuzzy
 msgid "page.md5.box.download.aa_dxid"
 msgstr "އަންނާއްސް އާރްކައިވް އަށް ދުސިއު ޑީއެކްސިއެޑީ ނަންބަރު ހޯދަން"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "page.md5.box.download.scidb"
 msgstr "އަންނާއްސް އާރްކައިވް 🧬 ސައިޑީބީ"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(ބްރައުޒަރު ވެރިފިކޭޝަން ނުބައިވަނީ)"
@@ -1180,400 +2159,6 @@ msgstr "<strong>🚀 ފާސްޓް ޑައުންލޯޑްސް</strong> ބިކަމް
 msgid "page.md5.box.download.header_fast_member"
 msgstr "<strong>🚀 ފާސްޓް ޑައުންލޯޑްސް</strong> މިދުވަހުގައި ތިބާއިރު %(remaining)s އެއްވެސް އިންނަންވާނެ. މެމްބަރް އަދި ހަމަޖެހި! ❤️"
 
-#: allthethings/templates/layouts/index.html:562
-#, fuzzy
-msgid "layout.index.footer.list2.reddit"
-msgstr "Reddit"
-
-#: allthethings/templates/layouts/index.html:562
-#, fuzzy
-msgid "layout.index.footer.list2.telegram"
-msgstr "Telegram"
-
-#: allthethings/templates/layouts/index.html:569
-#, fuzzy
-msgid "layout.index.header.nav.advanced"
-msgstr "އެޑްވާންސްޑް"
-
-#: allthethings/templates/layouts/index.html:577
-#, fuzzy
-msgid "layout.index.header.nav.security"
-msgstr "ސިކިއުރިޓީ"
-
-#: allthethings/templates/layouts/index.html:581
-#, fuzzy
-msgid "layout.index.footer.list3.header"
-msgstr "އަލްޓަރނޭޓިވްސް"
-
-#: allthethings/templates/macros/aarecord_list.html:66
-#, fuzzy
-msgid "page.search.results.download_time"
-msgstr "ޑައުންލޯޑް ޓައިމް"
-
-#: allthethings/templates/macros/aarecord_list.html:66
-#, fuzzy
-msgid "page.search.results.fast_download"
-msgstr "ފާސްޓް ޑައުންލޯޑް"
-
-#: allthethings/templates/macros/aarecord_list.html:75
-#, fuzzy
-msgid "page.search.results.issues"
-msgstr "❌ މި ފައިލްގައި އިސިއުސް އެއް އިންނަގަންނަވާނެ."
-
-#: allthethings/templates/macros/copy_button.html:2
-#, fuzzy
-msgid "page.donate.copy"
-msgstr "ކޮޕީ"
-
-#: allthethings/templates/macros/copy_button.html:2
-#, fuzzy
-msgid "page.donate.copied"
-msgstr "ކޮޕީ ކުރިއްޔާ!"
-
-#: allthethings/templates/macros/pagination.html:24
-#: allthethings/templates/macros/pagination.html:29
-#, fuzzy
-msgid "page.search.pagination.prev"
-msgstr "ފަހަތަށް"
-
-#: allthethings/templates/macros/pagination.html:37
-#, fuzzy
-msgid "page.search.pagination.numbers_spacing"
-msgstr "…"
-
-#: allthethings/templates/macros/pagination.html:44
-#: allthethings/templates/macros/pagination.html:49
-#, fuzzy
-msgid "page.search.pagination.next"
-msgstr "ދެން"
-
-#: allthethings/utils.py:375
-#, fuzzy
-msgid "common.membership.tier_name.3"
-msgstr "ލަކި ލައިބްރަރިއަން"
-
-#: allthethings/utils.py:376
-#, fuzzy
-msgid "common.membership.tier_name.4"
-msgstr "ދަޒްލިން ޑޭޓާހޯޑަރް"
-
-#: allthethings/app.py:201
-#, fuzzy
-msgid "layout.index.invalid_request"
-msgstr "އިންވަލިޑް ރިކުއެސްޓް. ވިޒިޓް %(websites)s."
-
-#: allthethings/app.py:262
-#, fuzzy
-msgid "layout.index.header.tagline_scihub"
-msgstr "Sci-Hub"
-
-#: allthethings/app.py:263
-#, fuzzy
-msgid "layout.index.header.tagline_libgen"
-msgstr "LibGen"
-
-#: allthethings/app.py:264
-#, fuzzy
-msgid "layout.index.header.tagline_zlib"
-msgstr "Z-Lib"
-
-#: allthethings/app.py:265
-#, fuzzy
-msgid "layout.index.header.tagline_openlib"
-msgstr "OpenLib"
-
-#: allthethings/app.py:266
-#, fuzzy
-msgid "layout.index.header.tagline_ia"
-msgstr "Internet Archive Lending Library"
-
-#: allthethings/app.py:267
-#, fuzzy
-msgid "layout.index.header.tagline_duxiu"
-msgstr "DuXiu"
-
-#: allthethings/app.py:268
-#, fuzzy
-msgid "layout.index.header.tagline_separator"
-msgstr "، "
-
-#: allthethings/app.py:269
-#, fuzzy
-msgid "layout.index.header.tagline_and"
-msgstr " އަދި "
-
-#: allthethings/app.py:270
-#, fuzzy
-msgid "layout.index.header.tagline_and_more"
-msgstr "އަދި އެއްޗެހެން"
-
-#: allthethings/account/templates/account/donate.html:11
-#, fuzzy
-msgid "page.donate.header.existing_unpaid_donation"
-msgstr "ތަފްޞީލުވާ <a %(a_donation)s>ދިނުމަތްކުރާ ދިނުމަތް</a> އިން ހުރިހާރުކުރެވިފައިވާނެ. އަދި އައު ދިނުމަތްކުރެވިފައިވާނެ ނުވަތަ އަދި އައު ދިނުމަތްކުރެވިފައިވާނެ."
-
-#: allthethings/account/templates/account/donate.html:13
-#, fuzzy
-msgid "page.donate.header.existing_unpaid_donation_view_all"
-msgstr "<a %(a_all_donations)s>މިއަދުގެ ދިނުމަތްތައް ބަލާ</a>"
-
-#: allthethings/account/templates/account/donate.html:20
-#, fuzzy
-msgid "page.donate.header.text1"
-msgstr "އެންނާގެ އާރްކައިވް އެއް ނޮން-ޕްރޮފިޓް، އޯޕަން-ސޯސް، އޯޕަން-ޑޭޓާ ޕްރޮޖެކްޓް އެއްގެ ދަށުންނާނެ. ދިނުމަތްކުރާން އަދި މެމްބަރުކުރާން ކުރެވިފައިވާނެ، އައުގެ އޮޕަރޭޝަންތައް އަދި ޑެވެލޮޕްމަންޓް ސަޕޯޓްކުރެވިފައިވާނެ. މިހާރުގެ މެމްބަރުތަކުން: އަންނަންނަވާނެ އައުގެ ކުރިއަށް ދަންނަވާނެ! ❤️"
-
-#: allthethings/account/templates/account/donate.html:20
-#, fuzzy
-msgid "page.donate.header.text2"
-msgstr "އައުގެ އަދަދުތަކަށް އަދި އެންމެންޓްތަކަށް، <a %(a_donate)s>ދިނުމަތް އެފްއެކިއު</a> ބަލާ."
-
-#: allthethings/account/templates/account/donate.html:24
-#, fuzzy
-msgid "page.donate.refer.text1"
-msgstr "އައު އެއްގެ ޑައުންލޯޑްތަކަށް އެއްވެސް ކުރާން، <a %(a_refer)s>އައުގެ ދަރިވަރުތައް ރިފަރްކުރާ</a>!"
-
-#: allthethings/account/templates/account/donate.html:31
-#: allthethings/account/templates/account/donation.html:23
-#, fuzzy
-msgid "page.donate.bonus_downloads.main"
-msgstr "އައުގެ ދަރިވަރު %(profile_link)s ރިފަރްކުރެވިފައިވާނެ އަދި އައުގެ %(percentage)s%% ބޯނަސް ފާސްޓް ޑައުންލޯޑްތައް ކުރެވިފައިވާނެ."
-
-#: allthethings/account/templates/account/donate.html:32
-#: allthethings/account/templates/account/donation.html:24
-#, fuzzy
-msgid "page.donate.bonus_downloads.period"
-msgstr "މިހާރުގެ މެމްބަރުގައި ހުރިހާރުކުރެވިފައިވާނެ."
-
-#: allthethings/account/templates/account/donate.html:42
-#: allthethings/account/templates/account/donate.html:58
-#: allthethings/account/templates/account/donate.html:72
-#: allthethings/account/templates/account/donate.html:86
-#, fuzzy
-msgid "page.donate.buttons.join"
-msgstr "ދައްކާ"
-
-#: allthethings/account/templates/account/donate.html:43
-#: allthethings/account/templates/account/donate.html:59
-#: allthethings/account/templates/account/donate.html:73
-#: allthethings/account/templates/account/donate.html:87
-#, fuzzy
-msgid "page.donate.buttons.selected"
-msgstr "ނިމުންނާ"
-
-#: allthethings/account/templates/account/donate.html:45
-#: allthethings/account/templates/account/donate.html:61
-#: allthethings/account/templates/account/donate.html:75
-#: allthethings/account/templates/account/donate.html:89
-#, fuzzy
-msgid "page.donate.buttons.up_to_discounts"
-msgstr "ދައްކާ %(percentage)s%% ޑިސްކައުންޓްތައް"
-
-#: allthethings/account/templates/account/donate.html:47
-#: allthethings/account/templates/account/donate.html:64
-#: allthethings/account/templates/account/donate.html:78
-#: allthethings/account/templates/account/donate.html:92
-#, fuzzy
-msgid "page.donate.perks.fast_downloads"
-msgstr "%(number)s ފާސްޓް ޑައުންލޯޑްތައް ދުވަހުގައި"
-
-#: allthethings/account/templates/account/donate.html:47
-#: allthethings/account/templates/account/donate.html:64
-#: allthethings/account/templates/account/donate.html:78
-#: allthethings/account/templates/account/donate.html:92
-#, fuzzy
-msgid "page.donate.perks.only_this_month"
-msgstr "މި މަސްޓްއަށް އެއްވެސް!"
-
-#: allthethings/account/templates/account/donate.html:48
-#, fuzzy
-msgid "page.donate.perks.scidb"
-msgstr "ސައިޑީބީ ޕޭޕަރުތައް <strong>ނުވަތަ އަދިއެއްވެސް</strong> ވެރިފިކޭޝަންނުކުރެވިފައިވާނެ"
-
-#: allthethings/account/templates/account/donate.html:49
-#, fuzzy
-msgid "page.donate.perks.jsonapi"
-msgstr "<a %(a_api)s>ޖެސްއޯން އެޕީއައި</a> އެކްސެސް"
-
-#: allthethings/account/templates/account/donate.html:50
-#, fuzzy
-msgid "page.donate.perks.refer"
-msgstr "އައުގެ <strong>%(percentage)s%% ބޯނަސް ޑައުންލޯޑްތައް</strong> ކުރެވިފައިވާނެ <a %(a_refer)s>ދަރިވަރުތައް ރިފަރްކުރާ</a>."
-
-#: allthethings/account/templates/account/donate.html:51
-#, fuzzy
-msgid "page.donate.perks.credits"
-msgstr "އައުގެ ޔޫސަރނޭމު ނުވަތަ އެއްވެސް ކްރެޑިޓްސްގައި ނަމުގެ މެންޝަން"
-
-#: allthethings/account/templates/account/donate.html:140
-#, fuzzy
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (Brazil)"
-
-#: allthethings/account/templates/account/donate.html:63
-#: allthethings/account/templates/account/donate.html:77
-#: allthethings/account/templates/account/donate.html:91
-#, fuzzy
-msgid "page.donate.perks.previous_plus"
-msgstr "ކުރިއަށް ދަންނަވާ އަދަދުތަކަށް:"
-
-#: allthethings/account/templates/account/donate.html:65
-#, fuzzy
-msgid "page.donate.perks.early_access"
-msgstr "އައުގެ އަދަދުތައް އަދި އެންމެންޓްތައް"
-
-#: allthethings/account/templates/account/donate.html:79
-#, fuzzy
-msgid "page.donate.perks.exclusive_telegram"
-msgstr "އައުގެ ޓެލެގްރާމްގައި އެކްސްކްލުސިވް އަޕްޑޭޓްތައް ހުރިހާރުކުރެވިފައިވާނެ"
-
-#: allthethings/account/templates/account/donation.html:135
-#, fuzzy
-msgid "page.donation.payment.paypal.text5"
-msgstr "މައިނަށް ބިޓްކޮއިން (BTC) އެޑްރެސް ލިޔުން، އަދި %(total)s އަދަދުން ލިޔެވިފައިވާ އިންސްޓްރަކްޝަންތައް ބަދަލުން:"
-
-#: allthethings/account/templates/account/donation.html:139
-#: allthethings/account/templates/account/donation.html:247
-#, fuzzy
-msgid "page.donation.credit_debit_card_instructions"
-msgstr "ކްރެޑިޓް / ޑީބިޓް ކާޑް އިންސްޓްރަކްޝަންތައް"
-
-#: allthethings/account/templates/account/donation.html:141
-#, fuzzy
-msgid "page.donation.credit_debit_card_our_page"
-msgstr "ކްރެޑިޓް / ޑީބިޓް ކާޑް ޞަފްޙާގައި ދަންނަން"
-
-#: allthethings/account/templates/account/donation.html:144
-#, fuzzy
-msgid "page.donation.donate_on_this_page"
-msgstr "%(amount)s ދަންނަން <a %(a_page)s>މި ޞަފްޙާގައި</a>."
-
-#: allthethings/account/templates/account/donation.html:144
-#, fuzzy
-msgid "page.donation.stepbystep_below"
-msgstr "ތަފްޞީލުތައް ބަދަލުން ދަންނަން."
-
-#: allthethings/account/templates/account/donation.html:148
-#: allthethings/account/templates/account/donation.html:191
-#: allthethings/account/templates/account/donation.html:234
-#: allthethings/account/templates/account/donation.html:275
-#: allthethings/account/templates/account/donation.html:304
-#: allthethings/account/templates/account/donation.html:335
-#: allthethings/account/templates/account/donation.html:441
-#: allthethings/account/templates/account/donation.html:468
-#, fuzzy
-msgid "page.donation.status_header"
-msgstr "ސްޓެޓަސް:"
-
-#: allthethings/account/templates/account/donation.html:148
-#: allthethings/account/templates/account/donation.html:191
-#: allthethings/account/templates/account/donation.html:234
-#: allthethings/account/templates/account/donation.html:275
-#: allthethings/account/templates/account/donation.html:304
-#: allthethings/account/templates/account/donation.html:441
-#: allthethings/account/templates/account/donation.html:468
-#, fuzzy
-msgid "page.donation.waiting_for_confirmation_refresh"
-msgstr "ކޮންފަރމޭޝަން އަދަދުން (ޞަފްޙާ އަކީ ބަލައިފައިވާ)…"
-
-#: allthethings/account/templates/account/profile.html:15
-#, fuzzy
-msgid "page.profile.change_display_name.button"
-msgstr "ސޭވް"
-
-#: allthethings/account/templates/account/donation.html:148
-#: allthethings/account/templates/account/donation.html:191
-#: allthethings/account/templates/account/donation.html:234
-#: allthethings/account/templates/account/donation.html:275
-#: allthethings/account/templates/account/donation.html:304
-#: allthethings/account/templates/account/donation.html:441
-#: allthethings/account/templates/account/donation.html:468
-#, fuzzy
-msgid "page.donation.waiting_for_transfer_refresh"
-msgstr "ޓްރާންސްފަރް އަދަދުން (ޞަފްޙާ އަކީ ބަލައިފައިވާ)…"
-
-#: allthethings/account/templates/account/donation.html:149
-#: allthethings/account/templates/account/donation.html:192
-#: allthethings/account/templates/account/donation.html:235
-#: allthethings/account/templates/account/donation.html:276
-#: allthethings/account/templates/account/donation.html:305
-#: allthethings/account/templates/account/donation.html:442
-#: allthethings/account/templates/account/donation.html:469
-#, fuzzy
-msgid "page.donation.time_left_header"
-msgstr "ހުރިހާ ވަގުތު:"
-
-#: allthethings/account/templates/account/donation.html:149
-#: allthethings/account/templates/account/donation.html:192
-#: allthethings/account/templates/account/donation.html:235
-#: allthethings/account/templates/account/donation.html:276
-#: allthethings/account/templates/account/donation.html:305
-#: allthethings/account/templates/account/donation.html:442
-#: allthethings/account/templates/account/donation.html:469
-#, fuzzy
-msgid "page.donation.might_want_to_cancel"
-msgstr "(މިހާރު ކެންސަލް ކުރަން އަދި އައު ދަންނަން ހުޅުވާނެ)"
-
-#: allthethings/account/templates/account/donation.html:153
-#: allthethings/account/templates/account/donation.html:196
-#: allthethings/account/templates/account/donation.html:239
-#: allthethings/account/templates/account/donation.html:280
-#: allthethings/account/templates/account/donation.html:309
-#: allthethings/account/templates/account/donation.html:446
-#: allthethings/account/templates/account/donation.html:473
-#, fuzzy
-msgid "page.donation.reset_timer"
-msgstr "ޓައިމަރު އަދަދުން ރިސެޓް ކުރަން، އައު ދަންނަން ހުޅުވާނެ."
-
-#: allthethings/account/templates/account/donation.html:157
-#: allthethings/account/templates/account/donation.html:200
-#: allthethings/account/templates/account/donation.html:243
-#: allthethings/account/templates/account/donation.html:284
-#: allthethings/account/templates/account/donation.html:313
-#: allthethings/account/templates/account/donation.html:339
-#: allthethings/account/templates/account/donation.html:450
-#: allthethings/account/templates/account/donation.html:477
-#, fuzzy
-msgid "page.donation.refresh_status"
-msgstr "ސްޓެޓަސް އަޕްޑޭޓް ކުރަން"
-
-#: allthethings/account/templates/account/donation.html:161
-#: allthethings/account/templates/account/donation.html:577
-#, fuzzy
-msgid "page.donation.footer.issues_contact"
-msgstr "ކޮންފަރމޭޝަން އަދަދުން ހުރިހާއިރު ނުވަތަ އެއްޗެއް ހަދާނެއެވެ. %(email)s އަށް ފޯމުކުރަން އަދި އެއްޗެއް ހަދާނެ (ސްކްރީންޝޮޓްތައް އަދި އެއްޗެއް ހަދާނެ)."
-
-#: allthethings/account/templates/account/donation.html:169
-#, fuzzy
-msgid "page.donation.buy_pyusd"
-msgstr "ޕީއުއެސްޑީ ކޮއިން ޕޭޕާލް އަށް ދަންނަން"
-
-#: allthethings/account/templates/account/donation.html:176
-#, fuzzy
-msgid "page.donation.pyusd.instructions"
-msgstr "ޕީއުއެސްޑީ ކޮއިން (ޕޭޕާލް އިއުއެސްޑީ) ދަންނަން އިންސްޓްރަކްޝަންތައް ބަދަލުން."
-
-#: allthethings/account/templates/account/donation.html:177
-#, fuzzy
-msgid "page.donation.pyusd.more"
-msgstr "ޓްރާންސްފަރް ފީތަކަށް ކަނޑައިފައިވާ އަދަދުން (%(more)s އަދަދުން) ދަންނަން އަދި އެއްޗެއް ހަދާނެ (%(amount)s) ދަންނަން. ހުރިހާ އެއްޗެއް ހަދާނެ."
-
-#: allthethings/account/templates/account/donation.html:183
-#, fuzzy
-msgid "page.donation.pyusd.transfer"
-msgstr "ޕޭޕާލް އެޕްޕް ނުވަތަ ވެބްސައިޓްގައި “ޕީއުއެސްޑީ” ޞަފްޙާއި ދަންނަން. “ޓްރާންސްފަރް” ބަޓަން %(icon)s އަދި “ސެންޑް” ބަޓަން ދަންނަން."
-
-#: allthethings/account/templates/account/donation.html:187
-#: allthethings/account/templates/account/donation.html:226
-#: allthethings/account/templates/account/donation.html:296
-#, fuzzy
-msgid "page.donation.transfer_amount_to"
-msgstr "%(amount)s އަދަދުން %(account)s އަށް ޓްރާންސްފަރް ކުރަން"
-
-#: allthethings/account/templates/account/donation.html:288
-#, fuzzy
-msgid "page.donation.crypto_instructions"
-msgstr "%(coin_name)s އިންސްޓްރަކްޝަންތައް"
-
 #: allthethings/page/templates/page/aarecord.html:228
 #, fuzzy
 msgid "page.md5.box.download.header_fast_member_no_remaining_new"
@@ -1642,11 +2227,6 @@ msgstr "ކޮންވަރޓް: ފޯމެޓްތަކަށް އޮންލައިން ޓޫލ
 #, fuzzy
 msgid "page.md5.box.download.kindle"
 msgstr "ކިންޑަލް: ފައިލް ޑައުންލޯޑް ކުރަން (ޕީޑީއެފް ނުވަތަ އެޕަބް އެއްޗެއްގައި ސަޕޯޓްކުރަން)، އެކަމަށް <a %(a_kindle)s>ކިންޑަލްއަށް ސެންޑް ކުރަން</a> ވެބް، އެޕް، އެމެއިލް އަދި ހެލްޕްފުލް ޓޫލްތަކަށް: <a %(a_kobosend)s rel=\"noopener noreferrer nofollow\">1</a>."
-
-#: allthethings/page/templates/page/faq.html:161
-#, fuzzy
-msgid "page.request.dont_email"
-msgstr "މަންދާނެއް ނުކުރަން ބުކް ރިކުއެސްޓްތައް އެމެއިލްކުރަން."
 
 #: allthethings/page/templates/page/aarecord.html:258
 #, fuzzy
@@ -1730,6 +2310,619 @@ msgstr "ހުރިހާ ޑައުންލޯޑް އޮޕްޝަންތައް އެއްޗެ�
 #, fuzzy
 msgid "common.english_only"
 msgstr "ތެކްސްޓް ބެލޯވް ކަންޓިނިއުސް އިން އިންގްލިޝް."
+
+#: allthethings/page/templates/page/aarecord_issue.html:4
+msgid "page.aarecord_issue.title"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord_issue.html:6
+msgid "page.aarecord_issue.text"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord_not_found.html:4
+msgid "page.md5.invalid.header"
+msgstr ""
+
+#: allthethings/page/templates/page/aarecord_not_found.html:6
+msgid "page.md5.invalid.text"
+msgstr ""
+
+#: allthethings/page/templates/page/browser_verification.html:3
+#: allthethings/page/templates/page/login.html:3
+#: allthethings/page/templates/page/login.html:6
+msgid "page.login.title"
+msgstr ""
+
+#: allthethings/page/templates/page/browser_verification.html:6
+msgid "page.browserverification.header"
+msgstr ""
+
+#: allthethings/page/templates/page/browser_verification.html:9
+#: allthethings/page/templates/page/login.html:9
+msgid "page.login.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/browser_verification.html:13
+#: allthethings/page/templates/page/login.html:13
+msgid "page.login.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/browser_verification.html:13
+msgid "page.login.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:10
+msgid "page.contact.dmca.form"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:11
+msgid "page.contact.dmca.delete"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:16
+msgid "page.contact.checkboxes.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:17
+msgid "page.contact.checkboxes.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:19
+msgid "page.contact.checkboxes.copyright"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:20
+msgid "layout.index.footer.dont_email"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:21
+msgid "page.donate.please_include"
+msgstr ""
+
+#: allthethings/page/templates/page/contact.html:23
+msgid "page.contact.checkboxes.show_email_button"
+msgstr ""
+
+#: allthethings/page/templates/page/datasets.html:161
+#: allthethings/page/templates/page/faq.html:168
+#: allthethings/page/templates/page/search.html:288
+msgid "page.faq.metadata.inspiration1"
+msgstr ""
+
+#: allthethings/page/templates/page/datasets.html:162
+#: allthethings/page/templates/page/faq.html:169
+#: allthethings/page/templates/page/search.html:289
+msgid "page.faq.metadata.inspiration2"
+msgstr ""
+
+#: allthethings/page/templates/page/datasets.html:163
+#: allthethings/page/templates/page/faq.html:170
+#: allthethings/page/templates/page/search.html:290
+msgid "page.faq.metadata.inspiration3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:3
+#: allthethings/page/templates/page/faq.html:6
+msgid "page.faq.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:8
+msgid "page.faq.what_is.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:11
+msgid "page.home.intro.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:15
+msgid "page.home.intro.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:19
+msgid "page.home.intro.open_source"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:23
+msgid "page.home.preservation.header"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:25
+msgid "page.home.preservation.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:27
+msgid "page.home.preservation.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:41
+msgid "page.home.preservation.label"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:46
+msgid "page.home.access.header"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:48
+msgid "page.home.access.text"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:52
+msgid "page.home.access.label"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:80
+msgid "page.about.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:84
+msgid "page.about.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:87
+msgid "page.faq.help.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:90
+msgid "page.about.help.text"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:91
+msgid "page.about.help.text6"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:92
+msgid "page.about.help.text7"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:93
+msgid "page.about.help.text8"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:94
+msgid "page.about.help.text9"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:95
+msgid "page.about.help.text10"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:96
+msgid "page.about.help.text11"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:97
+msgid "page.faq.help.mirrors"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:103
+msgid "page.faq.slow.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:107
+msgid "page.faq.slow.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:111
+msgid "page.faq.slow.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:114
+msgid "page.donate.faq.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:117
+msgid "page.donate.faq.renew"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:121
+msgid "page.donate.faq.text_other_payment1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:125
+msgid "page.donate.faq.spend"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:129
+msgid "page.donate.faq.text_large_donation"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:133
+msgid "page.donate.faq.non_member_donation"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:136
+msgid "page.faq.upload.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:139
+msgid "page.upload.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:140
+msgid "common.libgen.email"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:141
+msgid "page.faq.mhut_upload"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:145
+msgid "page.upload.zlib.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:149
+msgid "page.upload.zlib.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:153
+msgid "page.upload.large.text"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:156
+msgid "page.faq.request.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:159
+msgid "page.request.cannot_accomodate"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:160
+msgid "page.request.forums"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:161
+#, fuzzy
+msgid "page.request.dont_email"
+msgstr "މަންދާނެއް ނުކުރަން ބުކް ރިކުއެސްޓްތައް އެމެއިލްކުރަން."
+
+#: allthethings/page/templates/page/faq.html:164
+msgid "page.faq.metadata.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:167
+msgid "page.faq.metadata.indeed"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:173
+msgid "page.faq.1984.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:176
+msgid "page.faq.1984.text"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:179
+msgid "page.faq.save_search.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:182
+msgid "page.faq.save_search.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:185
+msgid "page.faq.mobile.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:188
+msgid "page.faq.mobile.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:189
+msgid "page.faq.mobile.android"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:190
+msgid "page.faq.mobile.ios"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:193
+msgid "page.faq.api.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:196
+msgid "page.faq.api.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:200
+msgid "page.faq.api.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:204
+msgid "page.faq.api.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:207
+msgid "page.faq.torrents.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:210
+msgid "page.faq.torrents.q1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:212
+msgid "page.faq.torrents.a1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:216
+msgid "page.faq.torrents.q2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:218
+msgid "page.faq.torrents.a2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:222
+msgid "page.faq.torrents.q3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:224
+msgid "page.faq.torrents.a3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:228
+msgid "page.faq.torrents.q4"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:230
+msgid "page.faq.torrents.a4"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:234
+msgid "page.faq.torrents.q5"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:238
+msgid "page.faq.torrents.a5"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:242
+msgid "page.faq.torrents.q6"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:244
+msgid "page.faq.torrents.a6"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:246
+msgid "page.faq.torrents.a6.li1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:248
+msgid "page.faq.torrents.a6.li2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:251
+msgid "page.faq.security.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:254
+msgid "page.faq.security.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:258
+msgid "page.faq.security.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:262
+msgid "page.faq.security.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:265
+msgid "page.faq.resources.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:268
+msgid "page.faq.resources.annas_blog"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:269
+msgid "page.faq.resources.annas_software"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:270
+msgid "page.faq.resources.translate"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:271
+msgid "page.faq.resources.datasets"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:272
+msgid "page.faq.resources.domains"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:273
+msgid "page.faq.resources.wikipedia"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:276
+msgid "page.faq.copyright.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:279
+msgid "page.faq.copyright.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:283
+msgid "page.faq.copyright.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:286
+msgid "page.faq.hate.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:289
+msgid "page.faq.hate.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:292
+msgid "page.faq.favorite.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:295
+msgid "page.faq.favorite.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/fast_download_no_more.html:5
+msgid "page.fast_downloads.no_more_new"
+msgstr ""
+
+#: allthethings/page/templates/page/fast_download_not_member.html:5
+msgid "page.fast_downloads.no_member"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:9
+msgid "page.home.full_database.header"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:12
+msgid "page.home.full_database.subtitle"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:15
+msgid "page.home.full_database.search"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:19
+#: allthethings/page/templates/page/scidb_home.html:3
+#: allthethings/page/templates/page/scidb_home.html:6
+#: allthethings/templates/layouts/index.html:448
+#: allthethings/templates/layouts/index.html:461
+#: allthethings/templates/layouts/index.html:476
+#: allthethings/templates/layouts/index.html:543
+msgid "page.home.scidb.header"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:19
+#: allthethings/templates/layouts/index.html:496
+msgid "layout.index.header.nav.beta"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/search.html:257
+#: allthethings/page/templates/page/search.html:314
+msgid "page.home.scidb.scihub_paused"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/search.html:258
+#: allthethings/page/templates/page/search.html:315
+msgid "page.home.scidb.continuation"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:29
+#: allthethings/page/templates/page/home.html:34
+msgid "page.home.scidb.subtitle"
+msgstr ""
+
+#: allthethings/page/templates/page/home.html:36
+#: allthethings/page/templates/page/scidb_home.html:19
+#, fuzzy
+msgid "page.home.scidb.placeholder_doi"
+msgstr "DOI"
+
+#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/scidb_home.html:20
+#, fuzzy
+msgid "page.home.scidb.open"
+msgstr "ހުރިހާ"
+
+#: allthethings/page/templates/page/home.html:39
+#, fuzzy
+msgid "page.home.scidb.browser_verification"
+msgstr "އެންމެ އައިން <a %(a_member)s>މެމްބަރު</a> އަށް ނުވަތަ ބްރައުޒަރު ވެރިފިކޭޝަން ނުބައިލާ."
+
+#: allthethings/page/templates/page/home.html:43
+#, fuzzy
+msgid "page.home.archive.header"
+msgstr "ލޮންގް-ޓަރމް އާރކައިވް"
+
+#: allthethings/page/templates/page/home.html:46
+#, fuzzy
+msgid "page.home.archive.body"
+msgstr "އެނައްނަގެ ޑޭޓާސެޓްސް ހުރިހާއިރުކޮށް އޮޕަން އަށް، ޓޯރަންޓްސް ދައްކަން އަށް ބަލައިފިނަމަ މިރަރުކޮށްލާނެ. <a %(a_datasets)s>އިތުރަށް ބަލާ…</a>"
+
+#: allthethings/page/templates/page/home.html:50
+#, fuzzy
+msgid "page.home.torrents.body"
+msgstr "ޓޯރަންޓްސް ސީޑްކޮށް އެންމެރަލްސްލާނެ. <a %(a_torrents)s>އިތުރަށް ބަލާ…</a>"
+
+#: allthethings/page/templates/page/home.html:53
+#: allthethings/page/templates/page/torrents.html:86
+#, fuzzy
+msgid "page.home.torrents.legend_less"
+msgstr "<%(count)s ސީޑަރުން"
+
+#: allthethings/page/templates/page/home.html:54
+#: allthethings/page/templates/page/torrents.html:87
+#, fuzzy
+msgid "page.home.torrents.legend_range"
+msgstr "%(count_min)s–%(count_max)s ސީޑަރުން"
+
+#: allthethings/page/templates/page/home.html:55
+#: allthethings/page/templates/page/torrents.html:88
+#, fuzzy
+msgid "page.home.torrents.legend_greater"
+msgstr ">%(count)s ސީޑަރުން"
+
+#: allthethings/page/templates/page/home.html:67
+#, fuzzy
+msgid "page.home.llm.header"
+msgstr "LLM ޓްރޭނިންގް ޑޭޓާ"
+
+#: allthethings/page/templates/page/home.html:70
+#, fuzzy
+msgid "page.home.llm.body"
+msgstr "އައިންގެ ދައުރުކަން މަގުމަތް ޓެކްސްޓް ޑޭޓާގެ މައިސްޓަރް ކޮލެކްޝަން އަށްހަދަނީ. <a %(a_llm)s>އިތުރަށް ބަލާ…</a>"
+
+#: allthethings/page/templates/page/home.html:73
+#, fuzzy
+msgid "page.home.mirrors.header"
+msgstr "🪩 މިރަރުން: ވޮލަންޓިއަރުންނާ ހަދަން"
+
+#: allthethings/page/templates/page/home.html:75
+#, fuzzy
+msgid "page.home.volunteering.header"
+msgstr "🤝 ވޮލަންޓިއަރުންނާ ހަދަން"
+
+#: allthethings/page/templates/page/home.html:77
+#, fuzzy
+msgid "page.home.volunteering.help_out"
+msgstr "އެންމެ ނޮން-ޕްރޮފިޓް، އޯޕަން-ސޯސް ޕްރޮޖެކްޓްއަށް، އައިން ހަދަން ދައްކަންވީ."
+
+#: allthethings/page/templates/page/home.html:96
+#, fuzzy
+msgid "page.home.payment_processor.body"
+msgstr "އައިން ހައި-ރިސްކް އެނޮނިމަސް ޕޭމަންޓް ޕްރޮސެސަރު ރަންކޮށްލާނެ، މިންނަން އައިންއަށް އެންމެ ސްމޯލް އެޑްސް ޕްލޭސްކޮށްލާނެ. ހައިންކޮށްލަން ހަދަންވީ އައިންގެ ޕްރެސެރވޭޝަން އެފަރޓްސްއަށް."
+
+#: allthethings/page/templates/page/home.html:104
+#: allthethings/templates/layouts/index.html:484
+#: allthethings/templates/layouts/index.html:563
+#, fuzzy
+msgid "layout.index.header.nav.annasblog"
+msgstr "އެނައްނަގެ ބްލޮގް ↗"
+
+#: allthethings/page/templates/page/ipfs_downloads.html:3
+#: allthethings/page/templates/page/ipfs_downloads.html:10
+#, fuzzy
+msgid "page.ipfs_downloads.title"
+msgstr "IPFS ޑައުންލޯޑްސް"
+
+#: allthethings/page/templates/page/ipfs_downloads.html:13
+#: allthethings/page/templates/page/partner_download.html:25
+#, fuzzy
+msgid "page.partner_download.main_page"
+msgstr "🔗 މި ފައިލްގެ ޑައުންލޯޑް ލިންކްސް ހުރިހާ: <a %(a_main)s>ފައިލް މައިން ޞަފްހާ</a>."
+
+#: allthethings/page/templates/page/ipfs_downloads.html:18
+#, fuzzy
+msgid "page.md5.box.download.ipfs_gateway"
+msgstr "IPFS ގޭޓްވޭ #%(num)d"
+
+#: allthethings/page/templates/page/ipfs_downloads.html:18
+#, fuzzy
+msgid "page.md5.box.download.ipfs_gateway_extra"
+msgstr "(IPFS އަށް އެންމެ ފަހަރަކަށް ހަދަންވީ)"
 
 #: allthethings/page/templates/page/ipfs_downloads.html:23
 #: allthethings/page/templates/page/partner_download.html:86
@@ -1836,264 +3029,277 @@ msgstr "އެނައްރްކައިވް"
 msgid "page.scidb.header"
 msgstr "SciDB"
 
-#: allthethings/account/templates/account/donate.html:321
-#, fuzzy
-msgid "page.donate.duration.48_mo"
-msgstr "48 މަސް"
+#: allthethings/page/templates/page/scidb.html:20
+msgid "page.scidb.doi"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:322
-#, fuzzy
-msgid "page.donate.duration.96_mo"
-msgstr "96 މަސް"
+#: allthethings/page/templates/page/scidb.html:30
+msgid "page.scidb.aa_record"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:325
-#, fuzzy
-msgid "page.donate.duration.summary"
-msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>އިންޓަރެސްޓްތަކުގެ <span %(span_discount)s></span> ފަހަރުގައި</div><div %(div_total)s></div><div %(div_duration)s></div>"
+#: allthethings/page/templates/page/scidb.html:31
+msgid "page.scidb.download"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:332
-#, fuzzy
-msgid "page.donate.payment.minimum_method"
-msgstr "މި ޕޭމަންޓް މެތަޑްގައި މިނިމަމް %(amount)s ދައްކާއިރުކުރެވޭނެ. އެހެން ދައްކާއިރުކުރެވޭ މަސް ނުވަތަ ޕޭމަންޓް މެތަޑް ނަމަވާން."
+#: allthethings/page/templates/page/scidb.html:32
+msgid "page.scidb.scihub"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:333
-#: allthethings/account/templates/account/donate.html:337
-#, fuzzy
-msgid "page.donate.buttons.donate"
-msgstr "ދައްކާއިރުކުރޭ"
+#: allthethings/page/templates/page/scidb.html:38
+msgid "page.scidb.please_donate"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:336
-#, fuzzy
-msgid "page.donate.payment.maximum_method"
-msgstr "މި ޕޭމަންޓް މެތަޑް އައު %(amount)s ދައްކާއިރުކުރެވޭނެ. އެހެން ދައްކާއިރުކުރެވޭ މަސް ނުވަތަ ޕޭމަންޓް މެތަޑް ނަމަވާން."
+#: allthethings/page/templates/page/scidb.html:41
+msgid "page.scidb.please_donate_bonus"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:343
-#, fuzzy
-msgid "page.donate.login2"
-msgstr "މެމްބަރު ވަންދާނެ، ކުރިއަށް <a %(a_login)s>ލޮގިން ނުވަތަ ރެޖިސްޓަރް</a> ކުރޭ. އަންނައަށް ޝުކުރިއްޔާ!"
+#: allthethings/page/templates/page/scidb.html:45
+msgid "page.scidb.refresh"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:350
-#, fuzzy
-msgid "page.donate.payment.crypto_select"
-msgstr "ކްރިޕްޓޮ ކޮއިން ނަމަވާން:"
+#: allthethings/page/templates/page/scidb.html:59
+msgid "page.scidb.no_preview_new"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:355
-#, fuzzy
-msgid "page.donate.currency_lowest_minimum"
-msgstr "(ދައްކާއިރުކުރެވޭ އަދަދު އަދަދު އަދަދު)"
+#: allthethings/page/templates/page/scidb_home.html:9
+msgid "page.home.scidb.text1"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:369
-#: allthethings/account/templates/account/donate.html:370
-#: allthethings/account/templates/account/donate.html:374
-#: allthethings/account/templates/account/donate.html:376
-#, fuzzy
-msgid "page.donate.currency_warning_high_minimum"
-msgstr "(އަދަދު އަދަދު އަދަދު: ދައްކާއިރުކުރެވޭ އަދަދު އަދަދު)"
+#: allthethings/page/templates/page/scidb_home.html:13
+msgid "page.home.scidb.text2"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:385
-#, fuzzy
-msgid "page.donate.submit.confirm"
-msgstr "މި ދައްކާއިރުކުރެވޭ ދައްކާއިރު ކޮންފަރމް ކުރޭ."
+#: allthethings/page/templates/page/scidb_home.html:26
+msgid "page.home.scidb.text3"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:393
-#, fuzzy
-msgid "page.donate.submit.button"
-msgstr "ދައްކާއިރުކުރޭ <span %(span_cost)s></span> <span %(span_label)s></span>"
+#: allthethings/page/templates/page/search.html:8
+msgid "page.search.title.results"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:398
-#, fuzzy
-msgid "page.donate.submit.cancel_note"
-msgstr "ކެންސަލް ކުރެވޭ ދައްކާއިރު ކައިލް ކުރަންވީ ކެޗްކައުޓްގައި."
+#: allthethings/page/templates/page/search.html:8
+msgid "page.search.title.new"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:402
-#, fuzzy
-msgid "page.donate.submit.success"
-msgstr "✅ ދައްކާއިރު ޞަފްޙާ ޞަފްޙާއިން އައުންނައިރުކުރެވޭ…"
+#: allthethings/page/templates/page/search.html:17
+msgid "page.search.tabs.download"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:403
-#, fuzzy
-msgid "page.donate.submit.failure"
-msgstr "❌ ކަމެއް ރަނގަޅެއްވެސް. ޞަފްޙާ އައުންނައިރުކުރޭ އަދި އައުންނައިރުކުރޭ."
+#: allthethings/page/templates/page/search.html:18
+msgid "page.search.tabs.journals"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:463
-#, fuzzy
-msgid "page.donate.duration.summary.discount"
-msgstr "%(percentage)s%%"
+#: allthethings/page/templates/page/search.html:19
+msgid "page.search.tabs.digital_lending"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:464
-#, fuzzy
-msgid "page.donate.duration.summary.monthly_cost"
-msgstr "%(monthly_cost)s / މަސް"
+#: allthethings/page/templates/page/search.html:20
+msgid "page.search.tabs.metadata"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:467
-#, fuzzy
-msgid "page.donate.duration.summary.duration.1_mo"
-msgstr "1 މަސް އަދަދު"
+#: allthethings/page/templates/page/search.html:66
+#: allthethings/templates/layouts/index.html:492
+msgid "common.search.placeholder"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:468
-#, fuzzy
-msgid "page.donate.duration.summary.duration.3_mo"
-msgstr "3 މަސް އަދަދު"
+#: allthethings/page/templates/page/search.html:67
+msgid "common.search.submit"
+msgstr ""
 
-#: allthethings/account/templates/account/donate.html:469
-#, fuzzy
-msgid "page.donate.duration.summary.duration.6_mo"
-msgstr "6 މަސް އަދަދު"
+#: allthethings/page/templates/page/search.html:73
+#: allthethings/page/templates/page/search.html:127
+msgid "page.search.advanced.description_comments"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:344
-#, fuzzy
-msgid "page.donation.amazon.doesnt_work"
-msgstr "އެއްޗެހަށް ނުހިމެންނަމަށް އީމެއިލް ފޮނުވާންނަށް އަންނަންނަވާނެ އަދި އަނަ އެއްޗެހަށް މެނުއަލްއަށް ރިވިއު ކުރޭނެ (މިއަދު ދުވަހުގައި އެއްޗެހަށް އަދި އައުލައިން ފޮނުވާންނަށް މެންޝަން ކުރޭނެ)."
+#: allthethings/page/templates/page/search.html:81
+#: allthethings/page/templates/page/search.html:176
+msgid "page.search.filters.content.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:347
-#, fuzzy
-msgid "page.donation.amazon.example"
-msgstr "މިސައްތަ އެކްސާމްޕަލް:"
+#: allthethings/page/templates/page/search.html:85
+#: allthethings/page/templates/page/search.html:183
+msgid "page.search.filters.filetype.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:383
-#: allthethings/account/templates/account/donation.html:400
-#: allthethings/account/templates/account/donation.html:416
-#: allthethings/account/templates/account/donation.html:437
-#: allthethings/account/templates/account/donation.html:494
-#, fuzzy
-msgid "page.donate.strange_account"
-msgstr "އަކައުންޓްގެ ނަން ނުވަތަ ފޮޓޯ އަދި އެކްސަމްޕަލް އަކައުންޓްއެއް އަދި އެއްޗެހަށް އަދި އައުލައިން ފޮނުވާންނަށް މެންޝަން ކުރޭނެ. މި އަކައުންޓްތަކަށް އެއްޗެހަށް އަދި އައުލައިން ފޮނުވާންނަށް މެންޝަން ކުރޭނެ."
+#: allthethings/page/templates/page/search.html:89
+#: allthethings/page/templates/page/search.html:190
+msgid "page.search.filters.access.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:407
-#: allthethings/account/templates/account/donation.html:424
-#, fuzzy
-msgid "page.donation.payment.alipay.top_header"
-msgstr "އަލިޕޭ އިންސްޓްރަކްޝަންތައް"
+#: allthethings/page/templates/page/search.html:92
+#: allthethings/page/templates/page/search.html:196
+msgid "page.search.filters.source.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:409
-#: allthethings/account/templates/account/donation.html:426
-#, fuzzy
-msgid "page.donation.payment.alipay.header1"
-msgstr "<span %(span_circle)s>1</span>އަލިޕޭ އަށް ޑޯނޭޓް ކުރަން"
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:202
+msgid "page.search.filters.order_by.header"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:412
-#: allthethings/account/templates/account/donation.html:429
-#, fuzzy
-msgid "page.donation.payment.alipay.text1_new"
-msgstr "އަލިޕޭ އަށް ޑޯނޭޓް ކުރަން %(total)s އަދި <a %(a_account)s>މި އަލިޕޭ އެކައުންޓް</a> އަށް ބަލައިގަން"
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:205
+#: allthethings/page/templates/page/search.html:209
+msgid "page.search.filters.sorting.newest"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:433
-#, fuzzy
-msgid "page.donation.payment.alipay.error"
-msgstr "އަލިޕޭ ޞަފްޙާގެ ޞަފްޙާ އެއްޗެހަށް <strong>ކަންޓްރީގެ މެއިންލެންޑް ޗައިނާ</strong> އަށް އަދި އެއްޗެހަށް ވީޕީއެން ޑިސްއޭބަލް ކުރަންނަށް ނުހަދާންޖެހޭ، ނުވަތަ ކަންޓްރީގެ މެއިންލެންޑް ޗައިނާއިން (ނުވަތަ ހޮންގޮންގެއްޗެހަށް އެއްޗެހަށް އަދި އެއްޗެހަށް އަދި އައުލައިން ފޮނުވާންނަށް މެންޝަން ކުރޭނެ)."
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:205
+#: allthethings/page/templates/page/search.html:206
+msgid "page.search.filters.sorting.note_publication_year"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:459
-#, fuzzy
-msgid "page.donation.payment.wechat.top_header"
-msgstr "ވީޗާޓް އިންސްޓްރަކްޝަންތައް"
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:206
+#: allthethings/page/templates/page/search.html:210
+msgid "page.search.filters.sorting.oldest"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:461
-#, fuzzy
-msgid "page.donation.payment.wechat.header1"
-msgstr "<span %(span_circle)s>1</span>ވީޗާޓް އަށް ޑޯނޭޓް ކުރަން"
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:207
+msgid "page.search.filters.sorting.largest"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:464
-#, fuzzy
-msgid "page.donation.payment.wechat.text1"
-msgstr "ވީޗާޓް އަށް ޑޯނޭޓް ކުރަން %(total)s އަދި <a %(a_account)s>މި ވީޗާޓް އެކައުންޓް</a> އަށް ބަލައިގަން"
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:207
+#: allthethings/page/templates/page/search.html:208
+msgid "page.search.filters.sorting.note_filesize"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:37
-#: allthethings/page/templates/page/scidb_home.html:20
-#, fuzzy
-msgid "page.home.scidb.open"
-msgstr "ހުރިހާ"
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:208
+msgid "page.search.filters.sorting.smallest"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:39
-#, fuzzy
-msgid "page.home.scidb.browser_verification"
-msgstr "އެންމެ އައިން <a %(a_member)s>މެމްބަރު</a> އަށް ނުވަތަ ބްރައުޒަރު ވެރިފިކޭޝަން ނުބައިލާ."
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:209
+#: allthethings/page/templates/page/search.html:210
+msgid "page.search.filters.sorting.note_open_sourced"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:46
-#, fuzzy
-msgid "page.home.archive.body"
-msgstr "އެނައްނަގެ ޑޭޓާސެޓްސް ހުރިހާއިރުކޮށް އޮޕަން އަށް، ޓޯރަންޓްސް ދައްކަން އަށް ބަލައިފިނަމަ މިރަރުކޮށްލާނެ. <a %(a_datasets)s>އިތުރަށް ބަލާ…</a>"
+#: allthethings/page/templates/page/search.html:98
+#: allthethings/page/templates/page/search.html:213
+msgid "page.search.filters.language.header"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:50
-#, fuzzy
-msgid "page.home.torrents.body"
-msgstr "ޓޯރަންޓްސް ސީޑްކޮށް އެންމެރަލްސްލާނެ. <a %(a_torrents)s>އިތުރަށް ބަލާ…</a>"
+#: allthethings/page/templates/page/search.html:103
+#: allthethings/page/templates/page/search.html:106
+msgid "page.search.search_settings"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:53
-#: allthethings/page/templates/page/torrents.html:86
-#, fuzzy
-msgid "page.home.torrents.legend_less"
-msgstr "<%(count)s ސީޑަރުން"
+#: allthethings/page/templates/page/search.html:112
+#: allthethings/page/templates/page/search.html:224
+msgid "page.search.submit"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:54
-#: allthethings/page/templates/page/torrents.html:87
-#, fuzzy
-msgid "page.home.torrents.legend_range"
-msgstr "%(count_min)s–%(count_max)s ސީޑަރުން"
+#: allthethings/page/templates/page/search.html:117
+msgid "page.search.too_long_broad_query"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:55
-#: allthethings/page/templates/page/torrents.html:88
-#, fuzzy
-msgid "page.home.torrents.legend_greater"
-msgstr ">%(count)s ސީޑަރުން"
+#: allthethings/page/templates/page/search.html:121
+#: allthethings/page/templates/page/search.html:328
+#: allthethings/page/templates/page/search.html:335
+msgid "page.search.too_inaccurate"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:67
-#, fuzzy
-msgid "page.home.llm.header"
-msgstr "LLM ޓްރޭނިންގް ޑޭޓާ"
+#: allthethings/page/templates/page/search.html:125
+msgid "page.search.advanced.header"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:70
-#, fuzzy
-msgid "page.home.llm.body"
-msgstr "އައިންގެ ދައުރުކަން މަގުމަތް ޓެކްސްޓް ޑޭޓާގެ މައިސްޓަރް ކޮލެކްޝަން އަށްހަދަނީ. <a %(a_llm)s>އިތުރަށް ބަލާ…</a>"
+#: allthethings/page/templates/page/search.html:131
+msgid "page.search.advanced.add_specific"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:73
-#, fuzzy
-msgid "page.home.mirrors.header"
-msgstr "🪩 މިރަރުން: ވޮލަންޓިއަރުންނާ ހަދަން"
+#: allthethings/page/templates/page/search.html:143
+msgid "common.specific_search_fields.select"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:75
-#, fuzzy
-msgid "page.home.volunteering.header"
-msgstr "🤝 ވޮލަންޓިއަރުންނާ ހަދަން"
+#: allthethings/page/templates/page/search.html:143
+msgid "page.search.advanced.field.year_published"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:77
-#, fuzzy
-msgid "page.home.volunteering.help_out"
-msgstr "އެންމެ ނޮން-ޕްރޮފިޓް، އޯޕަން-ސޯސް ޕްރޮޖެކްޓްއަށް، އައިން ހަދަން ދައްކަންވީ."
+#: allthethings/page/templates/page/search.html:199
+msgid "page.search.filters.source.scraped"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:96
-#, fuzzy
-msgid "page.home.payment_processor.body"
-msgstr "އައިން ހައި-ރިސްކް އެނޮނިމަސް ޕޭމަންޓް ޕްރޮސެސަރު ރަންކޮށްލާނެ، މިންނަން އައިންއަށް އެންމެ ސްމޯލް އެޑްސް ޕްލޭސްކޮށްލާނެ. ހައިންކޮށްލަން ހަދަންވީ އައިންގެ ޕްރެސެރވޭޝަން އެފަރޓްސްއަށް."
+#: allthethings/page/templates/page/search.html:204
+msgid "page.search.filters.sorting.most_relevant"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:104
-#: allthethings/templates/layouts/index.html:484
-#: allthethings/templates/layouts/index.html:563
-#, fuzzy
-msgid "layout.index.header.nav.annasblog"
-msgstr "އެނައްނަގެ ބްލޮގް ↗"
+#: allthethings/page/templates/page/search.html:219
+msgid "page.search.more"
+msgstr ""
 
-#: allthethings/page/templates/page/ipfs_downloads.html:3
-#: allthethings/page/templates/page/ipfs_downloads.html:10
-#, fuzzy
-msgid "page.ipfs_downloads.title"
-msgstr "IPFS ޑައުންލޯޑްސް"
+#: allthethings/page/templates/page/search.html:228
+msgid "page.search.header.update_info"
+msgstr ""
 
-#: allthethings/page/templates/page/ipfs_downloads.html:13
-#: allthethings/page/templates/page/partner_download.html:25
-#, fuzzy
-msgid "page.partner_download.main_page"
-msgstr "🔗 މި ފައިލްގެ ޑައުންލޯޑް ލިންކްސް ހުރިހާ: <a %(a_main)s>ފައިލް މައިން ޞަފްހާ</a>."
+#: allthethings/page/templates/page/search.html:240
+msgid "page.search.results.search_downloads"
+msgstr ""
 
-#: allthethings/page/templates/page/ipfs_downloads.html:18
-#, fuzzy
-msgid "page.md5.box.download.ipfs_gateway"
-msgstr "IPFS ގޭޓްވޭ #%(num)d"
+#: allthethings/page/templates/page/search.html:241
+msgid "page.search.results.help_preserve"
+msgstr ""
 
-#: allthethings/page/templates/page/ipfs_downloads.html:18
-#, fuzzy
-msgid "page.md5.box.download.ipfs_gateway_extra"
-msgstr "(IPFS އަށް އެންމެ ފަހަރަކަށް ހަދަންވީ)"
+#: allthethings/page/templates/page/search.html:244
+msgid "page.search.results.most_comprehensive"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:247
+msgid "page.search.results.other_shadow_libs"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:248
+msgid "page.search.results.dmca"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:252
+#: allthethings/page/templates/page/search.html:277
+#: allthethings/page/templates/page/search.html:298
+#: allthethings/page/templates/page/search.html:306
+msgid "page.search.results.shortcuts"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:256
+#: allthethings/page/templates/page/search.html:313
+msgid "page.search.results.looking_for_papers"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:263
+msgid "page.search.results.search_journals"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:267
+msgid "page.search.results.search_digital_lending"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:270
+msgid "page.search.results.digital_lending_info"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:273
+msgid "page.search.results.digital_lending_info_more"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:281
+msgid "page.search.results.search_metadata"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:283
+msgid "page.search.results.metadata_info"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:284
+msgid "page.search.results.metadata_no_merging"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:294
+msgid "page.search.results.metadata_info_more"
+msgstr ""
+
+#: allthethings/page/templates/page/search.html:302
+msgid "page.search.results.search_generic"
+msgstr ""
 
 #: allthethings/page/templates/page/search.html:322
 #, fuzzy
@@ -2198,63 +3404,184 @@ msgstr "އަންނަވާ ދަރިވަރުން އައުރަށް ސަބަބަކު�
 msgid "layout.index.header.banner.mirrors"
 msgstr "އެންނާގެ އާރކައިވްގެ ރިޒިލިއެންސީ އަދި ބައިވަރަކުރަންތަކަށް، މިރަރުތަކުރަން ވަލެންޓިއަރުން ހަދަންނަވާނެ."
 
-#: allthethings/account/templates/account/donation.html:300
-#, fuzzy
-msgid "page.donation.crypto_standard"
-msgstr "އައިންސްޓަންޑަރޑް ވަރޝަން އޮފް ކްރިޕްޓޮ ކޮއިންސް އަދި ނުވަތަ އިކްސޮޓިކް ނެޓްވަރކްސް ނުވަތަ ވަރޝަންސް އޮފް ކޮއިންސްއެއް ނުހިމެނޭ. ޓްރާންސެކްޝަން ކޮންފަރމް ކުރަން އެއްޗެހަށް އަދި ކޮއިންގެ ބަދަލުންނަށް ބައިވެރިންނަށް އަދި އަހަރެއްޗެހަށް އެއްޗެހަށް ލިބޭނެ."
+#: allthethings/templates/layouts/index.html:247
+msgid "layout.index.header.banner.valentine_gift"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:317
-#, fuzzy
-msgid "page.donation.amazon.header"
-msgstr "އެމަޒޮން ގިފްޓް ކާޑް"
+#: allthethings/templates/layouts/index.html:266
+msgid "layout.index.header.banner.new_donation_method"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:320
-#, fuzzy
-msgid "page.donation.amazon.form_instructions"
-msgstr "މަޢުލޫމާތު އެމަޒޮންގެ <a %(a_form)s>އޮފިޝަލް ފޯމް</a> އަށް ބަލައިގަން އެމަޒޮން ގިފްޓް ކާޑް %(amount)s އިން ތިބާގެ އީމެއިލް އެޑްރެސްއަށް ފޮނުވާން."
+#: allthethings/templates/layouts/index.html:273
+msgid "layout.index.banners.comics_fundraiser.text"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:321
-#, fuzzy
-msgid "page.donation.amazon.only_official"
-msgstr "އެމަޒޮންގެ އޮފިޝަލް ފޯމް ނުބައިވަރު އެއްޗެހަށް ގިފްޓް ކާޑްތަކަށް އަންނަންނަވާނެ. <strong>އެމަޒޮންގެ އޮފިޝަލް ފޯމް ނުބައިވަރު އެއްޗެހަށް ގިފްޓް ކާޑް ނުހިމެނޭނެ. </strong>އެއްޗެހަށް އެމަޒޮންގެ އޮފިޝަލް ފޯމް ނުބައިވަރު ގިފްޓް ކާޑް ފޮނުވާންނަށް އަންނަންނަވާނެ."
+#: allthethings/templates/layouts/index.html:364
+msgid "layout.index.header.recent_downloads"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:326
-#, fuzzy
-msgid "page.donate.payment.desc.amazon_message"
-msgstr "މެސެޖެއް ނުލިޔާންޖެހޭ."
+#: allthethings/templates/layouts/index.html:447
+#: allthethings/templates/layouts/index.html:460
+#: allthethings/templates/layouts/index.html:475
+#: allthethings/templates/layouts/index.html:542
+msgid "layout.index.header.nav.search"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:330
-#, fuzzy
-msgid "page.donation.amazon.form_to"
-msgstr "“އަށް” ރިސިޕިއެންޓް އީމެއިލް ފޯމްއަށް:"
+#: allthethings/templates/layouts/index.html:449
+#: allthethings/templates/layouts/index.html:462
+#: allthethings/templates/layouts/index.html:477
+#: allthethings/templates/layouts/index.html:544
+#: allthethings/templates/layouts/index.html:570
+msgid "layout.index.header.nav.faq"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:331
-#, fuzzy
-msgid "page.donation.amazon.unique"
-msgstr "ތިބާގެ އައިންސްޓަންޓްއަށް އަދި ނުހަދާންޖެހޭ."
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:571
+msgid "layout.index.header.nav.improve_metadata"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:335
-#, fuzzy
-msgid "page.donation.amazon.waiting_gift_card"
-msgstr "ގިފްޓް ކާޑް ހުރިހާއިރު... (ޞަފްޙާގައި ޞަފްޙާ ކުރަންނަށް ބަލައިގަން)"
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:572
+msgid "layout.index.header.nav.volunteering"
+msgstr ""
 
-#: allthethings/account/templates/account/donation.html:343
-#, fuzzy
-msgid "page.donation.amazon.confirm_automated"
-msgstr "ތިބާ ގިފްޓް ކާޑް ފޮނުވާނަމަށް، ތިބާގެ އޮޓޯމެޓެޑް ސިސްޓަމް އެއްޗެހަށް މިނިޓުތަކަށް ކޮންފަރމް ކުރޭނެ. އެއްޗެހަށް ނުހިމެންނަމަށް، ގިފްޓް ކާޑް އައުލައިން ފޮނުވާންނަށް އަންނަންނަވާނެ (<a %(a_instr)s>އިންސްޓްރަކްޝަންތައް</a>)."
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:465
+#: allthethings/templates/layouts/index.html:480
+#: allthethings/templates/layouts/index.html:573
+msgid "layout.index.header.nav.datasets"
+msgstr ""
 
-#: allthethings/page/views.py:4715
-#, fuzzy
-msgid "common.record_sources_mapping.lgli"
-msgstr "Libgen.li"
+#: allthethings/templates/layouts/index.html:453
+#: allthethings/templates/layouts/index.html:466
+#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:574
+msgid "layout.index.header.nav.torrents"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:36
-#: allthethings/page/templates/page/scidb_home.html:19
-#, fuzzy
-msgid "page.home.scidb.placeholder_doi"
-msgstr "DOI"
+#: allthethings/templates/layouts/index.html:454
+#: allthethings/templates/layouts/index.html:467
+#: allthethings/templates/layouts/index.html:482
+#: allthethings/templates/layouts/index.html:575
+msgid "layout.index.header.nav.codes"
+msgstr ""
 
-#: allthethings/page/templates/page/home.html:43
+#: allthethings/templates/layouts/index.html:455
+#: allthethings/templates/layouts/index.html:468
+#: allthethings/templates/layouts/index.html:483
+#: allthethings/templates/layouts/index.html:576
+msgid "layout.index.header.nav.llm_data"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:456
+#: allthethings/templates/layouts/index.html:469
+#: allthethings/templates/layouts/index.html:474
+#: allthethings/templates/layouts/index.html:541
+msgid "layout.index.header.nav.home"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:485
+#: allthethings/templates/layouts/index.html:564
+msgid "layout.index.header.nav.annassoftware"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:486
+#: allthethings/templates/layouts/index.html:565
+msgid "layout.index.header.nav.translate"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:499
+#: allthethings/templates/layouts/index.html:503
+#: allthethings/templates/layouts/index.html:508
+msgid "layout.index.header.nav.login_register"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:515
+#: allthethings/templates/layouts/index.html:522
+#: allthethings/templates/layouts/index.html:527
+msgid "layout.index.header.nav.account"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:540
+msgid "layout.index.footer.list1.header"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:559
+msgid "layout.index.footer.list2.header"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:561
+msgid "layout.index.footer.list2.dmca_copyright"
+msgstr ""
+
+#: allthethings/templates/layouts/index.html:562
 #, fuzzy
-msgid "page.home.archive.header"
-msgstr "ލޮންގް-ޓަރމް އާރކައިވް"
+msgid "layout.index.footer.list2.reddit"
+msgstr "Reddit"
+
+#: allthethings/templates/layouts/index.html:562
+#, fuzzy
+msgid "layout.index.footer.list2.telegram"
+msgstr "Telegram"
+
+#: allthethings/templates/layouts/index.html:569
+#, fuzzy
+msgid "layout.index.header.nav.advanced"
+msgstr "އެޑްވާންސްޑް"
+
+#: allthethings/templates/layouts/index.html:577
+#, fuzzy
+msgid "layout.index.header.nav.security"
+msgstr "ސިކިއުރިޓީ"
+
+#: allthethings/templates/layouts/index.html:581
+#, fuzzy
+msgid "layout.index.footer.list3.header"
+msgstr "އަލްޓަރނޭޓިވްސް"
+
+#: allthethings/templates/macros/aarecord_list.html:66
+#, fuzzy
+msgid "page.search.results.download_time"
+msgstr "ޑައުންލޯޑް ޓައިމް"
+
+#: allthethings/templates/macros/aarecord_list.html:66
+#, fuzzy
+msgid "page.search.results.fast_download"
+msgstr "ފާސްޓް ޑައުންލޯޑް"
+
+#: allthethings/templates/macros/aarecord_list.html:75
+#, fuzzy
+msgid "page.search.results.issues"
+msgstr "❌ މި ފައިލްގައި އިސިއުސް އެއް އިންނަގަންނަވާނެ."
+
+#: allthethings/templates/macros/copy_button.html:2
+#, fuzzy
+msgid "page.donate.copy"
+msgstr "ކޮޕީ"
+
+#: allthethings/templates/macros/copy_button.html:2
+#, fuzzy
+msgid "page.donate.copied"
+msgstr "ކޮޕީ ކުރިއްޔާ!"
+
+#: allthethings/templates/macros/pagination.html:24
+#: allthethings/templates/macros/pagination.html:29
+#, fuzzy
+msgid "page.search.pagination.prev"
+msgstr "ފަހަތަށް"
+
+#: allthethings/templates/macros/pagination.html:37
+#, fuzzy
+msgid "page.search.pagination.numbers_spacing"
+msgstr "…"
+
+#: allthethings/templates/macros/pagination.html:44
+#: allthethings/templates/macros/pagination.html:49
+#, fuzzy
+msgid "page.search.pagination.next"
+msgstr "ދެން"
+

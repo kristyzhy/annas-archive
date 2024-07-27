@@ -1,24 +1,3 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2024-07-27 14:40+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language: mzn\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
-
-#: allthethings/utils.py:375
-#, fuzzy
-msgid "common.membership.tier_name.3"
-msgstr "کتابدار خوش‌شانس"
-
-#: allthethings/utils.py:376
-#, fuzzy
-msgid "common.membership.tier_name.4"
-msgstr "داده‌اندوز درخشان"
-
 #: allthethings/app.py:201
 #, fuzzy
 msgid "layout.index.invalid_request"
@@ -149,6 +128,16 @@ msgstr "دانلودهای اضافی"
 #, fuzzy
 msgid "common.membership.tier_name.2"
 msgstr "کتاب‌خوان باهوش"
+
+#: allthethings/utils.py:375
+#, fuzzy
+msgid "common.membership.tier_name.3"
+msgstr "کتابدار خوش‌شانس"
+
+#: allthethings/utils.py:376
+#, fuzzy
+msgid "common.membership.tier_name.4"
+msgstr "داده‌اندوز درخشان"
 
 #: allthethings/utils.py:377
 #, fuzzy
@@ -308,11 +297,6 @@ msgstr "کسب <strong>%(percentage)s%% دانلود اضافی</strong> با <a
 msgid "page.donate.perks.credits"
 msgstr "نام کاربری شما یا ذکر ناشناس در اعتبارنامه‌ها"
 
-#: allthethings/account/templates/account/donate.html:140
-#, fuzzy
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (Brazil)"
-
 #: allthethings/account/templates/account/donate.html:63
 #: allthethings/account/templates/account/donate.html:77
 #: allthethings/account/templates/account/donate.html:91
@@ -465,6 +449,11 @@ msgstr "پی‌پال (ایالات متحده) %(bitcoin_icon)s"
 #, fuzzy
 msgid "page.donate.payment.buttons.alipay"
 msgstr "علی‌پی"
+
+#: allthethings/account/templates/account/donate.html:140
+#, fuzzy
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (Brazil)"
 
 #: allthethings/account/templates/account/donate.html:145
 #, fuzzy
@@ -1045,11 +1034,6 @@ msgstr "وضعیت:"
 msgid "page.donation.waiting_for_confirmation_refresh"
 msgstr "در انتظار تأیید (برای بررسی صفحه را تازه کنید)…"
 
-#: allthethings/account/templates/account/profile.html:15
-#, fuzzy
-msgid "page.profile.change_display_name.button"
-msgstr "ذخیره"
-
 #: allthethings/account/templates/account/donation.html:148
 #: allthethings/account/templates/account/donation.html:191
 #: allthethings/account/templates/account/donation.html:234
@@ -1188,11 +1172,6 @@ msgstr "در انتظار کارت هدیه... (برای بررسی صفحه ر�
 #, fuzzy
 msgid "page.donation.amazon.confirm_automated"
 msgstr "پس از ارسال کارت هدیه، سیستم خودکار ما آن را در عرض چند دقیقه تأیید خواهد کرد. اگر این کار نکرد، سعی کنید کارت هدیه خود را دوباره ارسال کنید (<a %(a_instr)s>دستورالعمل‌ها</a>)."
-
-#: allthethings/page/views.py:4715
-#, fuzzy
-msgid "common.record_sources_mapping.lgli"
-msgstr "Libgen.li"
 
 #: allthethings/account/templates/account/donation.html:344
 #, fuzzy
@@ -1335,11 +1314,6 @@ msgstr "4. کیف پول \"خود میزبان\" را انتخاب کنید."
 #, fuzzy
 msgid "page.donation.hoodpay.step5"
 msgstr "5. روی \"مالکیت را تأیید می‌کنم\" کلیک کنید."
-
-#: allthethings/page/views.py:4716
-#, fuzzy
-msgid "common.record_sources_mapping.zlib"
-msgstr "آرشیو آنا"
 
 #: allthethings/account/templates/account/donation.html:573
 #, fuzzy
@@ -1491,11 +1465,6 @@ msgstr "اگر علاقه‌مند به ارتقاء عضویت خود به سط
 #, fuzzy
 msgid "page.account.logged_in.membership_multiple"
 msgstr "شما می‌توانید چندین عضویت را ترکیب کنید (دانلودهای سریع در هر ۲۴ ساعت با هم جمع می‌شوند)."
-
-#: allthethings/account/templates/account/profile.html:14
-#, fuzzy
-msgid "page.profile.change_display_name.text"
-msgstr "نام نمایشی خود را تغییر دهید. شناسه شما (قسمت بعد از “#”) قابل تغییر نیست."
 
 #: allthethings/account/templates/account/index.html:41
 #: allthethings/templates/layouts/index.html:512
@@ -1656,10 +1625,15 @@ msgstr "پروفایل یافت نشد."
 msgid "page.profile.header.edit"
 msgstr "ویرایش"
 
-#: allthethings/page/views.py:4717
+#: allthethings/account/templates/account/profile.html:14
 #, fuzzy
-msgid "common.record_sources_mapping.ia"
-msgstr "IA"
+msgid "page.profile.change_display_name.text"
+msgstr "نام نمایشی خود را تغییر دهید. شناسه شما (قسمت بعد از “#”) قابل تغییر نیست."
+
+#: allthethings/account/templates/account/profile.html:15
+#, fuzzy
+msgid "page.profile.change_display_name.button"
+msgstr "ذخیره"
 
 #: allthethings/account/templates/account/profile.html:18
 #, fuzzy
@@ -1712,414 +1686,429 @@ msgstr "این سکه حداقل بالاتری از حد معمول دارد. �
 msgid "dyn.buy_membership.error.wait"
 msgstr "خطا در پردازش پرداخت. لطفاً یک لحظه صبر کنید و دوباره تلاش کنید. اگر مشکل بیش از ۲۴ ساعت ادامه داشت، لطفاً با ما در %(email)s با یک اسکرین‌شات تماس بگیرید."
 
-#: allthethings/page/views.py:4416
+#: allthethings/page/views.py:3782
 #, fuzzy
 msgid "page.md5.box.download.affected_files"
 msgstr "%(count)s صفحات تحت تأثیر قرار گرفتند"
 
-#: allthethings/page/views.py:4676
+#: allthethings/page/views.py:4762
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "در Libgen.rs غیر داستانی قابل مشاهده نیست"
 
-#: allthethings/page/views.py:4677
+#: allthethings/page/views.py:4763
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "در Libgen.rs داستانی قابل مشاهده نیست"
 
-#: allthethings/page/views.py:4678
+#: allthethings/page/views.py:4764
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "در Libgen.li قابل مشاهده نیست"
 
-#: allthethings/page/views.py:4679
+#: allthethings/page/views.py:4765
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "در Libgen.li خراب علامت‌گذاری شده است"
 
-#: allthethings/page/views.py:4680
+#: allthethings/page/views.py:4766
 #, fuzzy
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "در Z-Library موجود نیست"
 
-#: allthethings/page/views.py:4681
+#: allthethings/page/views.py:4767
 #, fuzzy
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
 msgstr "همه صفحات نمی‌توانند به PDF تبدیل شوند"
 
-#: allthethings/page/views.py:4682
+#: allthethings/page/views.py:4768
 #, fuzzy
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
 msgstr "اجرای exiftool بر روی این فایل شکست خورد"
 
-#: allthethings/page/views.py:4688
+#: allthethings/page/views.py:4774
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "کتاب (ناشناخته)"
 
-#: allthethings/page/views.py:4689
+#: allthethings/page/views.py:4775
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "کتاب (غیر داستانی)"
 
-#: allthethings/page/views.py:4690
+#: allthethings/page/views.py:4776
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "کتاب (داستانی)"
 
-#: allthethings/page/views.py:4691
+#: allthethings/page/views.py:4777
 #, fuzzy
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "مقالهٔ ژورنال"
 
-#: allthethings/page/views.py:4692
+#: allthethings/page/views.py:4778
 #, fuzzy
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "سند استاندارد"
 
-#: allthethings/page/views.py:4693
+#: allthethings/page/views.py:4779
 #, fuzzy
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "مجله"
 
-#: allthethings/page/views.py:4694
+#: allthethings/page/views.py:4780
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "کتاب کمیک"
 
-#: allthethings/page/views.py:4695
+#: allthethings/page/views.py:4781
 #, fuzzy
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "پارتیتور موسیقی"
 
-#: allthethings/page/views.py:4696
+#: allthethings/page/views.py:4782
 #, fuzzy
 msgid "common.md5_content_type_mapping.other"
 msgstr "دیگر"
 
-#: allthethings/page/views.py:4702
+#: allthethings/page/views.py:4788
 #, fuzzy
 msgid "common.access_types_mapping.aa_download"
 msgstr "دانلود از سرور شریک"
 
-#: allthethings/page/views.py:4703
+#: allthethings/page/views.py:4789
 #, fuzzy
 msgid "common.access_types_mapping.aa_scidb"
 msgstr "SciDB"
 
-#: allthethings/page/views.py:4704
+#: allthethings/page/views.py:4790
 #, fuzzy
 msgid "common.access_types_mapping.external_download"
 msgstr "دانلود خارجی"
 
-#: allthethings/page/views.py:4705
+#: allthethings/page/views.py:4791
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow"
 msgstr "امانت خارجی"
 
-#: allthethings/page/views.py:4706
+#: allthethings/page/views.py:4792
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "امانت خارجی (برای افراد دارای ناتوانی چاپ)"
 
-#: allthethings/page/views.py:4707
+#: allthethings/page/views.py:4793
 #, fuzzy
 msgid "common.access_types_mapping.meta_explore"
 msgstr "کاوش در متادیتا"
 
-#: allthethings/page/views.py:4708
+#: allthethings/page/views.py:4794
 #, fuzzy
 msgid "common.access_types_mapping.torrents_available"
 msgstr "موجود در تورنت‌ها"
 
-#: allthethings/page/views.py:4714
+#: allthethings/page/views.py:4800
 #, fuzzy
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:4718
+#: allthethings/page/views.py:4801
+#, fuzzy
+msgid "common.record_sources_mapping.lgli"
+msgstr "Libgen.li"
+
+#: allthethings/page/views.py:4802
+#, fuzzy
+msgid "common.record_sources_mapping.zlib"
+msgstr "آرشیو آنا"
+
+#: allthethings/page/views.py:4803
+#, fuzzy
+msgid "common.record_sources_mapping.ia"
+msgstr "IA"
+
+#: allthethings/page/views.py:4804
 #, fuzzy
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:4719
+#: allthethings/page/views.py:4805
 #, fuzzy
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:4720
+#: allthethings/page/views.py:4806
 #, fuzzy
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:4721
+#: allthethings/page/views.py:4807
 #, fuzzy
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
-#: allthethings/page/views.py:4722
+#: allthethings/page/views.py:4808
 #, fuzzy
 msgid "common.record_sources_mapping.duxiu"
 msgstr "DuXiu 读秀"
 
-#: allthethings/page/views.py:4723
+#: allthethings/page/views.py:4809
 #, fuzzy
 msgid "common.record_sources_mapping.uploads"
 msgstr "بارگذاری‌ها به AA"
 
-#: allthethings/page/views.py:4729
+#: allthethings/page/views.py:4815
 #, fuzzy
 msgid "common.specific_search_fields.title"
 msgstr "سرت"
 
-#: allthethings/page/views.py:4730
+#: allthethings/page/views.py:4816
 #, fuzzy
 msgid "common.specific_search_fields.author"
 msgstr "نویسنده"
 
-#: allthethings/page/views.py:4731
+#: allthethings/page/views.py:4817
 #, fuzzy
 msgid "common.specific_search_fields.publisher"
 msgstr "ناشر"
 
-#: allthethings/page/views.py:4732
+#: allthethings/page/views.py:4818
 #, fuzzy
 msgid "common.specific_search_fields.edition_varia"
 msgstr "چاپ"
 
-#: allthethings/page/views.py:4733
+#: allthethings/page/views.py:4819
 #, fuzzy
 msgid "common.specific_search_fields.year"
 msgstr "سال انتشار"
 
-#: allthethings/page/views.py:4734
+#: allthethings/page/views.py:4820
 #, fuzzy
 msgid "common.specific_search_fields.original_filename"
 msgstr "نام اصلی فایل"
 
-#: allthethings/page/views.py:4735
+#: allthethings/page/views.py:4821
 #, fuzzy
 msgid "common.specific_search_fields.description_comments"
 msgstr "توضیحات و نظرات متادیتا"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.fast_partner"
 msgstr "سرور شریک سریع #%(number)s"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification_or_waitlists"
 msgstr "(بدون تأیید مرورگر یا لیست انتظار)"
 
-#: allthethings/page/views.py:4763 allthethings/page/views.py:4765
+#: allthethings/page/views.py:4849 allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_partner"
 msgstr "سرور شریک کند #%(number)s"
 
-#: allthethings/page/views.py:4763
+#: allthethings/page/views.py:4849
 #, fuzzy
 msgid "common.md5.servers.faster_with_waitlist"
 msgstr "(کمی سریع‌تر اما با لیست انتظار)"
 
-#: allthethings/page/views.py:4765
+#: allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_no_waitlist"
 msgstr "(بدون لیست انتظار، اما می‌تواند بسیار کند باشد)"
 
-#: allthethings/page/views.py:4854
+#: allthethings/page/views.py:4940
 #, fuzzy
 msgid "page.md5.box.descr_title"
 msgstr "توضیحات"
 
-#: allthethings/page/views.py:4855
+#: allthethings/page/views.py:4941
 #, fuzzy
 msgid "page.md5.box.metadata_comments_title"
 msgstr "نظرات متادیتا"
 
-#: allthethings/page/views.py:4856
+#: allthethings/page/views.py:4942
 #, fuzzy
 msgid "page.md5.box.alternative_title"
 msgstr "عنوان جایگزین"
 
-#: allthethings/page/views.py:4857
+#: allthethings/page/views.py:4943
 #, fuzzy
 msgid "page.md5.box.alternative_author"
 msgstr "نویسنده جایگزین"
 
-#: allthethings/page/views.py:4858
+#: allthethings/page/views.py:4944
 #, fuzzy
 msgid "page.md5.box.alternative_publisher"
 msgstr "ناشر جایگزین"
 
-#: allthethings/page/views.py:4859
+#: allthethings/page/views.py:4945
 #, fuzzy
 msgid "page.md5.box.alternative_edition"
 msgstr "چاپ جایگزین"
 
-#: allthethings/page/views.py:4860
+#: allthethings/page/views.py:4946
 #, fuzzy
 msgid "page.md5.box.alternative_description"
 msgstr "توضیحات جایگزین"
 
-#: allthethings/page/views.py:4861
+#: allthethings/page/views.py:4947
 #, fuzzy
 msgid "page.md5.box.alternative_filename"
 msgstr "نام جایگزین فایل"
 
-#: allthethings/page/views.py:4862
+#: allthethings/page/views.py:4948
 #, fuzzy
 msgid "page.md5.box.alternative_extension"
 msgstr "گزینه جایگزین"
 
-#: allthethings/page/views.py:4863
+#: allthethings/page/views.py:4949
 #, fuzzy
 msgid "page.md5.box.date_open_sourced_title"
 msgstr "تاریخ منبع باز شدن"
 
-#: allthethings/page/views.py:4899
+#: allthethings/page/views.py:4985
 #, fuzzy
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "دانلودهای سرور شریک برای این فایل موقتاً در دسترس نیست."
 
-#: allthethings/page/views.py:4903 allthethings/page/views.py:5086
+#: allthethings/page/views.py:4989 allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:4977
+#: allthethings/page/views.py:5063
 #, fuzzy
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs غیر داستانی"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(همچنین روی \"GET\" در بالا کلیک کنید)"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(روی \"GET\" در بالا کلیک کنید)"
 
-#: allthethings/page/views.py:4990
+#: allthethings/page/views.py:5076
 #, fuzzy
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs داستانی"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.libgen_ads"
 msgstr "تبلیغات آن‌ها به داشتن نرم‌افزارهای مخرب معروف هستند، بنابراین از مسدودکننده تبلیغات استفاده کنید یا روی تبلیغات کلیک نکنید"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.ia_borrow"
 msgstr "قرض گرفتن از Internet Archive"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(فقط برای کاربران ناتوان در چاپ)"
 
-#: allthethings/page/views.py:5086
+#: allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(DOI مرتبط ممکن است در Sci-Hub موجود نباشد)"
 
-#: allthethings/page/views.py:5092
+#: allthethings/page/views.py:5178
 #, fuzzy
 msgid "page.md5.box.download.collection"
 msgstr "مجموعه"
 
-#: allthethings/page/views.py:5093
+#: allthethings/page/views.py:5179
 #, fuzzy
 msgid "page.md5.box.download.torrent"
 msgstr "تورنت"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "دانلودهای تورنت عمده"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.experts_only"
 msgstr "(فقط برای کارشناسان)"
 
-#: allthethings/page/views.py:5106
+#: allthethings/page/views.py:5192
 #, fuzzy
 msgid "page.md5.box.download.aa_isbn"
 msgstr "جستجو در Anna’s Archive برای ISBN"
 
-#: allthethings/page/views.py:5107
+#: allthethings/page/views.py:5193
 #, fuzzy
 msgid "page.md5.box.download.other_isbn"
 msgstr "جستجو در پایگاه‌های داده مختلف برای ISBN"
 
-#: allthethings/page/views.py:5109
+#: allthethings/page/views.py:5195
 #, fuzzy
 msgid "page.md5.box.download.original_isbndb"
 msgstr "یافتن رکورد اصلی در ISBNdb"
 
-#: allthethings/page/views.py:5111
+#: allthethings/page/views.py:5197
 #, fuzzy
 msgid "page.md5.box.download.aa_openlib"
 msgstr "جستجوی بایگانی آنا برای شناسه Open Library"
 
-#: allthethings/page/views.py:5113
+#: allthethings/page/views.py:5199
 #, fuzzy
 msgid "page.md5.box.download.original_openlib"
 msgstr "یافتن رکورد اصلی در Open Library"
 
-#: allthethings/page/views.py:5115
+#: allthethings/page/views.py:5201
 #, fuzzy
 msgid "page.md5.box.download.aa_oclc"
 msgstr "جستجوی بایگانی آنا برای شماره OCLC (WorldCat)"
 
-#: allthethings/page/views.py:5116
+#: allthethings/page/views.py:5202
 #, fuzzy
 msgid "page.md5.box.download.original_oclc"
 msgstr "یافتن رکورد اصلی در WorldCat"
 
-#: allthethings/page/views.py:5118
+#: allthethings/page/views.py:5204
 #, fuzzy
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "جستجوی بایگانی آنا برای شماره SSID DuXiu"
 
-#: allthethings/page/views.py:5119
+#: allthethings/page/views.py:5205
 #, fuzzy
 msgid "page.md5.box.download.original_duxiu"
 msgstr "جستجوی دستی در DuXiu"
 
-#: allthethings/page/views.py:5121
+#: allthethings/page/views.py:5207
 #, fuzzy
 msgid "page.md5.box.download.aa_cadal"
 msgstr "جستجوی بایگانی آنا برای شماره SSNO CADAL"
 
-#: allthethings/page/views.py:5122
+#: allthethings/page/views.py:5208
 #, fuzzy
 msgid "page.md5.box.download.original_cadal"
 msgstr "یافتن رکورد اصلی در CADAL"
 
-#: allthethings/page/views.py:5126
+#: allthethings/page/views.py:5212
 #, fuzzy
 msgid "page.md5.box.download.aa_dxid"
 msgstr "جستجوی بایگانی آنا برای شماره DXID DuXiu"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "page.md5.box.download.scidb"
 msgstr "بایگانی آنا 🧬 SciDB"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(بدون نیاز به تأیید مرورگر)"
@@ -2339,11 +2328,6 @@ msgstr "تبدیل: از ابزارهای آنلاین برای تبدیل بی�
 msgid "page.md5.box.download.kindle"
 msgstr "Kindle: فایل را دانلود کنید (pdf یا epub پشتیبانی می‌شوند)، سپس <a %(a_kindle)s>آن را به Kindle ارسال کنید</a> با استفاده از وب، اپلیکیشن یا ایمیل. ابزارهای مفید: <a %(a_kobosend)s rel=\"noopener noreferrer nofollow\">1</a>."
 
-#: allthethings/page/templates/page/faq.html:161
-#, fuzzy
-msgid "page.request.dont_email"
-msgstr "درخواست کتاب خود را به ما ایمیل نکنید."
-
 #: allthethings/page/templates/page/aarecord.html:258
 #, fuzzy
 msgid "page.md5.box.download.support_authors"
@@ -2522,11 +2506,6 @@ msgstr "نمایش ایمیل"
 #, fuzzy
 msgid "page.faq.metadata.inspiration1"
 msgstr "الهام‌بخش ما برای جمع‌آوری متادیتا هدف آرون سوارتز از \"یک صفحه وب برای هر کتابی که تاکنون منتشر شده\" است، که برای آن <a %(a_openlib)s>Open Library</a> را ایجاد کرد."
-
-#: allthethings/page/templates/page/faq.html:164
-#, fuzzy
-msgid "page.faq.metadata.title"
-msgstr "آیا شما متادیتا جمع‌آوری می‌کنید؟"
 
 #: allthethings/page/templates/page/datasets.html:162
 #: allthethings/page/templates/page/faq.html:169
@@ -2753,6 +2732,16 @@ msgstr "در حال حاضر، نمی‌توانیم درخواست‌های ک�
 msgid "page.request.forums"
 msgstr "لطفاً درخواست‌های خود را در انجمن‌های Z-Library یا Libgen مطرح کنید."
 
+#: allthethings/page/templates/page/faq.html:161
+#, fuzzy
+msgid "page.request.dont_email"
+msgstr "درخواست کتاب خود را به ما ایمیل نکنید."
+
+#: allthethings/page/templates/page/faq.html:164
+#, fuzzy
+msgid "page.faq.metadata.title"
+msgstr "آیا شما متادیتا جمع‌آوری می‌کنید؟"
+
 #: allthethings/page/templates/page/faq.html:167
 #, fuzzy
 msgid "page.faq.metadata.indeed"
@@ -2903,14 +2892,6 @@ msgstr "آیا برنامه افشای مسئولانه دارید؟"
 msgid "page.faq.security.text1"
 msgstr "ما از پژوهشگران امنیتی استقبال می‌کنیم تا به دنبال آسیب‌پذیری‌ها در سیستم‌های ما بگردند. ما از طرفداران بزرگ افشای مسئولانه هستیم. با ما <a %(a_contact)s>اینجا</a> تماس بگیرید."
 
-#: allthethings/templates/layouts/index.html:456
-#: allthethings/templates/layouts/index.html:469
-#: allthethings/templates/layouts/index.html:474
-#: allthethings/templates/layouts/index.html:541
-#, fuzzy
-msgid "layout.index.header.nav.home"
-msgstr "خانه"
-
 #: allthethings/page/templates/page/faq.html:258
 #, fuzzy
 msgid "page.faq.security.text2"
@@ -3005,11 +2986,6 @@ msgstr "عضو شوید تا از دانلودهای سریع استفاده ک�
 #, fuzzy
 msgid "page.home.full_database.header"
 msgstr "پایگاه داده کامل"
-
-#: allthethings/page/templates/page/search.html:143
-#, fuzzy
-msgid "page.search.advanced.field.year_published"
-msgstr "سال انتشار"
 
 #: allthethings/page/templates/page/home.html:12
 #, fuzzy
@@ -3496,6 +3472,11 @@ msgstr "افزودن فیلد جستجوی خاص"
 msgid "common.specific_search_fields.select"
 msgstr "(جستجوی فیلد خاص)"
 
+#: allthethings/page/templates/page/search.html:143
+#, fuzzy
+msgid "page.search.advanced.field.year_published"
+msgstr "سال انتشار"
+
 #: allthethings/page/templates/page/search.html:199
 #, fuzzy
 msgid "page.search.filters.source.scraped"
@@ -3788,6 +3769,14 @@ msgstr "کاوشگر کدها"
 msgid "layout.index.header.nav.llm_data"
 msgstr "داده‌های LLM"
 
+#: allthethings/templates/layouts/index.html:456
+#: allthethings/templates/layouts/index.html:469
+#: allthethings/templates/layouts/index.html:474
+#: allthethings/templates/layouts/index.html:541
+#, fuzzy
+msgid "layout.index.header.nav.home"
+msgstr "خانه"
+
 #: allthethings/templates/layouts/index.html:485
 #: allthethings/templates/layouts/index.html:564
 #, fuzzy
@@ -3895,3 +3884,4 @@ msgstr "…"
 #, fuzzy
 msgid "page.search.pagination.next"
 msgstr "بعدی"
+

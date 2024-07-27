@@ -1,13 +1,78 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2024-07-27 14:41+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language: si\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+#: allthethings/app.py:201
+#, fuzzy
+msgid "layout.index.invalid_request"
+msgstr "අවලංගු ඉල්ලීමක්. %(websites)s වෙත පිවිසෙන්න."
+
+#: allthethings/app.py:262
+#, fuzzy
+msgid "layout.index.header.tagline_scihub"
+msgstr "සයි-හබ්"
+
+#: allthethings/app.py:263
+#, fuzzy
+msgid "layout.index.header.tagline_libgen"
+msgstr "ලිබ්ජෙන්"
+
+#: allthethings/app.py:264
+#, fuzzy
+msgid "layout.index.header.tagline_zlib"
+msgstr "සෙඩ්-ලිබ්"
+
+#: allthethings/app.py:265
+#, fuzzy
+msgid "layout.index.header.tagline_openlib"
+msgstr "ඔපන්ලිබ්"
+
+#: allthethings/app.py:266
+#, fuzzy
+msgid "layout.index.header.tagline_ia"
+msgstr "අන්තර්ජාල අභිලේඛන ණය පුස්තකාලය"
+
+#: allthethings/app.py:267
+#, fuzzy
+msgid "layout.index.header.tagline_duxiu"
+msgstr "ඩුෂියු"
+
+#: allthethings/app.py:268
+#, fuzzy
+msgid "layout.index.header.tagline_separator"
+msgstr ", "
+
+#: allthethings/app.py:269
+#, fuzzy
+msgid "layout.index.header.tagline_and"
+msgstr " සහ "
+
+#: allthethings/app.py:270
+#, fuzzy
+msgid "layout.index.header.tagline_and_more"
+msgstr "සහ තවත්"
+
+#: allthethings/app.py:278
+#, fuzzy
+msgid "layout.index.header.tagline_newnew2a"
+msgstr "⭐️&nbsp;අපි %(libraries)s පරාවර්තනය කරමු."
+
+#: allthethings/app.py:279
+#, fuzzy
+msgid "layout.index.header.tagline_newnew2b"
+msgstr "අපි %(scraped)s සොයාගෙන විවෘත මූලාශ්‍ර කරමු."
+
+#: allthethings/app.py:280
+#, fuzzy
+msgid "layout.index.header.tagline_open_source"
+msgstr "අපගේ සියලුම කේත සහ දත්ත සම්පූර්ණයෙන්ම විවෘත මූලාශ්‍ර වේ."
+
+#: allthethings/app.py:281 allthethings/app.py:283 allthethings/app.py:284
+#: allthethings/app.py:287
+#, fuzzy
+msgid "layout.index.header.tagline_new1"
+msgstr "📚&nbsp;මනුෂ්‍ය ඉතිහාසයේ විශාලතම සත්‍ය විවෘත පුස්තකාලය."
+
+#: allthethings/app.py:281 allthethings/app.py:283 allthethings/app.py:287
+#, fuzzy
+msgid "layout.index.header.tagline_new3"
+msgstr "📈&nbsp;%(book_count)s&nbsp;පොත්, %(paper_count)s&nbsp;පත්‍රිකා — සදාකාලිකව සුරකින්න."
 
 #: allthethings/app.py:289 allthethings/app.py:290
 #, fuzzy
@@ -326,11 +391,6 @@ msgstr "සම්බන්ධතා විද්‍යුත් තැපෑල"
 msgid "page.donate.without_membership"
 msgstr "සාමාජිකත්වයකින් තොරව (ඕනෑම මුදලක්) පරිත්‍යාගයක් කිරීමට කැමති නම්, මෙම Monero (XMR) ලිපිනය භාවිතා කරන්න: %(address)s."
 
-#: allthethings/account/templates/account/donation.html:11
-#, fuzzy
-msgid "page.donation.header.date"
-msgstr "දිනය: %(date)s"
-
 #: allthethings/account/templates/account/donate.html:123
 #, fuzzy
 msgid "page.donate.payment.intro"
@@ -615,11 +675,6 @@ msgstr "48 මාස"
 msgid "page.donate.duration.96_mo"
 msgstr "96 මාස"
 
-#: allthethings/account/templates/account/index.html:22
-#, fuzzy
-msgid "page.account.logged_in.secret_key_dont_share"
-msgstr "රහස් යතුර (බෙදාගන්න එපා!): %(secret_key)s"
-
 #: allthethings/account/templates/account/donate.html:325
 #, fuzzy
 msgid "page.donate.duration.summary"
@@ -780,6 +835,11 @@ msgstr "පරිත්‍යාගය"
 msgid "page.donation.header.id"
 msgstr "හඳුනාගැනීම: %(id)s"
 
+#: allthethings/account/templates/account/donation.html:11
+#, fuzzy
+msgid "page.donation.header.date"
+msgstr "දිනය: %(date)s"
+
 #: allthethings/account/templates/account/donation.html:14
 #, fuzzy
 msgid "page.donation.header.total_including_discount"
@@ -914,11 +974,6 @@ msgstr "ඔබේ PayPal යෙදුම හෝ වෙබ් අඩවියේ 
 #, fuzzy
 msgid "page.donation.payment.paypal.text3"
 msgstr "බිට්කොයින් (BTC) මිලදී ගැනීමේ උපදෙස් අනුගමනය කරන්න. ඔබට පරිත්‍යාග කිරීමට අවශ්‍ය ප්‍රමාණය පමණක් මිලදී ගන්න, %(total)s."
-
-#: allthethings/account/templates/account/index.html:22
-#, fuzzy
-msgid "page.account.logged_in.secret_key_show"
-msgstr "පෙන්වන්න"
 
 #: allthethings/account/templates/account/donation.html:128
 #, fuzzy
@@ -1060,11 +1115,6 @@ msgstr "ගනුදෙනු ගාස්තු ආවරණය කිරීම
 #, fuzzy
 msgid "page.donation.pyusd.transfer"
 msgstr "“PYUSD” පිටුවට ඔබේ PayPal යෙදුම හෝ වෙබ් අඩවියෙන් යන්න. “Transfer” බොත්තම %(icon)s ඔබා, “Send” තෝරන්න."
-
-#: allthethings/account/templates/account/list.html:3
-#, fuzzy
-msgid "page.list.title"
-msgstr "ලැයිස්තුව"
 
 #: allthethings/account/templates/account/donation.html:187
 #: allthethings/account/templates/account/donation.html:226
@@ -1360,6 +1410,16 @@ msgstr "ගිණුම් අංකය: %(account_id)s"
 msgid "page.account.logged_in.public_profile"
 msgstr "පොදු පැතිකඩ: %(profile_link)s"
 
+#: allthethings/account/templates/account/index.html:22
+#, fuzzy
+msgid "page.account.logged_in.secret_key_dont_share"
+msgstr "රහස් යතුර (බෙදාගන්න එපා!): %(secret_key)s"
+
+#: allthethings/account/templates/account/index.html:22
+#, fuzzy
+msgid "page.account.logged_in.secret_key_show"
+msgstr "පෙන්වන්න"
+
 #: allthethings/account/templates/account/index.html:25
 #, fuzzy
 msgid "page.account.logged_in.membership_none"
@@ -1510,6 +1570,11 @@ msgstr "අපව සම්බන්ධ කිරීමට තාවකාලි
 msgid "page.account.logged_out.old_email.button"
 msgstr "පැරණි විද්‍යුත් තැපැල් පදනම් වූ ගිණුමක්ද? ඔබේ <a %(a_open)s>විද්‍යුත් තැපෑල මෙහි ඇතුළත් කරන්න</a>."
 
+#: allthethings/account/templates/account/list.html:3
+#, fuzzy
+msgid "page.list.title"
+msgstr "ලැයිස්තුව"
+
 #: allthethings/account/templates/account/list.html:6
 #, fuzzy
 msgid "page.list.header.edit.link"
@@ -1621,429 +1686,429 @@ msgstr "මෙම කාසි සඳහා සාමාන්‍යයෙන්
 msgid "dyn.buy_membership.error.wait"
 msgstr "ගෙවීම් සැකසීමේ දෝෂයක්. කරුණාකර මොහොතක් රැඳී නැවත උත්සාහ කරන්න. ප්‍රශ්නය පැය 24 කට වඩා දිගටම පවතී නම්, කරුණාකර %(email)s වෙත තිර රූපයක් සමඟ අප අමතන්න."
 
-#: allthethings/page/views.py:4416
+#: allthethings/page/views.py:3782
 #, fuzzy
 msgid "page.md5.box.download.affected_files"
 msgstr "%(count)s බලපෑම් ලත් පිටු"
 
-#: allthethings/page/views.py:4676
+#: allthethings/page/views.py:4762
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Libgen.rs Non-Fiction හි දෘශ්‍යමාන නොවේ"
 
-#: allthethings/page/views.py:4677
+#: allthethings/page/views.py:4763
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Libgen.rs Fiction හි දෘශ්‍යමාන නොවේ"
 
-#: allthethings/page/views.py:4678
+#: allthethings/page/views.py:4764
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Libgen.li හි දෘශ්‍යමාන නොවේ"
 
-#: allthethings/page/views.py:4679
+#: allthethings/page/views.py:4765
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Libgen.li හි කැඩී ඇත ලෙස සලකුණු කර ඇත"
 
-#: allthethings/page/views.py:4680
+#: allthethings/page/views.py:4766
 #, fuzzy
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Z-Library හි අතුරුදහන්"
 
-#: allthethings/page/views.py:4681
+#: allthethings/page/views.py:4767
 #, fuzzy
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
 msgstr "සියලුම පිටු PDF බවට පරිවර්තනය කළ නොහැකි විය"
 
-#: allthethings/page/views.py:4682
+#: allthethings/page/views.py:4768
 #, fuzzy
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
 msgstr "මෙම ගොනුවේ exiftool ක්‍රියාත්මක වීම අසාර්ථක විය"
 
-#: allthethings/page/views.py:4688
+#: allthethings/page/views.py:4774
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "පොත (නොදන්නා)"
 
-#: allthethings/page/views.py:4689
+#: allthethings/page/views.py:4775
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "පොත (නිකායනොවන)"
 
-#: allthethings/page/views.py:4690
+#: allthethings/page/views.py:4776
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "පොත (නිකාය)"
 
-#: allthethings/page/views.py:4691
+#: allthethings/page/views.py:4777
 #, fuzzy
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "ජර්නල් ලිපිය"
 
-#: allthethings/page/views.py:4692
+#: allthethings/page/views.py:4778
 #, fuzzy
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "සම්මත ලේඛනය"
 
-#: allthethings/page/views.py:4693
+#: allthethings/page/views.py:4779
 #, fuzzy
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "සඟරාව"
 
-#: allthethings/page/views.py:4694
+#: allthethings/page/views.py:4780
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "කොමික පොත"
 
-#: allthethings/page/views.py:4695
+#: allthethings/page/views.py:4781
 #, fuzzy
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "සංගීත ලේඛනය"
 
-#: allthethings/page/views.py:4696
+#: allthethings/page/views.py:4782
 #, fuzzy
 msgid "common.md5_content_type_mapping.other"
 msgstr "වෙනත්"
 
-#: allthethings/page/views.py:4702
+#: allthethings/page/views.py:4788
 #, fuzzy
 msgid "common.access_types_mapping.aa_download"
 msgstr "හවුල්කරු සේවාදායක බාගත කිරීම"
 
-#: allthethings/page/views.py:4703
+#: allthethings/page/views.py:4789
 #, fuzzy
 msgid "common.access_types_mapping.aa_scidb"
 msgstr "SciDB"
 
-#: allthethings/page/views.py:4704
+#: allthethings/page/views.py:4790
 #, fuzzy
 msgid "common.access_types_mapping.external_download"
 msgstr "බාහිර බාගත කිරීම"
 
-#: allthethings/page/views.py:4705
+#: allthethings/page/views.py:4791
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow"
 msgstr "බාහිර ණය"
 
-#: allthethings/page/views.py:4706
+#: allthethings/page/views.py:4792
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "බාහිර ණය (මුද්‍රණ අබල)"
 
-#: allthethings/page/views.py:4707
+#: allthethings/page/views.py:4793
 #, fuzzy
 msgid "common.access_types_mapping.meta_explore"
 msgstr "මීටා දත්ත පරීක්ෂා කරන්න"
 
-#: allthethings/page/views.py:4708
+#: allthethings/page/views.py:4794
 #, fuzzy
 msgid "common.access_types_mapping.torrents_available"
 msgstr "ටොරන්ට්ස් තුළ අඩංගු"
 
-#: allthethings/page/views.py:4714
+#: allthethings/page/views.py:4800
 #, fuzzy
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:4715
+#: allthethings/page/views.py:4801
 #, fuzzy
 msgid "common.record_sources_mapping.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:4716
+#: allthethings/page/views.py:4802
 #, fuzzy
 msgid "common.record_sources_mapping.zlib"
 msgstr "Z-Library"
 
-#: allthethings/page/views.py:4717
+#: allthethings/page/views.py:4803
 #, fuzzy
 msgid "common.record_sources_mapping.ia"
 msgstr "IA"
 
-#: allthethings/page/views.py:4718
+#: allthethings/page/views.py:4804
 #, fuzzy
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:4719
+#: allthethings/page/views.py:4805
 #, fuzzy
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:4720
+#: allthethings/page/views.py:4806
 #, fuzzy
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:4721
+#: allthethings/page/views.py:4807
 #, fuzzy
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
-#: allthethings/page/views.py:4722
+#: allthethings/page/views.py:4808
 #, fuzzy
 msgid "common.record_sources_mapping.duxiu"
 msgstr "DuXiu 读秀"
 
-#: allthethings/page/views.py:4723
+#: allthethings/page/views.py:4809
 #, fuzzy
 msgid "common.record_sources_mapping.uploads"
 msgstr "AA වෙත උඩුගත කිරීම්"
 
-#: allthethings/page/views.py:4729
+#: allthethings/page/views.py:4815
 #, fuzzy
 msgid "common.specific_search_fields.title"
 msgstr "ශීර්ෂය"
 
-#: allthethings/page/views.py:4730
+#: allthethings/page/views.py:4816
 #, fuzzy
 msgid "common.specific_search_fields.author"
 msgstr "කතෘ"
 
-#: allthethings/page/views.py:4731
+#: allthethings/page/views.py:4817
 #, fuzzy
 msgid "common.specific_search_fields.publisher"
 msgstr "ප්‍රකාශකයා"
 
-#: allthethings/page/views.py:4732
+#: allthethings/page/views.py:4818
 #, fuzzy
 msgid "common.specific_search_fields.edition_varia"
 msgstr "අවුරුද්ද"
 
-#: allthethings/page/views.py:4733
+#: allthethings/page/views.py:4819
 #, fuzzy
 msgid "common.specific_search_fields.year"
 msgstr "ප්‍රකාශිත වර්ෂය"
 
-#: allthethings/page/views.py:4734
+#: allthethings/page/views.py:4820
 #, fuzzy
 msgid "common.specific_search_fields.original_filename"
 msgstr "මුල් ගොනු නාමය"
 
-#: allthethings/page/views.py:4735
+#: allthethings/page/views.py:4821
 #, fuzzy
 msgid "common.specific_search_fields.description_comments"
 msgstr "විස්තර සහ මීටාදත්ත අදහස්"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.fast_partner"
 msgstr "ඉක්මන් හවුල්කරු සේවාදායකය #%(number)s"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification_or_waitlists"
 msgstr "(බ්‍රවුසරය සත්‍යාපනයක් හෝ බලාපොරොත්තු ලැයිස්තුවක් නැත)"
 
-#: allthethings/page/views.py:4763 allthethings/page/views.py:4765
+#: allthethings/page/views.py:4849 allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_partner"
 msgstr "මන්දගාමී හවුල්කරු සේවාදායකය #%(number)s"
 
-#: allthethings/page/views.py:4763
+#: allthethings/page/views.py:4849
 #, fuzzy
 msgid "common.md5.servers.faster_with_waitlist"
 msgstr "(සමහර විට ඉක්මනින්, නමුත් බලාපොරොත්තු ලැයිස්තුවක් ඇත)"
 
-#: allthethings/page/views.py:4765
+#: allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_no_waitlist"
 msgstr "(බලාපොරොත්තු ලැයිස්තුවක් නැත, නමුත් ඉතාම මන්දගාමී විය හැක)"
 
-#: allthethings/page/views.py:4854
+#: allthethings/page/views.py:4940
 #, fuzzy
 msgid "page.md5.box.descr_title"
 msgstr "විස්තරය"
 
-#: allthethings/page/views.py:4855
+#: allthethings/page/views.py:4941
 #, fuzzy
 msgid "page.md5.box.metadata_comments_title"
 msgstr "මීටාදත්ත අදහස්"
 
-#: allthethings/page/views.py:4856
+#: allthethings/page/views.py:4942
 #, fuzzy
 msgid "page.md5.box.alternative_title"
 msgstr "විකල්ප ශීර්ෂය"
 
-#: allthethings/page/views.py:4857
+#: allthethings/page/views.py:4943
 #, fuzzy
 msgid "page.md5.box.alternative_author"
 msgstr "විකල්ප කතෘ"
 
-#: allthethings/page/views.py:4858
+#: allthethings/page/views.py:4944
 #, fuzzy
 msgid "page.md5.box.alternative_publisher"
 msgstr "විකල්ප ප්‍රකාශකයා"
 
-#: allthethings/page/views.py:4859
+#: allthethings/page/views.py:4945
 #, fuzzy
 msgid "page.md5.box.alternative_edition"
 msgstr "විකල්ප සංස්කරණය"
 
-#: allthethings/page/views.py:4860
+#: allthethings/page/views.py:4946
 #, fuzzy
 msgid "page.md5.box.alternative_description"
 msgstr "විකල්ප විස්තරය"
 
-#: allthethings/page/views.py:4861
+#: allthethings/page/views.py:4947
 #, fuzzy
 msgid "page.md5.box.alternative_filename"
 msgstr "විකල්ප ගොනු නාමය"
 
-#: allthethings/page/views.py:4862
+#: allthethings/page/views.py:4948
 #, fuzzy
 msgid "page.md5.box.alternative_extension"
 msgstr "විකල්ප දිගුව"
 
-#: allthethings/page/views.py:4863
+#: allthethings/page/views.py:4949
 #, fuzzy
 msgid "page.md5.box.date_open_sourced_title"
 msgstr "විවෘත මූලාශ්‍රය කළ දිනය"
 
-#: allthethings/page/views.py:4899
+#: allthethings/page/views.py:4985
 #, fuzzy
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "මෙම ගොනුව සඳහා සහකාර සේවාදායක බාගත කිරීම් තාවකාලිකව ලබා ගත නොහැක."
 
-#: allthethings/page/views.py:4903 allthethings/page/views.py:5086
+#: allthethings/page/views.py:4989 allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:4977
+#: allthethings/page/views.py:5063
 #, fuzzy
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs නොකල්පිත"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(ඉහළින් \"GET\" ක්ලික් කරන්න)"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(ඉහළින් \"GET\" ක්ලික් කරන්න)"
 
-#: allthethings/page/views.py:4990
+#: allthethings/page/views.py:5076
 #, fuzzy
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs කල්පිත"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.libgen_ads"
 msgstr "ඔවුන්ගේ දැන්වීම් දුෂ්ට මෘදුකාංග අඩංගු බවට පත් වන බැවින්, දැන්වීම් අවහිරකාරකයක් භාවිතා කරන්න හෝ දැන්වීම් ක්ලික් නොකරන්න"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.ia_borrow"
 msgstr "අන්තර්ජාල ආරක්ෂාවෙන් ණය ගන්න"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(මුද්‍රණ අබාධිත පාරිභෝගිකයින් සඳහා පමණි)"
 
-#: allthethings/page/views.py:5086
+#: allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(සම්බන්ධ DOI Sci-Hub හි ලබා ගත නොහැකි විය හැක)"
 
-#: allthethings/page/views.py:5092
+#: allthethings/page/views.py:5178
 #, fuzzy
 msgid "page.md5.box.download.collection"
 msgstr "එකතුව"
 
-#: allthethings/page/views.py:5093
+#: allthethings/page/views.py:5179
 #, fuzzy
 msgid "page.md5.box.download.torrent"
 msgstr "ටොරන්ට්"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "තොග ටොරන්ට් බාගත කිරීම්"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.experts_only"
 msgstr "(විශේෂඥයින් සඳහා පමණි)"
 
-#: allthethings/page/views.py:5106
+#: allthethings/page/views.py:5192
 #, fuzzy
 msgid "page.md5.box.download.aa_isbn"
 msgstr "ISBN සඳහා Anna’s Archive සෙවීම"
 
-#: allthethings/page/views.py:5107
+#: allthethings/page/views.py:5193
 #, fuzzy
 msgid "page.md5.box.download.other_isbn"
 msgstr "විවිධ අනෙකුත් දත්ත සමුදා සඳහා ISBN සෙවීම"
 
-#: allthethings/page/views.py:5109
+#: allthethings/page/views.py:5195
 #, fuzzy
 msgid "page.md5.box.download.original_isbndb"
 msgstr "ISBNdb හි මුල් වාර්තාව සොයන්න"
 
-#: allthethings/page/views.py:5111
+#: allthethings/page/views.py:5197
 #, fuzzy
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Open Library ID සඳහා Anna’s Archive සෙවීම"
 
-#: allthethings/page/views.py:5113
+#: allthethings/page/views.py:5199
 #, fuzzy
 msgid "page.md5.box.download.original_openlib"
 msgstr "Open Library හි මුල් වාර්තාව සොයන්න"
 
-#: allthethings/page/views.py:5115
+#: allthethings/page/views.py:5201
 #, fuzzy
 msgid "page.md5.box.download.aa_oclc"
 msgstr "OCLC (WorldCat) අංකය සඳහා Anna’s Archive සෙවීම"
 
-#: allthethings/page/views.py:5116
+#: allthethings/page/views.py:5202
 #, fuzzy
 msgid "page.md5.box.download.original_oclc"
 msgstr "WorldCat හි මුල් වාර්තාව සොයන්න"
 
-#: allthethings/page/views.py:5118
+#: allthethings/page/views.py:5204
 #, fuzzy
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "DuXiu SSID අංකය සඳහා Anna’s Archive සෙවීම"
 
-#: allthethings/page/views.py:5119
+#: allthethings/page/views.py:5205
 #, fuzzy
 msgid "page.md5.box.download.original_duxiu"
 msgstr "DuXiu මත අතින් සෙවීම"
 
-#: allthethings/page/views.py:5121
+#: allthethings/page/views.py:5207
 #, fuzzy
 msgid "page.md5.box.download.aa_cadal"
 msgstr "CADAL SSNO අංකය සඳහා Anna’s Archive සෙවීම"
 
-#: allthethings/page/views.py:5122
+#: allthethings/page/views.py:5208
 #, fuzzy
 msgid "page.md5.box.download.original_cadal"
 msgstr "CADAL හි මුල් වාර්තාව සොයන්න"
 
-#: allthethings/page/views.py:5126
+#: allthethings/page/views.py:5212
 #, fuzzy
 msgid "page.md5.box.download.aa_dxid"
 msgstr "DuXiu DXID අංකය සඳහා Anna’s Archive සෙවීම"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "page.md5.box.download.scidb"
 msgstr "Anna’s Archive 🧬 SciDB"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(බ්‍රවුසර සත්‍යාපනය අවශ්‍ය නොවේ)"
@@ -2551,6 +2616,86 @@ msgstr "7. අපි අනන්‍ය වෙළඳුන් සඳහා ග�
 #, fuzzy
 msgid "page.about.help.text8"
 msgstr "8. අපි සෑම විටම වැඩි සේවාදායක ධාරිතාවක් සොයමින් සිටිමු."
+
+#: allthethings/page/templates/page/faq.html:94
+msgid "page.about.help.text9"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:95
+msgid "page.about.help.text10"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:96
+msgid "page.about.help.text11"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:97
+msgid "page.faq.help.mirrors"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:103
+msgid "page.faq.slow.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:107
+msgid "page.faq.slow.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:111
+msgid "page.faq.slow.text3"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:114
+msgid "page.donate.faq.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:117
+msgid "page.donate.faq.renew"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:121
+msgid "page.donate.faq.text_other_payment1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:125
+msgid "page.donate.faq.spend"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:129
+msgid "page.donate.faq.text_large_donation"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:133
+msgid "page.donate.faq.non_member_donation"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:136
+msgid "page.faq.upload.title"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:139
+msgid "page.upload.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:140
+msgid "common.libgen.email"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:141
+msgid "page.faq.mhut_upload"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:145
+msgid "page.upload.zlib.text1"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:149
+msgid "page.upload.zlib.text2"
+msgstr ""
+
+#: allthethings/page/templates/page/faq.html:153
+msgid "page.upload.large.text"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:156
 #, fuzzy
@@ -3078,6 +3223,16 @@ msgstr "ඔබ VPN, හුවමාරු අන්තර්ජාල සම්�
 msgid "layout.index.header.title"
 msgstr "Anna’s Archive"
 
+#: allthethings/page/templates/page/scidb.html:15
+#, fuzzy
+msgid "page.scidb.header"
+msgstr "සයිඩීබී"
+
+#: allthethings/page/templates/page/scidb.html:20
+#, fuzzy
+msgid "page.scidb.doi"
+msgstr "DOI: %(doi)s"
+
 #: allthethings/page/templates/page/scidb.html:30
 #, fuzzy
 msgid "page.scidb.aa_record"
@@ -3546,6 +3701,22 @@ msgstr "සොයන්න"
 msgid "layout.index.header.nav.faq"
 msgstr "නිතර අසන ප්‍රශ්න"
 
+#: allthethings/templates/layouts/index.html:450
+#: allthethings/templates/layouts/index.html:463
+#: allthethings/templates/layouts/index.html:478
+#: allthethings/templates/layouts/index.html:571
+#, fuzzy
+msgid "layout.index.header.nav.improve_metadata"
+msgstr "දත්ත විස්තර වැඩිදියුණු කරන්න"
+
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:572
+#, fuzzy
+msgid "layout.index.header.nav.volunteering"
+msgstr "ස්වේච්ඡා සේවය සහ ත්‍යාග"
+
 #: allthethings/templates/layouts/index.html:452
 #: allthethings/templates/layouts/index.html:465
 #: allthethings/templates/layouts/index.html:480
@@ -3694,104 +3865,3 @@ msgstr "…"
 msgid "page.search.pagination.next"
 msgstr "ඊළඟ"
 
-#: allthethings/page/templates/page/scidb.html:15
-#, fuzzy
-msgid "page.scidb.header"
-msgstr "සයිඩීබී"
-
-#: allthethings/page/templates/page/scidb.html:20
-#, fuzzy
-msgid "page.scidb.doi"
-msgstr "DOI: %(doi)s"
-
-#: allthethings/app.py:201
-#, fuzzy
-msgid "layout.index.invalid_request"
-msgstr "අවලංගු ඉල්ලීමක්. %(websites)s වෙත පිවිසෙන්න."
-
-#: allthethings/app.py:262
-#, fuzzy
-msgid "layout.index.header.tagline_scihub"
-msgstr "සයි-හබ්"
-
-#: allthethings/app.py:263
-#, fuzzy
-msgid "layout.index.header.tagline_libgen"
-msgstr "ලිබ්ජෙන්"
-
-#: allthethings/app.py:264
-#, fuzzy
-msgid "layout.index.header.tagline_zlib"
-msgstr "සෙඩ්-ලිබ්"
-
-#: allthethings/app.py:265
-#, fuzzy
-msgid "layout.index.header.tagline_openlib"
-msgstr "ඔපන්ලිබ්"
-
-#: allthethings/app.py:266
-#, fuzzy
-msgid "layout.index.header.tagline_ia"
-msgstr "අන්තර්ජාල අභිලේඛන ණය පුස්තකාලය"
-
-#: allthethings/app.py:267
-#, fuzzy
-msgid "layout.index.header.tagline_duxiu"
-msgstr "ඩුෂියු"
-
-#: allthethings/app.py:268
-#, fuzzy
-msgid "layout.index.header.tagline_separator"
-msgstr ", "
-
-#: allthethings/app.py:269
-#, fuzzy
-msgid "layout.index.header.tagline_and"
-msgstr " සහ "
-
-#: allthethings/app.py:270
-#, fuzzy
-msgid "layout.index.header.tagline_and_more"
-msgstr "සහ තවත්"
-
-#: allthethings/app.py:278
-#, fuzzy
-msgid "layout.index.header.tagline_newnew2a"
-msgstr "⭐️&nbsp;අපි %(libraries)s පරාවර්තනය කරමු."
-
-#: allthethings/app.py:279
-#, fuzzy
-msgid "layout.index.header.tagline_newnew2b"
-msgstr "අපි %(scraped)s සොයාගෙන විවෘත මූලාශ්‍ර කරමු."
-
-#: allthethings/app.py:280
-#, fuzzy
-msgid "layout.index.header.tagline_open_source"
-msgstr "අපගේ සියලුම කේත සහ දත්ත සම්පූර්ණයෙන්ම විවෘත මූලාශ්‍ර වේ."
-
-#: allthethings/app.py:281 allthethings/app.py:283 allthethings/app.py:284
-#: allthethings/app.py:287
-#, fuzzy
-msgid "layout.index.header.tagline_new1"
-msgstr "📚&nbsp;මනුෂ්‍ය ඉතිහාසයේ විශාලතම සත්‍ය විවෘත පුස්තකාලය."
-
-#: allthethings/app.py:281 allthethings/app.py:283 allthethings/app.py:287
-#, fuzzy
-msgid "layout.index.header.tagline_new3"
-msgstr "📈&nbsp;%(book_count)s&nbsp;පොත්, %(paper_count)s&nbsp;පත්‍රිකා — සදාකාලිකව සුරකින්න."
-
-#: allthethings/templates/layouts/index.html:450
-#: allthethings/templates/layouts/index.html:463
-#: allthethings/templates/layouts/index.html:478
-#: allthethings/templates/layouts/index.html:571
-#, fuzzy
-msgid "layout.index.header.nav.improve_metadata"
-msgstr "දත්ත විස්තර වැඩිදියුණු කරන්න"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:464
-#: allthethings/templates/layouts/index.html:479
-#: allthethings/templates/layouts/index.html:572
-#, fuzzy
-msgid "layout.index.header.nav.volunteering"
-msgstr "ස්වේච්ඡා සේවය සහ ත්‍යාග"

@@ -1,18 +1,17 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2024-07-27 14:40+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language: wa\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
-
-#: allthethings/templates/layouts/index.html:4
+#: allthethings/app.py:201
 #, fuzzy
-msgid "layout.index.title"
-msgstr "Anna’s Archive"
+msgid "layout.index.invalid_request"
+msgstr "Dmande nén valide. Allez vey %(websites)s."
+
+#: allthethings/app.py:262
+#, fuzzy
+msgid "layout.index.header.tagline_scihub"
+msgstr "Sci-Hub"
+
+#: allthethings/app.py:263
+#, fuzzy
+msgid "layout.index.header.tagline_libgen"
+msgstr "LibGen"
 
 #: allthethings/app.py:264
 #, fuzzy
@@ -63,351 +62,6 @@ msgstr "Nos scrapons et mettons a l'ovrî %(scraped)s."
 #, fuzzy
 msgid "layout.index.header.tagline_open_source"
 msgstr "Tos nos codes et dnéyes sont totavå open source."
-
-#: allthethings/account/templates/account/donate.html:148
-#, fuzzy
-msgid "page.donate.payment.buttons.credit_debit_backup"
-msgstr "Carte di crèdite/dèbete (backup)"
-
-#: allthethings/account/templates/account/donate.html:149
-#, fuzzy
-msgid "page.donate.payment.buttons.credit_debit2"
-msgstr "Carte di crèdite/dèbete 2"
-
-#: allthethings/account/templates/account/donation.html:11
-#, fuzzy
-msgid "page.donation.header.date"
-msgstr "Date: %(date)s"
-
-#: allthethings/account/templates/account/index.html:77
-#, fuzzy
-msgid "page.account.logged_out.key_form.dont_lose_key"
-msgstr "Ne perdez pas votre clé !"
-
-#: allthethings/account/templates/account/index.html:82
-#, fuzzy
-msgid "page.account.logged_out.register.header"
-msgstr "Vous n'avez pas encore de compte ?"
-
-#: allthethings/account/templates/account/index.html:85
-#, fuzzy
-msgid "page.account.logged_out.register.button"
-msgstr "Riwandjî novea conte"
-
-#: allthethings/page/views.py:4416
-#, fuzzy
-msgid "page.md5.box.download.affected_files"
-msgstr "%(count)s pages affectées"
-
-#: allthethings/page/views.py:4676
-#, fuzzy
-msgid "common.md5_problem_type_mapping.lgrsnf_visible"
-msgstr "Non visible dans Libgen.rs Non-Fiction"
-
-#: allthethings/page/views.py:4677
-#, fuzzy
-msgid "common.md5_problem_type_mapping.lgrsfic_visible"
-msgstr "Non visible dans Libgen.rs Fiction"
-
-#: allthethings/page/views.py:4678
-#, fuzzy
-msgid "common.md5_problem_type_mapping.lgli_visible"
-msgstr "Non visible dans Libgen.li"
-
-#: allthethings/page/views.py:4679
-#, fuzzy
-msgid "common.md5_problem_type_mapping.lgli_broken"
-msgstr "Marqué comme cassé dans Libgen.li"
-
-#: allthethings/page/views.py:4680
-#, fuzzy
-msgid "common.md5_problem_type_mapping.zlib_missing"
-msgstr "Manquant de Z-Library"
-
-#: allthethings/page/views.py:4681
-#, fuzzy
-msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
-msgstr "Toutes les pages n’ont pas pu être converties en PDF"
-
-#: allthethings/page/views.py:4682
-#, fuzzy
-msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
-msgstr "L’exécution de exiftool a échoué sur ce fichier"
-
-#: allthethings/page/views.py:4688
-#, fuzzy
-msgid "common.md5_content_type_mapping.book_unknown"
-msgstr "Livre (inconnu)"
-
-#: allthethings/page/views.py:4689
-#, fuzzy
-msgid "common.md5_content_type_mapping.book_nonfiction"
-msgstr "Livre (non-fiction)"
-
-#: allthethings/page/views.py:4690
-#, fuzzy
-msgid "common.md5_content_type_mapping.book_fiction"
-msgstr "Livre (fiction)"
-
-#: allthethings/page/views.py:4691
-#, fuzzy
-msgid "common.md5_content_type_mapping.journal_article"
-msgstr "Article de journal"
-
-#: allthethings/page/views.py:4692
-#, fuzzy
-msgid "common.md5_content_type_mapping.standards_document"
-msgstr "Document de normes"
-
-#: allthethings/page/views.py:4693
-#, fuzzy
-msgid "common.md5_content_type_mapping.magazine"
-msgstr "Magazine"
-
-#: allthethings/page/views.py:4694
-#, fuzzy
-msgid "common.md5_content_type_mapping.book_comic"
-msgstr "Bande dessinée"
-
-#: allthethings/page/views.py:4695
-#, fuzzy
-msgid "common.md5_content_type_mapping.musical_score"
-msgstr "Partition musicale"
-
-#: allthethings/page/views.py:4696
-#, fuzzy
-msgid "common.md5_content_type_mapping.other"
-msgstr "Autre"
-
-#: allthethings/page/views.py:4702
-#, fuzzy
-msgid "common.access_types_mapping.aa_download"
-msgstr "Téléchargement depuis le serveur partenaire"
-
-#: allthethings/page/views.py:4703
-#, fuzzy
-msgid "common.access_types_mapping.aa_scidb"
-msgstr "SciDB"
-
-#: allthethings/page/views.py:4704
-#, fuzzy
-msgid "common.access_types_mapping.external_download"
-msgstr "Téléchargement externe"
-
-#: allthethings/page/views.py:4705
-#, fuzzy
-msgid "common.access_types_mapping.external_borrow"
-msgstr "Emprunt externe"
-
-#: allthethings/page/views.py:4706
-#, fuzzy
-msgid "common.access_types_mapping.external_borrow_printdisabled"
-msgstr "Emprunt externe (impression désactivée)"
-
-#: allthethings/page/views.py:4707
-#, fuzzy
-msgid "common.access_types_mapping.meta_explore"
-msgstr "Explorer les métadonnées"
-
-#: allthethings/page/views.py:4708
-#, fuzzy
-msgid "common.access_types_mapping.torrents_available"
-msgstr "Contenu dans les torrents"
-
-#: allthethings/page/views.py:4714
-#, fuzzy
-msgid "common.record_sources_mapping.lgrs"
-msgstr "Libgen.rs"
-
-#: allthethings/page/views.py:4715
-#, fuzzy
-msgid "common.record_sources_mapping.lgli"
-msgstr "Libgen.li"
-
-#: allthethings/page/views.py:4716
-#, fuzzy
-msgid "common.record_sources_mapping.zlib"
-msgstr "Z-Library"
-
-#: allthethings/page/views.py:4717
-#, fuzzy
-msgid "common.record_sources_mapping.ia"
-msgstr "IA"
-
-#: allthethings/page/views.py:4718
-#, fuzzy
-msgid "common.record_sources_mapping.isbndb"
-msgstr "ISBNdb"
-
-#: allthethings/page/views.py:4719
-#, fuzzy
-msgid "common.record_sources_mapping.ol"
-msgstr "OpenLibrary"
-
-#: allthethings/page/views.py:4720
-#, fuzzy
-msgid "common.record_sources_mapping.scihub"
-msgstr "Sci-Hub"
-
-#: allthethings/page/views.py:4721
-#, fuzzy
-msgid "common.record_sources_mapping.oclc"
-msgstr "OCLC (WorldCat)"
-
-#: allthethings/page/views.py:4722
-#, fuzzy
-msgid "common.record_sources_mapping.duxiu"
-msgstr "DuXiu 读秀"
-
-#: allthethings/page/views.py:4723
-#, fuzzy
-msgid "common.record_sources_mapping.uploads"
-msgstr "Tcharget di AA"
-
-#: allthethings/page/views.py:4729
-#, fuzzy
-msgid "common.specific_search_fields.title"
-msgstr "Titrea"
-
-#: allthethings/page/views.py:4730
-#, fuzzy
-msgid "common.specific_search_fields.author"
-msgstr "Oteur"
-
-#: allthethings/page/views.py:4731
-#, fuzzy
-msgid "common.specific_search_fields.publisher"
-msgstr "Editeu"
-
-#: allthethings/page/views.py:4732
-#, fuzzy
-msgid "common.specific_search_fields.edition_varia"
-msgstr "Edicion"
-
-#: allthethings/page/views.py:4733
-#, fuzzy
-msgid "common.specific_search_fields.year"
-msgstr "Anêye di publicacion"
-
-#: allthethings/page/views.py:4734
-#, fuzzy
-msgid "common.specific_search_fields.original_filename"
-msgstr "No di fitchî oridjinal"
-
-#: allthethings/page/views.py:4735
-#, fuzzy
-msgid "common.specific_search_fields.description_comments"
-msgstr "Discrijhaedje et rimarques di metadata"
-
-#: allthethings/page/views.py:4760
-#, fuzzy
-msgid "common.md5.servers.fast_partner"
-msgstr "Sîrvou rapîde di patner #%(number)s"
-
-#: allthethings/page/views.py:4760
-#, fuzzy
-msgid "common.md5.servers.no_browser_verification_or_waitlists"
-msgstr "(none vérifiaedje di naviguetrece ou waitlistes)"
-
-#: allthethings/page/views.py:4763 allthethings/page/views.py:4765
-#, fuzzy
-msgid "common.md5.servers.slow_partner"
-msgstr "Sîrvou linde di patner #%(number)s"
-
-#: allthethings/page/views.py:4763
-#, fuzzy
-msgid "common.md5.servers.faster_with_waitlist"
-msgstr "(légérement rapîde mins avou waitliste)"
-
-#: allthethings/page/views.py:4765
-#, fuzzy
-msgid "common.md5.servers.slow_no_waitlist"
-msgstr "(none waitliste, mins pout esse très linde)"
-
-#: allthethings/page/views.py:4854
-#, fuzzy
-msgid "page.md5.box.descr_title"
-msgstr "discrijhaedje"
-
-#: allthethings/page/views.py:4855
-#, fuzzy
-msgid "page.md5.box.metadata_comments_title"
-msgstr "rimarques di metadata"
-
-#: allthethings/page/views.py:4856
-#, fuzzy
-msgid "page.md5.box.alternative_title"
-msgstr "Titrea alternativ"
-
-#: allthethings/page/views.py:4857
-#, fuzzy
-msgid "page.md5.box.alternative_author"
-msgstr "Oteur alternativ"
-
-#: allthethings/page/views.py:4858
-#, fuzzy
-msgid "page.md5.box.alternative_publisher"
-msgstr "Editeu alternativ"
-
-#: allthethings/page/views.py:4859
-#, fuzzy
-msgid "page.md5.box.alternative_edition"
-msgstr "Edicion alternativ"
-
-#: allthethings/page/views.py:4860
-#, fuzzy
-msgid "page.md5.box.alternative_description"
-msgstr "Discrijhaedje alternativ"
-
-#: allthethings/page/views.py:4861
-#, fuzzy
-msgid "page.md5.box.alternative_filename"
-msgstr "Nom alternatif"
-
-#: allthethings/page/views.py:4862
-#, fuzzy
-msgid "page.md5.box.alternative_extension"
-msgstr "Extension alternative"
-
-#: allthethings/page/views.py:4863
-#, fuzzy
-msgid "page.md5.box.date_open_sourced_title"
-msgstr "date de mise en source ouverte"
-
-#: allthethings/page/templates/page/aarecord.html:18
-#, fuzzy
-msgid "page.md5.header.ia"
-msgstr "Fitchî de Prêt Numérique Contrôlé de l' Internet Archive “%(id)s”"
-
-#: allthethings/account/views.py:304
-#, fuzzy
-msgid "common.donation.order_processing_status_labels.0"
-msgstr "nén payî"
-
-#: allthethings/account/views.py:305
-#, fuzzy
-msgid "common.donation.order_processing_status_labels.1"
-msgstr "payî"
-
-#: allthethings/app.py:201
-#, fuzzy
-msgid "layout.index.invalid_request"
-msgstr "Dmande nén valide. Allez vey %(websites)s."
-
-#: allthethings/app.py:262
-#, fuzzy
-msgid "layout.index.header.tagline_scihub"
-msgstr "Sci-Hub"
-
-#: allthethings/app.py:263
-#, fuzzy
-msgid "layout.index.header.tagline_libgen"
-msgstr "LibGen"
-
-#: allthethings/page/templates/page/scidb.html:15
-#, fuzzy
-msgid "page.scidb.header"
-msgstr "SciDB"
 
 #: allthethings/app.py:281 allthethings/app.py:283 allthethings/app.py:284
 #: allthethings/app.py:287
@@ -509,6 +163,16 @@ msgstr "%(amount)s totå"
 #, fuzzy
 msgid "common.donation.membership_bonus_parens"
 msgstr " (+%(num)s bonus)"
+
+#: allthethings/account/views.py:304
+#, fuzzy
+msgid "common.donation.order_processing_status_labels.0"
+msgstr "nén payî"
+
+#: allthethings/account/views.py:305
+#, fuzzy
+msgid "common.donation.order_processing_status_labels.1"
+msgstr "payî"
 
 #: allthethings/account/views.py:306
 #, fuzzy
@@ -670,11 +334,6 @@ msgstr "Accès Expert"
 msgid "page.donate.expert.contact_us"
 msgstr "contactez-nous"
 
-#: allthethings/account/templates/account/donate.html:147
-#, fuzzy
-msgid "page.donate.payment.buttons.credit_debit"
-msgstr "Carte di crèdite/dèbete"
-
 #: allthethings/account/templates/account/donate.html:103
 #: allthethings/account/templates/account/donation.html:579
 #: allthethings/page/templates/page/contact.html:22
@@ -806,10 +465,20 @@ msgstr "Cash App"
 msgid "page.donate.payment.buttons.paypal_plain"
 msgstr "PayPal"
 
-#: allthethings/account/templates/account/donate.html:292
+#: allthethings/account/templates/account/donate.html:147
 #, fuzzy
-msgid "page.donate.payment.desc.credit_debit_p2"
-msgstr "D' tôte manîre, i gn a sacwants môyéns d' eployî des cartes di crèdite/dèbete, eployant nos ôtès môyéns di payement:"
+msgid "page.donate.payment.buttons.credit_debit"
+msgstr "Carte di crèdite/dèbete"
+
+#: allthethings/account/templates/account/donate.html:148
+#, fuzzy
+msgid "page.donate.payment.buttons.credit_debit_backup"
+msgstr "Carte di crèdite/dèbete (backup)"
+
+#: allthethings/account/templates/account/donate.html:149
+#, fuzzy
+msgid "page.donate.payment.buttons.credit_debit2"
+msgstr "Carte di crèdite/dèbete 2"
 
 #: allthethings/account/templates/account/donate.html:156
 #: allthethings/account/templates/account/donate.html:164
@@ -904,12 +573,6 @@ msgstr "Avou Binance, vos achtez des Bitcoins avou ene carte di crédit/débit o
 msgid "page.donate.payment.desc.binance_p2"
 msgstr "Binance est dîsponibe dins preske tot lès payis, et siporte lès pus grands banques et cartes di crédit/débit. C' est asteure nosse prumîre consèy. Nos vos rmerçions d' prinde l' tins d' aprinde come doner avou cisse manîre, çou nos aidèye fort."
 
-#: allthethings/account/templates/account/donate.html:333
-#: allthethings/account/templates/account/donate.html:337
-#, fuzzy
-msgid "page.donate.buttons.donate"
-msgstr "Faire un don"
-
 #: allthethings/account/templates/account/donate.html:252
 #: allthethings/account/templates/account/donate.html:258
 #, fuzzy
@@ -946,6 +609,11 @@ msgstr "Cisse manîre eploye on founissou di criptomonnêye come on intermédiar
 #, fuzzy
 msgid "page.donate.payment.desc.credit_debit_p1"
 msgstr "Nos n' poumons nén siporter les cartes di crédit/débit direktemint, paskè les banques n' veynt nén tchover avou nos. :("
+
+#: allthethings/account/templates/account/donate.html:292
+#, fuzzy
+msgid "page.donate.payment.desc.credit_debit_p2"
+msgstr "D' tôte manîre, i gn a sacwants môyéns d' eployî des cartes di crèdite/dèbete, eployant nos ôtès môyéns di payement:"
 
 #: allthethings/account/templates/account/donate.html:296
 #, fuzzy
@@ -1016,6 +684,12 @@ msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>après <span %(span_d
 #, fuzzy
 msgid "page.donate.payment.minimum_method"
 msgstr "Ce mode de paiement nécessite un minimum de %(amount)s. Veuillez sélectionner une autre durée ou un autre mode de paiement."
+
+#: allthethings/account/templates/account/donate.html:333
+#: allthethings/account/templates/account/donate.html:337
+#, fuzzy
+msgid "page.donate.buttons.donate"
+msgstr "Faire un don"
 
 #: allthethings/account/templates/account/donate.html:336
 #, fuzzy
@@ -1161,6 +835,11 @@ msgstr "Donaedje"
 msgid "page.donation.header.id"
 msgstr "Identifieu: %(id)s"
 
+#: allthethings/account/templates/account/donation.html:11
+#, fuzzy
+msgid "page.donation.header.date"
+msgstr "Date: %(date)s"
+
 #: allthethings/account/templates/account/donation.html:14
 #, fuzzy
 msgid "page.donation.header.total_including_discount"
@@ -1242,32 +921,10 @@ msgstr "Sinon, vous risquez d'être verrouillé hors de ce compte !"
 msgid "page.donation.old_instructions.intro_outdated"
 msgstr "Les instructions de paiement sont maintenant obsolètes. Si vous souhaitez faire un autre don, utilisez le bouton « Commander à nouveau » ci-dessus."
 
-#: allthethings/account/templates/account/donation.html:407
-#: allthethings/account/templates/account/donation.html:424
-#, fuzzy
-msgid "page.donation.payment.alipay.top_header"
-msgstr "Instructions Alipay"
-
 #: allthethings/account/templates/account/donation.html:75
 #, fuzzy
 msgid "page.donate.submit.crypto_note"
 msgstr "<strong>Note importante :</strong> Les prix des cryptomonnaies peuvent fluctuer énormément, parfois même jusqu'à 20%% en quelques minutes. C'est encore moins que les frais que nous encourons avec de nombreux prestataires de paiement, qui facturent souvent 50-60%% pour travailler avec une « charité de l'ombre » comme la nôtre. <u>Si vous nous envoyez le reçu avec le prix original que vous avez payé, nous créditerons toujours votre compte pour l'adhésion choisie</u> (tant que le reçu n'est pas plus vieux de quelques heures). Nous apprécions vraiment que vous soyez prêt à supporter des choses comme celle-ci pour nous soutenir ! ❤️"
-
-#: allthethings/account/templates/account/donation.html:149
-#: allthethings/account/templates/account/donation.html:192
-#: allthethings/account/templates/account/donation.html:235
-#: allthethings/account/templates/account/donation.html:276
-#: allthethings/account/templates/account/donation.html:305
-#: allthethings/account/templates/account/donation.html:442
-#: allthethings/account/templates/account/donation.html:469
-#, fuzzy
-msgid "page.donation.time_left_header"
-msgstr "Temps ki rès:"
-
-#: allthethings/account/templates/account/donation.html:534
-#, fuzzy
-msgid "page.donation.footer.failure"
-msgstr "❌ Qqch a mål tourné. Rilodîz l' pådje et sayîz èncor."
 
 #: allthethings/account/templates/account/donation.html:81
 #: allthethings/account/templates/account/donation.html:94
@@ -1388,10 +1045,16 @@ msgstr "Atinde confirmåcion (rafrechi l’pådje po veyî)…"
 msgid "page.donation.waiting_for_transfer_refresh"
 msgstr "Atinde transfere (rafrechi l’pådje po veyî)…"
 
-#: allthethings/account/templates/account/donation.html:539
+#: allthethings/account/templates/account/donation.html:149
+#: allthethings/account/templates/account/donation.html:192
+#: allthethings/account/templates/account/donation.html:235
+#: allthethings/account/templates/account/donation.html:276
+#: allthethings/account/templates/account/donation.html:305
+#: allthethings/account/templates/account/donation.html:442
+#: allthethings/account/templates/account/donation.html:469
 #, fuzzy
-msgid "page.donation.stepbystep"
-msgstr "Gaid po passêye dès-å-dès"
+msgid "page.donation.time_left_header"
+msgstr "Temps ki rès:"
 
 #: allthethings/account/templates/account/donation.html:149
 #: allthethings/account/templates/account/donation.html:192
@@ -1505,11 +1168,6 @@ msgstr "Unique a vosse compte, n'partagîz nén."
 msgid "page.donation.amazon.waiting_gift_card"
 msgstr "Atindant l'carte-cadeau… (rafraîchîz l'page po veyî)"
 
-#: allthethings/account/templates/account/index.html:22
-#, fuzzy
-msgid "page.account.logged_in.secret_key_show"
-msgstr "montrer"
-
 #: allthethings/account/templates/account/donation.html:343
 #, fuzzy
 msgid "page.donation.amazon.confirm_automated"
@@ -1533,6 +1191,12 @@ msgstr "Exemple:"
 #, fuzzy
 msgid "page.donate.strange_account"
 msgstr "Notez qu'li nom du compte ou l'image pôrti parèyî étrindje. Nén d'panique! Ces comptes sont gérés pa nosse partenaires di donations. Nosse comptes n'ont nén stî hackés."
+
+#: allthethings/account/templates/account/donation.html:407
+#: allthethings/account/templates/account/donation.html:424
+#, fuzzy
+msgid "page.donation.payment.alipay.top_header"
+msgstr "Instructions Alipay"
 
 #: allthethings/account/templates/account/donation.html:409
 #: allthethings/account/templates/account/donation.html:426
@@ -1610,6 +1274,16 @@ msgstr "Oyi, j' a evoyî mon reçû"
 #, fuzzy
 msgid "page.donation.footer.success"
 msgstr "✅ Meci po vosse don! Anna activrè vosse mimbreûté manuellement dins kékès djoûs."
+
+#: allthethings/account/templates/account/donation.html:534
+#, fuzzy
+msgid "page.donation.footer.failure"
+msgstr "❌ Qqch a mål tourné. Rilodîz l' pådje et sayîz èncor."
+
+#: allthethings/account/templates/account/donation.html:539
+#, fuzzy
+msgid "page.donation.stepbystep"
+msgstr "Gaid po passêye dès-å-dès"
 
 #: allthethings/account/templates/account/donation.html:541
 #, fuzzy
@@ -1741,6 +1415,11 @@ msgstr "Profil publeye: %(profile_link)s"
 msgid "page.account.logged_in.secret_key_dont_share"
 msgstr "Clé secrète (nén partadjer!): %(secret_key)s"
 
+#: allthethings/account/templates/account/index.html:22
+#, fuzzy
+msgid "page.account.logged_in.secret_key_show"
+msgstr "montrer"
+
 #: allthethings/account/templates/account/index.html:25
 #, fuzzy
 msgid "page.account.logged_in.membership_none"
@@ -1860,6 +1539,21 @@ msgstr "Connexion"
 #, fuzzy
 msgid "page.account.logged_out.key_form.invalid_key"
 msgstr "Clé secrète invalide. Vérifiez votre clé et réessayez, ou inscrivez-vous ci-dessous pour créer un nouveau compte."
+
+#: allthethings/account/templates/account/index.html:77
+#, fuzzy
+msgid "page.account.logged_out.key_form.dont_lose_key"
+msgstr "Ne perdez pas votre clé !"
+
+#: allthethings/account/templates/account/index.html:82
+#, fuzzy
+msgid "page.account.logged_out.register.header"
+msgstr "Vous n'avez pas encore de compte ?"
+
+#: allthethings/account/templates/account/index.html:85
+#, fuzzy
+msgid "page.account.logged_out.register.button"
+msgstr "Riwandjî novea conte"
 
 #: allthethings/account/templates/account/index.html:89
 #, fuzzy
@@ -1992,149 +1686,429 @@ msgstr "Cette pièce a un minimum plus élevé que d’habitude. Veuillez sélec
 msgid "dyn.buy_membership.error.wait"
 msgstr "Erreur dans le traitement du paiement. Veuillez patienter un moment et réessayer. Si le problème persiste pendant plus de 24 heures, veuillez nous contacter à %(email)s avec une capture d’écran."
 
-#: allthethings/page/views.py:4899
+#: allthethings/page/views.py:3782
+#, fuzzy
+msgid "page.md5.box.download.affected_files"
+msgstr "%(count)s pages affectées"
+
+#: allthethings/page/views.py:4762
+#, fuzzy
+msgid "common.md5_problem_type_mapping.lgrsnf_visible"
+msgstr "Non visible dans Libgen.rs Non-Fiction"
+
+#: allthethings/page/views.py:4763
+#, fuzzy
+msgid "common.md5_problem_type_mapping.lgrsfic_visible"
+msgstr "Non visible dans Libgen.rs Fiction"
+
+#: allthethings/page/views.py:4764
+#, fuzzy
+msgid "common.md5_problem_type_mapping.lgli_visible"
+msgstr "Non visible dans Libgen.li"
+
+#: allthethings/page/views.py:4765
+#, fuzzy
+msgid "common.md5_problem_type_mapping.lgli_broken"
+msgstr "Marqué comme cassé dans Libgen.li"
+
+#: allthethings/page/views.py:4766
+#, fuzzy
+msgid "common.md5_problem_type_mapping.zlib_missing"
+msgstr "Manquant de Z-Library"
+
+#: allthethings/page/views.py:4767
+#, fuzzy
+msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
+msgstr "Toutes les pages n’ont pas pu être converties en PDF"
+
+#: allthethings/page/views.py:4768
+#, fuzzy
+msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
+msgstr "L’exécution de exiftool a échoué sur ce fichier"
+
+#: allthethings/page/views.py:4774
+#, fuzzy
+msgid "common.md5_content_type_mapping.book_unknown"
+msgstr "Livre (inconnu)"
+
+#: allthethings/page/views.py:4775
+#, fuzzy
+msgid "common.md5_content_type_mapping.book_nonfiction"
+msgstr "Livre (non-fiction)"
+
+#: allthethings/page/views.py:4776
+#, fuzzy
+msgid "common.md5_content_type_mapping.book_fiction"
+msgstr "Livre (fiction)"
+
+#: allthethings/page/views.py:4777
+#, fuzzy
+msgid "common.md5_content_type_mapping.journal_article"
+msgstr "Article de journal"
+
+#: allthethings/page/views.py:4778
+#, fuzzy
+msgid "common.md5_content_type_mapping.standards_document"
+msgstr "Document de normes"
+
+#: allthethings/page/views.py:4779
+#, fuzzy
+msgid "common.md5_content_type_mapping.magazine"
+msgstr "Magazine"
+
+#: allthethings/page/views.py:4780
+#, fuzzy
+msgid "common.md5_content_type_mapping.book_comic"
+msgstr "Bande dessinée"
+
+#: allthethings/page/views.py:4781
+#, fuzzy
+msgid "common.md5_content_type_mapping.musical_score"
+msgstr "Partition musicale"
+
+#: allthethings/page/views.py:4782
+#, fuzzy
+msgid "common.md5_content_type_mapping.other"
+msgstr "Autre"
+
+#: allthethings/page/views.py:4788
+#, fuzzy
+msgid "common.access_types_mapping.aa_download"
+msgstr "Téléchargement depuis le serveur partenaire"
+
+#: allthethings/page/views.py:4789
+#, fuzzy
+msgid "common.access_types_mapping.aa_scidb"
+msgstr "SciDB"
+
+#: allthethings/page/views.py:4790
+#, fuzzy
+msgid "common.access_types_mapping.external_download"
+msgstr "Téléchargement externe"
+
+#: allthethings/page/views.py:4791
+#, fuzzy
+msgid "common.access_types_mapping.external_borrow"
+msgstr "Emprunt externe"
+
+#: allthethings/page/views.py:4792
+#, fuzzy
+msgid "common.access_types_mapping.external_borrow_printdisabled"
+msgstr "Emprunt externe (impression désactivée)"
+
+#: allthethings/page/views.py:4793
+#, fuzzy
+msgid "common.access_types_mapping.meta_explore"
+msgstr "Explorer les métadonnées"
+
+#: allthethings/page/views.py:4794
+#, fuzzy
+msgid "common.access_types_mapping.torrents_available"
+msgstr "Contenu dans les torrents"
+
+#: allthethings/page/views.py:4800
+#, fuzzy
+msgid "common.record_sources_mapping.lgrs"
+msgstr "Libgen.rs"
+
+#: allthethings/page/views.py:4801
+#, fuzzy
+msgid "common.record_sources_mapping.lgli"
+msgstr "Libgen.li"
+
+#: allthethings/page/views.py:4802
+#, fuzzy
+msgid "common.record_sources_mapping.zlib"
+msgstr "Z-Library"
+
+#: allthethings/page/views.py:4803
+#, fuzzy
+msgid "common.record_sources_mapping.ia"
+msgstr "IA"
+
+#: allthethings/page/views.py:4804
+#, fuzzy
+msgid "common.record_sources_mapping.isbndb"
+msgstr "ISBNdb"
+
+#: allthethings/page/views.py:4805
+#, fuzzy
+msgid "common.record_sources_mapping.ol"
+msgstr "OpenLibrary"
+
+#: allthethings/page/views.py:4806
+#, fuzzy
+msgid "common.record_sources_mapping.scihub"
+msgstr "Sci-Hub"
+
+#: allthethings/page/views.py:4807
+#, fuzzy
+msgid "common.record_sources_mapping.oclc"
+msgstr "OCLC (WorldCat)"
+
+#: allthethings/page/views.py:4808
+#, fuzzy
+msgid "common.record_sources_mapping.duxiu"
+msgstr "DuXiu 读秀"
+
+#: allthethings/page/views.py:4809
+#, fuzzy
+msgid "common.record_sources_mapping.uploads"
+msgstr "Tcharget di AA"
+
+#: allthethings/page/views.py:4815
+#, fuzzy
+msgid "common.specific_search_fields.title"
+msgstr "Titrea"
+
+#: allthethings/page/views.py:4816
+#, fuzzy
+msgid "common.specific_search_fields.author"
+msgstr "Oteur"
+
+#: allthethings/page/views.py:4817
+#, fuzzy
+msgid "common.specific_search_fields.publisher"
+msgstr "Editeu"
+
+#: allthethings/page/views.py:4818
+#, fuzzy
+msgid "common.specific_search_fields.edition_varia"
+msgstr "Edicion"
+
+#: allthethings/page/views.py:4819
+#, fuzzy
+msgid "common.specific_search_fields.year"
+msgstr "Anêye di publicacion"
+
+#: allthethings/page/views.py:4820
+#, fuzzy
+msgid "common.specific_search_fields.original_filename"
+msgstr "No di fitchî oridjinal"
+
+#: allthethings/page/views.py:4821
+#, fuzzy
+msgid "common.specific_search_fields.description_comments"
+msgstr "Discrijhaedje et rimarques di metadata"
+
+#: allthethings/page/views.py:4846
+#, fuzzy
+msgid "common.md5.servers.fast_partner"
+msgstr "Sîrvou rapîde di patner #%(number)s"
+
+#: allthethings/page/views.py:4846
+#, fuzzy
+msgid "common.md5.servers.no_browser_verification_or_waitlists"
+msgstr "(none vérifiaedje di naviguetrece ou waitlistes)"
+
+#: allthethings/page/views.py:4849 allthethings/page/views.py:4851
+#, fuzzy
+msgid "common.md5.servers.slow_partner"
+msgstr "Sîrvou linde di patner #%(number)s"
+
+#: allthethings/page/views.py:4849
+#, fuzzy
+msgid "common.md5.servers.faster_with_waitlist"
+msgstr "(légérement rapîde mins avou waitliste)"
+
+#: allthethings/page/views.py:4851
+#, fuzzy
+msgid "common.md5.servers.slow_no_waitlist"
+msgstr "(none waitliste, mins pout esse très linde)"
+
+#: allthethings/page/views.py:4940
+#, fuzzy
+msgid "page.md5.box.descr_title"
+msgstr "discrijhaedje"
+
+#: allthethings/page/views.py:4941
+#, fuzzy
+msgid "page.md5.box.metadata_comments_title"
+msgstr "rimarques di metadata"
+
+#: allthethings/page/views.py:4942
+#, fuzzy
+msgid "page.md5.box.alternative_title"
+msgstr "Titrea alternativ"
+
+#: allthethings/page/views.py:4943
+#, fuzzy
+msgid "page.md5.box.alternative_author"
+msgstr "Oteur alternativ"
+
+#: allthethings/page/views.py:4944
+#, fuzzy
+msgid "page.md5.box.alternative_publisher"
+msgstr "Editeu alternativ"
+
+#: allthethings/page/views.py:4945
+#, fuzzy
+msgid "page.md5.box.alternative_edition"
+msgstr "Edicion alternativ"
+
+#: allthethings/page/views.py:4946
+#, fuzzy
+msgid "page.md5.box.alternative_description"
+msgstr "Discrijhaedje alternativ"
+
+#: allthethings/page/views.py:4947
+#, fuzzy
+msgid "page.md5.box.alternative_filename"
+msgstr "Nom alternatif"
+
+#: allthethings/page/views.py:4948
+#, fuzzy
+msgid "page.md5.box.alternative_extension"
+msgstr "Extension alternative"
+
+#: allthethings/page/views.py:4949
+#, fuzzy
+msgid "page.md5.box.date_open_sourced_title"
+msgstr "date de mise en source ouverte"
+
+#: allthethings/page/views.py:4985
 #, fuzzy
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "Les téléchargements du serveur partenaire ne sont temporairement pas disponibles pour ce fichier."
 
-#: allthethings/page/views.py:4903 allthethings/page/views.py:5086
+#: allthethings/page/views.py:4989 allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub : %(doi)s"
 
-#: allthethings/page/views.py:4977
+#: allthethings/page/views.py:5063
 #, fuzzy
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs Non-Fiction"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(cliquez aussi sur « OBTENIR » en haut)"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(cliquez sur « OBTENIR » en haut)"
 
-#: allthethings/page/views.py:4990
+#: allthethings/page/views.py:5076
 #, fuzzy
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Fiction"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.libgen_ads"
 msgstr "leurs publicités sont connues pour contenir des logiciels malveillants, utilisez donc un bloqueur de publicités ou ne cliquez pas sur les publicités"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Emprunter à l'Internet Archive"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(pour les utilisateurs handicapés d'impression uniquement)"
 
-#: allthethings/page/views.py:5086
+#: allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(le DOI associé pourrait ne pas être disponible dans Sci-Hub)"
 
-#: allthethings/page/views.py:5092
+#: allthethings/page/views.py:5178
 #, fuzzy
 msgid "page.md5.box.download.collection"
 msgstr "collection"
 
-#: allthethings/page/views.py:5093
+#: allthethings/page/views.py:5179
 #, fuzzy
 msgid "page.md5.box.download.torrent"
 msgstr "torrent"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Téléchargements en masse par torrent"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.experts_only"
 msgstr "(experts uniquement)"
 
-#: allthethings/page/views.py:5106
+#: allthethings/page/views.py:5192
 #, fuzzy
 msgid "page.md5.box.download.aa_isbn"
 msgstr "Rechercher dans l'Archive d'Anna pour ISBN"
 
-#: allthethings/page/views.py:5107
+#: allthethings/page/views.py:5193
 #, fuzzy
 msgid "page.md5.box.download.other_isbn"
 msgstr "Rechercher dans diverses autres bases de données pour ISBN"
 
-#: allthethings/page/views.py:5109
+#: allthethings/page/views.py:5195
 #, fuzzy
 msgid "page.md5.box.download.original_isbndb"
 msgstr "Trover l' enregistrement original dins ISBNdb"
 
-#: allthethings/page/views.py:5111
+#: allthethings/page/views.py:5197
 #, fuzzy
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Cercar dins l' Archîve d' Anna pol ID Open Library"
 
-#: allthethings/page/views.py:5113
+#: allthethings/page/views.py:5199
 #, fuzzy
 msgid "page.md5.box.download.original_openlib"
 msgstr "Trover l' enregistrement original dins Open Library"
 
-#: allthethings/page/views.py:5115
+#: allthethings/page/views.py:5201
 #, fuzzy
 msgid "page.md5.box.download.aa_oclc"
 msgstr "Cercar dins l' Archîve d' Anna pol numéro OCLC (WorldCat)"
 
-#: allthethings/page/views.py:5116
+#: allthethings/page/views.py:5202
 #, fuzzy
 msgid "page.md5.box.download.original_oclc"
 msgstr "Trover l' enregistrement original dins WorldCat"
 
-#: allthethings/page/views.py:5118
+#: allthethings/page/views.py:5204
 #, fuzzy
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "Cercar dins l' Archîve d' Anna pol numéro SSID DuXiu"
 
-#: allthethings/page/views.py:5119
+#: allthethings/page/views.py:5205
 #, fuzzy
 msgid "page.md5.box.download.original_duxiu"
 msgstr "Cercar a mwin dins DuXiu"
 
-#: allthethings/page/views.py:5121
+#: allthethings/page/views.py:5207
 #, fuzzy
 msgid "page.md5.box.download.aa_cadal"
 msgstr "Cercar dins l' Archîve d' Anna pol numéro SSNO CADAL"
 
-#: allthethings/page/views.py:5122
+#: allthethings/page/views.py:5208
 #, fuzzy
 msgid "page.md5.box.download.original_cadal"
 msgstr "Trover l' enregistrement original dins CADAL"
 
-#: allthethings/page/views.py:5126
+#: allthethings/page/views.py:5212
 #, fuzzy
 msgid "page.md5.box.download.aa_dxid"
 msgstr "Cercar dins l' Archîve d' Anna pol numéro DXID DuXiu"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "page.md5.box.download.scidb"
 msgstr "L' Archîve d' Anna 🧬 SciDB"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(neninde vérification du navigatore n' est nècèssaire)"
@@ -2143,6 +2117,11 @@ msgstr "(neninde vérification du navigatore n' est nècèssaire)"
 #, fuzzy
 msgid "page.md5.header.scihub"
 msgstr "Fitchî Sci-Hub “%(id)s”"
+
+#: allthethings/page/templates/page/aarecord.html:18
+#, fuzzy
+msgid "page.md5.header.ia"
+msgstr "Fitchî de Prêt Numérique Contrôlé de l' Internet Archive “%(id)s”"
 
 #: allthethings/page/templates/page/aarecord.html:21
 #, fuzzy
@@ -2520,12 +2499,6 @@ msgstr "Lorsque vous posez des questions sur les comptes ou les dons, ajoutez vo
 #, fuzzy
 msgid "page.contact.checkboxes.show_email_button"
 msgstr "Afficher l'email"
-
-#: allthethings/page/templates/page/home.html:55
-#: allthethings/page/templates/page/torrents.html:88
-#, fuzzy
-msgid "page.home.torrents.legend_greater"
-msgstr ">%(count)s semeûs"
 
 #: allthethings/page/templates/page/datasets.html:161
 #: allthethings/page/templates/page/faq.html:168
@@ -2914,11 +2887,6 @@ msgstr "2. Nous recommandons de <a %(a_generate)s>générer</a> ou de <a %(a_dow
 msgid "page.faq.security.title"
 msgstr "Avez-vous un programme de divulgation responsable ?"
 
-#: allthethings/page/templates/page/home.html:67
-#, fuzzy
-msgid "page.home.llm.header"
-msgstr "Données d' apprentissaedje LLM"
-
 #: allthethings/page/templates/page/faq.html:254
 #, fuzzy
 msgid "page.faq.security.text1"
@@ -2988,21 +2956,6 @@ msgstr "Si vos avoz des plintes a fere a propôs di çou k' vos veyoz ci, li miy
 #, fuzzy
 msgid "page.faq.hate.title"
 msgstr "Dj' n' aime nén come vos-ôtes gîdîz cisse prôjèt!"
-
-#: allthethings/page/templates/page/home.html:70
-#, fuzzy
-msgid "page.home.llm.body"
-msgstr "Nos avans l' pus grand colèccion do monde di données di tecse di hôte qualité. <a %(a_llm)s>En savou més…</a>"
-
-#: allthethings/page/templates/page/home.html:73
-#, fuzzy
-msgid "page.home.mirrors.header"
-msgstr "🪩 Miroirs: apel a volontaires"
-
-#: allthethings/page/templates/page/home.html:75
-#, fuzzy
-msgid "page.home.volunteering.header"
-msgstr "🤝 On cwèrt des volontaires"
 
 #: allthethings/page/templates/page/faq.html:289
 #, fuzzy
@@ -3124,6 +3077,32 @@ msgstr "<%(count)s semeûs"
 #, fuzzy
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s semeûs"
+
+#: allthethings/page/templates/page/home.html:55
+#: allthethings/page/templates/page/torrents.html:88
+#, fuzzy
+msgid "page.home.torrents.legend_greater"
+msgstr ">%(count)s semeûs"
+
+#: allthethings/page/templates/page/home.html:67
+#, fuzzy
+msgid "page.home.llm.header"
+msgstr "Données d' apprentissaedje LLM"
+
+#: allthethings/page/templates/page/home.html:70
+#, fuzzy
+msgid "page.home.llm.body"
+msgstr "Nos avans l' pus grand colèccion do monde di données di tecse di hôte qualité. <a %(a_llm)s>En savou més…</a>"
+
+#: allthethings/page/templates/page/home.html:73
+#, fuzzy
+msgid "page.home.mirrors.header"
+msgstr "🪩 Miroirs: apel a volontaires"
+
+#: allthethings/page/templates/page/home.html:75
+#, fuzzy
+msgid "page.home.volunteering.header"
+msgstr "🤝 On cwèrt des volontaires"
 
 #: allthethings/page/templates/page/home.html:77
 #, fuzzy
@@ -3264,6 +3243,11 @@ msgstr "Si vos eployîz on VPN, ene conneccion internet partadje, ou si vosse IS
 msgid "layout.index.header.title"
 msgstr "L'Archive d'Anna"
 
+#: allthethings/page/templates/page/scidb.html:15
+#, fuzzy
+msgid "page.scidb.header"
+msgstr "SciDB"
+
 #: allthethings/page/templates/page/scidb.html:20
 #, fuzzy
 msgid "page.scidb.doi"
@@ -3359,11 +3343,6 @@ msgstr "Titro, ôteur, DOI, ISBN, MD5, …"
 #, fuzzy
 msgid "common.search.submit"
 msgstr "Cweri"
-
-#: allthethings/page/templates/page/search.html:322
-#, fuzzy
-msgid "page.search.results.error.header"
-msgstr "Erreur lors de la recherche."
 
 #: allthethings/page/templates/page/search.html:73
 #: allthethings/page/templates/page/search.html:127
@@ -3513,16 +3492,6 @@ msgstr "Li pus relévant"
 msgid "page.search.more"
 msgstr "plu d’…"
 
-#: allthethings/page/templates/page/search.html:361
-#, fuzzy
-msgid "page.search.results.partial"
-msgstr "%(num)d matchès parciès"
-
-#: allthethings/page/templates/page/search.html:324
-#, fuzzy
-msgid "page.search.results.error.unknown"
-msgstr "Essayez de <a %(a_reload)s>recharger la page</a>. Si le problème persiste, veuillez nous envoyer un e-mail à %(email)s."
-
 #: allthethings/page/templates/page/search.html:228
 #, fuzzy
 msgid "page.search.header.update_info"
@@ -3612,6 +3581,16 @@ msgstr "Il y a de nombreuses sources de métadonnées pour les œuvres écrites 
 msgid "page.search.results.search_generic"
 msgstr "Tapez dans la boîte pour rechercher."
 
+#: allthethings/page/templates/page/search.html:322
+#, fuzzy
+msgid "page.search.results.error.header"
+msgstr "Erreur lors de la recherche."
+
+#: allthethings/page/templates/page/search.html:324
+#, fuzzy
+msgid "page.search.results.error.unknown"
+msgstr "Essayez de <a %(a_reload)s>recharger la page</a>. Si le problème persiste, veuillez nous envoyer un e-mail à %(email)s."
+
 #: allthethings/page/templates/page/search.html:337
 #, fuzzy
 msgid "page.search.results.none"
@@ -3646,6 +3625,16 @@ msgstr "Résultats %(from)s-%(to)s (%(total)s au total)"
 #, fuzzy
 msgid "page.search.results.partial_more"
 msgstr "%(num)d+ correspondances partielles"
+
+#: allthethings/page/templates/page/search.html:361
+#, fuzzy
+msgid "page.search.results.partial"
+msgstr "%(num)d matchès parciès"
+
+#: allthethings/templates/layouts/index.html:4
+#, fuzzy
+msgid "layout.index.title"
+msgstr "Anna’s Archive"
 
 #: allthethings/templates/layouts/index.html:13
 #, fuzzy
@@ -3895,3 +3884,4 @@ msgstr "…"
 #, fuzzy
 msgid "page.search.pagination.next"
 msgstr "Suivant"
+

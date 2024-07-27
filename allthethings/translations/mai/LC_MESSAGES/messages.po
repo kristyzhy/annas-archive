@@ -1,13 +1,52 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2024-07-27 14:40+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language: mai\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+#: allthethings/app.py:201
+#, fuzzy
+msgid "layout.index.invalid_request"
+msgstr "अवैध अनुरोध। कृपया %(websites)s पर जाएँ।"
+
+#: allthethings/app.py:262
+#, fuzzy
+msgid "layout.index.header.tagline_scihub"
+msgstr "Sci-Hub"
+
+#: allthethings/app.py:263
+#, fuzzy
+msgid "layout.index.header.tagline_libgen"
+msgstr "LibGen"
+
+#: allthethings/app.py:264
+#, fuzzy
+msgid "layout.index.header.tagline_zlib"
+msgstr "Z-Lib"
+
+#: allthethings/app.py:265
+#, fuzzy
+msgid "layout.index.header.tagline_openlib"
+msgstr "OpenLib"
+
+#: allthethings/app.py:266
+#, fuzzy
+msgid "layout.index.header.tagline_ia"
+msgstr "इंटरनेट आर्काइव लेंडिंग लाइब्रेरी"
+
+#: allthethings/app.py:267
+#, fuzzy
+msgid "layout.index.header.tagline_duxiu"
+msgstr "DuXiu"
+
+#: allthethings/app.py:268
+#, fuzzy
+msgid "layout.index.header.tagline_separator"
+msgstr ", "
+
+#: allthethings/app.py:269
+#, fuzzy
+msgid "layout.index.header.tagline_and"
+msgstr " आ "
+
+#: allthethings/app.py:270
+#, fuzzy
+msgid "layout.index.header.tagline_and_more"
+msgstr "आ अउर"
 
 #: allthethings/app.py:278
 #, fuzzy
@@ -89,6 +128,16 @@ msgstr "बोनस डाउनलोड"
 #, fuzzy
 msgid "common.membership.tier_name.2"
 msgstr "बेजोड़ बुकवर्म"
+
+#: allthethings/utils.py:375
+#, fuzzy
+msgid "common.membership.tier_name.3"
+msgstr "भाग्यशाली पुस्तकालयाध्यक्ष"
+
+#: allthethings/utils.py:376
+#, fuzzy
+msgid "common.membership.tier_name.4"
+msgstr "चमचमाता डेटा संकलक"
 
 #: allthethings/utils.py:377
 #, fuzzy
@@ -248,11 +297,6 @@ msgstr "<strong>%(percentage)s%% बोनस डाउनलोड</strong> अ
 msgid "page.donate.perks.credits"
 msgstr "अहाँक उपयोगकर्ता नाम वा गुमनाम उल्लेख क्रेडिट्स में"
 
-#: allthethings/account/templates/account/donate.html:140
-#, fuzzy
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (Brazil)"
-
 #: allthethings/account/templates/account/donate.html:63
 #: allthethings/account/templates/account/donate.html:77
 #: allthethings/account/templates/account/donate.html:91
@@ -405,6 +449,11 @@ msgstr "पेपल (US) %(bitcoin_icon)s"
 #, fuzzy
 msgid "page.donate.payment.buttons.alipay"
 msgstr "अलीपे"
+
+#: allthethings/account/templates/account/donate.html:140
+#, fuzzy
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (Brazil)"
 
 #: allthethings/account/templates/account/donate.html:145
 #, fuzzy
@@ -985,11 +1034,6 @@ msgstr "स्थिति:"
 msgid "page.donation.waiting_for_confirmation_refresh"
 msgstr "पुष्टि के प्रतीक्षा में (जाँच करय लेल पृष्ठ के ताज़ा करु)…"
 
-#: allthethings/account/templates/account/profile.html:15
-#, fuzzy
-msgid "page.profile.change_display_name.button"
-msgstr "सहेजु"
-
 #: allthethings/account/templates/account/donation.html:148
 #: allthethings/account/templates/account/donation.html:191
 #: allthethings/account/templates/account/donation.html:234
@@ -1128,11 +1172,6 @@ msgstr "गिफ्ट कार्ड की प्रतीक्षा क�
 #, fuzzy
 msgid "page.donation.amazon.confirm_automated"
 msgstr "गिफ्ट कार्ड भेजने के बाद, हमारी स्वचालित प्रणाली इसे कुछ ही मिनटों में पुष्टि कर देगी। यदि यह काम नहीं करता है, तो अपने गिफ्ट कार्ड को फिर से भेजने का प्रयास करें (<a %(a_instr)s>निर्देश</a>)।"
-
-#: allthethings/page/views.py:4715
-#, fuzzy
-msgid "common.record_sources_mapping.lgli"
-msgstr "Libgen.li"
 
 #: allthethings/account/templates/account/donation.html:344
 #, fuzzy
@@ -1275,11 +1314,6 @@ msgstr "4. “स्वयं-होस्टेड” वॉलेट चुन
 #, fuzzy
 msgid "page.donation.hoodpay.step5"
 msgstr "5. “मैं स्वामित्व की पुष्टि करता हूँ” पर क्लिक करु।"
-
-#: allthethings/page/views.py:4716
-#, fuzzy
-msgid "common.record_sources_mapping.zlib"
-msgstr "Z-लाइब्रेरी"
 
 #: allthethings/account/templates/account/donation.html:573
 #, fuzzy
@@ -1431,11 +1465,6 @@ msgstr "अगर अहाँ अपन सदस्यता के उच्�
 #, fuzzy
 msgid "page.account.logged_in.membership_multiple"
 msgstr "अहाँ एक संगे कतेको सदस्यता जोड़ि सकैत छी (प्रति 24 घंटा फास्ट डाउनलोड एक संगे जोड़ल जाएत)।"
-
-#: allthethings/account/templates/account/profile.html:14
-#, fuzzy
-msgid "page.profile.change_display_name.text"
-msgstr "अपन डिस्प्ले नाम बदलू। अहाँक पहचानकर्ता (जकरा “#” के बाद अछि) बदलब नहि सकैत छी।"
 
 #: allthethings/account/templates/account/index.html:41
 #: allthethings/templates/layouts/index.html:512
@@ -1596,10 +1625,15 @@ msgstr "प्रोफाइल नहि भेटल।"
 msgid "page.profile.header.edit"
 msgstr "संपादन करू"
 
-#: allthethings/page/views.py:4717
+#: allthethings/account/templates/account/profile.html:14
 #, fuzzy
-msgid "common.record_sources_mapping.ia"
-msgstr "आईए"
+msgid "page.profile.change_display_name.text"
+msgstr "अपन डिस्प्ले नाम बदलू। अहाँक पहचानकर्ता (जकरा “#” के बाद अछि) बदलब नहि सकैत छी।"
+
+#: allthethings/account/templates/account/profile.html:15
+#, fuzzy
+msgid "page.profile.change_display_name.button"
+msgstr "सहेजु"
 
 #: allthethings/account/templates/account/profile.html:18
 #, fuzzy
@@ -1652,414 +1686,429 @@ msgstr "ई सिक्का सामान्य सँ बेसी न्�
 msgid "dyn.buy_membership.error.wait"
 msgstr "भुगतान प्रक्रिया में त्रुटि। कृपया किछु समय प्रतीक्षा करू आ फेर सँ प्रयास करू। यदि समस्या 24 घंटा सँ बेसी समय तक रहैत अछि त %(email)s पर स्क्रीनशॉट संग सम्पर्क करू।"
 
-#: allthethings/page/views.py:4416
+#: allthethings/page/views.py:3782
 #, fuzzy
 msgid "page.md5.box.download.affected_files"
 msgstr "%(count)s प्रभावित पृष्ठसभ"
 
-#: allthethings/page/views.py:4676
+#: allthethings/page/views.py:4762
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Libgen.rs Non-Fiction में दृश्यमान नै अछि"
 
-#: allthethings/page/views.py:4677
+#: allthethings/page/views.py:4763
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Libgen.rs Fiction में दृश्यमान नै अछि"
 
-#: allthethings/page/views.py:4678
+#: allthethings/page/views.py:4764
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Libgen.li में दृश्यमान नै अछि"
 
-#: allthethings/page/views.py:4679
+#: allthethings/page/views.py:4765
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Libgen.li में टूटल चिन्हित"
 
-#: allthethings/page/views.py:4680
+#: allthethings/page/views.py:4766
 #, fuzzy
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Z-Library सँ गायब"
 
-#: allthethings/page/views.py:4681
+#: allthethings/page/views.py:4767
 #, fuzzy
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
 msgstr "सभ पृष्ठ PDF में परिवर्तित नै भऽ सकल"
 
-#: allthethings/page/views.py:4682
+#: allthethings/page/views.py:4768
 #, fuzzy
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
 msgstr "ई फाइल पर exiftool चलब सफल नै भेल"
 
-#: allthethings/page/views.py:4688
+#: allthethings/page/views.py:4774
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "पुस्तक (अज्ञात)"
 
-#: allthethings/page/views.py:4689
+#: allthethings/page/views.py:4775
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "पुस्तक (गैर-काल्पनिक)"
 
-#: allthethings/page/views.py:4690
+#: allthethings/page/views.py:4776
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "पुस्तक (काल्पनिक)"
 
-#: allthethings/page/views.py:4691
+#: allthethings/page/views.py:4777
 #, fuzzy
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "जर्नल लेख"
 
-#: allthethings/page/views.py:4692
+#: allthethings/page/views.py:4778
 #, fuzzy
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "मानक दस्तावेज़"
 
-#: allthethings/page/views.py:4693
+#: allthethings/page/views.py:4779
 #, fuzzy
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "पत्रिका"
 
-#: allthethings/page/views.py:4694
+#: allthethings/page/views.py:4780
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "कॉमिक पुस्तक"
 
-#: allthethings/page/views.py:4695
+#: allthethings/page/views.py:4781
 #, fuzzy
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "संगीत स्कोर"
 
-#: allthethings/page/views.py:4696
+#: allthethings/page/views.py:4782
 #, fuzzy
 msgid "common.md5_content_type_mapping.other"
 msgstr "अन्य"
 
-#: allthethings/page/views.py:4702
+#: allthethings/page/views.py:4788
 #, fuzzy
 msgid "common.access_types_mapping.aa_download"
 msgstr "साझेदार सर्वर डाउनलोड"
 
-#: allthethings/page/views.py:4703
+#: allthethings/page/views.py:4789
 #, fuzzy
 msgid "common.access_types_mapping.aa_scidb"
 msgstr "SciDB"
 
-#: allthethings/page/views.py:4704
+#: allthethings/page/views.py:4790
 #, fuzzy
 msgid "common.access_types_mapping.external_download"
 msgstr "बाहरी डाउनलोड"
 
-#: allthethings/page/views.py:4705
+#: allthethings/page/views.py:4791
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow"
 msgstr "बाहरी उधार"
 
-#: allthethings/page/views.py:4706
+#: allthethings/page/views.py:4792
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "बाहरी उधार (मुद्रण अक्षम)"
 
-#: allthethings/page/views.py:4707
+#: allthethings/page/views.py:4793
 #, fuzzy
 msgid "common.access_types_mapping.meta_explore"
 msgstr "मेटाडेटा अन्वेषण"
 
-#: allthethings/page/views.py:4708
+#: allthethings/page/views.py:4794
 #, fuzzy
 msgid "common.access_types_mapping.torrents_available"
 msgstr "टॉरेंट्स में समाहित"
 
-#: allthethings/page/views.py:4714
+#: allthethings/page/views.py:4800
 #, fuzzy
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:4718
+#: allthethings/page/views.py:4801
+#, fuzzy
+msgid "common.record_sources_mapping.lgli"
+msgstr "Libgen.li"
+
+#: allthethings/page/views.py:4802
+#, fuzzy
+msgid "common.record_sources_mapping.zlib"
+msgstr "Z-लाइब्रेरी"
+
+#: allthethings/page/views.py:4803
+#, fuzzy
+msgid "common.record_sources_mapping.ia"
+msgstr "आईए"
+
+#: allthethings/page/views.py:4804
 #, fuzzy
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:4719
+#: allthethings/page/views.py:4805
 #, fuzzy
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:4720
+#: allthethings/page/views.py:4806
 #, fuzzy
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:4721
+#: allthethings/page/views.py:4807
 #, fuzzy
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
-#: allthethings/page/views.py:4722
+#: allthethings/page/views.py:4808
 #, fuzzy
 msgid "common.record_sources_mapping.duxiu"
 msgstr "DuXiu 读秀"
 
-#: allthethings/page/views.py:4723
+#: allthethings/page/views.py:4809
 #, fuzzy
 msgid "common.record_sources_mapping.uploads"
 msgstr "AA पर अपलोड्स"
 
-#: allthethings/page/views.py:4729
+#: allthethings/page/views.py:4815
 #, fuzzy
 msgid "common.specific_search_fields.title"
 msgstr "शीर्षक"
 
-#: allthethings/page/views.py:4730
+#: allthethings/page/views.py:4816
 #, fuzzy
 msgid "common.specific_search_fields.author"
 msgstr "लेखक"
 
-#: allthethings/page/views.py:4731
+#: allthethings/page/views.py:4817
 #, fuzzy
 msgid "common.specific_search_fields.publisher"
 msgstr "प्रकाशक"
 
-#: allthethings/page/views.py:4732
+#: allthethings/page/views.py:4818
 #, fuzzy
 msgid "common.specific_search_fields.edition_varia"
 msgstr "संस्करण"
 
-#: allthethings/page/views.py:4733
+#: allthethings/page/views.py:4819
 #, fuzzy
 msgid "common.specific_search_fields.year"
 msgstr "प्रकाशन वर्ष"
 
-#: allthethings/page/views.py:4734
+#: allthethings/page/views.py:4820
 #, fuzzy
 msgid "common.specific_search_fields.original_filename"
 msgstr "मूल फाइलनाम"
 
-#: allthethings/page/views.py:4735
+#: allthethings/page/views.py:4821
 #, fuzzy
 msgid "common.specific_search_fields.description_comments"
 msgstr "विवरण आ मेटाडाटा टिप्पणी"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.fast_partner"
 msgstr "तेज पार्टनर सर्वर #%(number)s"
 
-#: allthethings/page/views.py:4760
+#: allthethings/page/views.py:4846
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification_or_waitlists"
 msgstr "(कोनो ब्राउजर सत्यापन या प्रतीक्षा सूची नै)"
 
-#: allthethings/page/views.py:4763 allthethings/page/views.py:4765
+#: allthethings/page/views.py:4849 allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_partner"
 msgstr "धीमा पार्टनर सर्वर #%(number)s"
 
-#: allthethings/page/views.py:4763
+#: allthethings/page/views.py:4849
 #, fuzzy
 msgid "common.md5.servers.faster_with_waitlist"
 msgstr "(थोड़ा तेज़ लेकिन प्रतीक्षा सूची के साथ)"
 
-#: allthethings/page/views.py:4765
+#: allthethings/page/views.py:4851
 #, fuzzy
 msgid "common.md5.servers.slow_no_waitlist"
 msgstr "(कोनो प्रतीक्षा सूची नै, लेकिन बहुत धीमा हो सकैत अछि)"
 
-#: allthethings/page/views.py:4854
+#: allthethings/page/views.py:4940
 #, fuzzy
 msgid "page.md5.box.descr_title"
 msgstr "विवरण"
 
-#: allthethings/page/views.py:4855
+#: allthethings/page/views.py:4941
 #, fuzzy
 msgid "page.md5.box.metadata_comments_title"
 msgstr "मेटाडाटा टिप्पणी"
 
-#: allthethings/page/views.py:4856
+#: allthethings/page/views.py:4942
 #, fuzzy
 msgid "page.md5.box.alternative_title"
 msgstr "वैकल्पिक शीर्षक"
 
-#: allthethings/page/views.py:4857
+#: allthethings/page/views.py:4943
 #, fuzzy
 msgid "page.md5.box.alternative_author"
 msgstr "वैकल्पिक लेखक"
 
-#: allthethings/page/views.py:4858
+#: allthethings/page/views.py:4944
 #, fuzzy
 msgid "page.md5.box.alternative_publisher"
 msgstr "वैकल्पिक प्रकाशक"
 
-#: allthethings/page/views.py:4859
+#: allthethings/page/views.py:4945
 #, fuzzy
 msgid "page.md5.box.alternative_edition"
 msgstr "वैकल्पिक संस्करण"
 
-#: allthethings/page/views.py:4860
+#: allthethings/page/views.py:4946
 #, fuzzy
 msgid "page.md5.box.alternative_description"
 msgstr "वैकल्पिक विवरण"
 
-#: allthethings/page/views.py:4861
+#: allthethings/page/views.py:4947
 #, fuzzy
 msgid "page.md5.box.alternative_filename"
 msgstr "वैकल्पिक फाइलनाम"
 
-#: allthethings/page/views.py:4862
+#: allthethings/page/views.py:4948
 #, fuzzy
 msgid "page.md5.box.alternative_extension"
 msgstr "वैकल्पिक विस्तार"
 
-#: allthethings/page/views.py:4863
+#: allthethings/page/views.py:4949
 #, fuzzy
 msgid "page.md5.box.date_open_sourced_title"
 msgstr "तिथि खुला स्रोत बनल"
 
-#: allthethings/page/views.py:4899
+#: allthethings/page/views.py:4985
 #, fuzzy
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "साझेदार सर्वर डाउनलोड अस्थायी रूप से ई फाइल खातिर उपलब्ध नै अछि।"
 
-#: allthethings/page/views.py:4903 allthethings/page/views.py:5086
+#: allthethings/page/views.py:4989 allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:4977
+#: allthethings/page/views.py:5063
 #, fuzzy
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs गैर-फिक्शन"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(ऊपर \"GET\" पर क्लिक करू)"
 
-#: allthethings/page/views.py:4977 allthethings/page/views.py:4990
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(\"GET\" पर ऊपर क्लिक करू)"
 
-#: allthethings/page/views.py:4990
+#: allthethings/page/views.py:5076
 #, fuzzy
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs फिक्शन"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:5037
+#: allthethings/page/views.py:5123
 #, fuzzy
 msgid "page.md5.box.download.libgen_ads"
 msgstr "उनकर विज्ञापन में हानिकारक सॉफ़्टवेयर होय के संभावना अछि, त एकटा विज्ञापन अवरोधक के उपयोग करू या विज्ञापन पर क्लिक नै करू"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.ia_borrow"
 msgstr "इंटरनेट आर्काइव से उधार लिअ"
 
-#: allthethings/page/views.py:5083
+#: allthethings/page/views.py:5169
 #, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(केवल प्रिंट अक्षम संरक्षक)"
 
-#: allthethings/page/views.py:5086
+#: allthethings/page/views.py:5172
 #, fuzzy
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(संबंधित DOI Sci-Hub में उपलब्ध नै हो सकैत अछि)"
 
-#: allthethings/page/views.py:5092
+#: allthethings/page/views.py:5178
 #, fuzzy
 msgid "page.md5.box.download.collection"
 msgstr "संग्रह"
 
-#: allthethings/page/views.py:5093
+#: allthethings/page/views.py:5179
 #, fuzzy
 msgid "page.md5.box.download.torrent"
 msgstr "टोरेंट"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "थोक टोरेंट डाउनलोड"
 
-#: allthethings/page/views.py:5099
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.experts_only"
 msgstr "(केवल विशेषज्ञ)"
 
-#: allthethings/page/views.py:5106
+#: allthethings/page/views.py:5192
 #, fuzzy
 msgid "page.md5.box.download.aa_isbn"
 msgstr "ISBN खातिर अन्ना के संग्रह में खोजू"
 
-#: allthethings/page/views.py:5107
+#: allthethings/page/views.py:5193
 #, fuzzy
 msgid "page.md5.box.download.other_isbn"
 msgstr "ISBN खातिर विभिन्न अन्य डेटाबेस में खोजू"
 
-#: allthethings/page/views.py:5109
+#: allthethings/page/views.py:5195
 #, fuzzy
 msgid "page.md5.box.download.original_isbndb"
 msgstr "ISBNdb में मूल रिकॉर्ड खोजू"
 
-#: allthethings/page/views.py:5111
+#: allthethings/page/views.py:5197
 #, fuzzy
 msgid "page.md5.box.download.aa_openlib"
 msgstr "अन्ना के आर्काइव में Open Library ID के लिए खोजें"
 
-#: allthethings/page/views.py:5113
+#: allthethings/page/views.py:5199
 #, fuzzy
 msgid "page.md5.box.download.original_openlib"
 msgstr "Open Library में मूल रिकॉर्ड खोजें"
 
-#: allthethings/page/views.py:5115
+#: allthethings/page/views.py:5201
 #, fuzzy
 msgid "page.md5.box.download.aa_oclc"
 msgstr "अन्ना के आर्काइव में OCLC (WorldCat) नंबर के लिए खोजें"
 
-#: allthethings/page/views.py:5116
+#: allthethings/page/views.py:5202
 #, fuzzy
 msgid "page.md5.box.download.original_oclc"
 msgstr "WorldCat में मूल रिकॉर्ड खोजें"
 
-#: allthethings/page/views.py:5118
+#: allthethings/page/views.py:5204
 #, fuzzy
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "अन्ना के आर्काइव में DuXiu SSID नंबर के लिए खोजें"
 
-#: allthethings/page/views.py:5119
+#: allthethings/page/views.py:5205
 #, fuzzy
 msgid "page.md5.box.download.original_duxiu"
 msgstr "DuXiu पर मैन्युअल रूप से खोजें"
 
-#: allthethings/page/views.py:5121
+#: allthethings/page/views.py:5207
 #, fuzzy
 msgid "page.md5.box.download.aa_cadal"
 msgstr "अन्ना के आर्काइव में CADAL SSNO नंबर के लिए खोजें"
 
-#: allthethings/page/views.py:5122
+#: allthethings/page/views.py:5208
 #, fuzzy
 msgid "page.md5.box.download.original_cadal"
 msgstr "CADAL में मूल रिकॉर्ड खोजें"
 
-#: allthethings/page/views.py:5126
+#: allthethings/page/views.py:5212
 #, fuzzy
 msgid "page.md5.box.download.aa_dxid"
 msgstr "अन्ना के आर्काइव में DuXiu DXID नंबर के लिए खोजें"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "page.md5.box.download.scidb"
 msgstr "अन्ना के आर्काइव 🧬 SciDB"
 
-#: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(कोई ब्राउज़र सत्यापन आवश्यक नहीं)"
@@ -2279,11 +2328,6 @@ msgstr "रूपांतरित करू: ऑनलाइन उपकर�
 msgid "page.md5.box.download.kindle"
 msgstr "किंडल: फाइल डाउनलोड करू (pdf या epub समर्थित अछि), तखन <a %(a_kindle)s>किंडल पर पठाउ</a> वेब, ऐप, या ईमेल के माध्यम सँ। सहायक उपकरण: <a %(a_kobosend)s rel=\"noopener noreferrer nofollow\">1</a>।"
 
-#: allthethings/page/templates/page/faq.html:161
-#, fuzzy
-msgid "page.request.dont_email"
-msgstr "कृपया हमरा केँ अहाँक पुस्तक अनुरोध ईमेल नहि करू।"
-
 #: allthethings/page/templates/page/aarecord.html:258
 #, fuzzy
 msgid "page.md5.box.download.support_authors"
@@ -2462,11 +2506,6 @@ msgstr "ईमेल देखाउ"
 #, fuzzy
 msgid "page.faq.metadata.inspiration1"
 msgstr "मेटाडाटा संग्रह करय के लेल हमरा प्रेरणा आरोन स्वार्ट्ज के लक्ष्य \"प्रत्येक प्रकाशित पुस्तक लेल एक वेब पेज\" सँ भेटल, जेकरा लेल ओ <a %(a_openlib)s>ओपन लाइब्रेरी</a> बनौने छल।"
-
-#: allthethings/page/templates/page/faq.html:164
-#, fuzzy
-msgid "page.faq.metadata.title"
-msgstr "की अहाँ मेटाडाटा संग्रह करैत छी?"
 
 #: allthethings/page/templates/page/datasets.html:162
 #: allthethings/page/templates/page/faq.html:169
@@ -2692,6 +2731,16 @@ msgstr "ए समय, हम किताब सभक अनुरोध प�
 #, fuzzy
 msgid "page.request.forums"
 msgstr "कृपया अपन अनुरोध Z-Library वा Libgen फोरम पर करु।"
+
+#: allthethings/page/templates/page/faq.html:161
+#, fuzzy
+msgid "page.request.dont_email"
+msgstr "कृपया हमरा केँ अहाँक पुस्तक अनुरोध ईमेल नहि करू।"
+
+#: allthethings/page/templates/page/faq.html:164
+#, fuzzy
+msgid "page.faq.metadata.title"
+msgstr "की अहाँ मेटाडाटा संग्रह करैत छी?"
 
 #: allthethings/page/templates/page/faq.html:167
 #, fuzzy
@@ -2937,11 +2986,6 @@ msgstr "फास्ट डाउनलोड के उपयोग करब�
 #, fuzzy
 msgid "page.home.full_database.header"
 msgstr "पूर्ण डेटाबेस"
-
-#: allthethings/page/templates/page/search.html:143
-#, fuzzy
-msgid "page.search.advanced.field.year_published"
-msgstr "प्रकाशित वर्ष"
 
 #: allthethings/page/templates/page/home.html:12
 #, fuzzy
@@ -3428,6 +3472,11 @@ msgstr "विशिष्ट खोज क्षेत्र जोड़ू"
 msgid "common.specific_search_fields.select"
 msgstr "(विशिष्ट क्षेत्र खोजू)"
 
+#: allthethings/page/templates/page/search.html:143
+#, fuzzy
+msgid "page.search.advanced.field.year_published"
+msgstr "प्रकाशित वर्ष"
+
 #: allthethings/page/templates/page/search.html:199
 #, fuzzy
 msgid "page.search.filters.source.scraped"
@@ -3836,62 +3885,3 @@ msgstr "…"
 msgid "page.search.pagination.next"
 msgstr "अगिला"
 
-#: allthethings/utils.py:375
-#, fuzzy
-msgid "common.membership.tier_name.3"
-msgstr "भाग्यशाली पुस्तकालयाध्यक्ष"
-
-#: allthethings/utils.py:376
-#, fuzzy
-msgid "common.membership.tier_name.4"
-msgstr "चमचमाता डेटा संकलक"
-
-#: allthethings/app.py:201
-#, fuzzy
-msgid "layout.index.invalid_request"
-msgstr "अवैध अनुरोध। कृपया %(websites)s पर जाएँ।"
-
-#: allthethings/app.py:262
-#, fuzzy
-msgid "layout.index.header.tagline_scihub"
-msgstr "Sci-Hub"
-
-#: allthethings/app.py:263
-#, fuzzy
-msgid "layout.index.header.tagline_libgen"
-msgstr "LibGen"
-
-#: allthethings/app.py:264
-#, fuzzy
-msgid "layout.index.header.tagline_zlib"
-msgstr "Z-Lib"
-
-#: allthethings/app.py:265
-#, fuzzy
-msgid "layout.index.header.tagline_openlib"
-msgstr "OpenLib"
-
-#: allthethings/app.py:266
-#, fuzzy
-msgid "layout.index.header.tagline_ia"
-msgstr "इंटरनेट आर्काइव लेंडिंग लाइब्रेरी"
-
-#: allthethings/app.py:267
-#, fuzzy
-msgid "layout.index.header.tagline_duxiu"
-msgstr "DuXiu"
-
-#: allthethings/app.py:268
-#, fuzzy
-msgid "layout.index.header.tagline_separator"
-msgstr ", "
-
-#: allthethings/app.py:269
-#, fuzzy
-msgid "layout.index.header.tagline_and"
-msgstr " आ "
-
-#: allthethings/app.py:270
-#, fuzzy
-msgid "layout.index.header.tagline_and_more"
-msgstr "आ अउर"
