@@ -1,19 +1,16 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-26 21:38+0000\n"
-"PO-Revision-Date: 2024-07-26 21:38+0000\n"
-"Last-Translator: AnnaArchivist <ArchivistAnna@proton.me>\n"
+"PO-Revision-Date: 2024-07-27 14:40+0000\n"
+"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > "
-"19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? "
-"1 : 2);\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
 "X-Generator: Weblate 5.6.2\n"
 
 #: allthethings/app.py:201
@@ -37,8 +34,9 @@ msgid "layout.index.header.tagline_openlib"
 msgstr "OpenLib"
 
 #: allthethings/app.py:266
+#, fuzzy
 msgid "layout.index.header.tagline_ia"
-msgstr ""
+msgstr "Internet Archive Skolinimo Biblioteka"
 
 #: allthethings/app.py:267
 msgid "layout.index.header.tagline_duxiu"
@@ -47,7 +45,7 @@ msgstr "DuXiu"
 #: allthethings/app.py:268
 #, fuzzy
 msgid "layout.index.header.tagline_separator"
-msgstr ", • "
+msgstr ", "
 
 #: allthethings/app.py:269
 #, fuzzy
@@ -67,8 +65,9 @@ msgid "layout.index.header.tagline_newnew2b"
 msgstr "Mes renkame ir viešai pateikiame %(scraped)s."
 
 #: allthethings/app.py:280
+#, fuzzy
 msgid "layout.index.header.tagline_open_source"
-msgstr ""
+msgstr "Visas mūsų kodas ir duomenys yra visiškai atviro kodo."
 
 #: allthethings/app.py:281 allthethings/app.py:283 allthethings/app.py:284
 #: allthethings/app.py:287
@@ -150,7 +149,7 @@ msgstr "%(amount)s viso"
 #: allthethings/account/views.py:65
 #, fuzzy
 msgid "common.donation.membership_bonus_parens"
-msgstr " (+%(num)s bonus)"
+msgstr " (+%(num)s premija)"
 
 #: allthethings/account/views.py:304
 msgid "common.donation.order_processing_status_labels.0"
@@ -196,11 +195,12 @@ msgstr "Anna's Archive yra pelno nesiekiantis, atviro kodo, atvirų duomenų pro
 #: allthethings/account/templates/account/donate.html:20
 #, fuzzy
 msgid "page.donate.header.text2"
-msgstr "Daugiau informacijos rasite <a href=\"/donation_faq\">Aukojimo DUK</a>."
+msgstr "Daugiau informacijos rasite <a %(a_donate)s>Aukojimo DUK</a>."
 
 #: allthethings/account/templates/account/donate.html:24
+#, fuzzy
 msgid "page.donate.refer.text1"
-msgstr ""
+msgstr "Norėdami gauti dar daugiau atsisiuntimų, <a %(a_refer)s>rekomenduokite savo draugus</a>!"
 
 #: allthethings/account/templates/account/donate.html:31
 #: allthethings/account/templates/account/donation.html:23
@@ -245,21 +245,23 @@ msgstr "%(number)s greitųjų atsisiuntimų per dieną"
 #: allthethings/account/templates/account/donate.html:64
 #: allthethings/account/templates/account/donate.html:78
 #: allthethings/account/templates/account/donate.html:92
+#, fuzzy
 msgid "page.donate.perks.only_this_month"
-msgstr ""
+msgstr "tik šį mėnesį!"
 
 #: allthethings/account/templates/account/donate.html:48
 msgid "page.donate.perks.scidb"
 msgstr "SciDB straipsniai <strong>neriboti</strong> be patvirtinimo"
 
 #: allthethings/account/templates/account/donate.html:49
+#, fuzzy
 msgid "page.donate.perks.jsonapi"
-msgstr ""
+msgstr "<a %(a_api)s>JSON API</a> prieiga"
 
 #: allthethings/account/templates/account/donate.html:50
 #, fuzzy
 msgid "page.donate.perks.refer"
-msgstr "Gaukite <strong>%(percentage)s%% papildomų atsisiuntimų</strong> <a href=\"/refer\">pakviečiant draugus</a>."
+msgstr "Uždirbkite <strong>%(percentage)s%% papildomų atsisiuntimų</strong> <a %(a_refer)s>rekomenduodami draugus</a>."
 
 #: allthethings/account/templates/account/donate.html:51
 msgid "page.donate.perks.credits"
@@ -292,8 +294,9 @@ msgid "page.donate.expert.title"
 msgstr "Ekspertų prieiga"
 
 #: allthethings/account/templates/account/donate.html:102
+#, fuzzy
 msgid "page.donate.expert.contact_us"
-msgstr ""
+msgstr "susisiekite su mumis"
 
 #: allthethings/account/templates/account/donate.html:103
 #: allthethings/account/templates/account/donation.html:579
@@ -337,12 +340,14 @@ msgstr "Aukoms virš 5000$ susisiekite tiesiogiai %(email)s."
 #: allthethings/templates/layouts/index.html:219
 #: allthethings/templates/layouts/index.html:223
 #: allthethings/templates/layouts/index.html:560
+#, fuzzy
 msgid "page.contact.title"
-msgstr ""
+msgstr "Kontaktinis el. paštas"
 
 #: allthethings/account/templates/account/donate.html:117
+#, fuzzy
 msgid "page.donate.without_membership"
-msgstr ""
+msgstr "Jei norėtumėte paaukoti (bet kokią sumą) be narystės, galite naudoti šį Monero (XMR) adresą: %(address)s."
 
 #: allthethings/account/templates/account/donate.html:123
 msgid "page.donate.payment.intro"
@@ -412,8 +417,9 @@ msgid "page.donate.payment.buttons.credit_debit"
 msgstr "Kredito/debeto kortelė"
 
 #: allthethings/account/templates/account/donate.html:148
+#, fuzzy
 msgid "page.donate.payment.buttons.credit_debit_backup"
-msgstr ""
+msgstr "Kredito/debeto kortelė (atsarginė)"
 
 #: allthethings/account/templates/account/donate.html:149
 msgid "page.donate.payment.buttons.credit_debit2"
@@ -442,8 +448,9 @@ msgid "page.donate.payment.desc.crypto"
 msgstr "Galite aukoti su šiomis kriptovaliutomis: BTC, ETH, XMR ir SOL. Naudokite šį pasirinkimą jeigu jau esate susipažinę su kriptovaliutomis."
 
 #: allthethings/account/templates/account/donate.html:201
+#, fuzzy
 msgid "page.donate.payment.desc.crypto2"
-msgstr ""
+msgstr "Su kriptovaliuta galite paaukoti naudodami BTC, ETH, XMR ir daugiau."
 
 #: allthethings/account/templates/account/donate.html:205
 #: allthethings/account/templates/account/donate.html:298
@@ -489,12 +496,14 @@ msgid "page.donate.payment.desc.longer_subs"
 msgstr "Atkreipkite dėmesį, kad aukojant smulkias aukas taikomi dideli mokesčiai, tad rekomenduojame ilgiau trunkančias prenumeratas."
 
 #: allthethings/account/templates/account/donate.html:236
+#, fuzzy
 msgid "page.donate.payment.desc.binance_p1"
-msgstr ""
+msgstr "Naudodamiesi Binance, galite nusipirkti Bitcoin su kredito/debeto kortele arba banko sąskaita, o tada paaukoti tą Bitcoin mums. Tokiu būdu galime išlikti saugūs ir anonimiški priimdami jūsų auką."
 
 #: allthethings/account/templates/account/donate.html:240
+#, fuzzy
 msgid "page.donate.payment.desc.binance_p2"
-msgstr ""
+msgstr "Binance yra prieinamas beveik visose šalyse ir palaiko daugumą bankų bei kredito/debeto kortelių. Tai šiuo metu yra mūsų pagrindinė rekomendacija. Vertiname, kad skiriate laiko išmokti aukoti šiuo metodu, nes tai mums labai padeda."
 
 #: allthethings/account/templates/account/donate.html:252
 #: allthethings/account/templates/account/donate.html:258
@@ -502,49 +511,59 @@ msgid "page.donate.payment.desc.alipay_wechat"
 msgstr "Aukokite per Alipay ar WeChat. Galite pasirinkti vieną iš jų sekančiame puslapyje."
 
 #: allthethings/account/templates/account/donate.html:264
+#, fuzzy
 msgid "page.donate.payment.desc.givebutter"
-msgstr ""
+msgstr "Aukokite naudodami kredito/debeto kortelę, PayPal arba Venmo. Galite pasirinkti tarp jų kitame puslapyje."
 
 #: allthethings/account/templates/account/donate.html:270
 msgid "page.donate.payment.desc.amazon"
 msgstr "Aukokite naudodamiesi Amazon dovanų kortele."
 
 #: allthethings/account/templates/account/donate.html:271
+#, fuzzy
 msgid "page.donate.payment.desc.amazon_round"
-msgstr ""
+msgstr "Atkreipkite dėmesį, kad turime suapvalinti iki mūsų perpardavėjų priimamų sumų (mažiausiai %(minimum)s)."
 
 #: allthethings/account/templates/account/donate.html:275
 #: allthethings/account/templates/account/donation.html:325
+#, fuzzy
 msgid "page.donate.payment.desc.amazon_com"
-msgstr ""
+msgstr "<strong>SVARBU:</strong> Mes palaikome tik Amazon.com, kitų Amazon svetainių, pvz., .de, .co.uk, .ca, NEPALAIKOME."
 
 #: allthethings/account/templates/account/donate.html:282
+#, fuzzy
 msgid "page.donate.payment.desc.credit_debit_backup"
-msgstr ""
+msgstr "Šis metodas naudoja kriptovaliutų tiekėją kaip tarpinį konversijos būdą. Tai gali būti šiek tiek painu, todėl naudokite šį metodą tik tada, jei kiti mokėjimo būdai neveikia. Taip pat jis neveikia visose šalyse."
 
 #: allthethings/account/templates/account/donate.html:288
+#, fuzzy
 msgid "page.donate.payment.desc.credit_debit_p1"
-msgstr ""
+msgstr "Negalime tiesiogiai palaikyti kredito/debeto kortelių, nes bankai nenori su mumis dirbti. :("
 
 #: allthethings/account/templates/account/donate.html:292
+#, fuzzy
 msgid "page.donate.payment.desc.credit_debit_p2"
-msgstr ""
+msgstr "Tačiau yra keletas būdų, kaip naudoti kreditines/debetines korteles, naudojant kitus mūsų mokėjimo metodus:"
 
 #: allthethings/account/templates/account/donate.html:296
+#, fuzzy
 msgid "page.donate.ccexp.amazon_com"
-msgstr ""
+msgstr "Siųskite mums Amazon.com dovanų korteles naudodami savo kreditinę/debetinę kortelę."
 
 #: allthethings/account/templates/account/donate.html:297
+#, fuzzy
 msgid "page.donate.ccexp.wechat"
-msgstr ""
+msgstr "WeChat (Weixin Pay) palaiko tarptautines kreditines/debetines korteles. WeChat programėlėje eikite į „Me => Services => Wallet => Add a Card“. Jei to nematote, įjunkite naudodami „Me => Settings => General => Tools => Weixin Pay => Enable“."
 
 #: allthethings/account/templates/account/donate.html:298
+#, fuzzy
 msgid "page.donate.ccexp.crypto"
-msgstr ""
+msgstr "Galite pirkti kriptovaliutą naudodami kreditines/debetines korteles."
 
 #: allthethings/account/templates/account/donate.html:304
+#, fuzzy
 msgid "page.donate.payment.desc.bmc"
-msgstr ""
+msgstr "Kreditinėms kortelėms, debetinėms kortelėms, Apple Pay ir Google Pay mes naudojame „Buy Me a Coffee“ (BMC <span class=\"icon-[ph--coffee-fill] text-lg align-text-bottom\"></span>). Jų sistemoje viena „kava“ yra lygi 5 USD, todėl jūsų auka bus suapvalinta iki artimiausio 5 kartotinio."
 
 #: allthethings/account/templates/account/donate.html:311
 msgid "page.donate.duration.intro"
@@ -568,52 +587,62 @@ msgid "page.donate.duration.12_mo"
 msgstr "12 mėnesių"
 
 #: allthethings/account/templates/account/donate.html:320
+#, fuzzy
 msgid "page.donate.duration.24_mo"
-msgstr ""
+msgstr "24 mėnesiai"
 
 #: allthethings/account/templates/account/donate.html:321
+#, fuzzy
 msgid "page.donate.duration.48_mo"
-msgstr ""
+msgstr "48 mėnesiai"
 
 #: allthethings/account/templates/account/donate.html:322
+#, fuzzy
 msgid "page.donate.duration.96_mo"
-msgstr ""
+msgstr "96 mėnesiai"
 
 #: allthethings/account/templates/account/donate.html:325
 msgid "page.donate.duration.summary"
 msgstr "<div %(div_monthly_cost)s></div><div %(div_after)s>po <span %(span_discount)s></span> nuolaidos:</div><div %(div_total)s></div><div %(div_duration)s></div>"
 
 #: allthethings/account/templates/account/donate.html:332
+#, fuzzy
 msgid "page.donate.payment.minimum_method"
-msgstr ""
+msgstr "Šis mokėjimo būdas reikalauja mažiausiai %(amount)s. Prašome pasirinkti kitą trukmę arba mokėjimo būdą."
 
 #: allthethings/account/templates/account/donate.html:333
 #: allthethings/account/templates/account/donate.html:337
+#, fuzzy
 msgid "page.donate.buttons.donate"
-msgstr ""
+msgstr "Paaukoti"
 
 #: allthethings/account/templates/account/donate.html:336
+#, fuzzy
 msgid "page.donate.payment.maximum_method"
-msgstr ""
+msgstr "Šis mokėjimo metodas leidžia maksimaliai %(amount)s. Prašome pasirinkti kitą trukmę arba mokėjimo metodą."
 
 #: allthethings/account/templates/account/donate.html:343
+#, fuzzy
 msgid "page.donate.login2"
-msgstr ""
+msgstr "Norėdami tapti nariu, prašome <a %(a_login)s>Prisijungti arba Registruotis</a>. Ačiū už jūsų palaikymą!"
 
 #: allthethings/account/templates/account/donate.html:350
+#, fuzzy
 msgid "page.donate.payment.crypto_select"
-msgstr ""
+msgstr "Pasirinkite norimą kriptovaliutą:"
 
 #: allthethings/account/templates/account/donate.html:355
+#, fuzzy
 msgid "page.donate.currency_lowest_minimum"
-msgstr ""
+msgstr "(mažiausia minimali suma)"
 
 #: allthethings/account/templates/account/donate.html:369
 #: allthethings/account/templates/account/donate.html:370
 #: allthethings/account/templates/account/donate.html:374
 #: allthethings/account/templates/account/donate.html:376
+#, fuzzy
 msgid "page.donate.currency_warning_high_minimum"
-msgstr ""
+msgstr "(įspėjimas: didelė minimali suma)"
 
 #: allthethings/account/templates/account/donate.html:385
 msgid "page.donate.submit.confirm"
@@ -658,19 +687,22 @@ msgstr "6 mėnesiams"
 #: allthethings/account/templates/account/donate.html:470
 #, fuzzy
 msgid "page.donate.duration.summary.duration.12_mo"
-msgstr "12 mėnesių"
+msgstr "12 mėnesių laikotarpiui"
 
 #: allthethings/account/templates/account/donate.html:471
+#, fuzzy
 msgid "page.donate.duration.summary.duration.24_mo"
-msgstr ""
+msgstr "24 mėnesiams"
 
 #: allthethings/account/templates/account/donate.html:472
+#, fuzzy
 msgid "page.donate.duration.summary.duration.48_mo"
-msgstr ""
+msgstr "už 48 mėnesius"
 
 #: allthethings/account/templates/account/donate.html:473
+#, fuzzy
 msgid "page.donate.duration.summary.duration.96_mo"
-msgstr ""
+msgstr "už 96 mėnesius"
 
 #: allthethings/account/templates/account/donate.html:477
 msgid "page.donate.submit.button.label.1_mo"
@@ -689,16 +721,19 @@ msgid "page.donate.submit.button.label.12_mo"
 msgstr "12 mėnesių “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:481
+#, fuzzy
 msgid "page.donate.submit.button.label.24_mo"
-msgstr ""
+msgstr "24 mėnesiams “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:482
+#, fuzzy
 msgid "page.donate.submit.button.label.48_mo"
-msgstr ""
+msgstr "už 48 mėnesius “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donate.html:483
+#, fuzzy
 msgid "page.donate.submit.button.label.96_mo"
-msgstr ""
+msgstr "už 96 mėnesius “%(tier_name)s”"
 
 #: allthethings/account/templates/account/donation.html:3
 #: allthethings/account/templates/account/donation.html:9
@@ -763,16 +798,19 @@ msgid "page.donation.old_instructions.show_button"
 msgstr "Rodyti senas mokėjimo instrukcijas"
 
 #: allthethings/account/templates/account/donation.html:56
+#, fuzzy
 msgid "page.donation.thank_you_donation"
-msgstr ""
+msgstr "Ačiū už jūsų auką!"
 
 #: allthethings/account/templates/account/donation.html:60
+#, fuzzy
 msgid "page.donation.thank_you.secret_key"
-msgstr ""
+msgstr "Jei dar nepadarėte, užsirašykite savo slaptą raktą prisijungimui:"
 
 #: allthethings/account/templates/account/donation.html:62
+#, fuzzy
 msgid "page.donation.thank_you.locked_out"
-msgstr ""
+msgstr "Kitu atveju galite būti užblokuoti iš šios paskyros!"
 
 #: allthethings/account/templates/account/donation.html:66
 msgid "page.donation.old_instructions.intro_outdated"
@@ -796,8 +834,9 @@ msgstr "<strong>Svarbu:</strong> Kriptovaliutų kainos gali labai greitai keisti
 #: allthethings/account/templates/account/donation.html:421
 #: allthethings/account/templates/account/donation.html:456
 #: allthethings/account/templates/account/donation.html:482
+#, fuzzy
 msgid "page.donation.expired"
-msgstr ""
+msgstr "Ši auka pasibaigė. Prašome atšaukti ir sukurti naują."
 
 #: allthethings/account/templates/account/donation.html:84
 msgid "page.donation.payment.crypto.top_header"
@@ -838,20 +877,24 @@ msgstr "Įveskite mūsų Bitcoin (BTC) adresą kaip gavėją ir vadovaukitės in
 
 #: allthethings/account/templates/account/donation.html:139
 #: allthethings/account/templates/account/donation.html:247
+#, fuzzy
 msgid "page.donation.credit_debit_card_instructions"
-msgstr ""
+msgstr "Kredito / debeto kortelės instrukcijos"
 
 #: allthethings/account/templates/account/donation.html:141
+#, fuzzy
 msgid "page.donation.credit_debit_card_our_page"
-msgstr ""
+msgstr "Paaukoti per mūsų kreditinės / debetinės kortelės puslapį"
 
 #: allthethings/account/templates/account/donation.html:144
+#, fuzzy
 msgid "page.donation.donate_on_this_page"
-msgstr ""
+msgstr "Paaukoti %(amount)s per <a %(a_page)s>šį puslapį</a>."
 
 #: allthethings/account/templates/account/donation.html:144
+#, fuzzy
 msgid "page.donation.stepbystep_below"
-msgstr ""
+msgstr "Žiūrėkite žingsnis po žingsnio vadovą žemiau."
 
 #: allthethings/account/templates/account/donation.html:148
 #: allthethings/account/templates/account/donation.html:191
@@ -861,8 +904,9 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:335
 #: allthethings/account/templates/account/donation.html:441
 #: allthethings/account/templates/account/donation.html:468
+#, fuzzy
 msgid "page.donation.status_header"
-msgstr ""
+msgstr "Būsena:"
 
 #: allthethings/account/templates/account/donation.html:148
 #: allthethings/account/templates/account/donation.html:191
@@ -871,8 +915,9 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:304
 #: allthethings/account/templates/account/donation.html:441
 #: allthethings/account/templates/account/donation.html:468
+#, fuzzy
 msgid "page.donation.waiting_for_confirmation_refresh"
-msgstr ""
+msgstr "Laukiama patvirtinimo (atnaujinkite puslapį, kad patikrintumėte)…"
 
 #: allthethings/account/templates/account/donation.html:148
 #: allthethings/account/templates/account/donation.html:191
@@ -881,8 +926,9 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:304
 #: allthethings/account/templates/account/donation.html:441
 #: allthethings/account/templates/account/donation.html:468
+#, fuzzy
 msgid "page.donation.waiting_for_transfer_refresh"
-msgstr ""
+msgstr "Laukiama perkėlimo (atnaujinkite puslapį, kad patikrintumėte)…"
 
 #: allthethings/account/templates/account/donation.html:149
 #: allthethings/account/templates/account/donation.html:192
@@ -891,8 +937,9 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:305
 #: allthethings/account/templates/account/donation.html:442
 #: allthethings/account/templates/account/donation.html:469
+#, fuzzy
 msgid "page.donation.time_left_header"
-msgstr ""
+msgstr "Likęs laikas:"
 
 #: allthethings/account/templates/account/donation.html:149
 #: allthethings/account/templates/account/donation.html:192
@@ -901,8 +948,9 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:305
 #: allthethings/account/templates/account/donation.html:442
 #: allthethings/account/templates/account/donation.html:469
+#, fuzzy
 msgid "page.donation.might_want_to_cancel"
-msgstr ""
+msgstr "(galite norėti atšaukti ir sukurti naują auką)"
 
 #: allthethings/account/templates/account/donation.html:153
 #: allthethings/account/templates/account/donation.html:196
@@ -911,8 +959,9 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:309
 #: allthethings/account/templates/account/donation.html:446
 #: allthethings/account/templates/account/donation.html:473
+#, fuzzy
 msgid "page.donation.reset_timer"
-msgstr ""
+msgstr "Norėdami atstatyti laikmatį, tiesiog sukurkite naują auką."
 
 #: allthethings/account/templates/account/donation.html:157
 #: allthethings/account/templates/account/donation.html:200
@@ -922,83 +971,102 @@ msgstr ""
 #: allthethings/account/templates/account/donation.html:339
 #: allthethings/account/templates/account/donation.html:450
 #: allthethings/account/templates/account/donation.html:477
+#, fuzzy
 msgid "page.donation.refresh_status"
-msgstr ""
+msgstr "Atnaujinti būseną"
 
 #: allthethings/account/templates/account/donation.html:161
 #: allthethings/account/templates/account/donation.html:577
+#, fuzzy
 msgid "page.donation.footer.issues_contact"
-msgstr ""
+msgstr "Jei susidūrėte su kokiomis nors problemomis, prašome susisiekti su mumis adresu %(email)s ir pateikti kuo daugiau informacijos (pvz., ekrano nuotraukas)."
 
 #: allthethings/account/templates/account/donation.html:169
+#, fuzzy
 msgid "page.donation.buy_pyusd"
-msgstr ""
+msgstr "Pirkti PYUSD monetą per PayPal"
 
 #: allthethings/account/templates/account/donation.html:176
+#, fuzzy
 msgid "page.donation.pyusd.instructions"
-msgstr ""
+msgstr "Sekite instrukcijas, kaip įsigyti PYUSD monetą (PayPal USD)."
 
 #: allthethings/account/templates/account/donation.html:177
+#, fuzzy
 msgid "page.donation.pyusd.more"
-msgstr ""
+msgstr "Pirkite šiek tiek daugiau (rekomenduojame %(more)s daugiau) nei aukojamą sumą (%(amount)s), kad padengtumėte operacijos mokesčius. Likusią sumą galėsite pasilikti."
 
 #: allthethings/account/templates/account/donation.html:183
+#, fuzzy
 msgid "page.donation.pyusd.transfer"
-msgstr ""
+msgstr "Eikite į „PYUSD“ puslapį savo PayPal programėlėje arba svetainėje. Paspauskite mygtuką „Perkelti“ %(icon)s, tada „Siųsti“."
 
 #: allthethings/account/templates/account/donation.html:187
 #: allthethings/account/templates/account/donation.html:226
 #: allthethings/account/templates/account/donation.html:296
+#, fuzzy
 msgid "page.donation.transfer_amount_to"
-msgstr ""
+msgstr "Perkelti %(amount)s į %(account)s"
 
 #: allthethings/account/templates/account/donation.html:288
+#, fuzzy
 msgid "page.donation.crypto_instructions"
-msgstr ""
+msgstr "%(coin_name)s instrukcijos"
 
 #: allthethings/account/templates/account/donation.html:300
+#, fuzzy
 msgid "page.donation.crypto_standard"
-msgstr ""
+msgstr "Mes palaikome tik standartinę kriptovaliutų versiją, jokių egzotinių tinklų ar monetų versijų. Priklausomai nuo monetos, operacijos patvirtinimas gali užtrukti iki valandos."
 
 #: allthethings/account/templates/account/donation.html:317
+#, fuzzy
 msgid "page.donation.amazon.header"
-msgstr ""
+msgstr "Amazon dovanų kortelė"
 
 #: allthethings/account/templates/account/donation.html:320
+#, fuzzy
 msgid "page.donation.amazon.form_instructions"
-msgstr ""
+msgstr "Prašome naudoti <a %(a_form)s>oficialią Amazon.com formą</a>, kad atsiųstumėte mums dovanų kortelę %(amount)s į žemiau nurodytą el. pašto adresą."
 
 #: allthethings/account/templates/account/donation.html:321
+#, fuzzy
 msgid "page.donation.amazon.only_official"
-msgstr ""
+msgstr "Negalime priimti kitų dovanų kortelių metodų, <strong>tik siunčiamų tiesiogiai iš oficialios formos Amazon.com</strong>. Negalėsime grąžinti jūsų dovanų kortelės, jei nenaudosite šios formos."
 
 #: allthethings/account/templates/account/donation.html:326
+#, fuzzy
 msgid "page.donate.payment.desc.amazon_message"
-msgstr ""
+msgstr "Prašome nerašyti savo žinutės."
 
 #: allthethings/account/templates/account/donation.html:330
+#, fuzzy
 msgid "page.donation.amazon.form_to"
-msgstr ""
+msgstr "„Kam“ gavėjo el. paštas formoje:"
 
 #: allthethings/account/templates/account/donation.html:331
+#, fuzzy
 msgid "page.donation.amazon.unique"
-msgstr ""
+msgstr "Unikalus jūsų paskyrai, nesidalinkite."
 
 #: allthethings/account/templates/account/donation.html:335
+#, fuzzy
 msgid "page.donation.amazon.waiting_gift_card"
-msgstr ""
+msgstr "Laukiama dovanų kortelės… (atnaujinkite puslapį, kad patikrintumėte)"
 
 #: allthethings/account/templates/account/donation.html:343
+#, fuzzy
 msgid "page.donation.amazon.confirm_automated"
-msgstr ""
+msgstr "Išsiuntus dovanų kortelę, mūsų automatinė sistema ją patvirtins per kelias minutes. Jei tai neveikia, pabandykite išsiųsti dovanų kortelę dar kartą (<a %(a_instr)s>instrukcijos</a>)."
 
 #: allthethings/account/templates/account/donation.html:344
+#, fuzzy
 msgid "page.donation.amazon.doesnt_work"
-msgstr ""
+msgstr "Jei tai vis tiek neveikia, prašome parašyti mums el. laišką, ir Anna peržiūrės tai rankiniu būdu (tai gali užtrukti kelias dienas). Būtinai paminėkite, jei jau bandėte išsiųsti iš naujo."
 
 #: allthethings/account/templates/account/donation.html:347
+#, fuzzy
 msgid "page.donation.amazon.example"
-msgstr ""
+msgstr "Pavyzdys:"
 
 #: allthethings/account/templates/account/donation.html:383
 #: allthethings/account/templates/account/donation.html:400
@@ -1020,24 +1088,29 @@ msgstr "<span %(span_circle)s>1</span>Aukoti Alipay"
 
 #: allthethings/account/templates/account/donation.html:412
 #: allthethings/account/templates/account/donation.html:429
+#, fuzzy
 msgid "page.donation.payment.alipay.text1_new"
-msgstr ""
+msgstr "Paaukokite visą sumą %(total)s naudodami <a %(a_account)s>šį Alipay paskyrą</a>"
 
 #: allthethings/account/templates/account/donation.html:433
+#, fuzzy
 msgid "page.donation.payment.alipay.error"
-msgstr ""
+msgstr "Deja, Alipay puslapis dažnai pasiekiamas tik iš <strong>žemyninės Kinijos</strong>. Gali tekti laikinai išjungti savo VPN arba naudoti VPN į žemyninę Kiniją (kartais veikia ir Honkongas)."
 
 #: allthethings/account/templates/account/donation.html:459
+#, fuzzy
 msgid "page.donation.payment.wechat.top_header"
-msgstr ""
+msgstr "WeChat instrukcijos"
 
 #: allthethings/account/templates/account/donation.html:461
+#, fuzzy
 msgid "page.donation.payment.wechat.header1"
-msgstr ""
+msgstr "<span %(span_circle)s>1</span>Paaukokite per WeChat"
 
 #: allthethings/account/templates/account/donation.html:464
+#, fuzzy
 msgid "page.donation.payment.wechat.text1"
-msgstr ""
+msgstr "Paaukokite visą sumą %(total)s naudodami <a %(a_account)s>šį WeChat paskyrą</a>"
 
 #: allthethings/account/templates/account/donation.html:485
 msgid "page.donation.payment.pix.top_header"
@@ -1080,44 +1153,54 @@ msgid "page.donation.footer.failure"
 msgstr "❌ Kažkas atsitiko negerai. Perkraukite puslapį iš naujo ir bandykite dar kartą."
 
 #: allthethings/account/templates/account/donation.html:539
+#, fuzzy
 msgid "page.donation.stepbystep"
-msgstr ""
+msgstr "Žingsnis po žingsnio vadovas"
 
 #: allthethings/account/templates/account/donation.html:541
+#, fuzzy
 msgid "page.donation.crypto_dont_worry"
-msgstr ""
+msgstr "Kai kurie žingsniai mini kripto pinigines, bet nesijaudinkite, jums nereikės nieko mokytis apie kripto."
 
 #: allthethings/account/templates/account/donation.html:543
+#, fuzzy
 msgid "page.donation.hoodpay.step1"
-msgstr ""
+msgstr "1. Įveskite savo el. paštą."
 
 #: allthethings/account/templates/account/donation.html:549
+#, fuzzy
 msgid "page.donation.hoodpay.step2"
-msgstr ""
+msgstr "2. Pasirinkite savo mokėjimo metodą."
 
 #: allthethings/account/templates/account/donation.html:555
+#, fuzzy
 msgid "page.donation.hoodpay.step3"
-msgstr ""
+msgstr "3. Pasirinkite savo mokėjimo metodą dar kartą."
 
 #: allthethings/account/templates/account/donation.html:561
+#, fuzzy
 msgid "page.donation.hoodpay.step4"
-msgstr ""
+msgstr "4. Pasirinkite „Savarankiškai talpinamą“ piniginę."
 
 #: allthethings/account/templates/account/donation.html:567
+#, fuzzy
 msgid "page.donation.hoodpay.step5"
-msgstr ""
+msgstr "5. Spustelėkite „Patvirtinu nuosavybę“."
 
 #: allthethings/account/templates/account/donation.html:573
+#, fuzzy
 msgid "page.donation.hoodpay.step6"
-msgstr ""
+msgstr "6. Turėtumėte gauti el. laišką su kvitu. Prašome jį atsiųsti mums, ir mes kuo greičiau patvirtinsime jūsų auką."
 
 #: allthethings/account/templates/account/donation.html:578
+#, fuzzy
 msgid "page.donate.wait"
-msgstr ""
+msgstr "Prašome palaukti bent <span %(span_hours)s>dvi valandas</span> (ir atnaujinti šį puslapį) prieš susisiekdami su mumis."
 
 #: allthethings/account/templates/account/donation.html:579
+#, fuzzy
 msgid "page.donate.mistake"
-msgstr ""
+msgstr "Jei padarėte klaidą mokėjimo metu, mes negalime grąžinti pinigų, bet stengsimės išspręsti problemą."
 
 #: allthethings/account/templates/account/donations.html:3
 #: allthethings/account/templates/account/donations.html:6
@@ -1142,20 +1225,24 @@ msgid "page.downloaded.title"
 msgstr "Parsiusti failai"
 
 #: allthethings/account/templates/account/downloaded.html:8
+#, fuzzy
 msgid "page.downloaded.fast_partner_star"
-msgstr ""
+msgstr "Atsisiuntimai iš Greitų Partnerių Serverių pažymėti %(icon)s."
 
 #: allthethings/account/templates/account/downloaded.html:8
+#, fuzzy
 msgid "page.downloaded.twice"
-msgstr ""
+msgstr "Jei atsisiuntėte failą su greitu ir lėtu atsisiuntimu, jis bus rodomas du kartus."
 
 #: allthethings/account/templates/account/downloaded.html:8
+#, fuzzy
 msgid "page.downloaded.fast_download_time"
-msgstr ""
+msgstr "Greiti atsisiuntimai per pastarąsias 24 valandas skaičiuojami į dienos limitą."
 
 #: allthethings/account/templates/account/downloaded.html:8
+#, fuzzy
 msgid "page.downloaded.times_utc"
-msgstr ""
+msgstr "Visi laikai nurodyti UTC laiku."
 
 #: allthethings/account/templates/account/downloaded.html:8
 msgid "page.downloaded.not_public"
@@ -1177,57 +1264,68 @@ msgid "page.account.logged_out.title"
 msgstr "Prisijungti / Registruotis"
 
 #: allthethings/account/templates/account/index.html:20
+#, fuzzy
 msgid "page.account.logged_in.account_id"
-msgstr ""
+msgstr "Paskyros ID: %(account_id)s"
 
 #: allthethings/account/templates/account/index.html:21
 msgid "page.account.logged_in.public_profile"
 msgstr "Viešas profilis: %(profile_link)s"
 
 #: allthethings/account/templates/account/index.html:22
+#, fuzzy
 msgid "page.account.logged_in.secret_key_dont_share"
-msgstr ""
+msgstr "Slaptas raktas (nesidalinkite!): %(secret_key)s"
 
 #: allthethings/account/templates/account/index.html:22
+#, fuzzy
 msgid "page.account.logged_in.secret_key_show"
-msgstr ""
+msgstr "rodyti"
 
 #: allthethings/account/templates/account/index.html:25
 msgid "page.account.logged_in.membership_none"
 msgstr "Narystė: <strong>Jokios</strong> <a %(a_become)s>(tapti nariu)</a>"
 
 #: allthethings/account/templates/account/index.html:28
+#, fuzzy
 msgid "page.account.logged_in.membership_has_some"
-msgstr ""
+msgstr "Narystė: <strong>%(tier_name)s</strong> iki %(until_date)s <a %(a_extend)s>(pratęsti)</a>"
 
 #: allthethings/account/templates/account/index.html:30
+#, fuzzy
 msgid "page.account.logged_in.membership_fast_downloads_used"
-msgstr ""
+msgstr "Greiti atsisiuntimai (per pastarąsias 24 valandas): <strong>%(used)s / %(total)s</strong>"
 
 #: allthethings/account/templates/account/index.html:30
+#, fuzzy
 msgid "page.account.logged_in.which_downloads"
-msgstr ""
+msgstr "kurie atsisiuntimai?"
 
 #: allthethings/account/templates/account/index.html:32
 #: allthethings/account/templates/account/index.html:34
+#, fuzzy
 msgid "page.account.logged_in.telegram_group_wrapper"
-msgstr ""
+msgstr "Išskirtinė Telegram grupė: %(link)s"
 
 #: allthethings/account/templates/account/index.html:32
+#, fuzzy
 msgid "page.account.logged_in.telegram_group_join"
-msgstr ""
+msgstr "Prisijunkite prie mūsų čia!"
 
 #: allthethings/account/templates/account/index.html:34
+#, fuzzy
 msgid "page.account.logged_in.telegram_group_upgrade"
-msgstr ""
+msgstr "Atnaujinkite į <a %(a_tier)s>aukštesnį lygį</a>, kad prisijungtumėte prie mūsų grupės."
 
 #: allthethings/account/templates/account/index.html:36
+#, fuzzy
 msgid "page.account.logged_in.membership_upgrade"
-msgstr ""
+msgstr "Susisiekite su Anna adresu %(email)s, jei norite atnaujinti savo narystę į aukštesnį lygį."
 
 #: allthethings/account/templates/account/index.html:37
+#, fuzzy
 msgid "page.account.logged_in.membership_multiple"
-msgstr ""
+msgstr "Galite sujungti kelias narystes (greiti atsisiuntimai per 24 valandas bus sumuojami)."
 
 #: allthethings/account/templates/account/index.html:41
 #: allthethings/templates/layouts/index.html:512
@@ -1288,12 +1386,14 @@ msgid "page.account.logged_out.key_form.button"
 msgstr "Prisijungti"
 
 #: allthethings/account/templates/account/index.html:75
+#, fuzzy
 msgid "page.account.logged_out.key_form.invalid_key"
-msgstr ""
+msgstr "Neteisingas slaptas raktas. Patikrinkite savo raktą ir bandykite dar kartą arba registruokitės naują paskyrą žemiau."
 
 #: allthethings/account/templates/account/index.html:77
+#, fuzzy
 msgid "page.account.logged_out.key_form.dont_lose_key"
-msgstr ""
+msgstr "Nepraraskite savo rakto!"
 
 #: allthethings/account/templates/account/index.html:82
 msgid "page.account.logged_out.register.header"
@@ -1304,12 +1404,14 @@ msgid "page.account.logged_out.register.button"
 msgstr "Sukurti naują paskyrą"
 
 #: allthethings/account/templates/account/index.html:89
+#, fuzzy
 msgid "page.login.lost_key"
-msgstr ""
+msgstr "Jei praradote savo raktą, prašome <a %(a_contact)s>susisiekti su mumis</a> ir pateikti kuo daugiau informacijos."
 
 #: allthethings/account/templates/account/index.html:90
+#, fuzzy
 msgid "page.login.lost_key_contact"
-msgstr ""
+msgstr "Gali tekti laikinai sukurti naują paskyrą, kad galėtumėte su mumis susisiekti."
 
 #: allthethings/account/templates/account/index.html:93
 msgid "page.account.logged_out.old_email.button"
@@ -1393,24 +1495,29 @@ msgstr "Sukurkite naują sąrašą randant failą ir atidarant skirtuką “Sąr
 
 #: allthethings/dyn/views.py:851 allthethings/dyn/views.py:880
 #: allthethings/dyn/views.py:891
+#, fuzzy
 msgid "dyn.buy_membership.error.unknown"
-msgstr ""
+msgstr "Įvyko nežinoma klaida. Prašome susisiekti su mumis adresu %(email)s ir pridėti ekrano nuotrauką."
 
 #: allthethings/dyn/views.py:877
+#, fuzzy
 msgid "dyn.buy_membership.error.try_again"
-msgstr ""
+msgstr "Užklausa negalėjo būti įvykdyta. Bandykite dar kartą po kelių minučių, o jei problema išlieka, susisiekite su mumis adresu %(email)s ir pridėkite ekrano nuotrauką."
 
 #: allthethings/dyn/views.py:885
+#, fuzzy
 msgid "dyn.buy_membership.error.minimum"
-msgstr ""
+msgstr "Ši moneta turi didesnę nei įprasta minimalią sumą. Prašome pasirinkti kitą trukmę arba kitą monetą."
 
 #: allthethings/dyn/views.py:888
+#, fuzzy
 msgid "dyn.buy_membership.error.wait"
-msgstr ""
+msgstr "Mokėjimo apdorojimo klaida. Palaukite akimirką ir bandykite dar kartą. Jei problema išlieka ilgiau nei 24 valandas, susisiekite su mumis adresu %(email)s ir pridėkite ekrano nuotrauką."
 
 #: allthethings/page/views.py:4416
+#, fuzzy
 msgid "page.md5.box.download.affected_files"
-msgstr ""
+msgstr "%(count)s paveikti puslapiai"
 
 #: allthethings/page/views.py:4676
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
@@ -1433,12 +1540,14 @@ msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Nėra Z-Library"
 
 #: allthethings/page/views.py:4681
+#, fuzzy
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
-msgstr ""
+msgstr "Ne visus puslapius pavyko konvertuoti į PDF"
 
 #: allthethings/page/views.py:4682
+#, fuzzy
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
-msgstr ""
+msgstr "Nepavyko paleisti exiftool šiam failui"
 
 #: allthethings/page/views.py:4688
 msgid "common.md5_content_type_mapping.book_unknown"
@@ -1469,8 +1578,9 @@ msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Komiksų knyga"
 
 #: allthethings/page/views.py:4695
+#, fuzzy
 msgid "common.md5_content_type_mapping.musical_score"
-msgstr ""
+msgstr "Muzikinė partitūra"
 
 #: allthethings/page/views.py:4696
 msgid "common.md5_content_type_mapping.other"
@@ -1481,8 +1591,9 @@ msgid "common.access_types_mapping.aa_download"
 msgstr "Atsisiuntimas iš partnerių serverių"
 
 #: allthethings/page/views.py:4703
+#, fuzzy
 msgid "common.access_types_mapping.aa_scidb"
-msgstr ""
+msgstr "SciDB"
 
 #: allthethings/page/views.py:4704
 msgid "common.access_types_mapping.external_download"
@@ -1493,16 +1604,18 @@ msgid "common.access_types_mapping.external_borrow"
 msgstr "Paskola iš išorės"
 
 #: allthethings/page/views.py:4706
+#, fuzzy
 msgid "common.access_types_mapping.external_borrow_printdisabled"
-msgstr ""
+msgstr "Išorinis skolinimasis (spausdinimas išjungtas)"
 
 #: allthethings/page/views.py:4707
 msgid "common.access_types_mapping.meta_explore"
 msgstr "Tyrinėti metaduomenis"
 
 #: allthethings/page/views.py:4708
+#, fuzzy
 msgid "common.access_types_mapping.torrents_available"
-msgstr ""
+msgstr "Yra torrentuose"
 
 #: allthethings/page/views.py:4714
 msgid "common.record_sources_mapping.lgrs"
@@ -1517,8 +1630,9 @@ msgid "common.record_sources_mapping.zlib"
 msgstr "Z-Library"
 
 #: allthethings/page/views.py:4717
+#, fuzzy
 msgid "common.record_sources_mapping.ia"
-msgstr ""
+msgstr "IA"
 
 #: allthethings/page/views.py:4718
 msgid "common.record_sources_mapping.isbndb"
@@ -1533,108 +1647,132 @@ msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
 #: allthethings/page/views.py:4721
+#, fuzzy
 msgid "common.record_sources_mapping.oclc"
-msgstr ""
+msgstr "OCLC (WorldCat)"
 
 #: allthethings/page/views.py:4722
+#, fuzzy
 msgid "common.record_sources_mapping.duxiu"
-msgstr ""
+msgstr "DuXiu 读秀"
 
 #: allthethings/page/views.py:4723
+#, fuzzy
 msgid "common.record_sources_mapping.uploads"
-msgstr ""
+msgstr "Įkėlimai į AA"
 
 #: allthethings/page/views.py:4729
+#, fuzzy
 msgid "common.specific_search_fields.title"
-msgstr ""
+msgstr "Pavadinimas"
 
 #: allthethings/page/views.py:4730
+#, fuzzy
 msgid "common.specific_search_fields.author"
-msgstr ""
+msgstr "Autorius"
 
 #: allthethings/page/views.py:4731
+#, fuzzy
 msgid "common.specific_search_fields.publisher"
-msgstr ""
+msgstr "Leidėjas"
 
 #: allthethings/page/views.py:4732
+#, fuzzy
 msgid "common.specific_search_fields.edition_varia"
-msgstr ""
+msgstr "Leidimas"
 
 #: allthethings/page/views.py:4733
+#, fuzzy
 msgid "common.specific_search_fields.year"
-msgstr ""
+msgstr "Išleidimo metai"
 
 #: allthethings/page/views.py:4734
+#, fuzzy
 msgid "common.specific_search_fields.original_filename"
-msgstr ""
+msgstr "Originalus failo pavadinimas"
 
 #: allthethings/page/views.py:4735
+#, fuzzy
 msgid "common.specific_search_fields.description_comments"
-msgstr ""
+msgstr "Aprašymas ir metaduomenų komentarai"
 
 #: allthethings/page/views.py:4760
 msgid "common.md5.servers.fast_partner"
 msgstr "Greitasis partnerio serveris #%(number)s"
 
 #: allthethings/page/views.py:4760
+#, fuzzy
 msgid "common.md5.servers.no_browser_verification_or_waitlists"
-msgstr ""
+msgstr "(nėra naršyklės patikrinimo ar laukimo sąrašų)"
 
 #: allthethings/page/views.py:4763 allthethings/page/views.py:4765
 msgid "common.md5.servers.slow_partner"
 msgstr "Lėtasis partnerio serveris #%(number)s"
 
 #: allthethings/page/views.py:4763
+#, fuzzy
 msgid "common.md5.servers.faster_with_waitlist"
-msgstr ""
+msgstr "(šiek tiek greičiau, bet su laukimo sąrašu)"
 
 #: allthethings/page/views.py:4765
+#, fuzzy
 msgid "common.md5.servers.slow_no_waitlist"
-msgstr ""
+msgstr "(be laukimo sąrašo, bet gali būti labai lėtas)"
 
 #: allthethings/page/views.py:4854
+#, fuzzy
 msgid "page.md5.box.descr_title"
-msgstr ""
+msgstr "aprašymas"
 
 #: allthethings/page/views.py:4855
+#, fuzzy
 msgid "page.md5.box.metadata_comments_title"
-msgstr ""
+msgstr "metaduomenų komentarai"
 
 #: allthethings/page/views.py:4856
+#, fuzzy
 msgid "page.md5.box.alternative_title"
-msgstr ""
+msgstr "Alternatyvus pavadinimas"
 
 #: allthethings/page/views.py:4857
+#, fuzzy
 msgid "page.md5.box.alternative_author"
-msgstr ""
+msgstr "Alternatyvus autorius"
 
 #: allthethings/page/views.py:4858
+#, fuzzy
 msgid "page.md5.box.alternative_publisher"
-msgstr ""
+msgstr "Alternatyvus leidėjas"
 
 #: allthethings/page/views.py:4859
+#, fuzzy
 msgid "page.md5.box.alternative_edition"
-msgstr ""
+msgstr "Alternatyvus leidimas"
 
 #: allthethings/page/views.py:4860
+#, fuzzy
 msgid "page.md5.box.alternative_description"
-msgstr ""
+msgstr "Alternatyvus aprašymas"
 
 #: allthethings/page/views.py:4861
+#, fuzzy
 msgid "page.md5.box.alternative_filename"
-msgstr ""
+msgstr "Alternatyvus failo pavadinimas"
 
 #: allthethings/page/views.py:4862
+#, fuzzy
 msgid "page.md5.box.alternative_extension"
-msgstr ""
+msgstr "Alternatyvus plėtinys"
 
 #: allthethings/page/views.py:4863
+#, fuzzy
 msgid "page.md5.box.date_open_sourced_title"
-msgstr ""
+msgstr "data, kai buvo atvertas šaltinis"
 
 #: allthethings/page/views.py:4899
+#, fuzzy
 msgid "page.md5.box.download.temporarily_unavailable"
-msgstr ""
+msgstr "Partnerio serverio atsisiuntimai laikinai nepasiekiami šiam failui."
 
 #: allthethings/page/views.py:4903 allthethings/page/views.py:5086
 msgid "page.md5.box.download.scihub"
@@ -1663,185 +1801,229 @@ msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
 #: allthethings/page/views.py:5037
+#, fuzzy
 msgid "page.md5.box.download.libgen_ads"
-msgstr ""
+msgstr "jų reklamos yra žinomos dėl kenkėjiškos programinės įrangos, todėl naudokite reklamos blokatorių arba nespauskite ant reklamų"
 
 #: allthethings/page/views.py:5083
+#, fuzzy
 msgid "page.md5.box.download.ia_borrow"
-msgstr ""
+msgstr "Skolinkitės iš Internet Archive"
 
 #: allthethings/page/views.py:5083
+#, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
-msgstr ""
+msgstr "(tik neįgaliesiems, negalintiems spausdinti)"
 
 #: allthethings/page/views.py:5086
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(susijęs DOI gali būti nepasiekiamas Sci-Hub)"
 
 #: allthethings/page/views.py:5092
+#, fuzzy
 msgid "page.md5.box.download.collection"
-msgstr ""
+msgstr "kolekcija"
 
 #: allthethings/page/views.py:5093
+#, fuzzy
 msgid "page.md5.box.download.torrent"
-msgstr ""
+msgstr "torentas"
 
 #: allthethings/page/views.py:5099
+#, fuzzy
 msgid "page.md5.box.download.bulk_torrents"
-msgstr ""
+msgstr "Masiniai torrentų atsisiuntimai"
 
 #: allthethings/page/views.py:5099
+#, fuzzy
 msgid "page.md5.box.download.experts_only"
-msgstr ""
+msgstr "(tik ekspertams)"
 
 #: allthethings/page/views.py:5106
+#, fuzzy
 msgid "page.md5.box.download.aa_isbn"
-msgstr ""
+msgstr "Ieškoti Annos Archyve pagal ISBN"
 
 #: allthethings/page/views.py:5107
+#, fuzzy
 msgid "page.md5.box.download.other_isbn"
-msgstr ""
+msgstr "Ieškokite įvairiose kitose duomenų bazėse pagal ISBN"
 
 #: allthethings/page/views.py:5109
+#, fuzzy
 msgid "page.md5.box.download.original_isbndb"
-msgstr ""
+msgstr "Rasti originalų įrašą ISBNdb"
 
 #: allthethings/page/views.py:5111
+#, fuzzy
 msgid "page.md5.box.download.aa_openlib"
-msgstr ""
+msgstr "Ieškoti Annos Archyve pagal Open Library ID"
 
 #: allthethings/page/views.py:5113
+#, fuzzy
 msgid "page.md5.box.download.original_openlib"
-msgstr ""
+msgstr "Rasti originalų įrašą Open Library"
 
 #: allthethings/page/views.py:5115
+#, fuzzy
 msgid "page.md5.box.download.aa_oclc"
-msgstr ""
+msgstr "Ieškoti Annos Archyve pagal OCLC (WorldCat) numerį"
 
 #: allthethings/page/views.py:5116
+#, fuzzy
 msgid "page.md5.box.download.original_oclc"
-msgstr ""
+msgstr "Rasti originalų įrašą WorldCat"
 
 #: allthethings/page/views.py:5118
+#, fuzzy
 msgid "page.md5.box.download.aa_duxiu"
-msgstr ""
+msgstr "Ieškoti Annos Archyve pagal DuXiu SSID numerį"
 
 #: allthethings/page/views.py:5119
+#, fuzzy
 msgid "page.md5.box.download.original_duxiu"
-msgstr ""
+msgstr "Ieškoti rankiniu būdu DuXiu"
 
 #: allthethings/page/views.py:5121
+#, fuzzy
 msgid "page.md5.box.download.aa_cadal"
-msgstr ""
+msgstr "Ieškoti Anna’s Archive CADAL SSNO numerio"
 
 #: allthethings/page/views.py:5122
+#, fuzzy
 msgid "page.md5.box.download.original_cadal"
-msgstr ""
+msgstr "Rasti originalų įrašą CADAL"
 
 #: allthethings/page/views.py:5126
+#, fuzzy
 msgid "page.md5.box.download.aa_dxid"
-msgstr ""
+msgstr "Ieškoti Annos Archyve pagal DuXiu DXID numerį"
 
 #: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#, fuzzy
 msgid "page.md5.box.download.scidb"
-msgstr ""
+msgstr "Annos Archyvas 🧬 SciDB"
 
 #: allthethings/page/views.py:5131 allthethings/page/views.py:5132
+#, fuzzy
 msgid "common.md5.servers.no_browser_verification"
-msgstr ""
+msgstr "(nereikalingas naršyklės patvirtinimas)"
 
 #: allthethings/page/templates/page/aarecord.html:14
+#, fuzzy
 msgid "page.md5.header.scihub"
-msgstr ""
+msgstr "Sci-Hub failas “%(id)s”"
 
 #: allthethings/page/templates/page/aarecord.html:18
+#, fuzzy
 msgid "page.md5.header.ia"
-msgstr ""
+msgstr "Internet Archive kontroliuojamo skaitmeninio skolinimo failas „%(id)s“"
 
 #: allthethings/page/templates/page/aarecord.html:21
+#, fuzzy
 msgid "page.md5.header.ia_desc"
-msgstr ""
+msgstr "Tai yra failo iš Internet Archive įrašas, o ne tiesiogiai atsisiunčiamas failas. Galite pabandyti pasiskolinti knygą (nuoroda žemiau) arba naudoti šį URL, kai <a %(a_request)s>prašote failo</a>."
 
 #: allthethings/page/templates/page/aarecord.html:22
 #: allthethings/page/templates/page/aarecord.html:40
+#, fuzzy
 msgid "page.md5.header.consider_upload"
-msgstr ""
+msgstr "Jei turite šį failą ir jis dar nėra prieinamas Anna’s Archive, apsvarstykite galimybę <a %(a_request)s>įkelti jį</a>."
 
 #: allthethings/page/templates/page/aarecord.html:27
+#, fuzzy
 msgid "page.md5.header.meta_isbn"
-msgstr ""
+msgstr "ISBNdb %(id)s metaduomenų įrašas"
 
 #: allthethings/page/templates/page/aarecord.html:29
+#, fuzzy
 msgid "page.md5.header.meta_openlib"
-msgstr ""
+msgstr "Open Library %(id)s metaduomenų įrašas"
 
 #: allthethings/page/templates/page/aarecord.html:31
+#, fuzzy
 msgid "page.md5.header.meta_oclc"
-msgstr ""
+msgstr "OCLC (WorldCat) numerio %(id)s metaduomenų įrašas"
 
 #: allthethings/page/templates/page/aarecord.html:33
+#, fuzzy
 msgid "page.md5.header.meta_duxiu_ssid"
-msgstr ""
+msgstr "DuXiu SSID %(id)s metaduomenų įrašas"
 
 #: allthethings/page/templates/page/aarecord.html:35
+#, fuzzy
 msgid "page.md5.header.meta_cadal_ssno"
-msgstr ""
+msgstr "CADAL SSNO %(id)s metaduomenų įrašas"
 
 #: allthethings/page/templates/page/aarecord.html:39
+#, fuzzy
 msgid "page.md5.header.meta_desc"
-msgstr ""
+msgstr "Tai yra metaduomenų įrašas, o ne atsisiunčiamas failas. Galite naudoti šį URL, kai <a %(a_request)s>prašote failo</a>."
 
 #: allthethings/page/templates/page/aarecord.html:63
+#, fuzzy
 msgid "page.md5.header.improve_metadata"
-msgstr ""
+msgstr "Tobulinti metaduomenis"
 
 #: allthethings/page/templates/page/aarecord.html:71
+#, fuzzy
 msgid "page.md5.box.descr_read_more"
-msgstr ""
+msgstr "Skaityti daugiau…"
 
 #: allthethings/page/templates/page/aarecord.html:92
+#, fuzzy
 msgid "page.md5.codes.url"
-msgstr ""
+msgstr "URL:"
 
 #: allthethings/page/templates/page/aarecord.html:93
+#, fuzzy
 msgid "page.md5.codes.website"
-msgstr ""
+msgstr "Svetainė:"
 
 #: allthethings/page/templates/page/aarecord.html:94
+#, fuzzy
 msgid "page.md5.codes.aa_abbr"
-msgstr ""
+msgstr "AA:"
 
 #: allthethings/page/templates/page/aarecord.html:94
+#, fuzzy
 msgid "page.md5.codes.aa_search"
-msgstr ""
+msgstr "Ieškoti Annos Archyve „%(name)s“"
 
 #: allthethings/page/templates/page/aarecord.html:95
+#, fuzzy
 msgid "page.md5.codes.code_explorer"
-msgstr ""
+msgstr "Koduotės naršyklė:"
 
 #: allthethings/page/templates/page/aarecord.html:95
+#, fuzzy
 msgid "page.md5.codes.code_search"
-msgstr ""
+msgstr "Peržiūrėti Codes Explorer „%(name)s“"
 
 #: allthethings/page/templates/page/aarecord.html:128
+#, fuzzy
 msgid "page.md5.tabs.downloads"
-msgstr ""
+msgstr "Atsisiuntimai (%(count)s)"
 
 #: allthethings/page/templates/page/aarecord.html:128
+#, fuzzy
 msgid "page.md5.tabs.borrow"
-msgstr ""
+msgstr "Skolintis (%(count)s)"
 
 #: allthethings/page/templates/page/aarecord.html:128
+#, fuzzy
 msgid "page.md5.tabs.explore_metadata"
-msgstr ""
+msgstr "Naršyti metaduomenis (%(count)s)"
 
 #: allthethings/page/templates/page/aarecord.html:130
+#, fuzzy
 msgid "page.md5.tabs.lists"
-msgstr ""
+msgstr "Sąrašai (%(count)s)"
 
 #: allthethings/page/templates/page/aarecord.html:131
+#, fuzzy
 msgid "page.md5.tabs.stats"
-msgstr ""
+msgstr "Statistika (%(count)s)"
 
 #: allthethings/page/templates/page/aarecord.html:133
 msgid "common.tech_details"
@@ -1852,8 +2034,9 @@ msgid "page.md5.box.issues.text1"
 msgstr "<span class=\"font-bold\">❌ Šis failas gali turėti problemų ir todėl buvo paslėptas iš šaltinio bibliotekos.</span> Kartais tai yra atliekama dėl autorines teises turinčio asmens užklausos, kartais dėl to, kad yra pasiekiama geresnė alternatyva, o kitais kartais, kadangi yra problema su pačiu failu. Jis gali būti tinkamas parsisiųsti, tačiau rekomenduojame pirmiausiai ieškoti alternatyvos. Plačiau:"
 
 #: allthethings/page/templates/page/aarecord.html:216
+#, fuzzy
 msgid "page.md5.box.download.better_file"
-msgstr ""
+msgstr "Geresnė šio failo versija gali būti prieinama adresu %(link)s"
 
 #: allthethings/page/templates/page/aarecord.html:221
 msgid "page.md5.box.issues.text2"
@@ -1868,12 +2051,14 @@ msgid "page.md5.box.download.header_fast_member"
 msgstr "<strong>🚀 Greiti atsisiuntimai</strong> Šiandieną dar turite %(remaining)s likusius. Ačiū, kad esate narys! ❤️"
 
 #: allthethings/page/templates/page/aarecord.html:228
+#, fuzzy
 msgid "page.md5.box.download.header_fast_member_no_remaining_new"
-msgstr ""
+msgstr "<strong>🚀 Greiti atsisiuntimai</strong> Jūs išnaudojote greitų atsisiuntimų limitą šiandien."
 
 #: allthethings/page/templates/page/aarecord.html:229
+#, fuzzy
 msgid "page.md5.box.download.header_fast_member_valid_for"
-msgstr ""
+msgstr "<strong>🚀 Greiti atsisiuntimai</strong> Jūs neseniai atsisiuntėte šį failą. Nuorodos galioja tam tikrą laiką."
 
 #: allthethings/page/templates/page/aarecord.html:233
 #: allthethings/page/templates/page/aarecord.html:245
@@ -1883,8 +2068,9 @@ msgstr "Pasirinkimas %(num)d: %(link)s %(extra)s"
 
 #: allthethings/page/templates/page/aarecord.html:235
 #: allthethings/templates/layouts/index.html:247
+#, fuzzy
 msgid "layout.index.header.banner.refer"
-msgstr ""
+msgstr "Pakvieskite draugą, ir jūs abu gausite %(percentage)s%% papildomų greitų atsisiuntimų!"
 
 #: allthethings/page/templates/page/aarecord.html:235
 #: allthethings/page/templates/page/home.html:30
@@ -1898,48 +2084,58 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:358
 #: allthethings/templates/layouts/index.html:359
 #: allthethings/templates/layouts/index.html:360
+#, fuzzy
 msgid "layout.index.header.learn_more"
-msgstr ""
+msgstr "Sužinokite daugiau…"
 
 #: allthethings/page/templates/page/aarecord.html:241
+#, fuzzy
 msgid "page.md5.box.download.header_slow_only"
-msgstr ""
+msgstr "🐢 Lėti atsisiuntimai"
 
 #: allthethings/page/templates/page/aarecord.html:241
+#, fuzzy
 msgid "page.md5.box.download.trusted_partners"
-msgstr ""
+msgstr "Iš patikimų partnerių."
 
 #: allthethings/page/templates/page/aarecord.html:241
+#, fuzzy
 msgid "page.md5.box.download.slow_faq"
-msgstr ""
+msgstr "Daugiau informacijos <a %(a_slow)s>DUK</a>."
 
 #: allthethings/page/templates/page/aarecord.html:241
+#, fuzzy
 msgid "common.md5.servers.browser_verification_unlimited"
-msgstr ""
+msgstr "(gali prireikti <a %(a_browser)s>naršyklės patvirtinimo</a> — neriboti atsisiuntimai!)"
 
 #: allthethings/page/templates/page/aarecord.html:256
+#, fuzzy
 msgid "page.md5.box.download.convert"
-msgstr ""
+msgstr "Konvertuoti: naudokite internetinius įrankius formatų konvertavimui. Pavyzdžiui, norėdami konvertuoti tarp epub ir pdf, naudokite <a %(a_cloudconvert)s>CloudConvert</a>."
 
 #: allthethings/page/templates/page/aarecord.html:257
+#, fuzzy
 msgid "page.md5.box.download.kindle"
-msgstr ""
+msgstr "Kindle: atsisiųskite failą (palaikomi pdf arba epub), tada <a %(a_kindle)s>siųskite jį į Kindle</a> naudodami internetą, programėlę arba el. paštą. Naudingi įrankiai: <a %(a_kobosend)s rel=\"noopener noreferrer nofollow\">1</a>."
 
 #: allthethings/page/templates/page/aarecord.html:258
+#, fuzzy
 msgid "page.md5.box.download.support_authors"
-msgstr ""
+msgstr "Paremkite autorius: jei jums tai patinka ir galite sau leisti, apsvarstykite galimybę įsigyti originalą arba tiesiogiai paremti autorius."
 
 #: allthethings/page/templates/page/aarecord.html:259
+#, fuzzy
 msgid "page.md5.box.download.support_libraries"
-msgstr ""
+msgstr "Paremkite bibliotekas: jei tai yra jūsų vietinėje bibliotekoje, apsvarstykite galimybę pasiskolinti nemokamai."
 
 #: allthethings/page/templates/page/aarecord.html:269
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 Lėti ir išoriniai atsisiuntimai"
 
 #: allthethings/page/templates/page/aarecord.html:270
+#, fuzzy
 msgid "page.md5.box.download.header_external"
-msgstr ""
+msgstr "Išoriniai atsisiuntimai"
 
 #: allthethings/page/templates/page/aarecord.html:272
 msgid "page.md5.box.download.header_generic"
@@ -1999,15 +2195,17 @@ msgstr "Visi parsiuntimo metodai turi tą patį failą ir turi būti saugus pars
 #: allthethings/page/templates/page/volunteering.html:7
 #, fuzzy
 msgid "common.english_only"
-msgstr " "
+msgstr "Tekstas žemiau tęsiasi anglų kalba."
 
 #: allthethings/page/templates/page/aarecord_issue.html:4
+#, fuzzy
 msgid "page.aarecord_issue.title"
-msgstr ""
+msgstr "🔥 Problema įkeliant šį puslapį"
 
 #: allthethings/page/templates/page/aarecord_issue.html:6
+#, fuzzy
 msgid "page.aarecord_issue.text"
-msgstr ""
+msgstr "Prašome atnaujinti puslapį ir bandyti dar kartą. <a %(a_contact)s>Susisiekite su mumis</a>, jei problema išlieka kelias valandas."
 
 #: allthethings/page/templates/page/aarecord_not_found.html:4
 msgid "page.md5.invalid.header"
@@ -2024,8 +2222,9 @@ msgid "page.login.title"
 msgstr "Prisijungti / Registruotis"
 
 #: allthethings/page/templates/page/browser_verification.html:6
+#, fuzzy
 msgid "page.browserverification.header"
-msgstr ""
+msgstr "Naršyklės patikrinimas"
 
 #: allthethings/page/templates/page/browser_verification.html:9
 #: allthethings/page/templates/page/login.html:9
@@ -2036,70 +2235,83 @@ msgstr "Kad šlamšto robotai nesukurtų daug paskyrų, pirmiausia turime patvir
 #: allthethings/page/templates/page/login.html:13
 #, fuzzy
 msgid "page.login.text2"
-msgstr "Jei patenkate į begalinį ratą, rekomenduojame įdiegti <a href=\"https://privacypass.github.io/\">Privacy Pass</a>."
+msgstr "Jei pakliūsite į begalinę kilpą, rekomenduojame įdiegti <a %(a_privacypass)s>Privacy Pass</a>."
 
 #: allthethings/page/templates/page/browser_verification.html:13
+#, fuzzy
 msgid "page.login.text3"
-msgstr ""
+msgstr "Taip pat gali padėti išjungti reklamos blokatorius ir kitus naršyklės plėtinius."
 
 #: allthethings/page/templates/page/contact.html:10
+#, fuzzy
 msgid "page.contact.dmca.form"
-msgstr ""
+msgstr "Dėl DMCA / autorių teisių pretenzijų naudokite <a %(a_copyright)s>šią formą</a>."
 
 #: allthethings/page/templates/page/contact.html:11
+#, fuzzy
 msgid "page.contact.dmca.delete"
-msgstr ""
+msgstr "Bet kokie kiti būdai susisiekti su mumis dėl autorių teisių pretenzijų bus automatiškai ištrinti."
 
 #: allthethings/page/templates/page/contact.html:16
+#, fuzzy
 msgid "page.contact.checkboxes.text1"
-msgstr ""
+msgstr "Labai laukiame jūsų atsiliepimų ir klausimų!"
 
 #: allthethings/page/templates/page/contact.html:17
+#, fuzzy
 msgid "page.contact.checkboxes.text2"
-msgstr ""
+msgstr "Tačiau dėl didelio kiekio šlamšto ir nesąmoningų el. laiškų, prašome pažymėti langelius, kad patvirtintumėte, jog suprantate šias sąlygas susisiekiant su mumis."
 
 #: allthethings/page/templates/page/contact.html:19
+#, fuzzy
 msgid "page.contact.checkboxes.copyright"
-msgstr ""
+msgstr "Autorių teisių pretenzijos šiuo el. paštu bus ignoruojamos; vietoj to naudokite formą."
 
 #: allthethings/page/templates/page/contact.html:20
 msgid "layout.index.footer.dont_email"
 msgstr "Nerašykite mums dėl <a %(a_request)s>knygų prašymų</a><br> ar smulkių (<10 tūkst.) <a %(a_upload)s>įkėlimų</a>."
 
 #: allthethings/page/templates/page/contact.html:21
+#, fuzzy
 msgid "page.donate.please_include"
-msgstr ""
+msgstr "Klausiant apie paskyrą ar aukas, pridėkite savo paskyros ID, ekrano nuotraukas, kvitus ir kuo daugiau informacijos. Mes tikriname savo el. paštą kas 1-2 savaites, todėl šios informacijos neįtraukimas uždels bet kokį sprendimą."
 
 #: allthethings/page/templates/page/contact.html:23
+#, fuzzy
 msgid "page.contact.checkboxes.show_email_button"
-msgstr ""
+msgstr "Rodyti el. paštą"
 
 #: allthethings/page/templates/page/datasets.html:161
 #: allthethings/page/templates/page/faq.html:168
 #: allthethings/page/templates/page/search.html:288
+#, fuzzy
 msgid "page.faq.metadata.inspiration1"
-msgstr ""
+msgstr "Mūsų įkvėpimas rinkti metaduomenis yra Aarono Swartzo tikslas „vienas tinklalapis kiekvienai kada nors išleistai knygai“, kuriam jis sukūrė <a %(a_openlib)s>Open Library</a>."
 
 #: allthethings/page/templates/page/datasets.html:162
 #: allthethings/page/templates/page/faq.html:169
 #: allthethings/page/templates/page/search.html:289
+#, fuzzy
 msgid "page.faq.metadata.inspiration2"
-msgstr ""
+msgstr "Tas projektas sekasi gerai, tačiau mūsų unikali padėtis leidžia mums gauti metaduomenis, kurių jie negali."
 
 #: allthethings/page/templates/page/datasets.html:163
 #: allthethings/page/templates/page/faq.html:170
 #: allthethings/page/templates/page/search.html:290
+#, fuzzy
 msgid "page.faq.metadata.inspiration3"
-msgstr ""
+msgstr "Kita įkvėpimo priežastis buvo mūsų noras sužinoti <a %(a_blog)s>kiek knygų yra pasaulyje</a>, kad galėtume apskaičiuoti, kiek knygų dar turime išsaugoti."
 
 #: allthethings/page/templates/page/faq.html:3
 #: allthethings/page/templates/page/faq.html:6
+#, fuzzy
 msgid "page.faq.title"
-msgstr ""
+msgstr "Dažniausiai užduodami klausimai (DUK)"
 
 #: allthethings/page/templates/page/faq.html:8
+#, fuzzy
 msgid "page.faq.what_is.title"
-msgstr ""
+msgstr "Kas yra Annos Archyvas?"
 
 #: allthethings/page/templates/page/faq.html:11
 msgid "page.home.intro.text1"
@@ -2110,20 +2322,23 @@ msgid "page.home.intro.text2"
 msgstr "<li><strong>Išsaugojimas:</strong> visų žmonijos žinių ir kultūros išsaugojimas.</li><li><strong>Prieiga:</strong> padaryti šias žinias ir kultūrą prieinamas bet kuriam pasaulio gyventojui.</li>"
 
 #: allthethings/page/templates/page/faq.html:19
+#, fuzzy
 msgid "page.home.intro.open_source"
-msgstr ""
+msgstr "Visas mūsų <a %(a_code)s>kodas</a> ir <a %(a_datasets)s>duomenys</a> yra visiškai atviro kodo."
 
 #: allthethings/page/templates/page/faq.html:23
 msgid "page.home.preservation.header"
 msgstr "Išsaugojimas"
 
 #: allthethings/page/templates/page/faq.html:25
+#, fuzzy
 msgid "page.home.preservation.text1"
-msgstr ""
+msgstr "Mes saugome knygas, straipsnius, komiksus, žurnalus ir dar daugiau, sujungdami šias medžiagas iš įvairių <a href=\"https://en.wikipedia.org/wiki/Shadow_library\">šešėlinių bibliotekų</a>, oficialių bibliotekų ir kitų kolekcijų į vieną vietą. Visi šie duomenys yra saugomi amžinai, nes juos lengva kopijuoti dideliais kiekiais — naudojant torrentus — todėl visame pasaulyje yra daug kopijų. Kai kurios šešėlinės bibliotekos tai jau daro pačios (pvz., Sci-Hub, Library Genesis), o Annos Archyvas „išlaisvina“ kitas bibliotekas, kurios nesiūlo masinio platinimo (pvz., Z-Library) arba visai nėra šešėlinės bibliotekos (pvz., Internet Archive, DuXiu)."
 
 #: allthethings/page/templates/page/faq.html:27
+#, fuzzy
 msgid "page.home.preservation.text2"
-msgstr ""
+msgstr "Šis platus platinimas kartu su atvirojo kodo programine įranga daro mūsų svetainę atsparią pašalinimams ir užtikrina ilgalaikį žmonijos žinių ir kultūros išsaugojimą. Sužinokite daugiau apie <a href=\"/datasets\">mūsų duomenų rinkinius</a>."
 
 #: allthethings/page/templates/page/faq.html:41
 msgid "page.home.preservation.label"
@@ -2150,52 +2365,63 @@ msgid "page.about.text3"
 msgstr "Norint sužinoti žinias apie mūsų progresą, sekite Anna <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a> arba <a href=\"https://t.me/annasarchiveorg\">Telegram</a>. Dėl klausimų galite susisiekti su Anna %(email)s."
 
 #: allthethings/page/templates/page/faq.html:87
+#, fuzzy
 msgid "page.faq.help.title"
-msgstr ""
+msgstr "Kaip galiu padėti?"
 
 #: allthethings/page/templates/page/faq.html:90
 msgid "page.about.help.text"
 msgstr "<li>1. Sekite mus <a href=\"https://www.reddit.com/r/Annas_Archive/\">Reddit</a>, ar <a href=\"https://t.me/annasarchiveorg\">Telegram</a>.</li><li>2. Platinkite žinią apie Anna's Archive Twitter, Reddit, Tiktok, Instagram, vietinėje kavinėje, bibliotekoje ar kažin kur jūs einate! Mes netikime informacijos uždarimu - jeigu būsime sustabdyti, atsirasime kitur, kadangi visas mūsų kodas ir duomenys yra visiškai atviri.</li><li>3. Jeigu galite <a href=\"/donate\">paaukokite</a>.</li><li>4. Padėkite <a href=\"https://translate.annas-software.org/\">išversti</a> mūsų svetainę į skirtingas kalbas. </li><li>5. Jeigu esate programuotojas, galite prisidėti prie mūsų <a href=\"https://annas-software.org/\">atviro kodo</a>, arba bendrinant (angl. seeding) mūsų <a href=\"/datasets\">torrent</a>.</li>"
 
 #: allthethings/page/templates/page/faq.html:91
+#, fuzzy
 msgid "page.about.help.text6"
-msgstr ""
+msgstr "6. Jei esate saugumo tyrėjas, galime panaudoti jūsų įgūdžius tiek puolimui, tiek gynybai. Apsilankykite mūsų <a %(a_security)s>Saugumo</a> puslapyje."
 
 #: allthethings/page/templates/page/faq.html:92
+#, fuzzy
 msgid "page.about.help.text7"
-msgstr ""
+msgstr "7. Mes ieškome ekspertų mokėjimų anoniminiams prekybininkams srityje. Ar galite padėti mums pridėti patogesnių būdų aukoti? PayPal, WeChat, dovanų kortelės. Jei pažįstate ką nors, prašome susisiekti su mumis."
 
 #: allthethings/page/templates/page/faq.html:93
+#, fuzzy
 msgid "page.about.help.text8"
-msgstr ""
+msgstr "Mes visada ieškome daugiau serverio pajėgumų."
 
 #: allthethings/page/templates/page/faq.html:94
+#, fuzzy
 msgid "page.about.help.text9"
-msgstr ""
+msgstr "9. Jūs galite padėti pranešdami apie failų problemas, palikdami komentarus ir kurdami sąrašus tiesiog šioje svetainėje. Taip pat galite padėti <a %(a_upload)s>įkeldami daugiau knygų</a> arba taisydami esamų knygų failų problemas ar formatavimą."
 
 #: allthethings/page/templates/page/faq.html:95
+#, fuzzy
 msgid "page.about.help.text10"
-msgstr ""
+msgstr "10. Sukurkite arba padėkite prižiūrėti Vikipedijos puslapį „Annos Archyvas“ savo kalba."
 
 #: allthethings/page/templates/page/faq.html:96
+#, fuzzy
 msgid "page.about.help.text11"
-msgstr ""
+msgstr "11. Mes ieškome galimybių talpinti mažas, skoningas reklamas. Jei norėtumėte reklamuotis Anna’s Archive, praneškite mums."
 
 #: allthethings/page/templates/page/faq.html:97
+#, fuzzy
 msgid "page.faq.help.mirrors"
-msgstr ""
+msgstr "Mes norėtume, kad žmonės nustatytų <a %(a_mirrors)s>veidrodžius</a>, ir mes finansiškai palaikysime tai."
 
 #: allthethings/page/templates/page/faq.html:103
+#, fuzzy
 msgid "page.faq.slow.text1"
-msgstr ""
+msgstr "Mes tiesiog neturime pakankamai išteklių, kad visiems pasaulyje suteiktume didelės spartos atsisiuntimus, nors labai norėtume. Jei turtingas rėmėjas norėtų mums tai suteikti, tai būtų nuostabu, bet kol kas stengiamės iš visų jėgų. Esame ne pelno siekiantis projektas, kuris vos išsilaiko iš aukų."
 
 #: allthethings/page/templates/page/faq.html:107
+#, fuzzy
 msgid "page.faq.slow.text2"
-msgstr ""
+msgstr "Štai kodėl mes įdiegėme dvi nemokamų atsisiuntimų sistemas su mūsų partneriais: bendri serveriai su lėtais atsisiuntimais ir šiek tiek greitesni serveriai su laukimo sąrašu (siekiant sumažinti tuo pačiu metu atsisiunčiančių žmonių skaičių)."
 
 #: allthethings/page/templates/page/faq.html:111
+#, fuzzy
 msgid "page.faq.slow.text3"
-msgstr ""
+msgstr "Mes taip pat turime <a %(a_verification)s>naršyklės patvirtinimą</a> lėtiems atsisiuntimams, nes kitaip botai ir skreperiai juos piktnaudžiautų, dar labiau lėtindami teisėtų vartotojų patirtį."
 
 #: allthethings/page/templates/page/faq.html:114
 msgid "page.donate.faq.title"
@@ -2218,12 +2444,14 @@ msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Ar galiu atlikti didelę auką?</div> Tai būtų puiku! Norint paaukoti daugiau nei kelis tūkstančius dolerių, prašome susisiekti su mumis tiesiogiai %(email)s."
 
 #: allthethings/page/templates/page/faq.html:133
+#, fuzzy
 msgid "page.donate.faq.non_member_donation"
-msgstr ""
+msgstr "<div %(div_question)s>Ar galiu paaukoti netapdamas nariu?</div> Žinoma. Mes priimame bet kokio dydžio aukas šiuo Monero (XMR) adresu: %(address)s."
 
 #: allthethings/page/templates/page/faq.html:136
+#, fuzzy
 msgid "page.faq.upload.title"
-msgstr ""
+msgstr "Kaip įkelti naujas knygas?"
 
 #: allthethings/page/templates/page/faq.html:139
 msgid "page.upload.text1"
@@ -2234,244 +2462,304 @@ msgid "common.libgen.email"
 msgstr "Jei jūsų el. pašto adresas neveikia Libgen forumuose, rekomenduojame naudoti <a %(a_mail)s>Proton Mail</a> (nemokamas). Taip pat galite <a %(a_manual)s>rankiniu būdu pateikti užklausą</a>, kad paskyra būtų suaktyvinta."
 
 #: allthethings/page/templates/page/faq.html:141
+#, fuzzy
 msgid "page.faq.mhut_upload"
-msgstr ""
+msgstr "Atkreipkite dėmesį, kad mhut.org blokuoja tam tikrus IP diapazonus, todėl gali prireikti VPN."
 
 #: allthethings/page/templates/page/faq.html:145
+#, fuzzy
 msgid "page.upload.zlib.text1"
-msgstr ""
+msgstr "Arba galite įkelti juos į Z-Library <a %(a_upload)s>čia</a>."
 
 #: allthethings/page/templates/page/faq.html:149
+#, fuzzy
 msgid "page.upload.zlib.text2"
-msgstr ""
+msgstr "Norėdami įkelti akademinius straipsnius, prašome taip pat (be Library Genesis) įkelti į <a %(a_stc_nexus)s>STC Nexus</a>. Jie yra geriausia šešėlinė biblioteka naujiems straipsniams. Mes dar jų neintegravome, bet tai padarysime ateityje. Galite naudoti jų <a %(a_telegram)s>įkėlimo botą Telegram</a> arba susisiekti su adresu, nurodytu jų prisegtoje žinutėje, jei turite per daug failų, kad galėtumėte įkelti šiuo būdu."
 
 #: allthethings/page/templates/page/faq.html:153
+#, fuzzy
 msgid "page.upload.large.text"
-msgstr ""
+msgstr "Dėl didelių įkėlimų (daugiau nei 10 000 failų), kurie nėra priimami Libgen ar Z-Library, susisiekite su mumis adresu %(a_email)s."
 
 #: allthethings/page/templates/page/faq.html:156
+#, fuzzy
 msgid "page.faq.request.title"
-msgstr ""
+msgstr "Kaip galiu užsisakyti knygas?"
 
 #: allthethings/page/templates/page/faq.html:159
+#, fuzzy
 msgid "page.request.cannot_accomodate"
-msgstr ""
+msgstr "Šiuo metu negalime priimti knygų užklausų."
 
 #: allthethings/page/templates/page/faq.html:160
+#, fuzzy
 msgid "page.request.forums"
-msgstr ""
+msgstr "Prašome pateikti savo užklausas Z-Library arba Libgen forumuose."
 
 #: allthethings/page/templates/page/faq.html:161
+#, fuzzy
 msgid "page.request.dont_email"
-msgstr ""
+msgstr "Nesiųskite mums el. laiškų su knygų užklausomis."
 
 #: allthethings/page/templates/page/faq.html:164
+#, fuzzy
 msgid "page.faq.metadata.title"
-msgstr ""
+msgstr "Ar renkate metaduomenis?"
 
 #: allthethings/page/templates/page/faq.html:167
+#, fuzzy
 msgid "page.faq.metadata.indeed"
-msgstr ""
+msgstr "Taip, mes tai darome."
 
 #: allthethings/page/templates/page/faq.html:173
+#, fuzzy
 msgid "page.faq.1984.title"
-msgstr ""
+msgstr "Atsisiunčiau 1984 George Orwell, ar policija ateis į mano duris?"
 
 #: allthethings/page/templates/page/faq.html:176
+#, fuzzy
 msgid "page.faq.1984.text"
-msgstr ""
+msgstr "Nesijaudinkite per daug, yra daug žmonių, kurie atsisiunčia iš mūsų nurodytų svetainių, ir labai retai kyla problemų. Tačiau, norėdami būti saugūs, rekomenduojame naudoti VPN (mokamą) arba <a %(a_tor)s>Tor</a> (nemokamą)."
 
 #: allthethings/page/templates/page/faq.html:179
+#, fuzzy
 msgid "page.faq.save_search.title"
-msgstr ""
+msgstr "Kaip išsaugoti paieškos nustatymus?"
 
 #: allthethings/page/templates/page/faq.html:182
+#, fuzzy
 msgid "page.faq.save_search.text1"
-msgstr ""
+msgstr "Pasirinkite norimus nustatymus, palikite paieškos laukelį tuščią, spustelėkite „Ieškoti“, o tada pažymėkite puslapį naudodami savo naršyklės žymėjimo funkciją."
 
 #: allthethings/page/templates/page/faq.html:185
+#, fuzzy
 msgid "page.faq.mobile.title"
-msgstr ""
+msgstr "Ar turite mobiliąją programėlę?"
 
 #: allthethings/page/templates/page/faq.html:188
+#, fuzzy
 msgid "page.faq.mobile.text1"
-msgstr ""
+msgstr "Mes neturime oficialios mobiliosios programėlės, bet galite įdiegti šią svetainę kaip programėlę."
 
 #: allthethings/page/templates/page/faq.html:189
+#, fuzzy
 msgid "page.faq.mobile.android"
-msgstr ""
+msgstr "<strong>Android:</strong> Spustelėkite trijų taškų meniu viršutiniame dešiniajame kampe ir pasirinkite „Pridėti prie pradžios ekrano“."
 
 #: allthethings/page/templates/page/faq.html:190
+#, fuzzy
 msgid "page.faq.mobile.ios"
-msgstr ""
+msgstr "<strong>iOS:</strong> Spustelėkite mygtuką „Dalintis“ apačioje ir pasirinkite „Pridėti prie pagrindinio ekrano“."
 
 #: allthethings/page/templates/page/faq.html:193
+#, fuzzy
 msgid "page.faq.api.title"
-msgstr ""
+msgstr "Ar turite API?"
 
 #: allthethings/page/templates/page/faq.html:196
+#, fuzzy
 msgid "page.faq.api.text1"
-msgstr ""
+msgstr "Mes turime vieną stabilų JSON API nariams, kad gautumėte greitą atsisiuntimo URL: <a %(a_fast_download)s>/dyn/api/fast_download.json</a> (dokumentacija JSON viduje)."
 
 #: allthethings/page/templates/page/faq.html:200
+#, fuzzy
 msgid "page.faq.api.text2"
-msgstr ""
+msgstr "Kitiems naudojimo atvejams, pvz., visų mūsų failų peržiūrai, individualios paieškos kūrimui ir pan., rekomenduojame <a %(a_generate)s>generuoti</a> arba <a %(a_download)s>atsisiųsti</a> mūsų ElasticSearch ir MariaDB duomenų bazes. Neapdorotus duomenis galima rankiniu būdu tyrinėti <a %(a_explore)s>per JSON failus</a>."
 
 #: allthethings/page/templates/page/faq.html:204
+#, fuzzy
 msgid "page.faq.api.text3"
-msgstr ""
+msgstr "Mūsų neapdorotų torrentų sąrašą taip pat galima atsisiųsti kaip <a %(a_torrents)s>JSON</a>."
 
 #: allthethings/page/templates/page/faq.html:207
+#, fuzzy
 msgid "page.faq.torrents.title"
-msgstr ""
+msgstr "Torrentų DUK"
 
 #: allthethings/page/templates/page/faq.html:210
+#, fuzzy
 msgid "page.faq.torrents.q1"
-msgstr ""
+msgstr "Norėčiau padėti sėti, bet neturiu daug vietos diske."
 
 #: allthethings/page/templates/page/faq.html:212
+#, fuzzy
 msgid "page.faq.torrents.a1"
-msgstr ""
+msgstr "Naudokite <a %(a_list)s>torentų sąrašo generatorių</a>, kad sugeneruotumėte torentų sąrašą, kuriems labiausiai reikia torentavimo, atsižvelgiant į jūsų saugojimo vietos ribas."
 
 #: allthethings/page/templates/page/faq.html:216
+#, fuzzy
 msgid "page.faq.torrents.q2"
-msgstr ""
+msgstr "Torentai yra per lėti; ar galiu atsisiųsti duomenis tiesiogiai iš jūsų?"
 
 #: allthethings/page/templates/page/faq.html:218
+#, fuzzy
 msgid "page.faq.torrents.a2"
-msgstr ""
+msgstr "Taip, žiūrėkite <a %(a_llm)s>LLM duomenų</a> puslapį."
 
 #: allthethings/page/templates/page/faq.html:222
+#, fuzzy
 msgid "page.faq.torrents.q3"
-msgstr ""
+msgstr "Ar galiu atsisiųsti tik dalį failų, pavyzdžiui, tik tam tikrą kalbą ar temą?"
 
 #: allthethings/page/templates/page/faq.html:224
+#, fuzzy
 msgid "page.faq.torrents.a3"
-msgstr ""
+msgstr "Dauguma torrentų tiesiogiai turi failus, tai reiškia, kad galite nurodyti torrentų klientams atsisiųsti tik reikiamus failus. Norėdami nustatyti, kuriuos failus atsisiųsti, galite <a %(a_generate)s>generuoti</a> mūsų metaduomenis arba <a %(a_download)s>atsisiųsti</a> mūsų ElasticSearch ir MariaDB duomenų bazes. Deja, kai kurios torrentų kolekcijos turi .zip arba .tar failus šaknyje, tokiu atveju turite atsisiųsti visą torrentą, kad galėtumėte pasirinkti atskirus failus."
 
 #: allthethings/page/templates/page/faq.html:228
+#, fuzzy
 msgid "page.faq.torrents.q4"
-msgstr ""
+msgstr "Kaip tvarkote dublikatus torrentuose?"
 
 #: allthethings/page/templates/page/faq.html:230
+#, fuzzy
 msgid "page.faq.torrents.a4"
-msgstr ""
+msgstr "Stengiamės išlaikyti minimalų dublikatų ar persidengimų kiekį šiame sąraše esančiuose torrentuose, tačiau tai ne visada įmanoma ir labai priklauso nuo šaltinių bibliotekų politikos. Bibliotekoms, kurios išleidžia savo torrentus, tai nėra mūsų rankose. Torrentams, kuriuos išleidžia „Annos Archyvas“, dublikatų šalinimas atliekamas tik pagal MD5 maišos kodą, tai reiškia, kad skirtingos tos pačios knygos versijos nėra pašalinamos."
 
 #: allthethings/page/templates/page/faq.html:234
+#, fuzzy
 msgid "page.faq.torrents.q5"
-msgstr ""
+msgstr "Ar galiu gauti torrentų sąrašą kaip JSON?"
 
 #: allthethings/page/templates/page/faq.html:238
+#, fuzzy
 msgid "page.faq.torrents.a5"
-msgstr ""
+msgstr "Taip."
 
 #: allthethings/page/templates/page/faq.html:242
+#, fuzzy
 msgid "page.faq.torrents.q6"
-msgstr ""
+msgstr "Nematau PDF ar EPUB torrentuose, tik dvejetainius failus? Ką daryti?"
 
 #: allthethings/page/templates/page/faq.html:244
+#, fuzzy
 msgid "page.faq.torrents.a6"
-msgstr ""
+msgstr "Tai iš tikrųjų yra PDF ir EPUB failai, jie tiesiog neturi plėtinio daugelyje mūsų torrentų. Yra dvi vietos, kuriose galite rasti torrent failų metaduomenis, įskaitant failų tipus/plėtinius:"
 
 #: allthethings/page/templates/page/faq.html:246
+#, fuzzy
 msgid "page.faq.torrents.a6.li1"
-msgstr ""
+msgstr "1. Kiekviena kolekcija ar leidimas turi savo metaduomenis. Pavyzdžiui, <a %(a_libgen_nonfic)s>Libgen.rs torrentai</a> turi atitinkamą metaduomenų bazę, talpinamą Libgen.rs svetainėje. Mes paprastai nuorodą į atitinkamus metaduomenų šaltinius pateikiame kiekvienos kolekcijos <a %(a_datasets)s>duomenų rinkinio puslapyje</a>."
 
 #: allthethings/page/templates/page/faq.html:248
+#, fuzzy
 msgid "page.faq.torrents.a6.li2"
-msgstr ""
+msgstr "2. Rekomenduojame <a %(a_generate)s>generuoti</a> arba <a %(a_download)s>atsisiųsti</a> mūsų ElasticSearch ir MariaDB duomenų bazes. Jose yra kiekvieno įrašo Anna’s Archive atitikmenų torrent failams (jei yra), žemėlapis, esantis „torrent_paths“ lauke ElasticSearch JSON formatu."
 
 #: allthethings/page/templates/page/faq.html:251
+#, fuzzy
 msgid "page.faq.security.title"
-msgstr ""
+msgstr "Ar turite atsakingo atskleidimo programą?"
 
 #: allthethings/page/templates/page/faq.html:254
+#, fuzzy
 msgid "page.faq.security.text1"
-msgstr ""
+msgstr "Kviečiame saugumo tyrėjus ieškoti mūsų sistemų pažeidžiamumų. Mes esame atsakingo atskleidimo šalininkai. Susisiekite su mumis <a %(a_contact)s>čia</a>."
 
 #: allthethings/page/templates/page/faq.html:258
+#, fuzzy
 msgid "page.faq.security.text2"
-msgstr ""
+msgstr "Šiuo metu negalime skirti atlygių už klaidų radimą, išskyrus pažeidžiamumus, kurie turi <a %(a_link)s>potencialą pakenkti mūsų anonimiškumui</a>, už kuriuos siūlome atlygius nuo 10 tūkst. iki 50 tūkst. dolerių. Norėtume ateityje pasiūlyti platesnį klaidų radimo atlygių spektrą! Atkreipkite dėmesį, kad socialinės inžinerijos atakos nėra įtrauktos į programos apimtį."
 
 #: allthethings/page/templates/page/faq.html:262
+#, fuzzy
 msgid "page.faq.security.text3"
-msgstr ""
+msgstr "Jei domitės puolamąja sauga ir norite padėti archyvuoti pasaulio žinias ir kultūrą, būtinai susisiekite su mumis. Yra daug būdų, kaip galite padėti."
 
 #: allthethings/page/templates/page/faq.html:265
+#, fuzzy
 msgid "page.faq.resources.title"
-msgstr ""
+msgstr "Ar yra daugiau išteklių apie Anna’s Archive?"
 
 #: allthethings/page/templates/page/faq.html:268
+#, fuzzy
 msgid "page.faq.resources.annas_blog"
-msgstr ""
+msgstr "<a %(a_blog)s>Anna’s Blogas</a>, <a %(a_reddit_u)s>Reddit</a>, <a %(a_reddit_r)s>Subreddit</a> — reguliarios naujienos"
 
 #: allthethings/page/templates/page/faq.html:269
+#, fuzzy
 msgid "page.faq.resources.annas_software"
-msgstr ""
+msgstr "<a %(a_software)s>Anna’s Programinė įranga</a> — mūsų atvirojo kodo kodas"
 
 #: allthethings/page/templates/page/faq.html:270
+#, fuzzy
 msgid "page.faq.resources.translate"
-msgstr ""
+msgstr "<a %(a_translate)s>Versti su Annos programine įranga</a> — mūsų vertimo sistema"
 
 #: allthethings/page/templates/page/faq.html:271
+#, fuzzy
 msgid "page.faq.resources.datasets"
-msgstr ""
+msgstr "<a %(a_datasets)s>Duomenų rinkiniai</a> — apie duomenis"
 
 #: allthethings/page/templates/page/faq.html:272
+#, fuzzy
 msgid "page.faq.resources.domains"
-msgstr ""
+msgstr "<a %(a_li)s>.li</a>, <a %(a_se)s>.se</a>, <a %(a_org)s>.org</a> — alternatyvūs domenai"
 
 #: allthethings/page/templates/page/faq.html:273
+#, fuzzy
 msgid "page.faq.resources.wikipedia"
-msgstr ""
+msgstr "<a %(a_wikipedia)s>Vikipedija</a> — daugiau apie mus (padėkite atnaujinti šį puslapį arba sukurkite savo kalba!)"
 
 #: allthethings/page/templates/page/faq.html:276
+#, fuzzy
 msgid "page.faq.copyright.title"
-msgstr ""
+msgstr "Kaip pranešti apie autorių teisių pažeidimą?"
 
 #: allthethings/page/templates/page/faq.html:279
+#, fuzzy
 msgid "page.faq.copyright.text1"
-msgstr ""
+msgstr "Mes čia netalpiname jokių autorių teisių saugomų medžiagų. Esame paieškos sistema, todėl indeksuojame tik jau viešai prieinamus metaduomenis. Atsisiųsdami iš šių išorinių šaltinių, rekomenduojame pasitikrinti savo jurisdikcijos įstatymus dėl to, kas yra leidžiama. Mes nesame atsakingi už kitų talpinamą turinį."
 
 #: allthethings/page/templates/page/faq.html:283
+#, fuzzy
 msgid "page.faq.copyright.text2"
-msgstr ""
+msgstr "Jei turite skundų dėl to, ką matote čia, geriausia būtų susisiekti su originalia svetaine. Mes reguliariai atnaujiname jų pakeitimus mūsų duomenų bazėje. Jei tikrai manote, kad turite galiojantį DMCA skundą, į kurį turėtume reaguoti, prašome užpildyti <a %(a_copyright)s>DMCA / Autorių teisių pažeidimo formą</a>. Mes rimtai žiūrime į jūsų skundus ir atsakysime kuo greičiau."
 
 #: allthethings/page/templates/page/faq.html:286
+#, fuzzy
 msgid "page.faq.hate.title"
-msgstr ""
+msgstr "Nekenčiu, kaip jūs vykdote šį projektą!"
 
 #: allthethings/page/templates/page/faq.html:289
+#, fuzzy
 msgid "page.faq.hate.text1"
-msgstr ""
+msgstr "Taip pat norėtume priminti visiems, kad visas mūsų kodas ir duomenys yra visiškai atvirojo kodo. Tai unikali savybė tokiems projektams kaip mūsų — mes nežinome jokio kito projekto su panašiai didžiuliu katalogu, kuris taip pat būtų visiškai atvirojo kodo. Labai laukiame visų, kurie mano, kad blogai valdome savo projektą, kad jie paimtų mūsų kodą ir duomenis ir sukurtų savo šešėlinę biblioteką! Mes tai sakome ne iš pykčio ar kažko panašaus — mes nuoširdžiai manome, kad tai būtų nuostabu, nes tai pakeltų visų lygį ir geriau išsaugotų žmonijos palikimą."
 
 #: allthethings/page/templates/page/faq.html:292
+#, fuzzy
 msgid "page.faq.favorite.title"
-msgstr ""
+msgstr "Kokios jūsų mėgstamiausios knygos?"
 
 #: allthethings/page/templates/page/faq.html:295
+#, fuzzy
 msgid "page.faq.favorite.text1"
-msgstr ""
+msgstr "Štai keletas knygų, kurios turi ypatingą reikšmę šešėlinių bibliotekų ir skaitmeninio išsaugojimo pasauliui:"
 
 #: allthethings/page/templates/page/fast_download_no_more.html:5
+#, fuzzy
 msgid "page.fast_downloads.no_more_new"
-msgstr ""
+msgstr "Jūs išnaudojote greitų atsisiuntimų limitą šiandien."
 
 #: allthethings/page/templates/page/fast_download_not_member.html:5
+#, fuzzy
 msgid "page.fast_downloads.no_member"
-msgstr ""
+msgstr "Tapkite nariu, kad galėtumėte naudotis greitais atsisiuntimais."
 
 #: allthethings/page/templates/page/home.html:9
+#, fuzzy
 msgid "page.home.full_database.header"
-msgstr ""
+msgstr "Visa duomenų bazė"
 
 #: allthethings/page/templates/page/home.html:12
+#, fuzzy
 msgid "page.home.full_database.subtitle"
-msgstr ""
+msgstr "Knygos, straipsniai, žurnalai, komiksai, bibliotekos įrašai, metaduomenys, …"
 
 #: allthethings/page/templates/page/home.html:15
+#, fuzzy
 msgid "page.home.full_database.search"
-msgstr ""
+msgstr "Paieška"
 
 #: allthethings/page/templates/page/home.html:19
 #: allthethings/page/templates/page/scidb_home.html:3
@@ -2480,8 +2768,9 @@ msgstr ""
 #: allthethings/templates/layouts/index.html:461
 #: allthethings/templates/layouts/index.html:476
 #: allthethings/templates/layouts/index.html:543
+#, fuzzy
 msgid "page.home.scidb.header"
-msgstr ""
+msgstr "SciDB"
 
 #: allthethings/page/templates/page/home.html:19
 #: allthethings/templates/layouts/index.html:496
@@ -2491,84 +2780,102 @@ msgstr "beta"
 #: allthethings/page/templates/page/home.html:27
 #: allthethings/page/templates/page/search.html:257
 #: allthethings/page/templates/page/search.html:314
+#, fuzzy
 msgid "page.home.scidb.scihub_paused"
-msgstr ""
+msgstr "Sci-Hub <a %(a_paused)s>sustabdė</a> naujų straipsnių įkėlimą."
 
 #: allthethings/page/templates/page/home.html:28
 #: allthethings/page/templates/page/search.html:258
 #: allthethings/page/templates/page/search.html:315
+#, fuzzy
 msgid "page.home.scidb.continuation"
-msgstr ""
+msgstr "🧬&nbsp;SciDB yra Sci-Hub tęsinys."
 
 #: allthethings/page/templates/page/home.html:29
 #: allthethings/page/templates/page/home.html:34
+#, fuzzy
 msgid "page.home.scidb.subtitle"
-msgstr ""
+msgstr "Tiesioginė prieiga prie %(count)s akademinių straipsnių"
 
 #: allthethings/page/templates/page/home.html:36
 #: allthethings/page/templates/page/scidb_home.html:19
+#, fuzzy
 msgid "page.home.scidb.placeholder_doi"
-msgstr ""
+msgstr "DOI"
 
 #: allthethings/page/templates/page/home.html:37
 #: allthethings/page/templates/page/scidb_home.html:20
+#, fuzzy
 msgid "page.home.scidb.open"
-msgstr ""
+msgstr "Atidaryti"
 
 #: allthethings/page/templates/page/home.html:39
+#, fuzzy
 msgid "page.home.scidb.browser_verification"
-msgstr ""
+msgstr "Jei esate <a %(a_member)s>narys</a>, naršyklės patikrinimas nereikalingas."
 
 #: allthethings/page/templates/page/home.html:43
+#, fuzzy
 msgid "page.home.archive.header"
-msgstr ""
+msgstr "Ilgalaikis archyvas"
 
 #: allthethings/page/templates/page/home.html:46
+#, fuzzy
 msgid "page.home.archive.body"
-msgstr ""
+msgstr "Annos Archyve naudojami duomenų rinkiniai yra visiškai atviri ir gali būti veidrodiniai dideliais kiekiais naudojant torrentus. <a %(a_datasets)s>Sužinokite daugiau…</a>"
 
 #: allthethings/page/templates/page/home.html:50
+#, fuzzy
 msgid "page.home.torrents.body"
-msgstr ""
+msgstr "Jūs galite labai padėti, sėdami torrentus. <a %(a_torrents)s>Sužinokite daugiau…</a>"
 
 #: allthethings/page/templates/page/home.html:53
 #: allthethings/page/templates/page/torrents.html:86
+#, fuzzy
 msgid "page.home.torrents.legend_less"
-msgstr ""
+msgstr "<%(count)s siuntėjai"
 
 #: allthethings/page/templates/page/home.html:54
 #: allthethings/page/templates/page/torrents.html:87
+#, fuzzy
 msgid "page.home.torrents.legend_range"
-msgstr ""
+msgstr "%(count_min)s–%(count_max)s sėjėjai"
 
 #: allthethings/page/templates/page/home.html:55
 #: allthethings/page/templates/page/torrents.html:88
+#, fuzzy
 msgid "page.home.torrents.legend_greater"
-msgstr ""
+msgstr ">%(count)s siuntėjai"
 
 #: allthethings/page/templates/page/home.html:67
+#, fuzzy
 msgid "page.home.llm.header"
-msgstr ""
+msgstr "LLM training data"
 
 #: allthethings/page/templates/page/home.html:70
+#, fuzzy
 msgid "page.home.llm.body"
-msgstr ""
+msgstr "Mes turime didžiausią pasaulyje aukštos kokybės tekstinių duomenų kolekciją. <a %(a_llm)s>Sužinokite daugiau…</a>"
 
 #: allthethings/page/templates/page/home.html:73
+#, fuzzy
 msgid "page.home.mirrors.header"
-msgstr ""
+msgstr "🪩 Veidrodžiai: kvietimas savanoriams"
 
 #: allthethings/page/templates/page/home.html:75
+#, fuzzy
 msgid "page.home.volunteering.header"
-msgstr ""
+msgstr "🤝 Ieškome savanorių"
 
 #: allthethings/page/templates/page/home.html:77
+#, fuzzy
 msgid "page.home.volunteering.help_out"
-msgstr ""
+msgstr "Būdami ne pelno siekiantis, atvirojo kodo projektas, mes visada ieškome žmonių, kurie galėtų padėti."
 
 #: allthethings/page/templates/page/home.html:96
+#, fuzzy
 msgid "page.home.payment_processor.body"
-msgstr ""
+msgstr "Jei valdote aukštos rizikos anoniminį mokėjimo procesorių, prašome susisiekti su mumis. Taip pat ieškome žmonių, norinčių patalpinti skoningas mažas reklamas. Visos pajamos skiriamos mūsų išsaugojimo pastangoms."
 
 #: allthethings/page/templates/page/home.html:104
 #: allthethings/templates/layouts/index.html:484
@@ -2578,13 +2885,15 @@ msgstr "Anos blogas ↗"
 
 #: allthethings/page/templates/page/ipfs_downloads.html:3
 #: allthethings/page/templates/page/ipfs_downloads.html:10
+#, fuzzy
 msgid "page.ipfs_downloads.title"
-msgstr ""
+msgstr "IPFS atsisiuntimai"
 
 #: allthethings/page/templates/page/ipfs_downloads.html:13
 #: allthethings/page/templates/page/partner_download.html:25
+#, fuzzy
 msgid "page.partner_download.main_page"
-msgstr ""
+msgstr "🔗 Visi šio failo atsisiuntimo nuorodos: <a %(a_main)s>Failo pagrindinis puslapis</a>."
 
 #: allthethings/page/templates/page/ipfs_downloads.html:18
 msgid "page.md5.box.download.ipfs_gateway"
@@ -2596,79 +2905,96 @@ msgstr "(gali tekti pabandyti kelis kartus naudojant IPFS)"
 
 #: allthethings/page/templates/page/ipfs_downloads.html:23
 #: allthethings/page/templates/page/partner_download.html:86
+#, fuzzy
 msgid "page.partner_download.faster_downloads"
-msgstr ""
+msgstr "🚀 Norėdami greičiau atsisiųsti ir praleisti naršyklės patikrinimus, <a %(a_membership)s>tapkite nariu</a>."
 
 #: allthethings/page/templates/page/ipfs_downloads.html:27
 #: allthethings/page/templates/page/partner_download.html:90
+#, fuzzy
 msgid "page.partner_download.bulk_mirroring"
-msgstr ""
+msgstr "📡 Norėdami masiškai veidrodinti mūsų kolekciją, apsilankykite <a %(a_datasets)s>Datasets</a> ir <a %(a_torrents)s>Torrents</a> puslapiuose."
 
 #: allthethings/page/templates/page/login.html:17
 msgid "page.login.continue"
 msgstr "Tęsti"
 
 #: allthethings/page/templates/page/login_to_view.html:8
+#, fuzzy
 msgid "page.login.please"
-msgstr ""
+msgstr "Prašome <a %(a_account)s>prisijungti</a> norėdami peržiūrėti šį puslapį.</a>"
 
 #: allthethings/page/templates/page/maintenance.html:8
 #: allthethings/page/templates/page/maintenance.html:13
+#, fuzzy
 msgid "page.maintenance.header"
-msgstr ""
+msgstr "Annės Archyvas laikinai neveikia dėl priežiūros darbų. Prašome sugrįžti po valandos."
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
+#, fuzzy
 msgid "page.partner_download.header"
-msgstr ""
+msgstr "Atsisiųsti iš partnerio svetainės"
 
 #: allthethings/page/templates/page/partner_download.html:14
+#, fuzzy
 msgid "page.partner_download.slow_downloads_official"
-msgstr ""
+msgstr "❌ Lėti atsisiuntimai galimi tik per oficialią svetainę. Apsilankykite %(websites)s."
 
 #: allthethings/page/templates/page/partner_download.html:20
+#, fuzzy
 msgid "page.partner_download.slow_downloads_cloudflare"
-msgstr ""
+msgstr "❌ Lėti atsisiuntimai nėra prieinami per Cloudflare VPN ar iš Cloudflare IP adresų."
 
 #: allthethings/page/templates/page/partner_download.html:30
+#, fuzzy
 msgid "page.partner_download.text1"
-msgstr ""
+msgstr "Norėdami suteikti visiems galimybę nemokamai atsisiųsti failus, turite palaukti <strong>%(wait_seconds)s sekundžių</strong> prieš atsisiųsdami šį failą."
 
 #: allthethings/page/templates/page/partner_download.html:33
+#, fuzzy
 msgid "page.partner_download.li1"
-msgstr ""
+msgstr "Kol laukiate, galite toliau naršyti Annės Archyvą kitame skirtuke (jei jūsų naršyklė palaiko skirtukų atnaujinimą fone)."
 
 #: allthethings/page/templates/page/partner_download.html:34
+#, fuzzy
 msgid "page.partner_download.li2"
-msgstr ""
+msgstr "Galite laisvai laukti, kol įkels kelis atsisiuntimo puslapius vienu metu (bet prašome atsisiųsti tik vieną failą vienu metu iš kiekvieno serverio)."
 
 #: allthethings/page/templates/page/partner_download.html:35
+#, fuzzy
 msgid "page.partner_download.li3"
-msgstr ""
+msgstr "Kai gausite atsisiuntimo nuorodą, ji galios kelias valandas."
 
 #: allthethings/page/templates/page/partner_download.html:36
+#, fuzzy
 msgid "page.partner_download.li4"
-msgstr ""
+msgstr "Ačiū, kad laukiate, tai padeda išlaikyti svetainę prieinamą visiems nemokamai! 😊"
 
 #: allthethings/page/templates/page/partner_download.html:73
+#, fuzzy
 msgid "page.partner_download.url"
-msgstr ""
+msgstr "📚 Naudokite šią URL norėdami atsisiųsti: <a %(a_download)s>Atsisiųsti dabar</a>."
 
 #: allthethings/page/templates/page/partner_download.html:73
+#, fuzzy
 msgid "page.partner_download.download_now"
-msgstr ""
+msgstr "Atsisiųsti dabar"
 
 #: allthethings/page/templates/page/partner_download.html:79
+#, fuzzy
 msgid "page.partner_download.warning_many_downloads"
-msgstr ""
+msgstr "Įspėjimas: per pastarąsias 24 valandas iš jūsų IP adreso buvo daug atsisiuntimų. Atsisiuntimai gali būti lėtesni nei įprastai."
 
 #: allthethings/page/templates/page/partner_download.html:80
+#, fuzzy
 msgid "page.partner_download.downloads_last_24_hours"
-msgstr ""
+msgstr "Atsisiuntimai iš jūsų IP adreso per pastarąsias 24 valandas: %(count)s."
 
 #: allthethings/page/templates/page/partner_download.html:81
+#, fuzzy
 msgid "page.partner_download.warning_many_downloads2"
-msgstr ""
+msgstr "Jei naudojate VPN, bendrą interneto ryšį arba jūsų IPT dalijasi IP adresais, šis įspėjimas gali būti dėl to."
 
 #: allthethings/page/templates/page/scidb.html:14
 #: allthethings/templates/layouts/index.html:348
@@ -2676,52 +3002,64 @@ msgid "layout.index.header.title"
 msgstr "Anna's Archive"
 
 #: allthethings/page/templates/page/scidb.html:15
+#, fuzzy
 msgid "page.scidb.header"
-msgstr ""
+msgstr "SciDB"
 
 #: allthethings/page/templates/page/scidb.html:20
+#, fuzzy
 msgid "page.scidb.doi"
-msgstr ""
+msgstr "DOI: %(doi)s"
 
 #: allthethings/page/templates/page/scidb.html:30
+#, fuzzy
 msgid "page.scidb.aa_record"
-msgstr ""
+msgstr "Įrašas Annės Archyve"
 
 #: allthethings/page/templates/page/scidb.html:31
+#, fuzzy
 msgid "page.scidb.download"
-msgstr ""
+msgstr "Atsisiųsti"
 
 #: allthethings/page/templates/page/scidb.html:32
+#, fuzzy
 msgid "page.scidb.scihub"
-msgstr ""
+msgstr "Sci-Hub"
 
 #: allthethings/page/templates/page/scidb.html:38
+#, fuzzy
 msgid "page.scidb.please_donate"
-msgstr ""
+msgstr "Norėdami palaikyti prieinamumą ir ilgalaikį žmonijos žinių išsaugojimą, tapkite <a %(a_donate)s>nariu</a>."
 
 #: allthethings/page/templates/page/scidb.html:41
+#, fuzzy
 msgid "page.scidb.please_donate_bonus"
-msgstr ""
+msgstr "Kaip priedas, 🧬&nbsp;SciDB nariams įkeliama greičiau, be jokių apribojimų."
 
 #: allthethings/page/templates/page/scidb.html:45
+#, fuzzy
 msgid "page.scidb.refresh"
-msgstr ""
+msgstr "Neveikia? Pabandykite <a %(a_refresh)s>atnaujinti</a>."
 
 #: allthethings/page/templates/page/scidb.html:59
+#, fuzzy
 msgid "page.scidb.no_preview_new"
-msgstr ""
+msgstr "Peržiūra dar nepasiekiama. Atsisiųskite failą iš <a %(a_path)s>Annos Archyvas</a>."
 
 #: allthethings/page/templates/page/scidb_home.html:9
+#, fuzzy
 msgid "page.home.scidb.text1"
-msgstr ""
+msgstr "Sci-Hub <a %(a_closed)s>sustabdė</a> naujų straipsnių įkėlimą."
 
 #: allthethings/page/templates/page/scidb_home.html:13
+#, fuzzy
 msgid "page.home.scidb.text2"
-msgstr ""
+msgstr "🧬&nbsp;SciDB yra Sci-Hub tęsinys, su pažįstama sąsaja ir tiesioginiu PDF peržiūrėjimu. Įveskite savo DOI, kad peržiūrėtumėte."
 
 #: allthethings/page/templates/page/scidb_home.html:26
+#, fuzzy
 msgid "page.home.scidb.text3"
-msgstr ""
+msgstr "Turime visą Sci-Hub kolekciją, taip pat naujus straipsnius. Daugumą galima peržiūrėti tiesiogiai su pažįstama sąsaja, panašia į Sci-Hub. Kai kuriuos galima atsisiųsti per išorinius šaltinius, tokiu atveju rodome nuorodas į juos."
 
 #: allthethings/page/templates/page/search.html:8
 msgid "page.search.title.results"
@@ -2732,20 +3070,24 @@ msgid "page.search.title.new"
 msgstr "Nauja paieška"
 
 #: allthethings/page/templates/page/search.html:17
+#, fuzzy
 msgid "page.search.tabs.download"
-msgstr ""
+msgstr "Atsisiųsti"
 
 #: allthethings/page/templates/page/search.html:18
+#, fuzzy
 msgid "page.search.tabs.journals"
-msgstr ""
+msgstr "Žurnalų straipsniai"
 
 #: allthethings/page/templates/page/search.html:19
+#, fuzzy
 msgid "page.search.tabs.digital_lending"
-msgstr ""
+msgstr "Skaitmeninė skolinimo paslauga"
 
 #: allthethings/page/templates/page/search.html:20
+#, fuzzy
 msgid "page.search.tabs.metadata"
-msgstr ""
+msgstr "Metaduomenys"
 
 #: allthethings/page/templates/page/search.html:66
 #: allthethings/templates/layouts/index.html:492
@@ -2758,8 +3100,9 @@ msgstr "Ieškoti"
 
 #: allthethings/page/templates/page/search.html:73
 #: allthethings/page/templates/page/search.html:127
+#, fuzzy
 msgid "page.search.advanced.description_comments"
-msgstr ""
+msgstr "Ieškoti aprašymų ir metaduomenų komentarų"
 
 #: allthethings/page/templates/page/search.html:81
 #: allthethings/page/templates/page/search.html:176
@@ -2773,18 +3116,21 @@ msgstr "Failo tipas"
 
 #: allthethings/page/templates/page/search.html:89
 #: allthethings/page/templates/page/search.html:190
+#, fuzzy
 msgid "page.search.filters.access.header"
-msgstr ""
+msgstr "Prieiga"
 
 #: allthethings/page/templates/page/search.html:92
 #: allthethings/page/templates/page/search.html:196
+#, fuzzy
 msgid "page.search.filters.source.header"
-msgstr ""
+msgstr "Šaltinis"
 
 #: allthethings/page/templates/page/search.html:95
 #: allthethings/page/templates/page/search.html:202
+#, fuzzy
 msgid "page.search.filters.order_by.header"
-msgstr ""
+msgstr "Rūšiuoti pagal"
 
 #: allthethings/page/templates/page/search.html:95
 #: allthethings/page/templates/page/search.html:205
@@ -2795,8 +3141,9 @@ msgstr "Naujausia"
 #: allthethings/page/templates/page/search.html:95
 #: allthethings/page/templates/page/search.html:205
 #: allthethings/page/templates/page/search.html:206
+#, fuzzy
 msgid "page.search.filters.sorting.note_publication_year"
-msgstr ""
+msgstr "(leidimo metai)"
 
 #: allthethings/page/templates/page/search.html:95
 #: allthethings/page/templates/page/search.html:206
@@ -2812,8 +3159,9 @@ msgstr "Didžiausia"
 #: allthethings/page/templates/page/search.html:95
 #: allthethings/page/templates/page/search.html:207
 #: allthethings/page/templates/page/search.html:208
+#, fuzzy
 msgid "page.search.filters.sorting.note_filesize"
-msgstr ""
+msgstr "(bylos dydis)"
 
 #: allthethings/page/templates/page/search.html:95
 #: allthethings/page/templates/page/search.html:208
@@ -2823,8 +3171,9 @@ msgstr "Mažiausia"
 #: allthethings/page/templates/page/search.html:95
 #: allthethings/page/templates/page/search.html:209
 #: allthethings/page/templates/page/search.html:210
+#, fuzzy
 msgid "page.search.filters.sorting.note_open_sourced"
-msgstr ""
+msgstr "(atviro kodo)"
 
 #: allthethings/page/templates/page/search.html:98
 #: allthethings/page/templates/page/search.html:213
@@ -2833,155 +3182,187 @@ msgstr "Kalba"
 
 #: allthethings/page/templates/page/search.html:103
 #: allthethings/page/templates/page/search.html:106
+#, fuzzy
 msgid "page.search.search_settings"
-msgstr ""
+msgstr "Paieškos nustatymai"
 
 #: allthethings/page/templates/page/search.html:112
 #: allthethings/page/templates/page/search.html:224
+#, fuzzy
 msgid "page.search.submit"
-msgstr ""
+msgstr "Paieška"
 
 #: allthethings/page/templates/page/search.html:117
+#, fuzzy
 msgid "page.search.too_long_broad_query"
-msgstr ""
+msgstr "Paieška užtruko per ilgai, kas yra įprasta plačioms užklausoms. Filtrų skaičiai gali būti netikslūs."
 
 #: allthethings/page/templates/page/search.html:121
 #: allthethings/page/templates/page/search.html:328
 #: allthethings/page/templates/page/search.html:335
+#, fuzzy
 msgid "page.search.too_inaccurate"
-msgstr ""
+msgstr "Paieška užtruko per ilgai, todėl galite matyti netikslius rezultatus. Kartais padeda <a %(a_reload)s>puslapio perkrovimas</a>."
 
 #: allthethings/page/templates/page/search.html:125
+#, fuzzy
 msgid "page.search.advanced.header"
-msgstr ""
+msgstr "Išplėstinė"
 
 #: allthethings/page/templates/page/search.html:131
+#, fuzzy
 msgid "page.search.advanced.add_specific"
-msgstr ""
+msgstr "Pridėti konkretų paieškos lauką"
 
 #: allthethings/page/templates/page/search.html:143
+#, fuzzy
 msgid "common.specific_search_fields.select"
-msgstr ""
+msgstr "(ieškoti konkretaus lauko)"
 
 #: allthethings/page/templates/page/search.html:143
+#, fuzzy
 msgid "page.search.advanced.field.year_published"
-msgstr ""
+msgstr "Išleidimo metai"
 
 #: allthethings/page/templates/page/search.html:199
+#, fuzzy
 msgid "page.search.filters.source.scraped"
-msgstr ""
+msgstr "išgauta ir atviro kodo AA"
 
 #: allthethings/page/templates/page/search.html:204
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Labiausiai atitinka"
 
 #: allthethings/page/templates/page/search.html:219
+#, fuzzy
 msgid "page.search.more"
-msgstr ""
+msgstr "daugiau…"
 
 #: allthethings/page/templates/page/search.html:228
 msgid "page.search.header.update_info"
 msgstr "Paieškos indeksas yra atnaujinamas kas mėnesį. Šiuo momentu jis yra iš %(last_data_refresh_date)s. Dėl daugiau techninės informacijos, atsidarykite %(link_open_tag)sduomenų rinkinių puslapį</a>."
 
 #: allthethings/page/templates/page/search.html:240
+#, fuzzy
 msgid "page.search.results.search_downloads"
-msgstr ""
+msgstr "Įveskite laukelyje, kad ieškotumėte mūsų kataloge %(count)s tiesiogiai atsisiunčiamų failų, kuriuos mes <a %(a_preserve)s>saugome amžinai</a>."
 
 #: allthethings/page/templates/page/search.html:241
+#, fuzzy
 msgid "page.search.results.help_preserve"
-msgstr ""
+msgstr "Iš tiesų, kiekvienas gali padėti išsaugoti šiuos failus, sėjant mūsų <a %(a_torrents)s>vieningą torrentų sąrašą</a>."
 
 #: allthethings/page/templates/page/search.html:244
+#, fuzzy
 msgid "page.search.results.most_comprehensive"
-msgstr ""
+msgstr "Šiuo metu turime išsamiausią pasaulyje atvirą knygų, straipsnių ir kitų rašytinių darbų katalogą. Mes veidrodžiuojame Sci-Hub, Library Genesis, Z-Library, <a %(a_datasets)s>ir daugiau</a>."
 
 #: allthethings/page/templates/page/search.html:247
+#, fuzzy
 msgid "page.search.results.other_shadow_libs"
-msgstr ""
+msgstr "Jei rasite kitų „šešėlinių bibliotekų“, kurias turėtume atspindėti, arba jei turite klausimų, susisiekite su mumis adresu %(email)s."
 
 #: allthethings/page/templates/page/search.html:248
+#, fuzzy
 msgid "page.search.results.dmca"
-msgstr ""
+msgstr "Dėl DMCA / autorių teisių pretenzijų <a %(a_copyright)s>spauskite čia</a>."
 
 #: allthethings/page/templates/page/search.html:252
 #: allthethings/page/templates/page/search.html:277
 #: allthethings/page/templates/page/search.html:298
 #: allthethings/page/templates/page/search.html:306
+#, fuzzy
 msgid "page.search.results.shortcuts"
-msgstr ""
+msgstr "Patarimas: naudokite klaviatūros sparčiuosius klavišus „/“ (paieškos fokusas), „enter“ (paieška), „j“ (aukštyn), „k“ (žemyn), „<“ (ankstesnis puslapis), „>“ (kitas puslapis) greitesnei navigacijai."
 
 #: allthethings/page/templates/page/search.html:256
 #: allthethings/page/templates/page/search.html:313
+#, fuzzy
 msgid "page.search.results.looking_for_papers"
-msgstr ""
+msgstr "Ieškote straipsnių?"
 
 #: allthethings/page/templates/page/search.html:263
+#, fuzzy
 msgid "page.search.results.search_journals"
-msgstr ""
+msgstr "Įveskite laukelyje, kad ieškotumėte mūsų kataloge %(count)s akademinių straipsnių ir žurnalų straipsnių, kuriuos mes <a %(a_preserve)s>išsaugome amžinai</a>."
 
 #: allthethings/page/templates/page/search.html:267
+#, fuzzy
 msgid "page.search.results.search_digital_lending"
-msgstr ""
+msgstr "Įveskite į laukelį, kad ieškotumėte failų skaitmeninėse skolinimo bibliotekose."
 
 #: allthethings/page/templates/page/search.html:270
+#, fuzzy
 msgid "page.search.results.digital_lending_info"
-msgstr ""
+msgstr "Šis paieškos indeksas šiuo metu apima metaduomenis iš Internet Archive kontroliuojamos skaitmeninės skolinimo bibliotekos. <a %(a_datasets)s>Daugiau apie mūsų duomenų rinkinius</a>."
 
 #: allthethings/page/templates/page/search.html:273
+#, fuzzy
 msgid "page.search.results.digital_lending_info_more"
-msgstr ""
+msgstr "Daugiau skaitmeninių skolinimo bibliotekų rasite <a %(a_wikipedia)s>Vikipedijoje</a> ir <a %(a_mobileread)s>MobileRead Wiki</a>."
 
 #: allthethings/page/templates/page/search.html:281
+#, fuzzy
 msgid "page.search.results.search_metadata"
-msgstr ""
+msgstr "Įveskite į laukelį, kad ieškotumėte metaduomenų iš bibliotekų. Tai gali būti naudinga, kai <a %(a_request)s>prašote failo</a>."
 
 #: allthethings/page/templates/page/search.html:283
+#, fuzzy
 msgid "page.search.results.metadata_info"
-msgstr ""
+msgstr "Šis paieškos indeksas šiuo metu apima metaduomenis iš įvairių metaduomenų šaltinių. <a %(a_datasets)s>Daugiau apie mūsų duomenų rinkinius</a>."
 
 #: allthethings/page/templates/page/search.html:284
+#, fuzzy
 msgid "page.search.results.metadata_no_merging"
-msgstr ""
+msgstr "Metaduomenims mes rodome originalius įrašus. Mes nesujungiame įrašų."
 
 #: allthethings/page/templates/page/search.html:294
+#, fuzzy
 msgid "page.search.results.metadata_info_more"
-msgstr ""
+msgstr "Yra daugybė metaduomenų šaltinių rašytiniams darbams visame pasaulyje. <a %(a_wikipedia)s>Šis Vikipedijos puslapis</a> yra gera pradžia, bet jei žinote kitų gerų sąrašų, praneškite mums."
 
 #: allthethings/page/templates/page/search.html:302
+#, fuzzy
 msgid "page.search.results.search_generic"
-msgstr ""
+msgstr "Įveskite į laukelį, kad ieškotumėte."
 
 #: allthethings/page/templates/page/search.html:322
 msgid "page.search.results.error.header"
 msgstr "Klaida atliekant paiešką."
 
 #: allthethings/page/templates/page/search.html:324
+#, fuzzy
 msgid "page.search.results.error.unknown"
-msgstr ""
+msgstr "Pabandykite <a %(a_reload)s>perkrauti puslapį</a>. Jei problema išlieka, prašome parašyti mums el. paštu %(email)s."
 
 #: allthethings/page/templates/page/search.html:337
 msgid "page.search.results.none"
 msgstr "<span class=\"font-bold\">Jokių failų nerasta</span> Bandykite mačiau arba kitokius terminus ir filtrus."
 
 #: allthethings/page/templates/page/search.html:343
+#, fuzzy
 msgid "page.search.found_matches.main"
-msgstr ""
+msgstr "Mes radome atitikmenis: %(in)s. Galite nurodyti ten rastą URL, kai <a %(a_request)s>prašote failo</a>."
 
 #: allthethings/page/templates/page/search.html:343
+#, fuzzy
 msgid "page.search.found_matches.journals"
-msgstr ""
+msgstr "Žurnalų straipsniai (%(count)s)"
 
 #: allthethings/page/templates/page/search.html:343
+#, fuzzy
 msgid "page.search.found_matches.digital_lending"
-msgstr ""
+msgstr "Skaitmeninis skolinimas (%(count)s)"
 
 #: allthethings/page/templates/page/search.html:343
+#, fuzzy
 msgid "page.search.found_matches.metadata"
-msgstr ""
+msgstr "Metaduomenys (%(count)s)"
 
 #: allthethings/page/templates/page/search.html:350
+#, fuzzy
 msgid "page.search.results.numbers_pages"
-msgstr ""
+msgstr "Rezultatai %(from)s-%(to)s (%(total)s iš viso)"
 
 #: allthethings/page/templates/page/search.html:361
 msgid "page.search.results.partial_more"
@@ -3004,16 +3385,19 @@ msgid "layout.index.meta.opensearch"
 msgstr "Ieškoti Anna's Archive"
 
 #: allthethings/templates/layouts/index.html:201
+#, fuzzy
 msgid "layout.index.header.banner.fundraiser.help"
-msgstr ""
+msgstr "Annės Archyvui reikia jūsų pagalbos!"
 
 #: allthethings/templates/layouts/index.html:202
+#, fuzzy
 msgid "layout.index.header.banner.fundraiser.takedown"
-msgstr ""
+msgstr "Daugelis bando mus sunaikinti, bet mes kovojame atgal."
 
 #: allthethings/templates/layouts/index.html:204
+#, fuzzy
 msgid "layout.index.header.banner.fundraiser.this_month"
-msgstr ""
+msgstr "Jei paaukosite šį mėnesį, gausite <strong>dvigubai</strong> daugiau greitų atsisiuntimų."
 
 #: allthethings/templates/layouts/index.html:204
 #: allthethings/templates/layouts/index.html:238
@@ -3031,12 +3415,14 @@ msgid "layout.index.header.banner.surprise"
 msgstr "Nustebinkite mylimą žmogų, suteikite jam sąskaitą su naryste."
 
 #: allthethings/templates/layouts/index.html:241
+#, fuzzy
 msgid "layout.index.header.banner.mirrors"
-msgstr ""
+msgstr "Norėdami padidinti Annės Archyvo atsparumą, ieškome savanorių, kurie galėtų valdyti veidrodžius."
 
 #: allthethings/templates/layouts/index.html:247
+#, fuzzy
 msgid "layout.index.header.banner.valentine_gift"
-msgstr ""
+msgstr "Tobula Valentino dienos dovana!"
 
 #: allthethings/templates/layouts/index.html:266
 msgid "layout.index.header.banner.new_donation_method"
@@ -3062,22 +3448,25 @@ msgstr "Ieškoti"
 #: allthethings/templates/layouts/index.html:477
 #: allthethings/templates/layouts/index.html:544
 #: allthethings/templates/layouts/index.html:570
+#, fuzzy
 msgid "layout.index.header.nav.faq"
-msgstr ""
+msgstr "DUK"
 
 #: allthethings/templates/layouts/index.html:450
 #: allthethings/templates/layouts/index.html:463
 #: allthethings/templates/layouts/index.html:478
 #: allthethings/templates/layouts/index.html:571
+#, fuzzy
 msgid "layout.index.header.nav.improve_metadata"
-msgstr ""
+msgstr "Tobulinti metaduomenis"
 
 #: allthethings/templates/layouts/index.html:451
 #: allthethings/templates/layouts/index.html:464
 #: allthethings/templates/layouts/index.html:479
 #: allthethings/templates/layouts/index.html:572
+#, fuzzy
 msgid "layout.index.header.nav.volunteering"
-msgstr ""
+msgstr "Savanorystė ir atlyginimai"
 
 #: allthethings/templates/layouts/index.html:452
 #: allthethings/templates/layouts/index.html:465
@@ -3090,22 +3479,25 @@ msgstr "Duomenų rinkiniai"
 #: allthethings/templates/layouts/index.html:466
 #: allthethings/templates/layouts/index.html:481
 #: allthethings/templates/layouts/index.html:574
+#, fuzzy
 msgid "layout.index.header.nav.torrents"
-msgstr ""
+msgstr "Torentai"
 
 #: allthethings/templates/layouts/index.html:454
 #: allthethings/templates/layouts/index.html:467
 #: allthethings/templates/layouts/index.html:482
 #: allthethings/templates/layouts/index.html:575
+#, fuzzy
 msgid "layout.index.header.nav.codes"
-msgstr ""
+msgstr "Koduotės tyrinėtojas"
 
 #: allthethings/templates/layouts/index.html:455
 #: allthethings/templates/layouts/index.html:468
 #: allthethings/templates/layouts/index.html:483
 #: allthethings/templates/layouts/index.html:576
+#, fuzzy
 msgid "layout.index.header.nav.llm_data"
-msgstr ""
+msgstr "LLM duomenys"
 
 #: allthethings/templates/layouts/index.html:456
 #: allthethings/templates/layouts/index.html:469
@@ -3157,8 +3549,9 @@ msgid "layout.index.footer.list2.telegram"
 msgstr "Telegram"
 
 #: allthethings/templates/layouts/index.html:569
+#, fuzzy
 msgid "layout.index.header.nav.advanced"
-msgstr ""
+msgstr "Išplėstinė"
 
 #: allthethings/templates/layouts/index.html:577
 msgid "layout.index.header.nav.security"
@@ -3190,17 +3583,20 @@ msgstr "nukopijuota!"
 
 #: allthethings/templates/macros/pagination.html:24
 #: allthethings/templates/macros/pagination.html:29
+#, fuzzy
 msgid "page.search.pagination.prev"
-msgstr ""
+msgstr "Ankstesnis"
 
 #: allthethings/templates/macros/pagination.html:37
+#, fuzzy
 msgid "page.search.pagination.numbers_spacing"
-msgstr ""
+msgstr "…"
 
 #: allthethings/templates/macros/pagination.html:44
 #: allthethings/templates/macros/pagination.html:49
+#, fuzzy
 msgid "page.search.pagination.next"
-msgstr ""
+msgstr "Kitas"
 
 #~ msgid "page.donate.title"
 #~ msgstr "Aukoti"
