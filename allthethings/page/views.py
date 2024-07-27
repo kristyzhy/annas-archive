@@ -20,7 +20,7 @@ import random
 import slugify
 import elasticsearch
 import elasticsearch.helpers
-import ftlangdetect
+import fast_langdetect
 import traceback
 import urllib.parse
 import urllib.request
@@ -31,10 +31,11 @@ import shortuuid
 import pymysql.cursors
 import cachetools
 import time
-import sentence_transformers
 import struct
 import natsort
 import unicodedata
+import tiktoken
+import openai
 
 from flask import g, Blueprint, __version__, render_template, make_response, redirect, request, send_file
 from allthethings.extensions import engine, es, es_aux, babel, mariapersist_engine, ZlibBook, ZlibIsbn, IsbndbIsbns, LibgenliEditions, LibgenliEditionsAddDescr, LibgenliEditionsToFiles, LibgenliElemDescr, LibgenliFiles, LibgenliFilesAddDescr, LibgenliPublishers, LibgenliSeries, LibgenliSeriesAddDescr, LibgenrsDescription, LibgenrsFiction, LibgenrsFictionDescription, LibgenrsFictionHashes, LibgenrsHashes, LibgenrsTopics, LibgenrsUpdated, OlBase, AaIa202306Metadata, AaIa202306Files, Ia2Records, Ia2AcsmpdfFiles, MariapersistSmallFiles
@@ -42,7 +43,7 @@ from sqlalchemy import select, func, text
 from sqlalchemy.dialects.mysql import match
 from sqlalchemy.orm import defaultload, Session
 from flask_babel import gettext, ngettext, force_locale, get_locale
-from config.settings import AA_EMAIL, DOWNLOADS_SECRET_KEY, AACID_SMALL_DATA_IMPORTS
+from config.settings import AA_EMAIL, DOWNLOADS_SECRET_KEY, AACID_SMALL_DATA_IMPORTS, SLOW_DATA_IMPORTS
 
 import allthethings.utils
 
@@ -192,9 +193,13 @@ country_lang_mapping = { "Albania": "Albanian", "Algeria": "Arabic", "Andorra": 
 "Srpska": "Serbian", "Sweden": "Swedish", "Thailand": "Thai", "Turkey": "Turkish", "Ukraine": "Ukrainian", 
 "United Arab Emirates": "Arabic", "United States": "English", "Uruguay": "Spanish", "Venezuela": "Spanish", "Vietnam": "Vietnamese" }
 
+# @functools.cache
+# def get_e5_small_model():
+#     return sentence_transformers.SentenceTransformer("intfloat/multilingual-e5-small")
+
 @functools.cache
-def get_e5_small_model():
-    return sentence_transformers.SentenceTransformer("intfloat/multilingual-e5-small")
+def get_tiktoken_text_embedding_3_small():
+    return tiktoken.encoding_for_model("text-embedding-3-small")
 
 @functools.cache
 def get_bcp47_lang_codes_parse_substr(substr):
@@ -257,12 +262,11 @@ def get_bcp47_lang_codes_parse_substr(substr):
 
 @functools.cache
 def get_bcp47_lang_codes(string):
-    potential_codes = set()
-    potential_codes.add(get_bcp47_lang_codes_parse_substr(string))
+    potential_codes = list()
+    potential_codes.append(get_bcp47_lang_codes_parse_substr(string))
     for substr in re.split(r'[-_,;/]', string):
-        potential_codes.add(get_bcp47_lang_codes_parse_substr(substr.strip()))
-    potential_codes.discard('')
-    return list(potential_codes)
+        potential_codes.append(get_bcp47_lang_codes_parse_substr(substr.strip()))
+    return list(dict.fromkeys([code for code in potential_codes if code != '']))
 
 # Stable, since we rely on the first remaining the first.
 def combine_bcp47_lang_codes(sets_of_codes):
@@ -3155,7 +3159,7 @@ def get_duxiu_dicts(session, key, values, include_deep_transitive_md5s_size_path
             language_detect_string = " ".join(list(dict.fromkeys(duxiu_dict['aa_duxiu_derived']['title_multiple'] + duxiu_dict['aa_duxiu_derived']['author_multiple'] + duxiu_dict['aa_duxiu_derived']['publisher_multiple'])))
             langdetect_response = {}
             try:
-                langdetect_response = ftlangdetect.detect(language_detect_string)
+                langdetect_response = fast_langdetect.detect(language_detect_string)
             except:
                 pass
             duxiu_dict['aa_duxiu_derived']['debug_language_codes'] = { 'langdetect_response': langdetect_response }
@@ -3319,7 +3323,7 @@ def get_aac_upload_book_dicts(session, key, values):
         for index, line_bytes in enumerate(allthethings.utils.get_lines_from_aac_file(cursor, 'upload_files', upload_files_offsets_and_lengths)):
             file = orjson.loads(line_bytes)
             files_by_md5[file['metadata']['md5']][file['aacid']] = file
-        for md5 in set(list(records_by_md5.keys()) + list(files_by_md5.keys())):
+        for md5 in list(dict.fromkeys(list(records_by_md5.keys()) + list(files_by_md5.keys()))):
             aac_upload_book_dicts_raw.append({
                 "md5": md5,
                 "records": list(records_by_md5[md5].values()),
@@ -3528,45 +3532,117 @@ def aac_upload_book_json(md5):
         return allthethings.utils.nice_json(aac_upload_book_dicts[0]), {'Content-Type': 'text/json; charset=utf-8'}
 
 def get_embeddings_for_aarecords(session, aarecords):
-    aarecord_ids = [aarecord['id'] for aarecord in aarecords]
-    hashed_aarecord_ids = [hashlib.md5(aarecord['id'].encode()).digest() for aarecord in aarecords]
+    filtered_aarecord_ids = [aarecord['id'] for aarecord in aarecords if aarecord['id'].startswith('md5:')]
+    if len(filtered_aarecord_ids) == 0:
+        return {}
 
-    embedding_text_by_aarecord_id = { aarecord['id']: (' '.join([
-            *f"Title: '{aarecord['file_unified_data']['title_best']}'".split(' '),
-            *f"Author: '{aarecord['file_unified_data']['author_best']}'".split(' '),
-            *f"Edition: '{aarecord['file_unified_data']['edition_varia_best']}'".split(' '),
-            *f"Publisher: '{aarecord['file_unified_data']['publisher_best']}'".split(' '),
-            *f"Filename: '{aarecord['file_unified_data']['original_filename_best']}'".split(' '),
-            *f"Description: '{aarecord['file_unified_data']['stripped_description_best']}'".split(' '),
-        ][0:500])) for aarecord in aarecords }
+    embedding_text_text_embedding_3_small_100_tokens_by_aarecord_id = {}
+    tokens_text_embedding_3_small_100_tokens_by_aarecord_id = {}
+    tiktoken_encoder = get_tiktoken_text_embedding_3_small()
+    for aarecord in aarecords:
+        if aarecord['id'] not in filtered_aarecord_ids:
+            continue
+        embedding_text = []
+        if aarecord['file_unified_data']['original_filename_best'] != '':
+            embedding_text.append(f"file:{aarecord['file_unified_data']['original_filename_best'][:300]}")
+        if aarecord['file_unified_data']['title_best'] != '':
+            embedding_text.append(f"title:{aarecord['file_unified_data']['title_best'][:100]}")
+        if aarecord['file_unified_data']['author_best'] != '':
+            embedding_text.append(f"author:{aarecord['file_unified_data']['author_best'][:100]}")
+        if aarecord['file_unified_data']['edition_varia_best'] != '':
+            embedding_text.append(f"edition:{aarecord['file_unified_data']['edition_varia_best'][:100]}")
+        if aarecord['file_unified_data']['publisher_best'] != '':
+            embedding_text.append(f"publisher:{aarecord['file_unified_data']['publisher_best'][:100]}")
+        for item in aarecord['file_unified_data'].get('title_additional') or []:
+            if item != '':
+                embedding_text.append(f"alt_title:{item[:100]}")
+        for item in aarecord['file_unified_data'].get('author_additional') or []:
+            if item != '':
+                embedding_text.append(f"alt_author:{item[:100]}")
+        if len(embedding_text) > 0:
+            tokens = tiktoken_encoder.encode('\n'.join(embedding_text))[:100]
+            tokens_text_embedding_3_small_100_tokens_by_aarecord_id[aarecord['id']] = tokens
+            embedding_text_text_embedding_3_small_100_tokens_by_aarecord_id[aarecord['id']] = tiktoken_encoder.decode(tokens)
+    # print(f"{embedding_text_text_embedding_3_small_100_tokens_by_aarecord_id=}")
+
+    # session.connection().connection.ping(reconnect=True)
+    # cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
+    # cursor.execute(f'SELECT * FROM model_cache WHERE model_name = "e5_small_query" AND hashed_aarecord_id IN %(hashed_aarecord_ids)s', { "hashed_aarecord_ids": hashed_aarecord_ids })
+    # rows_by_aarecord_id = { row['aarecord_id']: row for row in list(cursor.fetchall()) }
+
+    # embeddings = []
+    # insert_data_e5_small_query = []
+    # for aarecord_id in aarecord_ids:
+    #     embedding_text = embedding_text_by_aarecord_id[aarecord_id]
+    #     if aarecord_id in rows_by_aarecord_id:
+    #         if rows_by_aarecord_id[aarecord_id]['embedding_text'] != embedding_text:
+    #             print(f"WARNING! embedding_text has changed for e5_small_query: {aarecord_id=} {rows_by_aarecord_id[aarecord_id]['embedding_text']=} {embedding_text=}")
+    #         embeddings.append({ 'e5_small_query': list(struct.unpack(f"{len(rows_by_aarecord_id[aarecord_id]['embedding'])//4}f", rows_by_aarecord_id[aarecord_id]['embedding'])) })
+    #     else:
+    #         e5_small_query = list(map(float, get_e5_small_model().encode(f"query: {embedding_text}", normalize_embeddings=True)))
+    #         embeddings.append({ 'e5_small_query': e5_small_query })
+    #         insert_data_e5_small_query.append({
+    #             'hashed_aarecord_id': hashlib.md5(aarecord_id.encode()).digest(),
+    #             'aarecord_id': aarecord_id,
+    #             'model_name': 'e5_small_query',
+    #             'embedding_text': embedding_text,
+    #             'embedding': struct.pack(f'{len(e5_small_query)}f', *e5_small_query),
+    #         })
+
+    # if len(insert_data_e5_small_query) > 0:
+    #     session.connection().connection.ping(reconnect=True)
+    #     cursor.executemany(f"REPLACE INTO model_cache (hashed_aarecord_id, aarecord_id, model_name, embedding_text, embedding) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(model_name)s, %(embedding_text)s, %(embedding)s)", insert_data_e5_small_query)
+    #     cursor.execute("COMMIT")
 
     session.connection().connection.ping(reconnect=True)
     cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-    cursor.execute(f'SELECT * FROM model_cache WHERE model_name = "e5_small_query" AND hashed_aarecord_id IN %(hashed_aarecord_ids)s', { "hashed_aarecord_ids": hashed_aarecord_ids })
+    hashed_aarecord_ids = [hashlib.md5(aarecord_id.encode()).digest() for aarecord_id in filtered_aarecord_ids]
+    cursor.execute('SELECT * FROM model_cache_text_embedding_3_small_100_tokens WHERE hashed_aarecord_id IN %(hashed_aarecord_ids)s', { "hashed_aarecord_ids": hashed_aarecord_ids })
     rows_by_aarecord_id = { row['aarecord_id']: row for row in list(cursor.fetchall()) }
 
-    embeddings = []
-    insert_data_e5_small_query = []
-    for aarecord_id in aarecord_ids:
-        embedding_text = embedding_text_by_aarecord_id[aarecord_id]
+    embeddings = {}
+    embeddings_to_fetch_aarecord_id = []
+    embeddings_to_fetch_text = []
+    embeddings_to_fetch_tokens = []
+    for aarecord_id in embedding_text_text_embedding_3_small_100_tokens_by_aarecord_id.keys():
+        embedding_text = embedding_text_text_embedding_3_small_100_tokens_by_aarecord_id[aarecord_id]
         if aarecord_id in rows_by_aarecord_id:
             if rows_by_aarecord_id[aarecord_id]['embedding_text'] != embedding_text:
-                print(f"WARNING! embedding_text has changed for e5_small_query: {aarecord_id=} {rows_by_aarecord_id[aarecord_id]['embedding_text']=} {embedding_text=}")
-            embeddings.append({ 'e5_small_query': list(struct.unpack(f"{len(rows_by_aarecord_id[aarecord_id]['embedding'])//4}f", rows_by_aarecord_id[aarecord_id]['embedding'])) })
+                if AACID_SMALL_DATA_IMPORTS or SLOW_DATA_IMPORTS:
+                    raise Exception(f"WARNING! embedding_text has changed for text_embedding_3_small_100_tokens. Only raising this when AACID_SMALL_DATA_IMPORTS or SLOW_DATA_IMPORTS is set, to make sure this is expected. Wipe the database table to remove this error, after carefully checking that this is indeed expected. {aarecord_id=} {rows_by_aarecord_id[aarecord_id]['embedding_text']=} {embedding_text=}")
+            embedding = rows_by_aarecord_id[aarecord_id]['embedding']
+            embeddings[aarecord_id] = { 'text_embedding_3_small_100_tokens': list(struct.unpack(f"{len(embedding)//4}f", embedding)) }
         else:
-            e5_small_query = list(map(float, get_e5_small_model().encode(f"query: {embedding_text}", normalize_embeddings=True)))
-            embeddings.append({ 'e5_small_query': e5_small_query })
-            insert_data_e5_small_query.append({
+            embeddings_to_fetch_aarecord_id.append(aarecord_id)
+            embeddings_to_fetch_text.append(embedding_text)
+            embeddings_to_fetch_tokens.append(tokens_text_embedding_3_small_100_tokens_by_aarecord_id[aarecord_id])
+
+    insert_data_text_embedding_3_small_100_tokens = []
+    if len(embeddings_to_fetch_text) > 0:
+        embedding_response = None
+        while True:
+            try:
+                embedding_response = openai.OpenAI().embeddings.create(
+                    model="text-embedding-3-small",
+                    input=embeddings_to_fetch_tokens,
+                )
+                break
+            except openai.RateLimitError:
+                time.sleep(3+random.randint(0,5))
+        for index, aarecord_id in enumerate(embeddings_to_fetch_aarecord_id):
+            embedding_text = embeddings_to_fetch_text[index]
+            text_embedding_3_small_100_tokens = embedding_response.data[index].embedding
+            embeddings[aarecord_id] = { 'text_embedding_3_small_100_tokens': text_embedding_3_small_100_tokens }
+            insert_data_text_embedding_3_small_100_tokens.append({
                 'hashed_aarecord_id': hashlib.md5(aarecord_id.encode()).digest(),
                 'aarecord_id': aarecord_id,
-                'model_name': 'e5_small_query',
                 'embedding_text': embedding_text,
-                'embedding': struct.pack(f'{len(e5_small_query)}f', *e5_small_query),
+                'embedding': struct.pack(f'{len(text_embedding_3_small_100_tokens)}f', *text_embedding_3_small_100_tokens),
             })
 
-    if len(insert_data_e5_small_query) > 0:
+    if len(insert_data_text_embedding_3_small_100_tokens) > 0:
         session.connection().connection.ping(reconnect=True)
-        cursor.executemany(f"REPLACE INTO model_cache (hashed_aarecord_id, aarecord_id, model_name, embedding_text, embedding) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(model_name)s, %(embedding_text)s, %(embedding)s)", insert_data_e5_small_query)
+        cursor.executemany(f"REPLACE INTO model_cache_text_embedding_3_small_100_tokens (hashed_aarecord_id, aarecord_id, embedding_text, embedding) VALUES (%(hashed_aarecord_id)s, %(aarecord_id)s, %(embedding_text)s, %(embedding)s)", insert_data_text_embedding_3_small_100_tokens)
         cursor.execute("COMMIT")
 
     return embeddings
@@ -3701,6 +3777,9 @@ def aarecord_sources(aarecord):
         *(['zlib']      if aarecord['aac_zlib3_book'] is not None else []),
         *(['zlib']      if aarecord['zlib_book'] is not None else []),
     ]))
+
+# Dummy translation to keep this msgid around. TODO: fix see below.
+dummy_translation_affected_files = gettext('page.md5.box.download.affected_files')
 
 def get_aarecords_mysql(session, aarecord_ids):
     if not allthethings.utils.validate_aarecord_ids(aarecord_ids):
@@ -4306,7 +4385,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         elif len(aarecord['file_unified_data']['stripped_description_best']) > 20:
             language_detect_string = " ".join(title_multiple) + " ".join(stripped_description_multiple)
             try:
-                language_detection_data = ftlangdetect.detect(language_detect_string)
+                language_detection_data = fast_langdetect.detect(language_detect_string)
                 if language_detection_data['score'] > 0.5: # Somewhat arbitrary cutoff
                     language_detection = language_detection_data['lang']
                     aarecord['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
@@ -4413,7 +4492,10 @@ def get_aarecords_mysql(session, aarecord_ids):
         if len(((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('problems_infos') or []) > 0:
             for duxiu_problem_info in (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('problems_infos') or []):
                 if duxiu_problem_info['duxiu_problem_type'] == 'pdg_broken_files':
-                    aarecord['file_unified_data']['problems'].append({ 'type': 'duxiu_pdg_broken_files', 'descr': gettext('page.md5.box.download.affected_files', count=duxiu_problem_info['pdg_broken_files_len']), 'better_md5': '' })
+                    # TODO:TRANSLATE bring back translation: dummy_translation_affected_files = gettext('page.md5.box.download.affected_files')
+                    # but later when actually rendering the page.
+                    # TODO: not covered by local fixtures.
+                    aarecord['file_unified_data']['problems'].append({ 'type': 'duxiu_pdg_broken_files', 'descr': f"{duxiu_problem_info['pdg_broken_files_len']} affected pages", 'better_md5': '' })
                 else:
                     raise Exception(f"Unknown duxiu_problem_type: {duxiu_problem_info=}")
         if len(((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('problems_infos') or []) > 0:
@@ -4627,7 +4709,6 @@ def get_aarecords_mysql(session, aarecord_ids):
         search_text = f"{initial_search_text}\n\n{filtered_normalized_search_terms}"
 
         aarecord['search_only_fields'] = {
-            # 'search_e5_small_query': embeddings['e5_small_query'],
             'search_filesize': aarecord['file_unified_data']['filesize_best'],
             'search_year': aarecord['file_unified_data']['year_best'],
             'search_extension': aarecord['file_unified_data']['extension_best'],
@@ -4665,9 +4746,14 @@ def get_aarecords_mysql(session, aarecord_ids):
         # At the very end
         aarecord['search_only_fields']['search_score_base_rank'] = float(aarecord_score_base(aarecord))
 
-    # embeddings = get_embeddings_for_aarecords(session, aarecords)
-    # for embedding, aarecord in zip(embeddings, aarecords):
-    #     aarecord['search_only_fields']['search_e5_small_query'] = embedding['e5_small_query']
+    embeddings = get_embeddings_for_aarecords(session, aarecords)
+    for aarecord in aarecords:
+        if aarecord['id'] not in embeddings:
+            continue
+        embedding = embeddings[aarecord['id']]
+        # ES limit https://github.com/langchain-ai/langchain/issues/10218#issuecomment-1706481539
+        # We can simply cut the embedding for ES because of Matryoshka: https://openai.com/index/new-embedding-models-and-api-updates/
+        aarecord['search_only_fields']['search_text_embedding_3_small_100_tokens_1024_dims'] = embedding['text_embedding_3_small_100_tokens'][0:1024]
     
     return aarecords
 

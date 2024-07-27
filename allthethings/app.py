@@ -119,7 +119,7 @@ def extensions(app):
             Reflected.prepare(engine)
         except:
             if os.getenv("DATA_IMPORTS_MODE", "") == "1":
-                print("Ignoring mariadb error because DATA_IMPORTS_MODE=1")
+                print("Ignoring mariadb problems because DATA_IMPORTS_MODE=1")
             else:
                 print("Error in loading mariadb tables; reset using './run flask cli dbreset'")
                 raise
@@ -128,7 +128,7 @@ def extensions(app):
             ReflectedMariapersist.prepare(mariapersist_engine)
         except:
             if os.getenv("DATA_IMPORTS_MODE", "") == "1":
-                print("Ignoring mariapersist error because DATA_IMPORTS_MODE=1")
+                print("Ignoring mariapersist problems because DATA_IMPORTS_MODE=1")
             else:
                 print("Error in loading mariapersist tables")
                 raise

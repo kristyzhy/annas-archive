@@ -75,13 +75,13 @@ docker exec -it aa-data-import--web flask cli mysql_reset_aac_tables # OPTIONAL:
 docker exec -it aa-data-import--web flask cli mysql_build_aac_tables # RECOMMENDED even when using aa_derived_mirror_metadata, in case new AAC files have been loaded since the data of aa_derived_mirror_metadata was generated. AAC files that are the same will automatically be skipped.
 
 # To manually keep an eye on things, run SHOW PROCESSLIST; in a MariaDB prompt:
-docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -ppassword allthethings
+docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings
 
 # First sanity check to make sure the right tables exist.
 docker exec -it aa-data-import--web /scripts/check_after_imports.sh
 
 # Sanity check to make sure the tables are filled.
-docker exec -it aa-data-import--web mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1000 / 1000 / 1000), 2) AS "Size (GB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
+docker exec -it aa-data-import--mariadb mariadb -u root -ppassword allthethings --show-warnings -vv -e 'SELECT table_name, ROUND(((data_length + index_length) / 1000 / 1000 / 1000), 2) AS "Size (GB)" FROM information_schema.TABLES WHERE table_schema = "allthethings" ORDER BY table_name;'
 
 # Calculate derived data:
 docker exec -it aa-data-import--web flask cli mysql_build_computed_all_md5s # Can be skipped when using aa_derived_mirror_metadata.

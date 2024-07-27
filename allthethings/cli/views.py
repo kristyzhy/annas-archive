@@ -15,14 +15,12 @@ import concurrent
 import threading
 import yappi
 import multiprocessing
-import langdetect
 import gc
 import random
 import slugify
 import elasticsearch.helpers
 import time
 import pathlib
-import ftlangdetect
 import traceback
 import flask_mail
 import click
@@ -424,7 +422,10 @@ es_create_index_body = {
                     "search_access_types": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                     "search_record_sources": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                     "search_bulk_torrents": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
-                    "search_e5_small_query": {"type": "dense_vector", "dims": 384, "index": True, "similarity": "dot_product"},
+                    # ES limit https://github.com/langchain-ai/langchain/issues/10218#issuecomment-1706481539
+                    # dot_product because embeddings are already normalized. We run on an old version of ES so we shouldn't rely on the
+                    # default behavior of normalization.
+                    "search_text_embedding_3_small_100_tokens_1024_dims": {"type": "dense_vector", "dims": 1024, "index": True, "similarity": "cosine"},
                     "search_added_date": { "type": "keyword", "index": True, "doc_values": True, "eager_global_ordinals": True },
                 },
             },
@@ -472,7 +473,7 @@ def elastic_reset_aarecords_internal():
     print("Creating ES indices")
     for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
         for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
-            es_handle.indices.create(index=full_index_name, body=es_create_index_body)
+            es_handle.indices.create(wait_for_active_shards=1,index=full_index_name, body=es_create_index_body)
 
     print("Creating MySQL aarecords tables")
     with Session(engine) as session:
@@ -482,7 +483,7 @@ def elastic_reset_aarecords_internal():
         cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13') # Old
         cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('CREATE TABLE IF NOT EXISTS model_cache (hashed_aarecord_id BINARY(16) NOT NULL, model_name CHAR(30), aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id, model_name), UNIQUE INDEX (aarecord_id, model_name)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('CREATE TABLE IF NOT EXISTS model_cache_text_embedding_3_small_100_tokens (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
     # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
     new_tables_internal('aarecords_codes_ia')
@@ -986,26 +987,6 @@ def elastic_build_aarecords_main():
 def elastic_build_aarecords_main_internal():
     new_tables_internal('aarecords_codes_main')
 
-    print("Deleting main ES indices")
-    for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
-        if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
-            es_handle.options(ignore_status=[400,404]).indices.delete(index=index_name) # Old
-            for virtshard in range(0, 100): # Out of abundance, delete up to a large number
-                es_handle.options(ignore_status=[400,404]).indices.delete(index=f'{index_name}__{virtshard}')
-    print("Creating main ES indices")
-    for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
-        if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
-            for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
-                es_handle.indices.create(index=full_index_name, body=es_create_index_body)
-
-    with Session(engine) as session:
-        session.connection().connection.ping(reconnect=True)
-        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('DROP TABLE IF EXISTS aarecords_all_md5')
-        cursor.execute('CREATE TABLE aarecords_all_md5 (md5 BINARY(16) NOT NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('DROP TABLE IF EXISTS temp_md5_with_doi_seen')
-        cursor.execute('CREATE TABLE temp_md5_with_doi_seen (doi VARBINARY(1000), PRIMARY KEY (doi)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-
     before_first_md5 = ''
     # before_first_md5 = 'aaa5a4759e87b0192c1ecde213535ba1'
     before_first_doi = ''
@@ -1020,12 +1001,36 @@ def elastic_build_aarecords_main_internal():
         print(f'WARNING!!!!! before_first_doi is set to {before_first_doi}')
         print(f'WARNING!!!!! before_first_doi is set to {before_first_doi}')
 
-    with engine.connect() as connection:
-        print("Processing from computed_all_md5s")
+    with engine.connect() as connection:    
+        print("Deleting main ES indices")
+        for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+            if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
+                es_handle.options(ignore_status=[400,404]).indices.delete(index=index_name) # Old
+                for virtshard in range(0, 100): # Out of abundance, delete up to a large number
+                    es_handle.options(ignore_status=[400,404]).indices.delete(index=f'{index_name}__{virtshard}')
+
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        cursor.execute('DROP TABLE IF EXISTS aarecords_all_md5')
+        cursor.execute('CREATE TABLE aarecords_all_md5 (md5 BINARY(16) NOT NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute('DROP TABLE IF EXISTS temp_md5_with_doi_seen')
+        cursor.execute('CREATE TABLE temp_md5_with_doi_seen (doi VARBINARY(1000), PRIMARY KEY (doi)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+
+        print("Counting computed_all_md5s")
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
         cursor.execute('SELECT COUNT(md5) AS count FROM computed_all_md5s WHERE md5 > %(from)s ORDER BY md5 LIMIT 1', { "from": bytes.fromhex(before_first_md5) })
         total = list(cursor.fetchall())[0]['count']
+
+        if not SLOW_DATA_IMPORTS:
+            print("Sleeping 3 minutes (no point in making this less)")
+            time.sleep(60*3)
+        print("Creating main ES indices")
+        for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+            if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
+                for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
+                    es_handle.indices.create(wait_for_active_shards=1,index=full_index_name, body=es_create_index_body)
+
         with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}', smoothing=0.01) as pbar:
             with concurrent.futures.ProcessPoolExecutor(max_workers=THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
                 futures = set()
@@ -1123,7 +1128,7 @@ def mysql_build_aarecords_codes_numbers():
     mysql_build_aarecords_codes_numbers_internal()
 
 def mysql_build_aarecords_codes_numbers_count_range(data):
-    r, aarecord_id_prefixes = data
+    index, r, aarecord_id_prefixes = data
     with Session(engine) as session:
         operations_by_es_handle = collections.defaultdict(list)
         session.connection().connection.ping(reconnect=True)
@@ -1136,9 +1141,11 @@ def mysql_build_aarecords_codes_numbers_count_range(data):
         for aarecord_id_prefix in aarecord_id_prefixes:
             cursor.execute('SELECT COUNT(*) AS rownumber, COUNT(DISTINCT code) AS dense_rank FROM aarecords_codes_new USE INDEX(aarecord_id_prefix) WHERE code >= %(from_prefix)s AND code < %(to_prefix)s AND aarecord_id_prefix = %(aarecord_id_prefix)s', { "from_prefix": r['from_prefix'], "to_prefix": r['to_prefix'], "aarecord_id_prefix": aarecord_id_prefix })
             prefix_counts['aarecord_id_prefixes'][aarecord_id_prefix] = cursor.fetchone()
-        return prefix_counts
+        return (index, prefix_counts)
 
 def mysql_build_aarecords_codes_numbers_update_range(r):
+    # print(f"Starting mysql_build_aarecords_codes_numbers_update_range: {r=}")
+    start = time.time()
     processed_rows = 0
     with Session(engine) as session:
         operations_by_es_handle = collections.defaultdict(list)
@@ -1187,6 +1194,9 @@ def mysql_build_aarecords_codes_numbers_update_range(r):
             cursor.execute('COMMIT')
             processed_rows += len(update_data)
             current_record_for_filter = rows[-1]
+    took = time.time() - start
+    if not SLOW_DATA_IMPORTS:
+        print(f"Finished mysql_build_aarecords_codes_numbers_update_range: {took=} {processed_rows=} {r=}")
     return processed_rows
 
 def mysql_build_aarecords_codes_numbers_internal():
@@ -1215,17 +1225,55 @@ def mysql_build_aarecords_codes_numbers_internal():
         code_prefixes = [row['code_prefix'] for row in cursor.fetchall()]
         print(f"Found {len(code_prefixes)=}")
 
+        cursor.execute('SELECT json FROM torrents_json LIMIT 1')
+        torrents_json = orjson.loads(cursor.fetchone()['json'])
+        torrent_paths = [row['url'].split('dyn/small_file/torrents/', 1)[1] for row in torrents_json]
+        print(f"Found {len(torrent_paths)=}")
+
         prefix_ranges = []
-        last_prefix = ''
+        last_prefix = b''
         for code_prefix in code_prefixes:
-            for letter_prefix in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                prefix = code_prefix + b':' + bytes([letter_prefix])
-                prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
-                last_prefix = prefix
+            actual_code_prefixes = [code_prefix + b':']
+            # This is purely an optimization for spreading out ranges and doesn't exclude non-matching prefixes.
+            # Those are still there but will be lumped into adjacent ranges.
+            # WARNING: be sure the actual_code_prefixes are mutually exclusive and ordered.
+            if actual_code_prefixes == [b'isbn13:']:
+                actual_code_prefixes = [b'isbn13:978', b'isbn13:979']
+            elif actual_code_prefixes == [b'ol:']:
+                actual_code_prefixes = [b'ol:OL']
+            elif actual_code_prefixes == [b'doi:']:
+                actual_code_prefixes = [b'doi:10.']
+            elif actual_code_prefixes == [b'issn:']:
+                actual_code_prefixes = [b'issn:0', b'issn:1', b'issn:2']
+            elif actual_code_prefixes == [b'oclc:']:
+                actual_code_prefixes = [b'oclc:0', b'oclc:1', b'oclc:2', b'oclc:3', b'oclc:4', b'oclc:5', b'oclc:6', b'oclc:7', b'oclc:8', b'oclc:9']
+            elif actual_code_prefixes == [b'duxiu_dxid:']:
+                actual_code_prefixes = [b'duxiu_dxid:0000', b'duxiu_dxid:1']
+            elif actual_code_prefixes == [b'better_world_books:']:
+                actual_code_prefixes = [b'better_world_books:BWB']
+            elif actual_code_prefixes == [b'torrent:']:
+                for prefix in sorted(list(set([b'torrent:' + path.encode() for path in torrent_paths]))):
+                    # DUPLICATED BELOW
+                    if prefix <= last_prefix:
+                        raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
+                    prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
+                    last_prefix = prefix
+                continue
+
+            for actual_code_prefix in actual_code_prefixes:
+                for letter_prefix1 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
+                    for letter_prefix2 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
+                        prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2])
+                        # DUPLICATED ABOVE
+                        if prefix <= last_prefix:
+                            raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
+                        prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
+                        last_prefix = prefix
 
         with multiprocessing.Pool(max(5, THREADS)) as executor:
             print(f"Computing row numbers and sizes of {len(prefix_ranges)} prefix_ranges..")
-            prefix_range_counts = list(tqdm.tqdm(executor.imap(mysql_build_aarecords_codes_numbers_count_range, [(r, aarecord_id_prefixes) for r in prefix_ranges]), total=len(prefix_ranges)))
+            # Lots of shenanigans for imap_unordered.. Might be better to just do it manually or use concurrent.futures instead?
+            prefix_range_counts = [to_prefix_counts for index, to_prefix_counts in sorted(list(tqdm.tqdm(executor.imap_unordered(mysql_build_aarecords_codes_numbers_count_range, [(index, r, aarecord_id_prefixes) for index, r in enumerate(prefix_ranges)]), total=len(prefix_ranges))))]
             
             last_prefix = None
             last_rownumber = 1
@@ -1268,11 +1316,13 @@ def mysql_build_aarecords_codes_numbers_internal():
                 "count_approx": total-last_rownumber,
             })
             update_ranges.sort(key=lambda r: -r['count_approx'])
-            # for r in update_ranges:
-            #     print(r)
+
+            large_ranges = [r for r in update_ranges if r['count_approx'] > 10000000]
+            if len(large_ranges) > 0:
+                raise Exception(f"Ranges too large: {large_ranges=}")
 
             print(f"Processing {len(update_ranges)} update_ranges (starting with the largest ones)..")
-            processed_rows = sum(list(tqdm.tqdm(executor.imap(mysql_build_aarecords_codes_numbers_update_range, update_ranges), total=len(update_ranges))))
+            processed_rows = sum(list(tqdm.tqdm(executor.imap_unordered(mysql_build_aarecords_codes_numbers_update_range, update_ranges), total=len(update_ranges))))
         
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)

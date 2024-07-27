@@ -30,7 +30,6 @@ DESCRIBE libgenrs_fiction_hashes;
 DESCRIBE libgenrs_hashes;
 DESCRIBE libgenrs_topics;
 DESCRIBE libgenrs_updated;
-DESCRIBE model_cache;
 DESCRIBE ol_base;
 DESCRIBE ol_isbn13;
 DESCRIBE ol_ocaid;

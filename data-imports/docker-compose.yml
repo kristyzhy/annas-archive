@@ -14,7 +14,7 @@ services:
       # nor when running docker in the root of the repo).
       - "../../aa-data-import--allthethings-mysql-data:/var/lib/mysql/"
       - "../../aa-data-import--temp-dir:/temp-dir"
-    tmpfs: "/tmp"
+      - "../../aa-data-import--mariadb-tmp-dir:/tmp"
     command: "--init-file /etc/mysql/conf.d/init.sql"
 
   "aa-data-import--elasticsearch":
@@ -80,6 +80,7 @@ services:
       - "aa-data-import--mariadb"
       - "aa-data-import--elasticsearch"
     env_file:
+      - "./.env-data-imports-fixed"
       - "./.env-data-imports"
     restart: "unless-stopped"
     stop_grace_period: "3s"
