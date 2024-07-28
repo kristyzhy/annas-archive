@@ -199,7 +199,12 @@ country_lang_mapping = { "Albania": "Albanian", "Algeria": "Arabic", "Andorra": 
 
 @functools.cache
 def get_tiktoken_text_embedding_3_small():
-    return tiktoken.encoding_for_model("text-embedding-3-small")
+    for attempt in range(1,100):
+        try:
+            return tiktoken.encoding_for_model("text-embedding-3-small")
+        except:
+            if attempt > 20:
+                raise
 
 @functools.cache
 def get_bcp47_lang_codes_parse_substr(substr):

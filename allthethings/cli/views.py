@@ -1224,7 +1224,7 @@ def mysql_build_aarecords_codes_numbers_internal():
         aarecord_id_prefixes = [row['aarecord_id_prefix'] for row in cursor.fetchall()]
         print(f"Found {len(aarecord_id_prefixes)=}")
 
-        cursor.execute('SELECT code_prefix FROM aarecords_codes_prefixes')
+        cursor.execute('SELECT code_prefix FROM aarecords_codes_prefixes_new')
         code_prefixes = [row['code_prefix'] for row in cursor.fetchall()]
         print(f"Found {len(code_prefixes)=}")
 
@@ -1254,6 +1254,8 @@ def mysql_build_aarecords_codes_numbers_internal():
                 actual_code_prefixes = [b'duxiu_dxid:0000', b'duxiu_dxid:1']
             elif actual_code_prefixes == [b'better_world_books:']:
                 actual_code_prefixes = [b'better_world_books:BWB']
+            elif actual_code_prefixes == [b'filepath:']:
+                actual_code_prefixes = [(b'filepath:' + filepath_prefix.encode()) for filepath_prefix in sorted(allthethings.utils.FILEPATH_PREFIXES)]
             elif actual_code_prefixes == [b'torrent:']:
                 for prefix in sorted(list(set([b'torrent:' + path.encode() for path in torrent_paths]))):
                     # DUPLICATED BELOW
@@ -1266,12 +1268,13 @@ def mysql_build_aarecords_codes_numbers_internal():
             for actual_code_prefix in actual_code_prefixes:
                 for letter_prefix1 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
                     for letter_prefix2 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                        prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2])
-                        # DUPLICATED ABOVE
-                        if prefix <= last_prefix:
-                            raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
-                        prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
-                        last_prefix = prefix
+                        for letter_prefix3 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
+                        prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2, letter_prefix3])
+                            # DUPLICATED ABOVE
+                            if prefix <= last_prefix:
+                                raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
+                            prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
+                            last_prefix = prefix
 
         with multiprocessing.Pool(max(5, THREADS)) as executor:
             print(f"Computing row numbers and sizes of {len(prefix_ranges)} prefix_ranges..")

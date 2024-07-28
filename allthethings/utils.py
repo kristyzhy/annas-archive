@@ -234,7 +234,7 @@ def list_translations():
             locale_dir = os.path.join(dirname, folder, 'LC_MESSAGES')
             if not os.path.isdir(locale_dir):
                 continue
-            if any(x.endswith('.mo') for x in os.listdir(locale_dir)):
+            if any(x.endswith('.mo') for x in os.listdir(locale_dir)) and any(x.endswith('.po') for x in os.listdir(locale_dir)):
                 try:
                     result.append(babel.Locale.parse(folder))
                 except babel.UnknownLocaleError:
@@ -1274,7 +1274,10 @@ def attempt_fix_chinese_uninterrupted_text(text):
 def attempt_fix_chinese_filepath(filepath):
     return '/'.join([attempt_fix_chinese_uninterrupted_text(part) for part in filepath.split('/')])
 
+FILEPATH_PREFIXES = [ 'duxiu', 'ia', 'lgli', 'lgrsfic', 'lgrsnf', 'scihub', 'scimag', 'upload' ]
 def prefix_filepath(prefix, filepath):
+    if prefix not in FILEPATH_PREFIXES:
+        raise Exception(f"prefix_filepath: {prefix=} not in {FILEPATH_PREFIXES=}")
     filepath = filepath.strip()
     if filepath == '':
         return ""
