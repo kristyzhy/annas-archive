@@ -1233,6 +1233,8 @@ def mysql_build_aarecords_codes_numbers_internal():
         torrent_paths = [row['url'].split('dyn/small_file/torrents/', 1)[1] for row in torrents_json]
         print(f"Found {len(torrent_paths)=}")
 
+        # TODO: Instead of all this manual stuff, can we use something like this?
+        # SELECT COUNT(*), COUNT(DISTINCT code), MAX(code), MAX(k), COUNT(CASE WHEN aarecord_id_prefix = 'md5' THEN code ELSE NULL END), COUNT(DISTINCT CASE WHEN aarecord_id_prefix = 'md5' THEN code ELSE NULL END) FROM (SELECT code, CONCAT(code, aarecord_id) AS k, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_new USE INDEX (primary) WHERE code >= 'ol:' ORDER BY code, aarecord_id LIMIT 1000000) a;
         prefix_ranges = []
         last_prefix = b''
         for code_prefix in code_prefixes:
@@ -1325,7 +1327,8 @@ def mysql_build_aarecords_codes_numbers_internal():
 
             large_ranges = [r for r in update_ranges if r['count_approx'] > 10000000]
             if len(large_ranges) > 0:
-                raise Exception(f"Ranges too large: {large_ranges=}")
+                print(f"WARNING: Ranges too large: {large_ranges=}")
+                # raise Exception(f"Ranges too large: {large_ranges=}")
 
             print(f"Processing {len(update_ranges)} update_ranges (starting with the largest ones)..")
             processed_rows = sum(list(tqdm.tqdm(executor.imap_unordered(mysql_build_aarecords_codes_numbers_update_range, update_ranges), total=len(update_ranges))))

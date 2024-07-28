@@ -5558,16 +5558,16 @@ def md5_slow_download(md5_input, path_index, domain_index):
             warning = False
             # These waitlist_max_wait_time_seconds values must be multiples, under the current modulo scheme.
             # Also WAITLIST_DOWNLOAD_WINDOW_SECONDS gets subtracted from it.
-            waitlist_max_wait_time_seconds = 10*60
+            waitlist_max_wait_time_seconds = 15*60
             domain = domain_slow
-            if daily_download_count_from_ip >= 100:
+            if daily_download_count_from_ip >= 50:
                 # targeted_seconds_multiplier = 2.0
                 # minimum = 20
                 # maximum = 100
                 waitlist_max_wait_time_seconds *= 2
                 # warning = True
                 domain = domain_slowest
-            elif daily_download_count_from_ip >= 30:
+            elif daily_download_count_from_ip >= 20:
                 domain = domain_slowest
 
             if allthethings.utils.SLOW_DOWNLOAD_DOMAINS_SLIGHTLY_FASTER[domain_index]:
