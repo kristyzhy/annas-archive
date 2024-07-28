@@ -239,7 +239,7 @@ def list_translations():
                     result.append(babel.Locale.parse(folder))
                 except babel.UnknownLocaleError:
                     example_code = "[print(row) for row in sorted([{ 'code': code, 'name': babel.Locale.parse(code).get_display_name('en'), 'writing_population': langcodes.get(code).writing_population() } for code in babel.localedata.locale_identifiers()], key=lambda a: -a['writing_population']) if row['writing_population']>1000000]"
-                    raie Exception(f"WARNING unknown language code: {folder=}. Be sure to use a language code that works with this: {example_code=}")
+                    raise Exception(f"WARNING unknown language code: {folder=}. Be sure to use a language code that works with this: {example_code=}")
     return result
 
 # Example to convert back from MySQL to IPv4:

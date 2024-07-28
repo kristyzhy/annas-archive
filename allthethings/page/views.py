@@ -3620,7 +3620,7 @@ def get_embeddings_for_aarecords(session, aarecords):
     insert_data_text_embedding_3_small_100_tokens = []
     if len(embeddings_to_fetch_text) > 0:
         embedding_response = None
-        while True:
+        for attempt in range(1,500):
             try:
                 embedding_response = openai.OpenAI().embeddings.create(
                     model="text-embedding-3-small",
@@ -3628,6 +3628,12 @@ def get_embeddings_for_aarecords(session, aarecords):
                 )
                 break
             except openai.RateLimitError:
+                time.sleep(3+random.randint(0,5))
+            except Exception as e:
+                if attempt > 50:
+                    print(f"Warning! Lots of attempts for OpenAI! {attempt=} {e=}")
+                if attempt > 400:
+                    raise
                 time.sleep(3+random.randint(0,5))
         for index, aarecord_id in enumerate(embeddings_to_fetch_aarecord_id):
             embedding_text = embeddings_to_fetch_text[index]

@@ -992,29 +992,30 @@ def elastic_build_aarecords_main_internal():
     before_first_doi = ''
     # before_first_doi = ''
 
-    if len(before_first_md5) > 0:
+    if before_first_md5 != '':
         print(f'WARNING!!!!! before_first_md5 is set to {before_first_md5}')
         print(f'WARNING!!!!! before_first_md5 is set to {before_first_md5}')
         print(f'WARNING!!!!! before_first_md5 is set to {before_first_md5}')
-    if len(before_first_doi) > 0:
+    if before_first_doi != '':
         print(f'WARNING!!!!! before_first_doi is set to {before_first_doi}')
         print(f'WARNING!!!!! before_first_doi is set to {before_first_doi}')
         print(f'WARNING!!!!! before_first_doi is set to {before_first_doi}')
 
-    with engine.connect() as connection:    
-        print("Deleting main ES indices")
-        for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
-            if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
-                es_handle.options(ignore_status=[400,404]).indices.delete(index=index_name) # Old
-                for virtshard in range(0, 100): # Out of abundance, delete up to a large number
-                    es_handle.options(ignore_status=[400,404]).indices.delete(index=f'{index_name}__{virtshard}')
+    with engine.connect() as connection:
+        if before_first_md5 == '' and before_first_doi == '':
+            print("Deleting main ES indices")
+            for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+                if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
+                    es_handle.options(ignore_status=[400,404]).indices.delete(index=index_name) # Old
+                    for virtshard in range(0, 100): # Out of abundance, delete up to a large number
+                        es_handle.options(ignore_status=[400,404]).indices.delete(index=f'{index_name}__{virtshard}')
 
-        connection.connection.ping(reconnect=True)
-        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-        cursor.execute('DROP TABLE IF EXISTS aarecords_all_md5')
-        cursor.execute('CREATE TABLE aarecords_all_md5 (md5 BINARY(16) NOT NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('DROP TABLE IF EXISTS temp_md5_with_doi_seen')
-        cursor.execute('CREATE TABLE temp_md5_with_doi_seen (doi VARBINARY(1000), PRIMARY KEY (doi)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+            connection.connection.ping(reconnect=True)
+            cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+            cursor.execute('DROP TABLE IF EXISTS aarecords_all_md5')
+            cursor.execute('CREATE TABLE aarecords_all_md5 (md5 BINARY(16) NOT NULL, json_compressed LONGBLOB NOT NULL, PRIMARY KEY (md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+            cursor.execute('DROP TABLE IF EXISTS temp_md5_with_doi_seen')
+            cursor.execute('CREATE TABLE temp_md5_with_doi_seen (doi VARBINARY(1000), PRIMARY KEY (doi)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
 
         print("Counting computed_all_md5s")
         connection.connection.ping(reconnect=True)
@@ -1022,71 +1023,42 @@ def elastic_build_aarecords_main_internal():
         cursor.execute('SELECT COUNT(md5) AS count FROM computed_all_md5s WHERE md5 > %(from)s ORDER BY md5 LIMIT 1', { "from": bytes.fromhex(before_first_md5) })
         total = list(cursor.fetchall())[0]['count']
 
-        if not SLOW_DATA_IMPORTS:
-            print("Sleeping 3 minutes (no point in making this less)")
-            time.sleep(60*3)
-        print("Creating main ES indices")
-        for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
-            if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
-                for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
-                    es_handle.indices.create(wait_for_active_shards=1,index=full_index_name, body=es_create_index_body)
+        if before_first_md5 == '' and before_first_doi == '':
+            if not SLOW_DATA_IMPORTS:
+                print("Sleeping 3 minutes (no point in making this less)")
+                time.sleep(60*3)
+            print("Creating main ES indices")
+            for index_name, es_handle in allthethings.utils.SEARCH_INDEX_TO_ES_MAPPING.items():
+                if index_name in allthethings.utils.MAIN_SEARCH_INDEXES:
+                    for full_index_name in allthethings.utils.all_virtshards_for_index(index_name):
+                        es_handle.indices.create(wait_for_active_shards=1,index=full_index_name, body=es_create_index_body)
 
-        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}', smoothing=0.01) as pbar:
-            with concurrent.futures.ProcessPoolExecutor(max_workers=THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
-                futures = set()
-                def process_future():
-                    # print(f"Futures waiting: {len(futures)}")
-                    (done, not_done) = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
-                    # print(f"Done!")
-                    for future_done in done:
-                        futures.remove(future_done)
-                        pbar.update(CHUNK_SIZE)
-                        err = future_done.exception()
-                        if err:
-                            print(f"ERROR IN FUTURE RESOLUTION!!!!! {repr(err)}\n\n/////\n\n{traceback.format_exc()}")
-                            raise err
-                        result = future_done.result()
-                        if result:
-                            print("Error detected; exiting")
-                            os._exit(1)
+        if before_first_doi == '':
+            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}', smoothing=0.01) as pbar:
+                with concurrent.futures.ProcessPoolExecutor(max_workers=THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
+                    futures = set()
+                    def process_future():
+                        # print(f"Futures waiting: {len(futures)}")
+                        (done, not_done) = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
+                        # print(f"Done!")
+                        for future_done in done:
+                            futures.remove(future_done)
+                            pbar.update(CHUNK_SIZE)
+                            err = future_done.exception()
+                            if err:
+                                print(f"ERROR IN FUTURE RESOLUTION!!!!! {repr(err)}\n\n/////\n\n{traceback.format_exc()}")
+                                raise err
+                            result = future_done.result()
+                            if result:
+                                print("Error detected; exiting")
+                                os._exit(1)
 
-                current_md5 = bytes.fromhex(before_first_md5)
-                last_map = None
-                while True:
-                    connection.connection.ping(reconnect=True)
-                    cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                    cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 > %(from)s ORDER BY md5 LIMIT %(limit)s', { "from": current_md5, "limit": BATCH_SIZE })
-                    batch = list(cursor.fetchall())
-                    if last_map is not None:
-                        if any(last_map.get()):
-                            print("Error detected; exiting")
-                            os._exit(1)
-                    if len(batch) == 0:
-                        break
-                    print(f"Processing (ahead!) with {THREADS=} {len(batch)=} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
-                    for chunk in more_itertools.chunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE):
-                        futures.add(executor.submit(elastic_build_aarecords_job, chunk))
-                        if len(futures) > THREADS*2:
-                            process_future()
-                    # last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
-                    # pbar.update(len(batch))
-                    current_md5 = batch[-1]['md5']
-                while len(futures) > 0:
-                    process_future()
-
-            print("Processing from scihub_dois")
-            connection.connection.ping(reconnect=True)
-            cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-            cursor.execute('SELECT COUNT(doi) AS count FROM scihub_dois WHERE doi > %(from)s ORDER BY doi LIMIT 1', { "from": before_first_doi })
-            total = list(cursor.fetchall())[0]['count']
-            with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
-                with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
-                    current_doi = before_first_doi
+                    current_md5 = bytes.fromhex(before_first_md5)
                     last_map = None
                     while True:
                         connection.connection.ping(reconnect=True)
                         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
-                        cursor.execute('SELECT doi FROM scihub_dois WHERE doi > %(from)s ORDER BY doi LIMIT %(limit)s', { "from": current_doi, "limit": BATCH_SIZE })
+                        cursor.execute('SELECT md5 FROM computed_all_md5s WHERE md5 > %(from)s ORDER BY md5 LIMIT %(limit)s', { "from": current_md5, "limit": BATCH_SIZE })
                         batch = list(cursor.fetchall())
                         if last_map is not None:
                             if any(last_map.get()):
@@ -1094,10 +1066,41 @@ def elastic_build_aarecords_main_internal():
                                 os._exit(1)
                         if len(batch) == 0:
                             break
-                        print(f"Processing with {THREADS=} {len(batch)=} aarecords from scihub_dois ( starting doi: {batch[0]['doi']}, ending doi: {batch[-1]['doi']} )...")
-                        last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
-                        pbar.update(len(batch))
-                        current_doi = batch[-1]['doi']
+                        print(f"Processing (ahead!) with {THREADS=} {len(batch)=} aarecords from computed_all_md5s ( starting md5: {batch[0]['md5'].hex()} , ending md5: {batch[-1]['md5'].hex()} )...")
+                        for chunk in more_itertools.chunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE):
+                            futures.add(executor.submit(elastic_build_aarecords_job, chunk))
+                            if len(futures) > THREADS*2:
+                                process_future()
+                        # last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"md5:{item['md5'].hex()}" for item in batch], CHUNK_SIZE))
+                        # pbar.update(len(batch))
+                        current_md5 = batch[-1]['md5']
+                    while len(futures) > 0:
+                        process_future()
+
+        print("Processing from scihub_dois")
+        connection.connection.ping(reconnect=True)
+        cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+        cursor.execute('SELECT COUNT(doi) AS count FROM scihub_dois WHERE doi > %(from)s ORDER BY doi LIMIT 1', { "from": before_first_doi })
+        total = list(cursor.fetchall())[0]['count']
+        with tqdm.tqdm(total=total, bar_format='{l_bar}{bar}{r_bar} {eta}') as pbar:
+            with multiprocessing.Pool(THREADS, initializer=elastic_build_aarecords_job_init_pool) as executor:
+                current_doi = before_first_doi
+                last_map = None
+                while True:
+                    connection.connection.ping(reconnect=True)
+                    cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+                    cursor.execute('SELECT doi FROM scihub_dois WHERE doi > %(from)s ORDER BY doi LIMIT %(limit)s', { "from": current_doi, "limit": BATCH_SIZE })
+                    batch = list(cursor.fetchall())
+                    if last_map is not None:
+                        if any(last_map.get()):
+                            print("Error detected; exiting")
+                            os._exit(1)
+                    if len(batch) == 0:
+                        break
+                    print(f"Processing with {THREADS=} {len(batch)=} aarecords from scihub_dois ( starting doi: {batch[0]['doi']}, ending doi: {batch[-1]['doi']} )...")
+                    last_map = executor.map_async(elastic_build_aarecords_job, more_itertools.ichunked([f"doi:{item['doi']}" for item in batch], CHUNK_SIZE))
+                    pbar.update(len(batch))
+                    current_doi = batch[-1]['doi']
 
     with Session(engine) as session:
         session.connection().connection.ping(reconnect=True)
