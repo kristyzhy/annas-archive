@@ -1269,7 +1269,7 @@ def mysql_build_aarecords_codes_numbers_internal():
                 for letter_prefix1 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
                     for letter_prefix2 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
                         for letter_prefix3 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                        prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2, letter_prefix3])
+                            prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2, letter_prefix3])
                             # DUPLICATED ABOVE
                             if prefix <= last_prefix:
                                 raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
