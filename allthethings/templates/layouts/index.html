@@ -195,13 +195,22 @@
         <div>
           {% if g.is_membership_double %}
             <div class="bg-[#ff005b] hidden js-fundraiser-banner">
-              <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-between">
+              <div class="max-w-[1050px] mx-auto px-4 py-2 text-[#fff] flex justify-center">
                 <div>
                   <div>
                     {{ gettext('layout.index.header.banner.fundraiser.help') }}
                     {{ gettext('layout.index.header.banner.fundraiser.takedown') }}
                   </div>
-                  <div>{{ gettext('layout.index.header.banner.fundraiser.this_month') }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a></div>
+                  <div style="position: relative; height: 16px; margin-top: 16px; margin-bottom: 16px">
+                    <div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: white; overflow: hidden; border-radius: 16px; box-shadow: 0px 2px 4px 0px #00000038">
+                      <div style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ [100, (g.fraction_of_the_month+0.05)*100] | min | round }}%; background: #0095ff"></div>
+                    </div>
+                    <div style="position: absolute; left: {{ [100, (g.fraction_of_the_month+0.05)*100] | min | round }}%; top: 50%; width: 16px; height: 16px; transform: translate(-50%, -50%)">
+                      <div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: #0095ff66; border-radius: 100%; animation: header-ping 1.5s cubic-bezier(0,0,.2,1) infinite"></div>
+                      <div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: white; border-radius: 100%; box-shadow: 0 0 3px #00000069;"></div>
+                    </div>
+                  </div>
+                  <div>➡️ {{ gettext('layout.index.header.banner.fundraiser.this_month') | replace('<strong>' | safe, '<strong style="color:#a0d7ff">' | safe) }} <a class="custom-a text-[#fff] hover:text-[#ddd] underline" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a></div>
                 </div>
                 <div>
                   <a href="#" class="custom-a ml-2 text-[#fff] hover:text-[#ddd] js-top-banner-close">✕</a>

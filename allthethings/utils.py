@@ -51,7 +51,8 @@ DOWN_FOR_MAINTENANCE = False
 
 # Per https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/37
 SEARCH_FILTERED_BAD_AARECORD_IDS = [
-    "md5:d41d8cd98f00b204e9800998ecf8427e", # empty md5
+    "md5:d41d8cd98f00b204e9800998ecf8427e", # md5("")
+    "md5:5058f1af8388633f609cadb75a75dc9d", # md5(".")
 
     "md5:b0647953a182171074873b61200c71dd",
     "md5:820a4f8961ae0a76ad265f1678b7dfa5",
@@ -482,7 +483,7 @@ MEMBERSHIP_MAX_BONUS_DOWNLOADS = 10000
 MEMBERSHIP_EXCHANGE_RATE_RMB = 7.25
 
 def get_is_membership_double():
-    return False
+    return datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m") == '2024-08'
 
 def get_account_fast_download_info(mariapersist_session, account_id):
     mariapersist_session.connection().connection.ping(reconnect=True)

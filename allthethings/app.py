@@ -7,6 +7,8 @@ import time
 import babel.numbers as babel_numbers
 import multiprocessing
 import ipaddress
+import datetime
+import calendar
 
 from celery import Celery
 from flask import Flask, request, g, redirect
@@ -291,6 +293,14 @@ def extensions(app):
                 g.header_tagline_short = gettext('layout.index.header.tagline_short')
 
         g.is_membership_double = allthethings.utils.get_is_membership_double()
+
+        # From https://hds-nabavi.medium.com/the-percent-of-the-month-completed-using-python-5eb4678e5847
+        today = datetime.date.today().day
+        currentYear = datetime.date.today().year
+        currentMonth = datetime.date.today().month
+        currentMonthName = calendar.month_name[currentMonth]
+        monthrange = calendar.monthrange(currentYear, currentMonth)[1]
+        g.fraction_of_the_month = today / monthrange
 
     return None
 
