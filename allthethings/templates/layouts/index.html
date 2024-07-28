@@ -53,7 +53,7 @@
           return;
         }
 
-        var langCodes = [{% for lang_code, _lang_name in g.languages %}{{ lang_code | tojson }}, {% endfor %}];
+        var langCodes = [{% for lang_code, _lang_name, _lang_name_current_locale in g.languages %}{{ lang_code | tojson }}, {% endfor %}];
 
         var domainPosition = 0;
         var potentialSubDomainLangCode = location.hostname.split(".")[0];
@@ -348,8 +348,8 @@
             <a href="/" class="custom-a text-black hover:text-[#444]"><h1 class="text-2xl sm:text-4xl">{{ gettext('layout.index.header.title') }}</h1></a>
             <select class="text-lg bg-center icon-[twemoji--globe-with-meridians] py-1 rounded text-gray-500 max-w-[50px] mt-1 ml-2 appearance-none" style="width: 1.8em; height: 1.6em; background-color: white; background-size: 1em;" onchange="handleChangeLang(event)">
               <option></option>
-              {% for lang_code, lang_name in g.languages %}
-                <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.domain_lang_code %} ☑️{% endif %}</option>
+              {% for lang_code, lang_name, lang_name_current_locale in g.languages %}
+                <option value="{{ lang_code }}">{{ lang_code }} - {{ lang_name }} - {{ lang_name_current_locale }}{% if lang_code == g.domain_lang_code %} ☑️{% endif %}</option>
               {% endfor %}
             </select>
           </div>
@@ -544,13 +544,13 @@
             <a class="custom-a hover:text-[#333]" href="/faq">{{ gettext('layout.index.header.nav.faq') }}</a><br>
             <a class="custom-a hover:text-[#333]" href="/donate">{{ gettext('layout.index.header.nav.donate') }}</a><br>
             <select class="p-1 rounded text-gray-500 mt-1 max-w-[110px]" onchange="handleChangeLang(event)">
-              {% for lang_code, lang_name in g.languages %}
+              {% for lang_code, lang_name, lang_name_current_locale in g.languages %}
                 {% if g.domain_lang_code == lang_code %}
-                  <option value="{{ lang_code }}">🌐 {{ lang_name }} [{{ lang_code }}]</option>
+                  <option value="{{ lang_code }}">🌐 {{ lang_code }} - {{ lang_name }} - {{ lang_name_current_locale }}</option>
                 {% endif %}
               {% endfor %}
-              {% for lang_code, lang_name in g.languages %}
-                <option value="{{ lang_code }}">{{ lang_name }} [{{ lang_code }}]{% if lang_code == g.domain_lang_code %} ☑️{% endif %}</option>
+              {% for lang_code, lang_name, lang_name_current_locale in g.languages %}
+                <option value="{{ lang_code }}">{{ lang_code }} - {{ lang_name }} - {{ lang_name_current_locale }}{% if lang_code == g.domain_lang_code %} ☑️{% endif %}</option>
               {% endfor %}
             </select>
           </div>

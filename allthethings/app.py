@@ -136,7 +136,7 @@ def extensions(app):
 
     def localeselector():
         potential_locale = request.headers['Host'].split('.')[0]
-        if potential_locale in [allthethings.utils.get_domain_lang_code(locale) for locale in allthethings.utils.list_translations()]:
+        if potential_locale in [allthethings.utils.get_domain_lang_code(locale) for locale in allthethings.utils.list_translations().values()]:
             selected_locale = allthethings.utils.domain_lang_code_to_full_lang_code(potential_locale)
             # print(f"{selected_locale=}")
             return selected_locale
@@ -245,7 +245,7 @@ def extensions(app):
             print(f"Warning: redirecting {request.headers['Host']=} {request.full_path=} to {redir_path=} because {full_hostname=} {g.base_domain=}")
             return redirect(redir_path, code=301)
 
-        g.languages = [(allthethings.utils.get_domain_lang_code(locale), allthethings.utils.get_domain_lang_code_display_name(locale)) for locale in allthethings.utils.list_translations()]
+        g.languages = [(allthethings.utils.get_domain_lang_code(locale), allthethings.utils.get_domain_lang_code_display_name(locale), locale.get_display_name(get_locale())) for locale in allthethings.utils.list_translations().values()]
         g.languages.sort()
 
         g.last_data_refresh_date = last_data_refresh_date()

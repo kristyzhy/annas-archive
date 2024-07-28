@@ -192,6 +192,8 @@ def get_domain_lang_code(locale):
         return 'br'
     elif str(locale) == 'pt_PT':
         return 'pt'
+    elif str(locale) == 'ku_TR':
+        return 'kmr'
     else:
         return str(locale)
 
@@ -204,6 +206,8 @@ def domain_lang_code_to_full_lang_code(domain_lang_code):
         return 'pt_BR'
     elif domain_lang_code == "pt":
         return 'pt_PT'
+    elif domain_lang_code == "kmr":
+        return 'ku_TR'
     else:
         return domain_lang_code
 
@@ -214,6 +218,8 @@ def get_domain_lang_code_display_name(locale):
         return 'Brasil: português'
     elif str(locale) == 'pt_PT':
         return 'Portugal: português'
+    elif str(locale) == 'ku_TR':
+        return 'Kurdish (Northern)'
     else:
         return locale.get_display_name()
 
@@ -223,10 +229,11 @@ def get_full_lang_code(locale):
 def get_base_lang_code(locale):
     return locale.language
 
+
 # Adapted from https://github.com/python-babel/flask-babel/blob/69d3340cd0ff52f3e23a47518285a7e6d8f8c640/flask_babel/__init__.py#L175
 def list_translations():
     # return [locale for locale in babel.list_translations() if is_locale(locale)]
-    result = []
+    result = {}
     for dirname in get_babel().translation_directories:
         if not os.path.isdir(dirname):
             continue
@@ -235,11 +242,15 @@ def list_translations():
             if not os.path.isdir(locale_dir):
                 continue
             if any(x.endswith('.mo') for x in os.listdir(locale_dir)) and any(x.endswith('.po') for x in os.listdir(locale_dir)):
+                if folder in result:
+                    raise f"Duplicate {folder=}"
                 try:
-                    result.append(babel.Locale.parse(folder))
+                    result[folder] = babel.Locale.parse(folder)
                 except babel.UnknownLocaleError:
                     example_code = "[print(row) for row in sorted([{ 'code': code, 'name': babel.Locale.parse(code).get_display_name('en'), 'writing_population': langcodes.get(code).writing_population() } for code in babel.localedata.locale_identifiers()], key=lambda a: -a['writing_population']) if row['writing_population']>1000000]"
                     raise Exception(f"WARNING unknown language code: {folder=}. Be sure to use a language code that works with this: {example_code=}")
+                if get_domain_lang_code(result[folder]) != folder and folder not in ['pt_BR', 'pt_PT', 'nb_NO', 'zh_Hant']:
+                    raise Exception(f"get_domain_lang_code does not roundtrip to folder: {result[folder]=} {folder=} {get_domain_lang_code(result[folder])}")
     return result
 
 # Example to convert back from MySQL to IPv4:
