@@ -1,13 +1,27 @@
-msgid ""
-msgstr ""
-"PO-Revision-Date: 2024-07-28 04:13+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language: gn\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+#: allthethings/app.py:201
+#, fuzzy
+msgid "layout.index.invalid_request"
+msgstr "Solicitud inválida. Visite %(websites)s."
+
+#: allthethings/app.py:262
+#, fuzzy
+msgid "layout.index.header.tagline_scihub"
+msgstr "Sci-Hub"
+
+#: allthethings/app.py:263
+#, fuzzy
+msgid "layout.index.header.tagline_libgen"
+msgstr "Libgen"
+
+#: allthethings/app.py:264
+#, fuzzy
+msgid "layout.index.header.tagline_zlib"
+msgstr "Z-Lib"
+
+#: allthethings/app.py:265
+#, fuzzy
+msgid "layout.index.header.tagline_openlib"
+msgstr "OpenLib"
 
 #: allthethings/app.py:266
 #, fuzzy
@@ -70,77 +84,77 @@ msgstr "📚&nbsp;La biblioteca de datos abiertos y código abierto más grande 
 msgid "layout.index.header.tagline_short"
 msgstr "📚 La biblioteca de datos abiertos y código abierto más grande del mundo.<br>⭐️ Refleja Scihub, Libgen, Zlib, y más."
 
-#: allthethings/utils.py:340
+#: allthethings/utils.py:341
 #, fuzzy
 msgid "common.md5_report_type_mapping.metadata"
 msgstr "Metadatos incorrectos (por ejemplo, título, descripción, imagen de portada)"
 
-#: allthethings/utils.py:341
+#: allthethings/utils.py:342
 #, fuzzy
 msgid "common.md5_report_type_mapping.download"
 msgstr "Problemas de descarga (por ejemplo, no se puede conectar, mensaje de error, muy lento)"
 
-#: allthethings/utils.py:342
+#: allthethings/utils.py:343
 #, fuzzy
 msgid "common.md5_report_type_mapping.broken"
 msgstr "El archivo no se puede abrir (por ejemplo, archivo corrupto, DRM)"
 
-#: allthethings/utils.py:343
+#: allthethings/utils.py:344
 #, fuzzy
 msgid "common.md5_report_type_mapping.pages"
 msgstr "Calidad pobre (por ejemplo, problemas de formato, mala calidad de escaneo, páginas faltantes)"
 
-#: allthethings/utils.py:344
+#: allthethings/utils.py:345
 #, fuzzy
 msgid "common.md5_report_type_mapping.spam"
 msgstr "Spam / el archivo debe ser eliminado (por ejemplo, publicidad, contenido abusivo)"
 
-#: allthethings/utils.py:345
+#: allthethings/utils.py:346
 #, fuzzy
 msgid "common.md5_report_type_mapping.copyright"
 msgstr "Reclamación de derechos de autor"
 
-#: allthethings/utils.py:346
+#: allthethings/utils.py:347
 #, fuzzy
 msgid "common.md5_report_type_mapping.other"
 msgstr "Otro"
 
-#: allthethings/utils.py:373
+#: allthethings/utils.py:374
 #, fuzzy
 msgid "common.membership.tier_name.bonus"
 msgstr "Descargas adicionales"
 
-#: allthethings/utils.py:374
+#: allthethings/utils.py:375
 #, fuzzy
 msgid "common.membership.tier_name.2"
 msgstr "Lector Luminoso"
 
-#: allthethings/utils.py:375
+#: allthethings/utils.py:376
 #, fuzzy
 msgid "common.membership.tier_name.3"
 msgstr "Bibliotecario Bendecido"
 
-#: allthethings/utils.py:376
+#: allthethings/utils.py:377
 #, fuzzy
 msgid "common.membership.tier_name.4"
 msgstr "Acumulador Asombroso"
 
-#: allthethings/utils.py:377
+#: allthethings/utils.py:378
 #, fuzzy
 msgid "common.membership.tier_name.5"
 msgstr "Archivista Admirable"
 
-#: allthethings/utils.py:531
+#: allthethings/utils.py:532
 #, fuzzy
 msgid "common.membership.format_currency.total_with_usd"
 msgstr "%(amount)s (%(amount_usd)s) total"
 
-#: allthethings/utils.py:533 allthethings/utils.py:534
+#: allthethings/utils.py:534 allthethings/utils.py:535
 #, fuzzy
 msgid "common.membership.format_currency.amount_with_usd"
 msgstr "%(amount)s (%(amount_usd)s)"
 
-#: allthethings/utils.py:545
+#: allthethings/utils.py:546
 #, fuzzy
 msgid "common.membership.format_currency.total"
 msgstr "%(amount)s total"
@@ -436,6 +450,11 @@ msgstr "PayPal (EE.UU.) %(bitcoin_icon)s"
 msgid "page.donate.payment.buttons.alipay"
 msgstr "Alipay"
 
+#: allthethings/account/templates/account/donate.html:140
+#, fuzzy
+msgid "page.donate.payment.buttons.pix"
+msgstr "Pix (Brazil)"
+
 #: allthethings/account/templates/account/donate.html:145
 #, fuzzy
 msgid "page.donate.payment.buttons.cashapp"
@@ -476,6 +495,11 @@ msgstr "Alipay 支付宝 / WeChat 微信"
 #, fuzzy
 msgid "page.donate.payment.buttons.wechat"
 msgstr "WeChat"
+
+#: allthethings/account/templates/account/donate.html:188
+#, fuzzy
+msgid "page.donate.payment.buttons.temporarily_unavailable"
+msgstr "(temporalmente no disponible)"
 
 #: allthethings/account/templates/account/donate.html:195
 #, fuzzy
@@ -919,6 +943,11 @@ msgstr "<strong>Marandu iñimportánteva:</strong> Crypto precio ikatu oñembogu
 #, fuzzy
 msgid "page.donation.expired"
 msgstr "Ko jopói opa. Eipe’a ha ejapo peteĩ pyahu."
+
+#: allthethings/account/templates/account/donation.html:84
+#, fuzzy
+msgid "page.donation.payment.crypto.top_header"
+msgstr "Crypto marandu"
 
 #: allthethings/account/templates/account/donation.html:86
 #, fuzzy
@@ -1657,429 +1686,429 @@ msgstr "Ko moneda oguereko peteĩ mínimo yvateve jepi. Por favor, eiporavo pete
 msgid "dyn.buy_membership.error.wait"
 msgstr "Oiko peteĩ error pe pago procesamiento-pe. Eha'arõmi peteĩ momento ha eñeha'ã jey. Oiméramo pe problema oiko 24 horas rasa, eñekomunika orendive %(email)s rupi ha emondo peteĩ screenshot."
 
-#: allthethings/page/views.py:3782
+#: allthethings/page/views.py:3788
 #, fuzzy
 msgid "page.md5.box.download.affected_files"
 msgstr "%(count)s páginas afectadas"
 
-#: allthethings/page/views.py:4762
+#: allthethings/page/views.py:4768
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsnf_visible"
 msgstr "Ndojekuaái Libgen.rs Non-Fiction-pe"
 
-#: allthethings/page/views.py:4763
+#: allthethings/page/views.py:4769
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgrsfic_visible"
 msgstr "Ndojekuaái Libgen.rs Fiction-pe"
 
-#: allthethings/page/views.py:4764
+#: allthethings/page/views.py:4770
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_visible"
 msgstr "Ndojekuaái Libgen.li-pe"
 
-#: allthethings/page/views.py:4765
+#: allthethings/page/views.py:4771
 #, fuzzy
 msgid "common.md5_problem_type_mapping.lgli_broken"
 msgstr "Ojehecha ha'eha ojepe'a'ỹva Libgen.li-pe"
 
-#: allthethings/page/views.py:4766
+#: allthethings/page/views.py:4772
 #, fuzzy
 msgid "common.md5_problem_type_mapping.zlib_missing"
 msgstr "Oĩ'ỹ Z-Library-pe"
 
-#: allthethings/page/views.py:4767
+#: allthethings/page/views.py:4773
 #, fuzzy
 msgid "common.md5_problem_type_mapping.duxiu_pdg_broken_files"
 msgstr "Ndaha'éi opaite páginas ikatu ojeconverti PDF-pe"
 
-#: allthethings/page/views.py:4768
+#: allthethings/page/views.py:4774
 #, fuzzy
 msgid "common.md5_problem_type_mapping.upload_exiftool_failed"
 msgstr "Ojejapo'ỹ pe exiftool ko archivo rehe"
 
-#: allthethings/page/views.py:4774
+#: allthethings/page/views.py:4780
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_unknown"
 msgstr "Aranduka (oñemohenda'ỹva)"
 
-#: allthethings/page/views.py:4775
+#: allthethings/page/views.py:4781
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_nonfiction"
 msgstr "Aranduka (non-fiction)"
 
-#: allthethings/page/views.py:4776
+#: allthethings/page/views.py:4782
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_fiction"
 msgstr "Aranduka (fiction)"
 
-#: allthethings/page/views.py:4777
+#: allthethings/page/views.py:4783
 #, fuzzy
 msgid "common.md5_content_type_mapping.journal_article"
 msgstr "Artículo de revista"
 
-#: allthethings/page/views.py:4778
+#: allthethings/page/views.py:4784
 #, fuzzy
 msgid "common.md5_content_type_mapping.standards_document"
 msgstr "Documento de estándares"
 
-#: allthethings/page/views.py:4779
+#: allthethings/page/views.py:4785
 #, fuzzy
 msgid "common.md5_content_type_mapping.magazine"
 msgstr "Revista"
 
-#: allthethings/page/views.py:4780
+#: allthethings/page/views.py:4786
 #, fuzzy
 msgid "common.md5_content_type_mapping.book_comic"
 msgstr "Tembiapo kuatiañe'ẽ"
 
-#: allthethings/page/views.py:4781
+#: allthethings/page/views.py:4787
 #, fuzzy
 msgid "common.md5_content_type_mapping.musical_score"
 msgstr "Purahei kuatia"
 
-#: allthethings/page/views.py:4782
+#: allthethings/page/views.py:4788
 #, fuzzy
 msgid "common.md5_content_type_mapping.other"
 msgstr "Ambue"
 
-#: allthethings/page/views.py:4788
+#: allthethings/page/views.py:4794
 #, fuzzy
 msgid "common.access_types_mapping.aa_download"
 msgstr "Mba'apoha Ñembosarái ñemohenda"
 
-#: allthethings/page/views.py:4789
+#: allthethings/page/views.py:4795
 #, fuzzy
 msgid "common.access_types_mapping.aa_scidb"
 msgstr "SciDB"
 
-#: allthethings/page/views.py:4790
+#: allthethings/page/views.py:4796
 #, fuzzy
 msgid "common.access_types_mapping.external_download"
 msgstr "Ñemohenda okapegua"
 
-#: allthethings/page/views.py:4791
+#: allthethings/page/views.py:4797
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow"
 msgstr "Ñemomba'apo okapegua"
 
-#: allthethings/page/views.py:4792
+#: allthethings/page/views.py:4798
 #, fuzzy
 msgid "common.access_types_mapping.external_borrow_printdisabled"
 msgstr "Ñemomba'apo okapegua (kuatiañe'ẽ ndoguerekói)"
 
-#: allthethings/page/views.py:4793
+#: allthethings/page/views.py:4799
 #, fuzzy
 msgid "common.access_types_mapping.meta_explore"
 msgstr "Mba'ekuaa jeheka"
 
-#: allthethings/page/views.py:4794
+#: allthethings/page/views.py:4800
 #, fuzzy
 msgid "common.access_types_mapping.torrents_available"
 msgstr "Oĩ torrents-pe"
 
-#: allthethings/page/views.py:4800
+#: allthethings/page/views.py:4806
 #, fuzzy
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
-#: allthethings/page/views.py:4801
+#: allthethings/page/views.py:4807
 #, fuzzy
 msgid "common.record_sources_mapping.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:4802
+#: allthethings/page/views.py:4808
 #, fuzzy
 msgid "common.record_sources_mapping.zlib"
 msgstr "Z-Library"
 
-#: allthethings/page/views.py:4803
+#: allthethings/page/views.py:4809
 #, fuzzy
 msgid "common.record_sources_mapping.ia"
 msgstr "IA"
 
-#: allthethings/page/views.py:4804
+#: allthethings/page/views.py:4810
 #, fuzzy
 msgid "common.record_sources_mapping.isbndb"
 msgstr "ISBNdb"
 
-#: allthethings/page/views.py:4805
+#: allthethings/page/views.py:4811
 #, fuzzy
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
-#: allthethings/page/views.py:4806
+#: allthethings/page/views.py:4812
 #, fuzzy
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
 
-#: allthethings/page/views.py:4807
+#: allthethings/page/views.py:4813
 #, fuzzy
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
-#: allthethings/page/views.py:4808
+#: allthethings/page/views.py:4814
 #, fuzzy
 msgid "common.record_sources_mapping.duxiu"
 msgstr "DuXiu 读秀"
 
-#: allthethings/page/views.py:4809
+#: allthethings/page/views.py:4815
 #, fuzzy
 msgid "common.record_sources_mapping.uploads"
 msgstr "Mba'apoha AA-pe"
 
-#: allthethings/page/views.py:4815
+#: allthethings/page/views.py:4821
 #, fuzzy
 msgid "common.specific_search_fields.title"
 msgstr "Téra"
 
-#: allthethings/page/views.py:4816
+#: allthethings/page/views.py:4822
 #, fuzzy
 msgid "common.specific_search_fields.author"
 msgstr "Mba'epu'apohára"
 
-#: allthethings/page/views.py:4817
+#: allthethings/page/views.py:4823
 #, fuzzy
 msgid "common.specific_search_fields.publisher"
 msgstr "Mbo'ehaoguasu"
 
-#: allthethings/page/views.py:4818
+#: allthethings/page/views.py:4824
 #, fuzzy
 msgid "common.specific_search_fields.edition_varia"
 msgstr "Ñe'ẽmbo'e"
 
-#: allthethings/page/views.py:4819
+#: allthethings/page/views.py:4825
 #, fuzzy
 msgid "common.specific_search_fields.year"
 msgstr "Ary osẽva'ekue"
 
-#: allthethings/page/views.py:4820
+#: allthethings/page/views.py:4826
 #, fuzzy
 msgid "common.specific_search_fields.original_filename"
 msgstr "Téra ypykue"
 
-#: allthethings/page/views.py:4821
+#: allthethings/page/views.py:4827
 #, fuzzy
 msgid "common.specific_search_fields.description_comments"
 msgstr "Moñe'ẽha ha marandu myatyrõ"
 
-#: allthethings/page/views.py:4846
+#: allthethings/page/views.py:4852
 #, fuzzy
 msgid "common.md5.servers.fast_partner"
 msgstr "Mba'epu'aty Pya'eha # %(number)s"
 
-#: allthethings/page/views.py:4846
+#: allthethings/page/views.py:4852
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification_or_waitlists"
 msgstr "(ndaipóri ñemoneĩha térã ñema'ẽrõ)"
 
-#: allthethings/page/views.py:4849 allthethings/page/views.py:4851
+#: allthethings/page/views.py:4855 allthethings/page/views.py:4857
 #, fuzzy
 msgid "common.md5.servers.slow_partner"
 msgstr "Mba'epu'aty Kangy # %(number)s"
 
-#: allthethings/page/views.py:4849
+#: allthethings/page/views.py:4855
 #, fuzzy
 msgid "common.md5.servers.faster_with_waitlist"
 msgstr "(haimete pya'eve ha oĩ ñema'ẽrõ)"
 
-#: allthethings/page/views.py:4851
+#: allthethings/page/views.py:4857
 #, fuzzy
 msgid "common.md5.servers.slow_no_waitlist"
 msgstr "(ndaipóri ñema'ẽrõ, ikatu kangyiterei)"
 
-#: allthethings/page/views.py:4940
+#: allthethings/page/views.py:4946
 #, fuzzy
 msgid "page.md5.box.descr_title"
 msgstr "moñe'ẽha"
 
-#: allthethings/page/views.py:4941
+#: allthethings/page/views.py:4947
 #, fuzzy
 msgid "page.md5.box.metadata_comments_title"
 msgstr "marandu myatyrõ"
 
-#: allthethings/page/views.py:4942
+#: allthethings/page/views.py:4948
 #, fuzzy
 msgid "page.md5.box.alternative_title"
 msgstr "Téra ambue"
 
-#: allthethings/page/views.py:4943
+#: allthethings/page/views.py:4949
 #, fuzzy
 msgid "page.md5.box.alternative_author"
 msgstr "Mba'epu'apohára ambue"
 
-#: allthethings/page/views.py:4944
+#: allthethings/page/views.py:4950
 #, fuzzy
 msgid "page.md5.box.alternative_publisher"
 msgstr "Mbo'ehaoguasu ambue"
 
-#: allthethings/page/views.py:4945
+#: allthethings/page/views.py:4951
 #, fuzzy
 msgid "page.md5.box.alternative_edition"
 msgstr "Ñe'ẽmbo'e ambue"
 
-#: allthethings/page/views.py:4946
+#: allthethings/page/views.py:4952
 #, fuzzy
 msgid "page.md5.box.alternative_description"
 msgstr "Moñe'ẽha ambue"
 
-#: allthethings/page/views.py:4947
+#: allthethings/page/views.py:4953
 #, fuzzy
 msgid "page.md5.box.alternative_filename"
 msgstr "Téra ypykue ambue"
 
-#: allthethings/page/views.py:4948
+#: allthethings/page/views.py:4954
 #, fuzzy
 msgid "page.md5.box.alternative_extension"
 msgstr "Extensión alternativa"
 
-#: allthethings/page/views.py:4949
+#: allthethings/page/views.py:4955
 #, fuzzy
 msgid "page.md5.box.date_open_sourced_title"
 msgstr "fecha de código abierto"
 
-#: allthethings/page/views.py:4985
+#: allthethings/page/views.py:4991
 #, fuzzy
 msgid "page.md5.box.download.temporarily_unavailable"
 msgstr "Las descargas del Servidor Asociado no están disponibles temporalmente para este archivo."
 
-#: allthethings/page/views.py:4989 allthethings/page/views.py:5172
+#: allthethings/page/views.py:4995 allthethings/page/views.py:5178
 #, fuzzy
 msgid "page.md5.box.download.scihub"
 msgstr "Sci-Hub: %(doi)s"
 
-#: allthethings/page/views.py:5063
+#: allthethings/page/views.py:5069
 #, fuzzy
 msgid "page.md5.box.download.lgrsnf"
 msgstr "Libgen.rs No Ficción"
 
-#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
-#: allthethings/page/views.py:5123
+#: allthethings/page/views.py:5069 allthethings/page/views.py:5082
+#: allthethings/page/views.py:5129
 #, fuzzy
 msgid "page.md5.box.download.extra_also_click_get"
 msgstr "(también haga clic en “OBTENER” en la parte superior)"
 
-#: allthethings/page/views.py:5063 allthethings/page/views.py:5076
-#: allthethings/page/views.py:5123
+#: allthethings/page/views.py:5069 allthethings/page/views.py:5082
+#: allthethings/page/views.py:5129
 #, fuzzy
 msgid "page.md5.box.download.extra_click_get"
 msgstr "(haga clic en “OBTENER” en la parte superior)"
 
-#: allthethings/page/views.py:5076
+#: allthethings/page/views.py:5082
 #, fuzzy
 msgid "page.md5.box.download.lgrsfic"
 msgstr "Libgen.rs Ficción"
 
-#: allthethings/page/views.py:5123
+#: allthethings/page/views.py:5129
 #, fuzzy
 msgid "page.md5.box.download.lgli"
 msgstr "Libgen.li"
 
-#: allthethings/page/views.py:5123
+#: allthethings/page/views.py:5129
 #, fuzzy
 msgid "page.md5.box.download.libgen_ads"
 msgstr "sus anuncios son conocidos por contener software malicioso, así que use un bloqueador de anuncios o no haga clic en los anuncios"
 
-#: allthethings/page/views.py:5169
+#: allthethings/page/views.py:5175
 #, fuzzy
 msgid "page.md5.box.download.ia_borrow"
 msgstr "Pedir prestado del Internet Archive"
 
-#: allthethings/page/views.py:5169
+#: allthethings/page/views.py:5175
 #, fuzzy
 msgid "page.md5.box.download.print_disabled_only"
 msgstr "(solo para usuarios con discapacidad visual)"
 
-#: allthethings/page/views.py:5172
+#: allthethings/page/views.py:5178
 #, fuzzy
 msgid "page.md5.box.download.scihub_maybe"
 msgstr "(el DOI asociado podría no estar disponible en Sci-Hub)"
 
-#: allthethings/page/views.py:5178
+#: allthethings/page/views.py:5184
 #, fuzzy
 msgid "page.md5.box.download.collection"
 msgstr "colección"
 
-#: allthethings/page/views.py:5179
+#: allthethings/page/views.py:5185
 #, fuzzy
 msgid "page.md5.box.download.torrent"
 msgstr "torrent"
 
-#: allthethings/page/views.py:5185
+#: allthethings/page/views.py:5191
 #, fuzzy
 msgid "page.md5.box.download.bulk_torrents"
 msgstr "Descargas masivas de torrents"
 
-#: allthethings/page/views.py:5185
+#: allthethings/page/views.py:5191
 #, fuzzy
 msgid "page.md5.box.download.experts_only"
 msgstr "(solo para expertos)"
 
-#: allthethings/page/views.py:5192
+#: allthethings/page/views.py:5198
 #, fuzzy
 msgid "page.md5.box.download.aa_isbn"
 msgstr "Buscar en el Archivo de Anna por ISBN"
 
-#: allthethings/page/views.py:5193
+#: allthethings/page/views.py:5199
 #, fuzzy
 msgid "page.md5.box.download.other_isbn"
 msgstr "Buscar en varias otras bases de datos por ISBN"
 
-#: allthethings/page/views.py:5195
+#: allthethings/page/views.py:5201
 #, fuzzy
 msgid "page.md5.box.download.original_isbndb"
 msgstr "Encontrar el registro original en ISBNdb"
 
-#: allthethings/page/views.py:5197
+#: allthethings/page/views.py:5203
 #, fuzzy
 msgid "page.md5.box.download.aa_openlib"
 msgstr "Buscar en el Archivo de Anna por ID de Open Library"
 
-#: allthethings/page/views.py:5199
+#: allthethings/page/views.py:5205
 #, fuzzy
 msgid "page.md5.box.download.original_openlib"
 msgstr "Encontrar el registro original en Open Library"
 
-#: allthethings/page/views.py:5201
+#: allthethings/page/views.py:5207
 #, fuzzy
 msgid "page.md5.box.download.aa_oclc"
 msgstr "Buscar en el Archivo de Anna por número OCLC (WorldCat)"
 
-#: allthethings/page/views.py:5202
+#: allthethings/page/views.py:5208
 #, fuzzy
 msgid "page.md5.box.download.original_oclc"
 msgstr "Encontrar el registro original en WorldCat"
 
-#: allthethings/page/views.py:5204
+#: allthethings/page/views.py:5210
 #, fuzzy
 msgid "page.md5.box.download.aa_duxiu"
 msgstr "Buscar en el Archivo de Anna por número SSID de DuXiu"
 
-#: allthethings/page/views.py:5205
+#: allthethings/page/views.py:5211
 #, fuzzy
 msgid "page.md5.box.download.original_duxiu"
 msgstr "Buscar manualmente en DuXiu"
 
-#: allthethings/page/views.py:5207
+#: allthethings/page/views.py:5213
 #, fuzzy
 msgid "page.md5.box.download.aa_cadal"
 msgstr "Buscar en el Archivo de Anna por número SSNO de CADAL"
 
-#: allthethings/page/views.py:5208
+#: allthethings/page/views.py:5214
 #, fuzzy
 msgid "page.md5.box.download.original_cadal"
 msgstr "Encontrar el registro original en CADAL"
 
-#: allthethings/page/views.py:5212
+#: allthethings/page/views.py:5218
 #, fuzzy
 msgid "page.md5.box.download.aa_dxid"
 msgstr "Buscar en el Archivo de Anna por número DXID de DuXiu"
 
-#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
+#: allthethings/page/views.py:5223 allthethings/page/views.py:5224
 #, fuzzy
 msgid "page.md5.box.download.scidb"
 msgstr "Archivo de Anna 🧬 SciDB"
 
-#: allthethings/page/views.py:5217 allthethings/page/views.py:5218
+#: allthethings/page/views.py:5223 allthethings/page/views.py:5224
 #, fuzzy
 msgid "common.md5.servers.no_browser_verification"
 msgstr "(no se requiere verificación del navegador)"
@@ -2144,6 +2173,11 @@ msgstr "Mejorar metadatos"
 #, fuzzy
 msgid "page.md5.box.descr_read_more"
 msgstr "Leer más…"
+
+#: allthethings/page/templates/page/aarecord.html:92
+#, fuzzy
+msgid "page.md5.codes.url"
+msgstr "URL:"
 
 #: allthethings/page/templates/page/aarecord.html:93
 #, fuzzy
@@ -2308,6 +2342,11 @@ msgstr "Apoya a las bibliotecas: Si esto está disponible en tu biblioteca local
 #, fuzzy
 msgid "page.md5.box.download.header_slow"
 msgstr "🐢 Descargas lentas y externas"
+
+#: allthethings/page/templates/page/aarecord.html:270
+#, fuzzy
+msgid "page.md5.box.download.header_external"
+msgstr "Descargas externas"
 
 #: allthethings/page/templates/page/aarecord.html:272
 #, fuzzy
@@ -3012,6 +3051,11 @@ msgstr "Abierto"
 msgid "page.home.scidb.browser_verification"
 msgstr "Si eres <a %(a_member)s>miembro</a>, no se requiere verificación del navegador."
 
+#: allthethings/page/templates/page/home.html:43
+#, fuzzy
+msgid "page.home.archive.header"
+msgstr "Archivo a largo plazo"
+
 #: allthethings/page/templates/page/home.html:46
 #, fuzzy
 msgid "page.home.archive.body"
@@ -3172,6 +3216,11 @@ msgstr "¡Gracias por esperar, esto mantiene el sitio web accesible de forma gra
 #, fuzzy
 msgid "page.partner_download.url"
 msgstr "📚 Use la siguiente URL para descargar: <a %(a_download)s>Descargar ahora</a>."
+
+#: allthethings/page/templates/page/partner_download.html:73
+#, fuzzy
+msgid "page.partner_download.download_now"
+msgstr "Descargar ahora"
 
 #: allthethings/page/templates/page/partner_download.html:79
 #, fuzzy
@@ -3354,6 +3403,12 @@ msgstr "Más antiguo"
 
 #: allthethings/page/templates/page/search.html:95
 #: allthethings/page/templates/page/search.html:207
+#, fuzzy
+msgid "page.search.filters.sorting.largest"
+msgstr "Más grande"
+
+#: allthethings/page/templates/page/search.html:95
+#: allthethings/page/templates/page/search.html:207
 #: allthethings/page/templates/page/search.html:208
 #, fuzzy
 msgid "page.search.filters.sorting.note_filesize"
@@ -3431,6 +3486,11 @@ msgstr "raspado y de código abierto por AA"
 #, fuzzy
 msgid "page.search.filters.sorting.most_relevant"
 msgstr "Más relevante"
+
+#: allthethings/page/templates/page/search.html:219
+#, fuzzy
+msgid "page.search.more"
+msgstr "más…"
 
 #: allthethings/page/templates/page/search.html:228
 #, fuzzy
@@ -3571,6 +3631,11 @@ msgstr "%(num)d+ coincidencias parciales"
 msgid "page.search.results.partial"
 msgstr "%(num)d coincidencias parciales"
 
+#: allthethings/templates/layouts/index.html:4
+#, fuzzy
+msgid "layout.index.title"
+msgstr "Archivo de Anna"
+
 #: allthethings/templates/layouts/index.html:13
 #, fuzzy
 msgid "layout.index.meta.description"
@@ -3664,6 +3729,30 @@ msgstr "FAQ"
 msgid "layout.index.header.nav.improve_metadata"
 msgstr "Mba'ekuaa ñemoporãve"
 
+#: allthethings/templates/layouts/index.html:451
+#: allthethings/templates/layouts/index.html:464
+#: allthethings/templates/layouts/index.html:479
+#: allthethings/templates/layouts/index.html:572
+#, fuzzy
+msgid "layout.index.header.nav.volunteering"
+msgstr "Voluntariado & Recompensas"
+
+#: allthethings/templates/layouts/index.html:452
+#: allthethings/templates/layouts/index.html:465
+#: allthethings/templates/layouts/index.html:480
+#: allthethings/templates/layouts/index.html:573
+#, fuzzy
+msgid "layout.index.header.nav.datasets"
+msgstr "Datasets"
+
+#: allthethings/templates/layouts/index.html:453
+#: allthethings/templates/layouts/index.html:466
+#: allthethings/templates/layouts/index.html:481
+#: allthethings/templates/layouts/index.html:574
+#, fuzzy
+msgid "layout.index.header.nav.torrents"
+msgstr "Torrents"
+
 #: allthethings/templates/layouts/index.html:454
 #: allthethings/templates/layouts/index.html:467
 #: allthethings/templates/layouts/index.html:482
@@ -3687,6 +3776,12 @@ msgstr "LLM data"
 #, fuzzy
 msgid "layout.index.header.nav.home"
 msgstr "Róga"
+
+#: allthethings/templates/layouts/index.html:485
+#: allthethings/templates/layouts/index.html:564
+#, fuzzy
+msgid "layout.index.header.nav.annassoftware"
+msgstr "Anna Rembiapo ↗"
 
 #: allthethings/templates/layouts/index.html:486
 #: allthethings/templates/layouts/index.html:565
@@ -3790,108 +3885,3 @@ msgstr "…"
 msgid "page.search.pagination.next"
 msgstr "Siguiente"
 
-#: allthethings/app.py:201
-#, fuzzy
-msgid "layout.index.invalid_request"
-msgstr "Solicitud inválida. Visite %(websites)s."
-
-#: allthethings/app.py:262
-#, fuzzy
-msgid "layout.index.header.tagline_scihub"
-msgstr "Sci-Hub"
-
-#: allthethings/app.py:263
-#, fuzzy
-msgid "layout.index.header.tagline_libgen"
-msgstr "Libgen"
-
-#: allthethings/app.py:264
-#, fuzzy
-msgid "layout.index.header.tagline_zlib"
-msgstr "Z-Lib"
-
-#: allthethings/app.py:265
-#, fuzzy
-msgid "layout.index.header.tagline_openlib"
-msgstr "OpenLib"
-
-#: allthethings/account/templates/account/donate.html:140
-#, fuzzy
-msgid "page.donate.payment.buttons.pix"
-msgstr "Pix (Brazil)"
-
-#: allthethings/account/templates/account/donate.html:188
-#, fuzzy
-msgid "page.donate.payment.buttons.temporarily_unavailable"
-msgstr "(temporalmente no disponible)"
-
-#: allthethings/account/templates/account/donation.html:84
-#, fuzzy
-msgid "page.donation.payment.crypto.top_header"
-msgstr "Crypto marandu"
-
-#: allthethings/page/templates/page/aarecord.html:92
-#, fuzzy
-msgid "page.md5.codes.url"
-msgstr "URL:"
-
-#: allthethings/page/templates/page/aarecord.html:270
-#, fuzzy
-msgid "page.md5.box.download.header_external"
-msgstr "Descargas externas"
-
-#: allthethings/page/templates/page/home.html:43
-#, fuzzy
-msgid "page.home.archive.header"
-msgstr "Archivo a largo plazo"
-
-#: allthethings/page/templates/page/partner_download.html:73
-#, fuzzy
-msgid "page.partner_download.download_now"
-msgstr "Descargar ahora"
-
-#: allthethings/page/templates/page/search.html:95
-#: allthethings/page/templates/page/search.html:207
-#, fuzzy
-msgid "page.search.filters.sorting.largest"
-msgstr "Más grande"
-
-#: allthethings/page/templates/page/search.html:219
-#, fuzzy
-msgid "page.search.more"
-msgstr "más…"
-
-#: allthethings/templates/layouts/index.html:4
-#, fuzzy
-msgid "layout.index.title"
-msgstr "Archivo de Anna"
-
-#: allthethings/templates/layouts/index.html:451
-#: allthethings/templates/layouts/index.html:464
-#: allthethings/templates/layouts/index.html:479
-#: allthethings/templates/layouts/index.html:572
-#, fuzzy
-msgid "layout.index.header.nav.volunteering"
-msgstr "Voluntariado & Recompensas"
-
-#: allthethings/templates/layouts/index.html:452
-#: allthethings/templates/layouts/index.html:465
-#: allthethings/templates/layouts/index.html:480
-#: allthethings/templates/layouts/index.html:573
-#, fuzzy
-msgid "layout.index.header.nav.datasets"
-msgstr "Datasets"
-
-#: allthethings/templates/layouts/index.html:453
-#: allthethings/templates/layouts/index.html:466
-#: allthethings/templates/layouts/index.html:481
-#: allthethings/templates/layouts/index.html:574
-#, fuzzy
-msgid "layout.index.header.nav.torrents"
-msgstr "Torrents"
-
-#: allthethings/templates/layouts/index.html:485
-#: allthethings/templates/layouts/index.html:564
-#, fuzzy
-msgid "layout.index.header.nav.annassoftware"
-msgstr "Anna Rembiapo ↗"
