@@ -483,7 +483,11 @@ MEMBERSHIP_MAX_BONUS_DOWNLOADS = 10000
 MEMBERSHIP_EXCHANGE_RATE_RMB = 7.25
 
 def get_is_membership_double():
-    return datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m") == '2024-08'
+    now = datetime.datetime.now(tz=datetime.timezone.utc)
+    return now.strftime("%Y-%m") == '2024-08'
+def get_is_membership_double_with_leeway():
+    now = datetime.datetime.now(tz=datetime.timezone.utc)
+    return get_is_membership_double() or (now.strftime("%Y-%m") == '2024-09' and now.day <= 4)
 
 def get_account_fast_download_info(mariapersist_session, account_id):
     mariapersist_session.connection().connection.ping(reconnect=True)
@@ -680,7 +684,8 @@ def confirm_membership(cursor, donation_id, data_key, data_value):
     #     bonus_downloads = MEMBERSHIP_BONUSDOWNLOADS_PER_DAY[str(new_tier)]
 
     donation_json[data_key] = data_value
-    cursor.execute('INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration, from_donation_id, bonus_downloads) VALUES (%(account_id)s, %(membership_tier)s, %(membership_expiration)s, %(donation_id)s, %(bonus_downloads)s)', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'], 'donation_id': donation_id, 'bonus_downloads': bonus_downloads })
+    for inserts in ([1,2] if get_is_membership_double_with_leeway() else [1]):
+        cursor.execute('INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration, from_donation_id, bonus_downloads) VALUES (%(account_id)s, %(membership_tier)s, %(membership_expiration)s, %(donation_id)s, %(bonus_downloads)s)', { 'membership_tier': new_tier, 'membership_expiration': new_membership_expiration, 'account_id': donation['account_id'], 'donation_id': donation_id, 'bonus_downloads': bonus_downloads })
     # if (ref_account_dict is not None) and (bonus_downloads > 0):
     #     cursor.execute('INSERT INTO mariapersist_memberships (account_id, membership_tier, membership_expiration, from_donation_id, bonus_downloads) VALUES (%(account_id)s, 1, %(membership_expiration)s, %(donation_id)s, %(bonus_downloads)s)', { 'membership_expiration': new_membership_expiration, 'account_id': ref_account_dict['account_id'], 'donation_id': donation_id, 'bonus_downloads': bonus_downloads })
     cursor.execute('UPDATE mariapersist_donations SET json=%(json)s, processing_status=1, paid_timestamp=NOW() WHERE donation_id = %(donation_id)s LIMIT 1', { 'donation_id': donation_id, 'json': orjson.dumps(donation_json) })
