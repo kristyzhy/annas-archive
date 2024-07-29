@@ -1961,8 +1961,6 @@ msgstr "All download options have the same file, and should be safe to use. That
 #: allthethings/page/templates/page/datasets_zlib.html:7
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
-#: allthethings/page/templates/page/metadata.html:6
-#: allthethings/page/templates/page/metadata.html:7
 #: allthethings/page/templates/page/mirrors.html:7
 #: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/torrents.html:26
@@ -2590,6 +2588,119 @@ msgstr "Please <a %(a_account)s>login</a> to view this page.</a>"
 #: allthethings/page/templates/page/maintenance.html:13
 msgid "page.maintenance.header"
 msgstr "Anna’s Archive is temporarily down for maintenance. Please come back in an hour."
+
+#: allthethings/page/templates/page/metadata.html:4
+#: allthethings/page/templates/page/metadata.html:9
+msgid "page.metadata.header"
+msgstr "Improve metadata"
+
+#: allthethings/page/templates/page/metadata.html:12
+msgid "page.metadata.body1"
+msgstr "You can help out preservation of books by improving metadata! First, read the background about metadata on Anna’s Archive, and then learn how to improve metadata through linking with Open Library, and earn free membership on Anna’s Archive."
+
+#: allthethings/page/templates/page/metadata.html:15
+msgid "page.metadata.background.title"
+msgstr "Background"
+
+#: allthethings/page/templates/page/metadata.html:18
+msgid "page.metadata.background.body1"
+msgstr "When you look at a book on Anna’s Archive, you can see various fields: title, author, publisher, edition, year, description, filename, and more. All those pieces of information are called <em>metadata</em>."
+
+#: allthethings/page/templates/page/metadata.html:22
+msgid "page.metadata.background.body2"
+msgstr "Since we combine books from various <em>source libraries</em>, we show whatever metadata is available in that source library. For example, for a book that we got from Library Genesis, we’ll show the title from Library Genesis’ database."
+
+#: allthethings/page/templates/page/metadata.html:26
+msgid "page.metadata.background.body3"
+msgstr "Sometimes a book is present in <em>multiple</em> source libraries, which might have different metadata fields. In that case, we simply show the longest version of each field, since that one hopefully contains the most useful information! We’ll still show the other fields below the description, e.g. as ”alternative title” (but only if they are different)."
+
+#: allthethings/page/templates/page/metadata.html:30
+msgid "page.metadata.background.body4"
+msgstr "We also extract <em>codes</em> such as identifiers and classifiers from the source library. <em>Identifiers</em> uniquely represent a particular edition of a book; examples are ISBN, DOI, Open Library ID, Google Books ID, or Amazon ID. <em>Classifiers</em> group together multiple similar books; examples are Dewey Decimal (DCC), UDC, LCC, RVK, or GOST. Sometimes these codes are explicitly linked in source libraries, and sometimes we can extract them from the filename or description (primarily ISBN and DOI)."
+
+#: allthethings/page/templates/page/metadata.html:34
+msgid "page.metadata.background.body5"
+msgstr "We can use identifiers to find records in <em>metadata-only collections</em>, such as OpenLibrary, ISBNdb, or WorldCat/OCLC. There is a specific <em>metadata tab</em> in our search engine if you’d like to browse those collections. We use matching records to fill in missing metadata fields (e.g. if a title is missing), or e.g. as “alternative title” (if there is an existing title)."
+
+#: allthethings/page/templates/page/metadata.html:39
+msgid "page.metadata.background.body6"
+msgstr "To see exactly where metadata of a book came from, see the <em>“Technical details” tab</em> on a book page. It has a link to the raw JSON for that book, with pointers to the raw JSON of the original records."
+
+#: allthethings/page/templates/page/metadata.html:44
+msgid "page.metadata.background.body7"
+msgstr "For more information, see the following pages: <a %(a_datasets)s>Datasets</a>, <a %(a_search_metadata)s>Search (metadata tab)</a>, <a %(a_codes)s>Codes Explorer</a>, and <a %(a_example)s>Example metadata JSON</a>. Finally, all our metadata can be <a %(a_generated)s>generated</a> or <a %(a_downloaded)s>downloaded</a> as ElasticSearch and MariaDB databases."
+
+#: allthethings/page/templates/page/metadata.html:56
+msgid "page.metadata.openlib.title"
+msgstr "Open Library linking"
+
+#: allthethings/page/templates/page/metadata.html:59
+msgid "page.metadata.openlib.body1"
+msgstr "So if you encounter a file with bad metadata, how should you fix it? You can go to the source library and follow its procedures for fixing metadata, but what to do if a file is present in multiple source libraries?"
+
+#: allthethings/page/templates/page/metadata.html:63
+msgid "page.metadata.openlib.body2"
+msgstr "There is one identifier that is treated special on Anna’s Archive. <strong>The annas_archive md5 field on Open Library always overrides all other metadata!</strong> Let’s back up a bit first and learn about Open Library."
+
+#: allthethings/page/templates/page/metadata.html:67
+msgid "page.metadata.openlib.body3"
+msgstr "Open Library was founded in 2006 by Aaron Swartz with the goal of “one web page for every book ever published”. It is kind of a Wikipedia for book metadata: everyone can edit it, it is freely licensed, and can be downloaded in bulk. It’s a book database that is most aligned with our mission — in fact, Anna’s Archive has been inspired by Aaron Swartz’ vision and life."
+
+#: allthethings/page/templates/page/metadata.html:71
+msgid "page.metadata.openlib.body4"
+msgstr "Instead of reinventing the wheel, we decided to redirect our volunteers towards Open Library. If you see a book that has incorrect metadata, you can help out in the following way:"
+
+#: allthethings/page/templates/page/metadata.html:75
+msgid "page.metadata.openlib.howto.item.1"
+msgstr " Go to the <a %(a_openlib)s>Open Library website</a>."
+
+#: allthethings/page/templates/page/metadata.html:76
+msgid "page.metadata.openlib.howto.item.2"
+msgstr "Find the correct book record. <strong>WARNING:</strong> be sure to select the correct <strong>edition</strong>. In Open Library, you have “works” and “editions”."
+
+#: allthethings/page/templates/page/metadata.html:78
+msgid "page.metadata.openlib.howto.item.2.1"
+msgstr "A “work” could be “Harry Potter and the Philosopher's Stone”."
+
+#: allthethings/page/templates/page/metadata.html:79
+msgid "page.metadata.openlib.howto.item.2.2"
+msgstr "An “edition” could be:"
+
+#: allthethings/page/templates/page/metadata.html:81
+msgid "page.metadata.openlib.howto.item.2.2.1"
+msgstr "The 1997 first edition published by Bloomsbery with 256 pages."
+
+#: allthethings/page/templates/page/metadata.html:82
+msgid "page.metadata.openlib.howto.item.2.2.2"
+msgstr "The 2003 paperback edition published by Raincoast Books with 223 pages."
+
+#: allthethings/page/templates/page/metadata.html:83
+msgid "page.metadata.openlib.howto.item.2.2.3"
+msgstr "The 2000 Polish translation “Harry Potter I Kamie Filozoficzn” by Media Rodzina with 328 pages."
+
+#: allthethings/page/templates/page/metadata.html:86
+msgid "page.metadata.openlib.howto.item.2.3"
+msgstr "All of those editions have different ISBNs and different contents, so be sure to select the right one!"
+
+#: allthethings/page/templates/page/metadata.html:89
+msgid "page.metadata.openlib.howto.item.3"
+msgstr "Edit the record (or create it if none exist), and add as much as useful information as you can! You’re here now anyway, might as well make the record really amazing."
+
+#: allthethings/page/templates/page/metadata.html:90
+msgid "page.metadata.openlib.howto.item.4"
+msgstr "Under “ID Numbers” select “Anna’s Archive” and add the MD5 of the book from Anna’s Archive. This is the long string of letters and numbers after “/md5/” in the URL."
+
+#: allthethings/page/templates/page/metadata.html:92
+msgid "page.metadata.openlib.howto.item.4.1"
+msgstr "Try to find other files in Anna’s Archive that also match this record, and add those as well. In the future we can group those as duplicates on Anna’s Archive search page."
+
+#: allthethings/page/templates/page/metadata.html:95
+msgid "page.metadata.openlib.howto.item.5"
+msgstr "When you’re done, write down the URL that you just updated. Once you’ve updated at least 30 records with Anna’s Archive MD5s, send us an <a %(a_contact)s>email</a> and send us the list. We’ll give you a free membership for Anna’s Archive, so you can more easily do this work (and as a thank you for your help). These have to be high quality edits that add substantial amounts of information, otherwise your request will be rejected. Your request will also be rejected if any of the edits get reverted or corrected by Open Library moderators."
+
+#: allthethings/page/templates/page/metadata.html:99
+msgid "page.metadata.openlib.body5"
+msgstr "Note that this only works for books, not academic papers or other types of files. For other types of files we still recommend finding the source library. It might take a few weeks for changes to be included in Anna’s Archive, since we need to download the latest Open Library data dump, and regenerate our search index."
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
