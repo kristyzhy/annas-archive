@@ -311,9 +311,9 @@ msgstr "للتبرّعات التي تزيد عن 5000 دولارًا، راسل
 #: allthethings/page/templates/page/faq.html:121
 #: allthethings/page/templates/page/faq.html:129
 #: allthethings/page/templates/page/faq.html:153
-#: allthethings/page/templates/page/home.html:83
-#: allthethings/page/templates/page/home.html:88
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:82
+#: allthethings/page/templates/page/home.html:90
 #: allthethings/page/templates/page/search.html:247
 #: allthethings/page/templates/page/search.html:324
 #: allthethings/templates/layouts/index.html:228
@@ -1921,10 +1921,10 @@ msgid "layout.index.header.banner.refer"
 msgstr "اذكر صديقًا لك ووتحصلان كلاكما على %(percentage)s تنزيلات سريعة إضافية!"
 
 #: allthethings/page/templates/page/aarecord.html:235
-#: allthethings/page/templates/page/home.html:30
-#: allthethings/page/templates/page/home.html:40
-#: allthethings/page/templates/page/home.html:77
-#: allthethings/page/templates/page/home.html:126
+#: allthethings/page/templates/page/home.html:25
+#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:71
+#: allthethings/page/templates/page/home.html:120
 #: allthethings/page/templates/page/search.html:259
 #: allthethings/page/templates/page/search.html:316
 #: allthethings/templates/layouts/index.html:250
@@ -2026,8 +2026,6 @@ msgstr "كلّ خيارات التنزيل آمنة وبها نفس الملف. 
 #: allthethings/page/templates/page/datasets_zlib.html:7
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
-#: allthethings/page/templates/page/metadata.html:6
-#: allthethings/page/templates/page/metadata.html:7
 #: allthethings/page/templates/page/mirrors.html:7
 #: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/torrents.html:26
@@ -2228,6 +2226,10 @@ msgstr "11. نتطلع لوضع إعلانات صغيرة وجميلة غير م
 #: allthethings/page/templates/page/faq.html:97
 msgid "page.faq.help.mirrors"
 msgstr "نُقدّر من ينقل موقعنا و<a %(a_mirrors)s>يُظهر</a> ما فيه، وسندعم كلّ من استطاع ماليًا."
+
+#: allthethings/page/templates/page/faq.html:100
+msgid "page.faq.slow.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:103
 #, fuzzy
@@ -2584,91 +2586,91 @@ msgstr "مجمع البيانات العلمية"
 msgid "layout.index.header.nav.beta"
 msgstr "تجريبي"
 
-#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/home.html:22
+#: allthethings/page/templates/page/scidb_home.html:9
 #: allthethings/page/templates/page/search.html:257
 #: allthethings/page/templates/page/search.html:314
 msgid "page.home.scidb.scihub_paused"
 msgstr "<a %(a_paused)s>أجّل</a> مجمع العلوم رفع أوراق جديدة."
 
-#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/home.html:23
 #: allthethings/page/templates/page/search.html:258
 #: allthethings/page/templates/page/search.html:315
 msgid "page.home.scidb.continuation"
 msgstr "🧬&nbsp;مجمع العلوم متصل بمجمع البيانات العلمية."
 
-#: allthethings/page/templates/page/home.html:29
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:24
 msgid "page.home.scidb.subtitle"
 msgstr "وصول مباشر إلى %(count)s ورقة أكاديمية"
 
-#: allthethings/page/templates/page/home.html:36
+#: allthethings/page/templates/page/home.html:30
 #: allthethings/page/templates/page/scidb_home.html:19
 msgid "page.home.scidb.placeholder_doi"
 msgstr "معرّف الأغراض الرقمي"
 
-#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/home.html:31
 #: allthethings/page/templates/page/scidb_home.html:20
 msgid "page.home.scidb.open"
 msgstr "افتح"
 
-#: allthethings/page/templates/page/home.html:39
+#: allthethings/page/templates/page/home.html:33
 msgid "page.home.scidb.browser_verification"
 msgstr "لا يلزم التحقق من متصفحك إن كنت <a %(a_member)s>مشتركًا</a>."
 
-#: allthethings/page/templates/page/home.html:43
+#: allthethings/page/templates/page/home.html:37
 msgid "page.home.archive.header"
 msgstr "ربيدة طويلة الأمد"
 
-#: allthethings/page/templates/page/home.html:46
+#: allthethings/page/templates/page/home.html:40
 msgid "page.home.archive.body"
 msgstr "مجمع البيانات المستخدمة في رَبيدة آنا مفتوحة كلّها، ويمكن عكس وإظهار ما فيها وتوزيعه بالتورنت. <a %(a_datasets)s>اعرف أكثر…</a>"
 
-#: allthethings/page/templates/page/home.html:50
+#: allthethings/page/templates/page/home.html:44
 msgid "page.home.torrents.body"
 msgstr "ساعد بتوزيع ومشاركة ملفات التورنت. <a %(a_torrents)s>اعرف أكثر…</a>"
 
-#: allthethings/page/templates/page/home.html:53
+#: allthethings/page/templates/page/home.html:47
 #: allthethings/page/templates/page/torrents.html:86
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s موزع"
 
-#: allthethings/page/templates/page/home.html:54
+#: allthethings/page/templates/page/home.html:48
 #: allthethings/page/templates/page/torrents.html:87
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s موزع"
 
-#: allthethings/page/templates/page/home.html:55
+#: allthethings/page/templates/page/home.html:49
 #: allthethings/page/templates/page/torrents.html:88
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s موزع"
 
-#: allthethings/page/templates/page/home.html:67
+#: allthethings/page/templates/page/home.html:61
 msgid "page.home.llm.header"
 msgstr "موارد تدريب النموذج اللغوي الكبير"
 
-#: allthethings/page/templates/page/home.html:70
+#: allthethings/page/templates/page/home.html:64
 msgid "page.home.llm.body"
 msgstr "عندنا أكبر مجموعة في العالم من النصوص عالية الجودة. <a %(a_llm)s>اعرف أكثر…</a>"
 
-#: allthethings/page/templates/page/home.html:73
+#: allthethings/page/templates/page/home.html:67
 msgid "page.home.mirrors.header"
 msgstr "🪩 المرايا: نداء للتطوع"
 
-#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/home.html:69
 #, fuzzy
 msgid "page.home.volunteering.header"
 msgstr "🤝 نبحث عن متطوعين"
 
-#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:71
 #, fuzzy
 msgid "page.home.volunteering.help_out"
 msgstr "كمشروع غير ربحي ومفتوح المصدر، نحن دائمًا نبحث عن أشخاص للمساعدة."
 
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:90
 msgid "page.home.payment_processor.body"
 msgstr "راسلنا إن كنت تُدير وسيلة دفع لا يُعرف بها الدافع. وإننا نبحث عن من يُريد نشر إعلانٍ صغير جميل على موقعنا. وكلّ العوائد تُصب للحفاظ على ما نحفظ هنا."
 
-#: allthethings/page/templates/page/home.html:104
+#: allthethings/page/templates/page/home.html:98
 #: allthethings/templates/layouts/index.html:493
 #: allthethings/templates/layouts/index.html:572
 msgid "layout.index.header.nav.annasblog"
@@ -2716,6 +2718,119 @@ msgstr "<a %(a_account)s>سجّل دخولك</a> لرؤية هذه الصفحة.
 #, fuzzy
 msgid "page.maintenance.header"
 msgstr "رَبيدةُ آنّا متوقفة مؤقتًا للصيانة. يرجى العودة بعد ساعة."
+
+#: allthethings/page/templates/page/metadata.html:4
+#: allthethings/page/templates/page/metadata.html:9
+msgid "page.metadata.header"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:12
+msgid "page.metadata.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:15
+msgid "page.metadata.background.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:18
+msgid "page.metadata.background.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:22
+msgid "page.metadata.background.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:26
+msgid "page.metadata.background.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:30
+msgid "page.metadata.background.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:34
+msgid "page.metadata.background.body5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:39
+msgid "page.metadata.background.body6"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:44
+msgid "page.metadata.background.body7"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:56
+msgid "page.metadata.openlib.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:59
+msgid "page.metadata.openlib.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:63
+msgid "page.metadata.openlib.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:67
+msgid "page.metadata.openlib.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:71
+msgid "page.metadata.openlib.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:75
+msgid "page.metadata.openlib.howto.item.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:76
+msgid "page.metadata.openlib.howto.item.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:78
+msgid "page.metadata.openlib.howto.item.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:79
+msgid "page.metadata.openlib.howto.item.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:81
+msgid "page.metadata.openlib.howto.item.2.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:82
+msgid "page.metadata.openlib.howto.item.2.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:83
+msgid "page.metadata.openlib.howto.item.2.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:86
+msgid "page.metadata.openlib.howto.item.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:89
+msgid "page.metadata.openlib.howto.item.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:90
+msgid "page.metadata.openlib.howto.item.4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:92
+msgid "page.metadata.openlib.howto.item.4.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:95
+msgid "page.metadata.openlib.howto.item.5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:99
+msgid "page.metadata.openlib.body5"
+msgstr ""
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -2821,11 +2936,6 @@ msgstr "لا يعمل؟ حاول <a %(a_refresh)s>إعادة التحميل</a>.
 #, fuzzy
 msgid "page.scidb.no_preview_new"
 msgstr "لا توجد معاينة متاحة بعد. قم بتنزيل الملف من <a %(a_path)s>رَبيدةُ آنّا</a>."
-
-#: allthethings/page/templates/page/scidb_home.html:9
-#, fuzzy
-msgid "page.home.scidb.text1"
-msgstr "Sci-Hub قد <a %(a_closed)s>أوقف</a> تحميل الأوراق الجديدة."
 
 #: allthethings/page/templates/page/scidb_home.html:13
 #, fuzzy
@@ -3004,6 +3114,10 @@ msgstr "المزيد…"
 #: allthethings/page/templates/page/search.html:228
 msgid "page.search.header.update_info"
 msgstr "يتم تحديث فهرس البحث شهرياً. يتضمن حالياً مدخلات حتى تاريخ %(last_data_refresh_date)s. للمزيد من المعلومات اطلع على %(link_open_tag)s صفحة البيانات</a>."
+
+#: allthethings/page/templates/page/search.html:230
+msgid "page.search.header.codes_explorer"
+msgstr ""
 
 #: allthethings/page/templates/page/search.html:240
 msgid "page.search.results.search_downloads"
@@ -3774,4 +3888,7 @@ msgstr "التالي"
 
 #~ msgid "page.donate.perks.only_this_month"
 #~ msgstr "فقط هذا الشهر!"
+
+#~ msgid "page.home.scidb.text1"
+#~ msgstr "Sci-Hub قد <a %(a_closed)s>أوقف</a> تحميل الأوراق الجديدة."
 

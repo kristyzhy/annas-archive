@@ -18,20 +18,14 @@
 
     <h2 class="mt-8 text-xl font-bold">🧬&nbsp;{{ gettext('page.home.scidb.header') }}<!-- <span class="mr-1 bg-[#0195ff] text-white text-xs font-medium px-1 py-0.5 align-[2px] rounded">{{ gettext('layout.index.header.nav.beta') }}</span>--></h2>
 
-    <!-- <p class="mb-4">
-      Sci-Hub has <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank">paused</a> uploading of new papers.
-      🧬&nbsp;SciDB is a continuation of Sci-Hub, with its familiar interface and direct viewing of PDFs. Enter your DOI to view.
-    </p> -->
-
     <p class="mb-1">
-      {{ gettext('page.home.scidb.scihub_paused', a_paused=(' href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank" ' | safe)) }}
+      {{ gettext('page.home.scidb.scihub_paused', a_paused=(' href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank" rel="noopener noreferrer nofollow"' | safe)) }}
       {{ gettext('page.home.scidb.continuation') }}
       {{ gettext('page.home.scidb.subtitle', count=g.header_stats.journal_article) }}.
       <a class="text-xs" href="/scidb">{{ gettext('layout.index.header.learn_more') }}</a>
     </p>
 
     <form action="/scidb/" method="get" onsubmit='window.location="/scidb/" + new FormData(event.currentTarget).get("doi"); event.preventDefault(); return false'>
-      <!-- <div class="mb-1 text-sm text-gray-500">Sci-Hub has <a href="https://www.reddit.com/r/scihub/comments/lofj0r/announcement_scihub_has_been_paused_no_new/" target="_blank">paused</a> uploading of new papers. 🧬&nbsp;SciDB is a continuation of Sci-Hub. {{ gettext('page.home.scidb.subtitle', count=g.header_stats.journal_article) }}.</div> -->
       <div class="flex max-w-[600px]">
         <input required pattern=".*10\..+" name="doi" type="search" placeholder="{{ gettext('page.home.scidb.placeholder_doi') }}" class="grow bg-black/6.7 px-2 py-1 mr-2 rounded">
         <button class="px-4 py-1 bg-[#0195ff] text-white rounded hover:bg-blue-600" type="submit">{{ gettext('page.home.scidb.open') }}</button>

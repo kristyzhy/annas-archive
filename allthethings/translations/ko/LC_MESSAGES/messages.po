@@ -326,9 +326,9 @@ msgstr "$5000달러 이상의 기부에 대해서는 %(email)s로 직접 연락 
 #: allthethings/page/templates/page/faq.html:121
 #: allthethings/page/templates/page/faq.html:129
 #: allthethings/page/templates/page/faq.html:153
-#: allthethings/page/templates/page/home.html:83
-#: allthethings/page/templates/page/home.html:88
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:82
+#: allthethings/page/templates/page/home.html:90
 #: allthethings/page/templates/page/search.html:247
 #: allthethings/page/templates/page/search.html:324
 #: allthethings/templates/layouts/index.html:228
@@ -2135,10 +2135,10 @@ msgid "layout.index.header.banner.refer"
 msgstr "친구를 추천하면, 당신과 친구 모두 %(percentage)s%% 보너스 빠른 다운로드를 받습니다!"
 
 #: allthethings/page/templates/page/aarecord.html:235
-#: allthethings/page/templates/page/home.html:30
-#: allthethings/page/templates/page/home.html:40
-#: allthethings/page/templates/page/home.html:77
-#: allthethings/page/templates/page/home.html:126
+#: allthethings/page/templates/page/home.html:25
+#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:71
+#: allthethings/page/templates/page/home.html:120
 #: allthethings/page/templates/page/search.html:259
 #: allthethings/page/templates/page/search.html:316
 #: allthethings/templates/layouts/index.html:250
@@ -2251,8 +2251,6 @@ msgstr "모든 다운로드 옵션은 동일한 파일을 제공하며, 사용�
 #: allthethings/page/templates/page/datasets_zlib.html:7
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
-#: allthethings/page/templates/page/metadata.html:6
-#: allthethings/page/templates/page/metadata.html:7
 #: allthethings/page/templates/page/mirrors.html:7
 #: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/torrents.html:26
@@ -2488,6 +2486,10 @@ msgstr "11. 우리는 작고 세련된 광고를 게재하려고 합니다. Anna
 #, fuzzy
 msgid "page.faq.help.mirrors"
 msgstr "<a %(a_mirrors)s>미러</a>를 설정해 주시면 좋겠고, 저희는 이를 재정적으로 지원할 것입니다."
+
+#: allthethings/page/templates/page/faq.html:100
+msgid "page.faq.slow.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:103
 #, fuzzy
@@ -2866,107 +2868,107 @@ msgstr "SciDB"
 msgid "layout.index.header.nav.beta"
 msgstr "베타"
 
-#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/home.html:22
+#: allthethings/page/templates/page/scidb_home.html:9
 #: allthethings/page/templates/page/search.html:257
 #: allthethings/page/templates/page/search.html:314
 #, fuzzy
 msgid "page.home.scidb.scihub_paused"
 msgstr "Sci-Hub이 새로운 논문의 업로드를 <a %(a_paused)s>일시 중단</a>했습니다."
 
-#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/home.html:23
 #: allthethings/page/templates/page/search.html:258
 #: allthethings/page/templates/page/search.html:315
 #, fuzzy
 msgid "page.home.scidb.continuation"
 msgstr "🧬&nbsp;SciDB는 Sci-Hub의 연속입니다."
 
-#: allthethings/page/templates/page/home.html:29
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:24
 #, fuzzy
 msgid "page.home.scidb.subtitle"
 msgstr "%(count)s 학술 논문에 직접 접근"
 
-#: allthethings/page/templates/page/home.html:36
+#: allthethings/page/templates/page/home.html:30
 #: allthethings/page/templates/page/scidb_home.html:19
 #, fuzzy
 msgid "page.home.scidb.placeholder_doi"
 msgstr "DOI"
 
-#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/home.html:31
 #: allthethings/page/templates/page/scidb_home.html:20
 #, fuzzy
 msgid "page.home.scidb.open"
 msgstr "열기"
 
-#: allthethings/page/templates/page/home.html:39
+#: allthethings/page/templates/page/home.html:33
 #, fuzzy
 msgid "page.home.scidb.browser_verification"
 msgstr "<a %(a_member)s>회원</a>이라면 브라우저 인증이 필요하지 않습니다."
 
-#: allthethings/page/templates/page/home.html:43
+#: allthethings/page/templates/page/home.html:37
 #, fuzzy
 msgid "page.home.archive.header"
 msgstr "장기 보관소"
 
-#: allthethings/page/templates/page/home.html:46
+#: allthethings/page/templates/page/home.html:40
 #, fuzzy
 msgid "page.home.archive.body"
 msgstr "Anna’s Archive에서 사용된 데이터셋은 완전히 공개되어 있으며, 토렌트를 통해 대량으로 미러링할 수 있습니다. <a %(a_datasets)s>자세히 알아보기…</a>"
 
-#: allthethings/page/templates/page/home.html:50
+#: allthethings/page/templates/page/home.html:44
 #, fuzzy
 msgid "page.home.torrents.body"
 msgstr "토렌트를 시딩하여 크게 도울 수 있습니다. <a %(a_torrents)s>자세히 알아보기…</a>"
 
-#: allthethings/page/templates/page/home.html:53
+#: allthethings/page/templates/page/home.html:47
 #: allthethings/page/templates/page/torrents.html:86
 #, fuzzy
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s 시더"
 
-#: allthethings/page/templates/page/home.html:54
+#: allthethings/page/templates/page/home.html:48
 #: allthethings/page/templates/page/torrents.html:87
 #, fuzzy
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s 시더"
 
-#: allthethings/page/templates/page/home.html:55
+#: allthethings/page/templates/page/home.html:49
 #: allthethings/page/templates/page/torrents.html:88
 #, fuzzy
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s 시더"
 
-#: allthethings/page/templates/page/home.html:67
+#: allthethings/page/templates/page/home.html:61
 #, fuzzy
 msgid "page.home.llm.header"
 msgstr "LLM training data"
 
-#: allthethings/page/templates/page/home.html:70
+#: allthethings/page/templates/page/home.html:64
 #, fuzzy
 msgid "page.home.llm.body"
 msgstr "우리는 세계에서 가장 큰 고품질 텍스트 데이터 컬렉션을 보유하고 있습니다. <a %(a_llm)s>더 알아보기…</a>"
 
-#: allthethings/page/templates/page/home.html:73
+#: allthethings/page/templates/page/home.html:67
 #, fuzzy
 msgid "page.home.mirrors.header"
 msgstr "🪩 미러: 자원봉사자 모집"
 
-#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/home.html:69
 #, fuzzy
 msgid "page.home.volunteering.header"
 msgstr "🤝 자원봉사자 모집 중"
 
-#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:71
 #, fuzzy
 msgid "page.home.volunteering.help_out"
 msgstr "비영리 오픈 소스 프로젝트로서, 우리는 항상 도움을 줄 사람들을 찾고 있습니다."
 
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:90
 #, fuzzy
 msgid "page.home.payment_processor.body"
 msgstr "고위험 익명 결제 프로세서를 운영하는 경우, 저희에게 연락해 주세요. 또한, 세련된 소형 광고를 게재할 사람을 찾고 있습니다. 모든 수익은 보존 노력에 사용됩니다."
 
-#: allthethings/page/templates/page/home.html:104
+#: allthethings/page/templates/page/home.html:98
 #: allthethings/templates/layouts/index.html:493
 #: allthethings/templates/layouts/index.html:572
 msgid "layout.index.header.nav.annasblog"
@@ -3021,6 +3023,119 @@ msgstr "이 페이지를 보려면 <a %(a_account)s>로그인</a>해 주세요.<
 #, fuzzy
 msgid "page.maintenance.header"
 msgstr "Anna’s Archive는 현재 유지 보수를 위해 일시적으로 중단되었습니다. 한 시간 후에 다시 방문해 주세요."
+
+#: allthethings/page/templates/page/metadata.html:4
+#: allthethings/page/templates/page/metadata.html:9
+msgid "page.metadata.header"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:12
+msgid "page.metadata.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:15
+msgid "page.metadata.background.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:18
+msgid "page.metadata.background.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:22
+msgid "page.metadata.background.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:26
+msgid "page.metadata.background.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:30
+msgid "page.metadata.background.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:34
+msgid "page.metadata.background.body5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:39
+msgid "page.metadata.background.body6"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:44
+msgid "page.metadata.background.body7"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:56
+msgid "page.metadata.openlib.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:59
+msgid "page.metadata.openlib.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:63
+msgid "page.metadata.openlib.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:67
+msgid "page.metadata.openlib.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:71
+msgid "page.metadata.openlib.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:75
+msgid "page.metadata.openlib.howto.item.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:76
+msgid "page.metadata.openlib.howto.item.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:78
+msgid "page.metadata.openlib.howto.item.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:79
+msgid "page.metadata.openlib.howto.item.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:81
+msgid "page.metadata.openlib.howto.item.2.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:82
+msgid "page.metadata.openlib.howto.item.2.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:83
+msgid "page.metadata.openlib.howto.item.2.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:86
+msgid "page.metadata.openlib.howto.item.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:89
+msgid "page.metadata.openlib.howto.item.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:90
+msgid "page.metadata.openlib.howto.item.4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:92
+msgid "page.metadata.openlib.howto.item.4.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:95
+msgid "page.metadata.openlib.howto.item.5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:99
+msgid "page.metadata.openlib.body5"
+msgstr ""
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -3138,11 +3253,6 @@ msgstr "작동하지 않나요? <a %(a_refresh)s>새로 고침</a>을 시도하�
 #, fuzzy
 msgid "page.scidb.no_preview_new"
 msgstr "아직 미리보기를 사용할 수 없습니다. <a %(a_path)s>Anna’s Archive</a>에서 파일을 다운로드하세요."
-
-#: allthethings/page/templates/page/scidb_home.html:9
-#, fuzzy
-msgid "page.home.scidb.text1"
-msgstr "Sci-Hub이 새로운 논문의 업로드를 <a %(a_closed)s>일시 중단</a>했습니다."
 
 #: allthethings/page/templates/page/scidb_home.html:13
 #, fuzzy
@@ -3347,6 +3457,10 @@ msgstr "더 보기…"
 #, fuzzy
 msgid "page.search.header.update_info"
 msgstr "검색 인덱스는 매월 업데이트됩니다. 현재 %(last_data_refresh_date)s까지의 항목이 포함되어 있습니다. 더 기술적인 정보는 %(link_open_tag)s데이터셋 페이지</a>를 참조하세요."
+
+#: allthethings/page/templates/page/search.html:230
+msgid "page.search.header.codes_explorer"
+msgstr ""
 
 #: allthethings/page/templates/page/search.html:240
 #, fuzzy
@@ -4015,4 +4129,7 @@ msgstr "다음"
 
 #~ msgid "page.donate.perks.only_this_month"
 #~ msgstr "이번 달에만!"
+
+#~ msgid "page.home.scidb.text1"
+#~ msgstr "Sci-Hub이 새로운 논문의 업로드를 <a %(a_closed)s>일시 중단</a>했습니다."
 

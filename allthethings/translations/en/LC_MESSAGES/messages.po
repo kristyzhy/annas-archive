@@ -305,9 +305,9 @@ msgstr "For donations over $5000 please contact us directly at %(email)s."
 #: allthethings/page/templates/page/faq.html:121
 #: allthethings/page/templates/page/faq.html:129
 #: allthethings/page/templates/page/faq.html:153
-#: allthethings/page/templates/page/home.html:83
-#: allthethings/page/templates/page/home.html:88
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:82
+#: allthethings/page/templates/page/home.html:90
 #: allthethings/page/templates/page/search.html:247
 #: allthethings/page/templates/page/search.html:324
 #: allthethings/templates/layouts/index.html:228
@@ -1859,10 +1859,10 @@ msgid "layout.index.header.banner.refer"
 msgstr "Refer a friend, and both you and your friend get %(percentage)s%% bonus fast downloads!"
 
 #: allthethings/page/templates/page/aarecord.html:235
-#: allthethings/page/templates/page/home.html:30
-#: allthethings/page/templates/page/home.html:40
-#: allthethings/page/templates/page/home.html:77
-#: allthethings/page/templates/page/home.html:126
+#: allthethings/page/templates/page/home.html:25
+#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:71
+#: allthethings/page/templates/page/home.html:120
 #: allthethings/page/templates/page/search.html:259
 #: allthethings/page/templates/page/search.html:316
 #: allthethings/templates/layouts/index.html:250
@@ -1961,8 +1961,6 @@ msgstr "All download options have the same file, and should be safe to use. That
 #: allthethings/page/templates/page/datasets_zlib.html:7
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
-#: allthethings/page/templates/page/metadata.html:6
-#: allthethings/page/templates/page/metadata.html:7
 #: allthethings/page/templates/page/mirrors.html:7
 #: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/torrents.html:26
@@ -2154,6 +2152,10 @@ msgstr "11. We are looking to place small, tasteful advertisements. If you’d l
 #: allthethings/page/templates/page/faq.html:97
 msgid "page.faq.help.mirrors"
 msgstr "We would love for people to set up <a %(a_mirrors)s>mirrors</a>, and we will financially support this."
+
+#: allthethings/page/templates/page/faq.html:100
+msgid "page.faq.slow.title"
+msgstr "Why are the slow downloads so slow?"
 
 #: allthethings/page/templates/page/faq.html:103
 msgid "page.faq.slow.text1"
@@ -2458,89 +2460,89 @@ msgstr "SciDB"
 msgid "layout.index.header.nav.beta"
 msgstr "beta"
 
-#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/home.html:22
+#: allthethings/page/templates/page/scidb_home.html:9
 #: allthethings/page/templates/page/search.html:257
 #: allthethings/page/templates/page/search.html:314
 msgid "page.home.scidb.scihub_paused"
 msgstr "Sci-Hub has <a %(a_paused)s>paused</a> uploading of new papers."
 
-#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/home.html:23
 #: allthethings/page/templates/page/search.html:258
 #: allthethings/page/templates/page/search.html:315
 msgid "page.home.scidb.continuation"
 msgstr "🧬&nbsp;SciDB is a continuation of Sci-Hub."
 
-#: allthethings/page/templates/page/home.html:29
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:24
 msgid "page.home.scidb.subtitle"
 msgstr "Direct access to %(count)s academic papers"
 
-#: allthethings/page/templates/page/home.html:36
+#: allthethings/page/templates/page/home.html:30
 #: allthethings/page/templates/page/scidb_home.html:19
 msgid "page.home.scidb.placeholder_doi"
 msgstr "DOI"
 
-#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/home.html:31
 #: allthethings/page/templates/page/scidb_home.html:20
 msgid "page.home.scidb.open"
 msgstr "Open"
 
-#: allthethings/page/templates/page/home.html:39
+#: allthethings/page/templates/page/home.html:33
 msgid "page.home.scidb.browser_verification"
 msgstr "If you’re a <a %(a_member)s>member</a>, browser verification is not required."
 
-#: allthethings/page/templates/page/home.html:43
+#: allthethings/page/templates/page/home.html:37
 msgid "page.home.archive.header"
 msgstr "Long-term archive"
 
-#: allthethings/page/templates/page/home.html:46
+#: allthethings/page/templates/page/home.html:40
 msgid "page.home.archive.body"
 msgstr "The datasets used in Anna’s Archive are completely open, and can be mirrored in bulk using torrents. <a %(a_datasets)s>Learn more…</a>"
 
-#: allthethings/page/templates/page/home.html:50
+#: allthethings/page/templates/page/home.html:44
 msgid "page.home.torrents.body"
 msgstr "You can help out enormously by seeding torrents. <a %(a_torrents)s>Learn more…</a>"
 
-#: allthethings/page/templates/page/home.html:53
+#: allthethings/page/templates/page/home.html:47
 #: allthethings/page/templates/page/torrents.html:86
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s seeders"
 
-#: allthethings/page/templates/page/home.html:54
+#: allthethings/page/templates/page/home.html:48
 #: allthethings/page/templates/page/torrents.html:87
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s seeders"
 
-#: allthethings/page/templates/page/home.html:55
+#: allthethings/page/templates/page/home.html:49
 #: allthethings/page/templates/page/torrents.html:88
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s seeders"
 
-#: allthethings/page/templates/page/home.html:67
+#: allthethings/page/templates/page/home.html:61
 msgid "page.home.llm.header"
 msgstr "LLM training data"
 
-#: allthethings/page/templates/page/home.html:70
+#: allthethings/page/templates/page/home.html:64
 msgid "page.home.llm.body"
 msgstr "We have the world’s largest collection of high-quality text data. <a %(a_llm)s>Learn more…</a>"
 
-#: allthethings/page/templates/page/home.html:73
+#: allthethings/page/templates/page/home.html:67
 msgid "page.home.mirrors.header"
 msgstr "🪩 Mirrors: call for volunteers"
 
-#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/home.html:69
 msgid "page.home.volunteering.header"
 msgstr "🤝 Looking for volunteers"
 
-#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:71
 msgid "page.home.volunteering.help_out"
 msgstr "As a non-profit, open-source project, we’re always looking for people to help out."
 
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:90
 msgid "page.home.payment_processor.body"
 msgstr "If you run a high-risk anonymous payment processor, please contact us. We are also looking for people looking to place tasteful small ads. All proceeds go to our preservation efforts."
 
-#: allthethings/page/templates/page/home.html:104
+#: allthethings/page/templates/page/home.html:98
 #: allthethings/templates/layouts/index.html:493
 #: allthethings/templates/layouts/index.html:572
 msgid "layout.index.header.nav.annasblog"
@@ -2586,6 +2588,119 @@ msgstr "Please <a %(a_account)s>login</a> to view this page.</a>"
 #: allthethings/page/templates/page/maintenance.html:13
 msgid "page.maintenance.header"
 msgstr "Anna’s Archive is temporarily down for maintenance. Please come back in an hour."
+
+#: allthethings/page/templates/page/metadata.html:4
+#: allthethings/page/templates/page/metadata.html:9
+msgid "page.metadata.header"
+msgstr "Improve metadata"
+
+#: allthethings/page/templates/page/metadata.html:12
+msgid "page.metadata.body1"
+msgstr "You can help out preservation of books by improving metadata! First, read the background about metadata on Anna’s Archive, and then learn how to improve metadata through linking with Open Library, and earn free membership on Anna’s Archive."
+
+#: allthethings/page/templates/page/metadata.html:15
+msgid "page.metadata.background.title"
+msgstr "Background"
+
+#: allthethings/page/templates/page/metadata.html:18
+msgid "page.metadata.background.body1"
+msgstr "When you look at a book on Anna’s Archive, you can see various fields: title, author, publisher, edition, year, description, filename, and more. All those pieces of information are called <em>metadata</em>."
+
+#: allthethings/page/templates/page/metadata.html:22
+msgid "page.metadata.background.body2"
+msgstr "Since we combine books from various <em>source libraries</em>, we show whatever metadata is available in that source library. For example, for a book that we got from Library Genesis, we’ll show the title from Library Genesis’ database."
+
+#: allthethings/page/templates/page/metadata.html:26
+msgid "page.metadata.background.body3"
+msgstr "Sometimes a book is present in <em>multiple</em> source libraries, which might have different metadata fields. In that case, we simply show the longest version of each field, since that one hopefully contains the most useful information! We’ll still show the other fields below the description, e.g. as ”alternative title” (but only if they are different)."
+
+#: allthethings/page/templates/page/metadata.html:30
+msgid "page.metadata.background.body4"
+msgstr "We also extract <em>codes</em> such as identifiers and classifiers from the source library. <em>Identifiers</em> uniquely represent a particular edition of a book; examples are ISBN, DOI, Open Library ID, Google Books ID, or Amazon ID. <em>Classifiers</em> group together multiple similar books; examples are Dewey Decimal (DCC), UDC, LCC, RVK, or GOST. Sometimes these codes are explicitly linked in source libraries, and sometimes we can extract them from the filename or description (primarily ISBN and DOI)."
+
+#: allthethings/page/templates/page/metadata.html:34
+msgid "page.metadata.background.body5"
+msgstr "We can use identifiers to find records in <em>metadata-only collections</em>, such as OpenLibrary, ISBNdb, or WorldCat/OCLC. There is a specific <em>metadata tab</em> in our search engine if you’d like to browse those collections. We use matching records to fill in missing metadata fields (e.g. if a title is missing), or e.g. as “alternative title” (if there is an existing title)."
+
+#: allthethings/page/templates/page/metadata.html:39
+msgid "page.metadata.background.body6"
+msgstr "To see exactly where metadata of a book came from, see the <em>“Technical details” tab</em> on a book page. It has a link to the raw JSON for that book, with pointers to the raw JSON of the original records."
+
+#: allthethings/page/templates/page/metadata.html:44
+msgid "page.metadata.background.body7"
+msgstr "For more information, see the following pages: <a %(a_datasets)s>Datasets</a>, <a %(a_search_metadata)s>Search (metadata tab)</a>, <a %(a_codes)s>Codes Explorer</a>, and <a %(a_example)s>Example metadata JSON</a>. Finally, all our metadata can be <a %(a_generated)s>generated</a> or <a %(a_downloaded)s>downloaded</a> as ElasticSearch and MariaDB databases."
+
+#: allthethings/page/templates/page/metadata.html:56
+msgid "page.metadata.openlib.title"
+msgstr "Open Library linking"
+
+#: allthethings/page/templates/page/metadata.html:59
+msgid "page.metadata.openlib.body1"
+msgstr "So if you encounter a file with bad metadata, how should you fix it? You can go to the source library and follow its procedures for fixing metadata, but what to do if a file is present in multiple source libraries?"
+
+#: allthethings/page/templates/page/metadata.html:63
+msgid "page.metadata.openlib.body2"
+msgstr "There is one identifier that is treated special on Anna’s Archive. <strong>The annas_archive md5 field on Open Library always overrides all other metadata!</strong> Let’s back up a bit first and learn about Open Library."
+
+#: allthethings/page/templates/page/metadata.html:67
+msgid "page.metadata.openlib.body3"
+msgstr "Open Library was founded in 2006 by Aaron Swartz with the goal of “one web page for every book ever published”. It is kind of a Wikipedia for book metadata: everyone can edit it, it is freely licensed, and can be downloaded in bulk. It’s a book database that is most aligned with our mission — in fact, Anna’s Archive has been inspired by Aaron Swartz’ vision and life."
+
+#: allthethings/page/templates/page/metadata.html:71
+msgid "page.metadata.openlib.body4"
+msgstr "Instead of reinventing the wheel, we decided to redirect our volunteers towards Open Library. If you see a book that has incorrect metadata, you can help out in the following way:"
+
+#: allthethings/page/templates/page/metadata.html:75
+msgid "page.metadata.openlib.howto.item.1"
+msgstr " Go to the <a %(a_openlib)s>Open Library website</a>."
+
+#: allthethings/page/templates/page/metadata.html:76
+msgid "page.metadata.openlib.howto.item.2"
+msgstr "Find the correct book record. <strong>WARNING:</strong> be sure to select the correct <strong>edition</strong>. In Open Library, you have “works” and “editions”."
+
+#: allthethings/page/templates/page/metadata.html:78
+msgid "page.metadata.openlib.howto.item.2.1"
+msgstr "A “work” could be “Harry Potter and the Philosopher's Stone”."
+
+#: allthethings/page/templates/page/metadata.html:79
+msgid "page.metadata.openlib.howto.item.2.2"
+msgstr "An “edition” could be:"
+
+#: allthethings/page/templates/page/metadata.html:81
+msgid "page.metadata.openlib.howto.item.2.2.1"
+msgstr "The 1997 first edition published by Bloomsbery with 256 pages."
+
+#: allthethings/page/templates/page/metadata.html:82
+msgid "page.metadata.openlib.howto.item.2.2.2"
+msgstr "The 2003 paperback edition published by Raincoast Books with 223 pages."
+
+#: allthethings/page/templates/page/metadata.html:83
+msgid "page.metadata.openlib.howto.item.2.2.3"
+msgstr "The 2000 Polish translation “Harry Potter I Kamie Filozoficzn” by Media Rodzina with 328 pages."
+
+#: allthethings/page/templates/page/metadata.html:86
+msgid "page.metadata.openlib.howto.item.2.3"
+msgstr "All of those editions have different ISBNs and different contents, so be sure to select the right one!"
+
+#: allthethings/page/templates/page/metadata.html:89
+msgid "page.metadata.openlib.howto.item.3"
+msgstr "Edit the record (or create it if none exist), and add as much as useful information as you can! You’re here now anyway, might as well make the record really amazing."
+
+#: allthethings/page/templates/page/metadata.html:90
+msgid "page.metadata.openlib.howto.item.4"
+msgstr "Under “ID Numbers” select “Anna’s Archive” and add the MD5 of the book from Anna’s Archive. This is the long string of letters and numbers after “/md5/” in the URL."
+
+#: allthethings/page/templates/page/metadata.html:92
+msgid "page.metadata.openlib.howto.item.4.1"
+msgstr "Try to find other files in Anna’s Archive that also match this record, and add those as well. In the future we can group those as duplicates on Anna’s Archive search page."
+
+#: allthethings/page/templates/page/metadata.html:95
+msgid "page.metadata.openlib.howto.item.5"
+msgstr "When you’re done, write down the URL that you just updated. Once you’ve updated at least 30 records with Anna’s Archive MD5s, send us an <a %(a_contact)s>email</a> and send us the list. We’ll give you a free membership for Anna’s Archive, so you can more easily do this work (and as a thank you for your help). These have to be high quality edits that add substantial amounts of information, otherwise your request will be rejected. Your request will also be rejected if any of the edits get reverted or corrected by Open Library moderators."
+
+#: allthethings/page/templates/page/metadata.html:99
+msgid "page.metadata.openlib.body5"
+msgstr "Note that this only works for books, not academic papers or other types of files. For other types of files we still recommend finding the source library. It might take a few weeks for changes to be included in Anna’s Archive, since we need to download the latest Open Library data dump, and regenerate our search index."
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -2680,10 +2795,6 @@ msgstr "Not working? Try <a %(a_refresh)s>refreshing</a>."
 #: allthethings/page/templates/page/scidb.html:59
 msgid "page.scidb.no_preview_new"
 msgstr "No preview available yet. Download file from <a %(a_path)s>Anna’s Archive</a>."
-
-#: allthethings/page/templates/page/scidb_home.html:9
-msgid "page.home.scidb.text1"
-msgstr "Sci-Hub has <a %(a_closed)s>paused</a> uploading of new papers."
 
 #: allthethings/page/templates/page/scidb_home.html:13
 msgid "page.home.scidb.text2"
@@ -2852,6 +2963,10 @@ msgstr "more…"
 #: allthethings/page/templates/page/search.html:228
 msgid "page.search.header.update_info"
 msgstr "The search index is updated monthly. It currently includes entries up to %(last_data_refresh_date)s. For more technical information, see the %(link_open_tag)sdatasets page</a>."
+
+#: allthethings/page/templates/page/search.html:230
+msgid "page.search.header.codes_explorer"
+msgstr "To explore the search index by codes, use the <a %(a_href)s>Codes Explorer</a>."
 
 #: allthethings/page/templates/page/search.html:240
 msgid "page.search.results.search_downloads"

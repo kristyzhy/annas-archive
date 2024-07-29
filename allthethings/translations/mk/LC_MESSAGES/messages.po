@@ -374,9 +374,9 @@ msgstr "За донации над $5000 ве молиме контактира�
 #: allthethings/page/templates/page/faq.html:121
 #: allthethings/page/templates/page/faq.html:129
 #: allthethings/page/templates/page/faq.html:153
-#: allthethings/page/templates/page/home.html:83
-#: allthethings/page/templates/page/home.html:88
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:82
+#: allthethings/page/templates/page/home.html:90
 #: allthethings/page/templates/page/search.html:247
 #: allthethings/page/templates/page/search.html:324
 #: allthethings/templates/layouts/index.html:228
@@ -2283,10 +2283,10 @@ msgid "layout.index.header.banner.refer"
 msgstr "Препорачајте пријател, и и двајцата ќе добиете %(percentage)s%% бонус брзи преземања!"
 
 #: allthethings/page/templates/page/aarecord.html:235
-#: allthethings/page/templates/page/home.html:30
-#: allthethings/page/templates/page/home.html:40
-#: allthethings/page/templates/page/home.html:77
-#: allthethings/page/templates/page/home.html:126
+#: allthethings/page/templates/page/home.html:25
+#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:71
+#: allthethings/page/templates/page/home.html:120
 #: allthethings/page/templates/page/search.html:259
 #: allthethings/page/templates/page/search.html:316
 #: allthethings/templates/layouts/index.html:250
@@ -2399,8 +2399,6 @@ msgstr "Сите опции за преземање го имаат истиот
 #: allthethings/page/templates/page/datasets_zlib.html:7
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
-#: allthethings/page/templates/page/metadata.html:6
-#: allthethings/page/templates/page/metadata.html:7
 #: allthethings/page/templates/page/mirrors.html:7
 #: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/torrents.html:26
@@ -2636,6 +2634,10 @@ msgstr "11. Бараме да поставиме мали, вкусни рекл
 #, fuzzy
 msgid "page.faq.help.mirrors"
 msgstr "Би сакале луѓето да поставуваат <a %(a_mirrors)s>огледала</a>, и ние ќе ги поддржиме финансиски."
+
+#: allthethings/page/templates/page/faq.html:100
+msgid "page.faq.slow.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:103
 #, fuzzy
@@ -3014,107 +3016,107 @@ msgstr "SciDB"
 msgid "layout.index.header.nav.beta"
 msgstr "бета"
 
-#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/home.html:22
+#: allthethings/page/templates/page/scidb_home.html:9
 #: allthethings/page/templates/page/search.html:257
 #: allthethings/page/templates/page/search.html:314
 #, fuzzy
 msgid "page.home.scidb.scihub_paused"
 msgstr "Sci-Hub има <a %(a_paused)s>прекинато</a> со поставување на нови трудови."
 
-#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/home.html:23
 #: allthethings/page/templates/page/search.html:258
 #: allthethings/page/templates/page/search.html:315
 #, fuzzy
 msgid "page.home.scidb.continuation"
 msgstr "🧬&nbsp;SciDB е продолжение на Sci-Hub."
 
-#: allthethings/page/templates/page/home.html:29
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:24
 #, fuzzy
 msgid "page.home.scidb.subtitle"
 msgstr "Директен пристап до %(count)s академски трудови"
 
-#: allthethings/page/templates/page/home.html:36
+#: allthethings/page/templates/page/home.html:30
 #: allthethings/page/templates/page/scidb_home.html:19
 #, fuzzy
 msgid "page.home.scidb.placeholder_doi"
 msgstr "DOI"
 
-#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/home.html:31
 #: allthethings/page/templates/page/scidb_home.html:20
 #, fuzzy
 msgid "page.home.scidb.open"
 msgstr "Отворено"
 
-#: allthethings/page/templates/page/home.html:39
+#: allthethings/page/templates/page/home.html:33
 #, fuzzy
 msgid "page.home.scidb.browser_verification"
 msgstr "Ако сте <a %(a_member)s>член</a>, верификација на прелистувачот не е потребна."
 
-#: allthethings/page/templates/page/home.html:43
+#: allthethings/page/templates/page/home.html:37
 #, fuzzy
 msgid "page.home.archive.header"
 msgstr "Долгорочна архива"
 
-#: allthethings/page/templates/page/home.html:46
+#: allthethings/page/templates/page/home.html:40
 #, fuzzy
 msgid "page.home.archive.body"
 msgstr "Датасетите користени во Архивата на Ана се целосно отворени и можат да се огледуваат во големи количини користејќи торенти. <a %(a_datasets)s>Дознајте повеќе…</a>"
 
-#: allthethings/page/templates/page/home.html:50
+#: allthethings/page/templates/page/home.html:44
 #, fuzzy
 msgid "page.home.torrents.body"
 msgstr "Можете многу да помогнете со сеење на торенти. <a %(a_torrents)s>Дознајте повеќе…</a>"
 
-#: allthethings/page/templates/page/home.html:53
+#: allthethings/page/templates/page/home.html:47
 #: allthethings/page/templates/page/torrents.html:86
 #, fuzzy
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s сиидери"
 
-#: allthethings/page/templates/page/home.html:54
+#: allthethings/page/templates/page/home.html:48
 #: allthethings/page/templates/page/torrents.html:87
 #, fuzzy
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s сиидери"
 
-#: allthethings/page/templates/page/home.html:55
+#: allthethings/page/templates/page/home.html:49
 #: allthethings/page/templates/page/torrents.html:88
 #, fuzzy
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s сиидери"
 
-#: allthethings/page/templates/page/home.html:67
+#: allthethings/page/templates/page/home.html:61
 #, fuzzy
 msgid "page.home.llm.header"
 msgstr "податоци за обука на LLM"
 
-#: allthethings/page/templates/page/home.html:70
+#: allthethings/page/templates/page/home.html:64
 #, fuzzy
 msgid "page.home.llm.body"
 msgstr "Го имаме најголемиот светски збир на висококвалитетни текстуални податоци. <a %(a_llm)s>Дознајте повеќе…</a>"
 
-#: allthethings/page/templates/page/home.html:73
+#: allthethings/page/templates/page/home.html:67
 #, fuzzy
 msgid "page.home.mirrors.header"
 msgstr "🪩 Огледала: повик за волонтери"
 
-#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/home.html:69
 #, fuzzy
 msgid "page.home.volunteering.header"
 msgstr "🤝 Бараме волонтери"
 
-#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:71
 #, fuzzy
 msgid "page.home.volunteering.help_out"
 msgstr "Како непрофитен, отворен проект, секогаш бараме луѓе кои сакаат да помогнат."
 
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:90
 #, fuzzy
 msgid "page.home.payment_processor.body"
 msgstr "Ако управувате со анонимен процесор за плаќање со висок ризик, ве молиме контактирајте не. Исто така бараме луѓе кои сакаат да постават дискретни мали реклами. Сите приходи одат за нашите напори за зачувување."
 
-#: allthethings/page/templates/page/home.html:104
+#: allthethings/page/templates/page/home.html:98
 #: allthethings/templates/layouts/index.html:493
 #: allthethings/templates/layouts/index.html:572
 #, fuzzy
@@ -3170,6 +3172,119 @@ msgstr "Ве молиме <a %(a_account)s>најавете се</a> за да �
 #, fuzzy
 msgid "page.maintenance.header"
 msgstr "Архивот на Ана е привремено недостапен поради одржување. Ве молиме вратете се за еден час."
+
+#: allthethings/page/templates/page/metadata.html:4
+#: allthethings/page/templates/page/metadata.html:9
+msgid "page.metadata.header"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:12
+msgid "page.metadata.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:15
+msgid "page.metadata.background.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:18
+msgid "page.metadata.background.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:22
+msgid "page.metadata.background.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:26
+msgid "page.metadata.background.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:30
+msgid "page.metadata.background.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:34
+msgid "page.metadata.background.body5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:39
+msgid "page.metadata.background.body6"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:44
+msgid "page.metadata.background.body7"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:56
+msgid "page.metadata.openlib.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:59
+msgid "page.metadata.openlib.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:63
+msgid "page.metadata.openlib.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:67
+msgid "page.metadata.openlib.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:71
+msgid "page.metadata.openlib.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:75
+msgid "page.metadata.openlib.howto.item.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:76
+msgid "page.metadata.openlib.howto.item.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:78
+msgid "page.metadata.openlib.howto.item.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:79
+msgid "page.metadata.openlib.howto.item.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:81
+msgid "page.metadata.openlib.howto.item.2.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:82
+msgid "page.metadata.openlib.howto.item.2.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:83
+msgid "page.metadata.openlib.howto.item.2.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:86
+msgid "page.metadata.openlib.howto.item.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:89
+msgid "page.metadata.openlib.howto.item.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:90
+msgid "page.metadata.openlib.howto.item.4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:92
+msgid "page.metadata.openlib.howto.item.4.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:95
+msgid "page.metadata.openlib.howto.item.5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:99
+msgid "page.metadata.openlib.body5"
+msgstr ""
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -3287,11 +3402,6 @@ msgstr "Не работи? Пробајте <a %(a_refresh)s>освежувањ�
 #, fuzzy
 msgid "page.scidb.no_preview_new"
 msgstr "Прегледот не е достапен уште. Преземете ја датотеката од <a %(a_path)s>Архивата на Ана</a>."
-
-#: allthethings/page/templates/page/scidb_home.html:9
-#, fuzzy
-msgid "page.home.scidb.text1"
-msgstr "Sci-Hub го има <a %(a_closed)s>паузирано</a> поставувањето на нови трудови."
 
 #: allthethings/page/templates/page/scidb_home.html:13
 #, fuzzy
@@ -3496,6 +3606,10 @@ msgstr "повеќе…"
 #, fuzzy
 msgid "page.search.header.update_info"
 msgstr "Индексот за пребарување се ажурира месечно. Во моментов вклучува записи до %(last_data_refresh_date)s. За повеќе технички информации, видете ја <a %(link_open_tag)s>страницата за податочни сетови</a>."
+
+#: allthethings/page/templates/page/search.html:230
+msgid "page.search.header.codes_explorer"
+msgstr ""
 
 #: allthethings/page/templates/page/search.html:240
 #, fuzzy
@@ -3887,4 +4001,7 @@ msgstr "Следно"
 
 #~ msgid "page.donate.perks.only_this_month"
 #~ msgstr "само овој месец!"
+
+#~ msgid "page.home.scidb.text1"
+#~ msgstr "Sci-Hub го има <a %(a_closed)s>паузирано</a> поставувањето на нови трудови."
 
