@@ -373,9 +373,9 @@ msgstr "如果捐款超過$5000，請直接聯絡我哋：%(email)s。"
 #: allthethings/page/templates/page/faq.html:121
 #: allthethings/page/templates/page/faq.html:129
 #: allthethings/page/templates/page/faq.html:153
-#: allthethings/page/templates/page/home.html:83
-#: allthethings/page/templates/page/home.html:88
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:82
+#: allthethings/page/templates/page/home.html:90
 #: allthethings/page/templates/page/search.html:247
 #: allthethings/page/templates/page/search.html:324
 #: allthethings/templates/layouts/index.html:228
@@ -2282,10 +2282,10 @@ msgid "layout.index.header.banner.refer"
 msgstr "推薦朋友，您同朋友都可以獲得%(percentage)s%%額外快速下載次數獎勵！"
 
 #: allthethings/page/templates/page/aarecord.html:235
-#: allthethings/page/templates/page/home.html:30
-#: allthethings/page/templates/page/home.html:40
-#: allthethings/page/templates/page/home.html:77
-#: allthethings/page/templates/page/home.html:126
+#: allthethings/page/templates/page/home.html:25
+#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:71
+#: allthethings/page/templates/page/home.html:120
 #: allthethings/page/templates/page/search.html:259
 #: allthethings/page/templates/page/search.html:316
 #: allthethings/templates/layouts/index.html:250
@@ -2398,8 +2398,6 @@ msgstr "所有下載選項都係同一個文件，應該係安全使用。不過
 #: allthethings/page/templates/page/datasets_zlib.html:7
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
-#: allthethings/page/templates/page/metadata.html:6
-#: allthethings/page/templates/page/metadata.html:7
 #: allthethings/page/templates/page/mirrors.html:7
 #: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/torrents.html:26
@@ -2635,6 +2633,10 @@ msgstr "11. 我哋尋找放置小而雅緻廣告嘅機會。如果你想喺Anna�
 #, fuzzy
 msgid "page.faq.help.mirrors"
 msgstr "我哋好希望大家可以設置<a %(a_mirrors)s>鏡像</a>，我哋會提供財政支援。"
+
+#: allthethings/page/templates/page/faq.html:100
+msgid "page.faq.slow.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:103
 #, fuzzy
@@ -3013,107 +3015,107 @@ msgstr "SciDB"
 msgid "layout.index.header.nav.beta"
 msgstr "測試版"
 
-#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/home.html:22
+#: allthethings/page/templates/page/scidb_home.html:9
 #: allthethings/page/templates/page/search.html:257
 #: allthethings/page/templates/page/search.html:314
 #, fuzzy
 msgid "page.home.scidb.scihub_paused"
 msgstr "Sci-Hub已經<a %(a_paused)s>暫停</a>上傳新嘅論文。"
 
-#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/home.html:23
 #: allthethings/page/templates/page/search.html:258
 #: allthethings/page/templates/page/search.html:315
 #, fuzzy
 msgid "page.home.scidb.continuation"
 msgstr "🧬&nbsp;SciDB係Sci-Hub嘅延續。"
 
-#: allthethings/page/templates/page/home.html:29
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:24
 #, fuzzy
 msgid "page.home.scidb.subtitle"
 msgstr "直接訪問%(count)s篇學術論文"
 
-#: allthethings/page/templates/page/home.html:36
+#: allthethings/page/templates/page/home.html:30
 #: allthethings/page/templates/page/scidb_home.html:19
 #, fuzzy
 msgid "page.home.scidb.placeholder_doi"
 msgstr "DOI"
 
-#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/home.html:31
 #: allthethings/page/templates/page/scidb_home.html:20
 #, fuzzy
 msgid "page.home.scidb.open"
 msgstr "開放"
 
-#: allthethings/page/templates/page/home.html:39
+#: allthethings/page/templates/page/home.html:33
 #, fuzzy
 msgid "page.home.scidb.browser_verification"
 msgstr "如果你係<a %(a_member)s>會員</a>，唔需要瀏覽器驗證。"
 
-#: allthethings/page/templates/page/home.html:43
+#: allthethings/page/templates/page/home.html:37
 #, fuzzy
 msgid "page.home.archive.header"
 msgstr "長期存檔"
 
-#: allthethings/page/templates/page/home.html:46
+#: allthethings/page/templates/page/home.html:40
 #, fuzzy
 msgid "page.home.archive.body"
 msgstr "安娜檔案館使用嘅數據集係完全開放嘅，可以用種子批量鏡像。<a %(a_datasets)s>了解更多…</a>"
 
-#: allthethings/page/templates/page/home.html:50
+#: allthethings/page/templates/page/home.html:44
 #, fuzzy
 msgid "page.home.torrents.body"
 msgstr "您可以通過做種子來幫助我們。<a %(a_torrents)s>了解更多…</a>"
 
-#: allthethings/page/templates/page/home.html:53
+#: allthethings/page/templates/page/home.html:47
 #: allthethings/page/templates/page/torrents.html:86
 #, fuzzy
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s 做種者"
 
-#: allthethings/page/templates/page/home.html:54
+#: allthethings/page/templates/page/home.html:48
 #: allthethings/page/templates/page/torrents.html:87
 #, fuzzy
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s 做種者"
 
-#: allthethings/page/templates/page/home.html:55
+#: allthethings/page/templates/page/home.html:49
 #: allthethings/page/templates/page/torrents.html:88
 #, fuzzy
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s 做種者"
 
-#: allthethings/page/templates/page/home.html:67
+#: allthethings/page/templates/page/home.html:61
 #, fuzzy
 msgid "page.home.llm.header"
 msgstr "LLM訓練數據"
 
-#: allthethings/page/templates/page/home.html:70
+#: allthethings/page/templates/page/home.html:64
 #, fuzzy
 msgid "page.home.llm.body"
 msgstr "我哋擁有世界上最大嘅高質量文本數據集。<a %(a_llm)s>了解更多…</a>"
 
-#: allthethings/page/templates/page/home.html:73
+#: allthethings/page/templates/page/home.html:67
 #, fuzzy
 msgid "page.home.mirrors.header"
 msgstr "🪩 鏡像：志願者招募"
 
-#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/home.html:69
 #, fuzzy
 msgid "page.home.volunteering.header"
 msgstr "🤝 尋找志願者"
 
-#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:71
 #, fuzzy
 msgid "page.home.volunteering.help_out"
 msgstr "作為一個非牟利、開源項目，我哋一直都喺尋找幫手。"
 
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:90
 #, fuzzy
 msgid "page.home.payment_processor.body"
 msgstr "如果您運營高風險匿名支付處理器，請聯繫我哋。我哋亦都喺尋找願意放置雅緻小廣告嘅人。所有收益都會用於我哋嘅保存工作。"
 
-#: allthethings/page/templates/page/home.html:104
+#: allthethings/page/templates/page/home.html:98
 #: allthethings/templates/layouts/index.html:493
 #: allthethings/templates/layouts/index.html:572
 #, fuzzy
@@ -3169,6 +3171,119 @@ msgstr "請<a %(a_account)s>登錄</a>以查看此頁面。</a>"
 #, fuzzy
 msgid "page.maintenance.header"
 msgstr "Anna’s Archive 暫時維護中。請一個鐘後再嚟。"
+
+#: allthethings/page/templates/page/metadata.html:4
+#: allthethings/page/templates/page/metadata.html:9
+msgid "page.metadata.header"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:12
+msgid "page.metadata.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:15
+msgid "page.metadata.background.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:18
+msgid "page.metadata.background.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:22
+msgid "page.metadata.background.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:26
+msgid "page.metadata.background.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:30
+msgid "page.metadata.background.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:34
+msgid "page.metadata.background.body5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:39
+msgid "page.metadata.background.body6"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:44
+msgid "page.metadata.background.body7"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:56
+msgid "page.metadata.openlib.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:59
+msgid "page.metadata.openlib.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:63
+msgid "page.metadata.openlib.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:67
+msgid "page.metadata.openlib.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:71
+msgid "page.metadata.openlib.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:75
+msgid "page.metadata.openlib.howto.item.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:76
+msgid "page.metadata.openlib.howto.item.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:78
+msgid "page.metadata.openlib.howto.item.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:79
+msgid "page.metadata.openlib.howto.item.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:81
+msgid "page.metadata.openlib.howto.item.2.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:82
+msgid "page.metadata.openlib.howto.item.2.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:83
+msgid "page.metadata.openlib.howto.item.2.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:86
+msgid "page.metadata.openlib.howto.item.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:89
+msgid "page.metadata.openlib.howto.item.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:90
+msgid "page.metadata.openlib.howto.item.4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:92
+msgid "page.metadata.openlib.howto.item.4.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:95
+msgid "page.metadata.openlib.howto.item.5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:99
+msgid "page.metadata.openlib.body5"
+msgstr ""
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -3286,11 +3401,6 @@ msgstr "唔得？試下<a %(a_refresh)s>重新整理</a>。"
 #, fuzzy
 msgid "page.scidb.no_preview_new"
 msgstr "暫時無預覽。從<a %(a_path)s>Anna’s Archive</a>下載文件。"
-
-#: allthethings/page/templates/page/scidb_home.html:9
-#, fuzzy
-msgid "page.home.scidb.text1"
-msgstr "Sci-Hub 已經<a %(a_closed)s>暫停</a>上傳新論文。"
 
 #: allthethings/page/templates/page/scidb_home.html:13
 #, fuzzy
@@ -3495,6 +3605,10 @@ msgstr "更多…"
 #, fuzzy
 msgid "page.search.header.update_info"
 msgstr "搜尋索引每月更新一次。目前包括到%(last_data_refresh_date)s嘅條目。更多技術信息，請參閱<a %(link_open_tag)s>數據集頁面</a>。"
+
+#: allthethings/page/templates/page/search.html:230
+msgid "page.search.header.codes_explorer"
+msgstr ""
 
 #: allthethings/page/templates/page/search.html:240
 #, fuzzy
@@ -3886,4 +4000,7 @@ msgstr "下一頁"
 
 #~ msgid "page.donate.perks.only_this_month"
 #~ msgstr "只限今個月！"
+
+#~ msgid "page.home.scidb.text1"
+#~ msgstr "Sci-Hub 已經<a %(a_closed)s>暫停</a>上傳新論文。"
 

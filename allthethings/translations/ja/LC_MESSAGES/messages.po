@@ -324,9 +324,9 @@ msgstr "$5000以上の寄付は私達に直接ご連絡ください。%(email)s.
 #: allthethings/page/templates/page/faq.html:121
 #: allthethings/page/templates/page/faq.html:129
 #: allthethings/page/templates/page/faq.html:153
-#: allthethings/page/templates/page/home.html:83
-#: allthethings/page/templates/page/home.html:88
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:82
+#: allthethings/page/templates/page/home.html:90
 #: allthethings/page/templates/page/search.html:247
 #: allthethings/page/templates/page/search.html:324
 #: allthethings/templates/layouts/index.html:228
@@ -1985,10 +1985,10 @@ msgid "layout.index.header.banner.refer"
 msgstr "友達を紹介すると、あなたと友達の両方に%(percentage)s%%のボーナス高速ダウンロードがもらえます！"
 
 #: allthethings/page/templates/page/aarecord.html:235
-#: allthethings/page/templates/page/home.html:30
-#: allthethings/page/templates/page/home.html:40
-#: allthethings/page/templates/page/home.html:77
-#: allthethings/page/templates/page/home.html:126
+#: allthethings/page/templates/page/home.html:25
+#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:71
+#: allthethings/page/templates/page/home.html:120
 #: allthethings/page/templates/page/search.html:259
 #: allthethings/page/templates/page/search.html:316
 #: allthethings/templates/layouts/index.html:250
@@ -2096,8 +2096,6 @@ msgstr "すべてのミラーは同じファイルを提供するため、安全
 #: allthethings/page/templates/page/datasets_zlib.html:7
 #: allthethings/page/templates/page/llm.html:7
 #: allthethings/page/templates/page/llm.html:8
-#: allthethings/page/templates/page/metadata.html:6
-#: allthethings/page/templates/page/metadata.html:7
 #: allthethings/page/templates/page/mirrors.html:7
 #: allthethings/page/templates/page/mirrors.html:8
 #: allthethings/page/templates/page/torrents.html:26
@@ -2319,6 +2317,10 @@ msgstr "11. 控えめな小さな広告を掲載したいと考えています�
 #, fuzzy
 msgid "page.faq.help.mirrors"
 msgstr "<a %(a_mirrors)s>ミラーサイト</a>を設置していただけると嬉しいです。これに対しては財政的な支援を行います。"
+
+#: allthethings/page/templates/page/faq.html:100
+msgid "page.faq.slow.title"
+msgstr ""
 
 #: allthethings/page/templates/page/faq.html:103
 #, fuzzy
@@ -2686,102 +2688,102 @@ msgstr "SciDB"
 msgid "layout.index.header.nav.beta"
 msgstr "ベータ"
 
-#: allthethings/page/templates/page/home.html:27
+#: allthethings/page/templates/page/home.html:22
+#: allthethings/page/templates/page/scidb_home.html:9
 #: allthethings/page/templates/page/search.html:257
 #: allthethings/page/templates/page/search.html:314
 #, fuzzy
 msgid "page.home.scidb.scihub_paused"
 msgstr "Sci-Hubは新しい論文のアップロードを<a %(a_paused)s>一時停止</a>しています。"
 
-#: allthethings/page/templates/page/home.html:28
+#: allthethings/page/templates/page/home.html:23
 #: allthethings/page/templates/page/search.html:258
 #: allthethings/page/templates/page/search.html:315
 #, fuzzy
 msgid "page.home.scidb.continuation"
 msgstr "🧬&nbsp;SciDBはSci-Hubの継続です。"
 
-#: allthethings/page/templates/page/home.html:29
-#: allthethings/page/templates/page/home.html:34
+#: allthethings/page/templates/page/home.html:24
 #, fuzzy
 msgid "page.home.scidb.subtitle"
 msgstr "%(count)s件の学術論文への直接アクセス"
 
-#: allthethings/page/templates/page/home.html:36
+#: allthethings/page/templates/page/home.html:30
 #: allthethings/page/templates/page/scidb_home.html:19
 msgid "page.home.scidb.placeholder_doi"
 msgstr "DOI"
 
-#: allthethings/page/templates/page/home.html:37
+#: allthethings/page/templates/page/home.html:31
 #: allthethings/page/templates/page/scidb_home.html:20
 msgid "page.home.scidb.open"
 msgstr "開く"
 
-#: allthethings/page/templates/page/home.html:39
+#: allthethings/page/templates/page/home.html:33
 msgid "page.home.scidb.browser_verification"
 msgstr "もし<a %(a_member)s>メンバー</a>ならブラウザの認証は必要ありません。"
 
-#: allthethings/page/templates/page/home.html:43
+#: allthethings/page/templates/page/home.html:37
 msgid "page.home.archive.header"
 msgstr "長期アーカイブ"
 
-#: allthethings/page/templates/page/home.html:46
+#: allthethings/page/templates/page/home.html:40
 msgid "page.home.archive.body"
 msgstr "アンナのアーカイブで使用されるデータセットは完全にオープンソースであり、torrentsを使用して一括でミラーリングできます。%(a_datasets)sもっと詳しく…</a>"
 
-#: allthethings/page/templates/page/home.html:50
+#: allthethings/page/templates/page/home.html:44
 #, fuzzy
 msgid "page.home.torrents.body"
 msgstr "トレントをシードすることで大いに助けることができます。<a %(a_torrents)s>詳細はこちら…</a>"
 
-#: allthethings/page/templates/page/home.html:53
+#: allthethings/page/templates/page/home.html:47
 #: allthethings/page/templates/page/torrents.html:86
 #, fuzzy
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s シーダー"
 
-#: allthethings/page/templates/page/home.html:54
+#: allthethings/page/templates/page/home.html:48
 #: allthethings/page/templates/page/torrents.html:87
 #, fuzzy
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s シーダー"
 
-#: allthethings/page/templates/page/home.html:55
+#: allthethings/page/templates/page/home.html:49
 #: allthethings/page/templates/page/torrents.html:88
 #, fuzzy
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s シーダー"
 
-#: allthethings/page/templates/page/home.html:67
+#: allthethings/page/templates/page/home.html:61
 #, fuzzy
 msgid "page.home.llm.header"
 msgstr "LLM training data"
 
-#: allthethings/page/templates/page/home.html:70
+#: allthethings/page/templates/page/home.html:64
 #, fuzzy
 msgid "page.home.llm.body"
 msgstr "私たちは世界最大の高品質テキストデータのコレクションを持っています。<a %(a_llm)s>詳細はこちら…</a>"
 
-#: allthethings/page/templates/page/home.html:73
+#: allthethings/page/templates/page/home.html:67
 #, fuzzy
 msgid "page.home.mirrors.header"
 msgstr "🪩 ミラー: ボランティア募集"
 
-#: allthethings/page/templates/page/home.html:75
+#: allthethings/page/templates/page/home.html:69
 #, fuzzy
 msgid "page.home.volunteering.header"
 msgstr "🤝 ボランティア募集中"
 
-#: allthethings/page/templates/page/home.html:77
+#: allthethings/page/templates/page/home.html:71
 #, fuzzy
 msgid "page.home.volunteering.help_out"
 msgstr "非営利のオープンソースプロジェクトとして、常に協力してくれる人を探しています。"
 
-#: allthethings/page/templates/page/home.html:96
+#: allthethings/page/templates/page/home.html:90
 #, fuzzy
 msgid "page.home.payment_processor.body"
 msgstr "高リスクの匿名決済プロセッサーを運営している場合は、ぜひご連絡ください。また、控えめな小さな広告を掲載したい方も募集しています。すべての収益は保存活動に充てられます。"
 
-#: allthethings/page/templates/page/home.html:104
+#: allthethings/page/templates/page/home.html:98
 #: allthethings/templates/layouts/index.html:493
 #: allthethings/templates/layouts/index.html:572
 msgid "layout.index.header.nav.annasblog"
@@ -2831,6 +2833,119 @@ msgstr "このページを表示するには、<a %(a_account)s>ログイン</a>
 #, fuzzy
 msgid "page.maintenance.header"
 msgstr "Anna’s Archiveはメンテナンスのため一時的に停止しています。1時間後に再度お越しください。"
+
+#: allthethings/page/templates/page/metadata.html:4
+#: allthethings/page/templates/page/metadata.html:9
+msgid "page.metadata.header"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:12
+msgid "page.metadata.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:15
+msgid "page.metadata.background.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:18
+msgid "page.metadata.background.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:22
+msgid "page.metadata.background.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:26
+msgid "page.metadata.background.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:30
+msgid "page.metadata.background.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:34
+msgid "page.metadata.background.body5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:39
+msgid "page.metadata.background.body6"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:44
+msgid "page.metadata.background.body7"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:56
+msgid "page.metadata.openlib.title"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:59
+msgid "page.metadata.openlib.body1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:63
+msgid "page.metadata.openlib.body2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:67
+msgid "page.metadata.openlib.body3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:71
+msgid "page.metadata.openlib.body4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:75
+msgid "page.metadata.openlib.howto.item.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:76
+msgid "page.metadata.openlib.howto.item.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:78
+msgid "page.metadata.openlib.howto.item.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:79
+msgid "page.metadata.openlib.howto.item.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:81
+msgid "page.metadata.openlib.howto.item.2.2.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:82
+msgid "page.metadata.openlib.howto.item.2.2.2"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:83
+msgid "page.metadata.openlib.howto.item.2.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:86
+msgid "page.metadata.openlib.howto.item.2.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:89
+msgid "page.metadata.openlib.howto.item.3"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:90
+msgid "page.metadata.openlib.howto.item.4"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:92
+msgid "page.metadata.openlib.howto.item.4.1"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:95
+msgid "page.metadata.openlib.howto.item.5"
+msgstr ""
+
+#: allthethings/page/templates/page/metadata.html:99
+msgid "page.metadata.openlib.body5"
+msgstr ""
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -2945,11 +3060,6 @@ msgstr "動作しませんか？<a %(a_refresh)s>リフレッシュ</a>を試し
 #, fuzzy
 msgid "page.scidb.no_preview_new"
 msgstr "プレビューはまだ利用できません。<a %(a_path)s>Anna’s Archive</a>からファイルをダウンロードしてください。"
-
-#: allthethings/page/templates/page/scidb_home.html:9
-#, fuzzy
-msgid "page.home.scidb.text1"
-msgstr "Sci-Hubは新しい論文のアップロードを<a %(a_closed)s>一時停止</a>しました。"
 
 #: allthethings/page/templates/page/scidb_home.html:13
 #, fuzzy
@@ -3141,6 +3251,10 @@ msgstr "もっと見る…"
 #: allthethings/page/templates/page/search.html:228
 msgid "page.search.header.update_info"
 msgstr "この検索インデックスは毎月更新されます。現在、%(last_data_refresh_date)sまでのエントリーが含まれています。より詳細な技術情報については、%(link_open_tag)sデータセットのページ</a>をご覧ください。"
+
+#: allthethings/page/templates/page/search.html:230
+msgid "page.search.header.codes_explorer"
+msgstr ""
 
 #: allthethings/page/templates/page/search.html:240
 #, fuzzy
@@ -3928,4 +4042,7 @@ msgstr "次へ"
 
 #~ msgid "page.donate.perks.only_this_month"
 #~ msgstr "今月だけ！"
+
+#~ msgid "page.home.scidb.text1"
+#~ msgstr "Sci-Hubは新しい論文のアップロードを<a %(a_closed)s>一時停止</a>しました。"
 
