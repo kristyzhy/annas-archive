@@ -1211,9 +1211,7 @@ def mysql_build_aarecords_codes_numbers_internal():
         # InnoDB for the key length.
         # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
         print("Creating fresh table aarecords_codes_new")
-        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
         cursor.execute('CREATE TABLE aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_ia UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_isbndb UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_ol UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_duxiu UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_oclc UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_main;')
-        cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes_new')
         cursor.execute('CREATE TABLE aarecords_codes_prefixes_new (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT DISTINCT SUBSTRING_INDEX(code, ":", 1) AS code_prefix FROM aarecords_codes_new')
 
         cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes_new" LIMIT 1')
@@ -1270,13 +1268,12 @@ def mysql_build_aarecords_codes_numbers_internal():
             for actual_code_prefix in actual_code_prefixes:
                 for letter_prefix1 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
                     for letter_prefix2 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                        for letter_prefix3 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                            prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2, letter_prefix3])
-                            # DUPLICATED ABOVE
-                            if prefix <= last_prefix:
-                                raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
-                            prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
-                            last_prefix = prefix
+                        prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2])
+                        # DUPLICATED ABOVE
+                        if prefix <= last_prefix:
+                            raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
+                        prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
+                        last_prefix = prefix
 
         with multiprocessing.Pool(max(5, THREADS)) as executor:
             print(f"Computing row numbers and sizes of {len(prefix_ranges)} prefix_ranges..")
@@ -1333,6 +1330,14 @@ def mysql_build_aarecords_codes_numbers_internal():
             print(f"Processing {len(update_ranges)} update_ranges (starting with the largest ones)..")
             processed_rows = sum(list(tqdm.tqdm(executor.imap_unordered(mysql_build_aarecords_codes_numbers_update_range, update_ranges), total=len(update_ranges))))
         
+
+        if SLOW_DATA_IMPORTS:
+            connection.connection.ping(reconnect=True)
+            cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+            cursor.execute('SELECT MIN(correct) AS min_correct FROM (SELECT ((row_number_order_by_code = ROW_NUMBER() OVER (ORDER BY code, aarecord_id)) AND (dense_rank_order_by_code = DENSE_RANK() OVER (ORDER BY code, aarecord_id)) AND (row_number_partition_by_aarecord_id_prefix_order_by_code = ROW_NUMBER() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id)) AND (dense_rank_partition_by_aarecord_id_prefix_order_by_code = DENSE_RANK() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id))) AS correct FROM aarecords_codes_new ORDER BY code DESC LIMIT 10) x')
+            if str(cursor.fetchone()['min_correct']) != '1':
+                raise Exception('mysql_build_aarecords_codes_numbers_internal final sanity check failed!')
+
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_codes')
