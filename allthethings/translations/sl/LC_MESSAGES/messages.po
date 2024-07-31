@@ -1,3 +1,20 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-31 19:02+0000\n"
+"PO-Revision-Date: 2024-07-31 19:02+0000\n"
+"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3;\n"
+"X-Generator: Weblate 5.6.2\n"
+
 #: allthethings/app.py:203
 msgid "layout.index.invalid_request"
 msgstr "Neveljavna zahteva. Obišči %(websites)s."
@@ -2252,8 +2269,9 @@ msgid "page.faq.help.mirrors"
 msgstr "Radi bi, da ljudje postavijo <a %(a_mirrors)s>zrcalne strežnike</a>, in to bomo finančno podprli."
 
 #: allthethings/page/templates/page/faq.html:100
+#, fuzzy
 msgid "page.faq.slow.title"
-msgstr ""
+msgstr "Zakaj so počasni prenosi tako počasni?"
 
 #: allthethings/page/templates/page/faq.html:103
 #, fuzzy
@@ -2757,116 +2775,144 @@ msgstr "Annin Arhiv je začasno nedostopen zaradi vzdrževanja. Prosimo, vrnite 
 
 #: allthethings/page/templates/page/metadata.html:4
 #: allthethings/page/templates/page/metadata.html:9
+#, fuzzy
 msgid "page.metadata.header"
-msgstr ""
+msgstr "Izboljšaj meta podatke"
 
 #: allthethings/page/templates/page/metadata.html:12
+#, fuzzy
 msgid "page.metadata.body1"
-msgstr ""
+msgstr "Lahko pomagate pri ohranjanju knjig z izboljšanjem meta podatkov! Najprej preberite ozadje o meta podatkih na Anninem arhivu, nato pa se naučite, kako izboljšati meta podatke s povezovanjem z Open Library in si prislužite brezplačno članstvo na Anninem arhivu."
 
 #: allthethings/page/templates/page/metadata.html:15
+#, fuzzy
 msgid "page.metadata.background.title"
-msgstr ""
+msgstr "Ozadje"
 
 #: allthethings/page/templates/page/metadata.html:18
+#, fuzzy
 msgid "page.metadata.background.body1"
-msgstr ""
+msgstr "Ko si ogledate knjigo na Anninem arhivu, lahko vidite različna polja: naslov, avtor, založnik, izdaja, leto, opis, ime datoteke in še več. Vse te informacije se imenujejo <em>meta podatki</em>."
 
 #: allthethings/page/templates/page/metadata.html:22
+#, fuzzy
 msgid "page.metadata.background.body2"
-msgstr ""
+msgstr "Ker združujemo knjige iz različnih <em>izvornih knjižnic</em>, prikazujemo vse meta podatke, ki so na voljo v tej izvorni knjižnici. Na primer, za knjigo, ki smo jo dobili iz Library Genesis, bomo prikazali naslov iz baze podatkov Library Genesis."
 
 #: allthethings/page/templates/page/metadata.html:26
+#, fuzzy
 msgid "page.metadata.background.body3"
-msgstr ""
+msgstr "Včasih je knjiga prisotna v <em>več izvornih knjižnicah</em>, ki imajo lahko različna polja meta podatkov. V tem primeru preprosto prikažemo najdaljšo različico vsakega polja, saj ta verjetno vsebuje najbolj uporabne informacije! Še vedno bomo prikazali druga polja pod opisom, npr. kot \"alternativni naslov\" (vendar le, če so različni)."
 
 #: allthethings/page/templates/page/metadata.html:30
+#, fuzzy
 msgid "page.metadata.background.body4"
-msgstr ""
+msgstr "Prav tako izvlečemo <em>kode</em>, kot so identifikatorji in klasifikatorji, iz izvorne knjižnice. <em>Identifikatorji</em> edinstveno predstavljajo določeno izdajo knjige; primeri so ISBN, DOI, Open Library ID, Google Books ID ali Amazon ID. <em>Klasifikatorji</em> združujejo več podobnih knjig; primeri so Dewey Decimal (DCC), UDC, LCC, RVK ali GOST. Včasih so te kode izrecno povezane v izvornih knjižnicah, včasih pa jih lahko izvlečemo iz imena datoteke ali opisa (predvsem ISBN in DOI)."
 
 #: allthethings/page/templates/page/metadata.html:34
+#, fuzzy
 msgid "page.metadata.background.body5"
-msgstr ""
+msgstr "Identifikatorje lahko uporabimo za iskanje zapisov v <em>zbirke samo z meta podatki</em>, kot so OpenLibrary, ISBNdb ali WorldCat/OCLC. V našem iskalniku je poseben <em>zavihek z meta podatki</em>, če želite brskati po teh zbirkah. Ujemajoče se zapise uporabljamo za izpolnjevanje manjkajočih polj meta podatkov (npr. če manjka naslov) ali npr. kot \"alternativni naslov\" (če že obstaja naslov)."
 
 #: allthethings/page/templates/page/metadata.html:39
+#, fuzzy
 msgid "page.metadata.background.body6"
-msgstr ""
+msgstr "Če želite natančno videti, od kod izvirajo meta podatki knjige, si oglejte <em>zavihek \"Tehnične podrobnosti\"</em> na strani knjige. Ima povezavo do surovega JSON-a za to knjigo, s kazalci na surovi JSON izvirnih zapisov."
 
 #: allthethings/page/templates/page/metadata.html:44
+#, fuzzy
 msgid "page.metadata.background.body7"
-msgstr ""
+msgstr "Za več informacij si oglejte naslednje strani: <a %(a_datasets)s>Zbirke podatkov</a>, <a %(a_search_metadata)s>Iskanje (zavihek z meta podatki)</a>, <a %(a_codes)s>Raziskovalec kod</a> in <a %(a_example)s>Primer meta podatkov JSON</a>. Nazadnje lahko vse naše meta podatke <a %(a_generated)s>generirate</a> ali <a %(a_downloaded)s>preneste</a> kot baze podatkov ElasticSearch in MariaDB."
 
 #: allthethings/page/templates/page/metadata.html:56
+#, fuzzy
 msgid "page.metadata.openlib.title"
-msgstr ""
+msgstr "Povezovanje z Open Library"
 
 #: allthethings/page/templates/page/metadata.html:59
+#, fuzzy
 msgid "page.metadata.openlib.body1"
-msgstr ""
+msgstr "Torej, če naletite na datoteko s slabimi meta podatki, kako jo popraviti? Lahko greste v izvorno knjižnico in sledite njenim postopkom za popravljanje meta podatkov, vendar kaj storiti, če je datoteka prisotna v več izvornih knjižnicah?"
 
 #: allthethings/page/templates/page/metadata.html:63
+#, fuzzy
 msgid "page.metadata.openlib.body2"
-msgstr ""
+msgstr "Obstaja en identifikator, ki je na Anninem arhivu obravnavan posebej. <strong>Polje annas_archive md5 na Open Library vedno preglasi vse druge meta podatke!</strong> Najprej se vrnimo nazaj in se naučimo o Open Library."
 
 #: allthethings/page/templates/page/metadata.html:67
+#, fuzzy
 msgid "page.metadata.openlib.body3"
-msgstr ""
+msgstr "Open Library je leta 2006 ustanovil Aaron Swartz z namenom \"ena spletna stran za vsako knjigo, ki je bila kdajkoli objavljena\". Je nekakšna Wikipedija za meta podatke knjig: vsakdo jo lahko ureja, je prosto licencirana in jo je mogoče prenesti v celoti. Je baza podatkov o knjigah, ki je najbolj usklajena z našim poslanstvom — pravzaprav je Annin arhiv navdihnjen z vizijo in življenjem Aarona Swartza."
 
 #: allthethings/page/templates/page/metadata.html:71
+#, fuzzy
 msgid "page.metadata.openlib.body4"
-msgstr ""
+msgstr "Namesto da bi izumljali kolo, smo se odločili preusmeriti naše prostovoljce na Open Library. Če vidite knjigo z napačnimi meta podatki, lahko pomagate na naslednji način:"
 
 #: allthethings/page/templates/page/metadata.html:75
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.1"
-msgstr ""
+msgstr " Pojdite na <a %(a_openlib)s>spletno stran Open Library</a>."
 
 #: allthethings/page/templates/page/metadata.html:76
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2"
-msgstr ""
+msgstr "Poiščite pravilen zapis knjige. <strong>OPOZORILO:</strong> bodite prepričani, da izberete pravilno <strong>izdajo</strong>. V Open Library imate \"dela\" in \"izdaje\"."
 
 #: allthethings/page/templates/page/metadata.html:78
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.1"
-msgstr ""
+msgstr "\"Delo\" bi lahko bilo \"Harry Potter in Kamen modrosti\"."
 
 #: allthethings/page/templates/page/metadata.html:79
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2"
-msgstr ""
+msgstr "\"Izdaja\" bi lahko bila:"
 
 #: allthethings/page/templates/page/metadata.html:81
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.1"
-msgstr ""
+msgstr "Prva izdaja iz leta 1997, ki jo je izdal Bloomsbery, s 256 stranmi."
 
 #: allthethings/page/templates/page/metadata.html:82
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.2"
-msgstr ""
+msgstr "Mehka izdaja iz leta 2003, ki jo je izdal Raincoast Books, s 223 stranmi."
 
 #: allthethings/page/templates/page/metadata.html:83
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.3"
-msgstr ""
+msgstr "Poljski prevod iz leta 2000 “Harry Potter I Kamie Filozoficzn” pri založbi Media Rodzina s 328 stranmi."
 
 #: allthethings/page/templates/page/metadata.html:86
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.3"
-msgstr ""
+msgstr "Vse te izdaje imajo različne ISBN-je in različne vsebine, zato pazite, da izberete pravo!"
 
 #: allthethings/page/templates/page/metadata.html:89
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.3"
-msgstr ""
+msgstr "Uredite zapis (ali ga ustvarite, če ne obstaja) in dodajte čim več uporabnih informacij! Zdaj ste tukaj, zato lahko zapis resnično izboljšate."
 
 #: allthethings/page/templates/page/metadata.html:90
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.4"
-msgstr ""
+msgstr "Pod “ID številke” izberite “Annin arhiv” in dodajte MD5 knjige iz Anninega arhiva. To je dolga vrsta črk in številk po “/md5/” v URL-ju."
 
 #: allthethings/page/templates/page/metadata.html:92
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.4.1"
-msgstr ""
+msgstr "Poskusite najti druge datoteke v Anninem arhivu, ki se prav tako ujemajo s tem zapisom, in jih dodajte. V prihodnosti jih lahko združimo kot podvojene na iskalni strani Anninega arhiva."
 
 #: allthethings/page/templates/page/metadata.html:95
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.5"
-msgstr ""
+msgstr "Ko končate, zapišite URL, ki ste ga pravkar posodobili. Ko boste posodobili vsaj 30 zapisov z MD5-ji iz Anninega arhiva, nam pošljite <a %(a_contact)s>e-pošto</a> in nam pošljite seznam. Dobili boste brezplačno članstvo za Annin arhiv, da boste lažje opravljali to delo (in kot zahvalo za vašo pomoč). To morajo biti visokokakovostne spremembe, ki dodajo znatne količine informacij, sicer bo vaša zahteva zavrnjena. Vaša zahteva bo prav tako zavrnjena, če bodo katere koli spremembe razveljavili ali popravili moderatorji Open Library."
 
 #: allthethings/page/templates/page/metadata.html:99
+#, fuzzy
 msgid "page.metadata.openlib.body5"
-msgstr ""
+msgstr "Upoštevajte, da to velja samo za knjige, ne za akademske članke ali druge vrste datotek. Za druge vrste datotek še vedno priporočamo iskanje izvorne knjižnice. Lahko traja nekaj tednov, da se spremembe vključijo v Annin arhiv, saj moramo prenesti najnovejši podatkovni prenos Open Library in ponovno ustvariti naš iskalni indeks."
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -3151,8 +3197,9 @@ msgid "page.search.header.update_info"
 msgstr "Iskalni indeks se posodablja mesečno. Trenutno vključuje vnose do %(last_data_refresh_date)s. Za več tehničnih informacij glejte %(link_open_tag)sstran z nabori podatkov</a>."
 
 #: allthethings/page/templates/page/search.html:230
+#, fuzzy
 msgid "page.search.header.codes_explorer"
-msgstr ""
+msgstr "Za raziskovanje iskalnega indeksa po kodah uporabite <a %(a_href)s>Raziskovalec kod</a>."
 
 #: allthethings/page/templates/page/search.html:240
 msgid "page.search.results.search_downloads"
@@ -3796,4 +3843,3 @@ msgstr "Naslednji"
 
 #~ msgid "page.home.scidb.text1"
 #~ msgstr "Sci-Hub je <a %(a_closed)s>začasno ustavil</a> nalaganje novih člankov."
-
