@@ -483,6 +483,7 @@ MEMBERSHIP_MAX_BONUS_DOWNLOADS = 10000
 MEMBERSHIP_EXCHANGE_RATE_RMB = 7.25
 
 def get_is_membership_double():
+    return True
     now = datetime.datetime.now(tz=datetime.timezone.utc)
     return now.strftime("%Y-%m") == '2024-08'
 def get_is_membership_double_with_leeway():

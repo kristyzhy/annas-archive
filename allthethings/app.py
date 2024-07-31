@@ -302,6 +302,7 @@ def extensions(app):
         monthrange = calendar.monthrange(currentYear, currentMonth)[1]
         g.fraction_of_the_month = today / monthrange
 
+
     return None
 
 
