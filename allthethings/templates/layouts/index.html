@@ -494,7 +494,7 @@
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://software.annas-archive.se" target="_blank">{{ gettext('layout.index.header.nav.annassoftware') }}</a>
                 <a class="custom-a block py-1 text-black/64 hover:text-black" href="https://translate.annas-archive.se" target="_blank">{{ gettext('layout.index.header.nav.translate') }}</a>
               </div>
-              <a href="/donate" class="{{ 'header-link-active' if header_active == 'donate' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.donate') }}{% if g.is_membership_double %} <span class="ml-1 text-xs bg-[#ff005b] text-white px-1 rounded">x2</span>{% endif %}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.donate') }}{% if g.is_membership_double %} <span class="ml-1 text-xs bg-[#ff005b] text-white px-1 rounded">x2</span>{% endif %}</span></a>
+              <a href="/donate" class="{{ 'header-link-active' if header_active == 'donate' }}"><span class="header-link-normal">{{ gettext('layout.index.header.nav.donate') }}{% if g.is_membership_double %} <span class="ml-1 text-xs bg-[#ff005b] text-white px-1 rounded align-[1px]">x2</span>{% endif %}</span><span class="header-link-bold">{{ gettext('layout.index.header.nav.donate') }}{% if g.is_membership_double %} <span class="ml-1 text-xs bg-[#ff005b] text-white px-1 rounded align-[1px]">x2</span>{% endif %}</span></a>
             </div>
             {% if not g.hide_search_bar %}
               <form class="header-search hidden sm:flex" action="/search" method="get" role="search">
