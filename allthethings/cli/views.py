@@ -1268,13 +1268,12 @@ def mysql_build_aarecords_codes_numbers_internal():
             for actual_code_prefix in actual_code_prefixes:
                 for letter_prefix1 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
                     for letter_prefix2 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                        for letter_prefix3 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                            prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2, letter_prefix3])
-                            # DUPLICATED ABOVE
-                            if prefix <= last_prefix:
-                                raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
-                            prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
-                            last_prefix = prefix
+                        prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2])
+                        # DUPLICATED ABOVE
+                        if prefix <= last_prefix:
+                            raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
+                        prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
+                        last_prefix = prefix
 
         with multiprocessing.Pool(max(5, THREADS)) as executor:
             print(f"Computing row numbers and sizes of {len(prefix_ranges)} prefix_ranges..")
@@ -1331,6 +1330,14 @@ def mysql_build_aarecords_codes_numbers_internal():
             print(f"Processing {len(update_ranges)} update_ranges (starting with the largest ones)..")
             processed_rows = sum(list(tqdm.tqdm(executor.imap_unordered(mysql_build_aarecords_codes_numbers_update_range, update_ranges), total=len(update_ranges))))
         
+
+        if SLOW_DATA_IMPORTS:
+            connection.connection.ping(reconnect=True)
+            cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
+            cursor.execute('SELECT MIN(correct) AS min_correct FROM (SELECT ((row_number_order_by_code = ROW_NUMBER() OVER (ORDER BY code, aarecord_id)) AND (dense_rank_order_by_code = DENSE_RANK() OVER (ORDER BY code, aarecord_id)) AND (row_number_partition_by_aarecord_id_prefix_order_by_code = ROW_NUMBER() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id)) AND (dense_rank_partition_by_aarecord_id_prefix_order_by_code = DENSE_RANK() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id))) AS correct FROM aarecords_codes_new ORDER BY code DESC LIMIT 10) x')
+            if str(cursor.fetchone()['min_correct']) != '1':
+                raise Exception('mysql_build_aarecords_codes_numbers_internal final sanity check failed!')
+
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_codes')
