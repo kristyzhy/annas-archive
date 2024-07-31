@@ -1,3 +1,19 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-31 19:02+0000\n"
+"PO-Revision-Date: 2024-07-31 19:02+0000\n"
+"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
 #: allthethings/app.py:203
 msgid "layout.index.invalid_request"
 msgstr "Érvénytelen kérelem. Látogatás %(websites)s."
@@ -2303,8 +2319,9 @@ msgid "page.faq.help.mirrors"
 msgstr "Szeretnénk, ha az emberek <a %(a_mirrors)s>tükröket</a> állítanának fel, és anyagilag támogatni fogjuk ezt."
 
 #: allthethings/page/templates/page/faq.html:100
+#, fuzzy
 msgid "page.faq.slow.title"
-msgstr ""
+msgstr "Miért olyan lassúak a lassú letöltések?"
 
 #: allthethings/page/templates/page/faq.html:103
 #, fuzzy
@@ -2810,116 +2827,144 @@ msgstr "Anna Archívuma ideiglenesen karbantartás miatt nem elérhető. Kérjü
 
 #: allthethings/page/templates/page/metadata.html:4
 #: allthethings/page/templates/page/metadata.html:9
+#, fuzzy
 msgid "page.metadata.header"
-msgstr ""
+msgstr "Metaadatok javítása"
 
 #: allthethings/page/templates/page/metadata.html:12
+#, fuzzy
 msgid "page.metadata.body1"
-msgstr ""
+msgstr "Segíthet a könyvek megőrzésében a metaadatok javításával! Először olvassa el a metaadatok hátterét Anna Archívumában, majd tanulja meg, hogyan javíthatja a metaadatokat az Open Library-hoz való kapcsolódás révén, és szerezzen ingyenes tagságot Anna Archívumában."
 
 #: allthethings/page/templates/page/metadata.html:15
+#, fuzzy
 msgid "page.metadata.background.title"
-msgstr ""
+msgstr "Háttér"
 
 #: allthethings/page/templates/page/metadata.html:18
+#, fuzzy
 msgid "page.metadata.background.body1"
-msgstr ""
+msgstr "Amikor megnéz egy könyvet Anna Archívumában, különböző mezőket láthat: cím, szerző, kiadó, kiadás, év, leírás, fájlnév és még sok más. Mindezeket az információkat <em>metaadatoknak</em> nevezzük."
 
 #: allthethings/page/templates/page/metadata.html:22
+#, fuzzy
 msgid "page.metadata.background.body2"
-msgstr ""
+msgstr "Mivel különböző <em>forráskönyvtárakból</em> származó könyveket kombinálunk, megjelenítjük az adott forráskönyvtárban elérhető metaadatokat. Például, ha egy könyvet a Library Genesisből szereztünk, akkor a Library Genesis adatbázisából származó címet jelenítjük meg."
 
 #: allthethings/page/templates/page/metadata.html:26
+#, fuzzy
 msgid "page.metadata.background.body3"
-msgstr ""
+msgstr "Néha egy könyv <em>több</em> forráskönyvtárban is megtalálható, amelyek eltérő metaadat mezőkkel rendelkezhetnek. Ilyen esetben egyszerűen a leghosszabb verziót jelenítjük meg minden mezőből, mivel remélhetőleg az tartalmazza a leghasznosabb információkat! Az egyéb mezőket továbbra is megjelenítjük a leírás alatt, pl. „alternatív címként” (de csak akkor, ha eltérnek)."
 
 #: allthethings/page/templates/page/metadata.html:30
+#, fuzzy
 msgid "page.metadata.background.body4"
-msgstr ""
+msgstr "Kivonjuk a <em>kódokat</em> is, mint például az azonosítókat és osztályozókat a forráskönyvtárból. Az <em>azonosítók</em> egy adott könyvkiadást egyedileg képviselnek; példák erre az ISBN, DOI, Open Library ID, Google Books ID vagy Amazon ID. Az <em>osztályozók</em> több hasonló könyvet csoportosítanak; példák erre a Dewey Decimal (DCC), UDC, LCC, RVK vagy GOST. Néha ezek a kódok kifejezetten kapcsolódnak a forráskönyvtárakban, és néha a fájlnévből vagy a leírásból tudjuk kivonni őket (elsősorban ISBN és DOI)."
 
 #: allthethings/page/templates/page/metadata.html:34
+#, fuzzy
 msgid "page.metadata.background.body5"
-msgstr ""
+msgstr "Az azonosítókat felhasználhatjuk a <em>csak metaadatokat tartalmazó gyűjteményekben</em> található rekordok megtalálására, mint például az OpenLibrary, ISBNdb vagy WorldCat/OCLC. Keresőmotorunkban van egy külön <em>metaadat fül</em>, ha szeretné böngészni ezeket a gyűjteményeket. A megfelelő rekordokat használjuk a hiányzó metaadat mezők kitöltésére (pl. ha hiányzik egy cím), vagy pl. „alternatív címként” (ha már létezik egy cím)."
 
 #: allthethings/page/templates/page/metadata.html:39
+#, fuzzy
 msgid "page.metadata.background.body6"
-msgstr ""
+msgstr "Ha pontosan szeretné látni, honnan származik egy könyv metaadata, nézze meg a <em>„Technikai részletek” fület</em> egy könyv oldalán. Itt található egy link a nyers JSON-hoz az adott könyvhöz, amely mutat a nyers JSON-ra az eredeti rekordokból."
 
 #: allthethings/page/templates/page/metadata.html:44
+#, fuzzy
 msgid "page.metadata.background.body7"
-msgstr ""
+msgstr "További információkért lásd a következő oldalakat: <a %(a_datasets)s>Adatkészletek</a>, <a %(a_search_metadata)s>Keresés (metaadat fül)</a>, <a %(a_codes)s>Kódok felfedezője</a>, és <a %(a_example)s>Példa metaadat JSON</a>. Végül, minden metaadatunk <a %(a_generated)s>generálható</a> vagy <a %(a_downloaded)s>letölthető</a> ElasticSearch és MariaDB adatbázisokként."
 
 #: allthethings/page/templates/page/metadata.html:56
+#, fuzzy
 msgid "page.metadata.openlib.title"
-msgstr ""
+msgstr "Open Library kapcsolódás"
 
 #: allthethings/page/templates/page/metadata.html:59
+#, fuzzy
 msgid "page.metadata.openlib.body1"
-msgstr ""
+msgstr "Tehát ha talál egy fájlt rossz metaadatokkal, hogyan javíthatja ki? Elmehet a forráskönyvtárba és követheti annak eljárásait a metaadatok javítására, de mit tegyen, ha egy fájl több forráskönyvtárban is megtalálható?"
 
 #: allthethings/page/templates/page/metadata.html:63
+#, fuzzy
 msgid "page.metadata.openlib.body2"
-msgstr ""
+msgstr "Van egy azonosító, amely különleges bánásmódban részesül Anna Archívumában. <strong>Az annas_archive md5 mező az Open Library-ban mindig felülír minden más metaadatot!</strong> Lépjünk egy kicsit vissza, és ismerjük meg az Open Library-t."
 
 #: allthethings/page/templates/page/metadata.html:67
+#, fuzzy
 msgid "page.metadata.openlib.body3"
-msgstr ""
+msgstr "Az Open Library-t 2006-ban alapította Aaron Swartz azzal a céllal, hogy „minden valaha megjelent könyvnek legyen egy weboldala”. Ez egyfajta Wikipédia a könyv metaadatok számára: mindenki szerkesztheti, szabadon licencelt, és tömegesen letölthető. Ez egy könyvadatbázis, amely leginkább összhangban van küldetésünkkel — valójában Anna Archívuma Aaron Swartz víziója és élete által inspirálódott."
 
 #: allthethings/page/templates/page/metadata.html:71
+#, fuzzy
 msgid "page.metadata.openlib.body4"
-msgstr ""
+msgstr "Ahelyett, hogy újra feltalálnánk a kereket, úgy döntöttünk, hogy önkénteseinket az Open Library felé irányítjuk. Ha lát egy könyvet, amelynek helytelenek a metaadatai, a következő módon segíthet:"
 
 #: allthethings/page/templates/page/metadata.html:75
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.1"
-msgstr ""
+msgstr " Menjen az <a %(a_openlib)s>Open Library weboldalára</a>."
 
 #: allthethings/page/templates/page/metadata.html:76
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2"
-msgstr ""
+msgstr "Keresse meg a megfelelő könyvrekordot. <strong>FIGYELEM:</strong> ügyeljen arra, hogy a megfelelő <strong>kiadást</strong> válassza ki. Az Open Library-ban vannak „művek” és „kiadások”."
 
 #: allthethings/page/templates/page/metadata.html:78
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.1"
-msgstr ""
+msgstr "Egy „mű” lehet például „Harry Potter és a bölcsek köve”."
 
 #: allthethings/page/templates/page/metadata.html:79
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2"
-msgstr ""
+msgstr "Egy „kiadás” lehet:"
 
 #: allthethings/page/templates/page/metadata.html:81
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.1"
-msgstr ""
+msgstr "Az 1997-es első kiadás, amelyet a Bloomsbery adott ki, 256 oldallal."
 
 #: allthethings/page/templates/page/metadata.html:82
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.2"
-msgstr ""
+msgstr "A 2003-as puhakötésű kiadás, amelyet a Raincoast Books adott ki, 223 oldallal."
 
 #: allthethings/page/templates/page/metadata.html:83
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.3"
-msgstr ""
+msgstr "A 2000-es lengyel fordítás, „Harry Potter I Kamie Filozoficzn”, amelyet a Media Rodzina adott ki, 328 oldallal."
 
 #: allthethings/page/templates/page/metadata.html:86
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.3"
-msgstr ""
+msgstr "Ezeknek a kiadásoknak mind különböző ISBN-jei és tartalmai vannak, ezért ügyeljen arra, hogy a megfelelőt válassza ki!"
 
 #: allthethings/page/templates/page/metadata.html:89
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.3"
-msgstr ""
+msgstr "Szerkessze a rekordot (vagy hozza létre, ha még nem létezik), és adjon hozzá minél több hasznos információt! Ha már itt van, akár igazán lenyűgözővé is teheti a rekordot."
 
 #: allthethings/page/templates/page/metadata.html:90
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.4"
-msgstr ""
+msgstr "Az „ID Numbers” alatt válassza az „Anna’s Archive” lehetőséget, és adja hozzá a könyv MD5-jét az Anna’s Archive-ból. Ez a hosszú betű- és számsor a „/md5/” után az URL-ben."
 
 #: allthethings/page/templates/page/metadata.html:92
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.4.1"
-msgstr ""
+msgstr "Próbáljon meg más fájlokat is találni az Anna’s Archive-ban, amelyek szintén megfelelnek ennek a rekordnak, és adja hozzá azokat is. A jövőben ezeket csoportosíthatjuk duplikátumként az Anna’s Archive keresőoldalán."
 
 #: allthethings/page/templates/page/metadata.html:95
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.5"
-msgstr ""
+msgstr "Ha végzett, írja le az URL-t, amelyet éppen frissített. Miután legalább 30 rekordot frissített az Anna’s Archive MD5-jeivel, küldjön nekünk egy <a %(a_contact)s>emailt</a>, és küldje el a listát. Ingyenes tagságot adunk az Anna’s Archive-hoz, hogy könnyebben végezhesse ezt a munkát (és köszönetképpen a segítségéért). Ezeknek magas színvonalú szerkesztéseknek kell lenniük, amelyek jelentős mennyiségű információt adnak hozzá, különben a kérését elutasítjuk. A kérését akkor is elutasítjuk, ha bármelyik szerkesztést visszavonják vagy kijavítják az Open Library moderátorai."
 
 #: allthethings/page/templates/page/metadata.html:99
+#, fuzzy
 msgid "page.metadata.openlib.body5"
-msgstr ""
+msgstr "Vegye figyelembe, hogy ez csak könyvekre vonatkozik, nem tudományos cikkekre vagy más típusú fájlokra. Más típusú fájlok esetén továbbra is javasoljuk a forráskönyvtár megtalálását. Néhány hétbe telhet, mire a változtatások bekerülnek az Anna’s Archive-ba, mivel le kell töltenünk a legfrissebb Open Library adatdumpot, és újra kell generálnunk a keresési indexünket."
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -3205,8 +3250,9 @@ msgid "page.search.header.update_info"
 msgstr "A keresési index havonta frissül. Jelenleg %(last_data_refresh_date)s-ig tartalmaz bejegyzéseket. Technikai részletekért lásd az %(link_open_tag)sadatbázisok oldalt</a>."
 
 #: allthethings/page/templates/page/search.html:230
+#, fuzzy
 msgid "page.search.header.codes_explorer"
-msgstr ""
+msgstr "A kódok szerinti keresési index felfedezéséhez használja a <a %(a_href)s>Codes Explorer</a> eszközt."
 
 #: allthethings/page/templates/page/search.html:240
 msgid "page.search.results.search_downloads"
@@ -3982,4 +4028,3 @@ msgstr "Következő"
 
 #~ msgid "page.home.scidb.text1"
 #~ msgstr "A Sci-Hub <a %(a_closed)s>szüneteltette</a> az új cikkek feltöltését."
-
