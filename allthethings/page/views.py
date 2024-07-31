@@ -4695,6 +4695,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             for partner_url_path in additional['partner_url_paths']:
                 allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'server_path', partner_url_path['path'])
 
+        REPLACE_PUNCTUATION = r'[.:_\-/\(\)\\]'
         initial_search_text = "\n".join([
             aarecord['file_unified_data']['title_best'][:2000],
             *[item[:2000] for item in aarecord['file_unified_data'].get('title_additional') or []],
@@ -4710,12 +4711,14 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord_id,
             aarecord['file_unified_data']['extension_best'],
             *(aarecord['file_unified_data'].get('extension_additional') or []),
-            *[f"{key}:{item}" for key, items in aarecord['file_unified_data']['identifiers_unified'].items() for item in items],
-            *[f"{key}:{item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
+            # If we find REPLACE_PUNCTUATION in item, we need a separate standalone one in which punctionation is not replaced.
+            # Otherwise we can rely on REPLACE_PUNCTUATION replacing the : and generating the standalone one.
+            *[f"{key}:{item} {item}" if re.search(REPLACE_PUNCTUATION, item) else f"{key}:{item}" for key, items in aarecord['file_unified_data']['identifiers_unified'].items() for item in items],
+            *[f"{key}:{item} {item}" if re.search(REPLACE_PUNCTUATION, item) else f"{key}:{item}" for key, items in aarecord['file_unified_data']['classifications_unified'].items() for item in items],
         ])
         # Duplicate search terms that contain punctuation, in *addition* to the original search terms (so precise matches still work).
         split_search_text = set(initial_search_text.split())
-        normalized_search_terms = initial_search_text.replace('.', ' ').replace(':', ' ').replace('_', ' ').replace('-', ' ').replace('/', ' ').replace('(', ' ').replace(')', ' ').replace('\\', ' ')
+        normalized_search_terms = re.sub(REPLACE_PUNCTUATION, ' ', initial_search_text)
         filtered_normalized_search_terms = ' '.join([term for term in normalized_search_terms.split() if term not in split_search_text])
         search_text = f"{initial_search_text}\n\n{filtered_normalized_search_terms}"
 

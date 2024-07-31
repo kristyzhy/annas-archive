@@ -114,11 +114,11 @@
 
           {% if search_dict.had_primary_es_timeout and search_dict.max_search_aarecords_reached %}
             <div class="mb-4 text-xs text-gray-500">
-              {{ gettext('page.search.too_long_broad_query') }}
+              ❌ {{ gettext('page.search.too_long_broad_query') }}
             </div>
           {% elif search_dict.had_es_timeout %}
             <div class="mb-4 text-xs text-gray-500 max-sm:hidden">
-              {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
+              ❌ {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
             </div>
           {% endif %}
 
@@ -243,12 +243,12 @@
               <p class="mb-4">
                 {{ gettext('page.search.results.most_comprehensive', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
-              <p class="mb-4 text-sm">
+              <p class="text-sm">
                 {{ gettext('page.search.results.other_shadow_libs', email=(('<a href="/contact">' | safe + gettext('page.contact.title') + '</a>' | safe) | safe)) }}
                 {{ gettext('page.search.results.dmca', a_copyright=(' href="/copyright" ' | safe)) }}
               </p>
 
-              <p class="max-sm:hidden text-sm text-gray-500">
+              <p class="max-sm:hidden text-sm text-gray-500 mt-4">
                 {{ gettext('page.search.results.shortcuts') }}
               </p>
             {% elif search_dict.search_index_short == 'journals' %}
@@ -262,6 +262,10 @@
               <p>
                 You can also still use regular search. {{ gettext('page.search.results.search_journals', count=g.header_stats.journal_article, a_preserve=(' href="/faq#what" ' | safe)) }}
               </p>
+
+              <p class="max-sm:hidden text-sm text-gray-500 mt-4">
+                {{ gettext('page.search.results.shortcuts') }}
+              </p>
             {% elif search_dict.search_index_short == 'digital_lending' %}
               <p class="mb-4">
                 {{ gettext('page.search.results.search_digital_lending') }}
@@ -269,16 +273,18 @@
               <p class="mb-4">
                 {{ gettext('page.search.results.digital_lending_info', a_datasets=(' href="/datasets" ' | safe)) }}
               </p>
-              <p class="mb-4">
+              <p class="">
                 {{ gettext('page.search.results.digital_lending_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/E-book_lending" ' | safe), a_mobileread=(' href="https://wiki.mobileread.com/wiki/EBook_Lending_Libraries" ' | safe)) }}
               </p>
 
-              <p class="max-sm:hidden text-sm text-gray-500">
+              <p class="max-sm:hidden text-sm text-gray-500 mt-4">
                 {{ gettext('page.search.results.shortcuts') }}
               </p>
             {% elif search_dict.search_index_short == 'meta' %}
               <p class="mb-4">
                 {{ gettext('page.search.results.search_metadata', a_request=(' href="/faq#request" ' | safe)) }}
+              </p>
+
               <p class="mb-4">
                 {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }}
                 {{ gettext('page.search.results.metadata_no_merging') }}
@@ -290,19 +296,19 @@
                 {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-archive.se/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
               </p>
 
-              <p class="mb-4 text-sm">
+              <p class="text-sm">
                 {{ gettext('page.search.results.metadata_info_more', a_wikipedia=(' href="https://en.wikipedia.org/wiki/Wikipedia:Book_sources" ' | safe)) }}
               </p>
 
-              <p class="max-sm:hidden text-sm text-gray-500">
+              <p class="max-sm:hidden text-sm text-gray-500 mt-4">
                 {{ gettext('page.search.results.shortcuts') }}
               </p>
             {% else %}
-              <p class="mb-4">
+              <p class="">
                 {{ gettext('page.search.results.search_generic') }}
               </p>
 
-              <p class="max-sm:hidden text-sm text-gray-500">
+              <p class="max-sm:hidden text-sm text-gray-500 mt-4">
                 {{ gettext('page.search.results.shortcuts') }}
               </p>
             {% endif %}
@@ -315,6 +321,22 @@
               {{ gettext('page.home.scidb.continuation') }}
               <a href="/scidb">{{ gettext('layout.index.header.learn_more') }}</a>
             </div>
+          {% elif search_dict.search_index_short == 'meta' %}
+            <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
+              <p class="mb-4">
+                <!-- TODO:TRANSLATE -->
+                These are metadata records, <span class="italic">not</span> downloadable files.
+              </p>
+
+              <p class="mb-4">
+                {{ gettext('page.search.results.search_metadata', a_request=(' href="/faq#request" ' | safe)) }}
+              </p>
+              
+              <p class="">
+                {{ gettext('page.search.results.metadata_info', a_datasets=(' href="/datasets" ' | safe)) }}
+                {{ gettext('page.search.results.metadata_no_merging') }}
+              </p>
+            </div>
           {% endif %}
         {% endif %}
 
@@ -325,14 +347,14 @@
         {% else %}
           {% if search_dict.had_es_timeout and (not search_dict.max_search_aarecords_reached) and ((search_dict.search_aarecords | length) > 0) %}
             <div class="mt-4 text-sm text-gray-500 sm:hidden">
-              {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
+              ❌ {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
             </div>
           {% endif %}
 
           {% if (search_dict.search_aarecords | length) == 0 %}
             <div class="mt-4">
               {% if search_dict.had_es_timeout %}
-                {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
+                ❌ {{ gettext('page.search.too_inaccurate', a_reload=('href="javascript:location.reload()"' | safe)) }}
               {% else %}
                 {{ gettext('page.search.results.none') }}
               {% endif %}

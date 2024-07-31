@@ -1208,6 +1208,10 @@ def mysql_build_aarecords_codes_numbers_internal():
         connection.connection.ping(reconnect=True)
         cursor = connection.connection.cursor(pymysql.cursors.SSDictCursor)
 
+        if SLOW_DATA_IMPORTS:
+            cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
+            cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes_new')
+
         # InnoDB for the key length.
         # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
         print("Creating fresh table aarecords_codes_new")
