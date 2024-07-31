@@ -1,20 +1,3 @@
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 19:02+0000\n"
-"PO-Revision-Date: 2024-07-31 19:02+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: lv\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Plural-Forms: nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= "
-"19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);\n"
-"X-Generator: Weblate 5.6.2\n"
-
 #: allthethings/app.py:203
 #, fuzzy
 msgid "layout.index.invalid_request"
@@ -388,9 +371,9 @@ msgstr "Ziedojumiem virs $5000, lūdzu, sazinieties ar mums tieši pa %(email)s.
 #: allthethings/page/templates/page/contact.html:3
 #: allthethings/page/templates/page/contact.html:7
 #: allthethings/page/templates/page/faq.html:84
-#: allthethings/page/templates/page/faq.html:121
-#: allthethings/page/templates/page/faq.html:129
-#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/faq.html:132
+#: allthethings/page/templates/page/faq.html:140
+#: allthethings/page/templates/page/faq.html:164
 #: allthethings/page/templates/page/home.html:77
 #: allthethings/page/templates/page/home.html:82
 #: allthethings/page/templates/page/home.html:90
@@ -1479,6 +1462,7 @@ msgid "page.account.logged_in.membership_upgrade"
 msgstr "Sazinieties ar Annu pa %(email)s, ja vēlaties paaugstināt savu dalību uz augstāku līmeni."
 
 #: allthethings/account/templates/account/index.html:37
+#: allthethings/page/templates/page/faq.html:128
 #, fuzzy
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Jūs varat apvienot vairākas dalības (ātrās lejupielādes 24 stundu laikā tiks summētas)."
@@ -2516,21 +2500,21 @@ msgid "page.contact.checkboxes.show_email_button"
 msgstr "Rādīt e-pastu"
 
 #: allthethings/page/templates/page/datasets.html:161
-#: allthethings/page/templates/page/faq.html:168
+#: allthethings/page/templates/page/faq.html:179
 #: allthethings/page/templates/page/search.html:288
 #, fuzzy
 msgid "page.faq.metadata.inspiration1"
 msgstr "Mūsu iedvesma metadatu vākšanai ir Ārona Švarca mērķis “viena tīmekļa lapa katrai jebkad publicētai grāmatai”, kurai viņš izveidoja <a %(a_openlib)s>Open Library</a>."
 
 #: allthethings/page/templates/page/datasets.html:162
-#: allthethings/page/templates/page/faq.html:169
+#: allthethings/page/templates/page/faq.html:180
 #: allthethings/page/templates/page/search.html:289
 #, fuzzy
 msgid "page.faq.metadata.inspiration2"
 msgstr "Šis projekts ir veiksmīgs, bet mūsu unikālā pozīcija ļauj mums iegūt metadatus, kurus viņi nevar."
 
 #: allthethings/page/templates/page/datasets.html:163
-#: allthethings/page/templates/page/faq.html:170
+#: allthethings/page/templates/page/faq.html:181
 #: allthethings/page/templates/page/search.html:290
 #, fuzzy
 msgid "page.faq.metadata.inspiration3"
@@ -2672,322 +2656,322 @@ msgstr "Tāpēc mēs ieviesām divas sistēmas bezmaksas lejupielādēm ar mūsu
 msgid "page.faq.slow.text3"
 msgstr "Mums ir arī <a %(a_verification)s>pārlūka verifikācija</a> mūsu lēnajām lejupielādēm, jo citādi boti un skrāpētāji tos ļaunprātīgi izmantos, padarot lietas vēl lēnākas likumīgiem lietotājiem."
 
-#: allthethings/page/templates/page/faq.html:114
+#: allthethings/page/templates/page/faq.html:119
 #, fuzzy
 msgid "page.donate.faq.title"
 msgstr "Ziedojumu BUJ"
 
-#: allthethings/page/templates/page/faq.html:117
+#: allthethings/page/templates/page/faq.html:122
 #, fuzzy
 msgid "page.donate.faq.renew"
 msgstr "<div %(div_question)s>Vai dalības automātiski atjaunojas?</div> Dalības <strong>neatjaunojas</strong> automātiski. Jūs varat pievienoties uz tik ilgu vai īsu laiku, cik vēlaties."
 
-#: allthethings/page/templates/page/faq.html:121
+#: allthethings/page/templates/page/faq.html:132
 #, fuzzy
 msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>Vai jums ir citi maksājumu veidi?</div> Pašlaik nē. Daudzi cilvēki nevēlas, lai tādi arhīvi kā šis pastāvētu, tāpēc mums jābūt uzmanīgiem. Ja varat palīdzēt mums droši izveidot citus (ērtākus) maksājumu veidus, lūdzu, sazinieties ar mums pa %(email)s."
 
-#: allthethings/page/templates/page/faq.html:125
+#: allthethings/page/templates/page/faq.html:136
 #, fuzzy
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>Kam jūs tērējat ziedojumus?</div> 100%% tiek tērēti pasaules zināšanu un kultūras saglabāšanai un pieejamības nodrošināšanai. Pašlaik mēs lielākoties tērējam tos serveriem, glabāšanai un joslas platumam. Neviens naudas līdzeklis netiek piešķirts nevienam komandas loceklim personīgi."
 
-#: allthethings/page/templates/page/faq.html:129
+#: allthethings/page/templates/page/faq.html:140
 #, fuzzy
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Vai es varu veikt lielu ziedojumu?</div> Tas būtu lieliski! Par ziedojumiem, kas pārsniedz dažus tūkstošus dolāru, lūdzu, sazinieties ar mums tieši pa %(email)s."
 
-#: allthethings/page/templates/page/faq.html:133
+#: allthethings/page/templates/page/faq.html:144
 #, fuzzy
 msgid "page.donate.faq.non_member_donation"
 msgstr "<div %(div_question)s>Vai es varu veikt ziedojumu, nekļūstot par biedru?</div> Protams. Mēs pieņemam jebkura apjoma ziedojumus uz šo Monero (XMR) adresi: %(address)s."
 
-#: allthethings/page/templates/page/faq.html:136
+#: allthethings/page/templates/page/faq.html:147
 #, fuzzy
 msgid "page.faq.upload.title"
 msgstr "Kā es varu augšupielādēt jaunas grāmatas?"
 
-#: allthethings/page/templates/page/faq.html:139
+#: allthethings/page/templates/page/faq.html:150
 #, fuzzy
 msgid "page.upload.text1"
 msgstr "Pašlaik mēs iesakām augšupielādēt jaunas grāmatas Library Genesis dakšās. Šeit ir <a %(a_guide)s>ērts ceļvedis</a>. Ņemiet vērā, ka abas dakšas, kuras mēs indeksējam šajā vietnē, izmanto šo pašu augšupielādes sistēmu."
 
-#: allthethings/page/templates/page/faq.html:140
+#: allthethings/page/templates/page/faq.html:151
 #, fuzzy
 msgid "common.libgen.email"
 msgstr "Ja jūsu e-pasta adrese nedarbojas Libgen forumos, mēs iesakām izmantot <a %(a_mail)s>Proton Mail</a> (bezmaksas). Jūs varat arī <a %(a_manual)s>manuāli pieprasīt</a>, lai jūsu konts tiktu aktivizēts."
 
-#: allthethings/page/templates/page/faq.html:141
+#: allthethings/page/templates/page/faq.html:152
 #, fuzzy
 msgid "page.faq.mhut_upload"
 msgstr "Ņemiet vērā, ka mhut.org bloķē noteiktus IP diapazonus, tāpēc var būt nepieciešams VPN."
 
-#: allthethings/page/templates/page/faq.html:145
+#: allthethings/page/templates/page/faq.html:156
 #, fuzzy
 msgid "page.upload.zlib.text1"
 msgstr "Alternatīvi, jūs varat augšupielādēt tās Z-Library <a %(a_upload)s>šeit</a>."
 
-#: allthethings/page/templates/page/faq.html:149
+#: allthethings/page/templates/page/faq.html:160
 #, fuzzy
 msgid "page.upload.zlib.text2"
 msgstr "Lai augšupielādētu akadēmiskos rakstus, lūdzu, augšupielādējiet tos arī (papildus Library Genesis) <a %(a_stc_nexus)s>STC Nexus</a>. Viņi ir labākā ēnu bibliotēka jauniem rakstiem. Mēs vēl neesam tos integrējuši, bet mēs to darīsim kādā brīdī. Jūs varat izmantot viņu <a %(a_telegram)s>augšupielādes botu Telegram</a>, vai sazināties ar adresi, kas norādīta viņu piespraustajā ziņojumā, ja jums ir pārāk daudz failu, lai tos augšupielādētu šādā veidā."
 
-#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/faq.html:164
 #, fuzzy
 msgid "page.upload.large.text"
 msgstr "Lielām augšupielādēm (vairāk nekā 10 000 failu), kuras netiek pieņemtas Libgen vai Z-Library, lūdzu, sazinieties ar mums pa %(a_email)s."
 
-#: allthethings/page/templates/page/faq.html:156
+#: allthethings/page/templates/page/faq.html:167
 #, fuzzy
 msgid "page.faq.request.title"
 msgstr "Kā es varu pieprasīt grāmatas?"
 
-#: allthethings/page/templates/page/faq.html:159
+#: allthethings/page/templates/page/faq.html:170
 #, fuzzy
 msgid "page.request.cannot_accomodate"
 msgstr "Šobrīd mēs nevaram izpildīt grāmatu pieprasījumus."
 
-#: allthethings/page/templates/page/faq.html:160
+#: allthethings/page/templates/page/faq.html:171
 #, fuzzy
 msgid "page.request.forums"
 msgstr "Lūdzu, veiciet savus pieprasījumus Z-Library vai Libgen forumos."
 
-#: allthethings/page/templates/page/faq.html:161
+#: allthethings/page/templates/page/faq.html:172
 #, fuzzy
 msgid "page.request.dont_email"
 msgstr "Nesūtiet mums e-pastus ar grāmatu pieprasījumiem."
 
-#: allthethings/page/templates/page/faq.html:164
+#: allthethings/page/templates/page/faq.html:175
 #, fuzzy
 msgid "page.faq.metadata.title"
 msgstr "Vai jūs ievācat metadatus?"
 
-#: allthethings/page/templates/page/faq.html:167
+#: allthethings/page/templates/page/faq.html:178
 #, fuzzy
 msgid "page.faq.metadata.indeed"
 msgstr "Jā, mēs to darām."
 
-#: allthethings/page/templates/page/faq.html:173
+#: allthethings/page/templates/page/faq.html:184
 #, fuzzy
 msgid "page.faq.1984.title"
 msgstr "Es lejupielādēju Džordža Orvela grāmatu \"1984\", vai policija nāks pie manām durvīm?"
 
-#: allthethings/page/templates/page/faq.html:176
+#: allthethings/page/templates/page/faq.html:187
 #, fuzzy
 msgid "page.faq.1984.text"
 msgstr "Neuztraucieties pārāk daudz, ir daudz cilvēku, kas lejupielādē no mūsu saistītajām vietnēm, un ir ārkārtīgi reti nonākt nepatikšanās. Tomēr, lai būtu drošībā, mēs iesakām izmantot VPN (maksas) vai <a %(a_tor)s>Tor</a> (bezmaksas)."
 
-#: allthethings/page/templates/page/faq.html:179
+#: allthethings/page/templates/page/faq.html:190
 #, fuzzy
 msgid "page.faq.save_search.title"
 msgstr "Kā saglabāt savus meklēšanas iestatījumus?"
 
-#: allthethings/page/templates/page/faq.html:182
+#: allthethings/page/templates/page/faq.html:193
 #, fuzzy
 msgid "page.faq.save_search.text1"
 msgstr "Izvēlieties sev vēlamo iestatījumu, atstājiet meklēšanas lodziņu tukšu, noklikšķiniet uz “Meklēt” un pēc tam pievienojiet lapu grāmatzīmēm, izmantojot pārlūkprogrammas grāmatzīmju funkciju."
 
-#: allthethings/page/templates/page/faq.html:185
+#: allthethings/page/templates/page/faq.html:196
 #, fuzzy
 msgid "page.faq.mobile.title"
 msgstr "Vai jums ir mobilā lietotne?"
 
-#: allthethings/page/templates/page/faq.html:188
+#: allthethings/page/templates/page/faq.html:199
 #, fuzzy
 msgid "page.faq.mobile.text1"
 msgstr "Mums nav oficiālas mobilās lietotnes, bet jūs varat instalēt šo vietni kā lietotni."
 
-#: allthethings/page/templates/page/faq.html:189
+#: allthethings/page/templates/page/faq.html:200
 #, fuzzy
 msgid "page.faq.mobile.android"
 msgstr "<strong>Android:</strong> Noklikšķiniet uz trīs punktu izvēlnes augšējā labajā stūrī un izvēlieties “Pievienot sākuma ekrānam”."
 
-#: allthethings/page/templates/page/faq.html:190
+#: allthethings/page/templates/page/faq.html:201
 #, fuzzy
 msgid "page.faq.mobile.ios"
 msgstr "<strong>iOS:</strong> Noklikšķiniet uz “Kopīgot” pogas apakšā un izvēlieties “Pievienot sākuma ekrānam”."
 
-#: allthethings/page/templates/page/faq.html:193
+#: allthethings/page/templates/page/faq.html:204
 #, fuzzy
 msgid "page.faq.api.title"
 msgstr "Vai jums ir API?"
 
-#: allthethings/page/templates/page/faq.html:196
+#: allthethings/page/templates/page/faq.html:207
 #, fuzzy
 msgid "page.faq.api.text1"
 msgstr "Mums ir stabils JSON API biedriem, lai iegūtu ātru lejupielādes URL: <a %(a_fast_download)s>/dyn/api/fast_download.json</a> (dokumentācija pašā JSON)."
 
-#: allthethings/page/templates/page/faq.html:200
+#: allthethings/page/templates/page/faq.html:211
 #, fuzzy
 msgid "page.faq.api.text2"
 msgstr "Citiem lietošanas gadījumiem, piemēram, visu mūsu failu iterēšanai, pielāgotas meklēšanas veidošanai un tā tālāk, mēs iesakām <a %(a_generate)s>ģenerēt</a> vai <a %(a_download)s>lejupielādēt</a> mūsu ElasticSearch un MariaDB datubāzes. Neapstrādātie dati var tikt manuāli izpētīti <a %(a_explore)s>caur JSON failiem</a>."
 
-#: allthethings/page/templates/page/faq.html:204
+#: allthethings/page/templates/page/faq.html:215
 #, fuzzy
 msgid "page.faq.api.text3"
 msgstr "Mūsu neapstrādāto torrentu sarakstu var lejupielādēt kā <a %(a_torrents)s>JSON</a>."
 
-#: allthethings/page/templates/page/faq.html:207
+#: allthethings/page/templates/page/faq.html:218
 #, fuzzy
 msgid "page.faq.torrents.title"
 msgstr "Torrenti Biežāk Uzdotie Jautājumi (BUJ)"
 
-#: allthethings/page/templates/page/faq.html:210
+#: allthethings/page/templates/page/faq.html:221
 #, fuzzy
 msgid "page.faq.torrents.q1"
 msgstr "Es vēlētos palīdzēt sēšanai, bet man nav daudz diska vietas."
 
-#: allthethings/page/templates/page/faq.html:212
+#: allthethings/page/templates/page/faq.html:223
 #, fuzzy
 msgid "page.faq.torrents.a1"
 msgstr "Izmantojiet <a %(a_list)s>torrentu saraksta ģeneratoru</a>, lai ģenerētu torrentu sarakstu, kuriem visvairāk nepieciešama torrentēšana, atbilstoši jūsu uzglabāšanas vietas ierobežojumiem."
 
-#: allthethings/page/templates/page/faq.html:216
+#: allthethings/page/templates/page/faq.html:227
 #, fuzzy
 msgid "page.faq.torrents.q2"
 msgstr "Torrentu lejupielāde ir pārāk lēna; vai es varu lejupielādēt datus tieši no jums?"
 
-#: allthethings/page/templates/page/faq.html:218
+#: allthethings/page/templates/page/faq.html:229
 #, fuzzy
 msgid "page.faq.torrents.a2"
 msgstr "Jā, skatiet <a %(a_llm)s>LLM datu</a> lapu."
 
-#: allthethings/page/templates/page/faq.html:222
+#: allthethings/page/templates/page/faq.html:233
 #, fuzzy
 msgid "page.faq.torrents.q3"
 msgstr "Vai es varu lejupielādēt tikai daļu no failiem, piemēram, tikai konkrētu valodu vai tēmu?"
 
-#: allthethings/page/templates/page/faq.html:224
+#: allthethings/page/templates/page/faq.html:235
 #, fuzzy
 msgid "page.faq.torrents.a3"
 msgstr "Lielākā daļa torrentu satur failus tieši, kas nozīmē, ka jūs varat norādīt torrentu klientiem lejupielādēt tikai nepieciešamos failus. Lai noteiktu, kuri faili jālejupielādē, jūs varat <a %(a_generate)s>ģenerēt</a> mūsu metadatus vai <a %(a_download)s>lejupielādēt</a> mūsu ElasticSearch un MariaDB datubāzes. Diemžēl, daudzas torrentu kolekcijas satur .zip vai .tar failus saknē, tādā gadījumā jums ir jālejupielādē viss torrents, pirms varat izvēlēties atsevišķus failus."
 
-#: allthethings/page/templates/page/faq.html:228
+#: allthethings/page/templates/page/faq.html:239
 #, fuzzy
 msgid "page.faq.torrents.q4"
 msgstr "Kā jūs apstrādājat dublikātus torrentos?"
 
-#: allthethings/page/templates/page/faq.html:230
+#: allthethings/page/templates/page/faq.html:241
 #, fuzzy
 msgid "page.faq.torrents.a4"
 msgstr "Mēs cenšamies uzturēt minimālu dublēšanos vai pārklāšanos starp šajā sarakstā esošajiem torrentiem, bet tas ne vienmēr ir iespējams un lielā mērā ir atkarīgs no avota bibliotēku politikām. Bibliotēkām, kas izplata savus torrentus, tas ir ārpus mūsu kontroles. Torrentiem, ko izplata Annas Arhīvs, mēs dublējam tikai pēc MD5 hash, kas nozīmē, ka dažādas vienas un tās pašas grāmatas versijas netiek dublētas."
 
-#: allthethings/page/templates/page/faq.html:234
+#: allthethings/page/templates/page/faq.html:245
 #, fuzzy
 msgid "page.faq.torrents.q5"
 msgstr "Vai es varu iegūt torrentu sarakstu kā JSON?"
 
-#: allthethings/page/templates/page/faq.html:238
+#: allthethings/page/templates/page/faq.html:249
 #, fuzzy
 msgid "page.faq.torrents.a5"
 msgstr "Jā."
 
-#: allthethings/page/templates/page/faq.html:242
+#: allthethings/page/templates/page/faq.html:253
 #, fuzzy
 msgid "page.faq.torrents.q6"
 msgstr "Es neredzu PDF vai EPUB failus torrentos, tikai bināros failus? Ko man darīt?"
 
-#: allthethings/page/templates/page/faq.html:244
+#: allthethings/page/templates/page/faq.html:255
 #, fuzzy
 msgid "page.faq.torrents.a6"
 msgstr "Šie patiesībā ir PDF un EPUB faili, tiem vienkārši nav paplašinājuma daudzos mūsu torrentos. Ir divas vietas, kur varat atrast torrentu failu metadatus, ieskaitot failu tipus/paplašinājumus:"
 
-#: allthethings/page/templates/page/faq.html:246
+#: allthethings/page/templates/page/faq.html:257
 #, fuzzy
 msgid "page.faq.torrents.a6.li1"
 msgstr "1. Katrai kolekcijai vai izlaidumam ir savi metadati. Piemēram, <a %(a_libgen_nonfic)s>Libgen.rs torrenti</a> ir atbilstoša metadatu datubāze, kas tiek mitināta Libgen.rs vietnē. Mēs parasti saistāmies ar atbilstošiem metadatu resursiem no katras kolekcijas <a %(a_datasets)s>datu kopas lapas</a>."
 
-#: allthethings/page/templates/page/faq.html:248
+#: allthethings/page/templates/page/faq.html:259
 #, fuzzy
 msgid "page.faq.torrents.a6.li2"
 msgstr "2. Mēs iesakām <a %(a_generate)s>ģenerēt</a> vai <a %(a_download)s>lejupielādēt</a> mūsu ElasticSearch un MariaDB datubāzes. Šajās datubāzēs ir katra ieraksta kartējums Annas Arhīvā uz atbilstošajiem torrentu failiem (ja pieejami), zem “torrent_paths” ElasticSearch JSON."
 
-#: allthethings/page/templates/page/faq.html:251
+#: allthethings/page/templates/page/faq.html:262
 #, fuzzy
 msgid "page.faq.security.title"
 msgstr "Vai jums ir atbildīgas atklāšanas programma?"
 
-#: allthethings/page/templates/page/faq.html:254
+#: allthethings/page/templates/page/faq.html:265
 #, fuzzy
 msgid "page.faq.security.text1"
 msgstr "Mēs aicinām drošības pētniekus meklēt ievainojamības mūsu sistēmās. Mēs esam lieli atbildīgas atklāšanas atbalstītāji. Sazinieties ar mums <a %(a_contact)s>šeit</a>."
 
-#: allthethings/page/templates/page/faq.html:258
+#: allthethings/page/templates/page/faq.html:269
 #, fuzzy
 msgid "page.faq.security.text2"
 msgstr "Pašlaik mēs nevaram piešķirt atlīdzības par kļūdu atklāšanu, izņemot ievainojamības, kurām ir <a %(a_link)s>potenciāls apdraudēt mūsu anonimitāti</a>, par kurām mēs piedāvājam atlīdzības diapazonā no $10k-50k. Mēs vēlētos nākotnē piedāvāt plašāku atlīdzību klāstu! Lūdzu, ņemiet vērā, ka sociālās inženierijas uzbrukumi ir ārpus darbības jomas."
 
-#: allthethings/page/templates/page/faq.html:262
+#: allthethings/page/templates/page/faq.html:273
 #, fuzzy
 msgid "page.faq.security.text3"
 msgstr "Ja jūs interesē uzbrukuma drošība un vēlaties palīdzēt arhivēt pasaules zināšanas un kultūru, noteikti sazinieties ar mums. Ir daudz veidu, kā jūs varat palīdzēt."
 
-#: allthethings/page/templates/page/faq.html:265
+#: allthethings/page/templates/page/faq.html:276
 #, fuzzy
 msgid "page.faq.resources.title"
 msgstr "Vai ir vairāk resursu par Annas Arhīvu?"
 
-#: allthethings/page/templates/page/faq.html:268
+#: allthethings/page/templates/page/faq.html:279
 #, fuzzy
 msgid "page.faq.resources.annas_blog"
 msgstr "<a %(a_blog)s>Annas Blogs</a>, <a %(a_reddit_u)s>Reddit</a>, <a %(a_reddit_r)s>Subreddit</a> — regulāri atjauninājumi"
 
-#: allthethings/page/templates/page/faq.html:269
+#: allthethings/page/templates/page/faq.html:280
 #, fuzzy
 msgid "page.faq.resources.annas_software"
 msgstr "<a %(a_software)s>Annas Programmatūra</a> — mūsu atvērtā koda programmatūra"
 
-#: allthethings/page/templates/page/faq.html:270
+#: allthethings/page/templates/page/faq.html:281
 #, fuzzy
 msgid "page.faq.resources.translate"
 msgstr "<a %(a_translate)s>Tulkot Annas Programmatūru</a> — mūsu tulkošanas sistēma"
 
-#: allthethings/page/templates/page/faq.html:271
+#: allthethings/page/templates/page/faq.html:282
 #, fuzzy
 msgid "page.faq.resources.datasets"
 msgstr "<a %(a_datasets)s>Datu kopas</a> — par datiem"
 
-#: allthethings/page/templates/page/faq.html:272
+#: allthethings/page/templates/page/faq.html:283
 #, fuzzy
 msgid "page.faq.resources.domains"
 msgstr "<a %(a_li)s>.li</a>, <a %(a_se)s>.se</a>, <a %(a_org)s>.org</a> — alternatīvi domēni"
 
-#: allthethings/page/templates/page/faq.html:273
+#: allthethings/page/templates/page/faq.html:284
 #, fuzzy
 msgid "page.faq.resources.wikipedia"
 msgstr "<a %(a_wikipedia)s>Wikipedia</a> — vairāk par mums (lūdzu, palīdziet atjaunināt šo lapu vai izveidojiet to savā valodā!)"
 
-#: allthethings/page/templates/page/faq.html:276
+#: allthethings/page/templates/page/faq.html:287
 #, fuzzy
 msgid "page.faq.copyright.title"
 msgstr "Kā ziņot par autortiesību pārkāpumu?"
 
-#: allthethings/page/templates/page/faq.html:279
+#: allthethings/page/templates/page/faq.html:290
 #, fuzzy
 msgid "page.faq.copyright.text1"
 msgstr "Mēs šeit neuzglabājam nekādus ar autortiesībām aizsargātus materiālus. Mēs esam meklētājprogramma, un tādējādi indeksējam tikai metadatus, kas jau ir publiski pieejami. Lejupielādējot no šiem ārējiem avotiem, mēs iesakām pārbaudīt likumus jūsu jurisdikcijā attiecībā uz to, kas ir atļauts. Mēs neesam atbildīgi par citu personu mitināto saturu."
 
-#: allthethings/page/templates/page/faq.html:283
+#: allthethings/page/templates/page/faq.html:294
 #, fuzzy
 msgid "page.faq.copyright.text2"
 msgstr "Ja jums ir sūdzības par to, ko redzat šeit, vislabāk ir sazināties ar oriģinālo vietni. Mēs regulāri atjauninām viņu izmaiņas mūsu datubāzē. Ja jūs patiešām uzskatāt, ka jums ir derīga DMCA sūdzība, uz kuru mums būtu jāreaģē, lūdzu, aizpildiet <a %(a_copyright)s>DMCA / Autortiesību prasības veidlapu</a>. Mēs ņemam jūsu sūdzības nopietni un atbildēsim pēc iespējas ātrāk."
 
-#: allthethings/page/templates/page/faq.html:286
+#: allthethings/page/templates/page/faq.html:297
 #, fuzzy
 msgid "page.faq.hate.title"
 msgstr "Es ienīstu, kā jūs vadāt šo projektu!"
 
-#: allthethings/page/templates/page/faq.html:289
+#: allthethings/page/templates/page/faq.html:300
 #, fuzzy
 msgid "page.faq.hate.text1"
 msgstr "Mēs arī vēlamies atgādināt visiem, ka viss mūsu kods un dati ir pilnīgi atvērtā koda. Tas ir unikāls projektiem, piemēram, mūsu — mēs nezinām nevienu citu projektu ar līdzīgi masīvu katalogu, kas arī ir pilnīgi atvērtā koda. Mēs ļoti priecājamies par ikvienu, kurš domā, ka mēs slikti vadām savu projektu, lai paņemtu mūsu kodu un datus un izveidotu savu ēnu bibliotēku! Mēs to nesakām no ļaunprātības vai kaut kā tamlīdzīga — mēs patiesi domājam, ka tas būtu lieliski, jo tas paaugstinātu latiņu visiem un labāk saglabātu cilvēces mantojumu."
 
-#: allthethings/page/templates/page/faq.html:292
+#: allthethings/page/templates/page/faq.html:303
 #, fuzzy
 msgid "page.faq.favorite.title"
 msgstr "Kādas ir jūsu mīļākās grāmatas?"
 
-#: allthethings/page/templates/page/faq.html:295
+#: allthethings/page/templates/page/faq.html:306
 #, fuzzy
 msgid "page.faq.favorite.text1"
 msgstr "Šeit ir dažas grāmatas, kurām ir īpaša nozīme ēnu bibliotēku un digitālās saglabāšanas pasaulē:"
@@ -3087,19 +3071,19 @@ msgid "page.home.torrents.body"
 msgstr "Jūs varat ļoti palīdzēt, sējot torrentus. <a %(a_torrents)s>Uzziniet vairāk…</a>"
 
 #: allthethings/page/templates/page/home.html:47
-#: allthethings/page/templates/page/torrents.html:86
+#: allthethings/page/templates/page/torrents.html:106
 #, fuzzy
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s sējēji"
 
 #: allthethings/page/templates/page/home.html:48
-#: allthethings/page/templates/page/torrents.html:87
+#: allthethings/page/templates/page/torrents.html:107
 #, fuzzy
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s sējēji"
 
 #: allthethings/page/templates/page/home.html:49
-#: allthethings/page/templates/page/torrents.html:88
+#: allthethings/page/templates/page/torrents.html:108
 #, fuzzy
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s sējēji"
@@ -4051,3 +4035,4 @@ msgstr "Nākamais"
 
 #~ msgid "page.home.scidb.text1"
 #~ msgstr "Sci-Hub ir <a %(a_closed)s>apturējis</a> jaunu rakstu augšupielādi."
+

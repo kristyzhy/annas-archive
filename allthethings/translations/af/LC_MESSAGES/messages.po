@@ -1,19 +1,3 @@
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 19:02+0000\n"
-"PO-Revision-Date: 2024-07-31 19:02+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: af\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
-
 #: allthethings/app.py:203
 #, fuzzy
 msgid "layout.index.invalid_request"
@@ -387,9 +371,9 @@ msgstr "Vir skenkings oor $5000, kontak ons asseblief direk by %(email)s."
 #: allthethings/page/templates/page/contact.html:3
 #: allthethings/page/templates/page/contact.html:7
 #: allthethings/page/templates/page/faq.html:84
-#: allthethings/page/templates/page/faq.html:121
-#: allthethings/page/templates/page/faq.html:129
-#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/faq.html:132
+#: allthethings/page/templates/page/faq.html:140
+#: allthethings/page/templates/page/faq.html:164
 #: allthethings/page/templates/page/home.html:77
 #: allthethings/page/templates/page/home.html:82
 #: allthethings/page/templates/page/home.html:90
@@ -1478,6 +1462,7 @@ msgid "page.account.logged_in.membership_upgrade"
 msgstr "Kontak Anna by %(email)s as u belangstel om u lidmaatskap na 'n hoër vlak op te gradeer."
 
 #: allthethings/account/templates/account/index.html:37
+#: allthethings/page/templates/page/faq.html:128
 #, fuzzy
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Jy kan verskeie lidmaatskappe kombineer (vinnige aflaaie per 24 uur sal saamgevoeg word)."
@@ -2515,21 +2500,21 @@ msgid "page.contact.checkboxes.show_email_button"
 msgstr "Wys e-pos"
 
 #: allthethings/page/templates/page/datasets.html:161
-#: allthethings/page/templates/page/faq.html:168
+#: allthethings/page/templates/page/faq.html:179
 #: allthethings/page/templates/page/search.html:288
 #, fuzzy
 msgid "page.faq.metadata.inspiration1"
 msgstr "Ons inspirasie vir die versameling van metadata is Aaron Swartz se doel van “een webbladsy vir elke boek wat ooit gepubliseer is”, waarvoor hy <a %(a_openlib)s>Open Library</a> geskep het."
 
 #: allthethings/page/templates/page/datasets.html:162
-#: allthethings/page/templates/page/faq.html:169
+#: allthethings/page/templates/page/faq.html:180
 #: allthethings/page/templates/page/search.html:289
 #, fuzzy
 msgid "page.faq.metadata.inspiration2"
 msgstr "Daardie projek het goed gevaar, maar ons unieke posisie stel ons in staat om metadata te kry wat hulle nie kan nie."
 
 #: allthethings/page/templates/page/datasets.html:163
-#: allthethings/page/templates/page/faq.html:170
+#: allthethings/page/templates/page/faq.html:181
 #: allthethings/page/templates/page/search.html:290
 #, fuzzy
 msgid "page.faq.metadata.inspiration3"
@@ -2671,322 +2656,322 @@ msgstr "Dit is hoekom ons twee stelsels vir gratis aflaaie geïmplementeer het, 
 msgid "page.faq.slow.text3"
 msgstr "Ons het ook <a %(a_verification)s>blaaierverifikasie</a> vir ons stadige aflaaie, want anders sal bots en skrapers dit misbruik, wat dinge selfs stadiger maak vir wettige gebruikers."
 
-#: allthethings/page/templates/page/faq.html:114
+#: allthethings/page/templates/page/faq.html:119
 #, fuzzy
 msgid "page.donate.faq.title"
 msgstr "Donasie V&A"
 
-#: allthethings/page/templates/page/faq.html:117
+#: allthethings/page/templates/page/faq.html:122
 #, fuzzy
 msgid "page.donate.faq.renew"
 msgstr "<div %(div_question)s>Hernu lidmaatskappe outomaties?</div> Lidmaatskappe <strong>hernuw nie</strong> outomaties nie. Jy kan aansluit vir so lank of kort as wat jy wil."
 
-#: allthethings/page/templates/page/faq.html:121
+#: allthethings/page/templates/page/faq.html:132
 #, fuzzy
 msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>Het jy ander betaalmetodes?</div> Tans nie. Baie mense wil nie hê dat argiewe soos hierdie moet bestaan nie, so ons moet versigtig wees. As jy ons kan help om ander (meer gerieflike) betaalmetodes veilig op te stel, kontak ons asseblief by %(email)s."
 
-#: allthethings/page/templates/page/faq.html:125
+#: allthethings/page/templates/page/faq.html:136
 #, fuzzy
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>Waarvoor gebruik julle skenkings?</div> 100%% gaan na die bewaring en toeganklikmaking van die wêreld se kennis en kultuur. Tans bestee ons dit meestal aan bedieners, berging en bandwydte. Geen geld gaan persoonlik na enige spanlede nie."
 
-#: allthethings/page/templates/page/faq.html:129
+#: allthethings/page/templates/page/faq.html:140
 #, fuzzy
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Kan ek 'n groot skenking maak?</div> Dit sal wonderlik wees! Vir skenkings van meer as 'n paar duisend dollar, kontak ons asseblief direk by %(email)s."
 
-#: allthethings/page/templates/page/faq.html:133
+#: allthethings/page/templates/page/faq.html:144
 #, fuzzy
 msgid "page.donate.faq.non_member_donation"
 msgstr "<div %(div_question)s>Kan ek 'n skenking maak sonder om 'n lid te word?</div> Natuurlik. Ons aanvaar skenkings van enige bedrag op hierdie Monero (XMR) adres: %(address)s."
 
-#: allthethings/page/templates/page/faq.html:136
+#: allthethings/page/templates/page/faq.html:147
 #, fuzzy
 msgid "page.faq.upload.title"
 msgstr "Hoe laai ek nuwe boeke op?"
 
-#: allthethings/page/templates/page/faq.html:139
+#: allthethings/page/templates/page/faq.html:150
 #, fuzzy
 msgid "page.upload.text1"
 msgstr "Vir nou stel ons voor dat nuwe boeke na die Library Genesis-vurke opgelaai word. Hier is 'n <a %(a_guide)s>handige gids</a>. Let daarop dat beide vurke wat ons op hierdie webwerf indekseer, van dieselfde oplaai-stelsel gebruik maak."
 
-#: allthethings/page/templates/page/faq.html:140
+#: allthethings/page/templates/page/faq.html:151
 #, fuzzy
 msgid "common.libgen.email"
 msgstr "As u e-posadres nie op die Libgen-forums werk nie, beveel ons aan om <a %(a_mail)s>Proton Mail</a> (gratis) te gebruik. U kan ook <a %(a_manual)s>manueel versoek</a> dat u rekening geaktiveer word."
 
-#: allthethings/page/templates/page/faq.html:141
+#: allthethings/page/templates/page/faq.html:152
 #, fuzzy
 msgid "page.faq.mhut_upload"
 msgstr "Let daarop dat mhut.org sekere IP-reekse blokkeer, so 'n VPN mag nodig wees."
 
-#: allthethings/page/templates/page/faq.html:145
+#: allthethings/page/templates/page/faq.html:156
 #, fuzzy
 msgid "page.upload.zlib.text1"
 msgstr "Alternatiewelik, kan jy dit na Z-Library <a %(a_upload)s>hier</a> oplaai."
 
-#: allthethings/page/templates/page/faq.html:149
+#: allthethings/page/templates/page/faq.html:160
 #, fuzzy
 msgid "page.upload.zlib.text2"
 msgstr "Om akademiese artikels op te laai, laai asseblief ook (benewens Library Genesis) op na <a %(a_stc_nexus)s>STC Nexus</a>. Hulle is die beste skadu-biblioteek vir nuwe artikels. Ons het hulle nog nie geïntegreer nie, maar ons sal op 'n stadium. Jy kan hul <a %(a_telegram)s>oplaaibot op Telegram</a> gebruik, of kontak die adres wat in hul vasgesteekte boodskap gelys is as jy te veel lêers het om op hierdie manier op te laai."
 
-#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/faq.html:164
 #, fuzzy
 msgid "page.upload.large.text"
 msgstr "Vir groot oplaaisels (meer as 10,000 lêers) wat nie deur Libgen of Z-Library aanvaar word nie, kontak ons asseblief by %(a_email)s."
 
-#: allthethings/page/templates/page/faq.html:156
+#: allthethings/page/templates/page/faq.html:167
 #, fuzzy
 msgid "page.faq.request.title"
 msgstr "Hoe versoek ek boeke?"
 
-#: allthethings/page/templates/page/faq.html:159
+#: allthethings/page/templates/page/faq.html:170
 #, fuzzy
 msgid "page.request.cannot_accomodate"
 msgstr "Op hierdie stadium kan ons nie boekversoeke akkommodeer nie."
 
-#: allthethings/page/templates/page/faq.html:160
+#: allthethings/page/templates/page/faq.html:171
 #, fuzzy
 msgid "page.request.forums"
 msgstr "Maak asseblief jou versoeke op Z-Library of Libgen forums."
 
-#: allthethings/page/templates/page/faq.html:161
+#: allthethings/page/templates/page/faq.html:172
 #, fuzzy
 msgid "page.request.dont_email"
 msgstr "Moet asseblief nie jou boekversoeke aan ons e-pos nie."
 
-#: allthethings/page/templates/page/faq.html:164
+#: allthethings/page/templates/page/faq.html:175
 #, fuzzy
 msgid "page.faq.metadata.title"
 msgstr "Versamel julle metadata?"
 
-#: allthethings/page/templates/page/faq.html:167
+#: allthethings/page/templates/page/faq.html:178
 #, fuzzy
 msgid "page.faq.metadata.indeed"
 msgstr "Ons doen inderdaad."
 
-#: allthethings/page/templates/page/faq.html:173
+#: allthethings/page/templates/page/faq.html:184
 #, fuzzy
 msgid "page.faq.1984.title"
 msgstr "Ek het 1984 deur George Orwell afgelaai, sal die polisie by my deur kom?"
 
-#: allthethings/page/templates/page/faq.html:176
+#: allthethings/page/templates/page/faq.html:187
 #, fuzzy
 msgid "page.faq.1984.text"
 msgstr "Moet nie te veel bekommer nie, daar is baie mense wat van webwerwe wat deur ons gekoppel is aflaai, en dit is uiters skaars om in die moeilikheid te kom. Om veilig te bly, beveel ons egter aan om 'n VPN (betaal) te gebruik, of <a %(a_tor)s>Tor</a> (gratis)."
 
-#: allthethings/page/templates/page/faq.html:179
+#: allthethings/page/templates/page/faq.html:190
 #, fuzzy
 msgid "page.faq.save_search.title"
 msgstr "Hoe stoor ek my soekinstellings?"
 
-#: allthethings/page/templates/page/faq.html:182
+#: allthethings/page/templates/page/faq.html:193
 #, fuzzy
 msgid "page.faq.save_search.text1"
 msgstr "Kies die instellings wat jy verkies, hou die soekkassie leeg, klik “Soek”, en boekmerk dan die bladsy met jou blaaier se boekmerkfunksie."
 
-#: allthethings/page/templates/page/faq.html:185
+#: allthethings/page/templates/page/faq.html:196
 #, fuzzy
 msgid "page.faq.mobile.title"
 msgstr "Het julle 'n mobiele toepassing?"
 
-#: allthethings/page/templates/page/faq.html:188
+#: allthethings/page/templates/page/faq.html:199
 #, fuzzy
 msgid "page.faq.mobile.text1"
 msgstr "Ons het nie 'n amptelike mobiele toepassing nie, maar jy kan hierdie webwerf as 'n toepassing installeer."
 
-#: allthethings/page/templates/page/faq.html:189
+#: allthethings/page/templates/page/faq.html:200
 #, fuzzy
 msgid "page.faq.mobile.android"
 msgstr "<strong>Android:</strong> Klik op die drie-kolletjie menu in die regter boonste hoek, en kies “Voeg by Tuisblad”."
 
-#: allthethings/page/templates/page/faq.html:190
+#: allthethings/page/templates/page/faq.html:201
 #, fuzzy
 msgid "page.faq.mobile.ios"
 msgstr "<strong>iOS:</strong> Klik op die “Share” knoppie onderaan, en kies “Add to Home Screen”."
 
-#: allthethings/page/templates/page/faq.html:193
+#: allthethings/page/templates/page/faq.html:204
 #, fuzzy
 msgid "page.faq.api.title"
 msgstr "Het u 'n API?"
 
-#: allthethings/page/templates/page/faq.html:196
+#: allthethings/page/templates/page/faq.html:207
 #, fuzzy
 msgid "page.faq.api.text1"
 msgstr "Ons het een stabiele JSON API vir lede, om 'n vinnige aflaai-URL te kry: <a %(a_fast_download)s>/dyn/api/fast_download.json</a> (dokumentasie binne JSON self)."
 
-#: allthethings/page/templates/page/faq.html:200
+#: allthethings/page/templates/page/faq.html:211
 #, fuzzy
 msgid "page.faq.api.text2"
 msgstr "Vir ander gebruiksgevalle, soos om deur al ons lêers te iterer, pasgemaakte soektogte te bou, ensovoorts, beveel ons aan om ons ElasticSearch en MariaDB databasisse <a %(a_generate)s>te genereer</a> of <a %(a_download)s>af te laai</a>. Die rou data kan handmatig verken word <a %(a_explore)s>deur JSON-lêers</a>."
 
-#: allthethings/page/templates/page/faq.html:204
+#: allthethings/page/templates/page/faq.html:215
 #, fuzzy
 msgid "page.faq.api.text3"
 msgstr "Ons rou torrents lys kan ook as <a %(a_torrents)s>JSON</a> afgelaai word."
 
-#: allthethings/page/templates/page/faq.html:207
+#: allthethings/page/templates/page/faq.html:218
 #, fuzzy
 msgid "page.faq.torrents.title"
 msgstr "Torrents FAQ"
 
-#: allthethings/page/templates/page/faq.html:210
+#: allthethings/page/templates/page/faq.html:221
 #, fuzzy
 msgid "page.faq.torrents.q1"
 msgstr "Ek wil graag saai, maar ek het nie veel skyfspasie nie."
 
-#: allthethings/page/templates/page/faq.html:212
+#: allthethings/page/templates/page/faq.html:223
 #, fuzzy
 msgid "page.faq.torrents.a1"
 msgstr "Gebruik die <a %(a_list)s>torrentlys generator</a> om 'n lys van torrente te genereer wat die meeste getorrent moet word, binne jou bergingsruimte perke."
 
-#: allthethings/page/templates/page/faq.html:216
+#: allthethings/page/templates/page/faq.html:227
 #, fuzzy
 msgid "page.faq.torrents.q2"
 msgstr "Die torrents is te stadig; kan ek die data direk van julle aflaai?"
 
-#: allthethings/page/templates/page/faq.html:218
+#: allthethings/page/templates/page/faq.html:229
 #, fuzzy
 msgid "page.faq.torrents.a2"
 msgstr "Ja, sien die <a %(a_llm)s>LLM data</a> bladsy."
 
-#: allthethings/page/templates/page/faq.html:222
+#: allthethings/page/templates/page/faq.html:233
 #, fuzzy
 msgid "page.faq.torrents.q3"
 msgstr "Kan ek slegs 'n subset van die lêers aflaai, soos slegs 'n spesifieke taal of onderwerp?"
 
-#: allthethings/page/templates/page/faq.html:224
+#: allthethings/page/templates/page/faq.html:235
 #, fuzzy
 msgid "page.faq.torrents.a3"
 msgstr "Meeste torrents bevat die lêers direk, wat beteken dat jy torrent-kliënte kan opdrag gee om slegs die vereiste lêers af te laai. Om te bepaal watter lêers om af te laai, kan jy ons metadata <a %(a_generate)s>genereer</a>, of ons ElasticSearch en MariaDB databasisse <a %(a_download)s>aflaai</a>. Ongelukkig bevat 'n aantal torrent-versamelings .zip of .tar lêers by die wortel, in welke geval jy die hele torrent moet aflaai voordat jy individuele lêers kan kies."
 
-#: allthethings/page/templates/page/faq.html:228
+#: allthethings/page/templates/page/faq.html:239
 #, fuzzy
 msgid "page.faq.torrents.q4"
 msgstr "Hoe hanteer julle duplikate in die torrents?"
 
-#: allthethings/page/templates/page/faq.html:230
+#: allthethings/page/templates/page/faq.html:241
 #, fuzzy
 msgid "page.faq.torrents.a4"
 msgstr "Ons probeer om minimale duplisering of oorvleueling tussen die torrents in hierdie lys te hou, maar dit kan nie altyd bereik word nie, en hang swaar af van die beleide van die bronbiblioteke. Vir biblioteke wat hul eie torrents uitreik, is dit buite ons beheer. Vir torrents wat deur Anna se Argief vrygestel word, dedupliseer ons slegs gebaseer op MD5-hash, wat beteken dat verskillende weergawes van dieselfde boek nie gededupliseer word nie."
 
-#: allthethings/page/templates/page/faq.html:234
+#: allthethings/page/templates/page/faq.html:245
 #, fuzzy
 msgid "page.faq.torrents.q5"
 msgstr "Kan ek die torrentlys as JSON kry?"
 
-#: allthethings/page/templates/page/faq.html:238
+#: allthethings/page/templates/page/faq.html:249
 #, fuzzy
 msgid "page.faq.torrents.a5"
 msgstr "Ja."
 
-#: allthethings/page/templates/page/faq.html:242
+#: allthethings/page/templates/page/faq.html:253
 #, fuzzy
 msgid "page.faq.torrents.q6"
 msgstr "Ek sien nie PDFs of EPUBs in die torrents nie, net binêre lêers? Wat moet ek doen?"
 
-#: allthethings/page/templates/page/faq.html:244
+#: allthethings/page/templates/page/faq.html:255
 #, fuzzy
 msgid "page.faq.torrents.a6"
 msgstr "Hierdie is eintlik PDF's en EPUB's, hulle het net nie 'n uitbreiding in baie van ons torrente nie. Daar is twee plekke waar jy die metadata vir torrentlêers kan vind, insluitend die lêertipes/uitbreidings:"
 
-#: allthethings/page/templates/page/faq.html:246
+#: allthethings/page/templates/page/faq.html:257
 #, fuzzy
 msgid "page.faq.torrents.a6.li1"
 msgstr "1. Elke versameling of vrystelling het sy eie metadata. Byvoorbeeld, <a %(a_libgen_nonfic)s>Libgen.rs torrents</a> het 'n ooreenstemmende metadata-databasis wat op die Libgen.rs-webwerf gehuisves word. Ons skakel tipies na relevante metadata-hulpbronne vanaf elke versameling se <a %(a_datasets)s>datastelbladsy</a>."
 
-#: allthethings/page/templates/page/faq.html:248
+#: allthethings/page/templates/page/faq.html:259
 #, fuzzy
 msgid "page.faq.torrents.a6.li2"
 msgstr "2. Ons beveel aan om ons ElasticSearch en MariaDB databasisse <a %(a_generate)s>te genereer</a> of <a %(a_download)s>af te laai</a>. Dit bevat 'n kartering vir elke rekord in Anna se Argief na die ooreenstemmende torrent-lêers (indien beskikbaar), onder “torrent_paths” in die ElasticSearch JSON."
 
-#: allthethings/page/templates/page/faq.html:251
+#: allthethings/page/templates/page/faq.html:262
 #, fuzzy
 msgid "page.faq.security.title"
 msgstr "Het u 'n verantwoordelike openbaarmakingsprogram?"
 
-#: allthethings/page/templates/page/faq.html:254
+#: allthethings/page/templates/page/faq.html:265
 #, fuzzy
 msgid "page.faq.security.text1"
 msgstr "Ons verwelkom sekuriteitsnavorsers om kwesbaarhede in ons stelsels te soek. Ons is groot voorstanders van verantwoordelike openbaarmaking. Kontak ons <a %(a_contact)s>hier</a>."
 
-#: allthethings/page/templates/page/faq.html:258
+#: allthethings/page/templates/page/faq.html:269
 #, fuzzy
 msgid "page.faq.security.text2"
 msgstr "Ons is tans nie in staat om foutbelonings toe te ken nie, behalwe vir kwesbaarhede wat die <a %(a_link)s >potensiaal het om ons anonimiteit in gevaar te stel</a>, waarvoor ons belonings in die $10k-50k reeks aanbied. Ons wil graag in die toekoms 'n wyer omvang vir foutbelonings aanbied! Let asseblief daarop dat sosiale ingenieursaanvalle buite die omvang is."
 
-#: allthethings/page/templates/page/faq.html:262
+#: allthethings/page/templates/page/faq.html:273
 #, fuzzy
 msgid "page.faq.security.text3"
 msgstr "As jy belangstel in offensiewe sekuriteit, en wil help om die wêreld se kennis en kultuur te argiveer, kontak ons gerus. Daar is baie maniere waarop jy kan help."
 
-#: allthethings/page/templates/page/faq.html:265
+#: allthethings/page/templates/page/faq.html:276
 #, fuzzy
 msgid "page.faq.resources.title"
 msgstr "Is daar meer hulpbronne oor Anna se Argief?"
 
-#: allthethings/page/templates/page/faq.html:268
+#: allthethings/page/templates/page/faq.html:279
 #, fuzzy
 msgid "page.faq.resources.annas_blog"
 msgstr "<a %(a_blog)s>Anna se Blog</a>, <a %(a_reddit_u)s>Reddit</a>, <a %(a_reddit_r)s>Subreddit</a> — gereelde opdaterings"
 
-#: allthethings/page/templates/page/faq.html:269
+#: allthethings/page/templates/page/faq.html:280
 #, fuzzy
 msgid "page.faq.resources.annas_software"
 msgstr "<a %(a_software)s>Anna se Sagteware</a> — ons oopbron kode"
 
-#: allthethings/page/templates/page/faq.html:270
+#: allthethings/page/templates/page/faq.html:281
 #, fuzzy
 msgid "page.faq.resources.translate"
 msgstr "<a %(a_translate)s>Vertaal op Anna se Argief</a> — ons vertaalsisteem"
 
-#: allthethings/page/templates/page/faq.html:271
+#: allthethings/page/templates/page/faq.html:282
 #, fuzzy
 msgid "page.faq.resources.datasets"
 msgstr "<a %(a_datasets)s>Datasets</a> — oor die data"
 
-#: allthethings/page/templates/page/faq.html:272
+#: allthethings/page/templates/page/faq.html:283
 #, fuzzy
 msgid "page.faq.resources.domains"
 msgstr "<a %(a_li)s>.li</a>, <a %(a_se)s>.se</a>, <a %(a_org)s>.org</a> — alternatiewe domeine"
 
-#: allthethings/page/templates/page/faq.html:273
+#: allthethings/page/templates/page/faq.html:284
 #, fuzzy
 msgid "page.faq.resources.wikipedia"
 msgstr "<a %(a_wikipedia)s>Wikipedia</a> — meer oor ons (help asseblief om hierdie bladsy op datum te hou, of skep een vir jou eie taal!)"
 
-#: allthethings/page/templates/page/faq.html:276
+#: allthethings/page/templates/page/faq.html:287
 #, fuzzy
 msgid "page.faq.copyright.title"
 msgstr "Hoe rapporteer ek kopieregskending?"
 
-#: allthethings/page/templates/page/faq.html:279
+#: allthethings/page/templates/page/faq.html:290
 #, fuzzy
 msgid "page.faq.copyright.text1"
 msgstr "Ons huisves geen kopiereg-beskermde materiaal hier nie. Ons is 'n soekenjin, en indekseer slegs metadata wat reeds publiek beskikbaar is. Wanneer jy van hierdie eksterne bronne aflaai, stel ons voor dat jy die wette in jou jurisdiksie nagaan met betrekking tot wat toegelaat word. Ons is nie verantwoordelik vir inhoud wat deur ander gehuisves word nie."
 
-#: allthethings/page/templates/page/faq.html:283
+#: allthethings/page/templates/page/faq.html:294
 #, fuzzy
 msgid "page.faq.copyright.text2"
 msgstr "As jy klagtes het oor wat jy hier sien, is jou beste opsie om die oorspronklike webwerf te kontak. Ons trek gereeld hul veranderinge in ons databasis in. As jy regtig dink jy het 'n geldige DMCA-klag wat ons moet aanspreek, vul asseblief die <a %(a_copyright)s>DMCA / Kopiereg klagvorm</a> in. Ons neem jou klagtes ernstig op en sal so gou as moontlik terugkom na jou."
 
-#: allthethings/page/templates/page/faq.html:286
+#: allthethings/page/templates/page/faq.html:297
 #, fuzzy
 msgid "page.faq.hate.title"
 msgstr "Ek haat hoe julle hierdie projek bestuur!"
 
-#: allthethings/page/templates/page/faq.html:289
+#: allthethings/page/templates/page/faq.html:300
 #, fuzzy
 msgid "page.faq.hate.text1"
 msgstr "Ons wil ook almal herinner dat al ons kode en data heeltemal oopbron is. Dit is uniek vir projekte soos ons s'n — ons is nie bewus van enige ander projek met 'n soortgelyke massiewe katalogus wat ook volledig oopbron is nie. Ons verwelkom enigeen wat dink ons bestuur ons projek swak om ons kode en data te neem en hul eie skadu-biblioteek op te stel! Ons sê dit nie uit wrok of iets nie — ons dink regtig dit sal wonderlik wees aangesien dit die standaard vir almal sal verhoog, en beter die nalatenskap van die mensdom sal bewaar."
 
-#: allthethings/page/templates/page/faq.html:292
+#: allthethings/page/templates/page/faq.html:303
 #, fuzzy
 msgid "page.faq.favorite.title"
 msgstr "Wat is jou gunsteling boeke?"
 
-#: allthethings/page/templates/page/faq.html:295
+#: allthethings/page/templates/page/faq.html:306
 #, fuzzy
 msgid "page.faq.favorite.text1"
 msgstr "Hier is 'n paar boeke wat spesiale betekenis dra vir die wêreld van skadubiblioteke en digitale bewaring:"
@@ -3086,19 +3071,19 @@ msgid "page.home.torrents.body"
 msgstr "Jy kan geweldig help deur torrents te saai. <a %(a_torrents)s>Leer meer…</a>"
 
 #: allthethings/page/templates/page/home.html:47
-#: allthethings/page/templates/page/torrents.html:86
+#: allthethings/page/templates/page/torrents.html:106
 #, fuzzy
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s seeders"
 
 #: allthethings/page/templates/page/home.html:48
-#: allthethings/page/templates/page/torrents.html:87
+#: allthethings/page/templates/page/torrents.html:107
 #, fuzzy
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s saaiers"
 
 #: allthethings/page/templates/page/home.html:49
-#: allthethings/page/templates/page/torrents.html:88
+#: allthethings/page/templates/page/torrents.html:108
 #, fuzzy
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s saaiers"
@@ -4050,3 +4035,4 @@ msgstr "Volgende"
 
 #~ msgid "page.home.scidb.text1"
 #~ msgstr "Sci-Hub het <a %(a_closed)s>opgehou</a> om nuwe artikels op te laai."
+

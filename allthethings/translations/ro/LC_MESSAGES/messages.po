@@ -1,20 +1,3 @@
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 19:02+0000\n"
-"PO-Revision-Date: 2024-07-31 19:02+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ro\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.2\n"
-
 #: allthethings/app.py:203
 msgid "layout.index.invalid_request"
 msgstr "Cerere invalidă. Vizitează %(websites)s."
@@ -327,9 +310,9 @@ msgstr "Pentru donații de peste 5000 USD, vă rugăm să ne contactați direct 
 #: allthethings/page/templates/page/contact.html:3
 #: allthethings/page/templates/page/contact.html:7
 #: allthethings/page/templates/page/faq.html:84
-#: allthethings/page/templates/page/faq.html:121
-#: allthethings/page/templates/page/faq.html:129
-#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/faq.html:132
+#: allthethings/page/templates/page/faq.html:140
+#: allthethings/page/templates/page/faq.html:164
 #: allthethings/page/templates/page/home.html:77
 #: allthethings/page/templates/page/home.html:82
 #: allthethings/page/templates/page/home.html:90
@@ -1327,6 +1310,7 @@ msgid "page.account.logged_in.membership_upgrade"
 msgstr "Contactează Anna la %(email)s dacă ești interesat să-ți upgradezi calitatea de membru la un nivel superior."
 
 #: allthethings/account/templates/account/index.html:37
+#: allthethings/page/templates/page/faq.html:128
 #, fuzzy
 msgid "page.account.logged_in.membership_multiple"
 msgstr "Puteți combina mai multe abonamente (descărcările rapide pe 24 de ore vor fi adunate)."
@@ -2334,21 +2318,21 @@ msgid "page.contact.checkboxes.show_email_button"
 msgstr "Afișează emailul"
 
 #: allthethings/page/templates/page/datasets.html:161
-#: allthethings/page/templates/page/faq.html:168
+#: allthethings/page/templates/page/faq.html:179
 #: allthethings/page/templates/page/search.html:288
 #, fuzzy
 msgid "page.faq.metadata.inspiration1"
 msgstr "Inspirația noastră pentru colectarea metadatelor este obiectivul lui Aaron Swartz de a avea „o pagină web pentru fiecare carte publicată vreodată”, pentru care a creat <a %(a_openlib)s>Open Library</a>."
 
 #: allthethings/page/templates/page/datasets.html:162
-#: allthethings/page/templates/page/faq.html:169
+#: allthethings/page/templates/page/faq.html:180
 #: allthethings/page/templates/page/search.html:289
 #, fuzzy
 msgid "page.faq.metadata.inspiration2"
 msgstr "Acest proiect a avut succes, dar poziția noastră unică ne permite să obținem metadate pe care ei nu le pot obține."
 
 #: allthethings/page/templates/page/datasets.html:163
-#: allthethings/page/templates/page/faq.html:170
+#: allthethings/page/templates/page/faq.html:181
 #: allthethings/page/templates/page/search.html:290
 #, fuzzy
 msgid "page.faq.metadata.inspiration3"
@@ -2489,317 +2473,317 @@ msgstr "Acesta este motivul pentru care am implementat două sisteme pentru desc
 msgid "page.faq.slow.text3"
 msgstr "Avem, de asemenea, <a %(a_verification)s>verificare a browserului</a> pentru descărcările lente, deoarece altfel boții și scrapers-urile le vor abuza, făcând lucrurile și mai lente pentru utilizatorii legitimi."
 
-#: allthethings/page/templates/page/faq.html:114
+#: allthethings/page/templates/page/faq.html:119
 msgid "page.donate.faq.title"
 msgstr "Donații FAQ"
 
-#: allthethings/page/templates/page/faq.html:117
+#: allthethings/page/templates/page/faq.html:122
 msgid "page.donate.faq.renew"
 msgstr "<div %(div_question)s>Abonamentele se reînnoiesc automat?</div> Abonamentele <strong>nu</strong> se reînnoiesc automat. Vă puteți alătura oricât de mult sau scurt doriți."
 
-#: allthethings/page/templates/page/faq.html:121
+#: allthethings/page/templates/page/faq.html:132
 msgid "page.donate.faq.text_other_payment1"
 msgstr "<div %(div_question)s>Dispuneți de alte metode de plată?</div> Momentan nu. O mulțime de oameni nu își doresc ca astfel de arhive să existe, deci trebuie să avem grijă. Dacă ne poți ajuta să configurăm alte metode de plată (mai convenabile) în siguranță, te rugăm să ne contactezi la %(email)s."
 
-#: allthethings/page/templates/page/faq.html:125
+#: allthethings/page/templates/page/faq.html:136
 msgid "page.donate.faq.spend"
 msgstr "<div %(div_question)s>Pe ce cheltuiți donațiile?</div> 100%% Sunt destinate păstrării și accesibilității cunoștințelor și culturii lumii. În prezent, le cheltuim mai ales pe servere, stocare și lățime de bandă. Niciun membru nu va primi bani personal. Oricum ar fi prea periculos."
 
-#: allthethings/page/templates/page/faq.html:129
+#: allthethings/page/templates/page/faq.html:140
 msgid "page.donate.faq.text_large_donation"
 msgstr "<div %(div_question)s>Pot face o donație mare?</div> Ar fi uimitor! Pentru donații de peste o mie de dolari, te rugăm să ne contactezi direct la %(email)s."
 
-#: allthethings/page/templates/page/faq.html:133
+#: allthethings/page/templates/page/faq.html:144
 #, fuzzy
 msgid "page.donate.faq.non_member_donation"
 msgstr "<div %(div_question)s>Pot face o donație fără a deveni membru?</div> Desigur. Acceptăm donații de orice sumă la această adresă Monero (XMR): %(address)s."
 
-#: allthethings/page/templates/page/faq.html:136
+#: allthethings/page/templates/page/faq.html:147
 #, fuzzy
 msgid "page.faq.upload.title"
 msgstr "Cum pot încărca cărți noi?"
 
-#: allthethings/page/templates/page/faq.html:139
+#: allthethings/page/templates/page/faq.html:150
 #, fuzzy
 msgid "page.upload.text1"
 msgstr "Deocamdată, sugerăm încărcarea noilor cărți pe fork-urile Library Genesis. Iată un <a %(a_guide)s>ghid util</a>. Rețineți că ambele fork-uri pe care le indexăm pe acest site web trag din acest sistem de încărcare."
 
-#: allthethings/page/templates/page/faq.html:140
+#: allthethings/page/templates/page/faq.html:151
 #, fuzzy
 msgid "common.libgen.email"
 msgstr "Dacă adresa dvs. de email nu funcționează pe forumurile Libgen, vă recomandăm să folosiți <a %(a_mail)s>Proton Mail</a> (gratuit). De asemenea, puteți <a %(a_manual)s>solicita manual</a> activarea contului dvs."
 
-#: allthethings/page/templates/page/faq.html:141
+#: allthethings/page/templates/page/faq.html:152
 #, fuzzy
 msgid "page.faq.mhut_upload"
 msgstr "Rețineți că mhut.org blochează anumite intervale de IP-uri, așa că ar putea fi necesar un VPN."
 
-#: allthethings/page/templates/page/faq.html:145
+#: allthethings/page/templates/page/faq.html:156
 #, fuzzy
 msgid "page.upload.zlib.text1"
 msgstr "Alternativ, le puteți încărca pe Z-Library <a %(a_upload)s>aici</a>."
 
-#: allthethings/page/templates/page/faq.html:149
+#: allthethings/page/templates/page/faq.html:160
 #, fuzzy
 msgid "page.upload.zlib.text2"
 msgstr "Pentru a încărca lucrări academice, vă rugăm să le încărcați și pe (în plus față de Library Genesis) <a %(a_stc_nexus)s>STC Nexus</a>. Ei sunt cea mai bună bibliotecă de umbră pentru lucrări noi. Nu i-am integrat încă, dar o vom face la un moment dat. Puteți folosi <a %(a_telegram)s>botul lor de încărcare pe Telegram</a> sau contactați adresa listată în mesajul lor fixat dacă aveți prea multe fișiere de încărcat în acest mod."
 
-#: allthethings/page/templates/page/faq.html:153
+#: allthethings/page/templates/page/faq.html:164
 #, fuzzy
 msgid "page.upload.large.text"
 msgstr "Pentru încărcări mari (peste 10.000 de fișiere) care nu sunt acceptate de Libgen sau Z-Library, vă rugăm să ne contactați la %(a_email)s."
 
-#: allthethings/page/templates/page/faq.html:156
+#: allthethings/page/templates/page/faq.html:167
 #, fuzzy
 msgid "page.faq.request.title"
 msgstr "Cum pot solicita cărți?"
 
-#: allthethings/page/templates/page/faq.html:159
+#: allthethings/page/templates/page/faq.html:170
 #, fuzzy
 msgid "page.request.cannot_accomodate"
 msgstr "În acest moment, nu putem onora cererile de cărți."
 
-#: allthethings/page/templates/page/faq.html:160
+#: allthethings/page/templates/page/faq.html:171
 #, fuzzy
 msgid "page.request.forums"
 msgstr "Te rugăm să faci solicitările pe forumurile Z-Library sau Libgen."
 
-#: allthethings/page/templates/page/faq.html:161
+#: allthethings/page/templates/page/faq.html:172
 #, fuzzy
 msgid "page.request.dont_email"
 msgstr "Nu ne trimiteți cereri de cărți prin email."
 
-#: allthethings/page/templates/page/faq.html:164
+#: allthethings/page/templates/page/faq.html:175
 #, fuzzy
 msgid "page.faq.metadata.title"
 msgstr "Colectați metadate?"
 
-#: allthethings/page/templates/page/faq.html:167
+#: allthethings/page/templates/page/faq.html:178
 #, fuzzy
 msgid "page.faq.metadata.indeed"
 msgstr "Da, colectăm."
 
-#: allthethings/page/templates/page/faq.html:173
+#: allthethings/page/templates/page/faq.html:184
 #, fuzzy
 msgid "page.faq.1984.title"
 msgstr "Am descărcat 1984 de George Orwell, va veni poliția la ușa mea?"
 
-#: allthethings/page/templates/page/faq.html:176
+#: allthethings/page/templates/page/faq.html:187
 #, fuzzy
 msgid "page.faq.1984.text"
 msgstr "Nu vă faceți prea multe griji, sunt mulți oameni care descarcă de pe site-urile la care facem legătura, și este extrem de rar să aveți probleme. Totuși, pentru a rămâne în siguranță, vă recomandăm să folosiți un VPN (plătit) sau <a %(a_tor)s>Tor</a> (gratuit)."
 
-#: allthethings/page/templates/page/faq.html:179
+#: allthethings/page/templates/page/faq.html:190
 #, fuzzy
 msgid "page.faq.save_search.title"
 msgstr "Cum îmi salvez setările de căutare?"
 
-#: allthethings/page/templates/page/faq.html:182
+#: allthethings/page/templates/page/faq.html:193
 #, fuzzy
 msgid "page.faq.save_search.text1"
 msgstr "Selectați setările dorite, lăsați caseta de căutare goală, faceți clic pe „Căutare”, apoi marcați pagina folosind funcția de marcaj a browserului dvs."
 
-#: allthethings/page/templates/page/faq.html:185
+#: allthethings/page/templates/page/faq.html:196
 #, fuzzy
 msgid "page.faq.mobile.title"
 msgstr "Aveți o aplicație mobilă?"
 
-#: allthethings/page/templates/page/faq.html:188
+#: allthethings/page/templates/page/faq.html:199
 #, fuzzy
 msgid "page.faq.mobile.text1"
 msgstr "Nu avem o aplicație mobilă oficială, dar puteți instala acest site web ca aplicație."
 
-#: allthethings/page/templates/page/faq.html:189
+#: allthethings/page/templates/page/faq.html:200
 #, fuzzy
 msgid "page.faq.mobile.android"
 msgstr "<strong>Android:</strong> Apăsați pe meniul cu trei puncte din colțul din dreapta sus și selectați „Adăugați pe ecranul principal”."
 
-#: allthethings/page/templates/page/faq.html:190
+#: allthethings/page/templates/page/faq.html:201
 #, fuzzy
 msgid "page.faq.mobile.ios"
 msgstr "<strong>iOS:</strong> Apăsați pe butonul „Partajare” din partea de jos și selectați „Adăugați pe ecranul principal”."
 
-#: allthethings/page/templates/page/faq.html:193
+#: allthethings/page/templates/page/faq.html:204
 #, fuzzy
 msgid "page.faq.api.title"
 msgstr "Aveți un API?"
 
-#: allthethings/page/templates/page/faq.html:196
+#: allthethings/page/templates/page/faq.html:207
 #, fuzzy
 msgid "page.faq.api.text1"
 msgstr "Avem un API JSON stabil pentru membri, pentru a obține un URL de descărcare rapidă: <a %(a_fast_download)s>/dyn/api/fast_download.json</a> (documentația este inclusă în JSON)."
 
-#: allthethings/page/templates/page/faq.html:200
+#: allthethings/page/templates/page/faq.html:211
 #, fuzzy
 msgid "page.faq.api.text2"
 msgstr "Pentru alte cazuri de utilizare, cum ar fi iterarea prin toate fișierele noastre, construirea unei căutări personalizate și așa mai departe, recomandăm <a %(a_generate)s>generarea</a> sau <a %(a_download)s>descărcarea</a> bazelor noastre de date ElasticSearch și MariaDB. Datele brute pot fi explorate manual <a %(a_explore)s>prin fișiere JSON</a>."
 
-#: allthethings/page/templates/page/faq.html:204
+#: allthethings/page/templates/page/faq.html:215
 #, fuzzy
 msgid "page.faq.api.text3"
 msgstr "Lista noastră de torrente brute poate fi descărcată și ca <a %(a_torrents)s>JSON</a>."
 
-#: allthethings/page/templates/page/faq.html:207
+#: allthethings/page/templates/page/faq.html:218
 #, fuzzy
 msgid "page.faq.torrents.title"
 msgstr "Întrebări frecvente despre torrente"
 
-#: allthethings/page/templates/page/faq.html:210
+#: allthethings/page/templates/page/faq.html:221
 #, fuzzy
 msgid "page.faq.torrents.q1"
 msgstr "Aș dori să ajut la seed, dar nu am prea mult spațiu pe disc."
 
-#: allthethings/page/templates/page/faq.html:212
+#: allthethings/page/templates/page/faq.html:223
 #, fuzzy
 msgid "page.faq.torrents.a1"
 msgstr "Utilizați <a %(a_list)s>generatorul de liste de torrente</a> pentru a genera o listă de torrente care au cea mai mare nevoie de torrenting, în limitele spațiului dvs. de stocare."
 
-#: allthethings/page/templates/page/faq.html:216
+#: allthethings/page/templates/page/faq.html:227
 #, fuzzy
 msgid "page.faq.torrents.q2"
 msgstr "Torrentele sunt prea lente; pot descărca datele direct de la voi?"
 
-#: allthethings/page/templates/page/faq.html:218
+#: allthethings/page/templates/page/faq.html:229
 #, fuzzy
 msgid "page.faq.torrents.a2"
 msgstr "Da, consultați pagina <a %(a_llm)s>date LLM</a>."
 
-#: allthethings/page/templates/page/faq.html:222
+#: allthethings/page/templates/page/faq.html:233
 #, fuzzy
 msgid "page.faq.torrents.q3"
 msgstr "Pot descărca doar un subset de fișiere, cum ar fi doar o anumită limbă sau un anumit subiect?"
 
-#: allthethings/page/templates/page/faq.html:224
+#: allthethings/page/templates/page/faq.html:235
 #, fuzzy
 msgid "page.faq.torrents.a3"
 msgstr "Majoritatea torrentelor conțin fișierele direct, ceea ce înseamnă că puteți instrui clienții de torrent să descarce doar fișierele necesare. Pentru a determina ce fișiere să descărcați, puteți <a %(a_generate)s>genera</a> metadatele noastre sau <a %(a_download)s>descărca</a> bazele noastre de date ElasticSearch și MariaDB. Din păcate, un număr de colecții de torrente conțin fișiere .zip sau .tar la rădăcină, caz în care trebuie să descărcați întregul torrent înainte de a putea selecta fișiere individuale."
 
-#: allthethings/page/templates/page/faq.html:228
+#: allthethings/page/templates/page/faq.html:239
 #, fuzzy
 msgid "page.faq.torrents.q4"
 msgstr "Cum gestionați duplicatele în torrente?"
 
-#: allthethings/page/templates/page/faq.html:230
+#: allthethings/page/templates/page/faq.html:241
 #, fuzzy
 msgid "page.faq.torrents.a4"
 msgstr "Încercăm să menținem duplicarea sau suprapunerea minimă între torrentele din această listă, dar acest lucru nu poate fi întotdeauna realizat și depinde foarte mult de politicile bibliotecilor sursă. Pentru bibliotecile care își publică propriile torrente, nu este în mâinile noastre. Pentru torrentele lansate de Arhiva Annei, deduplicăm doar pe baza hash-ului MD5, ceea ce înseamnă că diferitele versiuni ale aceleași cărți nu sunt deduplicate."
 
-#: allthethings/page/templates/page/faq.html:234
+#: allthethings/page/templates/page/faq.html:245
 #, fuzzy
 msgid "page.faq.torrents.q5"
 msgstr "Pot obține lista de torrente ca JSON?"
 
-#: allthethings/page/templates/page/faq.html:238
+#: allthethings/page/templates/page/faq.html:249
 #, fuzzy
 msgid "page.faq.torrents.a5"
 msgstr "Da."
 
-#: allthethings/page/templates/page/faq.html:242
+#: allthethings/page/templates/page/faq.html:253
 #, fuzzy
 msgid "page.faq.torrents.q6"
 msgstr "Nu văd PDF-uri sau EPUB-uri în torrente, doar fișiere binare? Ce fac?"
 
-#: allthethings/page/templates/page/faq.html:244
+#: allthethings/page/templates/page/faq.html:255
 #, fuzzy
 msgid "page.faq.torrents.a6"
 msgstr "Acestea sunt de fapt PDF-uri și EPUB-uri, doar că nu au o extensie în multe dintre torrentele noastre. Există două locuri în care puteți găsi metadatele pentru fișierele torrent, inclusiv tipurile/extensiile de fișiere:"
 
-#: allthethings/page/templates/page/faq.html:246
+#: allthethings/page/templates/page/faq.html:257
 #, fuzzy
 msgid "page.faq.torrents.a6.li1"
 msgstr "1. Fiecare colecție sau lansare are propriile metadate. De exemplu, <a %(a_libgen_nonfic)s>torrentele Libgen.rs</a> au o bază de date de metadate corespunzătoare găzduită pe site-ul Libgen.rs. De obicei, facem legătura către resursele de metadate relevante din <a %(a_datasets)s>pagina dataset-ului</a> fiecărei colecții."
 
-#: allthethings/page/templates/page/faq.html:248
+#: allthethings/page/templates/page/faq.html:259
 #, fuzzy
 msgid "page.faq.torrents.a6.li2"
 msgstr "2. Vă recomandăm să <a %(a_generate)s>generați</a> sau să <a %(a_download)s>descărcați</a> bazele noastre de date ElasticSearch și MariaDB. Acestea conțin o mapare pentru fiecare înregistrare din Arhiva Annei către fișierele torrent corespunzătoare (dacă sunt disponibile), sub „torrent_paths” în JSON-ul ElasticSearch."
 
-#: allthethings/page/templates/page/faq.html:251
+#: allthethings/page/templates/page/faq.html:262
 #, fuzzy
 msgid "page.faq.security.title"
 msgstr "Aveți un program de divulgare responsabilă?"
 
-#: allthethings/page/templates/page/faq.html:254
+#: allthethings/page/templates/page/faq.html:265
 #, fuzzy
 msgid "page.faq.security.text1"
 msgstr "Îi încurajăm pe cercetătorii în securitate să caute vulnerabilități în sistemele noastre. Suntem mari susținători ai divulgării responsabile. Contactați-ne <a %(a_contact)s>aici</a>."
 
-#: allthethings/page/templates/page/faq.html:258
+#: allthethings/page/templates/page/faq.html:269
 #, fuzzy
 msgid "page.faq.security.text2"
 msgstr "În prezent, nu putem oferi recompense pentru bug-uri, cu excepția vulnerabilităților care au <a %(a_link)s>potențialul de a compromite anonimatul nostru</a>, pentru care oferim recompense între 10.000 și 50.000 de dolari. Ne-ar plăcea să oferim un domeniu mai larg pentru recompensele de bug-uri în viitor! Vă rugăm să rețineți că atacurile de inginerie socială sunt în afara domeniului de aplicare."
 
-#: allthethings/page/templates/page/faq.html:262
+#: allthethings/page/templates/page/faq.html:273
 #, fuzzy
 msgid "page.faq.security.text3"
 msgstr "Dacă sunteți interesat de securitatea ofensivă și doriți să ajutați la arhivarea cunoștințelor și culturii lumii, asigurați-vă că ne contactați. Există multe moduri în care puteți ajuta."
 
-#: allthethings/page/templates/page/faq.html:265
+#: allthethings/page/templates/page/faq.html:276
 #, fuzzy
 msgid "page.faq.resources.title"
 msgstr "Există mai multe resurse despre Arhiva Annei?"
 
-#: allthethings/page/templates/page/faq.html:268
+#: allthethings/page/templates/page/faq.html:279
 #, fuzzy
 msgid "page.faq.resources.annas_blog"
 msgstr "<a %(a_blog)s>Blogul Annei</a>, <a %(a_reddit_u)s>Reddit</a>, <a %(a_reddit_r)s>Subreddit</a> — actualizări regulate"
 
-#: allthethings/page/templates/page/faq.html:269
+#: allthethings/page/templates/page/faq.html:280
 #, fuzzy
 msgid "page.faq.resources.annas_software"
 msgstr "<a %(a_software)s>Software-ul Annei</a> — codul nostru open source"
 
-#: allthethings/page/templates/page/faq.html:270
+#: allthethings/page/templates/page/faq.html:281
 #, fuzzy
 msgid "page.faq.resources.translate"
 msgstr "<a %(a_translate)s>Traduceți pe Software-ul Annei</a> — sistemul nostru de traducere"
 
-#: allthethings/page/templates/page/faq.html:271
+#: allthethings/page/templates/page/faq.html:282
 #, fuzzy
 msgid "page.faq.resources.datasets"
 msgstr "<a %(a_datasets)s>Datasets</a> — despre date"
 
-#: allthethings/page/templates/page/faq.html:272
+#: allthethings/page/templates/page/faq.html:283
 #, fuzzy
 msgid "page.faq.resources.domains"
 msgstr "<a %(a_li)s>.li</a>, <a %(a_se)s>.se</a>, <a %(a_org)s>.org</a> — domenii alternative"
 
-#: allthethings/page/templates/page/faq.html:273
+#: allthethings/page/templates/page/faq.html:284
 #, fuzzy
 msgid "page.faq.resources.wikipedia"
 msgstr "<a %(a_wikipedia)s>Wikipedia</a> — mai multe despre noi (vă rugăm să ajutați la actualizarea acestei pagini sau să creați una pentru propria limbă!)"
 
-#: allthethings/page/templates/page/faq.html:276
+#: allthethings/page/templates/page/faq.html:287
 #, fuzzy
 msgid "page.faq.copyright.title"
 msgstr "Cum raportez o încălcare a drepturilor de autor?"
 
-#: allthethings/page/templates/page/faq.html:279
+#: allthethings/page/templates/page/faq.html:290
 #, fuzzy
 msgid "page.faq.copyright.text1"
 msgstr "Nu găzduim niciun material protejat prin drepturi de autor aici. Suntem un motor de căutare și, ca atare, indexăm doar metadate care sunt deja disponibile public. Când descărcați de la aceste surse externe, vă sugerăm să verificați legile din jurisdicția dvs. cu privire la ceea ce este permis. Nu suntem responsabili pentru conținutul găzduit de alții."
 
-#: allthethings/page/templates/page/faq.html:283
+#: allthethings/page/templates/page/faq.html:294
 #, fuzzy
 msgid "page.faq.copyright.text2"
 msgstr "Dacă aveți plângeri despre ceea ce vedeți aici, cea mai bună opțiune este să contactați site-ul original. Încărcăm regulat modificările lor în baza noastră de date. Dacă chiar credeți că aveți o plângere validă DMCA la care ar trebui să răspundem, vă rugăm să completați <a %(a_copyright)s>formularul de reclamație DMCA / Drepturi de autor</a>. Luăm în serios plângerile dvs. și vă vom răspunde cât mai curând posibil."
 
-#: allthethings/page/templates/page/faq.html:286
+#: allthethings/page/templates/page/faq.html:297
 #, fuzzy
 msgid "page.faq.hate.title"
 msgstr "Urăsc modul în care gestionați acest proiect!"
 
-#: allthethings/page/templates/page/faq.html:289
+#: allthethings/page/templates/page/faq.html:300
 #, fuzzy
 msgid "page.faq.hate.text1"
 msgstr "De asemenea, dorim să reamintim tuturor că tot codul și datele noastre sunt complet open source. Acest lucru este unic pentru proiecte ca al nostru — nu cunoaștem niciun alt proiect cu un catalog la fel de masiv care să fie complet open source. Îi încurajăm foarte mult pe cei care cred că gestionăm prost proiectul nostru să ia codul și datele noastre și să își creeze propria bibliotecă shadow! Nu spunem asta din răutate sau ceva de genul acesta — credem cu adevărat că ar fi minunat, deoarece ar ridica standardele pentru toată lumea și ar păstra mai bine moștenirea umanității."
 
-#: allthethings/page/templates/page/faq.html:292
+#: allthethings/page/templates/page/faq.html:303
 #, fuzzy
 msgid "page.faq.favorite.title"
 msgstr "Care sunt cărțile voastre preferate?"
 
-#: allthethings/page/templates/page/faq.html:295
+#: allthethings/page/templates/page/faq.html:306
 #, fuzzy
 msgid "page.faq.favorite.text1"
 msgstr "Iată câteva cărți care au o semnificație specială pentru lumea bibliotecilor de umbră și a conservării digitale:"
@@ -2899,19 +2883,19 @@ msgid "page.home.torrents.body"
 msgstr "Puteți ajuta enorm prin seeding-ul torrentelor. <a %(a_torrents)s>Aflați mai multe…</a>"
 
 #: allthethings/page/templates/page/home.html:47
-#: allthethings/page/templates/page/torrents.html:86
+#: allthethings/page/templates/page/torrents.html:106
 #, fuzzy
 msgid "page.home.torrents.legend_less"
 msgstr "<%(count)s seeders"
 
 #: allthethings/page/templates/page/home.html:48
-#: allthethings/page/templates/page/torrents.html:87
+#: allthethings/page/templates/page/torrents.html:107
 #, fuzzy
 msgid "page.home.torrents.legend_range"
 msgstr "%(count_min)s–%(count_max)s seederi"
 
 #: allthethings/page/templates/page/home.html:49
-#: allthethings/page/templates/page/torrents.html:88
+#: allthethings/page/templates/page/torrents.html:108
 #, fuzzy
 msgid "page.home.torrents.legend_greater"
 msgstr ">%(count)s seeders"
@@ -4249,3 +4233,4 @@ msgstr "Următorul"
 
 #~ msgid "page.home.scidb.text1"
 #~ msgstr "Sci-Hub a <a %(a_closed)s>oprit</a> încărcarea de lucrări noi."
+
