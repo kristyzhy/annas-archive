@@ -1,3 +1,20 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-31 19:02+0000\n"
+"PO-Revision-Date: 2024-07-31 19:02+0000\n"
+"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.6.2\n"
+
 #: allthethings/app.py:203
 msgid "layout.index.invalid_request"
 msgstr "Неверный запрос. Посетите %(websites)s."
@@ -2210,8 +2227,9 @@ msgid "page.faq.help.mirrors"
 msgstr "Мы были бы рады созданию <a %(a_mirrors)s>зеркал</a> волонтёрами и готовы это финансово поддержать."
 
 #: allthethings/page/templates/page/faq.html:100
+#, fuzzy
 msgid "page.faq.slow.title"
-msgstr ""
+msgstr "Почему медленные загрузки такие медленные?"
 
 #: allthethings/page/templates/page/faq.html:103
 #, fuzzy
@@ -2703,116 +2721,144 @@ msgstr "Архив Анны временно недоступен из-за те
 
 #: allthethings/page/templates/page/metadata.html:4
 #: allthethings/page/templates/page/metadata.html:9
+#, fuzzy
 msgid "page.metadata.header"
-msgstr ""
+msgstr "Улучшить метаданные"
 
 #: allthethings/page/templates/page/metadata.html:12
+#, fuzzy
 msgid "page.metadata.body1"
-msgstr ""
+msgstr "Вы можете помочь в сохранении книг, улучшая метаданные! Сначала прочитайте информацию о метаданных на Аннином Архиве, а затем узнайте, как улучшить метаданные через связь с Open Library, и получите бесплатное членство на Аннином Архиве."
 
 #: allthethings/page/templates/page/metadata.html:15
+#, fuzzy
 msgid "page.metadata.background.title"
-msgstr ""
+msgstr "Фон"
 
 #: allthethings/page/templates/page/metadata.html:18
+#, fuzzy
 msgid "page.metadata.background.body1"
-msgstr ""
+msgstr "Когда вы смотрите на книгу в Аннином Архиве, вы можете увидеть различные поля: название, автор, издатель, издание, год, описание, имя файла и многое другое. Вся эта информация называется <em>метаданными</em>."
 
 #: allthethings/page/templates/page/metadata.html:22
+#, fuzzy
 msgid "page.metadata.background.body2"
-msgstr ""
+msgstr "Поскольку мы объединяем книги из различных <em>источниковых библиотек</em>, мы показываем любые доступные метаданные из этой источниковой библиотеки. Например, для книги, которую мы получили из Library Genesis, мы покажем название из базы данных Library Genesis."
 
 #: allthethings/page/templates/page/metadata.html:26
+#, fuzzy
 msgid "page.metadata.background.body3"
-msgstr ""
+msgstr "Иногда книга присутствует в <em>нескольких</em> источниковых библиотеках, которые могут иметь разные поля метаданных. В этом случае мы просто показываем самую длинную версию каждого поля, так как она, вероятно, содержит самую полезную информацию! Мы все равно покажем другие поля ниже описания, например, как «альтернативное название» (но только если они отличаются)."
 
 #: allthethings/page/templates/page/metadata.html:30
+#, fuzzy
 msgid "page.metadata.background.body4"
-msgstr ""
+msgstr "Мы также извлекаем <em>коды</em>, такие как идентификаторы и классификаторы, из источниковой библиотеки. <em>Идентификаторы</em> уникально представляют конкретное издание книги; примеры включают ISBN, DOI, Open Library ID, Google Books ID или Amazon ID. <em>Классификаторы</em> группируют несколько похожих книг; примеры включают Десятичную классификацию Дьюи (DCC), УДК, LCC, RVK или ГОСТ. Иногда эти коды явно связаны в источниковых библиотеках, а иногда мы можем извлечь их из имени файла или описания (в основном ISBN и DOI)."
 
 #: allthethings/page/templates/page/metadata.html:34
+#, fuzzy
 msgid "page.metadata.background.body5"
-msgstr ""
+msgstr "Мы можем использовать идентификаторы для поиска записей в <em>коллекциях только метаданных</em>, таких как OpenLibrary, ISBNdb или WorldCat/OCLC. В нашем поисковом движке есть специальная <em>вкладка метаданных</em>, если вы хотите просмотреть эти коллекции. Мы используем совпадающие записи для заполнения отсутствующих полей метаданных (например, если отсутствует название) или, например, как «альтернативное название» (если уже есть существующее название)."
 
 #: allthethings/page/templates/page/metadata.html:39
+#, fuzzy
 msgid "page.metadata.background.body6"
-msgstr ""
+msgstr "Чтобы точно увидеть, откуда взялись метаданные книги, смотрите вкладку <em>«Технические детали»</em> на странице книги. Там есть ссылка на необработанный JSON для этой книги с указателями на необработанный JSON оригинальных записей."
 
 #: allthethings/page/templates/page/metadata.html:44
+#, fuzzy
 msgid "page.metadata.background.body7"
-msgstr ""
+msgstr "Для получения дополнительной информации смотрите следующие страницы: <a %(a_datasets)s>Наборы данных</a>, <a %(a_search_metadata)s>Поиск (вкладка метаданных)</a>, <a %(a_codes)s>Исследователь кодов</a> и <a %(a_example)s>Пример метаданных JSON</a>. Наконец, все наши метаданные могут быть <a %(a_generated)s>сгенерированы</a> или <a %(a_downloaded)s>загружены</a> в виде баз данных ElasticSearch и MariaDB."
 
 #: allthethings/page/templates/page/metadata.html:56
+#, fuzzy
 msgid "page.metadata.openlib.title"
-msgstr ""
+msgstr "Связь с Open Library"
 
 #: allthethings/page/templates/page/metadata.html:59
+#, fuzzy
 msgid "page.metadata.openlib.body1"
-msgstr ""
+msgstr "Итак, если вы наткнулись на файл с плохими метаданными, как его исправить? Вы можете перейти в источниковую библиотеку и следовать ее процедурам по исправлению метаданных, но что делать, если файл присутствует в нескольких источниковых библиотеках?"
 
 #: allthethings/page/templates/page/metadata.html:63
+#, fuzzy
 msgid "page.metadata.openlib.body2"
-msgstr ""
+msgstr "Есть один идентификатор, который имеет особое значение в Аннином Архиве. <strong>Поле annas_archive md5 в Open Library всегда переопределяет все другие метаданные!</strong> Давайте сначала немного отступим и узнаем об Open Library."
 
 #: allthethings/page/templates/page/metadata.html:67
+#, fuzzy
 msgid "page.metadata.openlib.body3"
-msgstr ""
+msgstr "Open Library была основана в 2006 году Аароном Шварцем с целью «одна веб-страница для каждой когда-либо опубликованной книги». Это своего рода Википедия для метаданных книг: каждый может редактировать ее, она свободно лицензирована и может быть загружена в большом объеме. Это база данных книг, которая наиболее соответствует нашей миссии — на самом деле, Аннин Архив был вдохновлен видением и жизнью Аарона Шварца."
 
 #: allthethings/page/templates/page/metadata.html:71
+#, fuzzy
 msgid "page.metadata.openlib.body4"
-msgstr ""
+msgstr "Вместо того чтобы изобретать велосипед, мы решили направить наших волонтеров в Open Library. Если вы видите книгу с неправильными метаданными, вы можете помочь следующим образом:"
 
 #: allthethings/page/templates/page/metadata.html:75
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.1"
-msgstr ""
+msgstr " Перейдите на <a %(a_openlib)s>веб-сайт Open Library</a>."
 
 #: allthethings/page/templates/page/metadata.html:76
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2"
-msgstr ""
+msgstr "Найдите правильную запись книги. <strong>ПРЕДУПРЕЖДЕНИЕ:</strong> обязательно выберите правильное <strong>издание</strong>. В Open Library есть «произведения» и «издания»."
 
 #: allthethings/page/templates/page/metadata.html:78
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.1"
-msgstr ""
+msgstr "«Произведение» может быть «Гарри Поттер и философский камень»."
 
 #: allthethings/page/templates/page/metadata.html:79
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2"
-msgstr ""
+msgstr "«Издание» может быть:"
 
 #: allthethings/page/templates/page/metadata.html:81
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.1"
-msgstr ""
+msgstr "Первое издание 1997 года, опубликованное издательством Bloomsbery, содержит 256 страниц."
 
 #: allthethings/page/templates/page/metadata.html:82
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.2"
-msgstr ""
+msgstr "Издание в мягкой обложке 2003 года, опубликованное издательством Raincoast Books, содержит 223 страницы."
 
 #: allthethings/page/templates/page/metadata.html:83
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.2.3"
-msgstr ""
+msgstr "Польский перевод 2000 года «Гарри Поттер и философский камень» от Media Rodzina содержит 328 страниц."
 
 #: allthethings/page/templates/page/metadata.html:86
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.2.3"
-msgstr ""
+msgstr "Все эти издания имеют разные ISBN и разное содержание, поэтому обязательно выберите правильное!"
 
 #: allthethings/page/templates/page/metadata.html:89
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.3"
-msgstr ""
+msgstr "Отредактируйте запись (или создайте её, если она не существует) и добавьте как можно больше полезной информации! Вы уже здесь, так что сделайте запись действительно потрясающей."
 
 #: allthethings/page/templates/page/metadata.html:90
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.4"
-msgstr ""
+msgstr "В разделе «ID Numbers» выберите «Архив Анны» и добавьте MD5 книги из Архива Анны. Это длинная строка букв и цифр после «/md5/» в URL."
 
 #: allthethings/page/templates/page/metadata.html:92
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.4.1"
-msgstr ""
+msgstr "Попробуйте найти другие файлы в Архиве Анны, которые также соответствуют этой записи, и добавьте их. В будущем мы сможем сгруппировать их как дубликаты на странице поиска Архива Анны."
 
 #: allthethings/page/templates/page/metadata.html:95
+#, fuzzy
 msgid "page.metadata.openlib.howto.item.5"
-msgstr ""
+msgstr "Когда закончите, запишите URL, который вы только что обновили. Как только вы обновите как минимум 30 записей с MD5 из Архива Анны, отправьте нам <a %(a_contact)s>электронное письмо</a> и пришлите список. Мы предоставим вам бесплатное членство в Архиве Анны, чтобы вы могли легче выполнять эту работу (и в знак благодарности за вашу помощь). Эти правки должны быть качественными и содержать значительное количество информации, иначе ваш запрос будет отклонен. Ваш запрос также будет отклонен, если какие-либо правки будут отменены или исправлены модераторами Open Library."
 
 #: allthethings/page/templates/page/metadata.html:99
+#, fuzzy
 msgid "page.metadata.openlib.body5"
-msgstr ""
+msgstr "Обратите внимание, что это работает только для книг, а не для научных статей или других типов файлов. Для других типов файлов мы все же рекомендуем найти исходную библиотеку. Может потребоваться несколько недель, чтобы изменения были включены в Архив Анны, так как нам нужно загрузить последнюю выгрузку данных Open Library и заново сгенерировать наш поисковый индекс."
 
 #: allthethings/page/templates/page/partner_download.html:3
 #: allthethings/page/templates/page/partner_download.html:10
@@ -3089,8 +3135,9 @@ msgid "page.search.header.update_info"
 msgstr "Поисковый индекс обновляется ежемесячно. В настоящее время он включает в себя записи до %(last_data_refresh_date)s. Для получения более подробной технической информации перейдите на страницу %(link_open_tag)sнаборов данных</a>."
 
 #: allthethings/page/templates/page/search.html:230
+#, fuzzy
 msgid "page.search.header.codes_explorer"
-msgstr ""
+msgstr "Чтобы исследовать поисковый индекс по кодам, используйте <a %(a_href)s>Исследователь кодов</a>."
 
 #: allthethings/page/templates/page/search.html:240
 msgid "page.search.results.search_downloads"
@@ -3852,4 +3899,3 @@ msgstr "Следующая"
 
 #~ msgid "page.home.scidb.text1"
 #~ msgstr "Sci-Hub <a %(a_closed)s>приостановил</a> загрузку новых статей."
-
