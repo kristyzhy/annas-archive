@@ -55,6 +55,26 @@
         <em>“The lost cannot be recovered; but let us save what remains: not by vaults and locks which fence them from the public eye and use, in consigning them to the waste of time, but by such a multiplication of copies, as shall place them beyond the reach of accident.”</em><div class="text-sm">— Thomas Jefferson, 1791</div>
       </div>
 
+      <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list"><span class="underline">HELP SEED</span> — Torrent List Generator</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
+
+      <p class="mb-4">
+        Enter how many TBs you can help seed, and we’ll give you a list of torrents that need the most seeding! The list is somewhat random every time, so two people generating at the same time will still cover different parts of the collection.
+      </p>
+
+      <form action="/dyn/generate_torrents" class="flex items-center mb-4">
+        <label class="mr-2 flex items-center">Max TB: <input type="number" step="any" name="max_tb" class="ml-1 bg-black/6.7 px-2 py-1 rounded" placeholder="(empty for no limit)" /></label>
+        <label class="mr-2 flex items-center">Type: <select name="format" class="ml-1 bg-black/6.7 px-2 py-1 rounded"><option value="magnet">Magnet links</option><option value="json">JSON</option><option value="url">URLs</option></select></label>
+        <button type="submit" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white">Generate</button>
+      </form>
+
+      <p class="mb-4">
+        The list is sorted by <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/157">(seeders + 0.1*leechers)*fraction-of-torrent-size-compared-to-average-size + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply keep adding torrents until max TB is reached).
+      </p>
+
+      <p class="mb-4">
+        We only show non-obsolete, non-embargoed files with at least one seeder here. For a complete list see the full <a href="/dyn/torrents.json">torrents JSON</a>. For an unofficial tool that actually downloads the torrent files, see <a href="https://github.com/shaped1/annas-torrents">this repo</a>.
+      </p>
+
       <div class="mt-8 group"><span class="text-xl font-bold" id="guide">Guide</span> <a href="#guide" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 
       <p class="mb-4">
@@ -125,21 +145,6 @@
         <tr><td class="pr-4"><a href="/profile/Anna000">AnnaArchivist #Anna000</a></td><td class="pr-4"><a href="/contact">Contact</a></td><td class="pr-4">95.214.235.224</td><td class="pr-4">Anna’s Archive is committed to seeding all the torrents in this list for as long as possible.</td></tr>
       </table> -->
 
-      <div class="mt-8 group"><span class="text-xl font-bold" id="generate_torrent_list">Generate Torrent List</span> <a href="#generate_torrent_list" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
-
-      <p class="mb-4">
-        Generate a list of torrents, sorted by <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/157">(seeders + 0.1*leechers)*fraction-of-torrent-size-compared-to-average-size + random-number-between-0.0-and-2.0</a>, ascending. Specify a maximum TB to store (we simply keep adding torrents until max TB is reached).
-      </p>
-
-      <form action="/dyn/generate_torrents" class="flex items-center mb-4">
-        <label class="mr-2 flex items-center">Max TB: <input type="number" step="any" name="max_tb" class="ml-1 bg-black/6.7 px-2 py-1 rounded" placeholder="(empty for no limit)" /></label>
-        <label class="mr-2 flex items-center">Type: <select name="format" class="ml-1 bg-black/6.7 px-2 py-1 rounded"><option value="json">JSON</option><option value="url">URLs</option><option value="magnet">Magnet links</option></select></label>
-        <button type="submit" class="bg-[#0195ff] hover:bg-blue-600 px-4 py-1 rounded-md text-white">Generate</button>
-      </form>
-
-      <p class="mb-4">
-        We only show non-obsolete, non-embargoed files with at least one seeder here. For a complete list see the full <a href="/dyn/torrents.json">torrents JSON</a>. For an unofficial tool that actually downloads the torrent files, see <a href="https://github.com/shaped1/annas-torrents">this repo</a>.
-      </p>
 
       <div class="mt-8 group"><span class="text-xl font-bold" id="similar_lists">Similar Lists</span> <a href="#similar_lists" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 text-sm align-[2px]">§</a></div>
 

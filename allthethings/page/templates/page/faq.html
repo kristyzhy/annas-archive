@@ -111,10 +111,21 @@
     {{ gettext('page.faq.slow.text3', a_verification=(' href="/browser_verification"' | safe)) }}
   </p>
 
+  <p class="mb-4">
+    <!-- TODO:TRANSLATE -->
+    For large files sometimes slow downloads can break in the middle. We recommend using a download manager (such as JDownloader) to automatically resume large downloads.
+  </p>
+
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="donate">{{ gettext('page.donate.faq.title') }} <a href="#donate" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <div class="mb-4">
     {{ gettext('page.donate.faq.renew', div_question=(' class="font-bold" ' | safe)) }}
+  </div>
+
+  <div class="mb-4">
+    <!-- TODO:TRANSLATE -->
+    <div class="font-bold">Can I upgrade my membership or get multiple memberships?</div>
+    {{ gettext('page.account.logged_in.membership_multiple') }}
   </div>
 
   <div class="mb-4">
