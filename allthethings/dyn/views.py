@@ -405,19 +405,21 @@ def md5_report(md5_input):
         return "", 403
 
     report_type = request.form['type']
-    if report_type not in ["download", "broken", "pages", "spam", "other"]:
+    if report_type not in ["metadata", "download", "broken", "pages", "spam", "other"]:
         raise Exception("Incorrect report_type")
 
     content = request.form['content']
     if len(content) == 0:
         raise Exception("Empty content")
 
-    better_md5 = request.form['better_md5'][0:50]
-    canonical_better_md5 = better_md5.strip().lower()
-    if (len(canonical_better_md5) == 0) or (canonical_better_md5 == canonical_md5):
-        canonical_better_md5 = None
-    elif not allthethings.utils.validate_canonical_md5s([canonical_better_md5]):
-        raise Exception("Non-canonical better_md5")
+    canonical_better_md5 = None
+    if 'better_md5' in request.form:
+        better_md5 = request.form['better_md5'][0:50]
+        canonical_better_md5 = better_md5.strip().lower()
+        if (len(canonical_better_md5) == 0) or (canonical_better_md5 == canonical_md5):
+            canonical_better_md5 = None
+        elif not allthethings.utils.validate_canonical_md5s([canonical_better_md5]):
+            raise Exception("Non-canonical better_md5")
 
     with Session(mariapersist_engine) as mariapersist_session:
         data_md5 = bytes.fromhex(canonical_md5)

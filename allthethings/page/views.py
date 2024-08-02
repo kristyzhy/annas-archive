@@ -1858,7 +1858,8 @@ def get_lgrsnf_book_dicts(session, key, values):
         allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'collection', 'libgen_rs')
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsnf', lgrs_book_dict['id'])
-        allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'])
+        # .lower() on md5 is okay here, we won't miss any fetches since collation is _ci.
+        allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'].lower())
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsnf_book.Identifier.split(",") + lgrsnf_book.IdentifierWODash.split(","))
         allthethings.utils.add_isbns_unified(lgrs_book_dict, allthethings.utils.get_isbnlike('\n'.join([lgrs_book_dict.get('descr') or '', lgrs_book_dict.get('locator') or '', lgrs_book_dict.get('toc') or ''])))
         allthethings.utils.add_classification_unified(lgrs_book_dict, 'lgrsnf_topic', lgrs_book_dict.get('topic_descr') or '')
@@ -1925,7 +1926,8 @@ def get_lgrsfic_book_dicts(session, key, values):
         allthethings.utils.init_identifiers_and_classification_unified(lgrs_book_dict)
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'collection', 'libgen_rs')
         allthethings.utils.add_identifier_unified(lgrs_book_dict, 'lgrsfic', lgrs_book_dict['id'])
-        allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'])
+        # .lower() on md5 is okay here, we won't miss any fetches since collation is _ci.
+        allthethings.utils.add_identifier_unified(lgrs_book_dict, 'md5', lgrs_book_dict['md5'].lower())
         allthethings.utils.add_isbns_unified(lgrs_book_dict, lgrsfic_book.Identifier.split(","))
         allthethings.utils.add_isbns_unified(lgrs_book_dict, allthethings.utils.get_isbnlike('\n'.join([lgrs_book_dict.get('descr') or '', lgrs_book_dict.get('locator') or ''])))
         for name, unified_name in allthethings.utils.LGRS_TO_UNIFIED_IDENTIFIERS_MAPPING.items():
@@ -2221,7 +2223,7 @@ def get_lgli_file_dicts(session, key, values):
         allthethings.utils.init_identifiers_and_classification_unified(lgli_file_dict)
         allthethings.utils.add_identifier_unified(lgli_file_dict, 'collection', 'libgen_li')
         allthethings.utils.add_identifier_unified(lgli_file_dict, 'lgli', lgli_file_dict['f_id'])
-        allthethings.utils.add_identifier_unified(lgli_file_dict, 'md5', lgli_file_dict['md5'])
+        allthethings.utils.add_identifier_unified(lgli_file_dict, 'md5', lgli_file_dict['md5'].lower())
         allthethings.utils.add_isbns_unified(lgli_file_dict, allthethings.utils.get_isbnlike(lgli_file_dict['locator']))
         lgli_file_dict['scimag_archive_path_decoded'] = urllib.parse.unquote(lgli_file_dict['scimag_archive_path'].replace('\\', '/'))
         potential_doi_scimag_archive_path = lgli_file_dict['scimag_archive_path_decoded']
@@ -5069,7 +5071,7 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('lgrsnf_book') is not None:
         lgrsnf_thousands_dir = (aarecord['lgrsnf_book']['id'] // 1000) * 1000
         lgrsnf_torrent_path = f"external/libgen_rs_non_fic/r_{lgrsnf_thousands_dir:03}.torrent"
-        lgrsnf_manually_synced = (lgrsnf_thousands_dir <= 4337000)
+        lgrsnf_manually_synced = (lgrsnf_thousands_dir <= 4358000)
         lgrsnf_filename = aarecord['lgrsnf_book']['md5'].lower()
         if lgrsnf_manually_synced or (lgrsnf_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
             additional['torrent_paths'].append({ "collection": "libgen_rs_non_fic", "torrent_path": lgrsnf_torrent_path, "file_level1": lgrsnf_filename, "file_level2": "" })
@@ -5082,7 +5084,7 @@ def get_additional_for_aarecord(aarecord):
     if aarecord.get('lgrsfic_book') is not None:
         lgrsfic_thousands_dir = (aarecord['lgrsfic_book']['id'] // 1000) * 1000
         lgrsfic_torrent_path = f"external/libgen_rs_fic/f_{lgrsfic_thousands_dir}.torrent" # Note: no leading zeroes
-        lgrsfic_manually_synced = (lgrsfic_thousands_dir <= 3001000)
+        lgrsfic_manually_synced = (lgrsfic_thousands_dir <= 3015000)
         lgrsfic_filename = f"{aarecord['lgrsfic_book']['md5'].lower()}.{aarecord['file_unified_data']['extension_best']}"
         if lgrsfic_manually_synced or (lgrsfic_torrent_path in torrents_json_aa_currently_seeding_by_torrent_path):
             additional['torrent_paths'].append({ "collection": "libgen_rs_fic", "torrent_path": lgrsfic_torrent_path, "file_level1": lgrsfic_filename, "file_level2": "" })
