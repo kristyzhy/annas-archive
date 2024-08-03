@@ -960,6 +960,7 @@ UNIFIED_IDENTIFIERS = {
     "lgli_magz_id": { "label": "Libgen.li magz_id", "description": "Repository ID for the 'magz' repository in Libgen.li. Directly taken from the 'magz_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
     "filepath": { "label": "Filepath", "description": "Original filepath in source library." },
     "server_path": { "label": "Server Path", "description": "Path on Anna’s Archive partner servers." },
+    "aacid": { "label": "AACID", "website": "/blog/annas-archive-containers.html", "description": "Anna’s Archive Container identifier." },
     **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }
@@ -970,12 +971,12 @@ UNIFIED_CLASSIFICATIONS = {
     "ia_collection": { "label": "IA Collection", "url": "https://archive.org/details/%s", "description": "Internet Archive collection which this file is part of.", "website": "https://help.archive.org/help/collections-a-basic-guide/" },
     "lang": { "label": "Language", "website": "https://en.wikipedia.org/wiki/IETF_language_tag", "description": "IETF language tag." },
     "year": { "label": "Year", "description": "Publication year." },
-    "duxiu_filegen": { "label": "DuXiu File Ggenerated", "website": "/datasets/duxiu", "description": "Date Anna’s Archive generated the file in the DuXiu collection." },
+    "duxiu_filegen": { "label": "DuXiu File Generated", "website": "/datasets/duxiu", "description": "Date Anna’s Archive generated the file in the DuXiu collection." },
     "ia_file_scrape": { "label": "IA File Scraped", "website": "/datasets/ia", "description": "Date Anna’s Archive scraped the file from the Internet Archive." },
     "lgli_source": { "label": "Libgen.li Source Date", "website": "/datasets/libgen_li", "description": "Date Libgen.li published this file." },
     "lgrsfic_source": { "label": "Libgen.rs Fiction Date", "website": "/datasets/libgen_rs", "description": "Date Libgen.rs Fiction published this file." },
     "lgrsnf_source": { "label": "Libgen.rs Non-Fiction Date", "website": "/datasets/libgen_rs", "description": "Date Libgen.rs Non_Fiction published this file." },
-    "upload_record_date": { "label": "Upload collection Date", "website": "/datasets/upload", "description": "Date Anna’s Archive indexed this file in our 'upload' collection." },
+    "upload_record_date": { "label": "Upload Collection Date", "website": "/datasets/upload", "description": "Date Anna’s Archive indexed this file in our 'upload' collection." },
     "zlib_source": { "label": "Z-Library Source Date", "website": "/datasets/zlib", "description": "Date Z-Library published this file." },
     **{LGLI_CLASSIFICATIONS_MAPPING.get(key, key): value for key, value in LGLI_CLASSIFICATIONS.items()},
     # Plus more added below!

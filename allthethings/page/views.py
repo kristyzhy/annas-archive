@@ -1172,6 +1172,9 @@ def get_aac_zlib3_book_dicts(session, key, values):
         zlib_add_edition_varia_normalized(aac_zlib3_book_dict)
 
         allthethings.utils.init_identifiers_and_classification_unified(aac_zlib3_book_dict)
+        allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'aacid', aac_zlib3_book_dict['record_aacid'])
+        if aac_zlib3_book_dict['file_aacid'] is not None:
+            allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'aacid', aac_zlib3_book_dict['file_aacid'])
         allthethings.utils.add_classification_unified(aac_zlib3_book_dict, 'collection', 'zlib')
         allthethings.utils.add_identifier_unified(aac_zlib3_book_dict, 'zlib', aac_zlib3_book_dict['zlibrary_id'])
         if aac_zlib3_book_dict['md5'] is not None:
@@ -1282,6 +1285,7 @@ def get_ia_record_dicts(session, key, values):
             # Convert from AAC.
             ia_record_dict = {
                 "ia_id": ia_record_dict["metadata"]["ia_id"],
+                "aacid": ia_record_dict["metadata"]["aacid"],
                 # "has_thumb" # We'd need to look at both ia_entries2 and ia_entries to get this, but not worth it.
                 "libgen_md5": None,
                 "json": ia_record_dict["metadata"]['metadata_json'],
@@ -1369,10 +1373,14 @@ def get_ia_record_dicts(session, key, values):
         allthethings.utils.init_identifiers_and_classification_unified(ia_record_dict['aa_ia_derived'])
         allthethings.utils.add_classification_unified(ia_record_dict['aa_ia_derived'], 'collection', 'ia')
         allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ocaid', ia_record_dict['ia_id'])
+        if ia_record_dict['aacid'] is not None:
+            allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'aacid', ia_record_dict['aacid'])
         if ia_record_dict['libgen_md5'] is not None:
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'md5', ia_record_dict['libgen_md5'])
         if ia_record_dict['aa_ia_file'] is not None:
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'md5', ia_record_dict['aa_ia_file']['md5'])
+            if ia_record_dict['aa_ia_file']['aacid'] is not None:
+                allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'aacid', ia_record_dict['aa_ia_file']['aacid'])
         for item in (extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_work')):
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ol', item)
         for item in extract_list_from_ia_json_field(ia_record_dict, 'item'):
@@ -2653,6 +2661,8 @@ def get_oclc_dicts(session, key, values):
             allthethings.utils.add_identifier_unified(oclc_dict['aa_oclc_derived'], 'issn', issn)
         for doi in oclc_dict['aa_oclc_derived']['doi_multiple']:
             allthethings.utils.add_identifier_unified(oclc_dict['aa_oclc_derived'], 'doi', doi)
+        for aac_record in aac_records:
+            allthethings.utils.add_identifier_unified(oclc_dict['aa_oclc_derived'], 'aacid', aac_record['aacid'])
 
         oclc_dict['aa_oclc_derived']["added_date_unified"] = { "oclc_scrape": "2023-10-01" }
 
@@ -2869,6 +2879,7 @@ def get_duxiu_dicts(session, key, values, include_deep_transitive_md5s_size_path
         duxiu_dict['aa_duxiu_derived']['ean13_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['dxid_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['md5_multiple'] = []
+        duxiu_dict['aa_duxiu_derived']['aacid_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['filesize_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['filepath_multiple'] = []
         duxiu_dict['aa_duxiu_derived']['ini_values_multiple'] = []
@@ -2889,6 +2900,7 @@ def get_duxiu_dicts(session, key, values, include_deep_transitive_md5s_size_path
             duxiu_dict['aa_duxiu_derived']['md5_multiple'].append(duxiu_dict['md5'])
 
         for aac_record in aac_records.values():
+            duxiu_dict['aa_duxiu_derived']['aacid_multiple'].append(aac_record['aacid'])
             duxiu_dict['aa_duxiu_derived']['added_date_unified']['duxiu_meta_scrape'] = max(duxiu_dict['aa_duxiu_derived']['added_date_unified'].get('duxiu_meta_scrape') or '', datetime.datetime.strptime(aac_record['aacid'].split('__')[2], "%Y%m%dT%H%M%SZ").isoformat().split('T', 1)[0])
 
             if aac_record['metadata']['type'] == 'dx_20240122__books':
@@ -3151,6 +3163,8 @@ def get_duxiu_dicts(session, key, values, include_deep_transitive_md5s_size_path
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'duxiu_dxid', dxid)
         for md5 in duxiu_dict['aa_duxiu_derived']['md5_multiple']:
             allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'md5', md5)
+        for aacid in duxiu_dict['aa_duxiu_derived']['aacid_multiple']:
+            allthethings.utils.add_identifier_unified(duxiu_dict['aa_duxiu_derived'], 'aacid', aacid)
 
         if include_deep_transitive_md5s_size_path:
             for related_file in duxiu_dict['aa_duxiu_derived']['related_files']:
@@ -3160,6 +3174,8 @@ def get_duxiu_dicts(session, key, values, include_deep_transitive_md5s_size_path
                     duxiu_dict['aa_duxiu_derived']['filesize_multiple'].append(related_file['filesize'])
                 if related_file['filepath'] is not None:
                     duxiu_dict['aa_duxiu_derived']['filepath_multiple'].append(related_file['filepath'])
+                if related_file['aacid'] is not None:
+                    duxiu_dict['aa_duxiu_derived']['aacid_multiple'].append(related_file['aacid'])
 
         # We know this collection is mostly Chinese language, so mark as Chinese if any of these (lightweight) tests pass.
         if 'isbn13' in duxiu_dict['aa_duxiu_derived']['identifiers_unified']:
@@ -3377,6 +3393,7 @@ def get_aac_upload_book_dicts(session, key, values):
                 print(f"WARNING: filesize missing in aac_upload_record: {record=}")
                 continue
 
+            allthethings.utils.add_identifier_unified(aac_upload_book_dict['aa_upload_derived'], 'aacid', record['aacid'])
             subcollection = record['aacid'].split('__')[1].replace('upload_records_', '')
             aac_upload_book_dict['aa_upload_derived']['subcollection_multiple'].append(subcollection)
             aac_upload_book_dict['aa_upload_derived']['filename_multiple'].append(f"{subcollection}/{record['metadata']['filepath']}")
@@ -4923,8 +4940,9 @@ def get_additional_for_aarecord(aarecord):
     for key, values in aarecord['file_unified_data'].get('classifications_unified', {}).items():
         for value in values:
             additional['codes'].append(allthethings.utils.make_code_for_display(key, value))
-    CODES_PRIORITY = ['isbn13', 'isbn10', 'csbn', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin', 'duxiu_ssid', 'cadal_ssno']
-    additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100))
+    # CODES_PRIORITY = ['isbn13', 'isbn10', 'csbn', 'doi', 'issn', 'udc', 'oclc', 'ol', 'ocaid', 'asin', 'duxiu_ssid', 'cadal_ssno', 'lang', 'year', 'md5']
+    # additional['codes'].sort(key=lambda item: (CODES_PRIORITY.index(item['key']) if item['key'] in CODES_PRIORITY else 100, item['key']))
+    additional['codes'].sort(key=lambda item: item['key'])
 
     md5_content_type_mapping = get_md5_content_type_mapping(allthethings.utils.get_base_lang_code(get_locale()))
 
