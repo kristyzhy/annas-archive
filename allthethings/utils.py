@@ -959,15 +959,24 @@ UNIFIED_IDENTIFIERS = {
     "lgli_standarts_id": { "label": "Libgen.li standarts_id", "description": "Repository ID for the 'standarts' repository in Libgen.li. Directly taken from the 'standarts_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
     "lgli_magz_id": { "label": "Libgen.li magz_id", "description": "Repository ID for the 'magz' repository in Libgen.li. Directly taken from the 'magz_id' field in the 'files' table. Corresponds to the 'thousands folder' torrents.", "website": "/datasets/libgen_li" },
     "filepath": { "label": "Filepath", "description": "Original filepath in source library." },
-    "torrent": { "label": "Torrent", "url": "/dyn/small_file/torrents/%s", "description": "Bulk torrent for long-term preservation.", "website": "/torrents" },
     "server_path": { "label": "Server Path", "description": "Path on Anna’s Archive partner servers." },
-    "collection": { "label": "Collection", "url": "/datasets/%s", "description": "The collection on Anna’s Archive that provided data for this record.", "website": "/datasets" },
-    "ia_collection": { "label": "IA Collection", "url": "https://archive.org/details/%s", "description": "Internet Archive collection which this file is part of.", "website": "https://help.archive.org/help/collections-a-basic-guide/" },
     **{LGLI_IDENTIFIERS_MAPPING.get(key, key): value for key, value in LGLI_IDENTIFIERS.items()},
     # Plus more added below!
 }
 UNIFIED_CLASSIFICATIONS = {
     "lgrsnf_topic": { "label": "Libgen.rs Non-Fiction Topic", "description": "Libgen’s own classification system of 'topics' for non-fiction books. Obtained from the 'topic' metadata field, using the 'topics' database table, which seems to have its roots in the Kolxo3 library that Libgen was originally based on. https://wiki.mhut.org/content:bibliographic_data says that this field will be deprecated in favor of Dewey Decimal.", "website": "/datasets/libgen_rs" },
+    "torrent": { "label": "Torrent", "url": "/dyn/small_file/torrents/%s", "description": "Bulk torrent for long-term preservation.", "website": "/torrents" },
+    "collection": { "label": "Collection", "url": "/datasets/%s", "description": "The collection on Anna’s Archive that provided data for this record.", "website": "/datasets" },
+    "ia_collection": { "label": "IA Collection", "url": "https://archive.org/details/%s", "description": "Internet Archive collection which this file is part of.", "website": "https://help.archive.org/help/collections-a-basic-guide/" },
+    "lang": { "label": "Language", "website": "https://en.wikipedia.org/wiki/IETF_language_tag", "description": "IETF language tag." },
+    "year": { "label": "Year", "description": "Publication year." },
+    "duxiu_filegen": { "label": "DuXiu File Ggenerated", "website": "/datasets/duxiu", "description": "Date Anna’s Archive generated the file in the DuXiu collection." },
+    "ia_file_scrape": { "label": "IA File Scraped", "website": "/datasets/ia", "description": "Date Anna’s Archive scraped the file from the Internet Archive." },
+    "lgli_source": { "label": "Libgen.li Source Date", "website": "/datasets/libgen_li", "description": "Date Libgen.li published this file." },
+    "lgrsfic_source": { "label": "Libgen.rs Fiction Date", "website": "/datasets/libgen_rs", "description": "Date Libgen.rs Fiction published this file." },
+    "lgrsnf_source": { "label": "Libgen.rs Non-Fiction Date", "website": "/datasets/libgen_rs", "description": "Date Libgen.rs Non_Fiction published this file." },
+    "upload_record_date": { "label": "Upload collection Date", "website": "/datasets/upload", "description": "Date Anna’s Archive indexed this file in our 'upload' collection." },
+    "zlib_source": { "label": "Z-Library Source Date", "website": "/datasets/zlib", "description": "Date Z-Library published this file." },
     **{LGLI_CLASSIFICATIONS_MAPPING.get(key, key): value for key, value in LGLI_CLASSIFICATIONS.items()},
     # Plus more added below!
 }
