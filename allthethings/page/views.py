@@ -259,6 +259,10 @@ def get_bcp47_lang_codes_parse_substr(substr):
     if lang == 'esp':
         lang = 'eo'
         debug_from.append('esp to eo')
+    # Same
+    if lang == 'ndl':
+        lang = 'nl'
+        debug_from.append('ndl to nl')
     if lang in ['und', 'mul', 'mis']:
         lang = ''
         debug_from.append('delete und/mul/mis')
@@ -3741,7 +3745,7 @@ def aarecord_score_base(aarecord):
     if len(aarecord['file_unified_data'].get('language_codes') or []) == 0:
         score -= 2.0
     # Bump English a little bit regardless of the user's language
-    if (aarecord['search_only_fields']['search_most_likely_language_code'] == 'en'):
+    if ('en' in aarecord['search_only_fields']['search_most_likely_language_code']):
         score += 5.0
     if (aarecord['file_unified_data'].get('extension_best') or '') in ['epub', 'pdf']:
         score += 15.0
@@ -4355,6 +4359,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['stripped_description_best'] = max(stripped_description_multiple + [''], key=len)
         aarecord['file_unified_data']['stripped_description_additional'] = [s for s in stripped_description_multiple if s != aarecord['file_unified_data']['stripped_description_best']]
 
+        aarecord['file_unified_data']['most_likely_language_codes'] = []
         aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
             # Still lump in other language codes with ol_book_dicts_primary_linked. We use the
             # fact that combine_bcp47_lang_codes is stable (preserves order).
@@ -4367,43 +4372,43 @@ def get_aarecords_mysql(session, aarecord_ids):
             (((aarecord['duxiu'] or {}).get('aa_duxiu_derived') or {}).get('language_codes') or []),
             (((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('language_codes') or []),
         ])
-        if len(aarecord['file_unified_data']['language_codes']) == 0:
-            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(edition.get('language_codes') or []) for edition in lgli_all_editions])
-        if len(aarecord['file_unified_data']['language_codes']) == 0:
-            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(ol_book_dict.get('language_codes') or []) for ol_book_dict in aarecord['ol']])
-        if len(aarecord['file_unified_data']['language_codes']) == 0:
-            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([ia_record['aa_ia_derived']['language_codes'] for ia_record in aarecord['ia_records_meta_only']])
-        if len(aarecord['file_unified_data']['language_codes']) == 0:
-            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([(isbndb.get('language_codes') or []) for isbndb in aarecord['isbndb']])
-        if len(aarecord['file_unified_data']['language_codes']) == 0:
-            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([oclc['aa_oclc_derived']['language_codes'] for oclc in aarecord['oclc']])
-        if len(aarecord['file_unified_data']['language_codes']) == 0:
-            aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([duxiu_record['aa_duxiu_derived']['language_codes'] for duxiu_record in aarecord['duxius_nontransitive_meta_only']])
+        if len(aarecord['file_unified_data']['most_likely_language_codes']) == 0:
+            aarecord['file_unified_data']['most_likely_language_codes'] = aarecord['file_unified_data']['language_codes']
+        aarecord['file_unified_data']['language_codes'] = combine_bcp47_lang_codes([
+            aarecord['file_unified_data']['language_codes'],
+            *[(edition.get('language_codes') or []) for edition in lgli_all_editions],
+            *[(ol_book_dict.get('language_codes') or []) for ol_book_dict in aarecord['ol']],
+            *[ia_record['aa_ia_derived']['language_codes'] for ia_record in aarecord['ia_records_meta_only']],
+            *[(isbndb.get('language_codes') or []) for isbndb in aarecord['isbndb']],
+            *[oclc['aa_oclc_derived']['language_codes'] for oclc in aarecord['oclc']],
+            *[duxiu_record['aa_duxiu_derived']['language_codes'] for duxiu_record in aarecord['duxius_nontransitive_meta_only']],
+        ])
         if len(aarecord['file_unified_data']['language_codes']) == 0:
             for canonical_isbn13 in (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []):
                 potential_code = get_bcp47_lang_codes_parse_substr(isbnlib.info(canonical_isbn13))
                 if potential_code != '':
                     aarecord['file_unified_data']['language_codes'] = [potential_code]
                     break
+        if len(aarecord['file_unified_data']['most_likely_language_codes']) == 0:
+            aarecord['file_unified_data']['most_likely_language_codes'] = aarecord['file_unified_data']['language_codes']
+
+        aarecord['file_unified_data']['language_codes_detected'] = []
+        if len(aarecord['file_unified_data']['most_likely_language_codes']) == 0 and len(aarecord['file_unified_data']['stripped_description_best']) > 20:
+            language_detect_string = " ".join(title_multiple) + " ".join(stripped_description_multiple)
+            try:
+                language_detection_data = fast_langdetect.detect(language_detect_string)
+                if language_detection_data['score'] > 0.5: # Somewhat arbitrary cutoff
+                    language_detection = language_detection_data['lang']
+                    aarecord['file_unified_data']['language_codes_detected'] = [get_bcp47_lang_codes(language_detection)[0]]
+                    aarecord['file_unified_data']['most_likely_language_codes'] = aarecord['file_unified_data']['language_codes_detected']
+            except:
+                pass
 
         # detected_language_codes_probs = []
         # for item in language_detection:
         #     for code in get_bcp47_lang_codes(item.lang):
         #         detected_language_codes_probs.append(f"{code}: {item.prob}")
         # aarecord['file_unified_data']['detected_language_codes_probs'] = ", ".join(detected_language_codes_probs)
-
-        aarecord['file_unified_data']['most_likely_language_code'] = ''
-        if len(aarecord['file_unified_data']['language_codes']) > 0:
-            aarecord['file_unified_data']['most_likely_language_code'] = aarecord['file_unified_data']['language_codes'][0]
-        elif len(aarecord['file_unified_data']['stripped_description_best']) > 20:
-            language_detect_string = " ".join(title_multiple) + " ".join(stripped_description_multiple)
-            try:
-                language_detection_data = fast_langdetect.detect(language_detect_string)
-                if language_detection_data['score'] > 0.5: # Somewhat arbitrary cutoff
-                    language_detection = language_detection_data['lang']
-                    aarecord['file_unified_data']['most_likely_language_code'] = get_bcp47_lang_codes(language_detection)[0]
-            except:
-                pass
 
         # Duplicated from above, but with more fields now.
         aarecord['file_unified_data']['identifiers_unified'] = allthethings.utils.merge_unified_fields([
@@ -4556,7 +4561,8 @@ def get_aarecords_mysql(session, aarecord_ids):
             aarecord['file_unified_data']['content_type'] = 'journal_article'
         if (aarecord['file_unified_data']['content_type'] is None) and (len(aarecord['oclc']) > 0):
             for oclc in aarecord['oclc']:
-                if (aarecord_id_split[0] == 'oclc') or (oclc['aa_oclc_derived']['content_type'] != 'other'):
+                # OCLC has a lot of books mis-tagged as journal article.
+                if (aarecord_id_split[0] == 'oclc') or (oclc['aa_oclc_derived']['content_type'] != 'other' and oclc['aa_oclc_derived']['content_type'] != 'journal_article'):
                     aarecord['file_unified_data']['content_type'] = oclc['aa_oclc_derived']['content_type']
                     break
         if (aarecord['file_unified_data']['content_type'] is None) and ((((aarecord['aac_upload'] or {}).get('aa_upload_derived') or {}).get('content_type') or '') != ''):
@@ -4729,7 +4735,7 @@ def get_aarecords_mysql(session, aarecord_ids):
             'search_year': aarecord['file_unified_data']['year_best'],
             'search_extension': aarecord['file_unified_data']['extension_best'],
             'search_content_type': search_content_type,
-            'search_most_likely_language_code': aarecord['file_unified_data']['most_likely_language_code'],
+            'search_most_likely_language_code': aarecord['file_unified_data']['most_likely_language_codes'],
             'search_isbn13': (aarecord['file_unified_data']['identifiers_unified'].get('isbn13') or []),
             'search_doi': (aarecord['file_unified_data']['identifiers_unified'].get('doi') or []),
             'search_title': aarecord['file_unified_data']['title_best'],
@@ -4891,7 +4897,15 @@ def get_additional_for_aarecord(aarecord):
 
     additional = {}
     additional['path'] = allthethings.utils.path_for_aarecord_id(aarecord['id'])
-    additional['most_likely_language_name'] = (get_display_name_for_lang(aarecord['file_unified_data'].get('most_likely_language_code', None) or '', allthethings.utils.get_base_lang_code(get_locale())) if aarecord['file_unified_data'].get('most_likely_language_code', None) else '')
+
+    # TODO: remove backwards compatibility
+    most_likely_language_codes = aarecord['file_unified_data'].get('most_likely_language_codes', None) or []
+    if len(most_likely_language_codes) == 0:
+        most_likely_language_code_backwardscompatibility = aarecord['file_unified_data'].get('most_likely_language_code', None) or ''
+        if len(most_likely_language_code_backwardscompatibility) > 0:
+            most_likely_language_codes = [most_likely_language_code_backwardscompatibility]
+
+    additional['most_likely_language_names'] = [get_display_name_for_lang(lang_code, allthethings.utils.get_base_lang_code(get_locale())) for lang_code in most_likely_language_codes]
 
     additional['added_date_best'] = ''
     added_date_best = aarecord['file_unified_data'].get('added_date_best') or ''
@@ -4937,7 +4951,7 @@ def get_additional_for_aarecord(aarecord):
         'cover_missing_hue_deg': int(hashlib.md5(aarecord['id'].encode()).hexdigest(), 16) % 360,
         'cover_url': cover_url,
         'top_row': ("✅ " if len(aarecord.get('ol_book_dicts_primary_linked') or []) > 0 else "") + ", ".join([item for item in [
-                additional['most_likely_language_name'],
+                *additional['most_likely_language_names'][0:3],
                 f".{aarecord['file_unified_data']['extension_best']}" if len(aarecord['file_unified_data']['extension_best']) > 0 else '',
                 "/".join(filter(len,["🚀" if (aarecord['file_unified_data'].get('has_aa_downloads') == 1) else "", *aarecord_sources(aarecord)])),
                 format_filesize(aarecord['file_unified_data'].get('filesize_best') or 0) if aarecord['file_unified_data'].get('filesize_best') else '',
