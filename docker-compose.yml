@@ -48,10 +48,10 @@ services:
     container_name: mariadb
     network_mode: "${NETWORK_MODE:-bridge}"
     environment:
-      MARIADB_USER: "${MARIADB_USER}"
-      MARIADB_PASSWORD: "${MARIADB_PASSWORD}"
-      MARIADB_ROOT_PASSWORD: "${MARIADB_PASSWORD}"
-      MARIADB_DATABASE: "${MARIADB_DATABASE}"
+      MARIADB_USER: "allthethings"
+      MARIADB_PASSWORD: "password"
+      MARIADB_ROOT_PASSWORD: "password"
+      MARIADB_DATABASE: "allthethings"
       MARIADB_INITDB_SKIP_TZINFO: "1" # https://github.com/MariaDB/mariadb-docker/issues/262#issuecomment-672375238
     image: "mariadb:10.10.2"
     profiles: ["mariadb"]

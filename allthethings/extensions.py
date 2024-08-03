@@ -47,11 +47,11 @@ if len(ELASTICSEARCHAUX_HOST_PREFERRED) > 0:
 else:
     es_aux = Elasticsearch(hosts=[ELASTICSEARCHAUX_HOST], max_retries=1, retry_on_timeout=True, http_compress=False, randomize_hosts=False)
 
-mariadb_user = os.getenv("MARIADB_USER", "allthethings")
-mariadb_password = os.getenv("MARIADB_PASSWORD", "password")
+mariadb_user = "allthethings"
+mariadb_password = "password"
 mariadb_host = os.getenv("MARIADB_HOST", "mariadb")
-mariadb_port = os.getenv("MARIADB_PORT", "3306")
-mariadb_db = os.getenv("MARIADB_DATABASE", mariadb_user)
+mariadb_port = "3306"
+mariadb_db = "allthethings"
 mariadb_url = f"mysql+pymysql://{mariadb_user}:{mariadb_password}@{mariadb_host}:{mariadb_port}/{mariadb_db}?read_timeout=120&write_timeout=120"
 mariadb_url_no_timeout = f"mysql+pymysql://root:{mariadb_password}@{mariadb_host}:{mariadb_port}/{mariadb_db}"
 if os.getenv("DATA_IMPORTS_MODE", "") == "1":

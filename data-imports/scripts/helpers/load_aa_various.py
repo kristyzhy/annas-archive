@@ -15,7 +15,7 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
-db = pymysql.connect(host='aa-data-import--mariadb', user='allthethings', password='password', database='allthethings', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor, read_timeout=120, write_timeout=120, autocommit=True)
+db = pymysql.connect(host=(os.getenv("MARIADB_HOST") or 'aa-data-import--mariadb'), user='allthethings', password='password', database='allthethings', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor, read_timeout=120, write_timeout=120, autocommit=True)
 cursor = db.cursor()
 cursor.execute('DROP TABLE IF EXISTS aa_ia_2023_06_metadata')
 cursor.execute('CREATE TABLE aa_ia_2023_06_metadata (`ia_id` VARCHAR(200) NOT NULL, `has_thumb` TINYINT(1) NOT NULL, `libgen_md5` CHAR(32) NULL, `json` JSON NULL, PRIMARY KEY(`ia_id`), INDEX (`libgen_md5`, `ia_id`)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;')

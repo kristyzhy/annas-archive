@@ -8,6 +8,6 @@ set -Eeuxo pipefail
 
 cd /temp-dir
 
-pv annas-archive-ia-2023-06-files.csv.gz | zcat | mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --local-infile=1 --show-warnings -vv -e "DROP TABLE IF EXISTS aa_ia_2023_06_files; CREATE TABLE aa_ia_2023_06_files (md5 CHAR(32) NOT NULL, type CHAR(5) NOT NULL, filesize BIGINT NOT NULL, ia_id VARCHAR(200), PRIMARY KEY (md5), INDEX ia_id (ia_id, md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin; LOAD DATA LOCAL INFILE '/dev/stdin' INTO TABLE aa_ia_2023_06_files FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '';"
+pv annas-archive-ia-2023-06-files.csv.gz | zcat | mariadb -h ${MARIADB_HOST:-aa-data-import--mariadb} -u root -ppassword allthethings --local-infile=1 --show-warnings -vv -e "DROP TABLE IF EXISTS aa_ia_2023_06_files; CREATE TABLE aa_ia_2023_06_files (md5 CHAR(32) NOT NULL, type CHAR(5) NOT NULL, filesize BIGINT NOT NULL, ia_id VARCHAR(200), PRIMARY KEY (md5), INDEX ia_id (ia_id, md5)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin; LOAD DATA LOCAL INFILE '/dev/stdin' INTO TABLE aa_ia_2023_06_files FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '';"
 
 PYTHONIOENCODING=UTF8:ignore python3 /scripts/helpers/load_aa_various.py

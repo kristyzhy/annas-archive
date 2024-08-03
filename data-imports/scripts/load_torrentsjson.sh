@@ -8,4 +8,4 @@ set -Eeuxo pipefail
 
 cd /temp-dir/torrents_json
 
-pv torrents.json | mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --local-infile=1 --show-warnings -vv -e "DROP TABLE IF EXISTS torrents_json; CREATE TABLE torrents_json (json JSON NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin; LOAD DATA LOCAL INFILE '/dev/stdin' INTO TABLE torrents_json FIELDS TERMINATED BY '\t' ENCLOSED BY '' ESCAPED BY '';"
+pv torrents.json | mariadb -h ${MARIADB_HOST:-aa-data-import--mariadb} -u root -ppassword allthethings --local-infile=1 --show-warnings -vv -e "DROP TABLE IF EXISTS torrents_json; CREATE TABLE torrents_json (json JSON NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin; LOAD DATA LOCAL INFILE '/dev/stdin' INTO TABLE torrents_json FIELDS TERMINATED BY '\t' ENCLOSED BY '' ESCAPED BY '';"

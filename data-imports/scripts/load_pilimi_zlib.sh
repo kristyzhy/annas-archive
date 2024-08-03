@@ -8,6 +8,6 @@ set -Eeuxo pipefail
 
 cd /temp-dir
 
-pv pilimi-zlib2-index-2022-08-24-fixed.sql.gz | zcat | sed -e 's/^) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;$/) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;/g' | mariadb -h aa-data-import--mariadb -u root -ppassword allthethings
+pv pilimi-zlib2-index-2022-08-24-fixed.sql.gz | zcat | sed -e 's/^) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;$/) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;/g' | mariadb -h ${MARIADB_HOST:-aa-data-import--mariadb} -u root -ppassword allthethings
 
-mariadb -h aa-data-import--mariadb -u root -ppassword allthethings --show-warnings -vv < /scripts/helpers/pilimi_zlib_final.sql
+mariadb -h ${MARIADB_HOST:-aa-data-import--mariadb} -u root -ppassword allthethings --show-warnings -vv < /scripts/helpers/pilimi_zlib_final.sql

@@ -74,7 +74,7 @@ function mysql {
   # Connect to MariaDB
   # shellcheck disable=SC1091
   . .env
- _dc mariadb mysql -u "${MARIADB_USER}" -p${MARIADB_PASSWORD} "${MARIADB_DATABASE}"
+ _dc mariadb mysql -u allthethings -ppassword allthethings
 }
 
 function mariapersist {
@@ -169,8 +169,8 @@ function ci:test {
   # shellcheck disable=SC1091
   . .env
   wait-until "docker compose exec -T \
-    -e MYSQL_PWD=${MARIADB_PASSWORD} mariadb \
-    mysql -u ${MARIADB_USER} ${MARIADB_USER} -c 'SELECT 1'"
+    -e MYSQL_PWD=password mariadb \
+    mysql -u allthethings allthethings -c 'SELECT 1'"
 
   lint "${@}"
   format --check
