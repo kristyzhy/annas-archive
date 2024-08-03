@@ -44,6 +44,10 @@ from allthethings.page.views import get_aarecords_mysql, get_isbndb_dicts
 
 cli = Blueprint("cli", __name__, template_folder="templates")
 
+AARECORDS_CODES_CODE_LENGTH = 680
+AARECORDS_CODES_AARECORD_ID_LENGTH = 300
+AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH = 20
+
 
 #################################################################################################
 # ./run flask cli dbreset
@@ -481,18 +485,10 @@ def elastic_reset_aarecords_internal():
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_all') # Old
         cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13') # Old
-        cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute('CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute(f'CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, aarecord_id_prefix VARBINARY({AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH}) NOT NULL, row_number_order_by_code BIGINT NOT NULL, dense_rank_order_by_code BIGINT NOT NULL, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute(f'CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         # cursor.execute('CREATE TABLE IF NOT EXISTS model_cache_text_embedding_3_small_100_tokens (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
-    # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
-    new_tables_internal('aarecords_codes_ia')
-    new_tables_internal('aarecords_codes_isbndb')
-    new_tables_internal('aarecords_codes_ol')
-    new_tables_internal('aarecords_codes_duxiu')
-    new_tables_internal('aarecords_codes_oclc')
-    new_tables_internal('aarecords_codes_main')
-
 
 # These tables always need to be created new if they don't exist yet.
 # They should only be used when doing a full refresh, but things will
@@ -503,7 +499,7 @@ def new_tables_internal(codes_table_name):
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         print(f"Creating fresh table {codes_table_name}")
         cursor.execute(f'DROP TABLE IF EXISTS {codes_table_name}')
-        cursor.execute(f'CREATE TABLE {codes_table_name} (id BIGINT NOT NULL AUTO_INCREMENT, code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute(f'CREATE TABLE {codes_table_name} (id BIGINT NOT NULL AUTO_INCREMENT, code VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
 #################################################################################################
@@ -671,6 +667,12 @@ def elastic_build_aarecords_job(aarecord_ids):
 
                 for codes_table_name, aarecords_codes_insert_data in aarecords_codes_insert_data_by_codes_table_name.items():
                     if len(aarecords_codes_insert_data) > 0:
+                        for insert_item in aarecords_codes_insert_data:
+                            if len(insert_item['code']) > AARECORDS_CODES_CODE_LENGTH:
+                                raise Exception(f"Code length exceeds AARECORDS_CODES_CODE_LENGTH for {code=} {aarecord_id=}")
+                            if len(insert_item['aarecord_id']) > AARECORDS_CODES_AARECORD_ID_LENGTH:
+                                raise Exception(f"Code length exceeds AARECORDS_CODES_AARECORD_ID_LENGTH for {aarecord_id=}")
+
                         session.connection().connection.ping(reconnect=True)
                         # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
                         # WARNING: when trying to optimize this (e.g. if you see this in SHOW PROCESSLIST) know that this is a bit of a bottleneck, but
@@ -726,6 +728,7 @@ def elastic_build_aarecords_ia():
     elastic_build_aarecords_ia_internal()
 
 def elastic_build_aarecords_ia_internal():
+    # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
     new_tables_internal('aarecords_codes_ia')
 
     before_first_ia_id = ''
@@ -785,6 +788,7 @@ def elastic_build_aarecords_isbndb():
     elastic_build_aarecords_isbndb_internal()
 
 def elastic_build_aarecords_isbndb_internal():
+    # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
     new_tables_internal('aarecords_codes_isbndb')
 
     before_first_isbn13 = ''
@@ -834,6 +838,7 @@ def elastic_build_aarecords_ol():
     elastic_build_aarecords_ol_internal()
 
 def elastic_build_aarecords_ol_internal():
+    # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
     new_tables_internal('aarecords_codes_ol')
 
     before_first_ol_key = ''
@@ -872,6 +877,7 @@ def elastic_build_aarecords_duxiu():
     elastic_build_aarecords_duxiu_internal()
 
 def elastic_build_aarecords_duxiu_internal():
+    # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
     new_tables_internal('aarecords_codes_duxiu')
 
     before_first_primary_id = ''
@@ -938,6 +944,7 @@ def elastic_build_aarecords_oclc():
     elastic_build_aarecords_oclc_internal()
 
 def elastic_build_aarecords_oclc_internal():
+    # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
     new_tables_internal('aarecords_codes_oclc')
 
     with Session(engine) as session:
@@ -985,6 +992,7 @@ def elastic_build_aarecords_main():
     elastic_build_aarecords_main_internal()
 
 def elastic_build_aarecords_main_internal():
+    # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
     new_tables_internal('aarecords_codes_main')
 
     before_first_md5 = ''
@@ -1130,78 +1138,6 @@ def elastic_build_aarecords_forcemerge_internal():
 def mysql_build_aarecords_codes_numbers():
     mysql_build_aarecords_codes_numbers_internal()
 
-def mysql_build_aarecords_codes_numbers_count_range(data):
-    index, r, aarecord_id_prefixes = data
-    with Session(engine) as session:
-        operations_by_es_handle = collections.defaultdict(list)
-        session.connection().connection.ping(reconnect=True)
-        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT 1')
-        list(cursor.fetchall())
-        cursor.execute('SELECT COUNT(*) AS rownumber, COUNT(DISTINCT code) AS dense_rank FROM aarecords_codes_new WHERE code >= %(from_prefix)s AND code < %(to_prefix)s', { "from_prefix": r['from_prefix'], "to_prefix": r['to_prefix'] })
-        prefix_counts = cursor.fetchone()
-        prefix_counts['aarecord_id_prefixes'] = {}
-        for aarecord_id_prefix in aarecord_id_prefixes:
-            cursor.execute('SELECT COUNT(*) AS rownumber, COUNT(DISTINCT code) AS dense_rank FROM aarecords_codes_new USE INDEX(aarecord_id_prefix) WHERE code >= %(from_prefix)s AND code < %(to_prefix)s AND aarecord_id_prefix = %(aarecord_id_prefix)s', { "from_prefix": r['from_prefix'], "to_prefix": r['to_prefix'], "aarecord_id_prefix": aarecord_id_prefix })
-            prefix_counts['aarecord_id_prefixes'][aarecord_id_prefix] = cursor.fetchone()
-        return (index, prefix_counts)
-
-def mysql_build_aarecords_codes_numbers_update_range(r):
-    # print(f"Starting mysql_build_aarecords_codes_numbers_update_range: {r=}")
-    start = time.time()
-    processed_rows = 0
-    with Session(engine) as session:
-        operations_by_es_handle = collections.defaultdict(list)
-        session.connection().connection.ping(reconnect=True)
-        cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT 1')
-        list(cursor.fetchall())
-
-        current_record_for_filter = {'code': r['from_prefix'] or b'','aarecord_id': b''}
-        row_number_order_by_code = r['start_rownumber']-1
-        dense_rank_order_by_code = r['start_dense_rank']-1
-        row_number_partition_by_aarecord_id_prefix_order_by_code = {}
-        dense_rank_partition_by_aarecord_id_prefix_order_by_code = {}
-        for aarecord_id_prefix, counts in r['start_by_aarecord_id_prefixes'].items():
-            row_number_partition_by_aarecord_id_prefix_order_by_code[aarecord_id_prefix] = counts['rownumber']-1
-            dense_rank_partition_by_aarecord_id_prefix_order_by_code[aarecord_id_prefix] = counts['dense_rank']-1
-        last_code = ''
-        last_code_by_aarecord_id_prefix = collections.defaultdict(str)
-        while True:
-            session.connection().connection.ping(reconnect=True)
-            cursor.execute(f'SELECT code, aarecord_id_prefix, aarecord_id FROM aarecords_codes_new WHERE (code > %(from_code)s OR (code = %(from_code)s AND aarecord_id > %(from_aarecord_id)s)) {"AND code < %(to_prefix)s" if r["to_prefix"] is not None else ""} ORDER BY code, aarecord_id LIMIT %(BATCH_SIZE)s', { "from_code": current_record_for_filter['code'], "from_aarecord_id": current_record_for_filter['aarecord_id'], "to_prefix": r['to_prefix'], "BATCH_SIZE": BATCH_SIZE })
-            rows = list(cursor.fetchall())
-            if len(rows) == 0:
-                break
-
-            update_data = []
-            for row in rows:
-                row_number_order_by_code += 1
-                if row['code'] != last_code:
-                    dense_rank_order_by_code += 1
-                row_number_partition_by_aarecord_id_prefix_order_by_code[row['aarecord_id_prefix']] += 1
-                if row['code'] != last_code_by_aarecord_id_prefix[row['aarecord_id_prefix']]:
-                    dense_rank_partition_by_aarecord_id_prefix_order_by_code[row['aarecord_id_prefix']] += 1
-                update_data.append({
-                    "row_number_order_by_code": row_number_order_by_code,
-                    "dense_rank_order_by_code": dense_rank_order_by_code,
-                    "row_number_partition_by_aarecord_id_prefix_order_by_code": row_number_partition_by_aarecord_id_prefix_order_by_code[row['aarecord_id_prefix']],
-                    "dense_rank_partition_by_aarecord_id_prefix_order_by_code": dense_rank_partition_by_aarecord_id_prefix_order_by_code[row['aarecord_id_prefix']],
-                    "code": row['code'],
-                    "aarecord_id": row['aarecord_id'],
-                })
-                last_code = row['code']
-                last_code_by_aarecord_id_prefix[row['aarecord_id_prefix']] = row['code']
-            session.connection().connection.ping(reconnect=True)
-            cursor.executemany('UPDATE aarecords_codes_new SET row_number_order_by_code=%(row_number_order_by_code)s, dense_rank_order_by_code=%(dense_rank_order_by_code)s, row_number_partition_by_aarecord_id_prefix_order_by_code=%(row_number_partition_by_aarecord_id_prefix_order_by_code)s, dense_rank_partition_by_aarecord_id_prefix_order_by_code=%(dense_rank_partition_by_aarecord_id_prefix_order_by_code)s WHERE code=%(code)s AND aarecord_id=%(aarecord_id)s', update_data)
-            cursor.execute('COMMIT')
-            processed_rows += len(update_data)
-            current_record_for_filter = rows[-1]
-    took = time.time() - start
-    if not SLOW_DATA_IMPORTS:
-        print(f"Finished mysql_build_aarecords_codes_numbers_update_range: {took=} {processed_rows=} {r=}")
-    return processed_rows
-
 def mysql_build_aarecords_codes_numbers_internal():
     processed_rows = 0
     with engine.connect() as connection:
@@ -1212,128 +1148,14 @@ def mysql_build_aarecords_codes_numbers_internal():
             cursor.execute('DROP TABLE IF EXISTS aarecords_codes_new')
             cursor.execute('DROP TABLE IF EXISTS aarecords_codes_prefixes_new')
 
-        # InnoDB for the key length.
         # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
         print("Creating fresh table aarecords_codes_new")
-        cursor.execute('CREATE TABLE aarecords_codes_new (code VARBINARY(2700) NOT NULL, aarecord_id VARBINARY(300) NOT NULL, aarecord_id_prefix VARBINARY(300) NOT NULL, row_number_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_order_by_code BIGINT NOT NULL DEFAULT 0, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL DEFAULT 0, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_ia UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_isbndb UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_ol UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_duxiu UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_oclc UNION ALL SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_main;')
-        cursor.execute('CREATE TABLE aarecords_codes_prefixes_new (code_prefix VARBINARY(2700) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT DISTINCT SUBSTRING_INDEX(code, ":", 1) AS code_prefix FROM aarecords_codes_new')
+        cursor.execute(f'CREATE TABLE aarecords_codes_new (code VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, aarecord_id_prefix VARBINARY({AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH}) NOT NULL, row_number_order_by_code BIGINT NOT NULL, dense_rank_order_by_code BIGINT NOT NULL, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix, code, aarecord_id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix, (ROW_NUMBER() OVER (ORDER BY code, aarecord_id)) AS row_number_order_by_code, (DENSE_RANK() OVER (ORDER BY code, aarecord_id)) AS dense_rank_order_by_code, (ROW_NUMBER() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id)) AS row_number_partition_by_aarecord_id_prefix_order_by_code, (DENSE_RANK() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id)) AS dense_rank_partition_by_aarecord_id_prefix_order_by_code FROM (SELECT code, aarecord_id FROM aarecords_codes_ia UNION ALL SELECT code, aarecord_id FROM aarecords_codes_isbndb UNION ALL SELECT code, aarecord_id FROM aarecords_codes_ol UNION ALL SELECT code, aarecord_id FROM aarecords_codes_duxiu UNION ALL SELECT code, aarecord_id FROM aarecords_codes_oclc UNION ALL SELECT code, aarecord_id FROM aarecords_codes_main) x')
+        cursor.execute(f'CREATE TABLE aarecords_codes_prefixes_new (code_prefix VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT DISTINCT SUBSTRING_INDEX(code, ":", 1) AS code_prefix FROM aarecords_codes_new')
 
         cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes_new" LIMIT 1')
         total = cursor.fetchone()['table_rows']
         print(f"Found {total=} codes (approximately)")
-
-        cursor.execute('SELECT DISTINCT aarecord_id_prefix FROM aarecords_codes_new')
-        aarecord_id_prefixes = [row['aarecord_id_prefix'] for row in cursor.fetchall()]
-        print(f"Found {len(aarecord_id_prefixes)=}")
-
-        cursor.execute('SELECT code_prefix FROM aarecords_codes_prefixes_new')
-        code_prefixes = [row['code_prefix'] for row in cursor.fetchall()]
-        print(f"Found {len(code_prefixes)=}")
-
-        cursor.execute('SELECT json FROM torrents_json LIMIT 1')
-        torrents_json = orjson.loads(cursor.fetchone()['json'])
-        torrent_paths = [row['url'].split('dyn/small_file/torrents/', 1)[1] for row in torrents_json]
-        print(f"Found {len(torrent_paths)=}")
-
-        # TODO: Instead of all this manual stuff, can we use something like this?
-        # SELECT COUNT(*), COUNT(DISTINCT code), MAX(code), MAX(k), COUNT(CASE WHEN aarecord_id_prefix = 'md5' THEN code ELSE NULL END), COUNT(DISTINCT CASE WHEN aarecord_id_prefix = 'md5' THEN code ELSE NULL END) FROM (SELECT code, CONCAT(code, aarecord_id) AS k, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix FROM aarecords_codes_new USE INDEX (primary) WHERE code >= 'ol:' ORDER BY code, aarecord_id LIMIT 1000000) a;
-        prefix_ranges = []
-        last_prefix = b''
-        for code_prefix in code_prefixes:
-            actual_code_prefixes = [code_prefix + b':']
-            # This is purely an optimization for spreading out ranges and doesn't exclude non-matching prefixes.
-            # Those are still there but will be lumped into adjacent ranges.
-            # WARNING: be sure the actual_code_prefixes are mutually exclusive and ordered.
-            if actual_code_prefixes == [b'isbn13:']:
-                actual_code_prefixes = [b'isbn13:978', b'isbn13:979']
-            elif actual_code_prefixes == [b'ol:']:
-                actual_code_prefixes = [b'ol:OL']
-            elif actual_code_prefixes == [b'doi:']:
-                actual_code_prefixes = [b'doi:10.']
-            elif actual_code_prefixes == [b'issn:']:
-                actual_code_prefixes = [b'issn:0', b'issn:1', b'issn:2']
-            elif actual_code_prefixes == [b'oclc:']:
-                actual_code_prefixes = [b'oclc:0', b'oclc:1', b'oclc:2', b'oclc:3', b'oclc:4', b'oclc:5', b'oclc:6', b'oclc:7', b'oclc:8', b'oclc:9']
-            elif actual_code_prefixes == [b'duxiu_dxid:']:
-                actual_code_prefixes = [b'duxiu_dxid:0000', b'duxiu_dxid:1']
-            elif actual_code_prefixes == [b'better_world_books:']:
-                actual_code_prefixes = [b'better_world_books:BWB']
-            elif actual_code_prefixes == [b'filepath:']:
-                actual_code_prefixes = [(b'filepath:' + filepath_prefix.encode()) for filepath_prefix in sorted(allthethings.utils.FILEPATH_PREFIXES)]
-            elif actual_code_prefixes == [b'torrent:']:
-                for prefix in sorted(list(set([b'torrent:' + path.encode() for path in torrent_paths]))):
-                    # DUPLICATED BELOW
-                    if prefix <= last_prefix:
-                        raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
-                    prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
-                    last_prefix = prefix
-                continue
-
-            for actual_code_prefix in actual_code_prefixes:
-                for letter_prefix1 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                    for letter_prefix2 in b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz':
-                        prefix = actual_code_prefix + bytes([letter_prefix1, letter_prefix2])
-                        # DUPLICATED ABOVE
-                        if prefix <= last_prefix:
-                            raise Exception(f"prefix <= last_prefix {prefix=} {last_prefix=}")
-                        prefix_ranges.append({ "from_prefix": last_prefix, "to_prefix": prefix })
-                        last_prefix = prefix
-
-        with multiprocessing.Pool(max(5, THREADS)) as executor:
-            print(f"Computing row numbers and sizes of {len(prefix_ranges)} prefix_ranges..")
-            # Lots of shenanigans for imap_unordered.. Might be better to just do it manually or use concurrent.futures instead?
-            prefix_range_counts = [to_prefix_counts for index, to_prefix_counts in sorted(list(tqdm.tqdm(executor.imap_unordered(mysql_build_aarecords_codes_numbers_count_range, [(index, r, aarecord_id_prefixes) for index, r in enumerate(prefix_ranges)]), total=len(prefix_ranges))))]
-            
-            last_prefix = None
-            last_rownumber = 1
-            last_dense_rank = 1
-            last_by_aarecord_id_prefixes = {}
-            for aarecord_id_prefix in aarecord_id_prefixes:
-                last_by_aarecord_id_prefixes[aarecord_id_prefix] = {
-                    "rownumber": 1,
-                    "dense_rank": 1,
-                }
-            update_ranges = []
-            for prefix_range, to_prefix_counts in zip(prefix_ranges, prefix_range_counts):
-                rownumber = last_rownumber + to_prefix_counts['rownumber']
-                dense_rank = last_dense_rank + to_prefix_counts['dense_rank']
-                current_by_aarecord_id_prefixes = {}
-                for aarecord_id_prefix in aarecord_id_prefixes:
-                    current_by_aarecord_id_prefixes[aarecord_id_prefix] = {
-                        "rownumber": last_by_aarecord_id_prefixes[aarecord_id_prefix]['rownumber'] + to_prefix_counts['aarecord_id_prefixes'][aarecord_id_prefix]['rownumber'],
-                        "dense_rank": last_by_aarecord_id_prefixes[aarecord_id_prefix]['dense_rank'] + to_prefix_counts['aarecord_id_prefixes'][aarecord_id_prefix]['dense_rank'],
-                    }
-                if (to_prefix_counts['rownumber'] > 0) or (to_prefix_counts['dense_rank'] > 0):
-                    update_ranges.append({ 
-                        "from_prefix": last_prefix,
-                        "to_prefix": prefix_range['to_prefix'],
-                        "start_rownumber": last_rownumber,
-                        "start_dense_rank": last_dense_rank,
-                        "start_by_aarecord_id_prefixes": dict(last_by_aarecord_id_prefixes),
-                        "count_approx": to_prefix_counts['rownumber'],
-                    })
-                    last_prefix = prefix_range['to_prefix']
-                    last_rownumber = rownumber
-                    last_dense_rank = dense_rank
-                    last_by_aarecord_id_prefixes = current_by_aarecord_id_prefixes
-            update_ranges.append({ 
-                "from_prefix": last_prefix,
-                "to_prefix": None,
-                "start_rownumber": last_rownumber,
-                "start_dense_rank": last_dense_rank,
-                "start_by_aarecord_id_prefixes": dict(last_by_aarecord_id_prefixes),
-                "count_approx": total-last_rownumber,
-            })
-            update_ranges.sort(key=lambda r: -r['count_approx'])
-
-            large_ranges = [r for r in update_ranges if r['count_approx'] > 10000000]
-            if len(large_ranges) > 0:
-                print(f"WARNING: Ranges too large: {large_ranges=}")
-                # raise Exception(f"Ranges too large: {large_ranges=}")
-
-            print(f"Processing {len(update_ranges)} update_ranges (starting with the largest ones)..")
-            processed_rows = sum(list(tqdm.tqdm(executor.imap_unordered(mysql_build_aarecords_codes_numbers_update_range, update_ranges), total=len(update_ranges))))
-        
 
         if SLOW_DATA_IMPORTS:
             connection.connection.ping(reconnect=True)
