@@ -13,6 +13,10 @@
 {% block body %}
   <h2 class="mt-4 mb-1 text-3xl font-bold">{{ gettext('page.datasets.title') }}</h2>
 
+  {% if gettext('common.english_only') != 'Text below continues in English.' %}
+    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
+  {% endif %}
+
   <div class="mb-4 p-2 overflow-hidden bg-black/5 break-words">
     {{ gettext('page.datasets.intro.text1', a_faq=(' href="/faq#what"' | safe), a_llm=(' href="/llm"' | safe)) }}
   </div>
