@@ -1,31 +1,23 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Datasets{% endblock %}
+{% block title %}{{ gettext('page.datasets.title') }} ▶ {{ gettext('page.datasets/isbn_ranges.title') }}{% endblock %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  <h2 class="mt-4 mb-4 text-3xl font-bold"><a href="/datasets">{{ gettext('page.datasets.title') }}</a> ▶ {{ gettext('page.datasets/isbn_ranges.title') }}</h2>
 
-  <div lang="en">
-    <div class="mb-4"><a href="/datasets">Datasets</a> ▶ ISBN country information </div>
-
-    <div class="mb-4 p-2 overflow-hidden bg-black/5 break-words">
-      If you are interested in mirroring this dataset for <a href="/faq#what">archival</a> or <a href="/llm">LLM training</a> purposes, please contact us.
-    </div>
-
-    <p class="mb-4">
-      The International ISBN Agency regularly releases the ranges that it has allocated to national ISBN agencies.
-      From this we can derive what country, region, or language group this ISBN belongs.
-      We currently use this data indirectly, through the <a href="https://pypi.org/project/isbnlib/">isbnlib</a> Python library.
-    </p>
-
-    <p><strong>Resources</strong></p>
-    <ul class="list-inside mb-4 ml-1">
-      <li class="list-disc">Last updated: {{ stats_data.isbn_country_date }} (git <a href="https://github.com/xlcnd/isbnlib/commit/8d944ee456cb7b465aff67e2f8d200e8d7de7d0b">isbnlib#8d944ee</a>)</li>
-      <li class="list-disc"><a href="https://www.isbn-international.org/range_file_generation">Main website</a></li>
-      <li class="list-disc"><a href="https://www.isbn-international.org/export_rangemessage.xml">Metadata</a></li>
-      <li class="list-disc"><a href="https://pypi.org/project/isbnlib/3.10.10/">isbnlib 3.10.10</a></li>
-    </ul>
+  <div class="mb-4 p-2 overflow-hidden bg-black/5 break-words">
+    {{ gettext('page.datasets/isbn_ranges.intro', a_archival=(' href="/faq#what"' | safe), a_llm=(' href="/llm"' | safe)) }}
   </div>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets/isbn_ranges.text1', a_isbnlib=(' href="https://pypi.org/project/isbnlib/"' | safe)) }}
+  </p>
+
+  <p><strong>{{ gettext('page.datasets/isbn_ranges.resources') }}</strong></p>
+  <ul class="list-inside mb-4 ml-1">
+    <li class="list-disc">{{ gettext('page.datasets/isbn_ranges.last_updated', isbn_country_date=stats_data.isbn_country_date, link=('git <a href="https://github.com/xlcnd/isbnlib/commit/8d944ee456cb7b465aff67e2f8d200e8d7de7d0b">isbnlib#8d944ee</a>' | safe)) }}</li>
+    <li class="list-disc"><a href="https://www.isbn-international.org/range_file_generation">{{ gettext('page.datasets/isbn_ranges.isbn_website') }}</a></li>
+    <li class="list-disc"><a href="https://www.isbn-international.org/export_rangemessage.xml">{{ gettext('page.datasets/isbn_ranges.isbn_metadata') }}</a></li>
+    <li class="list-disc"><a href="https://pypi.org/project/isbnlib/3.10.10/">isbnlib 3.10.10</a></li>
+  </ul>
 {% endblock %}
