@@ -60,6 +60,7 @@
         </div>
       {% else %}
         <!-- <a href="/metadata" class="block mt-2 text-xs text-right">{{ gettext('page.md5.header.improve_metadata') }}</a> -->
+        <!-- TODO: don't show this report button on metadata-only records -->
         <div class="block mt-2 text-xs text-right"><a href="#quality"> {{ gettext('page.md5.text.report_quality') }}</a></div>
       {% endif %}
     </div>
@@ -465,7 +466,7 @@
     {% endif %}
 
     <p class="mb-4">
-      {{ gettext('page.md5.text.file_info.text1', a_href=(' href="/db/aarecord/' + aarecord_id + '.json"' | safe)) }}
+      {{ gettext('page.md5.text.file_info.text1', a_href=((' href="/db/aarecord/' | safe) + aarecord_id + '.json"' | safe)) }}
     </p>
   </div>
 {% endblock %}
