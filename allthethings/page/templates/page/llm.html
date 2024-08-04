@@ -1,60 +1,53 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ gettext('page.llm.title') }}{% endblock %}
 
 {% block body %}
+  <h2 class="mt-4 mb-1 text-3xl font-bold">{{ gettext('page.llm.title') }}</h2>
 
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  <p class="mb-4">
+    {{ gettext('page.llm.intro') }}
+  </p>
 
-  <div lang="en">
-    <h2 class="mt-4 mb-1 text-3xl font-bold">LLM data</h2>
+  <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.llm.unique_scale') }}</h3>
+  
+  <p class="mb-4">
+    {{ gettext('page.llm.unique_scale.text1') }}
+  </p>
 
-    <p class="mb-4">
-      It is well understood that LLMs thrive on high-quality data. We have the largest collection of books, papers, magazines, etc in the world, which are some of the highest quality text sources.
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.llm.unique_scale.text2', a_datasets=(' href="/datasets"' | safe)) }}
+  </p>
 
-    <h3 class="mt-4 mb-1 text-xl font-bold">Unique scale and range</h3>
-    
-    <p class="mb-4">
-      Our collection contains over a hundred million files, including academic journals, textbooks, and magazines. We achieve this scale by combining large existing repositories.
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.llm.unique_scale.text3') }}
+  </p>
 
-    <p class="mb-4">
-      Some of our source collections are already available in bulk (Sci-Hub, and parts of Libgen). Other sources we liberated ourselves. <a href="/datasets">Datasets</a> shows a full overview.
-    </p>
+  <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.llm.how_we_can_help') }}</h3>
 
-    <p class="mb-4">
-      Our collection includes millions of books, papers, and magazines from before the e-book era. Large parts of this collection have already been OCR’ed, and already have little internal overlap.
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.llm.how_we_can_help.text1') }}
+  </p>
 
-    <h3 class="mt-4 mb-1 text-xl font-bold">How we can help</h3>
+  <p class="mb-4">
+    {{ gettext('page.llm.how_we_can_help.text2') }}
+  </p>
 
-    <p class="mb-4">
-      We’re able to provide high-speed access to our full collections, as well as to unreleased collections.
-    </p>
+  <p class="">
+    {{ gettext('page.llm.how_we_can_help.text3') }}
+  </p>
 
-    <p class="mb-4">
-      This is enterprise-level access that we can provide for donations in the range of tens of thousands USD. We’re also willing to trade this for high-quality collections that we don’t have yet.
-    </p>
+  <ul class="list-inside mb-4 ml-1">
+    <li class="list-disc">{{ gettext('page.llm.how_we_can_help.ocr') }}</li>
+    <li class="list-disc">{{ gettext('page.llm.how_we_can_help.deduplication') }}</li>
+    <li class="list-disc">{{ gettext('page.llm.how_we_can_help.extraction') }}</li>
+  </ul>
 
-    <p class="">
-      We can refund you if you’re able to provide us with enrichment of our data, such as:
-    </p>
+  <p class="mb-4">
+    <em>{{ gettext('page.llm.how_we_can_help.text4') }}</em>
+  </p>
 
-    <ul class="list-inside mb-4 ml-1">
-      <li class="list-disc">OCR</li>
-      <li class="list-disc">Removing overlap (deduplication)</li>
-      <li class="list-disc">Text and metadata extraction</li>
-    </ul>
-
-    <p class="mb-4">
-      <em>Support long-term archival of human knowledge, while getting better data for your model!</em>
-    </p>
-
-    <p class="mb-4">
-      <a href="/contact">Contact us</a> to discuss how we can work together.
-    </p>
-  </div>
+  <p class="mb-4">
+    {{ gettext('page.llm.how_we_can_help.text5', a_contact=(' href="/contact"' | safe)) }}
+  </p>
 {% endblock %}
