@@ -324,8 +324,7 @@
           {% elif search_dict.search_index_short == 'meta' %}
             <div class="mb-4 p-6 overflow-hidden bg-black/5 break-words rounded">
               <p class="mb-4">
-                <!-- TODO:TRANSLATE -->
-                These are metadata records, <span class="italic">not</span> downloadable files.
+                {{ gettext('page.search.results.these_are_records') }}
               </p>
 
               <p class="mb-4">
