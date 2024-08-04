@@ -47,12 +47,11 @@
       <div class="w-full aspect-[0.85] mt-[7%] js-cover-background" style="background-color: hsl({{ aarecord.additional.top_box.cover_missing_hue_deg }}deg 43% 73%)"></div>
       {% if (aarecord.ol_book_dicts_primary_linked or []) | length > 0 %}
         <div class="mt-2 text-xs text-right">
-          <!-- TODO:TRANSLATE -->
-          <div>✅ Metadata from linked record</div>
-          <a href="https://openlibrary.org/books/{{ aarecord.ol_book_dicts_primary_linked[0].ol_edition }}" class="block">Improve metadata on Open Library</a>
+          <div>✅ {{ gettext('page.md5.text.linked_metadata') }}</div>
+          <a href="https://openlibrary.org/books/{{ aarecord.ol_book_dicts_primary_linked[0].ol_edition }}" class="block">{{ gettext('page.md5.text.linked_metadata_openlib') }}</a>
           {% if aarecord.ol_book_dicts_primary_linked | length > 1 %}
             <div>
-              Warning: multiple linked records:
+              {{ gettext('page.md5.warning.multiple_links') }}
               {% for ol_linked in aarecord.ol_book_dicts_primary_linked %}
                 <a href="https://openlibrary.org/books/{{ ol_linked.ol_edition }}">[{{ loop.index }}]</a>
               {% endfor %}
@@ -61,8 +60,7 @@
         </div>
       {% else %}
         <!-- <a href="/metadata" class="block mt-2 text-xs text-right">{{ gettext('page.md5.header.improve_metadata') }}</a> -->
-        <!-- TODO:TRANSLATE -->
-        <div class="block mt-2 text-xs text-right"><a href="#quality">Report file quality</a></div>
+        <div class="block mt-2 text-xs text-right"><a href="#quality"> {{ gettext('page.md5.text.report_quality') }}</a></div>
       {% endif %}
     </div>
     <div class="text-sm text-gray-500">{{aarecord.additional.top_box.top_row}}</div>
