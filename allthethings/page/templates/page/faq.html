@@ -112,13 +112,11 @@
   </p>
 
   <p class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    Note that when using the TOR Browser, you might need to adjust your security settings. On the lowest of the options, called "Standard", the Cloudflare turnstile challenge succeeds. On the higher options, called "Safer" and "Safest", the challenge fails.
+    {{ gettext('page.faq.slow.text4') }}
   </p>
 
   <p class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    For large files sometimes slow downloads can break in the middle. We recommend using a download manager (such as JDownloader) to automatically resume large downloads.
+    {{ gettext('page.faq.slow.text5') }}
   </p>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="donate">{{ gettext('page.donate.faq.title') }} <a href="#donate" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
@@ -128,8 +126,7 @@
   </div>
 
   <div class="mb-4">
-    <!-- TODO:TRANSLATE -->
-    <div class="font-bold">Can I upgrade my membership or get multiple memberships?</div>
+    {{ gettext('page.donate.faq.membership', div_question=(' class="font-bold" ' | safe)) }}
     {{ gettext('page.account.logged_in.membership_multiple') }}
   </div>
 
