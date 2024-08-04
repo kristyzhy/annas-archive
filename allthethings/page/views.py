@@ -1285,7 +1285,7 @@ def get_ia_record_dicts(session, key, values):
             # Convert from AAC.
             ia_record_dict = {
                 "ia_id": ia_record_dict["metadata"]["ia_id"],
-                "aacid": ia_record_dict["metadata"]["aacid"],
+                "aacid": ia_record_dict["aacid"],
                 # "has_thumb" # We'd need to look at both ia_entries2 and ia_entries to get this, but not worth it.
                 "libgen_md5": None,
                 "json": ia_record_dict["metadata"]['metadata_json'],
@@ -1373,13 +1373,13 @@ def get_ia_record_dicts(session, key, values):
         allthethings.utils.init_identifiers_and_classification_unified(ia_record_dict['aa_ia_derived'])
         allthethings.utils.add_classification_unified(ia_record_dict['aa_ia_derived'], 'collection', 'ia')
         allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ocaid', ia_record_dict['ia_id'])
-        if ia_record_dict['aacid'] is not None:
+        if ia_record_dict.get('aacid') is not None:
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'aacid', ia_record_dict['aacid'])
         if ia_record_dict['libgen_md5'] is not None:
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'md5', ia_record_dict['libgen_md5'])
         if ia_record_dict['aa_ia_file'] is not None:
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'md5', ia_record_dict['aa_ia_file']['md5'])
-            if ia_record_dict['aa_ia_file']['aacid'] is not None:
+            if ia_record_dict['aa_ia_file'].get('aacid') is not None:
                 allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'aacid', ia_record_dict['aa_ia_file']['aacid'])
         for item in (extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_edition') + extract_list_from_ia_json_field(ia_record_dict, 'openlibrary_work')):
             allthethings.utils.add_identifier_unified(ia_record_dict['aa_ia_derived'], 'ol', item)
