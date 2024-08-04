@@ -1477,14 +1477,20 @@ msgstr "Explore metadata"
 msgid "common.access_types_mapping.torrents_available"
 msgstr "Contained in torrents"
 
+#: allthethings/page/templates/page/datasets.html:48
+#: allthethings/page/templates/page/datasets.html:83
 #: allthethings/page/views.py:4825
 msgid "common.record_sources_mapping.lgrs"
 msgstr "Libgen.rs"
 
+#: allthethings/page/templates/page/datasets.html:50
+#: allthethings/page/templates/page/datasets.html:104
 #: allthethings/page/views.py:4826
 msgid "common.record_sources_mapping.lgli"
 msgstr "Libgen.li"
 
+#: allthethings/page/templates/page/datasets.html:51
+#: allthethings/page/templates/page/datasets.html:116
 #: allthethings/page/views.py:4827
 msgid "common.record_sources_mapping.zlib"
 msgstr "Z-Library"
@@ -1501,6 +1507,7 @@ msgstr "ISBNdb"
 msgid "common.record_sources_mapping.ol"
 msgstr "OpenLibrary"
 
+#: allthethings/page/templates/page/datasets.html:49
 #: allthethings/page/views.py:4831
 msgid "common.record_sources_mapping.scihub"
 msgstr "Sci-Hub"
@@ -1509,10 +1516,14 @@ msgstr "Sci-Hub"
 msgid "common.record_sources_mapping.oclc"
 msgstr "OCLC (WorldCat)"
 
+#: allthethings/page/templates/page/datasets.html:53
+#: allthethings/page/templates/page/datasets.html:137
 #: allthethings/page/views.py:4833
 msgid "common.record_sources_mapping.duxiu"
 msgstr "DuXiu 读秀"
 
+#: allthethings/page/templates/page/datasets.html:54
+#: allthethings/page/templates/page/datasets.html:150
 #: allthethings/page/views.py:4834
 msgid "common.record_sources_mapping.uploads"
 msgstr "Uploads to AA"
@@ -2040,8 +2051,6 @@ msgstr "Something went wrong. Please reload the page and try again."
 #: allthethings/page/templates/page/codes.html:9
 #: allthethings/page/templates/page/copyright.html:6
 #: allthethings/page/templates/page/copyright.html:7
-#: allthethings/page/templates/page/datasets.html:13
-#: allthethings/page/templates/page/datasets.html:14
 #: allthethings/page/templates/page/datasets_duxiu.html:6
 #: allthethings/page/templates/page/datasets_duxiu.html:7
 #: allthethings/page/templates/page/datasets_ia.html:6
@@ -2159,28 +2168,179 @@ msgstr "When asking account or donation questions, add your account ID, screensh
 msgid "page.contact.checkboxes.show_email_button"
 msgstr "Show email"
 
-#: allthethings/page/templates/page/datasets.html:161
+#: allthethings/page/templates/page/datasets.html:3
+#: allthethings/page/templates/page/datasets.html:14
+#: allthethings/page/templates/page/datasets_isbn_ranges.html:3
+#: allthethings/page/templates/page/datasets_isbn_ranges.html:6
+msgid "page.datasets.title"
+msgstr "Datasets"
+
+#: allthethings/page/templates/page/datasets.html:8
+msgid "page.datasets.files"
+msgstr "files"
+
+#: allthethings/page/templates/page/datasets.html:17
+msgid "page.datasets.intro.text1"
+msgstr "If you are interested in mirroring these datasets for <a %(a_faq)s>archival</a> or <a %(a_llm)s>LLM training</a> purposes, please contact us."
+
+#: allthethings/page/templates/page/datasets.html:21
+msgid "page.datasets.intro.text2"
+msgstr "Our mission is to archive all the books in the world (as well as papers, magazines, etc), and make them widely accessible. We believe that all books should be mirrored far and wide, to ensure redundancy and resiliency. This is why we’re pooling together files from a variety of sources. Some sources are completely open and can be mirrored in bulk (such as Sci-Hub). Others are closed and protective, so we try to scrape them in order to “liberate” their books. Yet others fall somewhere in between."
+
+#: allthethings/page/templates/page/datasets.html:25
+msgid "page.datasets.intro.text3"
+msgstr "All our data can be <a %(a_torrents)s>torrented</a>, and all our metadata can be <a %(a_anna_software)s>generated</a> or <a %(a_elasticsearch)s>downloaded</a> as ElasticSearch and MariaDB databases. The raw data can be manually explored through JSON files such as <a %(a_dbrecord)s>this</a>."
+
+#: allthethings/page/templates/page/datasets.html:34
+msgid "page.datasets.overview.title"
+msgstr "Overview"
+
+#: allthethings/page/templates/page/datasets.html:37
+msgid "page.datasets.overview.text1"
+msgstr "Below is a quick overview of the sources of the files on Anna’s Archive."
+
+#: allthethings/page/templates/page/datasets.html:42
+msgid "page.datasets.overview.source.header"
+msgstr "Source"
+
+#: allthethings/page/templates/page/datasets.html:43
+msgid "page.datasets.overview.size.header"
+msgstr "Size"
+
+#: allthethings/page/templates/page/datasets.html:44
+msgid "page.datasets.overview.mirrored.header"
+msgstr "%% mirrored by AA / torrents available"
+
+#: allthethings/page/templates/page/datasets.html:44
+msgid "page.datasets.overview.mirrored.clarification"
+msgstr "Percentages of number of files"
+
+#: allthethings/page/templates/page/datasets.html:45
+msgid "page.datasets.overview.last_updated.header"
+msgstr "Last updated"
+
+#: allthethings/page/templates/page/datasets.html:48
+msgid "common.record_sources_mapping.lgrs.nonfiction_and_fiction"
+msgstr "Non-Fiction and Fiction"
+
+#: allthethings/page/templates/page/datasets.html:49
+msgid "common.record_sources_mapping.scihub.via_lgli_scimag"
+msgstr "Via Libgen.li “scimag”"
+
+#: allthethings/page/templates/page/datasets.html:49
+msgid "page.datasets.scihub_frozen_1"
+msgstr "Sci-Hub: frozen since 2021; most available through torrents"
+
+#: allthethings/page/templates/page/datasets.html:49
+msgid "page.datasets.scihub_frozen_2"
+msgstr "Libgen.li: minor additions since then</div>"
+
+#: allthethings/page/templates/page/datasets.html:50
+msgid "common.record_sources.mapping.lgli.excluding_scimag"
+msgstr "Excluding “scimag”"
+
+#: allthethings/page/templates/page/datasets.html:50
+msgid "page.datasets.lgli_fiction_is_behind"
+msgstr "Fiction torrents are behind (though IDs ~4-6M not torrented since they overlap with our Zlib torrents)."
+
+#: allthethings/page/templates/page/datasets.html:52
+#: allthethings/page/templates/page/datasets.html:125
+msgid "common.record_sources_mapping.iacdl"
+msgstr "IA Controlled Digital Lending"
+
+#: allthethings/page/templates/page/datasets.html:52
+msgid "page.datasets.iacdl.searchable"
+msgstr "98%%+ of files are searchable."
+
+#: allthethings/page/templates/page/datasets.html:55
+msgid "page.datasets.overview.total"
+msgstr "Total"
+
+#: allthethings/page/templates/page/datasets.html:55
+msgid "page.datasets.overview.excluding_duplicates"
+msgstr "Excluding duplicates"
+
+#: allthethings/page/templates/page/datasets.html:59
+msgid "page.datasets.overview.text4"
+msgstr "Since the shadow libraries often sync data from each other, there is considerable overlap between the libraries. That’s why the numbers don’t add up to the total."
+
+#: allthethings/page/templates/page/datasets.html:63
+msgid "page.datasets.overview.text5"
+msgstr "The “mirrored and seeded by Anna’s Archive” percentage shows how many files we mirror ourselves. We seed those files in bulk through torrents, and make them available for direct download through partner websites."
+
+#: allthethings/page/templates/page/datasets.html:66
+msgid "page.datasets.source_libraries.title"
+msgstr "Source libraries"
+
+#: allthethings/page/templates/page/datasets.html:69
+msgid "page.datasets.source_libraries.text1"
+msgstr "Some source libraries promote the bulk sharing of their data through torrents, while others do not readily share their collection. In the latter case, Anna’s Archive tries to scrape their collections, and make them available (see our <a %(a_torrents)s>Torrents</a> page). There are also in-between situations, for example, where source libraries are willing to share, but don’t have the resources to do so. In those cases, we also try to help out."
+
+#: allthethings/page/templates/page/datasets.html:73
+msgid "page.datasets.source_libraries.text2"
+msgstr "Below is an overview of how we interface with the different source libraries."
+
+#: allthethings/page/templates/page/datasets.html:78
+msgid "page.datasets.sources.source.header"
+msgstr "Source"
+
+#: allthethings/page/templates/page/datasets.html:79
+msgid "page.datasets.sources.metadata.header"
+msgstr "Metadata"
+
+#: allthethings/page/templates/page/datasets.html:80
+msgid "page.datasets.sources.files.header"
+msgstr "Files"
+
+#: allthethings/page/templates/page/datasets.html:85
+msgid "page.datasets.sources.metadata.libgen_rs"
+msgstr "Daily HTTP database dumps."
+
+#: allthethings/page/templates/page/datasets.html:93
+msgid "common.record_sources_mapping.scihub_scimag"
+msgstr "Sci-Hub / Libgen “scimag”"
+
+#: allthethings/page/templates/page/datasets.html:157
+msgid "page.datasets.metadata_only_sources.title"
+msgstr "Metadata-only sources"
+
+#: allthethings/page/templates/page/datasets.html:160
+msgid "page.datasets.metadata_only_sources.text1"
+msgstr "We also enrich our collection with metadata-only sources, which we can match to files, e.g. using ISBN numbers or other fields. Below is an overview of those. Again, some of these sources are completely open, while for others we have to scrape them."
+
+#: allthethings/page/templates/page/datasets.html:164
 #: allthethings/page/templates/page/faq.html:181
 #: allthethings/page/templates/page/search.html:294
 msgid "page.faq.metadata.inspiration1"
 msgstr "Our inspiration for collecting metadata is Aaron Swartz’ goal of “one web page for every book ever published”, for which he created <a %(a_openlib)s>Open Library</a>."
 
-#: allthethings/page/templates/page/datasets.html:162
+#: allthethings/page/templates/page/datasets.html:165
 #: allthethings/page/templates/page/faq.html:182
 #: allthethings/page/templates/page/search.html:295
 msgid "page.faq.metadata.inspiration2"
 msgstr "That project has done well, but our unique position allows us to get metadata that they can’t."
 
-#: allthethings/page/templates/page/datasets.html:163
+#: allthethings/page/templates/page/datasets.html:166
 #: allthethings/page/templates/page/faq.html:183
 #: allthethings/page/templates/page/search.html:296
 msgid "page.faq.metadata.inspiration3"
 msgstr "Another inspiration was our desire to know <a %(a_blog)s>how many books there are in the world</a>, so we can calculate how many books we still have left to save."
 
-#: allthethings/page/templates/page/datasets_isbn_ranges.html:3
-#: allthethings/page/templates/page/datasets_isbn_ranges.html:6
-msgid "page.datasets.title"
-msgstr "Datasets"
+#: allthethings/page/templates/page/datasets.html:170
+msgid "page.datasets.metadata_only_sources.text2"
+msgstr "Note that in metadata search, we show the original records. We don’t do any merging of records."
+
+#: allthethings/page/templates/page/datasets.html:211
+msgid "page.datasets.unified_database.title"
+msgstr "Unified database"
+
+#: allthethings/page/templates/page/datasets.html:214
+msgid "page.datasets.unified_database.text1"
+msgstr "We combine all the above sources into one unified database that we use to serve this website. This unified database is not available directly, but since Anna’s Archive is fully open source, it can be fairly easily <a %(a_generated)s>generated</a> or <a %(a_downloaded)s>downloaded</a> as ElasticSearch and MariaDB databases. The scripts on that page will automatically download all the requisite metadata from the sources mentioned above."
+
+#: allthethings/page/templates/page/datasets.html:222
+msgid "page.datasets.unified_database.text2"
+msgstr "If you’d like to explore our data before running those scripts locally, you can look at our JSON files, which link further to other JSON files. <a %(a_json)s>This file</a> is a good starting point."
 
 #: allthethings/page/templates/page/datasets_isbn_ranges.html:3
 #: allthethings/page/templates/page/datasets_isbn_ranges.html:6

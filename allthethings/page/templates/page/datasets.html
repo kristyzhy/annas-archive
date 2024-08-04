@@ -1,218 +1,225 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}Datasets{% endblock %}
+{% block title %}{{ gettext('page.datasets.title') }}{% endblock %}
 
 {% macro stats_row(label, dict, updated, mirrored_note) -%}
   <td class="p-2 align-top">{{ label }}</td>
-  <td class="p-2 align-top">{{ dict.count | numberformat }} files<br>{{ dict.filesize | filesizeformat }}</td>
+  {# TODO: use number formatting to pick "file" or "files" base on the plurality of dict.count #}
+  <td class="p-2 align-top">{{ dict.count | numberformat }} {{ gettext('page.datasets.files') }}<br>{{ dict.filesize | filesizeformat }}</td>
   <td class="p-2 align-top whitespace-nowrap">{{ (dict.aa_count/(dict.count+1)*100.0) | decimalformat }}% / {{ (dict.torrent_count/(dict.count+1)*100.0) | decimalformat }}%{% if mirrored_note %}<div class="text-sm text-gray-500 whitespace-normal font-normal">{{ mirrored_note | safe }}</div>{% endif %}</td>
   <td class="p-2 align-top whitespace-nowrap">{{ updated }}</td>
 {%- endmacro %}
 
 {% block body %}
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  <h2 class="mt-4 mb-1 text-3xl font-bold">{{ gettext('page.datasets.title') }}</h2>
 
-  <div lang="en">
-    <h2 class="mt-4 mb-1 text-3xl font-bold">Datasets</h2>
-
-    <div class="mb-4 p-2 overflow-hidden bg-black/5 break-words">
-      If you are interested in mirroring these datasets for <a href="/faq#what">archival</a> or <a href="/llm">LLM training</a> purposes, please contact us.
-    </div>
-
-    <p class="mb-4">
-      Our mission is to archive all the books in the world (as well as papers, magazines, etc), and make them widely accessible. We believe that all books should be mirrored far and wide, to ensure redundancy and resiliency. This is why we’re pooling together files from a variety of sources. Some sources are completely open and can be mirrored in bulk (such as Sci-Hub). Others are closed and protective, so we try to scrape them in order to “liberate” their books. Yet others fall somewhere in between.
-    </p>
-
-    <p class="mb-4">
-      All our data can be <a href="/torrents">torrented</a>, and all our metadata can be <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases. The raw data can be manually explored through JSON files such as <a href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">this</a>.
-    </p>
-
-    <h3 class="mt-4 mb-1 text-xl font-bold">Overview</h3>
-
-    <p class="mb-4">
-      Below is a quick overview of the sources of the files on Anna’s Archive.
-    </p>
-
-    <table class="mb-4 w-full">
-      <tr class="even:bg-[#f2f2f2]">
-        <th class="p-2 align-bottom text-left" width="28%">Source</th>
-        <th class="p-2 align-bottom text-left" width="20%">Size</th>
-        <th class="p-2 align-bottom text-left" width="20%">Mirrored by AA / torrents available<div class="font-normal text-sm text-gray-500">Percentages of number of files</div></th>
-        <th class="p-2 align-bottom text-left" width="22%">Last updated</th>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_rs">Libgen.rs</a><div class="text-sm text-gray-500">Non-Fiction and Fiction</div>' | safe, stats_data.stats_by_group.lgrs, stats_data.libgenrs_date, '') }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/scihub">Sci-Hub</a><div class="text-sm text-gray-500">Via Libgen.li “scimag”</div>' | safe, stats_data.stats_by_group.journals, '<div class="text-sm text-gray-500 whitespace-normal">Sci-Hub: frozen since 2021; most available through torrents<div>Libgen.li: minor additions since then</div></div>' | safe, '') }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">Libgen.li</a><div class="text-sm text-gray-500">Excluding “scimag”</div>' | safe, stats_data.stats_by_group.lgli, stats_data.libgenli_date, 'Fiction torrents are behind (though IDs ~4-6M not torrented since they overlap with our Zlib torrents).') }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/zlib">Z-Library</a>' | safe, stats_data.stats_by_group.zlib, stats_data.zlib_date, '') }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/ia">IA Controlled Digital Lending</a>' | safe, stats_data.stats_by_group.ia, stats_data.ia_date, '98%+ of files are searchable.') }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">DuXiu 读秀</a>' | safe, stats_data.stats_by_group.duxiu, stats_data.duxiu_date, '') }}</tr>
-      <tr class="even:bg-[#f2f2f2]">{{ stats_row('<a class="custom-a underline hover:opacity-60" href="/datasets/upload">Uploads to Anna’s Archive</a>' | safe, stats_data.stats_by_group.upload, stats_data.upload_file_date, '') }}</tr>
-      <tr class="even:bg-[#f2f2f2] font-bold">{{ stats_row('Total<div class="text-sm font-normal text-gray-500">Excluding duplicates</div>' | safe, stats_data.stats_by_group.total, '', '') }}</tr>
-    </table>
-
-    <p class="mb-4">
-      Since the shadow libraries often sync data from each other, there is considerable overlap between the libraries. That’s why the numbers don’t add up to the total.
-    </p>
-
-    <p class="mb-4">
-      The “mirrored and seeded by Anna’s Archive” percentage shows how many files we mirror ourselves. We seed those files in bulk through torrents, and make them available for direct download through partner websites.
-    </p>
-
-    <h3 class="mt-4 mb-1 text-xl font-bold">Source libraries</h3>
-
-    <p class="mb-4">
-      Some source libraries promote the bulk sharing of their data through torrents, while others do not readily share their collection. In the latter case, Anna’s Archive tries to scrape their collections, and make them available (see our <a href="/torrents">Torrents</a> page). There are also in-between situations, for example, where source libraries are willing to share, but don’t have the resources to do so. In those cases, we also try to help out.
-    </p>
-
-    <p class="mb-4">
-      Below is an overview of how we interface with the different source libraries.
-    </p>
-
-    <table class="mb-4 w-full">
-      <tr class="even:bg-[#f2f2f2]">
-        <th class="p-2 align-bottom text-left" width="20%">Source</th>
-        <th class="p-2 align-bottom text-left" width="40%">Metadata</th>
-        <th class="p-2 align-bottom text-left" width="40%">Files</th>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/libgen_rs">Libgen.rs</a></td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Daily <a href="https://data.library.bz/dbdumps/">HTTP database dumps</a>.</div>
-        </td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Automated torrents for <a href="https://libgen.rs/repository_torrent/">Non-Fiction</a> and <a href="https://libgen.rs/fiction/repository_torrent/">Fiction</a></div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#libgenrs_covers">book cover torrents</a>.
-        </td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/scihub">Sci-Hub / Libgen “scimag”</a></td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">❌ Sci-Hub has frozen new files since 2021.</div>
-          <div class="my-2 first:mt-0 last:mb-0">✅ Metadata dumps available <a href="https://sci-hub.ru/database">here</a> and <a href="https://data.library.bz/dbdumps/">here</a>, as well as as part of the <a href="https://libgen.li/dirlist.php?dir=dbdumps">Libgen.li database</a> (which we use).</div>
-        </td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Data torrents available <a href="https://sci-hub.ru/database">here</a>, <a href="https://libgen.rs/scimag/repository_torrent/">here</a>, and <a href="https://libgen.li/torrents/scimag/">here</a>.</div>
-          <div class="my-2 first:mt-0 last:mb-0">❌ Some new files are <a href="https://libgen.rs/scimag/recent">being</a> <a href="https://libgen.li/index.php?req=fmode:last&topics%5B%5D=a">added</a> to Libgen’s “scimag”, but not enough to warrant new torrents.</div>
-        </td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">Libgen.li</a></td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Quarterly <a href="https://libgen.li/dirlist.php?dir=dbdumps">HTTP database dumps</a>.</div>
-        </td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Non-Fiction torrents are shared with Libgen.rs (and mirrored <a href="https://libgen.li/torrents/libgen/">here</a>).</div>
-          <div class="my-2 first:mt-0 last:mb-0">🙃 Fiction collection has diverged but still has <a href="https://libgen.li/torrents/fiction/">torrents</a>, though not updated since 2022 (we do have direct downloads).</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Libgen.li collaboratively manage collections of <a href="/torrents#libgen_li_comics">comic books</a> and <a href="/torrents#libgen_li_magazines">magazines</a>.
-          <div class="my-2 first:mt-0 last:mb-0">❌ No torrents for Russian fiction and standard documents collections.</div>
-        </td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/zlib">Z-Library</a></td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Z-Library collaboratively manage a collection of <a href="/torrents#zlib">Z-Library metadata</a>.
-        </td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Z-Library collaboratively manage a collection of <a href="/torrents#zlib">Z-Library files</a>.
-        </td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/ia">IA Controlled Digital Lending</a></td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Some metadata available through <a href="https://openlibrary.org/developers/dumps">Open Library database dumps</a>, but those don’t cover the entire IA collection.</div>
-          <div class="my-2 first:mt-0 last:mb-0">❌ No easily accessible metadata dumps available for their entire collection.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">IA metadata</a>.
-        </td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">❌ Files only available for borrowing on a limited basis, with various access restrictions.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">IA files</a>.
-        </td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">DuXiu 读秀</a></td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Various metadata databases scattered around the Chinese internet; though often paid databases.</div>
-          <div class="my-2 first:mt-0 last:mb-0">❌ No easily accessible metadata dumps available for their entire collection.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#duxiu">DuXiu metadata</a>.
-        </td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Various file databases scattered around the Chinese internet; though often paid databases.</div>
-          <div class="my-2 first:mt-0 last:mb-0">❌ Most files only accessible using premium BaiduYun accounts; slow downloading speeds.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#duxiu">DuXiu files</a>.
-        </td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">Uploads to Anna’s Archive</a></td>
-        <td class="p-2 align-top" colspan="2">
-          <div class="my-2 first:mt-0 last:mb-0">Various smaller or one-off sources. We encourage people to upload to other shadow libraries first, but sometimes people have collections that are too big for others to sort through, though not big enough to warrant their own category.</div>
-        </td>
-      </tr>
-    </table>
-
-    <h3 class="mt-4 mb-1 text-xl font-bold">Metadata-only sources</h3>
-
-    <p class="mb-4">
-      We also enrich our collection with metadata-only sources, which we can match to files, e.g. using ISBN numbers or other fields. Below is an overview of those. Again, some of these sources are completely open, while for others we have to scrape them.
-    </p>
-
-    <p class="mb-4">
-      {{ gettext('page.faq.metadata.inspiration1', a_openlib=(' href="https://en.wikipedia.org/wiki/Open_Library" ' | safe)) }}
-      {{ gettext('page.faq.metadata.inspiration2') }}
-      {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-archive.se/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
-    </p>
-
-    <p class="mb-4">
-      Note that in metadata search, we show the original records. We don’t do any merging of records.
-    </p>
-
-    <table class="mb-4 w-full">
-      <tr class="even:bg-[#f2f2f2]">
-        <th class="p-2 align-bottom text-left">Source</th>
-        <th class="p-2 align-bottom text-left">Metadata</th>
-        <th class="p-2 align-bottom text-left">Last updated</th>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-middle"><a class="custom-a underline hover:opacity-60" href="/datasets/openlib">Open Library</a></td>
-        <td class="p-2 align-middle">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Monthly <a href="https://openlibrary.org/developers/dumps">database dumps</a>.</div>
-        </td>
-        <td class="p-2 align-middle">{{ stats_data.openlib_date }}</td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/isbndb">ISBNdb</a></td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">❌ Not available directly in bulk, only in semi-bulk behind a paywall.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#isbndb">ISBNdb metadata</a>.
-        </td>
-        <td class="p-2 align-top">{{ stats_data.isbndb_date }}</td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/worldcat">OCLC (WorldCat)</a></td>
-        <td class="p-2 align-top">
-          <div class="my-2 first:mt-0 last:mb-0">❌ Not available directly in bulk, protected against scraping.</div>
-          <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#worldcat">OCLC (WorldCat) metadata</a>.
-        </td>
-        <td class="p-2 align-top">{{ stats_data.oclc_date }}</td>
-      </tr>
-      <!-- <tr class="even:bg-[#f2f2f2]">
-        <td class="p-2 align-middle"><a class="custom-a underline hover:opacity-60" href="/datasets/isbn_ranges">ISBN country information</a></td>
-        <td class="p-2 align-middle">
-          <div class="my-2 first:mt-0 last:mb-0">✅ Available for <a href="https://www.isbn-international.org/range_file_generation">automatic generation</a>.</div>
-        </td>
-        <td class="p-2 align-middle">{{ stats_data.isbn_country_date }}</td>
-      </tr> -->
-    </table>
-
-    <h3 class="mt-4 mb-1 text-xl font-bold">Unified database</h3>
-
-    <p class="mb-4">
-      We combine all the above sources into one unified database that we use to serve this website. This unified database is not available directly, but since Anna’s Archive is fully open source, it can be fairly easily <a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md">generated</a> or <a href="/torrents#aa_derived_mirror_metadata">downloaded</a> as ElasticSearch and MariaDB databases. The scripts on that page will automatically download all the requisite metadata from the sources mentioned above.
-    </p>
-
-    <p class="mb-4">
-      If you’d like to explore our data before running those scripts locally, you can look at our JSON files, which link further to other JSON files. <a href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json">This file</a> is a good starting point.
-    </p>
+  <div class="mb-4 p-2 overflow-hidden bg-black/5 break-words">
+    {{ gettext('page.datasets.intro.text1', a_faq=(' href="/faq#what"' | safe), a_llm=(' href="/llm"' | safe)) }}
   </div>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.intro.text2') }}
+  </p>
+
+  <p class="mb-4">
+    {{ gettext(
+      'page.datasets.intro.text3', 
+      a_torrents=(' href="/torrents"' | safe), 
+      a_anna_software=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md"' | safe),
+      a_elasticsearch=(' href="/torrents#aa_derived_mirror_metadata"' | safe),
+      a_dbrecord=(' href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json"' | safe)
+    ) }}
+  </p>
+
+  <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.datasets.overview.title') }}</h3>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.overview.text1') }}
+  </p>
+
+  <table class="mb-4 w-full">
+    <tr class="even:bg-[#f2f2f2]">
+      <th class="p-2 align-bottom text-left" width="28%">{{ gettext('page.datasets.overview.source.header') }}</th>
+      <th class="p-2 align-bottom text-left" width="20%">{{ gettext('page.datasets.overview.size.header') }}</th>
+      <th class="p-2 align-bottom text-left" width="20%">{{ gettext('page.datasets.overview.mirrored.header') }}<div class="font-normal text-sm text-gray-500">{{ gettext('page.datasets.overview.mirrored.clarification') }}</div></th>
+      <th class="p-2 align-bottom text-left" width="22%">{{ gettext('page.datasets.overview.last_updated.header') }}</th>
+    </tr>
+    {# TODO: translate the word "files" #}
+    <tr class="even:bg-[#f2f2f2]">{{ stats_row(('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_rs">' | safe) + gettext('common.record_sources_mapping.lgrs') + ('</a><div class="text-sm text-gray-500">' | safe) + gettext('common.record_sources_mapping.lgrs.nonfiction_and_fiction') + '</div>' | safe, stats_data.stats_by_group.lgrs, stats_data.libgenrs_date, '') }}</tr>
+    <tr class="even:bg-[#f2f2f2]">{{ stats_row(('<a class="custom-a underline hover:opacity-60" href="/datasets/scihub">' | safe) + gettext('common.record_sources_mapping.scihub') + ('</a><div class="text-sm text-gray-500">' | safe) + gettext('common.record_sources_mapping.scihub.via_lgli_scimag') + '</div>' | safe, stats_data.stats_by_group.journals, ('<div class="text-sm text-gray-500 whitespace-normal">' | safe) + gettext('page.datasets.scihub_frozen_1') + ('<br>' | safe) + gettext('page.datasets.scihub_frozen_2') + '</div>' | safe, '') }}</tr>
+    <tr class="even:bg-[#f2f2f2]">{{ stats_row(('<a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">' | safe) + gettext('common.record_sources_mapping.lgli') + ('</a><div class="text-sm text-gray-500">' | safe) + gettext('common.record_sources.mapping.lgli.excluding_scimag') + '</div>' | safe, stats_data.stats_by_group.lgli, stats_data.libgenli_date, gettext('page.datasets.lgli_fiction_is_behind')) }}</tr>
+    <tr class="even:bg-[#f2f2f2]">{{ stats_row(('<a class="custom-a underline hover:opacity-60" href="/datasets/zlib">' | safe) + gettext('common.record_sources_mapping.zlib') + '</a>' | safe, stats_data.stats_by_group.zlib, stats_data.zlib_date, '') }}</tr>
+    <tr class="even:bg-[#f2f2f2]">{{ stats_row(('<a class="custom-a underline hover:opacity-60" href="/datasets/ia">' | safe) + gettext('common.record_sources_mapping.iacdl') + '</a>' | safe, stats_data.stats_by_group.ia, stats_data.ia_date, gettext('page.datasets.iacdl.searchable')) }}</tr>
+    <tr class="even:bg-[#f2f2f2]">{{ stats_row(('<a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">' | safe) + gettext('common.record_sources_mapping.duxiu') + '</a>' | safe, stats_data.stats_by_group.duxiu, stats_data.duxiu_date, '') }}</tr>
+    <tr class="even:bg-[#f2f2f2]">{{ stats_row(('<a class="custom-a underline hover:opacity-60" href="/datasets/upload">' | safe) + gettext('common.record_sources_mapping.uploads') + '</a>' | safe, stats_data.stats_by_group.upload, stats_data.upload_file_date, '') }}</tr>
+    <tr class="even:bg-[#f2f2f2] font-bold">{{ stats_row(gettext('page.datasets.overview.total') + ('<div class="text-sm font-normal text-gray-500">' | safe) + gettext('page.datasets.overview.excluding_duplicates') + '</div>' | safe, stats_data.stats_by_group.total, '', '') }}</tr>
+  </table>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.overview.text4') }}
+  </p>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.overview.text5') }}
+  </p>
+
+  <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.datasets.source_libraries.title') }}</h3>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.source_libraries.text1', a_torrents=(' href="/torrents"' | safe)) }}
+  </p>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.source_libraries.text2') }}
+  </p>
+
+  <table class="mb-4 w-full">
+    <tr class="even:bg-[#f2f2f2]">
+      <th class="p-2 align-bottom text-left" width="20%">{{ gettext('page.datasets.sources.source.header') }}</th>
+      <th class="p-2 align-bottom text-left" width="40%">{{ gettext('page.datasets.sources.metadata.header') }}</th>
+      <th class="p-2 align-bottom text-left" width="40%">{{ gettext('page.datasets.sources.files.header') }}</th>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/libgen_rs">{{ gettext('common.record_sources_mapping.lgrs') }}</a></td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">✅ <a href="https://data.library.bz/dbdumps/">{{ gettext('page.datasets.sources.metadata.libgen_rs') }}</a></div>
+      </td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Automated torrents for <a href="https://libgen.rs/repository_torrent/">Non-Fiction</a> and <a href="https://libgen.rs/fiction/repository_torrent/">Fiction</a></div>
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#libgenrs_covers">book cover torrents</a>.
+      </td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/scihub">{{ gettext('common.record_sources_mapping.scihub_scimag') }}</a></td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">❌ Sci-Hub has frozen new files since 2021.</div>
+        <div class="my-2 first:mt-0 last:mb-0">✅ Metadata dumps available <a href="https://sci-hub.ru/database">here</a> and <a href="https://data.library.bz/dbdumps/">here</a>, as well as as part of the <a href="https://libgen.li/dirlist.php?dir=dbdumps">Libgen.li database</a> (which we use).</div>
+      </td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Data torrents available <a href="https://sci-hub.ru/database">here</a>, <a href="https://libgen.rs/scimag/repository_torrent/">here</a>, and <a href="https://libgen.li/torrents/scimag/">here</a>.</div>
+        <div class="my-2 first:mt-0 last:mb-0">❌ Some new files are <a href="https://libgen.rs/scimag/recent">being</a> <a href="https://libgen.li/index.php?req=fmode:last&topics%5B%5D=a">added</a> to Libgen’s “scimag”, but not enough to warrant new torrents.</div>
+      </td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/libgen_li">{{ gettext('common.record_sources_mapping.lgli') }}</a></td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Quarterly <a href="https://libgen.li/dirlist.php?dir=dbdumps">HTTP database dumps</a>.</div>
+      </td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Non-Fiction torrents are shared with Libgen.rs (and mirrored <a href="https://libgen.li/torrents/libgen/">here</a>).</div>
+        <div class="my-2 first:mt-0 last:mb-0">🙃 Fiction collection has diverged but still has <a href="https://libgen.li/torrents/fiction/">torrents</a>, though not updated since 2022 (we do have direct downloads).</div>
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Libgen.li collaboratively manage collections of <a href="/torrents#libgen_li_comics">comic books</a> and <a href="/torrents#libgen_li_magazines">magazines</a>.
+        <div class="my-2 first:mt-0 last:mb-0">❌ No torrents for Russian fiction and standard documents collections.</div>
+      </td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/zlib">{{ gettext('common.record_sources_mapping.zlib') }}</a></td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Z-Library collaboratively manage a collection of <a href="/torrents#zlib">Z-Library metadata</a>.
+      </td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive and Z-Library collaboratively manage a collection of <a href="/torrents#zlib">Z-Library files</a>.
+      </td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/ia">{{ gettext('common.record_sources_mapping.iacdl') }}</a></td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Some metadata available through <a href="https://openlibrary.org/developers/dumps">Open Library database dumps</a>, but those don’t cover the entire IA collection.</div>
+        <div class="my-2 first:mt-0 last:mb-0">❌ No easily accessible metadata dumps available for their entire collection.</div>
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">IA metadata</a>.
+      </td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">❌ Files only available for borrowing on a limited basis, with various access restrictions.</div>
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#ia">IA files</a>.
+      </td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">{{ gettext('common.record_sources_mapping.duxiu') }}</a></td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Various metadata databases scattered around the Chinese internet; though often paid databases.</div>
+        <div class="my-2 first:mt-0 last:mb-0">❌ No easily accessible metadata dumps available for their entire collection.</div>
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#duxiu">DuXiu metadata</a>.
+      </td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Various file databases scattered around the Chinese internet; though often paid databases.</div>
+        <div class="my-2 first:mt-0 last:mb-0">❌ Most files only accessible using premium BaiduYun accounts; slow downloading speeds.</div>
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#duxiu">DuXiu files</a>.
+      </td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/duxiu">{{ gettext('common.record_sources_mapping.uploads') }}</a></td>
+      <td class="p-2 align-top" colspan="2">
+        <div class="my-2 first:mt-0 last:mb-0">Various smaller or one-off sources. We encourage people to upload to other shadow libraries first, but sometimes people have collections that are too big for others to sort through, though not big enough to warrant their own category.</div>
+      </td>
+    </tr>
+  </table>
+
+  <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.datasets.metadata_only_sources.title') }}</h3>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.metadata_only_sources.text1') }}
+  </p>
+
+  <p class="mb-4">
+    {{ gettext('page.faq.metadata.inspiration1', a_openlib=(' href="https://en.wikipedia.org/wiki/Open_Library" ' | safe)) }}
+    {{ gettext('page.faq.metadata.inspiration2') }}
+    {{ gettext('page.faq.metadata.inspiration3', a_blog=(' href="https://annas-archive.se/blog/blog-isbndb-dump-how-many-books-are-preserved-forever.html" ' | safe)) }}
+  </p>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.metadata_only_sources.text2') }}
+  </p>
+
+  <table class="mb-4 w-full">
+    <tr class="even:bg-[#f2f2f2]">
+      <th class="p-2 align-bottom text-left">Source</th>
+      <th class="p-2 align-bottom text-left">Metadata</th>
+      <th class="p-2 align-bottom text-left">Last updated</th>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-middle"><a class="custom-a underline hover:opacity-60" href="/datasets/openlib">Open Library</a></td>
+      <td class="p-2 align-middle">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Monthly <a href="https://openlibrary.org/developers/dumps">database dumps</a>.</div>
+      </td>
+      <td class="p-2 align-middle">{{ stats_data.openlib_date }}</td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/isbndb">ISBNdb</a></td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">❌ Not available directly in bulk, only in semi-bulk behind a paywall.</div>
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#isbndb">ISBNdb metadata</a>.
+      </td>
+      <td class="p-2 align-top">{{ stats_data.isbndb_date }}</td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-top"><a class="custom-a underline hover:opacity-60" href="/datasets/worldcat">OCLC (WorldCat)</a></td>
+      <td class="p-2 align-top">
+        <div class="my-2 first:mt-0 last:mb-0">❌ Not available directly in bulk, protected against scraping.</div>
+        <div class="my-2 first:mt-0 last:mb-0">👩‍💻 Anna’s Archive manages a collection of <a href="/torrents#worldcat">OCLC (WorldCat) metadata</a>.
+      </td>
+      <td class="p-2 align-top">{{ stats_data.oclc_date }}</td>
+    </tr>
+    <!-- <tr class="even:bg-[#f2f2f2]">
+      <td class="p-2 align-middle"><a class="custom-a underline hover:opacity-60" href="/datasets/isbn_ranges">ISBN country information</a></td>
+      <td class="p-2 align-middle">
+        <div class="my-2 first:mt-0 last:mb-0">✅ Available for <a href="https://www.isbn-international.org/range_file_generation">automatic generation</a>.</div>
+      </td>
+      <td class="p-2 align-middle">{{ stats_data.isbn_country_date }}</td>
+    </tr> -->
+  </table>
+
+  <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.datasets.unified_database.title') }}</h3>
+
+  <p class="mb-4">
+    {{ gettext(
+      'page.datasets.unified_database.text1', 
+      a_generated=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/blob/main/data-imports/README.md"' | safe),
+      a_downloaded=(' href="/torrents#aa_derived_mirror_metadata"' | safe),
+    ) }}
+  </p>
+
+  <p class="mb-4">
+    {{ gettext('page.datasets.unified_database.text2', a_json=(' href="/db/aarecord/md5:8336332bf5877e3adbfb60ac70720cd5.json"' | safe)) }}
+    
+  </p>
 {% endblock %}
