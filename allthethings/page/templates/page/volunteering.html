@@ -3,100 +3,98 @@
 {% block title %}{{ gettext('page.volunteering.title') }}{% endblock %}
 
 {% block body %}
-  <div lang="en">
-    <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.volunteering.title') }}</h2>
+  <h2 class="mt-4 mb-4 text-3xl font-bold">{{ gettext('page.volunteering.title') }}</h2>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.intro.text1') }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.intro.text1') }}
+  </p>
 
-    <ul class="list-inside mb-4">
-      <li class="list-disc">{{ gettext('page.volunteering.intro.light') }}</li>
-      <li class="list-disc">{{ gettext('page.volunteering.intro.heavy') }}</li>
-    </ul>
+  <ul class="list-inside mb-4">
+    <li class="list-disc">{{ gettext('page.volunteering.intro.light') }}</li>
+    <li class="list-disc">{{ gettext('page.volunteering.intro.heavy') }}</li>
+  </ul>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.intro.text2', a_donate=(' href="/donate"' | safe), a_torrents=(' href="/torrents"' | safe), a_uploading=(' href="/faq#upload"' | safe), a_help=(' href="/faq#help"' | safe)) }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.intro.text2', a_donate=(' href="/donate"' | safe), a_torrents=(' href="/torrents"' | safe), a_uploading=(' href="/faq#upload"' | safe), a_help=(' href="/faq#help"' | safe)) }}
+  </p>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.intro.text3', a_contact=(' href="/contact"' | safe), a_llm=(' href="/llm"' | safe)) }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.intro.text3', a_contact=(' href="/contact"' | safe), a_llm=(' href="/llm"' | safe)) }}
+  </p>
 
-    <h3 class="group mt-8 mb-1 text-xl font-bold" id="light">{{ gettext('page.volunteering.section.light.heading') }} <a href="#light" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-8 mb-1 text-xl font-bold" id="light">{{ gettext('page.volunteering.section.light.heading') }} <a href="#light" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.light.text1', a_telegram=(' href="https://t.me/+GNQxkFPt1xkzY2Zk"' | safe)) }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.light.text1', a_telegram=(' href="https://t.me/+GNQxkFPt1xkzY2Zk"' | safe)) }}
+  </p>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.light.text2', a_contact=(' href="/contact"' | safe)) }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.light.text2', a_contact=(' href="/contact"' | safe)) }}
+  </p>
 
-    <table class="mb-4 w-full">
-      <tr class="even:bg-[#f2f2f2]">
-        <th class="align-bottom px-4 py-1 w-[60%]">{{ gettext('page.volunteering.table.header.task') }}</th>
-        <th class="align-bottom px-4 py-1 ">{{ gettext('page.volunteering.table.header.milestone') }}</th>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-4">{{ gettext('page.volunteering.table.open_library.task', a_metadata=(' href="/metadata"' | safe)) }}</td>
-        <td class="p-4">{{ gettext('page.volunteering.table.open_library.milestone') }}</td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-4">{{ gettext('page.volunteering.table.translate.task', a_translate=(' href="https://translate.annas-archive.se/"' | safe)) }}</td>
-        <td class="p-4">{{ gettext('page.volunteering.table.translate.milestone') }}</td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-4">{{ gettext('page.volunteering.table.spread_the_word.task') }}</td>
-        <td class="p-4">{{ gettext('page.volunteering.table.spread_the_word.milestone') }}</td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-4">{{ gettext('page.volunteering.table.wikipedia.task') }}</td>
-        <td class="p-4">{{ gettext('page.volunteering.table.wikipedia.milestone') }}</td>
-      </tr>
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-4">{{ gettext('page.volunteering.table.fulfill_requests.task') }}</td>
-        <td class="p-4">{{ gettext('page.volunteering.table.fulfill_requests.milestone') }}</td>
-      </tr>
-      <!-- TODO: fixing file or formatting issues? -->
-      <tr class="even:bg-[#f2f2f2]">
-        <td class="p-4">{{ gettext('page.volunteering.table.misc.task', a_telegram=(' href="https://t.me/+GNQxkFPt1xkzY2Zk"' | safe)) }}</td>
-        <td class="p-4">{{ gettext('page.volunteering.table.misc.milestone') }}</td>
-      </tr>
-    </table>
+  <table class="mb-4 w-full">
+    <tr class="even:bg-[#f2f2f2]">
+      <th class="align-bottom px-4 py-1 w-[60%]">{{ gettext('page.volunteering.table.header.task') }}</th>
+      <th class="align-bottom px-4 py-1 ">{{ gettext('page.volunteering.table.header.milestone') }}</th>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-4">{{ gettext('page.volunteering.table.open_library.task', a_metadata=(' href="/metadata"' | safe)) }}</td>
+      <td class="p-4">{{ gettext('page.volunteering.table.open_library.milestone') }}</td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-4">{{ gettext('page.volunteering.table.translate.task', a_translate=(' href="https://translate.annas-archive.se/"' | safe)) }}</td>
+      <td class="p-4">{{ gettext('page.volunteering.table.translate.milestone') }}</td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-4">{{ gettext('page.volunteering.table.spread_the_word.task') }}</td>
+      <td class="p-4">{{ gettext('page.volunteering.table.spread_the_word.milestone') }}</td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-4">{{ gettext('page.volunteering.table.wikipedia.task') }}</td>
+      <td class="p-4">{{ gettext('page.volunteering.table.wikipedia.milestone') }}</td>
+    </tr>
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-4">{{ gettext('page.volunteering.table.fulfill_requests.task') }}</td>
+      <td class="p-4">{{ gettext('page.volunteering.table.fulfill_requests.milestone') }}</td>
+    </tr>
+    <!-- TODO: fixing file or formatting issues? -->
+    <tr class="even:bg-[#f2f2f2]">
+      <td class="p-4">{{ gettext('page.volunteering.table.misc.task', a_telegram=(' href="https://t.me/+GNQxkFPt1xkzY2Zk"' | safe)) }}</td>
+      <td class="p-4">{{ gettext('page.volunteering.table.misc.milestone') }}</td>
+    </tr>
+  </table>
 
-    <h3 class="group mt-8 mb-1 text-xl font-bold" id="bounties">{{ gettext('page.volunteering.section.bounties.heading') }} <a href="#bounties" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
+  <h3 class="group mt-8 mb-1 text-xl font-bold" id="bounties">{{ gettext('page.volunteering.section.bounties.heading') }} <a href="#bounties" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.bounties.text1') }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.bounties.text1') }}
+  </p>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.bounties.text2') }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.bounties.text2') }}
+  </p>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.bounties.text3') }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.bounties.text3') }}
+  </p>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.bounties.text4') }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.bounties.text4') }}
+  </p>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.bounties.text5') }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.bounties.text5') }}
+  </p>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.bounties.text6') }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.bounties.text6') }}
+  </p>
 
-    <p class="mb-4">
-      {{ gettext('page.volunteering.section.bounties.text7', a_gitlab=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/"' | safe)) }}
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.volunteering.section.bounties.text7', a_gitlab=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/"' | safe)) }}
+  </p>
 
-    <div class="overflow-hidden h-[1500px] border-solid border-2 border-blue-600 rounded-md shadow-sm ring-1 ring-slate-900/5">
-      <iframe credentialless scrolling="no" allow="vertical-scroll none" sandbox="allow-scripts allow-same-origin" class="mt-[-150px] h-[calc(1500px+150px)] w-full overflow-hidden pointer-events-none" src="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/?sort=created_asc&state=opened&label_name%5B%5D=2-Bounty&first_page_size=100"></iframe>
-    </div>
+  <div class="overflow-hidden h-[1500px] border-solid border-2 border-blue-600 rounded-md shadow-sm ring-1 ring-slate-900/5">
+    <iframe credentialless scrolling="no" allow="vertical-scroll none" sandbox="allow-scripts allow-same-origin" class="mt-[-150px] h-[calc(1500px+150px)] w-full overflow-hidden pointer-events-none" src="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/?sort=created_asc&state=opened&label_name%5B%5D=2-Bounty&first_page_size=100"></iframe>
   </div>
 {% endblock %}
