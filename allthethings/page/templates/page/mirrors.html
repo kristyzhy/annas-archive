@@ -1,60 +1,53 @@
 {% extends "layouts/index.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ gettext('page.mirrors.title') }}{% endblock %}
 
 {% block body %}
+  <h2 class="mt-4 mb-1 text-3xl font-bold">{{ gettext('page.mirrors.title') }}</h2>
 
-  {% if gettext('common.english_only') != 'Text below continues in English.' %}
-    <p class="mb-4 font-bold">{{ gettext('common.english_only') }}</p>
-  {% endif %}
+  <p class="mb-4">
+    {{ gettext('page.mirrors.intro') }}
+  </p>
 
-  <div lang="en">
-    <h2 class="mt-4 mb-1 text-3xl font-bold">Mirrors: call for volunteers</h2>
+  <p class="">
+    {{ gettext('page.mirrors.text1') }}
+  </p>
 
-    <p class="mb-4">
-      To increase the resiliency of Anna’s Archive, we’re looking for volunteers to run mirrors.
-    </p>
+  <ul class="list-inside mb-4 ml-1">
+    <li class="list-disc">{{ gettext('page.mirrors.list.run_anna') }}</li>
+    <li class="list-disc">{{ gettext('page.mirrors.list.clearly_a_mirror') }}</li>
+    <li class="list-disc">{{ gettext('page.mirrors.list.know_the_risks', a_shadow=(' href="https://annas-archive.se/blog/how-to-run-a-shadow-library.html"' | safe), a_pirate=(' href="https://annas-archive.se/blog/blog-how-to-become-a-pirate-archivist.html"' | safe)) }}</li>
+    <li class="list-disc">{{ gettext('page.mirrors.list.willing_to_contribute', a_codebase=(' href="https://software.annas-archive.se/"' | safe)) }}</li>
+    <li class="list-disc">{{ gettext('page.mirrors.list.maybe_partner') }}</li>
+  </ul>
 
-    <p class="">
-      We are looking for this:
-    </p>
+  <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.mirrors.expenses.title') }}</h3>
 
-    <ul class="list-inside mb-4 ml-1">
-      <li class="list-disc">You run the Anna’s Archive open source codebase, and you regularly update both the code and the data.</li>
-      <li class="list-disc">Your version is clearly distinguished as a mirror, e.g. “Bob’s Archive, an Anna’s Archive mirror”.</li>
-      <li class="list-disc">You are willing to take the risks associated with this work, which are significant. You have a deep understanding of the operational security required. The contents of <a href="https://annas-archive.se/blog/how-to-run-a-shadow-library.html">these</a> <a href="https://annas-archive.se/blog/blog-how-to-become-a-pirate-archivist.html">posts</a> are self-evident to you.</li>
-      <li class="list-disc">You are willing to contribute to our <a href="https://software.annas-archive.se/">codebase</a> — in collaboration with our team — in order to make this happen.</li>
-      <li class="list-disc">Initially we will not give you access to our partner server downloads, but if things go well, we can share that with you.</li>
-    </ul>
+  <p class="mb-4">
+    {{ gettext('page.mirrors.expenses.text1') }}
+  </p>
 
-    <h3 class="mt-4 mb-1 text-xl font-bold">Hosting expenses</h3>
+  <ul class="list-inside mb-4 ml-1">
+    <li class="list-disc">{{ gettext('page.mirrors.expenses.must_demonstrate_ability') }}</li>
+    <li class="list-disc">{{ gettext('page.mirrors.expenses.no_compensation_for_time') }}</li>
+    <li class="list-disc">{{ gettext('page.mirrors.expenses.maybe_donation') }}</li>
+  </ul>
 
-    <p class="mb-4">
-      We’re willing to cover hosting and VPN expenses, initially up to $200 per month. This is sufficient for a basic search server and a DMCA-protected proxy.
-    </p>
+  <h3 class="mt-4 mb-1 text-xl font-bold">{{ gettext('page.mirrors.getting_started.title') }}</h3>
 
-    <ul class="list-inside mb-4 ml-1">
-      <li class="list-disc">We will only pay for hosting once you have everything set up, and have demonstrated that you’re able to keep the archive up to date with updates. This means you’ll have to pay for the first 1-2 months out of pocket.</li>
-      <li class="list-disc">Your time will not be compensated (and neither is ours), since this is pure volunteer work.</li>
-      <li class="list-disc">If you get significantly involved in the development and operations of our work, we can discuss sharing more of the donation revenue with you, for you to deploy as necessary.</li>
-    </ul>
+  <p class="mb-4">
+    {{ gettext('page.mirrors.getting_started.text1') }}
+  </p>
 
-    <h3 class="mt-4 mb-1 text-xl font-bold">Getting started</h3>
+  <p class="mb-4">
+    {{ gettext('page.mirrors.getting_started.text2') }}
+  </p>
 
-    <p class="mb-4">
-      Please <strong>do not contact us</strong> to ask for permission, or for basic questions. Actions speak louder than words! All the information is out there, so just go ahead with setting up your mirror.
-    </p>
+  <p class="mb-4">
+    {{ gettext('page.mirrors.getting_started.text3') }}
+  </p>
 
-    <p class="mb-4">
-      Do feel free to post tickets or merge requests to our Gitlab when you run into issues. We might need to build some mirror-specific features with you, such as rebranding from “Anna’s Archive” to your website name, (initially) disabling user accounts, or linking back to our main site from book pages.
-    </p>
-
-    <p class="mb-4">
-      Once you have your mirror running, please do contact us. We’d love to review your OpSec, and once that’s solid, we’ll link to your mirror, and start working closer together with you.
-    </p>
-
-    <p class="mb-4">
-      Thanks in advance to anyone willing to contribute in this way! It’s not for the faint of heart, but it would solidify the longevity of the largest truly open library in human history.
-    </p>
-  </div>
+  <p class="mb-4">
+    {{ gettext('page.mirrors.getting_started.text4') }}
+  </p>
 {% endblock %}
