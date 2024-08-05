@@ -912,7 +912,7 @@ def codes_page():
 
         prefix_b64 = request.args.get('prefix_b64') or ''
         try:
-            prefix_bytes = base64.b64decode(prefix_b64)
+            prefix_bytes = base64.b64decode(prefix_b64.replace(' ', '+'))
         except:
             return "Invalid prefix_b64", 404
 
