@@ -940,7 +940,7 @@ def codes_page():
             END
         """)
 
-        exact_matches = []
+        exact_matches_aarecord_ids = []
         new_prefixes = []
         hit_max_exact_matches = False
 
@@ -950,13 +950,8 @@ def codes_page():
         else:
             max_exact_matches = 10000
             cursor.execute('SELECT aarecord_id FROM aarecords_codes WHERE code = %(prefix)s ORDER BY code, aarecord_id LIMIT %(max_exact_matches)s', { "prefix": prefix_bytes, "max_exact_matches": max_exact_matches })
-            for row in list(cursor.fetchall()):
-                aarecord_id = row['aarecord_id'].decode()
-                exact_matches.append({
-                    "label": aarecord_id,
-                    "link": allthethings.utils.path_for_aarecord_id(aarecord_id),
-                })
-            if len(exact_matches) == max_exact_matches:
+            exact_matches_aarecord_ids = [row['aarecord_id'].decode() for row in cursor.fetchall()]
+            if len(exact_matches_aarecord_ids) == max_exact_matches:
                 hit_max_exact_matches = True
 
             # cursor.execute('SELECT CONCAT(%(prefix)s, IF(@r > 0, CHAR(@r USING utf8), "")) AS new_prefix, @r := fn_get_next_codepoint(IF(@r > 0, @r, ORD(" ")), %(prefix)s) AS next_letter FROM (SELECT @r := ORD(SUBSTRING(code, LENGTH(%(prefix)s)+1, 1)) FROM aarecords_codes WHERE code >= %(prefix)s ORDER BY code LIMIT 1) vars, (SELECT 1 FROM aarecords_codes LIMIT 1000) iterator WHERE @r IS NOT NULL', { "prefix": prefix })
@@ -1013,7 +1008,7 @@ def codes_page():
             header_active="home/codes",
             prefix_label=prefix_label,
             prefix_rows=prefix_rows,
-            exact_matches=exact_matches,
+            aarecords=get_aarecords_elasticsearch(exact_matches_aarecord_ids),
             hit_max_exact_matches=hit_max_exact_matches,
             bad_unicode=bad_unicode,
             code_item=code_item,

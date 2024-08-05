@@ -57,14 +57,13 @@
       </div>
     {% endif %}
 
-    {% if (exact_matches | length) > 0 %}
+    {% if (aarecords | length) > 0 %}
       <div class="font-bold mt-4">
-        {{ exact_matches | length }}{% if hit_max_exact_matches %}+{% endif %} records matching “{{ prefix_label }}”
+        {{ aarecords | length }}{% if hit_max_aarecords %}+{% endif %} records matching “{{ prefix_label }}”
       </div>
 
-      {% for exact_match in exact_matches %}
-        <div>• <a href="{{ exact_match.link }}">{{ exact_match.label }}</a></div>
-      {% endfor %}
+      {% from 'macros/aarecord_list.html' import aarecord_list %}
+      {{ aarecord_list(aarecords) }}
 
       <div class="text-sm mt-2"><a href='/search?q="{{ prefix_label }}"'>Search Anna’s Archive for “{{ prefix_label }}”</a></div>
       {% if code_item.info.url and ('%s' in code_item.info.url) %}
