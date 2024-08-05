@@ -42,7 +42,7 @@
     <p><strong>More information from our volunteers (raw notes):</strong></p>
 
     <div class="whitespace-pre-wrap font-mono text-sm">
-# Anonymous volunteer "n" shared the following information with us. They have been doing their own smaller scale rescue operation of Duxiu data, and compared their intel with our directory dumps.
+# Anonymous volunteer "bpb9v" shared the following information with us. They have been doing their own smaller scale rescue operation of Duxiu data, and compared their intel with our directory dumps.
 * As far as I know, Chaoxing（超星） scans books for libraries (both public and university libraries). All books are on their server, and readers of a specific library can access to specific sets of books. So there are many small subsets of Duxiu library. As far as I know, there are seven versions of Duxiu, named from 1.0 to 7.0 (not released now). It is said that after Duxiu 5.0, Chaoxing stopped to release a whole library (I do not know particular details), so for Duxiu 6.0 and Duxiu 7.0 there is no a complete library on the Internet.
 * I do not know how books from Chaoxing are leaked. Book sellers sells the entire Duxiu library, and almost every files are compressed. Chaoxing converts all .pdf file into pictures, including .png and .jpg, and then renames them into .pdg. These compressed files contains those .pdg files. We use some tools to convert them into the original .pdf files.
 * Every book in Duxiu has a SS number (超星 literally means SuperStar), just like an ID. Each SS number has eight digits usually starting with 10, 11, 12, 13, 14, 15, 40, and 96.
@@ -56,7 +56,7 @@ hash#size#name
 * Now if we want to use Miaochuan we have to authorize it on BaiduYun, and it is not stable to use. I bought a BaiduYun account from a seller, and my coworker use Miaochuan. That is how we download books.
 * There are too many risks if all files remain in a cloud drive, whether it is Baidu or Ali. My BaiduYun account was once blocked, and all files are inaccessible.
 
-# Anonymous volunteer "l" responded to the above information:
+# Anonymous volunteer "woz9ts" responded to the above information:
 * Most books are in a zip of pdg files format. One pdg file is a single image. Pdg files are not just simply png/jpg/tiff files. They are either simple png/jpg/gif/... renamed into pdg, or a proprietary format invented by SuperStar. The proprietary format internally uses djvu compression, sometimes also other image formats, encrypted with some kinds of uncommon algorithm. Obscured encryption key is embedded in the file. There is a freeware Pdg2pic can open and convert this file to pdf. Source code not available. (The first-party software ssreader has many restrictions.)
 * Miaochuan links (I called it "fast-transfer" link before) are composed of four parts: file md5, file header (first 256k) md5, file size, filename. If we have the actual file, we can generate one. There is an older version of Miaochuan link, without file header md5. This kind of link is no longer valid.
 * To use Miaochuan link, one must register a developer account, get a token, and call an API method with proper parameters. There are risks that, Baidu bans the token/developer account or it can ban the current API.
@@ -64,7 +64,7 @@ hash#size#name
 * The reseller's list does not contain filename to metadata relationship. Most files contain SS id, or ISBN in the filename, so I wrote a script to extract them. The md5, size, SS id, DX id, ISBN are extracted from my downloaded files, in upload/metadata/local_files.db
 * Note. DX id is another id used in the Duxiu website. It's less useful in this collection. The primary/unique key for metadata is SS id.
 
-# Anonymous volunteer "l" noted about the file name convention within the .zips:
+# Anonymous volunteer "woz9ts" noted about the file name convention within the .zips:
 二、文件更名
 散页DjVu需要更名为PDG，并且符合PDG文件名规范：主文件名为6位字母、数字，控制名位pdg，均为小写。
 主文件名由前缀加数字组成，前缀含义为：
@@ -79,30 +79,30 @@ ins：插页
 正文页无前缀，直接用6位数字编码。
 from https://www.cnblogs.com/stronghorse/p/4913267.html
 
-# Anonymous volunteer "l" noted this:
+# Anonymous volunteer "woz9ts" noted this:
 I found several compressed files with missing pages. For example, the last page is 001366.pdg, but there are 1252 00xxxx.pdg in total, which means 114 pages are missing.
 Perhaps you need to write a script to check if the number of 00000x.pdg files can match the number of pages in a zip archive?
 And a pdg file of 0kb or 1kb seems to be an invalid page. This will resulting in a missing page in the final pdf file too.
 You can also detect the real file type of pdg files using file magic. Real pdg files have magic 0x4848, 0x01/0x02 (version), the byte at 0x0F is the pdg encryption type.
 
-n:
+bpb9v:
 Some more information about CADAL:
-1. CADAL has two building stages, the first one(one million books digitized) from 2001 to 2006 and the second one(1.5 million books digitized) from 2007 to 2012. The library whose download link were sent by "l" before is from the first stage.
+1. CADAL has two building stages, the first one(one million books digitized) from 2001 to 2006 and the second one(1.5 million books digitized) from 2007 to 2012. The library whose download link were sent by "woz9ts" before is from the first stage.
 2. This library was downloaded before 2016, by someone named "h". They exploited some loopholes to download. The earliest link I found about this library was posted in April 2015.
 3. In this library there are more than 600,000 files, about half of them are books or magazines, the other half is papers. There doesn't seem to be a way to separate them by id.
 4. I heard that "h" shared some files downloaded from the second stage in 2021, but I didn't find any other information source for this. Besides, I found a folder called &lt;REDACTED&gt; in my cloud drive, which contains many Duxiu books, but I don't know where it comes from.
 
-l:
+woz9ts:
 * 读秀512w.txt.txt is the original catalog from resellers.
 * 512w_catalog.tsv is from Freembook, which seems converted from 读秀512w.txt.txt.
 * 2.0-5.0全部书表.txt, 6.0书表.txt, 读秀2.0.txt, 读秀3.0.txt are file lists from resellers.
 * combined_md5.tsv is the Miaochuan link list from Freembook.
-* DX_2.0-5.0_有直链.db is probably from "n".
+* DX_2.0-5.0_有直链.db is probably from "bpb9v".
 * Other files are found in the shared SFTP metadata or other websites.
-l:
+woz9ts:
 Duxiu: dx_20240122.db is unified metadata. dx_cover.db only contains covers, dx_toc.db only contains TOCs (ignore the other table).
 CADAL: cadal_20240106.db, explained in cadal_db.md. cadal_html.db original html, if we want to fix something.
-l:
+woz9ts:
 * mebook: Use the embedded metadata. They are mostly correct.
 * pku_press: Use filename. (id-title-[author])
 * program-think: Metadata and detail see __所有电子书的清单__.html, or the filename. Directory name is category. Don't use embedded metadata in PDF. 博客 is the collector's blog. 
@@ -114,24 +114,24 @@ skqs: Use filename, see real title in long_title. They mostly overlap with CADAL
 I have a magnet link for the 光盘迪志版: magnet:?xt=urn:btih:8b9482f29292ca52f3be52cba815ca5f87748037&dn=%E5%9B%9B%E5%BA%93%E5%85%A8%E4%B9%A6
 It lacks some data, the same part (skqs.iso, 201-208, 308) as uploaded files.
 No seeders for a long time.
-n:
+bpb9v:
 This is a software made by Dizhi(迪志) in Taiwan. It's the text version of Siku Quanshu(skqs, 四库全书, Complete Library of the Four Treasuries). They ran OCR on the entire collection and manually did some corrections.
 (Dizhi is a company)
 Normally Chinese ancient classics have multiple versions, differing in printing, proofreading, footnotes-almost everything during publishing. And for digitalization there are different scanners and different compress methods. All these make Chinese classics difficult to collect.
 
 a:
 how does ssno prefixed with "hj" work exactly (in CADAL)? Do you know what "hj" stands for?
-n:
+bpb9v:
 hj stands for "heji(合集, literally "collections").
 CADAL lists some books in collections, such as https://cadal.edu.cn/cardpage/bookCardPage?ssno=01061998, other books in the same collection can be found in the list below
 But these "hjxxxxxxxx" can't be opened with https://cadal.edu.cn/cardpage/bookCardPage?ssno=hjxxxxxxxx, they are not valid ID
 
-n:
+bpb9v:
 I upload a correction of about 3k lines, as /upload/DX_corrections240209.csv, mainly correcting lines with underscores.
 I'll make a list for publishers in China mainland and their ISBN&CSBN codes, and collate all useful sources for books and metadata I found so far. My work with the catalog you made for all files will continue, too.
 
 Ads in some of the files uploaded by "w":
-n: "I guess removing watermarks and ad pages aren't that necessary. Ad pages should be easy to remove though, they're all 1273*1800 in size."
+bpb9v: "I guess removing watermarks and ad pages aren't that necessary. Ad pages should be easy to remove though, they're all 1273*1800 in size."
 
 # Earlier notes
 More passwords:
@@ -174,10 +174,10 @@ Another great article: https://github.com/821/821.github.io/blob/7bbcdc8dd2ec4bb
 * The fifth category is the mysterious pre-press pdg, which means that the publisher directly gave Superstar the sample, and Superstar converted it into its format. The file naming rules for this format are the same as for text pdg, but the typesetting is correct, very space-saving, and particularly clear. However, it is rare and cannot be found easily. I have only seen it once, and it was very good, starting with the number 9.
 * In summary, under the correct download, we generally download three types of unencrypted clear versions, big pictures, and text. Among them, the clear version and big picture are useful for academic research. Since the big picture is obviously inferior to the clear version, it is best to download the clear version.
 
-l: CADAL's ssno is not Duxiu's SSid. They are completely different systems.
+woz9ts: CADAL's ssno is not Duxiu's SSid. They are completely different systems.
 DX id in CADAL is the same as Duxiu's DXid.
 
-l: The ToC API will return an empty template XML for any unknown ID or unavailable ToC.
+woz9ts: The ToC API will return an empty template XML for any unknown ID or unavailable ToC.
 In the database, it's the id=-1 record.
 If the table doesn't have some ID, it's because I don't know this ID and haven't checked with the API.
 To save space, I set the record to NULL if the content exactly matches this template XML

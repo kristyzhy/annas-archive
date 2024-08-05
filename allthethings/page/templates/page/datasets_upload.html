@@ -18,12 +18,88 @@
       Various smaller or one-off sources. We encourage people to upload to other shadow libraries first, but sometimes people have collections that are too big for others to sort through, though not big enough to warrant their own category.
     </p>
 
+    <p class="mb-4">
+      The “upload” collection is split up in smaller subcollections, which are indicated in the AACIDs and torrent names. All subcollections were first deduplicated against the main collection, though the metadata “upload_records” JSON files still contain a lot of references to the original files. Non-book files were also removed from most subcollections, and are typically <em>not</em> noted in the “upload_records” JSON.
+    </p>
+
+    <p class="mb-4">
+      Many subcollections themselves are comprised of sub-sub-collections (e.g. from different original sources), which are represented as directories in the “filepath” fields.
+    </p>
+
+    <p class="mb-4">
+      The subcollections are:
+    </p>
+
+    <p class="mb-4">
+      <strong>aaaaarg</strong>: From <a rel="noopener noreferrer nofollow" target="_blank" href="http://aaaaarg.fail">aaaaarg.fail</a>. Appears to be fairly complete. From our volunteer “cgiym”.
+    </p>
+    <p class="mb-4">
+      <strong>acm</strong>: From an <a rel="noopener noreferrer nofollow" target="_blank" href="https://1337x.to/torrent/4536161/ACM-Digital-Library-2020/">“ACM Digital Library 2020”</a> torrent. Has fairly high overlap with existing papers collections, but very few MD5 matches, so we decided to keep it completely.
+    </p>
+    <p class="mb-4">
+      <strong>alexandrina</strong>: From a collection <a rel="noopener noreferrer nofollow" target="_blank" href="https://www.reddit.com/r/DataHoarder/comments/zuniqw/bibliotheca_alexandrina_a_600_gb_hoard_of_history/">“Bibliotheca Alexandrina”</a>, exact origin unclear. Partly from the-eye.eu, partly from other sources.
+    </p>
+    <p class="mb-4">
+      <strong>bibliotik</strong>: From a private books torrent website, <a rel="noopener noreferrer nofollow" target="_blank" href="https://bibliotik.me/">Bibliotik</a> (often referred to as “Bib”), of which books were bundled into torrents by name (A.torrent, B.torrent) and distributed through the-eye.eu.
+    </p>
+    <p class="mb-4">
+      <strong>bpb9v_cadal</strong>: From our volunteer “bpb9v”. From more information about <a rel="noopener noreferrer nofollow" target="_blank" href="https://cadal.edu.cn/">CADAL</a>, see the notes in our <a href="/datasets/duxiu">DuXiu dataset page</a>.
+    </p>
+    <p class="mb-4">
+      <strong>bpb9v_direct</strong>: More from our volunteer “bpb9v”, mostly DuXiu files, as well as a folder “WenQu” and “SuperStar_Journals” (SuperStar is the company behind DuXiu).
+    </p>
+    <p class="mb-4">
+      <strong>cgiym_chinese</strong>: From our volunteer “cgiym”, Chinese texts from various sources (represented as subdirectories), including from <a rel="noopener noreferrer nofollow" target="_blank" href="cmpedu.com">China Machine Press</a> (a major Chinese publisher).
+    </p>
+    <p class="mb-4">
+      <strong>cgiym_more</strong>: Non-Chinese collections (represented as subdirectories) from our volunteer “cgiym”.
+    </p>
+    <p class="mb-4">
+      <strong>degruyter</strong>: Books from academic publishing house <a rel="noopener noreferrer nofollow" target="_blank" href="https://www.degruyter.com/">De Gruyter</a>, collected from a few large torrents.
+    </p>
+    <p class="mb-4">
+      <strong>docer</strong>: Scrape of <a rel="noopener noreferrer nofollow" target="_blank" href="https://docer.pl/">docer.pl</a>, a polish file sharing website focused on books and other written works. Scraped in late 2023 by volunteer “p”. We don't have good metadata from the original website (not even file extensions), but we filtered for book-like files and were often able to extract metadata from the files themselves.
+    </p>
+    <p class="mb-4">
+      <strong>duxiu_epub</strong>: DuXiu epubs, directly from DuXiu, collected by volunteer “w”. Only recent DuXiu books are available directly through ebooks, so most of these must be recent.
+    </p>
+    <p class="mb-4">
+      <strong>duxiu_main</strong>: Remaining DuXiu files from volunteer “m”, which weren’t in the DuXiu proprietary PDG format (the main <a href="/datasets/duxiu">DuXiu dataset</a>). Collected from many original sources, unfortunately without preserving those sources in the filepath.
+    </p>
+    <p class="mb-4">
+      <strong>japanese_manga</strong>: Collection scraped from a Japanese Manga publisher by volunteer “t”.
+    </p>
+    <p class="mb-4">
+      <strong>longquan_archives</strong>: <a rel="noopener noreferrer nofollow" target="_blank" href="http://www.xinhuanet.com/english/2019-11/15/c_138557853.htm">Selected judicial archives of Longquan</a>, provided by volunteer “c”.
+    </p>
+    <p class="mb-4">
+      <strong>magzdb</strong>: Scrape of <a rel="noopener noreferrer nofollow" target="_blank" href="https://magzdb.org/">magzdb.org</a>, an ally of Library Genesis (it’s linked on the libgen.rs homepage) but who didn’t want to provide their files directly. Obtained by volunteer “p” in late 2023.
+    </p>
+    <p class="mb-4">
+      <strong>misc</strong>: Various small uploads, too small as their own subcollection, but represented as directories.
+    </p>
+    <p class="mb-4">
+      <strong>polish</strong>: Collection of volunteer “o” who collected Polish books directly from original release (“scene”) websites.
+    </p>
+    <p class="mb-4">
+      <strong>shuge</strong>: Combined collections of <a rel="noopener noreferrer nofollow" target="_blank" href="https://www.shuge.org/">shuge.org</a> by volunteers “cgiym” and “woz9ts”.
+    </p>
+    <p class="mb-4">
+      <strong>trantor</strong>: <a rel="noopener noreferrer nofollow" target="_blank" href="https://github.com/trantor-library/trantor">“Imperial Library of Trantor”</a> (named after the fictional library), scraped in 2022 by volunteer “t”.
+    </p>
+    <p class="mb-4">
+      <strong>woz9ts_direct</strong>: Sub-sub-collections (represented as directories) from volunteer “woz9ts”: <a rel="noopener noreferrer nofollow" target="_blank" href="https://github.com/programthink/books">program-think</a>, <a rel="noopener noreferrer nofollow" target="_blank" href="https://haodoo.net">haodoo</a>, mebook, <a rel="noopener noreferrer nofollow" target="_blank" href="https://en.wikipedia.org/wiki/Siku_Quanshu">skqs</a> (by <a rel="noopener noreferrer nofollow" target="_blank" href="http://www.sikuquanshu.com/">Dizhi(迪志)</a> in Taiwan).
+    </p>
+    <p class="mb-4">
+      <strong>woz9ts_duxiu</strong>: Remaining DuXiu files from volunteer “woz9ts”, which weren’t in the DuXiu proprietary PDG format (still to be converted to PDF).
+    </p>
+
     <p><strong>Resources</strong></p>
     <ul class="list-inside mb-4 ml-1">
       <li class="list-disc">Total files: {{ stats_data.stats_by_group.upload.count | numberformat }}</li>
       <li class="list-disc">Total filesize: {{ stats_data.stats_by_group.upload.filesize | filesizeformat }}</li>
       <li class="list-disc">Files mirrored by Anna’s Archive: {{ stats_data.stats_by_group.upload.aa_count | numberformat }} ({{ (stats_data.stats_by_group.upload.aa_count/stats_data.stats_by_group.upload.count*100.0) | decimalformat }}%)</li>
-      <li class="list-disc">Last updated: {{ stats_data.ia_date }}</li>
+      <li class="list-disc">Last updated: {{ stats_data.upload_file_date }}</li>
       <li class="list-disc"><a href="/torrents#upload">Torrents by Anna’s Archive</a></li>
       <li class="list-disc"><a href="/db/aac_upload/b6b884b30179add94c388e72d077cdb0.json">Example record on Anna’s Archive</a></li>
       <li class="list-disc"><a href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/tree/main/data-imports">Scripts for importing metadata</a></li>
