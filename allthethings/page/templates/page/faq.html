@@ -87,7 +87,7 @@
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="help">{{ gettext('page.faq.help.title') }} <a href="#help" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
   <ol class="list-inside mb-4">
-    {{ gettext('page.about.help.text') }}
+    {{ gettext('page.about.help.text') | replace('https://annas-software.org', 'https://software.annas-archive.se') }}
     <li>{{ gettext('page.about.help.text6', a_security=('href="/faq#security"' | safe)) }}</li>
     <li>{{ gettext('page.about.help.text7') }}</li>
     <li>{{ gettext('page.about.help.text8') }}</li>
@@ -96,6 +96,11 @@
     <li>{{ gettext('page.about.help.text11') }}</li>
     <li>12. {{ gettext('page.faq.help.mirrors', a_mirrors=(' href="https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/188" ' | safe)) }}</li>
   </ol>
+
+  <p class="mb-4">
+    <!-- TODO:TRANSLATE -->
+    For more extensive information on how to volunteer, see our <a href="/volunteering">Volunteering & Bounties</a> page.
+  </p>
 
   <h3 class="group mt-4 mb-1 text-xl font-bold" id="slow">{{ gettext('page.faq.slow.title') }} <a href="#slow" class="custom-a invisible group-hover:visible text-gray-400 hover:text-gray-500 font-normal text-sm align-[2px]">§</a></h3>
 
