@@ -38,7 +38,7 @@ services:
     # ports:
     #   - "${ELASTICSEARCH_PORT_FORWARD:-127.0.0.1:9200}:9200"
     environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - "cluster.routing.allocation.disk.threshold_enabled=false"
     network_mode: ""
     networks:
@@ -48,7 +48,7 @@ services:
     # ports:
     #   - "${ELASTICSEARCHAUX_PORT_FORWARD:-127.0.0.1:9201}:9201"
     environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - "cluster.routing.allocation.disk.threshold_enabled=false"
     network_mode: ""
     networks:

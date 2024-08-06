@@ -8,8 +8,12 @@ To get Anna's Archive running locally:
 
 1. **Initial Setup**
 
+  First install the main prerequisites: git and Docker.
+
   In a terminal, clone the repository and set up your environment:
   ```bash
+  mkdir annas-archive-outer # Several data directories will get created in here.
+  cd annas-archive-outer
   git clone https://software.annas-archive.se/AnnaArchivist/annas-archive.git
   cd annas-archive
   cp .env.dev .env
@@ -22,21 +26,38 @@ To get Anna's Archive running locally:
   ```bash
   docker compose up --build
   ```
-  Wait a few minutes for the setup to complete. It's normal to see some errors from the `web` container during the first setup.
+  Wait a few minutes for the setup to complete. It's normal to see some errors from the `web` container during the first setup. Wait for all logs to settle down.
+
+  To verify that everything booted properly, in a new terminal window, run
+  ```bash
+  cd annas-archive-outer/annas-archive
+  docker compose ps
+  ```
+
+  All containers should show running (you shouldn't see "restarting").
+
+  WINDOWS AND MAC USERS: if any containers have trouble starting, first make sure to configure Docker Desktop to allocate plenty of resources. We have tested with a memory limit of 8GB and swap of 4GB. CPU limit should matter less, but if you have trouble set it as high as possible. 
+
+  If `mariadb` or `mariapersist` have trouble starting, check `mariadb-conf/my.cnf` or `mariadbpersist-conf/my.cnf` and reduce any values ending with `_size`, in particular `key_buffer_size`.
+
+  If `elasticsearch` or `elasticsearchaux` have trouble starting, make sure that you have enough disk space. They won't start if you have less than 10% disk space available (even though they won't actually use it).
 
 3. **Database Initialization**
 
   In a new terminal window, initialize the database:
   ```bash
+  cd annas-archive-outer/annas-archive
   ./run flask cli dbreset
   ```
 
 4. **Restart the Application**
 
-  Once the database is initialized, restart the Docker Compose process, by killing it (CTRL+C) and running:
+  Once the database is initialized, restart the Docker Compose process, by killing it (CTRL+C) and running again:
   ```bash
   docker compose up --build
   ```
+
+  Wait again for the logs to settle down.
 
 5. **Visit Anna's Archive**
 
