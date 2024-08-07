@@ -49,6 +49,10 @@ SCIDB_FAST_DOWNLOAD_DOMAINS = [FAST_PARTNER_SERVER1 if FAST_PARTNER_SERVER1 is n
 
 DOWN_FOR_MAINTENANCE = False
 
+AARECORDS_CODES_CODE_LENGTH = 680
+AARECORDS_CODES_AARECORD_ID_LENGTH = 300
+AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH = 20
+
 # Per https://software.annas-archive.se/AnnaArchivist/annas-archive/-/issues/37
 SEARCH_FILTERED_BAD_AARECORD_IDS = [
     "md5:d41d8cd98f00b204e9800998ecf8427e", # md5("")
@@ -978,6 +982,13 @@ UNIFIED_CLASSIFICATIONS = {
     "lgrsnf_source": { "label": "Libgen.rs Non-Fiction Date", "website": "/datasets/libgen_rs", "description": "Date Libgen.rs Non_Fiction published this file." },
     "upload_record_date": { "label": "Upload Collection Date", "website": "/datasets/upload", "description": "Date Anna’s Archive indexed this file in our 'upload' collection." },
     "zlib_source": { "label": "Z-Library Source Date", "website": "/datasets/zlib", "description": "Date Z-Library published this file." },
+    # TODO: Add descriptions.
+    "duxiu_meta_scrape": { "label": "DuXiu Source Scrape Date", "website": "/datasets/libgen_li", "description": "" },
+    "file_created_date": { "label": "File Exiftool Created Date", "website": "/datasets/libgen_li", "description": "" },
+    "ia_source": { "label": "IA 'publicdate' Date", "website": "/datasets/libgen_li", "description": "" },
+    "isbndb_scrape": { "label": "ISBNdb Scrape Date", "website": "/datasets/libgen_li", "description": "" },
+    "oclc_scrape": { "label": "OCLC Scrape Date", "website": "/datasets/libgen_li", "description": "" },
+    "ol_source": { "label": "OpenLib 'created' Date", "website": "/datasets/libgen_li", "description": "" },
     **{LGLI_CLASSIFICATIONS_MAPPING.get(key, key): value for key, value in LGLI_CLASSIFICATIONS.items()},
     # Plus more added below!
 }

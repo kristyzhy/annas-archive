@@ -44,11 +44,6 @@ from allthethings.page.views import get_aarecords_mysql, get_isbndb_dicts
 
 cli = Blueprint("cli", __name__, template_folder="templates")
 
-AARECORDS_CODES_CODE_LENGTH = 680
-AARECORDS_CODES_AARECORD_ID_LENGTH = 300
-AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH = 20
-
-
 #################################################################################################
 # ./run flask cli dbreset
 @cli.cli.command('dbreset')
@@ -485,8 +480,8 @@ def elastic_reset_aarecords_internal():
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('DROP TABLE IF EXISTS aarecords_all') # Old
         cursor.execute('DROP TABLE IF EXISTS aarecords_isbn13') # Old
-        cursor.execute(f'CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, aarecord_id_prefix VARBINARY({AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH}) NOT NULL, row_number_order_by_code BIGINT NOT NULL, dense_rank_order_by_code BIGINT NOT NULL, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
-        cursor.execute(f'CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute(f'CREATE TABLE IF NOT EXISTS aarecords_codes (code VARBINARY({allthethings.utils.AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({allthethings.utils.AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, aarecord_id_prefix VARBINARY({allthethings.utils.AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH}) NOT NULL, row_number_order_by_code BIGINT NOT NULL, dense_rank_order_by_code BIGINT NOT NULL, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute(f'CREATE TABLE IF NOT EXISTS aarecords_codes_prefixes (code_prefix VARBINARY({allthethings.utils.AARECORDS_CODES_CODE_LENGTH}) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         # cursor.execute('CREATE TABLE IF NOT EXISTS model_cache_text_embedding_3_small_100_tokens (hashed_aarecord_id BINARY(16) NOT NULL, aarecord_id VARCHAR(1000) NOT NULL, embedding_text LONGTEXT, embedding LONGBLOB, PRIMARY KEY (hashed_aarecord_id)) ENGINE=InnoDB PAGE_COMPRESSED=1 PAGE_COMPRESSION_LEVEL=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
@@ -499,7 +494,7 @@ def new_tables_internal(codes_table_name):
         cursor = session.connection().connection.cursor(pymysql.cursors.DictCursor)
         print(f"Creating fresh table {codes_table_name}")
         cursor.execute(f'DROP TABLE IF EXISTS {codes_table_name}')
-        cursor.execute(f'CREATE TABLE {codes_table_name} (id BIGINT NOT NULL AUTO_INCREMENT, code VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
+        cursor.execute(f'CREATE TABLE {codes_table_name} (id BIGINT NOT NULL AUTO_INCREMENT, code VARBINARY({allthethings.utils.AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({allthethings.utils.AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin')
         cursor.execute('COMMIT')
 
 #################################################################################################
@@ -668,10 +663,10 @@ def elastic_build_aarecords_job(aarecord_ids):
                 for codes_table_name, aarecords_codes_insert_data in aarecords_codes_insert_data_by_codes_table_name.items():
                     if len(aarecords_codes_insert_data) > 0:
                         for insert_item in aarecords_codes_insert_data:
-                            if len(insert_item['code']) > AARECORDS_CODES_CODE_LENGTH:
-                                raise Exception(f"Code length exceeds AARECORDS_CODES_CODE_LENGTH for {code=} {aarecord_id=}")
-                            if len(insert_item['aarecord_id']) > AARECORDS_CODES_AARECORD_ID_LENGTH:
-                                raise Exception(f"Code length exceeds AARECORDS_CODES_AARECORD_ID_LENGTH for {aarecord_id=}")
+                            if len(insert_item['code']) > allthethings.utils.AARECORDS_CODES_CODE_LENGTH:
+                                raise Exception(f"Code length exceeds allthethings.utils.AARECORDS_CODES_CODE_LENGTH for {insert_item=}")
+                            if len(insert_item['aarecord_id']) > allthethings.utils.AARECORDS_CODES_AARECORD_ID_LENGTH:
+                                raise Exception(f"Code length exceeds allthethings.utils.AARECORDS_CODES_AARECORD_ID_LENGTH for {insert_item=}")
 
                         session.connection().connection.ping(reconnect=True)
                         # Avoiding IGNORE / ON DUPLICATE KEY here because of locking.
@@ -1150,8 +1145,8 @@ def mysql_build_aarecords_codes_numbers_internal():
 
         # WARNING! Update the upload excludes, and dump_mariadb_omit_tables.txt, when changing aarecords_codes_* temp tables.
         print("Creating fresh table aarecords_codes_new")
-        cursor.execute(f'CREATE TABLE aarecords_codes_new (code VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, aarecord_id_prefix VARBINARY({AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH}) NOT NULL, row_number_order_by_code BIGINT NOT NULL, dense_rank_order_by_code BIGINT NOT NULL, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix, code, aarecord_id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix, (ROW_NUMBER() OVER (ORDER BY code, aarecord_id)) AS row_number_order_by_code, (DENSE_RANK() OVER (ORDER BY code, aarecord_id)) AS dense_rank_order_by_code, (ROW_NUMBER() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id)) AS row_number_partition_by_aarecord_id_prefix_order_by_code, (DENSE_RANK() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id)) AS dense_rank_partition_by_aarecord_id_prefix_order_by_code FROM (SELECT code, aarecord_id FROM aarecords_codes_ia UNION ALL SELECT code, aarecord_id FROM aarecords_codes_isbndb UNION ALL SELECT code, aarecord_id FROM aarecords_codes_ol UNION ALL SELECT code, aarecord_id FROM aarecords_codes_duxiu UNION ALL SELECT code, aarecord_id FROM aarecords_codes_oclc UNION ALL SELECT code, aarecord_id FROM aarecords_codes_main) x')
-        cursor.execute(f'CREATE TABLE aarecords_codes_prefixes_new (code_prefix VARBINARY({AARECORDS_CODES_CODE_LENGTH}) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT DISTINCT SUBSTRING_INDEX(code, ":", 1) AS code_prefix FROM aarecords_codes_new')
+        cursor.execute(f'CREATE TABLE aarecords_codes_new (code VARBINARY({allthethings.utils.AARECORDS_CODES_CODE_LENGTH}) NOT NULL, aarecord_id VARBINARY({allthethings.utils.AARECORDS_CODES_AARECORD_ID_LENGTH}) NOT NULL, aarecord_id_prefix VARBINARY({allthethings.utils.AARECORDS_CODES_AARECORD_ID_PREFIX_LENGTH}) NOT NULL, row_number_order_by_code BIGINT NOT NULL, dense_rank_order_by_code BIGINT NOT NULL, row_number_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, dense_rank_partition_by_aarecord_id_prefix_order_by_code BIGINT NOT NULL, PRIMARY KEY (code, aarecord_id), INDEX aarecord_id_prefix (aarecord_id_prefix, code, aarecord_id)) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT code, aarecord_id, SUBSTRING_INDEX(aarecord_id, ":", 1) AS aarecord_id_prefix, (ROW_NUMBER() OVER (ORDER BY code, aarecord_id)) AS row_number_order_by_code, (DENSE_RANK() OVER (ORDER BY code, aarecord_id)) AS dense_rank_order_by_code, (ROW_NUMBER() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id)) AS row_number_partition_by_aarecord_id_prefix_order_by_code, (DENSE_RANK() OVER (PARTITION BY aarecord_id_prefix ORDER BY code, aarecord_id)) AS dense_rank_partition_by_aarecord_id_prefix_order_by_code FROM (SELECT code, aarecord_id FROM aarecords_codes_ia UNION ALL SELECT code, aarecord_id FROM aarecords_codes_isbndb UNION ALL SELECT code, aarecord_id FROM aarecords_codes_ol UNION ALL SELECT code, aarecord_id FROM aarecords_codes_duxiu UNION ALL SELECT code, aarecord_id FROM aarecords_codes_oclc UNION ALL SELECT code, aarecord_id FROM aarecords_codes_main) x')
+        cursor.execute(f'CREATE TABLE aarecords_codes_prefixes_new (code_prefix VARBINARY({allthethings.utils.AARECORDS_CODES_CODE_LENGTH}) NOT NULL, PRIMARY KEY (code_prefix)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin SELECT DISTINCT SUBSTRING_INDEX(code, ":", 1) AS code_prefix FROM aarecords_codes_new')
 
         cursor.execute('SELECT table_rows FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "allthethings" and TABLE_NAME = "aarecords_codes_new" LIMIT 1')
         total = cursor.fetchone()['table_rows']

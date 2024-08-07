@@ -1572,6 +1572,9 @@ def get_ol_book_dicts(session, key, values):
             allthethings.utils.add_identifier_unified(ol_book_dict['edition'], 'ol', ol_book_dict['ol_edition'])
             allthethings.utils.add_isbns_unified(ol_book_dict['edition'], (ol_book_dict['edition']['json'].get('isbn_10') or []) + (ol_book_dict['edition']['json'].get('isbn_13') or []))
             for item in (ol_book_dict['edition']['json'].get('lc_classifications') or []):
+                # https://openlibrary.org/books/OL52784454M
+                if len(item) > 50:
+                    continue
                 allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['lc_classifications'], item)
             for item in (ol_book_dict['edition']['json'].get('dewey_decimal_class') or []):
                 allthethings.utils.add_classification_unified(ol_book_dict['edition'], allthethings.utils.OPENLIB_TO_UNIFIED_CLASSIFICATIONS_MAPPING['dewey_decimal_class'], item)
@@ -4066,7 +4069,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != aarecord['file_unified_data']['original_filename_best']]
         aarecord['file_unified_data']['original_filename_best_name_only'] = re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1] if not aarecord['file_unified_data']['original_filename_best'].startswith('10.') else aarecord['file_unified_data']['original_filename_best']
         for filepath in original_filename_multiple:
-            allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'filepath', filepath)
+            allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'filepath', filepath[0:allthethings.utils.AARECORDS_CODES_CODE_LENGTH])
 
         cover_url_multiple = [
             *[ol_book_dict['cover_url_normalized'] for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
