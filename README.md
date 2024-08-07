@@ -6,8 +6,14 @@ Welcome to the Code repository for Anna's Archive, the comprehensive search engi
 
 To get Anna's Archive running locally:
 
-1. **Initial Setup**
+1. **System Requirements**
+  For local development you don't need a super strong computer, but a very cheap VPS isn't going to cut it either. We recommend at least 4GB of RAM and 4GB of free disk space.
 
+  WINDOWS AND MAC USERS: if any containers have trouble starting, first make sure to configure Docker Desktop to allocate plenty of resources. We have tested with a memory limit of 8GB and swap of 4GB. CPU limit should matter less, but if you have trouble set it as high as possible. 
+
+  A production system needs a lot more, we recommend at least 256GB RAM and 4TB disk space, and a fast 32-core CPU. More is better, especially if you are going to run all of [data-imports/README.md](data-imports/README.md) yourself.
+
+2. **Initial Setup**
   First install the main prerequisites: git and Docker.
 
   In a terminal, clone the repository and set up your environment:
@@ -20,7 +26,7 @@ To get Anna's Archive running locally:
   cp data-imports/.env-data-imports.dev data-imports/.env-data-imports
   ```
 
-2. **Build and Start the Application**
+3. **Build and Start the Application**
 
   Use Docker Compose to build and start the application:
   ```bash
@@ -36,13 +42,11 @@ To get Anna's Archive running locally:
 
   All containers should show running (you shouldn't see "restarting").
 
-  WINDOWS AND MAC USERS: if any containers have trouble starting, first make sure to configure Docker Desktop to allocate plenty of resources. We have tested with a memory limit of 8GB and swap of 4GB. CPU limit should matter less, but if you have trouble set it as high as possible. 
-
   If `mariadb` or `mariapersist` have trouble starting, check `mariadb-conf/my.cnf` or `mariadbpersist-conf/my.cnf` and reduce any values ending with `_size`, in particular `key_buffer_size`.
 
   If `elasticsearch` or `elasticsearchaux` have trouble starting, make sure that you have enough disk space. They won't start if you have less than 10% disk space available (even though they won't actually use it).
 
-3. **Database Initialization**
+4. **Database Initialization**
 
   In a new terminal window, initialize the database:
   ```bash
@@ -50,7 +54,7 @@ To get Anna's Archive running locally:
   ./run flask cli dbreset
   ```
 
-4. **Restart the Application**
+5. **Restart the Application**
 
   Once the database is initialized, restart the Docker Compose process, by killing it (CTRL+C) and running again:
   ```bash
@@ -59,7 +63,7 @@ To get Anna's Archive running locally:
 
   Wait again for the logs to settle down.
 
-5. **Visit Anna's Archive**
+6. **Visit Anna's Archive**
 
    Open your browser and visit [http://localtest.me:8000](http://localtest.me:8000) to access the application.
 

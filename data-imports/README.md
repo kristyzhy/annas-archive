@@ -1,4 +1,4 @@
-Importing the data has been mostly automated, but it's still advisable to run the individual scripts yourself. It can take several days to run everything, but we also support only updating part of the data.
+Importing the data has been mostly automated, but it's still advisable to run the individual scripts yourself. It can take a week to run everything on a high-end machine (64 core CPU, 1TB RAM, 10TB NVMe), but we also support only updating part of the data.
 
 Roughly the steps are:
 - (optional) make a copy of the existing MariaDB database, if you want to keep existing data.
