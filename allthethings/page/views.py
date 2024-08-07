@@ -4069,7 +4069,7 @@ def get_aarecords_mysql(session, aarecord_ids):
         aarecord['file_unified_data']['original_filename_additional'] = [s for s in original_filename_multiple_processed if s != aarecord['file_unified_data']['original_filename_best']]
         aarecord['file_unified_data']['original_filename_best_name_only'] = re.split(r'[\\/]', aarecord['file_unified_data']['original_filename_best'])[-1] if not aarecord['file_unified_data']['original_filename_best'].startswith('10.') else aarecord['file_unified_data']['original_filename_best']
         for filepath in original_filename_multiple:
-            allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'filepath', filepath[0:allthethings.utils.AARECORDS_CODES_CODE_LENGTH])
+            allthethings.utils.add_identifier_unified(aarecord['file_unified_data'], 'filepath', filepath[0:allthethings.utils.AARECORDS_CODES_CODE_LENGTH-len('filepath:')])
 
         cover_url_multiple = [
             *[ol_book_dict['cover_url_normalized'] for ol_book_dict in aarecord['ol_book_dicts_primary_linked']],
