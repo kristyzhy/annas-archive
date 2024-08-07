@@ -14,7 +14,7 @@ To get Anna's Archive running locally:
   A production system needs a lot more, we recommend at least 256GB RAM and 4TB disk space, and a fast 32-core CPU. More is better, especially if you are going to run all of [data-imports/README.md](data-imports/README.md) yourself.
 
 2. **Initial Setup**
-  First install the main prerequisites: git and Docker.
+  First install the main prerequisites: git and Docker. Make sure to update to the latest version of Docker!
 
   In a terminal, clone the repository and set up your environment:
   ```bash
